@@ -58,7 +58,7 @@ let command_for_ml_from_mly hm=
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;  
 
 let command_for_cmi mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmi(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -91,7 +91,7 @@ let command_for_cmi mdata hm=
           else   [Shell_command.semi_usual (long_s1,s1)];;
 
 let command_for_cmo mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -108,7 +108,7 @@ let command_for_cmo mdata hm=
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;
 
 let command_for_dcmo mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_dcmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -126,7 +126,7 @@ let command_for_dcmo mdata hm=
 
           
 let command_for_cma mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cma(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -143,7 +143,7 @@ let command_for_cma mdata hm=
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;
  
 let command_for_cmx mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmx(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -161,7 +161,7 @@ let command_for_cmx mdata hm=
  
 
 let command_for_executable mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_executable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -181,7 +181,7 @@ let command_for_executable mdata hm=
           [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
   
 let command_for_debuggable mdata hm=
-          let opt=German_data.find_module_registration mdata hm in
+          let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_debuggable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
@@ -201,7 +201,7 @@ let command_for_debuggable mdata hm=
           [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
   
 let command_for_toplevel mdata name l=
-          let temp1=Image.image (fun hm->(hm,German_data.find_module_registration mdata hm)) l  in
+          let temp1=Image.image (fun hm->(hm,Alaskan_data.find_module_registration mdata hm)) l  in
           let temp2=List.filter (fun x->snd(x)=None) temp1 in
           if temp2<>[]
           then let temp3=Image.image fst temp2 in

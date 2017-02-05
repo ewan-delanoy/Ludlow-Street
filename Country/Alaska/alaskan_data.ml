@@ -21,3 +21,5 @@ let default_toplevel main_toplevel_name mdata=
   in
   Ocaml_target.toplevel main_toplevel_name temp4;; 
  
+let find_module_registration mdata hm=
+  Option.find_it(fun a->Modulesystem_data.name a=hm) mdata;;   

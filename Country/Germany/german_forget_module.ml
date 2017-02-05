@@ -10,7 +10,7 @@ exception ModuleWithDependencies of
 exception Non_registered_module of Half_dressed_module.t;;
 
 let on_targets (mdata,dirs,tgts) hm=
-  match German_data.find_module_registration mdata hm with
+  match Alaskan_data.find_module_registration mdata hm with
    None->raise(Non_registered_module(hm))
   |Some(dt)->
    let bel=German_data.below mdata hm in

@@ -29,9 +29,6 @@ let local_directories mdata=
   let temp3=Ordered_string.diforchan temp2 in
   let temp4=Ordered.forget_order temp3 in
   temp4;;
-
-let find_module_registration mdata hm=
-  Option.find_it(fun a->Modulesystem_data.name a=hm) mdata;;   
    
  let see_if_file_is_registered mdata mlx=
     let hm=Mlx_filename.half_dressed_core mlx

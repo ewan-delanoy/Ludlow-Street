@@ -23,7 +23,7 @@ exception Nonregistered_module of Half_dressed_module.t;;
 let on_monitored_modules mdata old_name new_name=
    let interm_list=Image.image
    (Abstract_renamer.abstractify old_name) mdata in
-   let opt=German_data.find_module_registration mdata old_name in
+   let opt=Alaskan_data.find_module_registration mdata old_name in
    if opt=None
    then raise(Nonregistered_module(old_name))
    else 

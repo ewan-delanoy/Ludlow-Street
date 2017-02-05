@@ -42,7 +42,7 @@ let hmx x=
 
 
 
-let fmr x=German_data.find_module_registration (German_wrapper.data()) (hmx x);;
+let fmr x=Alaskan_data.find_module_registration (German_wrapper.data()) (hmx x);;
 let abo x=German_data.above (German_wrapper.data()) (hmx x);;
 let bel x=German_data.below (German_wrapper.data()) (hmx x);;
 let dbel x=German_data.directly_below (German_wrapper.data()) (hmx x);;
