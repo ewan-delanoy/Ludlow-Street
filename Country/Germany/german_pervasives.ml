@@ -92,7 +92,11 @@ let tw s=
 
 let syz()=German_data.system_size (German_wrapper.data());;
 
-let reco =German_wrapper.recompile;;
+let init=German_wrapper.initialize;;
+let reco_ref=ref(0);;
+let reco ()=
+  ((reco_ref:=(!reco_ref)+1);
+  German_wrapper.recompile());;
 
 
 let pbk=German_backup_target_system.prepare_backup;;

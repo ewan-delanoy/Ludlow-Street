@@ -36,7 +36,7 @@ let save_loadingsfile (dirs,tgts)=
    Io.erase_file_and_fill_it_with_string (Absolute_path.of_string lm) s;;
 
 let save_printersfile printer_equipped_types=
-   let s=German_printer_equipped_types.instructions printer_equipped_types
+   let s=Alaskan_printer_equipped_types.instructions printer_equipped_types
    and lm=absolute_location_for_printersfile in
    let beg_mark="(*Registered printers start here *)"
    and end_mark="(*Registered printers end here *)" in

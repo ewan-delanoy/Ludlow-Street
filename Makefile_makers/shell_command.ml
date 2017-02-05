@@ -35,6 +35,9 @@ let command_content=function
  |ChangeDir(dir_string,ann,fai)->raise(Content_of_cd(dir_string));;
 
 let usual s=C(s,"","Failed during "^s);;
+
+let semi_usual (s,t)=C(s,"","Failed during "^t);;
+
 let usual_change_dir s=ChangeDir(s,"","Failed during cd "^s);;
 
 let cd (d:dir_string)=(try (fun _->0)(Sys.chdir(d)) with 
