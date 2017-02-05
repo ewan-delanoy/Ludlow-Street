@@ -28,7 +28,7 @@ let unit_make (bowl,(mdata,tgts)) tgt=
   let temp1=Image.image Shell_command.announce_and_do (cmd_for_tgt mdata tgt) in 
   if List.for_all (fun bowl->bowl) temp1
   then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt then None else (Some tgt)) in
-       let tgts2=German_up_to_date_targets.add_target_perhaps opt_tgt tgts in
+       let tgts2=Option.add_perhaps opt_tgt tgts in
         match Ocaml_target.ml_from_lex_or_yacc_data tgt with
        None->(true,(mdata,tgts2))
        |Some(mlx)->
