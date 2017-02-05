@@ -7,8 +7,8 @@
 
 
 let cmd_for_tgt=German_command_for_ocaml_target.command_for_ocaml_target_in_dir;;
-let ingr_for_tgt=German_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
-let ingr_for_top=German_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel;;
+let ingr_for_tgt=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
+let ingr_for_top=Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel;;
 
 let is_up_to_date tgts tgt=
   if Ocaml_target.is_a_debuggable tgt
@@ -65,7 +65,7 @@ let rec pusher_for_toplevel (successful_ones,to_be_treated,ts)=
   else let hm=Option.unpack(Ocaml_target.main_module tgt) in
   	   let remains=List.filter
        (fun (tgt,_)->
-         not(German_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
+         not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
          (fst ts) [hm] tgt)
        ) to_be_treated in
        (successful_ones,remains,ts2);; 

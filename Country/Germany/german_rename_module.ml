@@ -51,7 +51,7 @@ let on_monitored_modules mdata old_name new_name=
  
 let on_targets (old_mdata,old_tgts) old_name new_name= 
   let untouched_tgts=List.filter
-   (fun tgt->not(German_ingredients_for_ocaml_target.module_dependency_for_ocaml_target
+   (fun tgt->not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
   let new_mdata=German_rename_file_in_system.rename old_mdata old_name new_name in
   let default_top=(German_data.default_toplevel new_mdata) in

@@ -19,7 +19,7 @@ exception Unregistered_executable of Half_dressed_module.t;;
 exception Unregistered_debuggable of Half_dressed_module.t;;
 exception Unregistered_modules_in_toplevel of string*(Half_dressed_module.t list);;  
 
-let ingr=German_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
+let ingr=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
 
 let cmx_manager=function
  Ocaml_target.CMX(hm2)->

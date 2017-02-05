@@ -12,7 +12,7 @@ e.g. manual rewriting of a ml coming from a mll, etc.
 
 
 let write_makefile_element mdata tgt=
-  let temp1=German_ingredients_for_ocaml_target.ingredients_for_ocaml_target mdata tgt
+  let temp1=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target mdata tgt
   and temp2=German_command_for_ocaml_target.command_for_ocaml_target mdata tgt in
   let temp3=Image.image Ocaml_target.to_string temp1 in
   let temp4=Sliced_string.make_aggregates " " temp3 in
