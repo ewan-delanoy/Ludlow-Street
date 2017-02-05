@@ -33,6 +33,8 @@ let on_targets (old_mdata,old_tgts) hm=
    None->false |Some(hm2)->hm2<>hm
  ) old_tgts in
  let default_top=(German_data.default_toplevel new_mdata) in
- let (new_mdata2,new_tgts2)=snd(German_make_ocaml_target.make (new_mdata,new_tgts) default_top) in
+ let (new_mdata2,new_tgts2)=
+   snd(Alaskan_make_ocaml_target.make 
+       German_constant.root (new_mdata,new_tgts) default_top) in
   (new_mdata2,new_dirs,new_tgts2);;   
   

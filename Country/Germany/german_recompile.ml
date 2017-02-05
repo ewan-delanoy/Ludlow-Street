@@ -118,7 +118,10 @@ let on_targets tolerate_cycles (old_mdata,old_tgts)=
  	  Sys.file_exists s ) in
  	let new_tgts=List.filter checker new_tgts1 in
  	let default_top=(German_data.default_toplevel new_mdata) in
- 	let (new_mdata2,new_tgts2)=snd(German_make_ocaml_target.make (new_mdata,new_tgts) default_top) in
+ 	let (new_mdata2,new_tgts2)=
+ 	  snd(Alaskan_make_ocaml_target.make 
+ 	   German_constant.root
+ 	  (new_mdata,new_tgts) default_top) in
     Some(new_mdata2,new_dirs,new_tgts2);;   
 
 

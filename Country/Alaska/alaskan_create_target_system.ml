@@ -126,6 +126,6 @@ let from_main_directory dir opt=
     let preqt=Alaskan_printer_equipped_types.from_data mdata1 in
     let topl_name=(if opt=None then "" else Option.unpack opt) in
     let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
- 	let (mdata2,new_tgts2)=snd(German_make_ocaml_target.make (mdata1,[]) topl) in
+ 	let (mdata2,new_tgts2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[]) topl) in
  	(mdata2,new_tgts2,preqt);;
 

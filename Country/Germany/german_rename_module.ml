@@ -55,7 +55,10 @@ let on_targets (old_mdata,old_tgts) old_name new_name=
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
   let new_mdata=German_rename_file_in_system.rename old_mdata old_name new_name in
   let default_top=(German_data.default_toplevel new_mdata) in
-  let (new_mdata2,new_tgts2)=snd(German_make_ocaml_target.make (new_mdata,untouched_tgts) default_top) in
+  let (new_mdata2,new_tgts2)=
+    snd(Alaskan_make_ocaml_target.make 
+ 	   German_constant.root
+ 	    (new_mdata,untouched_tgts) default_top) in
   (new_mdata2,new_tgts2);;   
  
  
