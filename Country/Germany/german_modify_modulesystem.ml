@@ -144,23 +144,6 @@ let reposition mdata hm (l_before,l_after)=
 
 exception Non_existent_mtime of Mlx_filename.t;;
 
-let force_modification_time_update mdata mlx=
-   let hm=Mlx_filename.half_dressed_core mlx
-   and edg=Mlx_filename.ending mlx in
-   let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-      Modulesystem_data.name dt=hm) mdata in
-   if opt=None
-   then raise(Non_existent_mtime(mlx))
-   else 
-   let dt=Option.unpack opt in
-   let file=(Directory_name.to_string German_constant.root)^(Mlx_filename.to_string mlx) in
-   let old_val=Modulesystem_data.modification_time dt edg 
-   and new_val=(Unix.stat file).Unix.st_mtime  in
-   if old_val=new_val
-   then mdata
-   else let new_dt=Modulesystem_data.force_modification_time dt edg new_val in
-        before@(new_dt::after);;
-
     
 let recompute_module_info mdata hm=
    let (before,_,after)=Three_parts.select_center_element(
