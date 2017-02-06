@@ -20,6 +20,8 @@ let unveil=function
   |MLI(s,dir)->(s^".mli",dir)
   |MLL(s,dir)->(s^".mll",dir)
   |MLY(s,dir)->(s^".mly",dir);;
+  
+let short_path mlx=fst(unveil mlx);;  
 
 let of_string_and_root s dir= 
   if not(String.contains s '.') then raise(Unpointed_filename(s)) else

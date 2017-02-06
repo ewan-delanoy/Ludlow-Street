@@ -25,6 +25,6 @@ let update (r_deleted,r_created)
   
   let o_del3=Ordered_string.lemel o_del2 o_rcre1
   and o_cre3=Ordered_string.lemel o_cre2 o_rdel1 in
- 
+  
   (Ordered.forget_order o_del3,Ordered.forget_order o_cre3);;
 

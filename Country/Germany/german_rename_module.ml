@@ -29,9 +29,9 @@ let on_monitored_modules mdata old_name new_name=
    else 
    let old_dt=Option.unpack opt in
    let old_acolytes=Modulesystem_data.acolytes old_dt in
-   let old_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) old_acolytes in 
+   let old_files=Image.image (fun mlx->Mlx_filename.short_path mlx) old_acolytes in 
    let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_renaming mlx new_name) old_acolytes in
-   let new_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) new_acolytes in 
+   let new_files=Image.image (fun mlx->Mlx_filename.short_path mlx) new_acolytes in 
    let new_hm=Mlx_filename.half_dressed_core(List.hd new_acolytes) in
    let old_mname=Half_dressed_module.module_name old_name
    and new_mname=Half_dressed_module.module_name new_hm

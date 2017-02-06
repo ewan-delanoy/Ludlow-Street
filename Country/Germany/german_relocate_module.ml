@@ -25,9 +25,9 @@ let on_monitored_modules mdata old_name new_subdir=
    else 
    let old_dt=Option.unpack opt in
    let old_acolytes=Modulesystem_data.acolytes old_dt in
-   let old_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) old_acolytes in 
+   let old_files=Image.image (fun mlx->Mlx_filename.short_path mlx) old_acolytes in 
    let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_displacing mlx new_subdir) old_acolytes in
-   let new_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) new_acolytes in 
+   let new_files=Image.image (fun mlx->Mlx_filename.short_path mlx) new_acolytes in 
    let new_name=Mlx_filename.half_dressed_core(List.hd new_acolytes) in
    let desc=German_data.descendants mdata [old_name] in
    let data_renamer=Modulesystem_data.rename (old_name,new_name) in
