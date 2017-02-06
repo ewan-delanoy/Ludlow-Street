@@ -177,7 +177,9 @@ let refresh ()=
 let register_mlx_file mlx=
    let _=Private.recompile() in
    let (new_mdata,new_dirs,new_tgts)= 
-    German_register_mlx_file.on_targets (data(),directories(),(!Private.up_to_date_targets_ref)) 
+   Alaskan_register_mlx_file.on_targets 
+	(German_constant.main_toplevel_name)
+    (data(),directories(),(!Private.up_to_date_targets_ref)) 
         mlx in
        (
          Private.data_ref:=new_mdata;
