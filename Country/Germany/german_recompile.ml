@@ -56,13 +56,7 @@ let put_md_list_back_in_order tolerate_cycles md_list initially_active_hms=
   let _=treat_circular_dependencies tolerate_cycles
        (fun md->Half_dressed_module.to_string(Modulesystem_data.name md)) 
        cycles in     
-  let intermediary_list=Update_ancs_libs_and_dirs_in_modulesystem.update old_list in
-  let initially_active_mds=List.filter      
-       (fun md->List.mem (Modulesystem_data.name md) initially_active_hms)
-       intermediary_list in
-  let active_ancestors=List.flatten (
-      Image.image Modulesystem_data.all_ancestors initially_active_mds
-  ) in    
+  let final_list=Update_ancs_libs_and_dirs_in_modulesystem.update old_list in 
   let active_descendants=Option.filter_and_unpack (
       fun md->
         let hm=Modulesystem_data.name md in
@@ -73,41 +67,36 @@ let put_md_list_back_in_order tolerate_cycles md_list initially_active_hms=
              (Modulesystem_data.all_ancestors md)
         then Some(hm)
         else None
-  ) intermediary_list in    
-  let active_hms=active_ancestors@active_descendants in
-  let final_list=Image.image (
-      fun md->
-       let hm=Modulesystem_data.name md in
-       if List.mem hm active_hms
-       then md
-       else Modulesystem_data.increment_inactivity_count md
-  ) intermediary_list in
+  ) final_list in  
   (final_list,active_descendants);;
  
 end;; 
  
 let on_monitored_modules tolerate_cycles mdata =
-  let ref_for_changed_modules=ref[] in
-  let declare_changed=(fun hm->
-    ref_for_changed_modules:=hm::(!ref_for_changed_modules)
+  let ref_for_changed_modules=ref[] 
+  and ref_for_changed_shortpaths=ref[] in
+  let declare_changed=(fun md->
+    let hm=Modulesystem_data.name md in
+    ref_for_changed_modules:=hm::(!ref_for_changed_modules);
+    ref_for_changed_shortpaths:=((!ref_for_changed_shortpaths)@
+                                (Modulesystem_data.short_paths md))
   ) in
   let new_md_list=Image.image(
      fun md->
        match Read_info_on_file_in_system.quick_update mdata md with
        None->md
        |Some(new_md)->
-         let _=declare_changed( Modulesystem_data.name new_md) in
+         let _=declare_changed(new_md) in
          new_md
   ) mdata in
   let changed_modules=List.rev(!ref_for_changed_modules) in
-  if changed_modules=[] then (mdata,[]) else
+  if changed_modules=[] then ((mdata,[]),[]) else
   let _=Private.announce_changed_modules changed_modules in
-  let (new_list,to_be_updated)=
-    Private.put_md_list_back_in_order tolerate_cycles new_md_list changed_modules in
-  (new_list,to_be_updated);;  
+  (Private.put_md_list_back_in_order tolerate_cycles new_md_list changed_modules,
+  (!ref_for_changed_shortpaths));;  
   
 let on_targets tolerate_cycles (old_mdata,old_tgts)=
-    let (new_mdata,hms_to_be_updated)=
+    let ((new_mdata,hms_to_be_updated),short_paths)=
       on_monitored_modules tolerate_cycles old_mdata in
 	if hms_to_be_updated=[] then None else
 	let new_dirs=German_directories.from_data new_mdata 
@@ -122,7 +111,7 @@ let on_targets tolerate_cycles (old_mdata,old_tgts)=
  	  snd(Alaskan_make_ocaml_target.make 
  	   German_constant.root
  	  (new_mdata,new_tgts) default_top) in
-    Some(new_mdata2,new_dirs,new_tgts2);;   
+    Some((new_mdata2,new_dirs,new_tgts2),short_paths);;   
 
 
    

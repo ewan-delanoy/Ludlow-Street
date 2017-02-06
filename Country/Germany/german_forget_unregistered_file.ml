@@ -5,7 +5,7 @@
 *)
 
 
-let on_recently_deleted_files ap=
+let forget ap=
    let s_dir=Directory_name.to_string(German_constant.root) in
    let n_dir=String.length s_dir in
    let s_ap=Absolute_path.to_string ap in

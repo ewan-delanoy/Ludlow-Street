@@ -31,7 +31,7 @@ let list_values_from_module_in_file module_name file=
    Ordered_string.diforchan temp3;;
 
 let list_values_from_module_in_modulesystem module_name mdata=
-   let temp1=German_data.all_mlx_paths mdata in
+   let temp1=Alaskan_data.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_values_from_module_in_file module_name ap in
     Ordered_string.image (fun x->(x,ap) ) ttemp1
@@ -66,7 +66,7 @@ let list_values_from_module_in_modulesystem module_name mdata=
 
 let show_value_occurrences_in_modulesystem t mdata=
    let m=String.length(Directory_name.to_string(German_constant.root)) in
-   let temp1=German_data.all_mlx_paths mdata in
+   let temp1=Alaskan_data.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_value_occurrences_in_file t ap in
     let mname=Cull_string.cobeginning(m)(Absolute_path.to_string ap) in

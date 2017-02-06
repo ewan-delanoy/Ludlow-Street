@@ -6,11 +6,12 @@
 
 *)
 
+let all_mlx_files mdata=
+  List.flatten
+  (Image.image Modulesystem_data.acolytes mdata);; 
 
-
-
- 
-
+let all_mlx_paths mdata=Image.image Mlx_filename.to_absolute_path 
+  (all_mlx_files mdata);;  
 
 let default_toplevel main_toplevel_name mdata=
   let temp2=List.filter Modulesystem_data.is_not_optional mdata in

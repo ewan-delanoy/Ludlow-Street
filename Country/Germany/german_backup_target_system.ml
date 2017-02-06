@@ -12,13 +12,13 @@ let prepare_backup ()=
    if ((!ref_for_backup)<>None)
    then Option.unpack(!ref_for_backup)
    else
-   let temp1=German_data.all_mlx_paths (German_wrapper.data()) in
+   let temp1=Alaskan_data.all_mlx_paths (German_wrapper.data()) in
    let temp2=German_wrapper.outside_files () in
    let temp3=temp1@temp2 in
    let n1=String.length(Directory_name.to_string(German_constant.root)) in
    let temp4=Image.image (fun ap->Cull_string.cobeginning n1
   (Absolute_path.to_string ap)) temp3 in
-  let destination_dir=Directory_name.of_string German_constant.location_for_backup in
+  let destination_dir=German_constant.dir_for_backup in
   let answer=Prepare_dircopy_update.compute_diff
      (German_constant.root,temp4) destination_dir in
   let _=(ref_for_backup:=Some(answer)) in
@@ -31,7 +31,7 @@ let commands_for_backup ()=
    if Prepare_dircopy_update.diff_is_empty temp1
    then ([],[])
    else 
-   let destination_dir=Directory_name.of_string German_constant.location_for_backup in
+   let destination_dir=German_constant.dir_for_backup in
    let s_destination=Directory_name.to_string destination_dir in
    let created_ones=Prepare_dircopy_update.recently_created temp1 in
    let temp2=Option.filter_and_unpack
@@ -64,7 +64,7 @@ let commands_for_backup ()=
    (temp3@temp4@temp5,temp6@temp7);;
 
 let backup msg=
-  let destination_dir=Directory_name.of_string German_constant.location_for_backup 
+  let destination_dir=German_constant.dir_for_backup  
   and (nongit_cmds,git_cmds)=commands_for_backup() in
   let s_destination=Directory_name.to_string destination_dir in
   let _=Image.image Shell_command.do_and_notice_failure nongit_cmds in

@@ -1,11 +1,7 @@
 
 (* 
 
-#use"Country/Germany/german_modulesystem.ml";;
-
-
-
-
+#use"Country/Germany/german_data.ml";;
 
 *)
 
@@ -14,16 +10,12 @@
 let filedata_selector mdata ending x=List.filter 
    (Modulesystem_data.check_presence ending) mdata;;
  
-let all_mlx_files mdata=
-  List.flatten
-  (Image.image Modulesystem_data.acolytes mdata);; 
   
-let all_mlx_paths mdata=Image.image Mlx_filename.to_absolute_path (all_mlx_files mdata);;  
-  
-let inside_files mdata=Image.image Mlx_filename.to_path (all_mlx_files mdata);;  
+let inside_files mdata=Image.image Mlx_filename.to_path 
+(Alaskan_data.all_mlx_files mdata);;  
   
 let local_directories mdata=
-  let temp1=all_mlx_files mdata in
+  let temp1=Alaskan_data.all_mlx_files mdata in
   let temp5=Image.image Mlx_filename.to_string temp1 in
   let temp2=Image.image (fun s->Father_and_son.father s '/') temp5 in
   let temp3=Ordered_string.diforchan temp2 in
@@ -116,7 +108,7 @@ let directly_below mdata hm=
 
 
 let files_containing_string mdata some_string=
-   let temp1=all_mlx_paths mdata in
+   let temp1=Alaskan_data.all_mlx_paths mdata in
    List.filter (fun ap->Substring.is_a_substring_of 
      some_string (Io.read_whole_file ap)) temp1;;
  

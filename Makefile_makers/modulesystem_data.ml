@@ -291,6 +291,9 @@ let registered_endings dt=
     check_presence edg dt 
   ) Ocaml_ending.all_endings;;
 
+let short_paths dt=Image.image Mlx_filename.short_path (acolytes dt);;
+  
+
 let compute_modification_times hm=
   let dir=Half_dressed_module.root_directory hm in
   Ocaml_ending.exhaustive_uple (fun edg->

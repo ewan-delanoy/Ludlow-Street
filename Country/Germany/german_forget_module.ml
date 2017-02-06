@@ -20,13 +20,5 @@ let on_targets (mdata,dirs,tgts) hm=
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg^"*"))
          [".cm";".d.cm";".caml_debuggable"] in
-         let edgs=Modulesystem_data.registered_endings dt in
-         let paths=Image.image (fun edg->Mlx_filename.to_path(Mlx_filename.join hm edg)) edgs in
-         let (mdata2,dirs2,tgts2)=German_unregister_module.on_targets (mdata,tgts) hm in
-         ((mdata2,dirs2,tgts2),Image.image German_forget_unregistered_file.on_recently_deleted_files paths)
+         German_unregister_module.on_targets (mdata,tgts) hm
     else raise(ModuleWithDependencies(hm,bel));;
-
-
-let on_recently_deleted l recently_deleted=
-  Ordered.forget_order(Ordered_string.teuzin (Ordered_string.safe_set l) 
-  (Ordered_string.safe_set(recently_deleted)));; 

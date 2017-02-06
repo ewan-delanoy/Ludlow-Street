@@ -34,12 +34,14 @@ let compute_nondeleted_in_diff (sourcedir,l) destdir=
    	    if (not(Sys.file_exists(s_destdir^s)))
    	    then created_accu:=s::(!created_accu)
    	    else 
+   	    (
    	    let txt1=Io.read_whole_file
    	    (Absolute_path.of_string(s_sourcedir^s))
    	    and txt2=Io.read_whole_file
    	    (Absolute_path.of_string(s_destdir^s)) in
    	    if txt1<>txt2
    	    then changed_accu:=s::(!changed_accu)
+   	    )
    ) l in
    (!created_accu,!changed_accu);;   
    
@@ -67,7 +69,4 @@ let compute_diff (sourcedir,l) destdir=
    	recently_created=created;
    	recently_changed=changed;
    };;
-   
-   
-
    

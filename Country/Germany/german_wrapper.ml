@@ -34,11 +34,14 @@ let save_all ()=German_save_all.write_all (whole());;
 let recompile ()=
    match German_recompile.on_targets false (!data_ref,!up_to_date_targets_ref) with
     None->()
-   |Some(new_mdata,new_dirs,new_tgts)->
+   |Some((new_mdata,new_dirs,new_tgts),short_paths)->
+       let changes=German_changed.update short_paths
+             (!recently_changed_ref) in
        (
          data_ref:=new_mdata;
          directories_ref:=new_dirs;
          up_to_date_targets_ref:=new_tgts;
+         recently_changed_ref:=changes;
          save_all();
        );;
 
@@ -63,40 +66,49 @@ let end_debugging ()=
    
 let forget_unregistered_file ap=
     let _=Private.recompile() in
-    let new_rdel=
-      German_forget_unregistered_file.on_recently_deleted_files ap in
+    let _=German_forget_unregistered_file.forget ap in
+    let s_ap=Absolute_path.to_string ap in  
+    let (ndel,ncre)=German_created_or_deleted.update 
+        ([],[Directory_name.cut_beginning German_constant.root s_ap])   
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in 
        (
-         Private.recently_deleted_ref:=new_rdel::(!(Private.recently_deleted_ref));
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre;
          Private.save_all();
        );;       
        
 let forget_file ap=
    let _=Private.recompile() in
-   let ((new_mdata,new_dirs,new_tgts),new_rdel)= 
+   let (new_mdata,new_dirs,new_tgts)= 
     German_forget_file.on_targets 
       (data(),directories(),(!Private.up_to_date_targets_ref)) ap in
+   let s_ap=Absolute_path.to_string ap in  
+   let (ndel,ncre)=German_created_or_deleted.update 
+        ([],[Directory_name.cut_beginning German_constant.root s_ap])   
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in       
        (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
-         Private.recently_deleted_ref:=
-            German_forget_file.on_recently_deleted ap (!(Private.recently_deleted_ref));
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre;
          Private.save_all();
        );;         
     
 let forget_module ap=
    let _=Private.recompile() in
-   let ((new_mdata,new_dirs,new_tgts),new_rdel)= 
+   let ((new_mdata,new_dirs,new_tgts),short_paths)= 
     German_forget_module.on_targets
       (data(),directories(),(!Private.up_to_date_targets_ref)) ap in
+   let (ndel,ncre)=German_created_or_deleted.update 
+        (short_paths,[])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in    
        (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
-         Private.recently_deleted_ref:=
-          German_forget_module.on_recently_deleted 
-            new_rdel
-            (!(Private.recently_deleted_ref));
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre;
          Private.save_all();
        );;         
     
@@ -181,10 +193,15 @@ let register_mlx_file mlx=
 	(German_constant.main_toplevel_name)
     (data(),directories(),(!Private.up_to_date_targets_ref)) 
         mlx in
+   let (ndel,ncre)=German_created_or_deleted.update 
+        ([],[Mlx_filename.short_path mlx])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
        (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre; 
          Private.save_all();
        );;     
  
@@ -193,9 +210,15 @@ let register_mlx_file mlx=
    let (new_ofiles,new_odirs)= 
     German_register_outside_file.on_outside_directories 
      (!Private.outside_files_ref,!Private.outside_directories_ref) ap in
+   let s_ap=Absolute_path.to_string ap in  
+   let (ndel,ncre)=German_created_or_deleted.update 
+        ([],[Directory_name.cut_beginning German_constant.root s_ap])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in  
        (
          Private.outside_files_ref:=new_ofiles;
          Private.outside_directories_ref:=new_odirs;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre; 
          Private.save_all();
        );;        
     
@@ -261,21 +284,31 @@ let reposition_module hm (l_before,l_after)=
    let _=Private.recompile() in
    let (new_mdata,new_dirs,new_tgts)= 
     German_unregister_mlx_file.on_targets (data(),(!Private.up_to_date_targets_ref)) mlx in
+   let (ndel,ncre)=German_created_or_deleted.update 
+        ([Mlx_filename.short_path mlx],[])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
        (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre; 
          Private.save_all();
        );;  
 
 let unregister_module mlx=
    let _=Private.recompile() in
-   let (new_mdata,new_dirs,new_tgts)= 
+   let ((new_mdata,new_dirs,new_tgts),short_paths)= 
     German_unregister_module.on_targets (data(),(!Private.up_to_date_targets_ref)) mlx in
+   let (ndel,ncre)=German_created_or_deleted.update 
+        (short_paths,[])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in 
        (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre; 
          Private.save_all();
        );;        
    
@@ -284,9 +317,15 @@ let unregister_module mlx=
    let (new_ofiles,new_odirs)= 
     German_unregister_outside_file.on_outside_directories 
      (!Private.outside_files_ref,!Private.outside_directories_ref) ap in
+   let s_ap=Absolute_path.to_string ap in  
+   let (ndel,ncre)=German_created_or_deleted.update 
+        ([Directory_name.cut_beginning German_constant.root s_ap],[])
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
        (
          Private.outside_files_ref:=new_ofiles;
          Private.outside_directories_ref:=new_odirs;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre; 
          Private.save_all();
        );;          
    
