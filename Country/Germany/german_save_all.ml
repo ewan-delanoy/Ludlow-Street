@@ -52,22 +52,28 @@ let industrial_separator2=Industrial_separator.new_separator ();;
 let archive 
   (mdata,directories,up_to_date_targets,
     outside_files,outside_directories,
-    recently_deleted,printer_equipped_types)=
+    recently_deleted,recently_changed,recently_created,
+    printer_equipped_types)=
     
-   let temp1=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) directories 
-   and temp2=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) outside_directories 
-   and temp3=Image.image (fun w->Absolute_path.to_string w) outside_files 
-   and temp4=Image.image (fun w->Nonblank.make w) recently_deleted 
-   and temp5=Image.image Half_dressed_module.archive printer_equipped_types in
+   let temp2=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) directories 
+   and temp3=Image.image Ocaml_target.archive up_to_date_targets 
+   and temp4=Image.image (fun w->Absolute_path.to_string w) outside_files 
+   and temp5=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) outside_directories 
+   and temp6=Image.image (fun w->Nonblank.make w) recently_deleted 
+   and temp7=Image.image (fun w->Nonblank.make w) recently_changed 
+   and temp8=Image.image (fun w->Nonblank.make w) recently_created 
+   and temp9=Image.image Half_dressed_module.archive printer_equipped_types in
    String.concat industrial_separator1
    [
      German_data.archive mdata;
-     Nonblank.make(String.concat industrial_separator2 temp1);
-     Nonblank.make(String.concat industrial_separator2 (Image.image Ocaml_target.archive up_to_date_targets));
      Nonblank.make(String.concat industrial_separator2 temp2);
      Nonblank.make(String.concat industrial_separator2 temp3);
      Nonblank.make(String.concat industrial_separator2 temp4);
      Nonblank.make(String.concat industrial_separator2 temp5);
+     Nonblank.make(String.concat industrial_separator2 temp6);
+     Nonblank.make(String.concat industrial_separator2 temp7);
+     Nonblank.make(String.concat industrial_separator2 temp8);
+     Nonblank.make(String.concat industrial_separator2 temp9);
    ];;
 
 let save_targetfile uple=
@@ -79,20 +85,24 @@ end;;
 
 let read_all s=
    let l1=Str.split (Str.regexp_string Private.industrial_separator1) s in
-   let v1=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  1))
-   and v2=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  2)) 
-   and v3=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  3)) 
-   and v4=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  4)) 
-   and v5=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  5))   
-   and v6=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  6))
+   let v2=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  1)) 
+   and v3=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  2)) 
+   and v4=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  3)) 
+   and v5=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  4))   
+   and v6=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  5))
+   and v7=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  6)) 
+   and v8=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  7))   
+   and v9=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  8))
    in
    let new_mdata=German_data.unarchive(List.nth l1 0) in
-   let new_directories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v1 in
-   let new_targets=Image.image Ocaml_target.unarchive v2 in
-   let new_odirectories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v3 in
+   let new_directories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v2 in
+   let new_targets=Image.image Ocaml_target.unarchive v3 in
    let new_ofiles=Image.image Absolute_path.of_string v4 in
-   let new_dfiles=Image.image Nonblank.decode v5 in
-   let new_pe_types=Image.image Half_dressed_module.unarchive v6 in
+   let new_odirectories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v5 in
+   let new_dfiles=Image.image Nonblank.decode v6 in
+   let new_chfiles=Image.image Nonblank.decode v7 in
+   let new_crfiles=Image.image Nonblank.decode v8 in
+   let new_pe_types=Image.image Half_dressed_module.unarchive v9 in
    
 (
     new_mdata,
@@ -101,13 +111,15 @@ let read_all s=
     new_ofiles,
     new_odirectories,
     new_dfiles,
+    new_chfiles,
+    new_crfiles,
     new_pe_types
 );;
 
 
 let write_all uple= 
   let (mdata,directories,up_to_date_targets,
-    _,_,_,printer_equipped_types)=uple in
+    _,_,_,_,_,printer_equipped_types)=uple in
    (
     Private.save_makefile mdata;
     Private.save_loadingsfile (directories,up_to_date_targets);

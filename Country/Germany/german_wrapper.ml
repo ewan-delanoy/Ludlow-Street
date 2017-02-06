@@ -13,6 +13,8 @@ let up_to_date_targets_ref=ref([]:Ocaml_target.t list);;
 let outside_files_ref=ref([]:Absolute_path.t list);;
 let outside_directories_ref=ref([]:Subdirectory.t list);;
 let recently_deleted_ref=ref([]:string list);;
+let recently_changed_ref=ref([]:string list);;
+let recently_created_ref=ref([]:string list);;
 let printer_equipped_types_ref=ref([]:Half_dressed_module.t list);;
 
 let whole ()=(
@@ -22,6 +24,8 @@ let whole ()=(
 	(!outside_files_ref),
 	(!outside_directories_ref),
 	(!recently_deleted_ref),
+	(!recently_changed_ref),
+	(!recently_created_ref),
 	(!printer_equipped_types_ref)
 );;
 
@@ -104,6 +108,8 @@ let forget_module ap=
     ofiles,
     odirectories,
     dfiles,
+    chfiles,
+    crfiles,
     pe_types
    )=German_save_all.read_all the_archive in
    (
@@ -113,6 +119,8 @@ let forget_module ap=
 	Private.outside_files_ref:= ofiles;
 	Private.outside_directories_ref:= odirectories;
 	Private.recently_deleted_ref:= dfiles;
+	Private.recently_changed_ref:= chfiles;
+	Private.recently_created_ref:= crfiles;
 	Private.printer_equipped_types_ref:= pe_types;
   );;
 
