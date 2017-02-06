@@ -15,4 +15,5 @@ let on_targets (mdata,old_tgts) old_name=
     if Substring.begins_with s_old_name "Optional/"
     then raise(Already_optional(old_name))
     else 
-    German_relocate_module.on_targets (mdata,old_tgts) old_name (Subdirectory.of_string "Optional");;    
+    German_relocate_module.on_targets 
+    (mdata,old_tgts) old_name (Subdirectory.of_string "Optional");;    
