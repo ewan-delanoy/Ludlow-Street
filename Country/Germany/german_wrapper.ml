@@ -79,7 +79,8 @@ let forget_file ap=
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
-         Private.recently_deleted_ref:=new_rdel::(!(Private.recently_deleted_ref));
+         Private.recently_deleted_ref:=
+            German_forget_file.on_recently_deleted ap (!(Private.recently_deleted_ref));
          Private.save_all();
        );;         
     
@@ -92,7 +93,10 @@ let forget_module ap=
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
-         Private.recently_deleted_ref:=new_rdel@(!(Private.recently_deleted_ref));
+         Private.recently_deleted_ref:=
+          German_forget_module.on_recently_deleted 
+            new_rdel
+            (!(Private.recently_deleted_ref));
          Private.save_all();
        );;         
     

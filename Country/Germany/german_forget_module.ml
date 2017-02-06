@@ -27,3 +27,6 @@ let on_targets (mdata,dirs,tgts) hm=
     else raise(ModuleWithDependencies(hm,bel));;
 
 
+let on_recently_deleted l recently_deleted=
+  Ordered.forget_order(Ordered_string.teuzin (Ordered_string.safe_set l) 
+  (Ordered_string.safe_set(recently_deleted)));; 

@@ -28,4 +28,8 @@ let on_targets triple ap=
          (res1,German_forget_unregistered_file.on_recently_deleted_files ap)
     else raise(FileWithDependencies(mlx,bel));;
 
-
+let on_recently_deleted ap recently_deleted=
+  let s_ap=Absolute_path.to_string ap in
+  let s=Directory_name.cut_beginning German_constant.root s_ap in
+  Ordered.forget_order(Ordered_string.insert s 
+  (Ordered_string.safe_set(recently_deleted)));; 
