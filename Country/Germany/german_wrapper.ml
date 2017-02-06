@@ -216,11 +216,16 @@ let register_mlx_file mlx=
     
  let rename_module old_name new_name=
     let _=Private.recompile() in
-    let (new_mdata,new_tgts)=
+    let ((new_mdata,new_tgts),(old_files,new_files))=
       German_rename_module.on_targets (data(),(!Private.up_to_date_targets_ref)) old_name new_name in
+    let (ndel,ncre)=German_created_or_deleted.update 
+        (old_files,new_files)
+        ((!Private.recently_deleted_ref,!Private.recently_created_ref)) in  
        (
          Private.data_ref:=new_mdata;
          Private.up_to_date_targets_ref:=new_tgts;
+         Private.recently_deleted_ref:=ndel;
+         Private.recently_created_ref:=ncre;
          Private.save_all();
        );;   
    

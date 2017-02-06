@@ -29,8 +29,9 @@ let on_monitored_modules mdata old_name new_name=
    else 
    let old_dt=Option.unpack opt in
    let old_acolytes=Modulesystem_data.acolytes old_dt in
-   let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_renaming mlx new_name) 
-   old_acolytes in
+   let old_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) old_acolytes in 
+   let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_renaming mlx new_name) old_acolytes in
+   let new_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) new_acolytes in 
    let new_hm=Mlx_filename.half_dressed_core(List.hd new_acolytes) in
    let old_mname=Half_dressed_module.module_name old_name
    and new_mname=Half_dressed_module.module_name new_hm
@@ -47,19 +48,19 @@ let on_monitored_modules mdata old_name new_name=
    let _=Image.image Shell_command.announce_and_do cmd in
    let new_list=Image.image
    (Abstract_renamer.unabstractify new_hm) interm_list in
-   new_list;;
+   (new_list,(old_files,new_files));;
  
 let on_targets (old_mdata,old_tgts) old_name new_name= 
   let untouched_tgts=List.filter
    (fun tgt->not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
-  let new_mdata=on_monitored_modules old_mdata old_name new_name in
+  let (new_mdata,(old_files,new_files))=on_monitored_modules old_mdata old_name new_name in
   let default_top=(German_data.default_toplevel new_mdata) in
   let (new_mdata2,new_tgts2)=
     snd(Alaskan_make_ocaml_target.make 
  	   German_constant.root
  	    (new_mdata,untouched_tgts) default_top) in
-  (new_mdata2,new_tgts2);;   
+  ((new_mdata2,new_tgts2),(old_files,new_files));;   
  
  
  
