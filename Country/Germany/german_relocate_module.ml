@@ -25,8 +25,10 @@ let on_monitored_modules mdata old_name new_subdir=
    else 
    let old_dt=Option.unpack opt in
    let old_acolytes=Modulesystem_data.acolytes old_dt in
-   let temp5=Image.image (fun mlx->Mlx_filename.do_file_displacing mlx new_subdir) old_acolytes in
-   let new_name=Mlx_filename.half_dressed_core(List.hd temp5) in
+   let old_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) old_acolytes in 
+   let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_displacing mlx new_subdir) old_acolytes in
+   let new_files=Image.image (fun mlx->fst(Mlx_filename.unveil(mlx))) new_acolytes in 
+   let new_name=Mlx_filename.half_dressed_core(List.hd new_acolytes) in
    let desc=German_data.descendants mdata [old_name] in
    let data_renamer=Modulesystem_data.rename (old_name,new_name) in
    let bowls=(	Half_dressed_module.is_optional old_name,
@@ -44,24 +46,24 @@ let on_monitored_modules mdata old_name new_subdir=
         let (before2,after2)=German_data.optionality_partition after in
         let part1=before@before2
         and part2=Image.image data_renamer (old_dt::after2) in
-        part1@part2
+        (part1@part2,(old_files,new_files))
    else
    if bowls=(true,false)
    then let (before1,after1)=German_data.optionality_partition before in
         let part2=Image.image data_renamer (old_dt::after1@after) in
-        before1@part2
+        (before1@part2,(old_files,new_files))
    else let part2=Image.image data_renamer (old_dt::after) in
-        before@part2;;
+        (before@part2,(old_files,new_files));;
 
 let on_targets (old_mdata,old_tgts) old_name new_subdir= 
   let untouched_tgts=List.filter
    (fun tgt->not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
-  let new_mdata=on_monitored_modules old_mdata old_name new_subdir in
+  let (new_mdata,(old_files,new_files))=on_monitored_modules old_mdata old_name new_subdir in
   let default_top=(German_data.default_toplevel new_mdata) in
   let (new_mdata2,new_tgts2)=
    snd(Alaskan_make_ocaml_target.make 
      German_constant.root
     (new_mdata,untouched_tgts) default_top) in
-  (new_mdata2,new_tgts2);;   
+  ((new_mdata2,new_tgts2),(old_files,new_files));;   
  

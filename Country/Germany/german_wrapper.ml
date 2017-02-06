@@ -132,7 +132,7 @@ let forget_module ap=
     
  let make_module_optional old_name=
     let _=Private.recompile() in
-    let (new_mdata,new_tgts)=
+    let ((new_mdata,new_tgts),(old_files,new_files))=
       German_make_module_optional.on_targets (data(),(!Private.up_to_date_targets_ref)) 
         old_name in
        (
@@ -194,7 +194,7 @@ let register_mlx_file mlx=
     
  let relocate_module old_name new_subdir=
     let _=Private.recompile() in
-    let (new_mdata,new_tgts)=
+    let ((new_mdata,new_tgts),(old_files,new_files))=
       German_relocate_module.on_targets (data(),(!Private.up_to_date_targets_ref)) 
          old_name new_subdir in
        (
