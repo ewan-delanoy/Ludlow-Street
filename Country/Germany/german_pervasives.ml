@@ -48,24 +48,25 @@ let bel x=German_data.below (German_wrapper.data()) (hmx x);;
 let dbel x=German_data.directly_below (German_wrapper.data()) (hmx x);;
 
 
-let ren x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
-let relo x y=German_wrapper.relocate_module (hmx x) y;;
-let mmo x=German_wrapper.make_module_optional (hmx x) ;;
+let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
+let relo_without_backup x y=German_wrapper.relocate_module (hmx x) y;;
+let mmo_without_backup x=German_wrapper.make_module_optional (hmx x) ;;
 
 
 
-let fg x=
+let fg_without_backup x=
    if String.contains x '.'
    then German_wrapper.forget_file (fl x)
    else German_wrapper.forget_module (hmx x);;
 
-let regi x= 
+let regi_without_backup x= 
   let mlx=Mlx_filename.of_path_and_root (fl x) cdir in
   German_wrapper.register_mlx_file mlx;;
 
-let rego x=German_wrapper.register_outside_file (Absolute_path.of_string x);;
+let rego_without_backup x=
+   German_wrapper.register_outside_file (Absolute_path.of_string x);;
 
-let ureg x=
+let ureg_without_backup x=
   if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mll";".mly"] 
   then let mlx=Mlx_filename.of_path_and_root (fl x) cdir in
        German_wrapper.unregister_mlx_file mlx 
@@ -94,16 +95,21 @@ let syz()=German_data.system_size (German_wrapper.data());;
 
 let init=German_wrapper.initialize;;
 let reco_ref=ref(0);;
-let reco ()=
+let reco_without_backup ()=
   ((reco_ref:=(!reco_ref)+1);
   German_wrapper.recompile());;
 
 
 let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
 let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
+let ubk ()=
+ let diff=German_wrapper.diff() in
+ let explained_diff=Prepare_dircopy_update.explain_diff(diff) in
+ German_backup_target_system.backup_with_message diff explained_diff
+ ;;
 let sd=German_wrapper.start_debugging;;
 
-let rv=German_values_in_modules.rename_value (German_wrapper.data()) ;;
+let rv_without_backup=German_values_in_modules.rename_value (German_wrapper.data()) ;;
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
 let muv=German_values_in_modules.modules_using_value (German_wrapper.data()) ;;
@@ -111,11 +117,26 @@ let muv=German_values_in_modules.modules_using_value (German_wrapper.data()) ;;
 let ed =German_wrapper.end_debugging;;
 
 
-let rsh ()=German_wrapper.refresh;;
+let rsh_without_backup=German_wrapper.refresh;;
 
 
 
 let df=German_data.deletable_files;;
-let oim=German_data.outdated_interesting_modules;;
+
+
+let fg x=(fg_without_backup x;reco_without_backup ();ubk());;
+let mmo x=(mmo_without_backup x;reco_without_backup ();ubk());;
+let reco ()=(reco_without_backup ();ubk());;
+
+
+let regi x=(regi_without_backup x;reco_without_backup ();ubk());;
+
+let rego x=(rego_without_backup x;reco_without_backup ();ubk());;
+let relo x y=(relo_without_backup x y;reco_without_backup ();ubk());;
+let ren  x y=(ren_without_backup  x y;reco_without_backup ();ubk());;
+let rsh ()=(rsh_without_backup ();ubk());;
+let rv x y=(rv_without_backup x y;reco_without_backup ();ubk());;
+let ureg x=(ureg_without_backup x;reco_without_backup ();ubk());;
+
 
 
