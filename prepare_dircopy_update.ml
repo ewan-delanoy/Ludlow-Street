@@ -63,6 +63,13 @@ let display_diff x=
    (print_string temp4;
     flush stdout);;
  
+let summarize_short_path s=
+   String.capitalize(Father_and_son.son (Father_and_son.invasive_father s '.') '/');;
+ 
+let summarize_short_path_list l=
+    let temp1=Image.image summarize_short_path l in
+    Ordered.forget_order(Ordered_string.diforchan temp1);;
+ 
 let explain_diff x=
    let tempf=(fun (msg,l)->
      if l=[]
@@ -71,9 +78,9 @@ let explain_diff x=
    ) in
    let temp1=Option.filter_and_unpack tempf
    [
-     "Deleted",x.recently_deleted;
-     "Created",x.recently_created;
-     "Changed",x.recently_changed;
+     "Deleted",summarize_short_path_list(x.recently_deleted);
+     "Created",summarize_short_path_list(x.recently_created);
+     "Modified",summarize_short_path_list(x.recently_changed);
    ] in
    if temp1=[] then "" else
    let temp2=(String.uncapitalize (List.hd temp1))::(List.tl temp1) in
