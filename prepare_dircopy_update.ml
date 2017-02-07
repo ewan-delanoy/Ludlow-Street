@@ -70,3 +70,13 @@ let compute_diff (sourcedir,l) destdir=
    	recently_changed=changed;
    };;
    
+let compute_greedy_diff sourcedir destdir=
+   let source_ap=Absolute_path.of_string(Directory_name.to_string sourcedir) in
+   let source_paths=More_unix.complete_ls_with_nondirectories_only source_ap in
+   let l=Image.image (fun ap->
+   Directory_name.cut_beginning sourcedir (Absolute_path.to_string ap) ) source_paths in
+   compute_diff (sourcedir,l) destdir;;
+   
+  
+   
+   

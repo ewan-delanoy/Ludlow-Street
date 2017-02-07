@@ -163,24 +163,34 @@ let outside_directories ()=(!Private.outside_directories_ref);;
 
 let printer_equipped_types ()=(!Private.printer_equipped_types_ref);;
 
-let recently_deleted ()=(!Private.recently_deleted_ref);;
+let diff ()=
+   (
+        !(Private.recently_deleted_ref),
+	    !(Private.recently_changed_ref),
+		!(Private.recently_created_ref)
+   );;
 
 let recompile=Private.recompile;;  
 
 let refresh ()=
-  let (new_mdata,new_tgts,new_ptypes)=
+  let (new_mdata,new_tgts,new_outsiders,new_ptypes)=
   Alaskan_create_target_system.from_main_directory 
        German_constant.root
        (Some(German_constant.main_toplevel_name))
+       (!(Private.outside_files_ref))
    in 
   let new_dirs=German_directories.from_data new_mdata in
+  let new_diff=German_delchacre_from_scratch.dfs(new_mdata,new_outsiders) in
+  
   (
         Private.data_ref:=new_mdata;
 		Private.directories_ref:=new_dirs;
 		Private.up_to_date_targets_ref:=new_tgts;
-		Private.outside_files_ref:=[];
+		Private.outside_files_ref:=new_outsiders;
 		Private.outside_directories_ref:=[];
-		Private.recently_deleted_ref:=[];
+		Private.recently_deleted_ref:=Prepare_dircopy_update.recently_deleted new_diff;
+		Private.recently_changed_ref:=Prepare_dircopy_update.recently_changed new_diff;
+		Private.recently_created_ref:=Prepare_dircopy_update.recently_created new_diff;
 		Private.printer_equipped_types_ref:=new_ptypes;
         Private.save_all();
    );;  

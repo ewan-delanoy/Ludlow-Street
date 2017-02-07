@@ -116,7 +116,7 @@ let from_prepared_list dir l=
    Alaskan_try_to_register.mlx_files [] temp1;;
 
 
-let from_main_directory dir opt=
+let from_main_directory dir opt_topl_name old_outsiders=
 	let old_s=Directory_name.to_string(dir) in
 	let s1=Cull_string.coending 1 old_s in (* mind the trailing slash *)
 	let temp1=select_good_files s1 in
@@ -124,8 +124,11 @@ let from_main_directory dir opt=
     let temp3=compute_dependencies temp2 in
     let (failures,mdata1)=from_prepared_list dir temp3 in
     let preqt=Alaskan_printer_equipped_types.from_data mdata1 in
-    let topl_name=(if opt=None then "" else Option.unpack opt) in
+    let topl_name=(if opt_topl_name=None then "" else Option.unpack opt_topl_name) in
     let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
  	let (mdata2,new_tgts2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[]) topl) in
- 	(mdata2,new_tgts2,preqt);;
+ 	let new_outsiders=List.filter (fun ap->
+ 	   Sys.file_exists(Absolute_path.to_string ap)
+ 	) old_outsiders in
+ 	(mdata2,new_tgts2,new_outsiders,preqt);;
 
