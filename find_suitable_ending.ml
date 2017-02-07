@@ -18,10 +18,6 @@ let find_file_location dir l_subdir x=
   let x_list=(if  new_x=x
     then [x]
     else [x;new_x]) in
-  let temp2=List.filter Sys.file_exists x_list in
-  if temp2<>[]
-  then Absolute_path.of_string (List.hd temp2)
-  else 
   let s_dir=Directory_name.to_string(dir) in
   let temp1=Cartesian.tproduct(l_subdir) x_list (""::Ocaml_ending.all_string_endings) in
   let tempf=(fun (sd,y,edg)->
