@@ -45,9 +45,30 @@ let recompile ()=
          save_all();
        );;
 
+let diff ()=
+    Prepare_dircopy_update.veil
+   (
+        !(recently_deleted_ref),
+	    !(recently_changed_ref),
+		!(recently_created_ref)
+   );;
+
 end;;
 
+
+let backup opt_msg=
+  let _=German_backup_target_system.backup (Private.diff()) opt_msg in
+  
+  (
+		Private.recently_deleted_ref:=[];
+		Private.recently_changed_ref:=[];
+		Private.recently_created_ref:=[];
+        Private.save_all();
+   );;  
+
 let data ()=(!Private.data_ref);;
+
+let diff=Private.diff;;
 let directories ()=(!Private.directories_ref);;
 
 
@@ -163,12 +184,7 @@ let outside_directories ()=(!Private.outside_directories_ref);;
 
 let printer_equipped_types ()=(!Private.printer_equipped_types_ref);;
 
-let diff ()=
-   (
-        !(Private.recently_deleted_ref),
-	    !(Private.recently_changed_ref),
-		!(Private.recently_created_ref)
-   );;
+
 
 let recompile=Private.recompile;;  
 

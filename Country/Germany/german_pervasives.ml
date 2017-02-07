@@ -99,8 +99,8 @@ let reco ()=
   German_wrapper.recompile());;
 
 
-let pbk=German_backup_target_system.prepare_backup;;
-let bk=German_backup_target_system.backup;;
+let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
+let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
 let sd=German_wrapper.start_debugging;;
 
 let rv=German_values_in_modules.rename_value (German_wrapper.data()) ;;

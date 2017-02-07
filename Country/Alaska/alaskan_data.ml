@@ -13,6 +13,10 @@ let all_mlx_files mdata=
 let all_mlx_paths mdata=Image.image Mlx_filename.to_absolute_path 
   (all_mlx_files mdata);;  
 
+let all_short_paths mdata=List.flatten(
+  Image.image Modulesystem_data.short_paths mdata
+);;
+
 let default_toplevel main_toplevel_name mdata=
   let temp2=List.filter Modulesystem_data.is_not_optional mdata in
   let temp3=Image.image Modulesystem_data.name temp2 in
