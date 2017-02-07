@@ -6,8 +6,8 @@
 
 type diff={
    recently_deleted : string list;
-   recently_created : string list;
    recently_changed : string list;
+   recently_created : string list;
 };;
 
 let recently_deleted x=x.recently_deleted;;
@@ -16,8 +16,8 @@ let recently_changed x=x.recently_changed;;
 
 let veil (a,b,c)={
    recently_deleted =a;
-   recently_created =b;
-   recently_changed =c;
+   recently_changed =b;
+   recently_created =c;
 
 };;
 

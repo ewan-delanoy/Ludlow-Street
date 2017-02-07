@@ -28,9 +28,11 @@ let current_directories()=
   (Subdirectory.SD "")::(temp1@
   [Subdirectory.SD "Remembered";Subdirectory.SD "Forgotten"]);;
 
-let fl=Find_suitable_ending.find_file_location cdir (current_registered_directories());;
+let fl x=Find_suitable_ending.find_file_location cdir (current_registered_directories()) x;;
 
 exception Absent_module of string;;
+
+let semi_fl s edg=try(Some(fl(s^edg))) with _->None;;
 
 let hmx x=
   let s=Father_and_son.invasive_father x '.' in
@@ -115,7 +117,6 @@ let vfm modname =German_values_in_modules.list_values_from_module_in_modulesyste
 let muv=German_values_in_modules.modules_using_value (German_wrapper.data()) ;;
 
 let ed =German_wrapper.end_debugging;;
-
 
 let rsh_without_backup=German_wrapper.refresh;;
 
