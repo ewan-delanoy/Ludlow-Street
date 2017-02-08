@@ -108,11 +108,10 @@ let greedy_list sourcedir=
 let compute_greedy_diff sourcedir destdir=
    compute_diff (sourcedir,greedy_list sourcedir) destdir;;
    
-let commands_for_update diff=
+let commands_for_update destination_dir diff=
    if diff_is_empty diff
    then []
    else 
-   let destination_dir=German_constant.dir_for_backup in
    let s_destination=Directory_name.to_string destination_dir in
    let created_ones=diff.recently_created  in
    let temp2=Option.filter_and_unpack
