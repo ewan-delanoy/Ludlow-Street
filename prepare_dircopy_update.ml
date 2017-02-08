@@ -108,6 +108,36 @@ let greedy_list sourcedir=
 let compute_greedy_diff sourcedir destdir=
    compute_diff (sourcedir,greedy_list sourcedir) destdir;;
    
-  
+let commands_for_update diff=
+   if diff_is_empty diff
+   then []
+   else 
+   let destination_dir=German_constant.dir_for_backup in
+   let s_destination=Directory_name.to_string destination_dir in
+   let created_ones=diff.recently_created  in
+   let temp2=Option.filter_and_unpack
+   (fun fn->
+     if String.contains fn '/'
+     then let dn=Father_and_son.father fn '/' in
+          Some("mkdir -p "^s_destination^dn)
+     else None 
+    )
+   created_ones in
+   let temp3=Ordered.forget_order(Ordered_string.diforchan temp2) in
+   let s_source=Directory_name.to_string German_constant.root in
+   let temp4=Image.image(
+      fun fn->
+      "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')
+   ) created_ones in
+   let changed_ones=diff.recently_changed in
+   let temp5=Image.image(
+      fun fn->
+      "cp "^s_source^fn^" "^s_destination^fn
+   ) changed_ones in
+   let temp7=Image.image(
+      fun fn->
+      "git rm "^fn
+   ) (diff.recently_deleted) in
+   (temp3@temp4@temp5@temp7);;  
    
    
