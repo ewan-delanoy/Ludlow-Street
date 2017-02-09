@@ -15,7 +15,7 @@ let parse_enclosure s (left_encloser,right_encloser) i1=
    then None 
    else
    let i4=i3+(String.length right_encloser)-1 in
-   Some(("enclosure",[left_encloser,right_encloser],[(i1,i4);(i2,i3-1)]),i4+1);;
+   Some(("enclosure",[left_encloser,right_encloser],(i1,i4),[(i2,i3-1)]),i4+1);;
    
    
 (*
