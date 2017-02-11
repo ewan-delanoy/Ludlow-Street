@@ -63,7 +63,7 @@ let on_monitored_modules mdata mlx_file =
    final_list;;
 
   
-let on_targets mn (old_mdata,old_dirs,old_tgts) mlx=
+let on_targets (old_mdata,old_dirs,old_tgts) mlx=
   let hm=Mlx_filename.half_dressed_core mlx in
   let new_dir=Half_dressed_module.subdirectory hm in
  let new_mdata=on_monitored_modules old_mdata mlx in
@@ -84,7 +84,7 @@ let on_targets mn (old_mdata,old_dirs,old_tgts) mlx=
                  None->true
                  |Some(hm2)->hm2<>hm
                 )
-          |Some(name)->name<>mn
+          |Some(name)->false
        ) old_tgts
   ) in
   (new_mdata,new_dirs,new_tgts);; 

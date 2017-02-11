@@ -217,7 +217,6 @@ let register_mlx_file mlx=
    let _=Private.recompile() in
    let (new_mdata,new_dirs,new_tgts)= 
    Alaskan_register_mlx_file.on_targets 
-	(German_constant.main_toplevel_name)
     (data(),directories(),(!Private.up_to_date_targets_ref)) 
         mlx in
    let (ndel,ncre)=German_created_or_deleted.update 
