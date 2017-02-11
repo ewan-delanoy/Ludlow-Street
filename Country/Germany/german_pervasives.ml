@@ -119,19 +119,19 @@ let rsh_without_backup=German_wrapper.refresh;;
 let df=German_data.deletable_files;;
 
 
-let fg x=(fg_without_backup x;reco_without_backup ();ubk());;
-let mmo x=(mmo_without_backup x;reco_without_backup ();ubk());;
 let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
 
+let fg x=(fg_without_backup x;reco());;
+let mmo x=(mmo_without_backup x;reco());;
 
-let regi x=(regi_without_backup x;reco_without_backup ();ubk());;
+let regi x=(regi_without_backup x;reco());;
 
-let rego x=(rego_without_backup x;reco_without_backup ();ubk());;
-let relo x y=(relo_without_backup x y;reco_without_backup ();ubk());;
-let ren  x y=(ren_without_backup  x y;reco_without_backup ();ubk());;
+let rego x=(rego_without_backup x;reco());;
+let relo x y=(relo_without_backup x y;reco());;
+let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=(rsh_without_backup ();ubk());;
-let rv x y=(rv_without_backup x y;reco_without_backup ();ubk());;
-let ureg x=(ureg_without_backup x;reco_without_backup ();ubk());;
+let rv x y=(rv_without_backup x y;reco());;
+let ureg x=(ureg_without_backup x;reco());;
 
 
 
