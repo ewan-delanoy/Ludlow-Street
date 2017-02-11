@@ -4,8 +4,22 @@
 
 *)
 
+type parser_result={
+   description : string;
+   parameters : string list;
+   whole_range : int*int ;
+   important_ranges : (int*int) list;
+   final_cursor_position : int; 
+};;
 
-let parse_enclosure s (left_encloser,right_encloser) i1=
+
+type parser=Prsr of 
+(string->int->(parser_result option));;
+
+let apply_parser (Prsr f) s i=f s i;;
+
+let parse_enclosure (left_encloser,right_encloser)=
+   Prsr(fun s i1->
    if (not(Substring.is_a_substring_located_at left_encloser s i1))
    then None
    else 
@@ -15,12 +29,19 @@ let parse_enclosure s (left_encloser,right_encloser) i1=
    then None 
    else
    let i4=i3+(String.length right_encloser)-1 in
-   Some(("enclosure",[left_encloser,right_encloser],(i1,i4),[(i2,i3-1)]),i4+1);;
+   let res={
+   	description ="enclosure";
+    parameters =[left_encloser;right_encloser];
+    whole_range=(i1,i4);
+    important_ranges=[i2,i3-1];
+    final_cursor_position=i4+1; 
+   } in
+   Some(res));;
    
    
 (*
 
-parse_enclosure "ab345cde901" ("ab","cde");;
+apply_parser (parse_enclosure  ("ab","cde")) "ab345cde901" 1;;
 
 *)   
    

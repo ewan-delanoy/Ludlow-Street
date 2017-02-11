@@ -96,8 +96,8 @@ let syz()=German_data.system_size (German_wrapper.data());;
 let init=German_wrapper.initialize;;
 let reco_ref=ref(0);;
 let reco_without_backup ()=
-  ((reco_ref:=(!reco_ref)+1);
-  German_wrapper.recompile());;
+  let _=(reco_ref:=(!reco_ref)+1) in
+  German_wrapper.recompile();;
 
 
 let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
@@ -121,7 +121,7 @@ let df=German_data.deletable_files;;
 
 let fg x=(fg_without_backup x;reco_without_backup ();ubk());;
 let mmo x=(mmo_without_backup x;reco_without_backup ();ubk());;
-let reco ()=(reco_without_backup ();ubk());;
+let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
 
 
 let regi x=(regi_without_backup x;reco_without_backup ();ubk());;

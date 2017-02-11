@@ -33,17 +33,18 @@ let save_all ()=German_save_all.write_all (whole());;
 
 let recompile ()=
    match German_recompile.on_targets false (!data_ref,!up_to_date_targets_ref) with
-    None->()
+    None->false
    |Some((new_mdata,new_dirs,new_tgts),short_paths)->
        let changes=German_changed.update short_paths
              (!recently_changed_ref) in
-       (
+       let _=(
          data_ref:=new_mdata;
          directories_ref:=new_dirs;
          up_to_date_targets_ref:=new_tgts;
          recently_changed_ref:=changes;
          save_all();
-       );;
+       ) in
+       true;;
 
 let diff ()=
     Prepare_dircopy_update.veil
