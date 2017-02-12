@@ -18,6 +18,7 @@ let chain l=
                (i0,k-1)
                imp_ranges
                k
+               None
            )
       |prsr::rest->   
          (
@@ -33,11 +34,12 @@ let chain l=
 let disjunction l=
    let descr=Gparser_description.disjunction
       (Image.image Gparser.description l) in
+   let indexed_l=Ennig.index_everything l in   
    let rec tempf=(fun
    (da_ober,s,i0)->
       match da_ober with
       []->None 
-      |prsr::rest->
+      |(j,prsr)::rest->
          (
            match Gparser.apply prsr s i0 with
              None->tempf(rest,s,i0)
@@ -48,10 +50,11 @@ let disjunction l=
                (Gparser_result.whole_range res)
                (Gparser_result.important_ranges res)
                (Gparser_result.final_cursor_position res)
+               (Some j)
            )
          )   
    ) in
-   Gparser.veil descr (fun s i->tempf (l,s,i));;
+   Gparser.veil descr (fun s i->tempf (indexed_l,s,i));;
 
 let star prsr=
    let descr=Gparser_description.star(Gparser.description prsr) in
@@ -64,6 +67,7 @@ let star prsr=
                (i0,k-1)
                (imp_ranges)
                k
+               None
             )
       |Some(res)->tempf(imp_ranges@(Gparser_result.important_ranges res),
                        s,i0,Gparser_result.final_cursor_position res)
@@ -84,6 +88,7 @@ let optional prsr=
                (Gparser_result.whole_range res)
                (Gparser_result.important_ranges res)
                (Gparser_result.final_cursor_position res)
+               None
             )
       |None->Some(
             Gparser_result.veil
@@ -91,6 +96,7 @@ let optional prsr=
                (i,i-1)
                []
                i
+               None
             )
    
    ) in

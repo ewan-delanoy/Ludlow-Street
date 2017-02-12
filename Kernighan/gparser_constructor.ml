@@ -22,7 +22,8 @@ let enclosure (left_encloser,right_encloser)=
                descr
                (i1,i4)
                [i2,i3-1]
-               (i4+1) in
+               (i4+1)
+               None in
    Some(res)) in
    Gparser.veil descr tempf;;
    
@@ -37,7 +38,8 @@ let constant t=
                descr
                (i1,i2-1)
                []
-               i2 in
+               i2
+               None in
    Some(res)) in
    Gparser.veil descr tempf;;
 
