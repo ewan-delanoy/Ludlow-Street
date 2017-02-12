@@ -6,7 +6,7 @@
 
 
 
-let parse_enclosure (left_encloser,right_encloser)=
+let enclosure (left_encloser,right_encloser)=
    let descr=Gparser_description.veil "enclosure" [left_encloser;right_encloser] in
    let tempf=(fun s i1->
    if (not(Substring.is_a_substring_located_at left_encloser s i1))
