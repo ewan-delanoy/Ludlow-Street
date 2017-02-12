@@ -53,6 +53,11 @@ let optional x=
     parameters=x.parameters;
   };;
 
+let enclosure (a,b)=veil "enclosure" [a;b];;
+let constant t=veil "constant" [t];;
+
+
+
 
 
 
