@@ -222,14 +222,14 @@ let register_mlx_file mlx=
    let (ndel,ncre)=German_created_or_deleted.update 
         ([],[Mlx_filename.short_path mlx])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
-       (
+      (
          Private.data_ref:=new_mdata;
          Private.directories_ref:=new_dirs;
          Private.up_to_date_targets_ref:=new_tgts;
          Private.recently_deleted_ref:=ndel;
          Private.recently_created_ref:=ncre; 
          Private.save_all();
-       );;     
+       ) ;;     
  
  let register_outside_file ap=
    let _=Private.recompile() in
