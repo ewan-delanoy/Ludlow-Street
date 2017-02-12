@@ -7,7 +7,7 @@
 
 
 let enclosure (left_encloser,right_encloser)=
-   let descr=Gparser_description.veil "enclosure" [left_encloser;right_encloser] in
+   let descr=Gparser_description.enclosure (left_encloser,right_encloser) in
    let tempf=(fun s i1->
    if (not(Substring.is_a_substring_located_at left_encloser s i1))
    then None
@@ -28,7 +28,7 @@ let enclosure (left_encloser,right_encloser)=
    Gparser.veil descr tempf;;
    
 let constant t=
-   let descr=Gparser_description.veil "constant" [t] in
+   let descr=Gparser_description.constant t in
    let tempf=(fun s i1->
    if (not(Substring.is_a_substring_located_at t s i1))
    then None
