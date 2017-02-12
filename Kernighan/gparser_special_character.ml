@@ -23,5 +23,5 @@ let all=[
 let appears_in_string s=
    List.exists(
      fun c->String.contains s c
-   );;
+   ) all;;
    
