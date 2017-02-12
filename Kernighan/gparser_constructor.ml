@@ -26,11 +26,26 @@ let enclosure (left_encloser,right_encloser)=
    Some(res)) in
    Gparser.veil descr tempf;;
    
+let constant t=
+   let descr=Gparser_description.veil "constant" [t] in
+   let tempf=(fun s i1->
+   if (not(Substring.is_a_substring_located_at t s i1))
+   then None
+   else 
+   let i2=i1+(String.length t) in
+   let res= Gparser_result.veil
+               descr
+               (i1,i2-1)
+               []
+               i2 in
+   Some(res)) in
+   Gparser.veil descr tempf;;
 
    
 (*
 
-Gparser.apply (parse_enclosure  ("ab","cde")) "ab345cde901" 1;;
+Gparser.apply (enclosure  ("ab","cde")) "ab345cde901" 1;;
+Gparser.apply (constant  "ab") "ab345cde901" 1;;
 
 *)   
    
