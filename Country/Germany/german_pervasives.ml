@@ -125,7 +125,7 @@ let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
 let fg x=(fg_without_backup x;reco());;
 let mmo x=(mmo_without_backup x;reco());;
 
-let regi x=(regi_without_backup x;reco());;
+let regi x=(regi_without_backup x;ubk());;
 
 let rego x=(rego_without_backup x;reco());;
 let relo x y=(relo_without_backup x y;reco());;
