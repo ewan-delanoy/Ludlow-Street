@@ -20,8 +20,10 @@ let all=[
   marker_for_optional;
 ];;
 
-let appears_in_string s=
-   List.exists(
+
+let wrap s=
+   if   List.exists(
      fun c->String.contains s c
-   ) all;;
-   
+   ) all
+   then "("^s^")"
+   else s;; 
