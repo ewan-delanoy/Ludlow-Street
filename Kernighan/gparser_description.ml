@@ -14,6 +14,8 @@ let name x=x.name;;
 let parameters x=x.parameters;;
 let wrap x=Gparser_special_character.wrap(name x);;
 
+let veil a b={name=a;parameters=b;};;
+
 let chain l=
   let l_names=Image.image wrap l
   and l_params=Image.image parameters l in
