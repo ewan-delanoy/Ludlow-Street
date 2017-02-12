@@ -4,6 +4,7 @@
 
 *)
 
+(*
 type parser_result={
    description : string;
    parameters : string list;
@@ -88,6 +89,7 @@ let parse_enclosure (left_encloser,right_encloser)=
    } in
    Some(res));;
    
+*)   
    
 (*
 
