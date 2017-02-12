@@ -19,7 +19,13 @@ let find_file_location dir l_subdir x=
     then [x]
     else [x;new_x]) in
   let s_dir=Directory_name.to_string(dir) in
-  let temp1=Cartesian.tproduct(l_subdir) x_list (""::Ocaml_ending.all_string_endings) in
+  let original_endings=Ocaml_ending.all_string_endings in
+  let endings=(
+     if List.exists (fun edg->Substring.ends_with x edg) original_endings
+     then [""]
+     else original_endings
+  ) in
+  let temp1=Cartesian.tproduct(l_subdir) x_list endings in
   let tempf=(fun (sd,y,edg)->
   let s1=s_dir^(Subdirectory.to_string sd)^y^edg in
   if Sys.file_exists s1
