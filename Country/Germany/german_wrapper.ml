@@ -222,10 +222,16 @@ let register_mlx_file mlx=
    let (ndel,ncre)=German_created_or_deleted.update 
         ([],[Mlx_filename.short_path mlx])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
+   let default_top=(German_data.default_toplevel new_mdata) in     
+   let (_,(new_mdata2,new_tgts2))=
+ 	  Alaskan_make_ocaml_target.make 
+ 	   German_constant.root
+ 	  (new_mdata,new_tgts) default_top in
+ 	      
       (
-         Private.data_ref:=new_mdata;
+         Private.data_ref:=new_mdata2;
          Private.directories_ref:=new_dirs;
-         Private.up_to_date_targets_ref:=new_tgts;
+         Private.up_to_date_targets_ref:=new_tgts2;
          Private.recently_deleted_ref:=ndel;
          Private.recently_created_ref:=ncre; 
          Private.save_all();
