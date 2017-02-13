@@ -43,6 +43,21 @@ let constant t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
+let simple_star t=
+   let descr=Gparser_description.simple_star t in
+   let lc=Strung.explode t in
+   let tempf=(fun s i1->
+        let j=Strung.finder (fun c->List.mem c lc) s i1 in
+        let better_j=(if j<1 then (String.length s)+1 else j) in
+        let res=Gparser_result.veil
+               descr
+               (i1,better_j-1)
+               []
+               better_j
+               None in
+   Some(res)) in
+   Gparser.veil descr tempf;;
+   
    
 (*
 
