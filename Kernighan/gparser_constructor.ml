@@ -86,6 +86,7 @@ let race (continuer,finalizer)=
 Gparser.apply (enclosure  ("ab","cde")) "ab345cde901" 1;;
 Gparser.apply (constant  "ab") "ab345cde901" 1;;
 Gparser.apply (simple_star  "ab") "ab345cde901" 1;;
+Gparser.apply (race  ("ab","b")) "123ab6ab90b234" 1;;
 
 paolo.xella@iscima.cnr.it
 
