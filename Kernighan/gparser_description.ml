@@ -58,7 +58,7 @@ let constant t=veil "constant" [t];;
 let simple_star t=veil "simple_star" [t];;
 let race (a,b)=veil "race" [a;b];;
 let house_with_doors (a,b) l=
-   a::b::(List.flatten(Image.image (fun (x,y)->[x;y]) l));;
+   veil "house" (a::b::(List.flatten(Image.image (fun (x,y)->[x;y]) l)));;
    
 
 

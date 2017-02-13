@@ -80,6 +80,45 @@ let race (continuer,finalizer)=
         Some(res)) in
    Gparser.veil descr (fun s i->tempf(s,i,i));;   
    
+module Private=struct
+
+let first_case_in_hwd 
+  old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth)=
+    old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth,None);;
+
+let second_case_in_hwd 
+  old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth,s_opt)=
+    old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth,Some(s_opt)) ;;
+
+let rec iterator_for_house_of_doors 
+   (main_opener,main_closer,other_enclosers,s,i1,k,depth,opt)=
+   if k>(String.length s)
+   then None
+   else
+          match opt with
+           None->first_case_in_hwd
+                 iterator_for_house_of_doors 
+                   (main_opener,main_closer,other_enclosers,s,i1,k,depth)
+          |Some(rparen)->second_case_in_hwd
+                 iterator_for_house_of_doors 
+                   (main_opener,main_closer,other_enclosers,s,i1,k,depth,rparen)
+    ;; 
+
+
+end;;   
+   
+   
+let house_with_doors
+   (main_opener,main_closer)
+     other_enclosers=
+   let descr=Gparser_description.house_with_doors (main_opener,main_closer) other_enclosers in
+   let rec tempf=(fun s i->
+        Private.iterator_for_house_of_doors 
+         (main_opener,main_closer,other_enclosers,s,i,i,1,None)
+   ) in
+   Gparser.veil descr tempf;;   
+     
+        
    
 (*
 
