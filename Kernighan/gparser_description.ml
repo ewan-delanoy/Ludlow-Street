@@ -56,7 +56,7 @@ let optional x=
 let enclosure (a,b)=veil "enclosure" [a;b];;
 let constant t=veil "constant" [t];;
 let simple_star t=veil "simple_star" [t];;
-
+let race (a,b)=veil "race" [a,b];;
 
 
 
