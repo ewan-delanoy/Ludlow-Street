@@ -57,6 +57,28 @@ let simple_star t=
                None in
    Some(res)) in
    Gparser.veil descr tempf;;
+
+let race (continuer,finalizer)=
+   let descr=Gparser_description.race (continuer,finalizer) in
+   let rec tempf=(fun (s,i1,k)->
+        if k>(String.length s)
+        then None
+        else
+        if Substring.is_a_substring_located_at continuer s k
+        then tempf(s,i1,k+(String.length continuer))
+        else
+        if (not(Substring.is_a_substring_located_at finalizer s k))
+        then tempf(s,i1,k+1)
+        else
+        let j1=k+(String.length finalizer) in
+        let res=Gparser_result.veil
+               descr
+               (i1,j1-1)
+               []
+               j1
+               None in
+        Some(res)) in
+   Gparser.veil descr (fun s i->tempf(s,i,i));;   
    
    
 (*
