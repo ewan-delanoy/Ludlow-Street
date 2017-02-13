@@ -47,7 +47,7 @@ let simple_star t=
    let descr=Gparser_description.simple_star t in
    let lc=Strung.explode t in
    let tempf=(fun s i1->
-        let j=Strung.finder (fun c->List.mem c lc) s i1 in
+        let j=Strung.finder (fun c->not(List.mem c lc)) s i1 in
         let better_j=(if j<1 then (String.length s)+1 else j) in
         let res=Gparser_result.veil
                descr
@@ -63,7 +63,7 @@ let simple_star t=
 
 Gparser.apply (enclosure  ("ab","cde")) "ab345cde901" 1;;
 Gparser.apply (constant  "ab") "ab345cde901" 1;;
-
+Gparser.apply (simple_star  "ab") "ab345cde901" 1;;
 
 paolo.xella@iscima.cnr.it
 
