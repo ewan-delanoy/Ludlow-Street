@@ -43,6 +43,21 @@ let constant t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
+let simple_char t=
+   let descr=Gparser_description.simple_char t in
+   let lc=Strung.explode t in
+   let tempf=(fun s i->
+        let c=Strung.get s i in
+        if List.mem c lc
+        then Some(Gparser_result.veil
+               descr
+               (i,i)
+               []
+               (i+1)
+               None)
+        else None) in
+   Gparser.veil descr tempf;;
+
 let simple_star t=
    let descr=Gparser_description.simple_star t in
    let lc=Strung.explode t in
