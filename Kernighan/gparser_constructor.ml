@@ -73,6 +73,25 @@ let simple_star t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
+let simple_plus t=
+   let descr=Gparser_description.simple_plus t in
+   let lc=Strung.explode t in
+   let tempf=(fun s i1->
+        if i1>(String.length s) then None else
+        if (not(List.mem (Strung.get s i1 ) lc)) then None else
+        let j=Strung.finder (fun c->not(List.mem c lc)) s i1 in
+        let better_j=(if j<1 then (String.length s)+1 else j) in
+        let res=Gparser_result.veil
+               descr
+               (i1,better_j-1)
+               []
+               better_j
+               None in
+   Some(res)) in
+   Gparser.veil descr tempf;;
+   
+
+
 let race (continuer,finalizer)=
    let descr=Gparser_description.race (continuer,finalizer) in
    let rec tempf=(fun (s,i1,k)->
