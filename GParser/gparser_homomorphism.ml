@@ -1,6 +1,6 @@
 (*
 
-#use"Kernighan/gparser_homomorphism.ml";;
+#use"GParser/gparser_homomorphism.ml";;
 
 *)
 

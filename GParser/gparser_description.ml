@@ -1,6 +1,6 @@
 (*
 
-#use"Kernighan/gparser_description.ml";;
+#use"GParser/gparser_description.ml";;
 
 *)
 

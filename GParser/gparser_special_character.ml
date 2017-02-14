@@ -1,6 +1,6 @@
 (*
 
-#use"Kernighan/gparser_special_character.ml";;
+#use"GParser/gparser_special_character.ml";;
 
 *)
 
