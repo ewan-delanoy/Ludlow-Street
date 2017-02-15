@@ -184,7 +184,7 @@ let prsr_for_fundecl1=
       Gparser_homomorphism.optional(prsr_for_typename_inliner);
       prsr_for_white;
       prsr_for_possibly_starred_typename;
-      prsr_for_white;
+      prsr_for_white_maybe;
       prsr_for_variableword;
       prsr_for_white;
       prsr_for_uppercase_word;
@@ -207,7 +207,7 @@ let prsr_for_fundef=
       Gparser_homomorphism.optional(prsr_for_typename_inliner);
       prsr_for_white;
       prsr_for_possibly_starred_typename;
-      prsr_for_white;
+      prsr_for_white_maybe;
       prsr_for_variableword;
       prsr_for_white;
       Gparser_constructor.enclosure ("(",")");
