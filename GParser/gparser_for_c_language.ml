@@ -143,15 +143,21 @@ let prsr_for_lonely_def_directive=Gparser_homomorphism.chain
         Gparser_constructor.constant "\n";
       ];;
 
-let prsr_for_undef_directive=Gparser_homomorphism.chain
+let prsr_for_beheaded_undef_directive=Gparser_homomorphism.chain
       [
-        Gparser_constructor.constant "\n#";
+        Gparser_constructor.constant "#";
         prsr_for_inline_white_maybe;
         Gparser_constructor.constant "undef";
         prsr_for_space_or_tab;
         prsr_for_inline_white_maybe;
         prsr_for_uppercase_word;
         Gparser_constructor.constant "\n";
+      ];;
+
+let prsr_for_undef_sequence=Gparser_homomorphism.chain
+      [
+        Gparser_constructor.constant "\n";
+        Gparser_homomorphism.star(prsr_for_beheaded_undef_directive);
       ];;
 
 
@@ -177,7 +183,7 @@ let elt_prsr=
        prsr_for_inclusion; 
        prsr_for_lonely_def_directive;
        prsr_for_def_directive;
-       prsr_for_undef_directive;
+       prsr_for_undef_sequence;
        prsr_for_individual_white;
        prsr_for_comment;
        prsr_for_vardecl;
