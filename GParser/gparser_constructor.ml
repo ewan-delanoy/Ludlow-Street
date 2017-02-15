@@ -60,8 +60,8 @@ let footless_constant t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
-let simple_char t=
-   let descr=Gparser_description.simple_char t in
+let sample_char t=
+   let descr=Gparser_description.sample_char t in
    let lc=Strung.explode t in
    let tempf=(fun s i->
         let c=Strung.get s i in
@@ -75,8 +75,8 @@ let simple_char t=
         else None) in
    Gparser.veil descr tempf;;
 
-let simple_star t=
-   let descr=Gparser_description.simple_star t in
+let sample_star t=
+   let descr=Gparser_description.sample_star t in
    let lc=Strung.explode t in
    let tempf=(fun s i1->
         let j=Strung.finder (fun c->not(List.mem c lc)) s i1 in
@@ -90,8 +90,8 @@ let simple_star t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
-let simple_negstar t=
-   let descr=Gparser_description.simple_negstar t in
+let sample_negstar t=
+   let descr=Gparser_description.sample_negstar t in
    let lc=Strung.explode t in
    let tempf=(fun s i1->
         let j=Strung.finder (fun c->List.mem c lc) s i1 in
@@ -105,8 +105,8 @@ let simple_negstar t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
-let simple_plus t=
-   let descr=Gparser_description.simple_plus t in
+let sample_plus t=
+   let descr=Gparser_description.sample_plus t in
    let lc=Strung.explode t in
    let tempf=(fun s i1->
         if i1>(String.length s) then None else
@@ -218,7 +218,7 @@ let house_with_doors
 
 Gparser.apply (enclosure  ("ab","cde")) "ab345cde901" 1;;
 Gparser.apply (constant  "ab") "ab345cde901" 1;;
-Gparser.apply (simple_star  "ab") "ab345cde901" 1;;
+Gparser.apply (sample_star  "ab") "ab345cde901" 1;;
 Gparser.apply (race  ("ab","b")) "123ab6ab90b234" 1;;
 Gparser.apply (house_with_doors ("(",")") ["ab","cd";"ef","gh"])
 				"(2(4)6(8)0)2(4(6)8(0)2)45" 2;;

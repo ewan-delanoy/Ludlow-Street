@@ -35,7 +35,7 @@ let prsr_for_inclusion=Gparser_homomorphism.chain
 
 
 
-let prsr_for_typeword=Gparser_constructor.simple_plus "abcdefghijklmnopqrstuvwxyz_";;
+let prsr_for_typeword=Gparser_constructor.sample_plus "abcdefghijklmnopqrstuvwxyz_";;
 
 let prsr_for_braced=Gparser_homomorphism.chain
    [
@@ -94,22 +94,22 @@ let prsr_for_possibly_starred_typename=Gparser_homomorphism.chain
 
 let prsr_for_variableword=Gparser_homomorphism.chain
 	[
-	  Gparser_constructor.simple_char "abcdefghijklmnopqrstuvwxyz_";
-	  Gparser_constructor.simple_star "abcdefghijklmnopqrstuvwxyz_0123456789"
+	  Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
+	  Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_0123456789"
 	];;
 
 let prsr_for_identword=Gparser_homomorphism.chain
 	[
-	  Gparser_constructor.simple_char "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	  Gparser_constructor.simple_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	  Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	  Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	];;
 
-let prsr_for_uppercase_word=Gparser_constructor.simple_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
+let prsr_for_uppercase_word=Gparser_constructor.sample_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
 
 let prsr_for_negative_int=Gparser_homomorphism.chain
 	[
 	  Gparser_constructor.constant "-";
-	  Gparser_constructor.simple_star "0123456789"
+	  Gparser_constructor.sample_star "0123456789"
 	];;
 
 
@@ -117,7 +117,7 @@ let prsr_for_rvalue=Gparser_homomorphism.disjunction
    [
      prsr_for_identword;
      prsr_for_negative_int;
-     Gparser_constructor.simple_plus "0123456789";
+     Gparser_constructor.sample_plus "0123456789";
      prsr_for_braced;
    ];;
 
@@ -236,7 +236,7 @@ let prsr_for_fundef=
       prsr_for_white;
       Gparser_constructor.enclosure ("(",")");
       prsr_for_white;
-      Gparser_constructor.simple_negstar "{";     
+      Gparser_constructor.sample_negstar "{";     
       prsr_for_braced;
    ];;
 
