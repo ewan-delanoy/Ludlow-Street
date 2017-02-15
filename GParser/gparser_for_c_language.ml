@@ -257,6 +257,7 @@ let elt_prsr=
        prsr_for_vardecl;
        prsr_for_fundecl;
        prsr_for_fundef;
+       prsr_for_structdef;
      ];;
 
 
