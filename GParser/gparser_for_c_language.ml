@@ -188,7 +188,7 @@ let prsr_for_fundecl1=
       prsr_for_white_maybe;
       prsr_for_variableword;
       prsr_for_white;
-      prsr_for_uppercase_word;
+      Gparser_homomorphism.optional(prsr_for_uppercase_word);
       prsr_for_white_maybe;
       Gparser_constructor.constant "(";
       Gparser_constructor.house_with_doors ("(",")") [];
