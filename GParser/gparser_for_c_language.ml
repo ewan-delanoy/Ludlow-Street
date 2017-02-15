@@ -188,13 +188,17 @@ let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
        Gparser_constructor.constant "extern";
      ];;
 
+let prsr_for_whitened_typename_inliner=Gparser_homomorphism.chain
+    [
+      prsr_for_typename_inliner;
+      prsr_for_white;
+    ];;
 
 let prsr_for_fundecl1=
      Gparser_homomorphism.chain
    [
       
-      Gparser_homomorphism.optional(prsr_for_typename_inliner);
-      prsr_for_white;
+      Gparser_homomorphism.optional(prsr_for_whitened_typename_inliner);
       prsr_for_possibly_starred_typename;
       prsr_for_white_maybe;
       prsr_for_variableword;
@@ -217,8 +221,7 @@ let prsr_for_fundef=
      Gparser_homomorphism.chain
    [
       
-      Gparser_homomorphism.optional(prsr_for_typename_inliner);
-      prsr_for_white;
+      Gparser_homomorphism.optional(prsr_for_whitened_typename_inliner);
       prsr_for_possibly_starred_typename;
       prsr_for_white_maybe;
       prsr_for_variableword;
