@@ -59,6 +59,7 @@ let simple_char t=veil "simple_char" [t];;
 let simple_plus t=veil "simple_plus" [t];;
 let simple_star t=veil "simple_star" [t];;
 let simple_negstar t=veil "simple_negstar" [t];;
+let footless_constant t=veil "footless_constant" [t];;
 let race (a,b)=veil "race" [a;b];;
 let house_with_doors (a,b) l=
    veil "house" (a::b::(List.flatten(Image.image (fun (x,y)->[x;y]) l)));;
