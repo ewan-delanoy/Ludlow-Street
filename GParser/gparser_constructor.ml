@@ -141,7 +141,7 @@ let race (continuer,finalizer)=
                descr
                (i1,j1-1)
                []
-               j1
+               (j1-1)
                None in
         Some(res)) in
    Gparser.veil descr (fun s i->tempf(s,i,i));;   
