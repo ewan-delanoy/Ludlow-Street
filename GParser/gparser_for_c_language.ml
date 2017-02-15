@@ -177,7 +177,7 @@ let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
      ];;
 
 
-let prsr_for_fundef=
+let prsr_for_fundecl=
      Gparser_homomorphism.chain
    [
       
@@ -220,6 +220,7 @@ let elt_prsr=
        prsr_for_individual_white;
        prsr_for_comment;
        prsr_for_vardecl;
+       prsr_for_fundecl;
        prsr_for_fundef;
      ];;
 
