@@ -147,6 +147,8 @@ let prsr_for_fundecl=
      Gparser_homomorphism.chain
    [
       
+      Gparser_homomorphism.optional(Gparser_constructor.constant "__inline");
+      prsr_for_white;
       prsr_for_possibly_starred_typename;
       prsr_for_white;
       prsr_for_variableword;
