@@ -43,6 +43,23 @@ let constant t=
    Some(res)) in
    Gparser.veil descr tempf;;
 
+
+let footless_constant t=
+   let descr=Gparser_description.constant t in
+   let tempf=(fun s i1->
+   if (not(Substring.is_a_substring_located_at t s i1))
+   then None
+   else 
+   let i2=i1+(String.length t) in
+   let res= Gparser_result.veil
+               descr
+               (i1,i2-1)
+               []
+               (i2-1)
+               None in
+   Some(res)) in
+   Gparser.veil descr tempf;;
+
 let simple_char t=
    let descr=Gparser_description.simple_char t in
    let lc=Strung.explode t in
