@@ -60,10 +60,19 @@ let prsr_for_typename2=Gparser_homomorphism.chain
       Gparser_constructor.constant "int";
    ];;    
 
+let prsr_for_typename3=Gparser_homomorphism.chain
+   [
+      Gparser_constructor.constant "long";
+      prsr_for_inline_white_maybe;
+      Gparser_constructor.constant "int";
+   ];;    
+
+
 let prsr_for_typename=Gparser_homomorphism.disjunction
    [
      prsr_for_typename1;
      prsr_for_typename2;
+     prsr_for_typename3;
      prsr_for_typeword;
      Gparser_constructor.constant "FILE";
    ];;
