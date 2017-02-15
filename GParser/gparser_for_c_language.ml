@@ -92,7 +92,7 @@ let prsr_for_identword=Gparser_homomorphism.chain
 	  Gparser_constructor.simple_star    "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	];;
 
-
+let prsr_for_uppercase_word=Gparser_constructor.simple_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
 
 let prsr_for_negative_int=Gparser_homomorphism.chain
 	[
@@ -127,8 +127,20 @@ let prsr_for_def_directive=Gparser_homomorphism.chain
       [
         Gparser_constructor.constant "\n#";
         prsr_for_inline_white_maybe;
-        Gparser_constructor.constant "define ";
+        Gparser_constructor.constant "define";
+        prsr_for_space_or_tab;
         Gparser_constructor.race ("\\\n","\n");
+      ];;
+
+let prsr_for_lonely_def_directive=Gparser_homomorphism.chain
+      [
+        Gparser_constructor.constant "\n#";
+        prsr_for_inline_white_maybe;
+        Gparser_constructor.constant "define";
+        prsr_for_space_or_tab;
+        prsr_for_inline_white_maybe;
+        prsr_for_uppercase_word;
+        Gparser_constructor.constant "\n";
       ];;
 
 let prsr_for_fundecl=
@@ -148,6 +160,7 @@ let elt_prsr=
    Gparser_homomorphism.disjunction
      [
        prsr_for_inclusion; 
+       prsr_for_lonely_def_directive;
        prsr_for_def_directive;
        prsr_for_individual_white;
        prsr_for_comment;
