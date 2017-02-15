@@ -177,7 +177,24 @@ let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
      ];;
 
 
-let prsr_for_fundecl=
+let prsr_for_fundef=
+     Gparser_homomorphism.chain
+   [
+      
+      Gparser_homomorphism.optional(prsr_for_typename_inliner);
+      prsr_for_white;
+      prsr_for_possibly_starred_typename;
+      prsr_for_white;
+      prsr_for_variableword;
+      prsr_for_white;
+      prsr_for_uppercase_word;
+      prsr_for_white_maybe;
+      Gparser_constructor.enclosure ("(",")");
+      prsr_for_white_maybe;
+      Gparser_constructor.constant ";";
+   ];;
+
+let prsr_for_fundef=
      Gparser_homomorphism.chain
    [
       
@@ -203,7 +220,7 @@ let elt_prsr=
        prsr_for_individual_white;
        prsr_for_comment;
        prsr_for_vardecl;
-       prsr_for_fundecl;
+       prsr_for_fundef;
      ];;
 
 
