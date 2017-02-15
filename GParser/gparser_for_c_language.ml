@@ -24,12 +24,19 @@ let prsr2=Gparser_constructor.enclosure ("<",">");;
 let prsr3=Gparser_homomorphism.disjunction [prsr1;prsr2];;
 
 
-let prsr_for_inclusion=Gparser_homomorphism.chain
+let prsr_for_beheaded_inclusion=Gparser_homomorphism.chain
       [
-        Gparser_constructor.constant "\n#";
+        Gparser_constructor.constant "#";
         prsr_for_inline_white_maybe;
         Gparser_constructor.constant "include";
         prsr_for_inline_white_maybe;
+        prsr3
+      ];;
+
+let prsr_for_inclusion=Gparser_homomorphism.chain
+      [
+        Gparser_constructor.constant "\n";
+        prsr_for_beheaded_inclusion;
         prsr3
       ];;
 
@@ -158,6 +165,7 @@ let prsr_for_undef_sequence=Gparser_homomorphism.chain
       [
         Gparser_constructor.constant "\n";
         Gparser_homomorphism.star(prsr_for_beheaded_undef_directive);
+        Gparser_homomorphism.optional(prsr_for_beheaded_inclusion);
       ];;
 
 
