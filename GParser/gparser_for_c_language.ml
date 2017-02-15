@@ -155,6 +155,7 @@ let prsr_for_fundecl=
       prsr_for_white;
       Gparser_constructor.enclosure ("(",")");
       prsr_for_white;
+      Gparser_constructor.simple_negstar "{";     
       prsr_for_braced;
    ];;
 
