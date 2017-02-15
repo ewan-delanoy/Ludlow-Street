@@ -173,6 +173,7 @@ let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
        prsr_for_typename_inliner1;
        Gparser_constructor.constant "__inline";
        Gparser_constructor.constant "static";
+       Gparser_constructor.constant "extern";
      ];;
 
 
