@@ -177,7 +177,7 @@ let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
      ];;
 
 
-let prsr_for_fundecl=
+let prsr_for_fundecl1=
      Gparser_homomorphism.chain
    [
       
@@ -189,10 +189,16 @@ let prsr_for_fundecl=
       prsr_for_white;
       prsr_for_uppercase_word;
       prsr_for_white_maybe;
-      Gparser_constructor.enclosure ("(",")");
+      Gparser_constructor.house_with_doors ("(",")") [];
       prsr_for_white_maybe;
       Gparser_constructor.constant ";";
    ];;
+
+let prsr_for_fundecl=
+   Gparser_homomorphism.disjunction
+    [
+      prsr_for_fundecl1;
+    ];;
 
 let prsr_for_fundef=
      Gparser_homomorphism.chain
