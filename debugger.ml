@@ -6,12 +6,11 @@ Used for debugging purposes only.
 
 *)
 
+let ap1=Absolute_path.of_string
+("/Users/ewandelanoy/Documents/Experimental_Installing/"^
+"Experimental_gnumake/010_Almost_cleaned/"^
+"commands.c");;
 
-let helper_content=
-"variable assign ##( () ?  _l_ id _u_ sqs _rd_  :  _l_ id _u_ variable _rd_  )## ;";;
+let text1=Io.read_whole_file ap1;;
 
-let trmt=Termite.of_string helper_content;;
-
-Php_constructible_recognizer.helper_for_string_reading
-Php_constructible_recognizer.of_string
-(Some ("_l_", "_rd_"), "id _u_ sqs");;
+let test6=Gparser.apply  Gparser_for_c_language.main_prsr text1 1;;
