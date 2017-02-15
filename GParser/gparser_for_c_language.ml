@@ -233,6 +233,18 @@ let prsr_for_fundef=
       prsr_for_braced;
    ];;
 
+let prsr_for_structdef=
+     Gparser_homomorphism.chain
+   [
+      Gparser_constructor.constant "struct";
+      prsr_for_white;
+      prsr_for_typeword;
+      prsr_for_white_maybe;
+      prsr_for_braced;
+      prsr_for_white_maybe;
+      Gparser_constructor.constant ";";
+   ];;
+
 let elt_prsr=
    Gparser_homomorphism.disjunction
      [
