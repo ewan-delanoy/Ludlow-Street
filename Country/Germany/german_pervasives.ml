@@ -122,7 +122,7 @@ let df=German_data.deletable_files;;
 
 let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
 
-let fg x=(fg_without_backup x;reco());;
+let fg x=(fg_without_backup x;ubk());;
 let mmo x=(mmo_without_backup x;reco());;
 
 let regi x=(regi_without_backup x;ubk());;
