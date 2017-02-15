@@ -47,7 +47,7 @@ let prsr_for_typeword_starting_with_u_but_not_with_un=Gparser_homomorphism.chain
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
    ];;
 
-let prsr_for_typeword=Gparser_homomorphism.chain
+let prsr_for_typeword=Gparser_homomorphism.disjunction
    [
      prsr_for_typeword_not_starting_with_u;
      prsr_for_typeword_starting_with_u_but_not_with_un;
