@@ -67,19 +67,12 @@ let prsr_for_typename2=Gparser_homomorphism.chain
       Gparser_constructor.constant "int";
    ];;    
 
-let prsr_for_unstaticized_typename=Gparser_homomorphism.disjunction
+let prsr_for_typename=Gparser_homomorphism.disjunction
    [
      prsr_for_typename1;
      prsr_for_typename2;
      prsr_for_typeword;
      Gparser_constructor.constant "FILE";
-   ];;
-
-let prsr_for_typename=Gparser_homomorphism.chain
-   [
-      Gparser_homomorphism.optional(Gparser_constructor.constant "static");
-      prsr_for_inline_white_maybe;
-      prsr_for_unstaticized_typename;
    ];;
 
 let prsr_for_possibly_starred_typename=Gparser_homomorphism.chain
@@ -168,12 +161,18 @@ let prsr_for_undef_sequence=Gparser_homomorphism.chain
         Gparser_homomorphism.optional(prsr_for_beheaded_inclusion);
       ];;
 
+let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
+     [
+       Gparser_constructor.constant "__inline";
+       Gparser_constructor.constant "static";
+     ];;
+
 
 let prsr_for_fundecl=
      Gparser_homomorphism.chain
    [
       
-      Gparser_homomorphism.optional(Gparser_constructor.constant "__inline");
+      Gparser_homomorphism.optional(prsr_for_typename_inliner);
       prsr_for_white;
       prsr_for_possibly_starred_typename;
       prsr_for_white;
