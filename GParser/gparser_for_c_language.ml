@@ -34,8 +34,27 @@ let prsr_for_inclusion=Gparser_homomorphism.chain
       ];;
 
 
+let prsr_for_typeword_not_starting_with_u=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.sample_neg "u";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
+   ];;
 
-let prsr_for_typeword=Gparser_constructor.sample_plus "abcdefghijklmnopqrstuvwxyz_";;
+let prsr_for_typeword_starting_with_u_but_not_with_un=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "u";
+     Gparser_constructor.sample_neg "n";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
+   ];;
+
+let prsr_for_typeword=Gparser_homomorphism.chain
+   [
+     prsr_for_typeword_not_starting_with_u;
+     prsr_for_typeword_starting_with_u_but_not_with_un;
+     
+   ];;
+
+
 
 let prsr_for_braced=Gparser_homomorphism.chain
    [
