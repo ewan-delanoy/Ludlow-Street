@@ -236,32 +236,13 @@ let prsr_for_fundecl1=
       Gparser_constructor.constant ";";
    ];;
 
-
-let prsr_for_fundecl2=
-     Gparser_homomorphism.chain
-   [
-      
-      Gparser_constructor.constant "RETSIGTYPE";
-      prsr_for_white;
-      prsr_for_variableword;
-      prsr_for_white_maybe;
-      Gparser_homomorphism.optional(prsr_for_uppercase_word);
-      prsr_for_white_maybe;
-      Gparser_constructor.constant "(";
-      Gparser_constructor.house_with_doors ("(",")") [];
-      prsr_for_white_maybe;
-      Gparser_homomorphism.optional(Gparser_constructor.constant "internal_function");
-      Gparser_constructor.constant ";";
-   ];;
-
 let prsr_for_fundecl=
    Gparser_homomorphism.disjunction
     [
       prsr_for_fundecl1;
-      prsr_for_fundecl2;
     ];;
 
-let prsr_for_fundef=
+let prsr_for_fundef1=
      Gparser_homomorphism.chain
    [
       
@@ -277,6 +258,27 @@ let prsr_for_fundef=
       Gparser_constructor.sample_negstar "{";     
       prsr_for_braced;
    ];;
+   
+let prsr_for_fundef2=
+     Gparser_homomorphism.chain
+   [
+      
+      Gparser_constructor.constant "RETSIGTYPE";
+      prsr_for_white;
+      prsr_for_variableword;
+      prsr_for_white;
+      Gparser_constructor.enclosure ("(",")");
+      prsr_for_white;
+      Gparser_constructor.sample_negstar "{";     
+      prsr_for_braced;
+   ];;   
+   
+let prsr_for_fundef=
+   Gparser_homomorphism.disjunction
+    [
+      prsr_for_fundef1;
+      prsr_for_fundef2;
+    ];;   
 
 let prsr_for_structdef=
      Gparser_homomorphism.chain
