@@ -135,7 +135,7 @@ let commands_for_update destination_dir diff=
    ) changed_ones in
    let temp7=Image.image(
       fun fn->
-      "git rm "^fn
+      "rm "^s_destination^fn
    ) (diff.recently_deleted) in
    (temp3@temp4@temp5@temp7);;  
    
