@@ -193,6 +193,7 @@ let prsr_for_fundecl1=
       Gparser_constructor.constant "(";
       Gparser_constructor.house_with_doors ("(",")") [];
       prsr_for_white_maybe;
+      Gparser_homomorphism.optional(Gparser_constructor.constant "internal_function");
       Gparser_constructor.constant ";";
    ];;
 
