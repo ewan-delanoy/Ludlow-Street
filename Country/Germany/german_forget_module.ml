@@ -17,7 +17,7 @@ let on_targets (mdata,dirs,tgts) hm=
     if bel=[]
     then let s_hm=Half_dressed_module.to_string hm in
          let fn=(Directory_name.to_string(German_constant.root))^s_hm in
-         let (_,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm
+         let (_,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg))
          [".cm*";".d.cm*";".caml_debuggable"] in
