@@ -85,13 +85,16 @@ let prsr_for_possibly_starred_typename=Gparser_homomorphism.chain
      Gparser_homomorphism.optional(Gparser_constructor.constant "*");
    ];;
 
-
-let prsr_for_variableword=Gparser_constructor.simple_star "abcdefghijklmnopqrstuvwxyz_";;
+let prsr_for_variableword=Gparser_homomorphism.chain
+	[
+	  Gparser_constructor.simple_char "abcdefghijklmnopqrstuvwxyz_";
+	  Gparser_constructor.simple_star "abcdefghijklmnopqrstuvwxyz_0123456789"
+	];;
 
 let prsr_for_identword=Gparser_homomorphism.chain
 	[
 	  Gparser_constructor.simple_char "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	  Gparser_constructor.simple_star    "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	  Gparser_constructor.simple_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	];;
 
 let prsr_for_uppercase_word=Gparser_constructor.simple_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
