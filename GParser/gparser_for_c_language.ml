@@ -161,8 +161,16 @@ let prsr_for_undef_sequence=Gparser_homomorphism.chain
         Gparser_homomorphism.optional(prsr_for_beheaded_inclusion);
       ];;
 
+let prsr_for_typename_inliner1=Gparser_homomorphism.chain
+     [
+       Gparser_constructor.constant "__inline";
+       prsr_for_white;
+       Gparser_constructor.constant "static";
+     ];;
+
 let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
      [
+       prsr_for_typename_inliner1;
        Gparser_constructor.constant "__inline";
        Gparser_constructor.constant "static";
      ];;
