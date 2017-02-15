@@ -75,6 +75,21 @@ let sample_char t=
         else None) in
    Gparser.veil descr tempf;;
 
+let sample_neg t=
+   let descr=Gparser_description.sample_char t in
+   let lc=Strung.explode t in
+   let tempf=(fun s i->
+        let c=Strung.get s i in
+        if not(List.mem c lc)
+        then Some(Gparser_result.veil
+               descr
+               (i,i)
+               []
+               (i+1)
+               None)
+        else None) in
+   Gparser.veil descr tempf;;
+
 let sample_star t=
    let descr=Gparser_description.sample_star t in
    let lc=Strung.explode t in

@@ -56,6 +56,7 @@ let optional x=
 let enclosure (a,b)=veil "enclosure" [a;b];;
 let constant t=veil "constant" [t];;
 let sample_char t=veil "sample_char" [t];;
+let sample_neg  t=veil "sample_neg"  [t];;
 let sample_plus t=veil "sample_plus" [t];;
 let sample_star t=veil "sample_star" [t];;
 let sample_negstar t=veil "sample_negstar" [t];;
