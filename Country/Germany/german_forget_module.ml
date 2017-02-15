@@ -17,8 +17,12 @@ let on_targets (mdata,dirs,tgts) hm=
     if bel=[]
     then let s_hm=Half_dressed_module.to_string hm in
          let fn=(Directory_name.to_string(German_constant.root))^s_hm in
+         let (_,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg))
          [".cm*";".d.cm*";".caml_debuggable"] in
-         German_unregister_module.on_targets (mdata,tgts) hm
+         let temp1=Image.image (fun t->
+            Absolute_path.of_string(Directory_name.join (German_constant.root) t)
+         ) short_paths in
+         Image.image German_forget_unregistered_file.forget temp1
     else raise(ModuleWithDependencies(hm,bel));;
