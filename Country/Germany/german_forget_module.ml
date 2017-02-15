@@ -19,6 +19,6 @@ let on_targets (mdata,dirs,tgts) hm=
          let fn=(Directory_name.to_string(German_constant.root))^s_hm in
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg))
-         [".ml";".mll";".mli";".mly";".cm*";".d.cm*";".caml_debuggable"] in
+         [".cm*";".d.cm*";".caml_debuggable"] in
          German_unregister_module.on_targets (mdata,tgts) hm
     else raise(ModuleWithDependencies(hm,bel));;
