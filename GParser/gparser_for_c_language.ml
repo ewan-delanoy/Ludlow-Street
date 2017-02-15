@@ -168,6 +168,17 @@ let prsr_for_typename_inliner1=Gparser_homomorphism.chain
        Gparser_constructor.constant "static";
      ];;
 
+let prsr_for_typename_inliner1=Gparser_homomorphism.chain
+     [
+       Gparser_constructor.constant "static";
+       prsr_for_white;
+       Gparser_constructor.constant "inline";
+       prsr_for_white;
+       Gparser_constructor.constant "const";
+     ];;
+
+
+
 let prsr_for_typename_inliner=Gparser_homomorphism.disjunction
      [
        prsr_for_typename_inliner1;
