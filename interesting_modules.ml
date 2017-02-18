@@ -14,7 +14,7 @@ let list=
      "legendre_symbol";
      (* "interesting_modules"; *)  (* charite bien ordonnee ... *)
      "interpolation";
-     "Country/Germany/german_pervasives.ml";
+     "Country/Germany/german_pervasives";
      "modularize";
      "optimize_polynomial";
      "Php_analizer/level_one";
