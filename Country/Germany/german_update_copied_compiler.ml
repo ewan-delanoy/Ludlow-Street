@@ -15,7 +15,7 @@ let prepare destdir=
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
     
 let ucc destdir=
-  let _=image Sys.command (prepare destdir) in 
+  let _=Image.image Sys.command (prepare destdir) in 
   Alaskan_create_target_system.from_main_directory destdir None [];;
        
        
