@@ -182,7 +182,7 @@ let display_data ()=
 let visualizer (helper_name,short_helper_content,helper_content,s)=
     let message=String.concat "\n"
        ([" ";helper_name]@
-       (Image.image ( (* Marcia *)  Ocaml_long_name.ocaml_long_name "") [short_helper_content;s])
+       (Image.image ( Ocaml_long_name.ocaml_long_name "") [short_helper_content;s])
        @[""]) in
     let _=print_string message in   
     let lexed=Php_lexer.parse_string s 
