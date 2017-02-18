@@ -185,8 +185,6 @@ let outside_directories ()=(!Private.outside_directories_ref);;
 
 let printer_equipped_types ()=(!Private.printer_equipped_types_ref);;
 
-
-
 let recompile=Private.recompile;;  
 
 let refresh ()=
