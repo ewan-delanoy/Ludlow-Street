@@ -127,19 +127,21 @@ let default_toplevel =Alaskan_data.default_toplevel
  
 let deletable_files mdata=
   let temp2=Image.image Modulesystem_data.name mdata in
+  let is_interesting=(fun hm->List.mem 
+     (Half_dressed_module.to_string hm) 
+     Interesting_modules.list
+  ) in
   let temp3=List.filter (
-    fun hm->below mdata  hm=[]
+    fun hm->
+    (not(is_interesting hm))
+    &&
+    (List.for_all(fun hm2->not(is_interesting hm2)) (below mdata  hm))
   ) temp2 in
   let (temp4,temp5)=List.partition (fun hm->
     let s_hm=Half_dressed_module.to_string hm in
     not(Substring.begins_with s_hm "Optional/")
    ) temp3 in
-   let filterer=List.filter (
-     fun hm->
-       let s=Half_dressed_module.to_string hm in
-       not(List.mem s Interesting_modules.list)
-  ) in
-  (filterer temp4,filterer temp5);;    
+  (temp4,temp5);;    
 
 let outdated_interesting_modules mdata=
 	List.filter (
