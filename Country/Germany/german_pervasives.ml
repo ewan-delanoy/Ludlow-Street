@@ -106,10 +106,10 @@ let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
 let ubk ()=German_wrapper.backup None;;
 let sd=German_wrapper.start_debugging;;
 
-let rv_without_backup=German_values_in_modules.rename_value (German_wrapper.data()) ;;
+let rv_without_backup x y=German_values_in_modules.rename_value (German_wrapper.data()) x y;;
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
-let muv=German_values_in_modules.modules_using_value (German_wrapper.data()) ;;
+let muv x=German_values_in_modules.modules_using_value (German_wrapper.data()) x;;
 
 let ed =German_wrapper.end_debugging;;
 
@@ -118,7 +118,7 @@ let rsh_without_backup=German_wrapper.refresh;;
 
 
 let df=German_data.deletable_files;;
-
+let ucc ()=German_update_copied_compiler.ucc (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
 
