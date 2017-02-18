@@ -190,11 +190,16 @@ let printer_equipped_types ()=(!Private.printer_equipped_types_ref);;
 let recompile=Private.recompile;;  
 
 let refresh ()=
+  let old_outsiders=Image.image (
+     fun ap->
+       let s_ap=Absolute_path.to_string ap in
+       Directory_name.cut_beginning German_constant.root s_ap
+  ) (!(Private.outside_files_ref)) in
   let (new_mdata,new_tgts,new_outsiders,new_ptypes)=
   Alaskan_create_target_system.from_main_directory 
        German_constant.root
        (Some(German_constant.main_toplevel_name))
-       (!(Private.outside_files_ref))
+       old_outsiders
    in 
   let new_dirs=German_directories.from_data new_mdata in
   let new_diff=German_delchacre_from_scratch.dfs(new_mdata,new_outsiders) in
