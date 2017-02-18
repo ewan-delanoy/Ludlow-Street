@@ -21,8 +21,9 @@ let display_circular_dependencies printer l cycles=
 let select_good_files s_main_dir=
    let ap1=Absolute_path.of_string s_main_dir in
    let _=Sys.command ("touch "^s_main_dir^"/"^(Debugger_name.debugger_name)^".ml") in
-   let temp1=More_unix.complete_ls ap1 
-   and n1=String.length(Absolute_path.to_string ap1) in
+   let temp1=More_unix.complete_ls ap1 in
+   let s_ap1=Absolute_path.to_string ap1 in
+   let n1=String.length(s_ap1) in
    let selector=(
    fun ap->
      let s=Absolute_path.to_string ap in
@@ -30,6 +31,14 @@ let select_good_files s_main_dir=
      (List.exists (fun edg->Substring.ends_with s edg) [".ml";".mli";".mll";".mly"])
      &&
      (List.for_all (fun beg->not(Substring.begins_with t beg)) ["Remembered/";"Forgotten/"])
+     &&
+     (* When a mll or mly is present, the ml will automatically be registered also,
+        see the alaskan_register_mlx_file module. *)
+     (not(
+           (Substring.ends_with s ".ml")
+           &&
+           (List.exists (fun edg->Sys.file_exists(s_ap1^s^edg)) ["l";"y"])
+     ))
      &&
      (List.for_all (fun edg->not(Substring.ends_with s edg) ) 
      ["neptu";
@@ -116,7 +125,14 @@ let from_prepared_list dir l=
    Alaskan_try_to_register.mlx_files [] temp1;;
 
 
-let from_main_directory dir opt_topl_name old_outsiders=
+let usual_outsiders=ref
+    [
+      "my_loadings.ml";
+      "my_pervasives.ml";
+      "my_printers.ml";
+    ];;
+
+let from_main_directory dir opt_topl_name special_outsiders=
 	let old_s=Directory_name.to_string(dir) in
 	let s1=Cull_string.coending 1 old_s in (* mind the trailing slash *)
 	let temp1=select_good_files s1 in
@@ -127,8 +143,12 @@ let from_main_directory dir opt_topl_name old_outsiders=
     let topl_name=(if opt_topl_name=None then "ecaml" else Option.unpack opt_topl_name) in
     let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
  	let (mdata2,new_tgts2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[]) topl) in
- 	let new_outsiders=List.filter (fun ap->
- 	   Sys.file_exists(Absolute_path.to_string ap)
+ 	let old_outsiders=(!usual_outsiders)@special_outsiders in
+ 	let new_outsiders=Option.filter_and_unpack (fun t->
+ 	   let s_ap=Directory_name.join dir t in
+ 	   if Sys.file_exists s_ap
+ 	   then Some(Absolute_path.of_string s_ap)
+ 	   else None
  	) old_outsiders in
  	(mdata2,new_tgts2,new_outsiders,preqt);;
 

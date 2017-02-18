@@ -191,9 +191,7 @@ let visualizer (helper_name,short_helper_content,helper_content,s)=
       match Termite.parse trmt lexed with 
       None->(None,revp)
       |Some(termited,_,_)->(Some(termited),revp);; 
-      
-      
-       
+            
 let see ()=match (should_be_empty()) with
    []->(None,None)
    |a::_->visualizer a;;
