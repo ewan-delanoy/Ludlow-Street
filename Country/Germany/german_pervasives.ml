@@ -117,7 +117,7 @@ let rsh_without_backup=German_wrapper.refresh;;
 
 
 
-let df=German_data.deletable_files;;
+let df () =German_data.deletable_files (German_wrapper.data());;
 let ucc ()=German_update_copied_compiler.ucc (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
