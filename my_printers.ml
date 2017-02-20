@@ -20,7 +20,6 @@
 #install_printer Decimal.print_out;;
 #install_printer Rat_frac.print_out;;
 #install_printer Positioned_php_token.print_out;;
-#install_printer Constraint.print_out;;
 #install_printer Small_int_based_rational.print_out;;
 #install_printer Big_int_based_rational.print_out;;
 
