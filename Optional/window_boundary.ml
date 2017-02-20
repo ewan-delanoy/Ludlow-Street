@@ -76,8 +76,8 @@ let  paper_coordinates_of_coordinates  (w:window_boundary_data) (x,y)=
    (ix,iy);;   
    
 let tikz_from_paper i=
-    let di=Decimal.mult (Decimal.of_int i) (Decimal.power_of_ten (-2)) in
-    Decimal.to_string (Decimal.general_rounded_transform 2 di);;  
+    let di=Decimal_number.mult (Decimal_number.of_int i) (Decimal_number.power_of_ten (-2)) in
+    Decimal_number.to_string (Decimal_number.general_rounded_transform 2 di);;  
 
 let tikzify_abscissa w x=
   let ix=paper_abscissa_of_abscissa w.dx_in_cm w.xmin x in
@@ -176,7 +176,7 @@ let mark_ordinate (w:window_boundary_data) y xref=
    and t2=tikzify_ordinate w y in
    "\\draw[thick] (O)++("^t1^","^t2^") -- ++(-0.4,0);";;    
     
-let shorten_float x=Decimal.to_string (Decimal.of_float 2 x);;     
+let shorten_float x=Decimal_number.to_string (Decimal_number.of_float 2 x);;     
     
 let write_abscissa (w:window_boundary_data) x yref=
      let sx=shorten_float x in
@@ -352,9 +352,9 @@ let complete_graph_from_lists_of_points (w:window_boundary_data) ll=
      
 let default_step fl=
   let p=int_of_float(floor((log(fl))/.(log(10.)))) in
-  let d=Decimal.of_float 7 fl in
-  let x=Decimal.mult d (Decimal.power_of_ten (-p)) in
-  let tf=(fun s->Decimal.geq x (Decimal.of_string s)) in
+  let d=Decimal_number.of_float 7 fl in
+  let x=Decimal_number.mult d (Decimal_number.power_of_ten (-p)) in
+  let tf=(fun s->Decimal_number.geq x (Decimal_number.of_string s)) in
   if tf"7.5"   then "0.75"   else
   if tf"5"     then "0.5"    else
   if tf"4"     then "0.4"    else
