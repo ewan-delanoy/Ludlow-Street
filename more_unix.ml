@@ -70,7 +70,7 @@ let extension x=try (naive_extension x) with
  
  
  
- let complete_ls  x=Explicit.explore_tree PrivateOne.adhoc_ls [x];;
+ let complete_ls  x=Explicit.explore_tree adhoc_ls [x];;
  
 
  let complete_ls_with_nondirectories_only x=
