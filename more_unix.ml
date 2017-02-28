@@ -70,10 +70,10 @@ let extension x=try (naive_extension x) with
  
  end;;
  
- let complete_ls x=Explicit.explore_tree Private.adhoc_ls [x];;
+ let complete_ls x=Explicit.explore_tree PrivateOne.adhoc_ls [x];;
  
  let complete_ls_with_nondirectories_only x=
-  List.filter(Private.is_a_nondirectory_or_a_nib)(complete_ls x);;
+  List.filter(PrivateOne.is_a_nondirectory_or_a_nib)(complete_ls x);;
   
 module Private=struct
 
