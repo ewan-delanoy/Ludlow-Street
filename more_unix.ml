@@ -5,7 +5,7 @@
 *)
 
 
-module Private=struct
+module PrivateOne=struct
  
 let naive_extension ap=
    let s=Absolute_path.to_string ap in
@@ -77,7 +77,7 @@ let extension x=try (naive_extension x) with
   
 module Private=struct
 
-include Private;;  
+include PrivateOne;;  
   
  let beheaded_ls_with_nondirectories_only x=
   let n0=String.length(Absolute_path.to_string x) in
