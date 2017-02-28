@@ -5,7 +5,7 @@
 *)
 
 
-module PrivateOne=struct
+module Private=struct
  
 let naive_extension ap=
    let s=Absolute_path.to_string ap in
@@ -68,16 +68,14 @@ let extension x=try (naive_extension x) with
    let dir=Directory_name.of_string s in
    ls dir;;
  
- end;;
  
- let complete_ls x=Explicit.explore_tree PrivateOne.adhoc_ls [x];;
  
+ let complete_ls  x=Explicit.explore_tree PrivateOne.adhoc_ls [x];;
+ 
+
  let complete_ls_with_nondirectories_only x=
   List.filter(PrivateOne.is_a_nondirectory_or_a_nib)(complete_ls x);;
   
-module Private=struct
-
-include PrivateOne;;  
   
  let beheaded_ls_with_nondirectories_only x=
   let n0=String.length(Absolute_path.to_string x) in
@@ -102,7 +100,7 @@ let quick_complete_ls s=
   let temp1=complete_ls x in
   Image.image Absolute_path.to_string temp1;;  
   
-end;;    
+ 
 
 let quick_beheaded_complete_ls s=
   let x=Absolute_path.of_string s in
@@ -110,7 +108,10 @@ let quick_beheaded_complete_ls s=
   let temp1=complete_ls x in
   Image.image (fun ap->Cull_string.cobeginning n (Absolute_path.to_string ap)) temp1;; 
   
-    
+end;;    
 
  
+let complete_ls=Private.complete_ls;;
+let quick_beheaded_complete_ls=Private.quick_beheaded_complete_ls;;
+let complete_ls_with_nondirectories_only=Private.complete_ls_with_nondirectories_only;;
    
