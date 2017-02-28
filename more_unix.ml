@@ -68,10 +68,13 @@ let extension x=try (naive_extension x) with
    let dir=Directory_name.of_string s in
    ls dir;;
  
+
  
- 
- let complete_ls  x=Explicit.explore_tree adhoc_ls [x];;
- 
+let complete_ls dir=
+   let s_dir=Directory_name.to_string dir in
+   let x=Absolute_path.of_string s_dir in
+   Explicit.explore_tree adhoc_ls [x];;   
+
 
  let complete_ls_with_nondirectories_only x=
   List.filter(is_a_nondirectory_or_a_nib)(complete_ls x);;
@@ -96,15 +99,15 @@ let extension x=try (naive_extension x) with
     List.rev_map(function ap->Cull_string.cobeginning n0 (Absolute_path.to_string ap))(temp2);;
     
 let quick_complete_ls s=
-  let x=Absolute_path.of_string s in
+  let x=Directory_name.of_string s in
   let temp1=complete_ls x in
   Image.image Absolute_path.to_string temp1;;  
   
  
 
 let quick_beheaded_complete_ls s=
-  let x=Absolute_path.of_string s in
-  let n=String.length(Absolute_path.to_string x) in
+  let x=Directory_name.of_string s in
+  let n=String.length(Directory_name.to_string x) in
   let temp1=complete_ls x in
   Image.image (fun ap->Cull_string.cobeginning n (Absolute_path.to_string ap)) temp1;; 
   
