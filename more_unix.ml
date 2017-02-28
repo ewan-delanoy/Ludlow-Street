@@ -74,7 +74,7 @@ let extension x=try (naive_extension x) with
  
 
  let complete_ls_with_nondirectories_only x=
-  List.filter(PrivateOne.is_a_nondirectory_or_a_nib)(complete_ls x);;
+  List.filter(is_a_nondirectory_or_a_nib)(complete_ls x);;
   
   
  let beheaded_ls_with_nondirectories_only x=
