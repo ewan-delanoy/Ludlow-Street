@@ -37,6 +37,7 @@ let elt_prsr=
      [
        prsr_for_comment;
        prsr_for_sharp_comment;
+       prsr_for_special_sharp;
        prsr_for_white;
      ];;
 
