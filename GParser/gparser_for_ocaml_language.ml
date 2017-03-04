@@ -20,6 +20,17 @@ let prsr_for_inline_white_maybe=Gparser_homomorphism.star prsr_for_space_or_tab;
 let prsr_for_white_maybe=Gparser_homomorphism.star prsr_for_individual_white;;
 let prsr_for_white=Gparser_homomorphism.one_or_more prsr_for_individual_white;;
 
+let prsr_for_special_sharp=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "#";
+     prsr_for_inline_white_maybe;
+     Gparser_constructor.sample_star "0123456789";
+     prsr_for_inline_white_maybe;
+     Gparser_constructor.constant "\"";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ/.";
+     Gparser_constructor.constant "\"";
+     prsr_for_inline_white_maybe;
+   ];;
 
 let elt_prsr=
    Gparser_homomorphism.disjunction
