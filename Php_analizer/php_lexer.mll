@@ -12,8 +12,8 @@ let pos_make a b c d={
   Lexing.pos_cnum=d;
 };;
 
-let dummy_lexing = Lexing.dummy_pos
-let dummy_pair = (dummy_lexing,dummy_lexing)
+let dummy_lexing = Lexing.dummy_pos;;
+let dummy_pair = (dummy_lexing,dummy_lexing);;
 
 let lexing_from_file file=
   let s=Io.read_whole_file file in
@@ -24,7 +24,7 @@ let lexing_from_file file=
       pos_bol = 0;
       pos_cnum = 0;
     };
-   lexbuf
+   lexbuf;;
 
 let translated_lexing lxg j={
   Lexing.pos_fname=pos_fname lxg;
@@ -48,12 +48,12 @@ let read_word=Php_token.put_lexeme_in_category;;
     
 type doctype=Nowdoc_type |Heredoc_type |Naked_doc_type;;    
     
-let list_accu=ref[]
-let string_accu=ref""
-let doc_ident_accu=ref""
-let match_counter=ref 0
-let current_doctype=ref Naked_doc_type
-let faraway_beginning=ref Lexing.dummy_pos
+let list_accu=ref[];;
+let string_accu=ref"";;
+let doc_ident_accu=ref"";;
+let match_counter=ref 0;;
+let current_doctype=ref Naked_doc_type;;
+let faraway_beginning=ref Lexing.dummy_pos;;
 
 
 
@@ -61,9 +61,9 @@ let adhoc_doc_string doc_type s=match doc_type with
   Nowdoc_type->Php_token.Nowdoc(s)
   |_->Php_token.Heredoc(s);;
   
-let namespace_list_accu=ref([]:string list)
-let namespace_absolute=ref(false)
-let namespace_string_accu=ref""  
+let namespace_list_accu=ref([]:string list);;
+let namespace_absolute=ref(false);;
+let namespace_string_accu=ref"";;  
   
 let mk=Positioned_php_token.make;;
 let uv=Positioned_php_token.unveil;;
@@ -83,13 +83,13 @@ let add_to_list lbuf a=
     let start_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1
     and end_a=Lexing.lexeme_end_p lbuf in
     (list_accu:=push lbuf (a,start_a,end_a) (!list_accu);
-     preceding_lexeme:=Some(a)) 
+     preceding_lexeme:=Some(a));; 
 
 let add_long_one_to_list lbuf a=
     let start_a=translated_lexing (!faraway_beginning) 1
     and end_a=translated_lexing (Lexing.lexeme_end_p lbuf) 0 in
     (list_accu:=push lbuf (a,start_a,end_a) (!list_accu);
-     preceding_lexeme:=Some(a))
+     preceding_lexeme:=Some(a));;
 
 
 
@@ -102,7 +102,7 @@ let add_composite_to_list lbuf (b,c)=
      list_accu:=push lbuf (read_word b,start_b,end_b) (!list_accu);
      list_accu:=push lbuf (read_word c,start_c,end_c) (!list_accu);
      preceding_lexeme:=Some(read_word c);
-     )     
+     );;     
 
 let semicolon=Php_token.of_string ";";;
 
@@ -112,11 +112,11 @@ let insert_semicolon_if_needed lbuf=
          let end_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in
          list_accu:=push lbuf (semicolon,start_a,end_a) (!list_accu);;
     
-let add_to_string c=(string_accu:=(!string_accu)^(String.make 1 c))
-let add_to_doc_ident c=(doc_ident_accu:=(!doc_ident_accu)^(String.make 1 c))  
+let add_to_string c=(string_accu:=(!string_accu)^(String.make 1 c));;
+let add_to_doc_ident c=(doc_ident_accu:=(!doc_ident_accu)^(String.make 1 c))  ;;
 let initialize_namespace lbuf=(
    faraway_beginning:=(Lexing.lexeme_end_p lbuf);
-)
+);;
   
 
 let ingest_namespace_element word=
@@ -124,7 +124,7 @@ let ingest_namespace_element word=
      (
      namespace_list_accu:=w::(!namespace_list_accu);
      namespace_string_accu:=(!namespace_string_accu)^word
-     )
+     );;
 let finish_namespace w lbuf=
       let full_list=List.rev(w::(!namespace_list_accu))
       and full_string=(!namespace_string_accu)^w in
@@ -135,15 +135,15 @@ let finish_namespace w lbuf=
         namespace_list_accu:=[];
         namespace_string_accu:="";
         list_accu:=(mk tok (start_t,end_t))::(!list_accu);
-      )     
+      );;     
       
 let initialize_doc lbuf=(
      doc_ident_accu:="\n"^(!doc_ident_accu);
      match_counter:=String.length(!doc_ident_accu)
-     )
-let finish_comment lbuf =(add_long_one_to_list lbuf (comment(!string_accu)); string_accu:=""; )
-let finish_quote lbuf =(add_long_one_to_list lbuf (ustring(!string_accu)); string_accu:=""; )
-let finish_dquote lbuf =(add_long_one_to_list lbuf (dstring(!string_accu)); string_accu:=""; )
+     );;
+let finish_comment lbuf =(add_long_one_to_list lbuf (comment(!string_accu)); string_accu:=""; );;
+let finish_quote lbuf =(add_long_one_to_list lbuf (ustring(!string_accu)); string_accu:=""; );;
+let finish_dquote lbuf =(add_long_one_to_list lbuf (dstring(!string_accu)); string_accu:=""; );;
 let finish_nonphp lbuf =
  if (!string_accu)<>""
  then (
@@ -163,18 +163,18 @@ let finish_doc lbuf=
 
 
 
-exception Illegal_first_character_in_doc of char
-exception Illegal_character_in_doc of char
-exception Illegal_character_in_naked_doc of char
-exception Illegal_character_in_namespace of char
-exception Missing_newline_in_doc_beginning
+exception Illegal_first_character_in_doc of char;;
+exception Illegal_character_in_doc of char;;
+exception Illegal_character_in_naked_doc of char;;
+exception Illegal_character_in_namespace of char;;
+exception Missing_newline_in_doc_beginning;;
 
-exception Unfinished_doc of string*string*int
-exception Badly_terminated_doc_ident
+exception Unfinished_doc of string*string*int;;
+exception Badly_terminated_doc_ident;;
 
-exception Badly_terminated_doc_text
+exception Badly_terminated_doc_text;;
 
-let debug_list=ref []
+let debug_list=ref [];;
 
     
 }
@@ -417,11 +417,11 @@ and step_four_in_doc=parse
 
 let parse_string s =
           let _=(list_accu:=[];string_accu:="") in
-          outside_php (Lexing.from_string s)
+          outside_php (Lexing.from_string s);;
   
 let parse_file fn=
          let _=(list_accu:=[];string_accu:="") in
-          outside_php (lexing_from_file fn)
+          outside_php (lexing_from_file fn);;
 }
   
   
