@@ -27,3 +27,10 @@ let gather_preprinter_result l=
   ) in
   helper("",0,"",l);;
 
+let printer_of_preprinter (prpr: 'a Preprinter.t)=
+  (fun
+  (dummy:Format.formatter) x->
+   Format.open_box 0;
+   Format.print_string(gather_preprinter_result (prpr x));
+   Format.close_box()
+   );;
