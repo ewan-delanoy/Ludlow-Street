@@ -5,7 +5,7 @@
 *)
 
 let prsr_for_comment=Gparser_constructor.enclosure ("(*","*)");;
-
+let prsr_for_sharp_comment=Gparser_constructor.enclosure ("\n#","\n");;
 
 let prsr_for_space=Gparser_constructor.constant " ";;
 let prsr_for_tab=Gparser_constructor.constant "\t";;
@@ -25,6 +25,7 @@ let elt_prsr=
    Gparser_homomorphism.disjunction
      [
        prsr_for_comment;
+       prsr_for_sharp_comment;
        prsr_for_white;
      ];;
 
