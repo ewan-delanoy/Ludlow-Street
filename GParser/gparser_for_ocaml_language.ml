@@ -32,9 +32,21 @@ let prsr_for_special_sharp=Gparser_homomorphism.chain
      prsr_for_inline_white_maybe;
    ];;
 
+let prsr_for_value_making=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "let";
+     prsr_for_white;
+     Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+     prsr_for_white;
+     Gparser_constructor.enclosure ("","=");
+     Gparser_constructor.enclosure ("",";;");
+   ];;
+
 let elt_prsr=
    Gparser_homomorphism.disjunction
      [
+       prsr_for_value_making;
        prsr_for_comment;
        prsr_for_sharp_comment;
        prsr_for_special_sharp;
