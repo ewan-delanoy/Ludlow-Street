@@ -38,7 +38,7 @@ let prsr_for_value_making=Gparser_homomorphism.chain
      prsr_for_white;
      Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-     prsr_for_white;
+     prsr_for_white_maybe;
      Gparser_constructor.enclosure ("","=");
      Gparser_constructor.enclosure ("",";;");
    ];;
