@@ -23,11 +23,3 @@ let print_out (dummy:Format.formatter) x=
    Format.print_string(print x);
    Format.close_box();;
 
-let print_list=
-  Pretty_print_list.pretty_print_list  
-    ((fun (PPL(x,y))->Php_token.short_content x),100," ");;    
-    
-let print_out_list (dummy:Format.formatter) x=
-   Format.open_box 0;
-   Format.print_string(print_list x);
-   Format.close_box();;
