@@ -12,4 +12,6 @@ let positioned_php_token=
    [Php_token.short_content(Positioned_php_token.fst ptok)]) in
   (tempf: Positioned_php_token.t Preprinter.t);;
 
-
+let positioned_php_token_list=
+  Preprinter_homomorphism.list 
+   positioned_php_token;;
