@@ -32,12 +32,23 @@ let prsr_for_special_sharp=Gparser_homomorphism.chain
      prsr_for_inline_white_maybe;
    ];;
 
+let prsr_for_uncapitalized_word=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+   ];;
+
+let prsr_for_capitalized_word=Gparser_homomorphism.chain
+   [
+     Gparser_constructor.sample_char "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   ];;
+
 let prsr_for_value_making=Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "let";
      prsr_for_white;
-     Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
-     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+     prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
      Gparser_constructor.enclosure ("","=");
      Gparser_constructor.enclosure ("",";;");
@@ -47,8 +58,7 @@ let prsr_for_type_making=Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "type";
      prsr_for_white;
-     Gparser_constructor.sample_char "abcdefghijklmnopqrstuvwxyz_";
-     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+     prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
      Gparser_constructor.enclosure ("","=");
      Gparser_constructor.enclosure ("",";;");
