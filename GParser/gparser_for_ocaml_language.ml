@@ -49,7 +49,7 @@ let prsr_for_exception_ending=
    [
      Gparser_constructor.constant "of";
      prsr_for_white;
-     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
    ];;
 
 let prsr_for_value_making=Gparser_homomorphism.chain
