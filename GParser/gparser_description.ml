@@ -53,6 +53,12 @@ let optional x=
     parameters=x.parameters;
   };;
 
+let recoiling_ending x y=
+  {
+    name=(wrap x)^(String.make 1 (Gparser_special_character.marker_for_recoiling_ending))^(wrap y);
+    parameters=(x.parameters)@(y.parameters);
+  };;
+
 let enclosure (a,b)=veil "enclosure" [a;b];;
 let constant t=veil "constant" [t];;
 let sample_char t=veil "sample_char" [t];;
