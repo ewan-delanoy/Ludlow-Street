@@ -52,6 +52,13 @@ let prsr_for_exception_ending=
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
    ];;
 
+let prsr_for_parameters_in_type=
+   Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "'";
+      prsr_for_uncapitalized_word; 
+   ];;
+
 let prsr_for_value_making=Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "let";
@@ -65,6 +72,8 @@ let prsr_for_value_making=Gparser_homomorphism.chain
 let prsr_for_type_making=Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "type";
+     prsr_for_white;
+     Gparser_homomorphism.optional(prsr_for_parameters_in_type);
      prsr_for_white;
      prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
