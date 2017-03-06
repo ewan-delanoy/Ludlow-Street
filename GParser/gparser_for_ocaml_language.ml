@@ -83,6 +83,26 @@ let prsr_for_exception_making=Gparser_homomorphism.chain
      Gparser_constructor.constant ";;";
    ];;
 
+let prsr_for_module_opener=
+   Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "module";
+     prsr_for_white;
+     prsr_for_capitalized_word;
+     prsr_for_white_maybe;
+     Gparser_constructor.constant "=";
+     prsr_for_white_maybe;
+     Gparser_constructor.constant "struct";
+   ];;
+
+let prsr_for_module_ender=
+   Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "end";
+     prsr_for_white_maybe;
+     Gparser_constructor.constant ";;";
+   ];;
+
 let elt_prsr=
    Gparser_homomorphism.disjunction
      [
@@ -92,6 +112,8 @@ let elt_prsr=
        prsr_for_comment;
        prsr_for_sharp_comment;
        prsr_for_special_sharp;
+       prsr_for_module_opener;
+       prsr_for_module_ender;
        prsr_for_white;
      ];;
 
