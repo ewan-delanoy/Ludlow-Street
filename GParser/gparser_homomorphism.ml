@@ -102,3 +102,24 @@ let optional prsr=
    ) in
    Gparser.veil descr tempf;;
 
+
+let recoiling_ending x y=
+   let descr=Gparser_description.recoiling_ending
+      (Gparser.description x) (Gparser.description y)  in
+   let tempf=(fun s i->
+      match Gparser.apply x s i with
+       None->None
+      |Some(res)->
+                  
+                  let j=Gparser_result.final_cursor_position res in
+                  if Gparser.apply y s j=None then None else
+                  Some(
+                  Gparser_result.veil
+                  descr
+                  (i,j-1)
+                  (Gparser_result.important_ranges res)
+                  j
+                  None
+                  )
+   ) in
+   Gparser.veil descr tempf;;
