@@ -126,8 +126,9 @@ let prsr_for_type_making=Gparser_homomorphism.chain
      Gparser_constructor.enclosure ("",";;");
    ];;
 
-let prsr_for_exception_making=Gparser_homomorphism.chain
-   [
+module Private=struct
+  let list_for_exception_making=
+    [
      Gparser_constructor.constant "exception";
      prsr_for_white;
      prsr_for_capitalized_word;
@@ -136,6 +137,10 @@ let prsr_for_exception_making=Gparser_homomorphism.chain
      prsr_for_white_maybe;
      Gparser_constructor.constant ";;";
    ];;
+end;;
+
+let prsr_for_exception_making=Gparser_homomorphism.chain
+     Private.list_for_exception_making;;
 
 let prsr_for_module_opener=
    Gparser_homomorphism.chain
