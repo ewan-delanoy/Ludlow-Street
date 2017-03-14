@@ -58,7 +58,7 @@ let prsr_for_pupil_type=
    ];;
 
 let prsr_for_parenthesed_pupil_type=
-   Gparser_homomorphism.disjunction
+   Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "(";
      prsr_for_white_maybe;
