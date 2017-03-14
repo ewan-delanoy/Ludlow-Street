@@ -44,11 +44,18 @@ let prsr_for_capitalized_word=Gparser_homomorphism.chain
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ012356789";
    ];;
 
+let prsr_for_pointing_module=Gparser_homomorphism.chain
+   [
+     prsr_for_capitalized_word;
+     Gparser_constructor.constant ".";
+   ];;
+
 let prsr_for_exception_ending=
    Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "of";
      prsr_for_white;
+     Gparser_homomorphism.optional(prsr_for_pointing_module);
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
    ];;
 
