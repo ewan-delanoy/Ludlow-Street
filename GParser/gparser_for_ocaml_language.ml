@@ -54,7 +54,7 @@ let prsr_for_pupil_type=
    Gparser_homomorphism.chain
    [
      Gparser_homomorphism.optional(prsr_for_pointing_module);
-     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
    ];;
 
 let prsr_for_parenthesed_pupil_type=
