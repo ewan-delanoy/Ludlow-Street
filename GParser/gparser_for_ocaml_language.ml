@@ -50,13 +50,51 @@ let prsr_for_pointing_module=Gparser_homomorphism.chain
      Gparser_constructor.constant ".";
    ];;
 
+let prsr_for_pupil_type=
+   Gparser_homomorphism.chain
+   [
+     Gparser_homomorphism.optional(prsr_for_pointing_module);
+     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
+   ];;
+
+let prsr_for_parenthesed_pupil_type=
+   Gparser_homomorphism.disjunction
+   [
+     Gparser_constructor.constant "(";
+     prsr_for_white_maybe;
+     prsr_for_pupil_type;
+     prsr_for_white_maybe;
+     Gparser_constructor.constant ")";
+   ];;
+
+let prsr_for_possibly_parenthesed_pupil_type=
+    Gparser_homomorphism.disjunction
+   [
+     prsr_for_pupil_type;
+     prsr_for_parenthesed_pupil_type;
+   ];;
+
+let prsr_for_left_producted_pupil_type=
+    Gparser_homomorphism.disjunction
+   [
+     Gparser_constructor.constant "*";
+     prsr_for_white_maybe;
+     prsr_for_possibly_parenthesed_pupil_type;
+   ];;
+
+let prsr_for_product_type=
+   Gparser_homomorphism.chain
+   [
+     prsr_for_pupil_type;
+     Gparser_homomorphism.star(prsr_for_left_producted_pupil_type);
+   ];;
+
 let prsr_for_exception_ending=
    Gparser_homomorphism.chain
    [
      Gparser_constructor.constant "of";
      prsr_for_white;
-     Gparser_homomorphism.optional(prsr_for_pointing_module);
-     Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_*";
+     prsr_for_product_type;
    ];;
 
 let prsr_for_parameters_in_type=
