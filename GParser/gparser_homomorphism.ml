@@ -4,32 +4,47 @@
 
 *)
 
+module Private=struct
 
+type chain_artefact=
+     Usual of (int * int) list * Gparser.t list * bytes * Gparser_description.t * int * int 
+    |Result_found of Gparser_result.t
+    |Failure_found;;
 
-let chain l=
-   let descr=Gparser_description.chain
-      (Image.image Gparser.description l) in
-   let rec tempf=(fun
-   (imp_ranges,da_ober,s,i0,k)->
+let pusher_for_chain=function
+  Usual(imp_ranges,da_ober,s,descr,i0,k)->
+      (
       match da_ober with
-      []->Some(
-             Gparser_result.veil
+      []->Result_found(
+           Gparser_result.veil
                descr
                (i0,k-1)
                imp_ranges
                k
                None
-           )
+          )
       |prsr::rest->   
          (
            match Gparser.apply prsr s k with
-            None->None
-           |Some(res)->tempf(
-                       imp_ranges@(Gparser_result.important_ranges res),
-                       rest,s,i0,Gparser_result.final_cursor_position res)
+            None->Failure_found
+           |Some(res)->Usual(imp_ranges@(Gparser_result.important_ranges res),
+                       rest,s,descr,i0,Gparser_result.final_cursor_position res)
          )  
-   ) in
-   Gparser.veil descr (fun s i->tempf ([],l,s,i,i));;
+        )
+    |x->x;;
+    
+let rec iterator_for_chain=function
+   Result_found(res)->Some(res)
+  |Failure_found->None
+  |x->iterator_for_chain(pusher_for_chain x);;
+    
+
+end;;
+
+let chain l=
+   let descr=Gparser_description.chain
+      (Image.image Gparser.description l) in
+   Gparser.veil descr (fun s i->Private.iterator_for_chain(Private.Usual([],l,s,descr,i,i)));;
 
 let disjunction l=
    let descr=Gparser_description.disjunction
