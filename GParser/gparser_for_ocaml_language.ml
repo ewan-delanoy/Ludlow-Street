@@ -116,6 +116,7 @@ let prsr_for_special_names=
    Gparser_homomorphism.disjunction
      [
        Gparser_constructor.constant "add_to_vvv ";
+       Gparser_constructor.add_data "add_data ";
      ];;   
    
 let prsr_for_specialities=Gparser_homomorphism.chain
