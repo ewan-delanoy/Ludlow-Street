@@ -38,13 +38,15 @@ let rec iterator_for_chain=function
   |Failure_found->None
   |x->iterator_for_chain(pusher_for_chain x);;
     
+let starter_for_chain descr l s i=Usual([],l,s,descr,i,i);;     
 
 end;;
 
 let chain l=
    let descr=Gparser_description.chain
       (Image.image Gparser.description l) in
-   Gparser.veil descr (fun s i->Private.iterator_for_chain(Private.Usual([],l,s,descr,i,i)));;
+   Gparser.veil descr (fun s i->
+     Private.iterator_for_chain(Private.starter_for_chain descr l s i));;
 
 let disjunction l=
    let descr=Gparser_description.disjunction
