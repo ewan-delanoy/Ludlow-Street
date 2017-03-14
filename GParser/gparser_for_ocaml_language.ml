@@ -112,6 +112,18 @@ let prsr_for_module_ender=
      Gparser_constructor.constant ";;";
    ];;
 
+let prsr_for_special_names=
+   Gparser_homomorphism.disjunction
+     [
+       Gparser_constructor.constant "add_to_vvv ";
+     ];;   
+   
+let prsr_for_specialities=Gparser_homomorphism.chain
+   [
+     prsr_for_special_names;
+     Gparser_constructor.enclosure ("",";;");
+   ];;   
+
 let elt_prsr=
    Gparser_homomorphism.disjunction
      [
@@ -123,6 +135,7 @@ let elt_prsr=
        prsr_for_special_sharp;
        prsr_for_module_opener;
        prsr_for_module_ender;
+       prsr_for_specialities;
        prsr_for_white;
      ];;
 
