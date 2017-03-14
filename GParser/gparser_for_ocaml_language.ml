@@ -57,11 +57,19 @@ let prsr_for_wholly_lowercase_name=
      Gparser_constructor.sample_star "abcdefghijklmnopqrstuvwxyz_";
    ];;
 
+let prsr_for_pupil_ending=
+   Gparser_homomorphism.chain
+   [
+     prsr_for_white;
+     Gparser_constructor.constant "list";
+   ];;
+
 let prsr_for_pupil_type=
    Gparser_homomorphism.chain
    [
      Gparser_homomorphism.optional(prsr_for_pointing_module);
      prsr_for_wholly_lowercase_name;
+     Gparser_homomorphism.optional(prsr_for_pupil_ending);
    ];;
 
 let prsr_for_parenthesed_pupil_type=
