@@ -4,6 +4,8 @@
 
 *)
 
+let double_semicolon=";"^";";;
+
 let prsr_for_comment=Gparser_constructor.enclosure ("(*","*)");;
 let prsr_for_sharp_comment=Gparser_constructor.enclosure ("\n#","\n");;
 
@@ -162,7 +164,7 @@ let prsr_for_value_making=Gparser_homomorphism.chain
      prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
      Gparser_constructor.enclosure ("","=");
-     Gparser_constructor.enclosure ("",";;");
+     Gparser_constructor.enclosure ("",double_semicolon);
    ];;
 
 let prsr_for_type_making=Gparser_homomorphism.chain
@@ -173,7 +175,7 @@ let prsr_for_type_making=Gparser_homomorphism.chain
      prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
      Gparser_constructor.enclosure ("","=");
-     Gparser_constructor.enclosure ("",";;");
+     Gparser_constructor.enclosure ("",double_semicolon);
    ];;
 
 module Private=struct
@@ -185,7 +187,7 @@ module Private=struct
      prsr_for_white_maybe;
      Gparser_homomorphism.optional(prsr_for_exception_ending);
      prsr_for_white_maybe;
-     Gparser_constructor.constant ";;";
+     Gparser_constructor.constant double_semicolon;
    ];;
 end;;
 
@@ -209,7 +211,7 @@ let prsr_for_module_ender=
    [
      Gparser_constructor.constant "end";
      prsr_for_white_maybe;
-     Gparser_constructor.constant ";;";
+     Gparser_constructor.constant double_semicolon;
    ];;
 
 let prsr_for_special_names=
@@ -224,7 +226,7 @@ let prsr_for_special_names=
 let prsr_for_specialities=Gparser_homomorphism.chain
    [
      prsr_for_special_names;
-     Gparser_constructor.enclosure ("",";;");
+     Gparser_constructor.enclosure ("",double_semicolon);
    ];;   
 
 let elt_prsr=
