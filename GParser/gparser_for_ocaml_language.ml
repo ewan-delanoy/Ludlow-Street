@@ -106,6 +106,7 @@ let prsr_for_product_type=
    Gparser_homomorphism.chain
    [
      prsr_for_pupil_type;
+     prsr_for_white_maybe;
      Gparser_homomorphism.star(prsr_for_left_producted_pupil_type);
    ];;
 
