@@ -220,7 +220,7 @@ let decompose app s=
        let ttemp1=Str.split(Str.regexp"[ \n\t]+") u in
        Some(Image.image (fun v->(None,v)) ttemp1)
   ) temp1 in
-  List.flatten temp2;
+  List.flatten temp2;;
 
 (*
 
