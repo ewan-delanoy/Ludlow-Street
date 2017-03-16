@@ -77,7 +77,7 @@ let ord_def_for_ordered_string_list=
  	and line5="		with"
  	and line6="			 None->false"
  	and line7="			|Some(j0)->String.get(s1)(j0)<String.get(s2)(j0) "
- 	and line8="	else n1<n2;;" 
+ 	and line8="	else n1<n2"^double_semicolon 
  	and line9="let cmp=((Total_ordering.from_lt lt):>(string Total_ordering.t))"^double_semicolon in
  	String.concat "\n" [line1;line2;line3;line4;line5;line6;line7;line8;line9;"\n"];; 
  
