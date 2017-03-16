@@ -141,6 +141,7 @@ let prsr_for_parameters2_in_type=
      prsr_for_uncapitalized_word; 
      prsr_for_white_maybe; 
      Gparser_constructor.constant ")";
+     prsr_for_white_maybe; 
    ];;
 
    
