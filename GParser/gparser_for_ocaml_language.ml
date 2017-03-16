@@ -112,6 +112,16 @@ let prsr_for_exception_ending=
      prsr_for_product_type;
    ];;
 
+let prsr_for_element_in_uple_in_typedef=
+   Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "'";
+      prsr_for_uncapitalized_word; 
+     prsr_for_white_maybe; 
+     Gparser_constructor.constant ",";
+     prsr_for_white_maybe; 
+   ];;
+
 let prsr_for_parameters1_in_type=
    Gparser_homomorphism.chain
    [
@@ -123,9 +133,14 @@ let prsr_for_parameters1_in_type=
 let prsr_for_parameters2_in_type=
    Gparser_homomorphism.chain
    [
-     Gparser_constructor.constant "'";
-      prsr_for_uncapitalized_word; 
+     Gparser_constructor.constant "(";
      prsr_for_white_maybe; 
+     Gparser_homomorphism.star(prsr_for_element_in_uple_in_typedef);
+     prsr_for_white_maybe; 
+     Gparser_constructor.constant "'";
+     prsr_for_uncapitalized_word; 
+     prsr_for_white_maybe; 
+     Gparser_constructor.constant ")";
    ];;
 
    
