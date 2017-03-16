@@ -99,6 +99,7 @@ let prsr_for_left_producted_pupil_type=
      Gparser_constructor.constant "*";
      prsr_for_white_maybe;
      prsr_for_possibly_parenthesed_pupil_type;
+     prsr_for_white_maybe;
    ];;
 
 let prsr_for_product_type=
