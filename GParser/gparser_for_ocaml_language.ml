@@ -10,11 +10,13 @@ let prsr_for_sharp_comment=Gparser_constructor.enclosure ("\n#","\n");;
 let prsr_for_space=Gparser_constructor.constant " ";;
 let prsr_for_tab=Gparser_constructor.constant "\t";;
 
+
 let prsr_for_space_or_tab=Gparser_homomorphism.disjunction [prsr_for_space;prsr_for_tab];;
 let prsr_for_linebreak=Gparser_constructor.constant "\n";;
 let prsr_for_newline=Gparser_constructor.constant "\012";;
+let prsr_for_windows_newline=Gparser_constructor.constant "\r";;
 let prsr_for_individual_white=Gparser_homomorphism.disjunction 
-[prsr_for_space;prsr_for_tab;prsr_for_linebreak;prsr_for_newline];;
+[prsr_for_space;prsr_for_tab;prsr_for_linebreak;prsr_for_newline;prsr_for_windows_newline];;
 
 let prsr_for_inline_white_maybe=Gparser_homomorphism.star prsr_for_space_or_tab;;
 let prsr_for_white_maybe=Gparser_homomorphism.star prsr_for_individual_white;;
