@@ -1,3 +1,12 @@
+(*
+
+#use"Optional/ordered_list_creator.ml";;
+
+*)
+
+
+let double_semicolon=";"^";";;
+
 let unparsed_template ()=
   let john=open_in("Creators/ordered_list_template") in
   let n=in_channel_length(john)+30 in
@@ -22,43 +31,43 @@ let write_contents_of_ordered_list_module
       close_out jane;;
       
  let ord_def_for_ordered_thing_list=
- "let lt x y=x<y;;\n"^
- "let cmp=Total_ordering.standard;;";;
+ "let lt x y=x<y"^double_semicolon^"\n"^
+ "let cmp=Total_ordering.standard"^double_semicolon;;
  
  let ord_def_for_ordered_pair_list=
  "let lt ((u1,u2):\'a*\'b) ((v1,v2):\'a*\'b)=\n"^
- "        if u1=v1 then u2<v2 else u1<v1;;\n"^
+ "        if u1=v1 then u2<v2 else u1<v1"^double_semicolon^"\n"^
  "let cmp=((fun x y->\n"^
  "		if lt(x)(y) then Total_ordering.Lower else\n"^
  ("		if lt(y)(x) then Total_ordering.Greater else\n")^
- "		Total_ordering.Equal): (\'a*\'b) Total_ordering.t);;";;
+ "		Total_ordering.Equal): (\'a*\'b) Total_ordering.t)"^double_semicolon^"";;
  
  let ord_def_for_ordered_triple_list=
  "let lt ((u1,u2,u3):\'a*\'b*\'c) ((v1,v2,v3):\'a*\'b*\'c)=\n"^
  "        if u1=v1"^
  "		  then if u2=v2 then u3<v3 else u2<v2"^
- "		  else u1<v1;;\n"^
+ "		  else u1<v1"^double_semicolon^"\n"^
  "let cmp=((fun x y->\n"^
  "		if lt(x)(y) then Total_ordering.Lower else\n"^
  ("		if lt(y)(x) then Total_ordering.Greater else\n")^
- "		Total_ordering.Equal): (\'a*\'b*\'c) Total_ordering.t);;";;
+ "		Total_ordering.Equal): (\'a*\'b*\'c) Total_ordering.t)"^double_semicolon;;
  
 let ord_def_for_ordered_bs_list=
  	let line1="let lt (u:\'a Tidel.set) (v:\'a Tidel.set)="
  	and line2="let lu=Tidel.length(u) and lv=Tidel.length(v) in"
- 	and line3="if lu=lv then u<v else lu<lv;;"
+ 	and line3="if lu=lv then u<v else lu<lv"^double_semicolon
  	and line4="let cmp=((fun x y->"
  	and line5="		if lt(x)(y) then Total_ordering.Lower else"
  	and line6="		if lt(y)(x) then Total_ordering.Greater else"
- 	and line7="		Total_ordering.Equal): (\'a Tidel.set) Total_ordering.t);;" in
+ 	and line7="		Total_ordering.Equal): (\'a Tidel.set) Total_ordering.t)"^double_semicolon in
  	String.concat "\n" [line1;line2;line3;line4;line5;line6;line7;"\n"];;
 
 let ord_def_for_source=ord_def_for_ordered_bs_list;;
 let ord_def_for_well=ord_def_for_ordered_bs_list;;
 
 let ord_def_for_ordered_int_list=
-"let cmp=(Total_ordering.standard:>(int Total_ordering.t));;"^
-"let lt x y=x<y;;";;
+"let cmp=(Total_ordering.standard:>(int Total_ordering.t))"^double_semicolon^
+"let lt x y=x<y"^double_semicolon;;
  
 let ord_def_for_ordered_string_list=
  	let line1="let lt s1 s2="
@@ -69,16 +78,16 @@ let ord_def_for_ordered_string_list=
  	and line6="			 None->false"
  	and line7="			|Some(j0)->String.get(s1)(j0)<String.get(s2)(j0) "
  	and line8="	else n1<n2;;" 
- 	and line9="let cmp=((Total_ordering.from_lt lt):>(string Total_ordering.t));;" in
+ 	and line9="let cmp=((Total_ordering.from_lt lt):>(string Total_ordering.t))"^double_semicolon in
  	String.concat "\n" [line1;line2;line3;line4;line5;line6;line7;line8;line9;"\n"];; 
  
 let ord_def_for_ordered_variable_list=
-"let cmp=Variable.cmp;;"^
-"let lt x y=Total_ordering.lt cmp x y;;";; 
+"let cmp=Variable.cmp"^double_semicolon^
+"let lt x y=Total_ordering.lt cmp x y"^double_semicolon;; 
  
 let ord_def_for_ordered_constraint_list=
-"let cmp=Constraint.cmp;;"^
-"let lt x y=Total_ordering.lt cmp x y;;";;  
+"let cmp=Constraint.cmp"^double_semicolon^
+"let lt x y=Total_ordering.lt cmp x y"^double_semicolon^"";;  
  
  
 let write_ordered_thing_list ()=
