@@ -8,7 +8,7 @@ strings.
 
 Comments are a little more complicated than strings because they
 can be nested. Also, note that we can have strings inside comments :
-for example (* a "("^"*" b *) is a valid OCaml code snippet.
+for example (nospace* a "(nospace*" b *nospace) is a valid OCaml code snippet.
 
 *)
 
