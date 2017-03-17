@@ -72,6 +72,8 @@ let ureg_without_backup x=
        German_wrapper.unregister_mlx_file mlx 
   else German_wrapper.unregister_module (hmx x);;
 
+let double_semicolon=";"^";";;
+
 let cf t1 t2=
    let ap1=fl t1 in
    let s_ap1=Absolute_path.to_string ap1 in
@@ -80,8 +82,8 @@ let cf t1 t2=
    let ap2=Absolute_path.of_string s_ap2 in
    let s1=Cull_string.cobeginning (String.length s_cdir) s_ap1
    and s2=Cull_string.cobeginning (String.length s_cdir) s_ap2 in
-   let txt1="#use\""^s1^"\";;"
-   and txt2="#use\""^s2^"\";;" in
+   let txt1="#use\""^s1^"\""^double_semicolon
+   and txt2="#use\""^s2^"\""^double_semicolon in
    let _=Replace_inside.replace_inside_file 
     (txt1,txt2) ap2  in 
    Sys.command ("open -a /Applications/TextWrangler"^".app "^s_ap2);;   
