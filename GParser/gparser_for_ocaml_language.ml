@@ -9,7 +9,6 @@ let double_semicolon=";"^";";;
 let prsr_for_comment=Gparser_constructor.house_with_doors ("(*","*)") ["\"","\""];;
 
 
-
 let prsr_for_sharp_comment=Gparser_constructor.enclosure ("\n#","\n");;
 
 let prsr_for_space=Gparser_constructor.constant " ";;
