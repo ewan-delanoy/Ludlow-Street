@@ -62,14 +62,6 @@ let prsr_for_wholly_lowercase_name=
    ];;
 
 
-let prsr_for_exception_ending=
-   Gparser_homomorphism.chain
-   [
-     Gparser_constructor.constant "of";
-     prsr_for_white;
-     Gparser_constructor.enclosure ("",double_semicolon);
-   ];;
-
 let prsr_for_element_in_uple_in_typedef=
    Gparser_homomorphism.chain
    [
@@ -132,15 +124,14 @@ let prsr_for_type_making=Gparser_homomorphism.chain
      Gparser_constructor.enclosure ("",double_semicolon);
    ];;
 
+
+
 let prsr_for_exception_making=Gparser_homomorphism.chain
      [
      Gparser_constructor.constant "exception";
      prsr_for_white;
      prsr_for_capitalized_word;
-     prsr_for_white_maybe;
-     Gparser_homomorphism.optional(prsr_for_exception_ending);
-     prsr_for_white_maybe;
-     Gparser_constructor.constant double_semicolon;
+     Gparser_constructor.enclosure ("",double_semicolon);
    ];;
 
 let prsr_for_module_opener=
