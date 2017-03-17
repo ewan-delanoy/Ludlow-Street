@@ -30,7 +30,7 @@
         else "M"^son_without_points
      )() in
      let new_content=
-       "\n\nmodule "^new_name^"=struct\n\n"^content^"\n\nend;;\n\n" in
+       "\n\nmodule "^new_name^"=struct\n\n"^content^"\n\nend;"^";\n\n" in
      let new_filename="Optional/modularized_"^son in 
      (new_filename,new_content);;
      
