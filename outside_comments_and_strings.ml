@@ -8,7 +8,7 @@ strings.
 
 Comments are a little more complicated than strings because they
 can be nested. Also, note that we can have strings inside comments :
-for example (nospace* a "(nospace*" b *nospace) is a valid OCaml code snippet.
+for example (* a "(*" b *) is a valid OCaml code snippet.
 
 *)
 
@@ -116,7 +116,6 @@ let good_substrings s=iterator(s,String.length s,1,initial_state);;
 
 (*
 
-let cajole="*)";;
 
 good_substrings "abcdef";;
 good_substrings "(*abc*)def";;

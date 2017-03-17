@@ -163,6 +163,14 @@ let race (continuer,finalizer)=
    
 module Private=struct
 
+(*
+
+In the first case, no encloser is opened except for the main one.
+In the second, the "rparen" opener is waited for before
+making any other change.
+
+*)
+
 let first_case_in_hwd 
   old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth)=
    let opt1=Option.find_it(fun (opener,closer)->
@@ -239,9 +247,6 @@ Gparser.apply (house_with_doors ("(",")") ["ab","cd";"ef","gh"])
 				"(2(4)6(8)0)2(4(6)8(0)2)45" 2;;
 Gparser.apply (house_with_doors ("(",")") ["ab","cd";"ef","gh"])
 				"(23ab6(8)0)cd45gh89)12" 2;;
-
-
-paolo.xella@iscima.cnr.it
 
 *)   
    
