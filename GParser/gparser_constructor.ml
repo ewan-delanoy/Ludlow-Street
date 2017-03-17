@@ -230,8 +230,12 @@ let house_with_doors
      other_enclosers=
    let descr=Gparser_description.house_with_doors (main_opener,main_closer) other_enclosers in
    let rec tempf=(fun s i->
-        Private.iterator_for_house_of_doors 
-         (main_opener,main_closer,other_enclosers,s,i,i,1,None)
+        if not(Substring.is_a_substring_located_at main_opener s i)
+        then None 
+        else 
+          let j=i+(String.length main_opener) in
+          Private.iterator_for_house_of_doors 
+         (main_opener,main_closer,other_enclosers,s,i,j,1,None)
    ) in
    Gparser.veil descr tempf;;   
      
