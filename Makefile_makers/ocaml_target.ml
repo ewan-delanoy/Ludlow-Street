@@ -123,19 +123,7 @@ let direct_connection hm0=function
  |DEBUGGABLE(hm)-> hm=hm0
  |TOPLEVEL(name,l)->List.mem hm0 l;;
 
-let pattern_matching 
-  f_nodep f_mll f_mly f_cmi f_cmo f_dcmo f_cma f_cmx f_exec f_dbg f_top=function
-  NO_DEPENDENCIES(mlx)->f_nodep mlx 
- |ML_FROM_MLL(hm)->f_mll hm
- |ML_FROM_MLY(hm)->f_mly hm
- |CMI(hm)->f_cmi hm
- |CMO(hm)->f_cmo hm
- |DCMO(hm)->f_dcmo hm
- |CMA(hm)->f_cma hm
- |CMX(hm)->f_cmx hm
- |EXECUTABLE(hm)->f_exec hm
- |DEBUGGABLE(hm)->f_dbg hm
- |TOPLEVEL(name,l)->f_top name l;;
+
  
 let ml_from_lex_or_yacc_data=function 
     ML_FROM_MLL(hm)->Some(Mlx_filename.join hm Ocaml_ending.ml)
