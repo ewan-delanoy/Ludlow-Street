@@ -116,6 +116,8 @@ let good_substrings s=iterator(s,String.length s,1,initial_state);;
 
 (*
 
+let cajole="*)";;
+
 good_substrings "abcdef";;
 good_substrings "(*abc*)def";;
 good_substrings "ab(*cde*)f";;
