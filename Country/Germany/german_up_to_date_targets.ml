@@ -12,13 +12,13 @@ let loadings (dirs,tgts)=
   let part1="\n(*\n #use\""^s_root^(German_constant.location_for_loadingsfile)^"\";;\n*)\n\n" in
   let temp5=Image.image(
      fun sd->
-     "#directory\""^s_root^(Subdirectory.to_string sd)^"\";;"
+     "#directory\""^s_root^(Subdirectory.to_string sd)^"\";"^";"
   ) dirs in
   let part2=String.concat "\n" temp5 
   and part3="\n\n#load\"nums.cma\";;\n#load\"str.cma\";;\n#load\"unix.cma\";;\n\n\n" in
   let temp2=Option.filter_and_unpack (
     function (Ocaml_target.CMO(x))->
-      Some("#load\""^(Half_dressed_module.to_string x)^".cmo\";;") 
+      Some("#load\""^(Half_dressed_module.to_string x)^".cmo\";"^";") 
     |_->None
   ) tgts in
   let temp3="\n\n\n"::(List.rev ("\n\n\n"::temp2)) in
