@@ -70,7 +70,7 @@ let unabstractify hm x=
   x.needed_libraries, 
   Image.image unabstracter (x.direct_fathers),
   Image.image unabstracter (x.all_ancestors),
-  x.needed_directories,
+  x.needed_directories
  );;
 
 

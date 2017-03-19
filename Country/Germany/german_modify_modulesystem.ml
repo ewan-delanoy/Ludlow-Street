@@ -92,7 +92,7 @@ exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;;
    if (not(List.mem Ocaml_ending.ml (ending::edgs)))
    then raise(Bad_pair(mlx_file,List.hd edgs))
    else 
-   let dt1=Read_info_on_file_in_system.complete_info mdata mlx_file None in
+   let dt1=Read_info_on_file_in_system.complete_info mdata mlx_file in
    let new_dt=Modulesystem_data.make_presence ending dt1 in
    if ending<>Ocaml_ending.ml
    then before@(new_dt::after) 
