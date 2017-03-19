@@ -45,12 +45,11 @@ let all_ancestors x=x.all_ancestors;;
 let needed_directories x=x.needed_directories;;
 let inactivity_count x=x.inactivity_count;;
 
-let modification_time x edg=
-  Ocaml_ending.pattern_matching
-  (ml_modification_time x)
-  (mli_modification_time x)
-  (mll_modification_time x)
-  (mly_modification_time x) edg;;
+let modification_time x edg=match edg with
+   Ocaml_ending.Ml->ml_modification_time x
+  |Ocaml_ending.Mli->mli_modification_time x
+  |Ocaml_ending.Mll->mll_modification_time x
+  |Ocaml_ending.Mly->mll_modification_time x;;
 
 let modification_times x=
   (
@@ -252,29 +251,24 @@ let make_mly_absent x=
 
 };;  
   
-let check_presence ending dt=
-   Ocaml_ending.pattern_matching 
-    dt.ml_present
-    dt.mli_present
-    dt.mll_present
-    dt.mly_present
-    ending;; 
-
-let make_presence ending dt=
-   Ocaml_ending.pattern_matching 
-    (make_ml_present dt)
-    (make_mli_present dt)
-    (make_mll_present dt)
-    (make_mly_present dt)
-    ending;;  
+let check_presence ending dt=match ending with
+   Ocaml_ending.Ml->dt.ml_present
+  |Ocaml_ending.Mli->dt.mli_present
+  |Ocaml_ending.Mll->dt.mll_present
+  |Ocaml_ending.Mly->dt.mly_present;;  
   
-let make_absence ending dt=
-   Ocaml_ending.pattern_matching 
-    (make_ml_absent dt)
-    (make_mli_absent dt)
-    (make_mll_absent dt)
-    (make_mly_absent dt)
-    ending;;    
+let make_presence ending dt=match ending with
+   Ocaml_ending.Ml->make_ml_present dt
+  |Ocaml_ending.Mli->make_mli_present dt
+  |Ocaml_ending.Mll->make_mll_present dt
+  |Ocaml_ending.Mly->make_mly_present dt;;  
+
+let make_absence ending dt=match ending with
+   Ocaml_ending.Ml->make_ml_absent dt
+  |Ocaml_ending.Mli->make_mli_absent dt
+  |Ocaml_ending.Mll->make_mll_absent dt
+  |Ocaml_ending.Mly->make_mly_absent dt;;  
+  
 
 let acolytes dt=
   let name=dt.name in
@@ -523,13 +517,13 @@ let force_mly_modification_time x new_val=
 
 };;
 
-let force_modification_time x edg new_val=
-  Ocaml_ending.pattern_matching
-   (force_ml_modification_time x new_val) 
-   (force_mli_modification_time x new_val) 
-   (force_mll_modification_time x new_val) 
-   (force_mly_modification_time x new_val) 
-   edg;;
+let force_modification_time x edg new_val=match edg with
+   Ocaml_ending.Ml->force_ml_modification_time x new_val
+  |Ocaml_ending.Mli->force_mli_modification_time x new_val
+  |Ocaml_ending.Mll->force_mll_modification_time x new_val
+  |Ocaml_ending.Mly->force_mly_modification_time x new_val;; 
+
+
 
 let increment_inactivity_count x=
  {
