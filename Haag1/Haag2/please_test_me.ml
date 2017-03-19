@@ -7,14 +7,14 @@
 
 let a=2;;
 
-module Private=struct
+module PrivateOne=struct
 let b=3;;
 end;;
 
 let c=4;;
 
 module Private=struct
-include Private;;
+include PrivateOne;;
 let d=5;;
 end;;
 
