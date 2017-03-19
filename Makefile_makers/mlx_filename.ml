@@ -84,8 +84,12 @@ let to_path mlx=
 
 let join hs ending=
   let (s,dir)=Half_dressed_module.unveil hs in
-  Ocaml_ending.pattern_matching
-  (ML (s,dir)) (MLI (s,dir)) (MLL (s,dir)) (MLY (s,dir)) ending;;
+  match ending with
+   Ocaml_ending.Ml-> ML (s,dir)
+  |Ocaml_ending.Mli-> MLI (s,dir)
+  |Ocaml_ending.Mll-> MLL (s,dir)
+  |Ocaml_ending.Mly-> MLY (s,dir);;
+
   
 exception Failed_File_Renaming of t*string;;  
   
