@@ -156,6 +156,16 @@ let prsr_for_module_ender=
      Gparser_constructor.constant double_semicolon;
    ];;
 
+let prsr_for_module_inclusion=
+   Gparser_homomorphism.chain
+   [
+     Gparser_constructor.constant "include ";
+     prsr_for_white_maybe;
+     prsr_for_capitalized_word;
+     prsr_for_white_maybe;
+     Gparser_constructor.constant double_semicolon;
+   ];;
+
 let prsr_for_special_names=
    Gparser_homomorphism.disjunction
      [
@@ -182,6 +192,7 @@ let elt_prsr=
        prsr_for_special_sharp;
        prsr_for_module_opener;
        prsr_for_module_ender;
+       prsr_for_module_inclusion;
        prsr_for_specialities;
        prsr_for_white;
      ];;
