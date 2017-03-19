@@ -10,9 +10,6 @@ let ml=Ml and mli=Mli and mll=Mll and mly=Mly;;
 
 
 
-let pattern_matching f_ml f_mli f_mll f_mly=function
-   Ml->f_ml |Mli->f_mli |Mll->f_mll |Mly->f_mly;;
-
 let exhaustive_uple f=(f Ml,f Mli,f Mll,f Mly);;
 
 (*
