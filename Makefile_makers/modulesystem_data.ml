@@ -75,14 +75,14 @@ let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,di
 
 };;
 
-let compact_make (dir,nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned,inac)=
+let compact_make (dir,nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
   make (Half_dressed_module.of_string_and_root nam dir,
   		mlp,mlip,mllp,mlyp,
   		mlmt,mlimt,mllmt,mlymt,
   		Image.image Ocaml_library.of_string libned,
   		Image.image (fun s->Half_dressed_module.of_string_and_root s dir) dirfath,
   		Image.image (fun s->Half_dressed_module.of_string_and_root s dir) allanc,
-  		Image.image Subdirectory.of_string dirned,inac);;
+  		Image.image Subdirectory.of_string dirned);;
 
 let make_ml_present x=
  {
