@@ -4,7 +4,7 @@
 
 *)
 
-(*
+
 let a=2;;
 
 module Private=struct
@@ -18,4 +18,3 @@ include Private;;
 let d=5;;
 end;;
 
-*)
