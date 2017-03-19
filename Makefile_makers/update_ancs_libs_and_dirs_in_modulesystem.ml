@@ -39,7 +39,6 @@ let iterator_for_update (graet,da_ober)=match da_ober with
         direct_fathers=md.Modulesystem_data.direct_fathers;
         all_ancestors=new_ancestor_names;
         needed_directories=new_dirs;
-        inactivity_count=md.Modulesystem_data.inactivity_count
      } in
      let _=Hashtbl.add moduledata_hshtbl hm new_md in
      (new_md::graet,peurrest);;

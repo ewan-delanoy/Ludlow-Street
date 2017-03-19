@@ -24,7 +24,6 @@ type t={
     direct_fathers : Half_dressed_module.t list;
     all_ancestors : Half_dressed_module.t list;
     needed_directories : Subdirectory.t list;
-    inactivity_count : int
 };;
    
    
@@ -43,7 +42,6 @@ let needed_libraries x=x.needed_libraries;;
 let direct_fathers x=x.direct_fathers;;
 let all_ancestors x=x.all_ancestors;;
 let needed_directories x=x.needed_directories;;
-let inactivity_count x=x.inactivity_count;;
 
 let modification_time x edg=match edg with
    Ocaml_ending.Ml->ml_modification_time x
@@ -59,7 +57,7 @@ let modification_times x=
    x.mly_modification_time
   );;
 
-let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned,inac)=
+let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
   {
     name=nam;
     ml_present=mlp;
@@ -74,7 +72,6 @@ let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,di
     direct_fathers=dirfath;
     all_ancestors=allanc;
     needed_directories=dirned;
-    inactivity_count=inac
 
 };;
 
@@ -102,7 +99,6 @@ let make_ml_present x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
 
 };;
 
@@ -121,7 +117,6 @@ let make_mli_present x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
 
 
 };;
@@ -141,7 +136,6 @@ let make_mll_present x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
 
 
 };;
@@ -162,7 +156,6 @@ let make_mly_present x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
 
 
 };;
@@ -185,8 +178,6 @@ let make_ml_absent x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
   
@@ -205,8 +196,6 @@ let make_mli_absent x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -225,8 +214,6 @@ let make_mll_absent x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -246,8 +233,6 @@ let make_mly_absent x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;  
   
@@ -314,8 +299,6 @@ let rename1 new_name x=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
    };;
    
@@ -349,8 +332,6 @@ let rename (old_name,new_name) x=
     		direct_fathers=renamed_fathers;
     		all_ancestors=renamed_ancestors;
     		needed_directories=renamed_directories;
-    		inactivity_count=x.inactivity_count
-
 	   };;
        
 let update_anclibdir changer l_data x=
@@ -390,8 +371,6 @@ let update_anclibdir changer l_data x=
     direct_fathers=x.direct_fathers;
     all_ancestors=new_ancestors;
     needed_directories=new_dir;
-    inactivity_count=x.inactivity_count
-
 
    };;       
        
@@ -451,8 +430,6 @@ let force_ml_modification_time x new_val=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -472,8 +449,6 @@ let force_mli_modification_time x new_val=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -492,8 +467,6 @@ let force_mll_modification_time x new_val=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -512,8 +485,6 @@ let force_mly_modification_time x new_val=
     direct_fathers=x.direct_fathers;
     all_ancestors=x.all_ancestors;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
-
 
 };;
 
@@ -523,43 +494,6 @@ let force_modification_time x edg new_val=match edg with
   |Ocaml_ending.Mll->force_mll_modification_time x new_val
   |Ocaml_ending.Mly->force_mly_modification_time x new_val;; 
 
-
-
-let increment_inactivity_count x=
- {
-    name=x.name;
-    ml_present=x.ml_present;
-    mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
-    ml_modification_time=x.ml_modification_time;
-    mli_modification_time=x.mli_modification_time;
-    mll_modification_time=x.mll_modification_time;
-    mly_modification_time=x.mly_modification_time;
-    needed_libraries=x.needed_libraries;
-    direct_fathers=x.direct_fathers;
-    all_ancestors=x.all_ancestors;
-    needed_directories=x.needed_directories;
-    inactivity_count=(x.inactivity_count+1)
-};;
-
-let reset_inactivity_count x=
- {
-    name=x.name;
-    ml_present=x.ml_present;
-    mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
-    ml_modification_time=x.ml_modification_time;
-    mli_modification_time=x.mli_modification_time;
-    mll_modification_time=x.mll_modification_time;
-    mly_modification_time=x.mly_modification_time;
-    needed_libraries=x.needed_libraries;
-    direct_fathers=x.direct_fathers;
-    all_ancestors=x.all_ancestors;
-    needed_directories=x.needed_directories;
-    inactivity_count=0
-};;
 
 let fix_ancestors_and_libs_and_dirs x anc=
  {
@@ -576,7 +510,6 @@ let fix_ancestors_and_libs_and_dirs x anc=
     direct_fathers=x.direct_fathers;
     all_ancestors=Image.image (fun md->md.name) anc;
     needed_directories=compute_needed_directories(x::anc);
-    inactivity_count=x.inactivity_count
 };;
 
 let fix_ancestors x anc=
@@ -594,7 +527,6 @@ let fix_ancestors x anc=
     direct_fathers=x.direct_fathers;
     all_ancestors=anc;
     needed_directories=x.needed_directories;
-    inactivity_count=x.inactivity_count
 };;
 
 
@@ -709,7 +641,6 @@ let archive x=
      Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.direct_fathers));
      Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.all_ancestors));
      Nonblank.make(String.concat industrial_separator2 (Image.image Subdirectory.unveil x.needed_directories));
-     string_of_int(x.inactivity_count)
    ];;
 
 let unarchive s=
@@ -734,6 +665,5 @@ let unarchive s=
     direct_fathers = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v2;
     all_ancestors = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v3;
     needed_directories = Image.image Subdirectory.of_string v4;
-    inactivity_count = int_of_string(List.nth l1 13);
 };;
      

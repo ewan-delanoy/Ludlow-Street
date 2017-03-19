@@ -67,7 +67,7 @@ let find_needed_names l mlx=
      (fun edg->Modulesystem_data.check_presence edg dt);;
  
  
- let complete_info l mlx opt_inac=
+ let complete_info l mlx=
    let (hm,edg)=Mlx_filename.decompose mlx in
    let genealogy=find_needed_data l mlx in
    let (mlp,mlip,mllp,mlyp)=check_presences l hm
@@ -85,17 +85,15 @@ let find_needed_names l mlx=
    let allanc=Option.filter_and_unpack tempf l in
    let libned=find_needed_libraries mlx genealogy
    and dirned=find_needed_directories mlx genealogy in
-   let inac=(function Some(i)->i |None->0)(opt_inac) in
    Modulesystem_data.make
-   (hm,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned,inac);;
+   (hm,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
    
 let recompute_complete_info_for_module l hm=
   let opt=Option.find_it(fun a->Modulesystem_data.name a=hm) l in
   let dt=Option.unpack opt in
-  let opt_inac=Some(Modulesystem_data.inactivity_count dt) in
   let edg=List.hd(Modulesystem_data.registered_endings dt) in
   let mlx=Mlx_filename.join hm edg in
-  complete_info l mlx opt_inac;;
+  complete_info l mlx;;
         
     
 let quick_update l x=
@@ -127,7 +125,6 @@ let quick_update l x=
     direct_fathers=fathers;
     all_ancestors=x.Modulesystem_data.all_ancestors;
     needed_directories=x.Modulesystem_data.needed_directories;
-    inactivity_count=x.Modulesystem_data.inactivity_count
    }   
    )   
   ;;
