@@ -67,7 +67,7 @@ exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;;
       Half_dressed_module.undress(Modulesystem_data.name dt)=nm) 
       mdata in
    if opt=None
-   then  let old_info=Read_info_on_file_in_system.complete_info mdata mlx_file None in
+   then  let old_info=Read_info_on_file_in_system.complete_info mdata mlx_file in
          let info1=Modulesystem_data.make_presence ending old_info in
          (*
          if a mll or mly file is being registered, the ml will automatically be created,

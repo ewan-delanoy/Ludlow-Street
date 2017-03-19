@@ -27,7 +27,6 @@ type data={
   direct_fathers : (Half_dressed_module.t option) list;
   all_ancestors : (Half_dressed_module.t option) list;
   needed_directories : Subdirectory.t list;
-  inactivity_count : int
    
 };;
 
@@ -50,7 +49,6 @@ let abstractify hm x=
   direct_fathers =Image.image abstracter (Modulesystem_data.direct_fathers x);
   all_ancestors =Image.image abstracter (Modulesystem_data.all_ancestors x);
   needed_directories = Modulesystem_data.needed_directories x;
-  inactivity_count = Modulesystem_data.inactivity_count x 
 };;
 
 let unabstractify hm x=
@@ -73,7 +71,6 @@ let unabstractify hm x=
   Image.image unabstracter (x.direct_fathers),
   Image.image unabstracter (x.all_ancestors),
   x.needed_directories,
-  x.inactivity_count
  );;
 
 
