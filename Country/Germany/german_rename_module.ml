@@ -42,7 +42,14 @@ let on_monitored_modules mdata old_name new_name=
    let temp1=Image.image Modulesystem_data.acolytes desc in
    let temp2=List.flatten temp1 in
    let temp3=Image.image Mlx_filename.to_path temp2 in
-   let _=Image.image changer temp3 in
+   let temp4=Option.filter_and_unpack (
+     fun s->try Some(Absolute_path.of_string s) with _->None
+   ) [
+       German_constant.location_for_pervasivesfile;
+       German_constant.location_for_printersfile;
+     ] in
+   
+   let _=Image.image changer (temp3@temp4) in
    let cmd2=Shell_command.usual ("rm -f "^(Half_dressed_module.to_string old_name)^".cm* ") in
    let cmd=Shell_command.take_care_of_root_directory German_constant.root [cmd2] in
    let _=Image.image Shell_command.announce_and_do cmd in
