@@ -4,14 +4,17 @@
 
 *)
 
-
-(*
 type t={
+  category : Ocaml_gsyntax_category.t;
   name : string;
   interval_for_name : int*int;
-  
-
+  content : string;
+  interval_for_content : int*int;  
 };;
+
+
+(*
+
 
  prsr_for_value_making;
        prsr_for_type_making;
