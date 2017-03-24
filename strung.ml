@@ -34,6 +34,10 @@ let enclose s=
      tempf(j+1)
    ) in
    tempf(w0-1);;
+ 
+let show_indices s=
+  let n=String.length s in
+  Ennig.doyle (fun i->String.get s (i-1)) 1 n;;   
    
 let number_of_lines_before s i=
    if i<1 then 0 else

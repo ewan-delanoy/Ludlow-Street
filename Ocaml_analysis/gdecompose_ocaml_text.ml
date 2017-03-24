@@ -26,14 +26,14 @@ let read1 s=
     ((i,j),Option.unpack(Gparser_result.disjunction_index res))
   ) temp1;;
   
-  
-  
 (*  
-exception Read2_exn of string;;  
+
+let update_accumulator (preceding_values,module_chain,current_module) ((i,j),idx)=
+  if idx=1 /* we have a value */  
+  then 
   
-let read2 s (i,j)=
-   let t=Cull_string.interval s i j in
-   let opt=Gparser.apply Gparser_for_ocaml_language.elt_prsr s 1 in
+let s1="let jiving=abc;;";;
+let res1=Gparser.apply Gparser_for_ocaml_language.elt_prsr s1   
    
 *)   
    
