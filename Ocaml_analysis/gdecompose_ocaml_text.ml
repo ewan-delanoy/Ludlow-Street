@@ -33,7 +33,8 @@ let update_accumulator (preceding_values,module_chain,current_module) ((i,j),idx
   then 
   
 let s1="let jiving=abc;;";;
-let res1=Gparser.apply Gparser_for_ocaml_language.elt_prsr s1   
+let res1=Gparser.apply Gparser_for_ocaml_language.prsr_for_value_making s1 1;;  
+let z1=Strung.show_indices s1;;   
    
 *)   
    
