@@ -13,6 +13,15 @@ type t={
 };;
 
 
+let make cat nm nm_itv ctnt ctnt_itv=
+    {
+  		category =cat;
+        name =nm;
+        interval_for_name =nm_itv;
+        content =ctnt;
+        interval_for_content =ctnt_itv;  
+    };;
+
 (*
 
 
