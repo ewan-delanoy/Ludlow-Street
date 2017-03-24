@@ -18,8 +18,26 @@ let read1 s=
   let p=Gparser_result.final_cursor_position res in
   if p<=(String.length s) 
   then accuse_final_excerpt s p
-  else Gparser_result.important_ranges res;;
+  else 
+  let temp1=Gparser_result.important_ranges res in
+  Image.image (fun (i,j)->
+    let opt=Gparser.apply Gparser_for_ocaml_language.elt_prsr s i in
+    let res=Option.unpack opt in
+    ((i,j),Option.unpack(Gparser_result.disjunction_index res))
+  ) temp1;;
   
+  
+  
+(*  
+exception Read2_exn of string;;  
+  
+let read2 s (i,j)=
+   let t=Cull_string.interval s i j in
+   let opt=Gparser.apply Gparser_for_ocaml_language.elt_prsr s 1 in
+   
+*)   
+   
+     
   
 
 
