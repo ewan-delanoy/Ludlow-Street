@@ -12,18 +12,18 @@ let accuse_final_excerpt s i=
   raise(Unreadable(Cull_string.interval s i j));;
 
 let read1 s=
-  let opt=Gparser.apply Gparser_for_ocaml_language.main_prsr s 1 in
+  let opt=Hparser_apply.apply Hparser_for_ocaml_language.main_prsr s 1 in
   if opt=None then accuse_final_excerpt s 1 else
   let res=Option.unpack opt in 
-  let p=Gparser_result.final_cursor_position res in
+  let p=Hparser_result.final_cursor_position res in
   if p<=(String.length s) 
   then accuse_final_excerpt s p
   else 
-  let temp1=Gparser_result.important_ranges res in
+  let temp1=Hparser_result.important_ranges res in
   Image.image (fun (i,j)->
-    let opt=Gparser.apply Gparser_for_ocaml_language.elt_prsr s i in
+    let opt=Hparser_apply.apply Hparser_for_ocaml_language.elt_prsr s i in
     let res=Option.unpack opt in
-    ((i,j),Option.unpack(Gparser_result.disjunction_index res))
+    ((i,j),Option.unpack(Hparser_result.disjunction_index res))
   ) temp1;;
   
 (*  
