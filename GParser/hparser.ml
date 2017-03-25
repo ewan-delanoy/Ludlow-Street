@@ -21,5 +21,5 @@ type t=
     |Star of t
     |One_or_more of t
     |Optional of t
-    |Recoiling_ending of t
+    |Recoiling_ending of t*t
 ;;
