@@ -115,6 +115,16 @@ let prsr_for_value_making=Gparser.Chain
      Gparser.Enclosure ("",double_semicolon);
    ];;
 
+let prsr_for_detailed_value_making=Gparser.Detailed_chain
+   [
+     Gparser.Constant "let";
+     prsr_for_white;
+     prsr_for_uncapitalized_word;
+     prsr_for_white_maybe;
+     Gparser.Enclosure ("","=");
+     Gparser.Enclosure ("",double_semicolon);
+   ];;
+
 let prsr_for_type_making=Gparser.Chain
    [
      Gparser.Constant "type";
