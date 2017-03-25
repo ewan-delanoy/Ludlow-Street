@@ -338,23 +338,23 @@ let recoiling_ending x y=
    (tempf:Hparser_fun.t);;
      
 let rec apply=function        
-     Hparser.Constant(s)->constant s
-    |Hparser.Enclosure(s1,s2)->enclosure (s1,s2)
-    |Hparser.Footless_constant(s)->footless_constant s
-    |Hparser.Sample_char(s)->sample_char s
-    |Hparser.Sample_neg(s)->sample_neg s
-    |Hparser.Sample_star(s)->sample_star s
-    |Hparser.Sample_negstar(s)->sample_negstar s
-    |Hparser.Sample_plus(s)->sample_plus s
-    |Hparser.Race(s1,s2)->race(s1,s2)
-    |Hparser.House_with_doors(s1,s2,l)->house_with_doors (s1,s2) l
+     Gparser.Constant(s)->constant s
+    |Gparser.Enclosure(s1,s2)->enclosure (s1,s2)
+    |Gparser.Footless_constant(s)->footless_constant s
+    |Gparser.Sample_char(s)->sample_char s
+    |Gparser.Sample_neg(s)->sample_neg s
+    |Gparser.Sample_star(s)->sample_star s
+    |Gparser.Sample_negstar(s)->sample_negstar s
+    |Gparser.Sample_plus(s)->sample_plus s
+    |Gparser.Race(s1,s2)->race(s1,s2)
+    |Gparser.House_with_doors(s1,s2,l)->house_with_doors (s1,s2) l
     
-    |Hparser.Chain(l)->chain(Image.image apply l)
-    |Hparser.Disjunction(l)->disjunction(Image.image apply l)
-    |Hparser.Star(x)->star(apply x)
-    |Hparser.One_or_more(x)->one_or_more(apply x)
-    |Hparser.Optional(x)->optional(apply x)
-    |Hparser.Recoiling_ending(x,y)->recoiling_ending (apply x) (apply y);;
+    |Gparser.Chain(l)->chain(Image.image apply l)
+    |Gparser.Disjunction(l)->disjunction(Image.image apply l)
+    |Gparser.Star(x)->star(apply x)
+    |Gparser.One_or_more(x)->one_or_more(apply x)
+    |Gparser.Optional(x)->optional(apply x)
+    |Gparser.Recoiling_ending(x,y)->recoiling_ending (apply x) (apply y);;
    
 end;;   
    

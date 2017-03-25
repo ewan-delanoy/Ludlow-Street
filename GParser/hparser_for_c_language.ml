@@ -4,50 +4,50 @@
 
 *)
 
-let prsr_for_comment=Hparser.Enclosure ("/*","*/");;
+let prsr_for_comment=Gparser.Enclosure ("/*","*/");;
 
 
-let prsr_for_space=Hparser.Constant " ";;
-let prsr_for_tab=Hparser.Constant "\t";;
+let prsr_for_space=Gparser.Constant " ";;
+let prsr_for_tab=Gparser.Constant "\t";;
 
-let prsr_for_space_or_tab=Hparser.Disjunction [prsr_for_space;prsr_for_tab];;
-let prsr_for_linebreak=Hparser.Constant "\n";;
-let prsr_for_newline=Hparser.Constant "\012";;
-let prsr_for_individual_white=Hparser.Disjunction [prsr_for_space;prsr_for_tab;prsr_for_linebreak;prsr_for_newline];;
+let prsr_for_space_or_tab=Gparser.Disjunction [prsr_for_space;prsr_for_tab];;
+let prsr_for_linebreak=Gparser.Constant "\n";;
+let prsr_for_newline=Gparser.Constant "\012";;
+let prsr_for_individual_white=Gparser.Disjunction [prsr_for_space;prsr_for_tab;prsr_for_linebreak;prsr_for_newline];;
 
-let prsr_for_inline_white_maybe=Hparser.Star prsr_for_space_or_tab;;
-let prsr_for_white_maybe=Hparser.Star prsr_for_individual_white;;
-let prsr_for_white=Hparser.One_or_more prsr_for_individual_white;;
+let prsr_for_inline_white_maybe=Gparser.Star prsr_for_space_or_tab;;
+let prsr_for_white_maybe=Gparser.Star prsr_for_individual_white;;
+let prsr_for_white=Gparser.One_or_more prsr_for_individual_white;;
 
-let prsr1=Hparser.Enclosure ("\"","\"");;
-let prsr2=Hparser.Enclosure ("<",">");;
-let prsr3=Hparser.Disjunction [prsr1;prsr2];;
+let prsr1=Gparser.Enclosure ("\"","\"");;
+let prsr2=Gparser.Enclosure ("<",">");;
+let prsr3=Gparser.Disjunction [prsr1;prsr2];;
 
 
-let prsr_for_inclusion=Hparser.Chain
+let prsr_for_inclusion=Gparser.Chain
       [
-        Hparser.Constant "\n#";
+        Gparser.Constant "\n#";
         prsr_for_inline_white_maybe;
-        Hparser.Constant "include";
+        Gparser.Constant "include";
         prsr_for_inline_white_maybe;
         prsr3
       ];;
 
 
-let prsr_for_typeword_not_starting_with_u=Hparser.Chain
+let prsr_for_typeword_not_starting_with_u=Gparser.Chain
    [
-     Hparser.Sample_neg "u";
-     Hparser.Sample_star "abcdefghijklmnopqrstuvwxyz_";
+     Gparser.Sample_neg "u";
+     Gparser.Sample_star "abcdefghijklmnopqrstuvwxyz_";
    ];;
 
-let prsr_for_typeword_starting_with_u_but_not_with_un=Hparser.Chain
+let prsr_for_typeword_starting_with_u_but_not_with_un=Gparser.Chain
    [
-     Hparser.Constant "u";
-     Hparser.Sample_neg "n";
-     Hparser.Sample_star "abcdefghijklmnopqrstuvwxyz_";
+     Gparser.Constant "u";
+     Gparser.Sample_neg "n";
+     Gparser.Sample_star "abcdefghijklmnopqrstuvwxyz_";
    ];;
 
-let prsr_for_typeword=Hparser.Disjunction
+let prsr_for_typeword=Gparser.Disjunction
    [
      prsr_for_typeword_not_starting_with_u;
      prsr_for_typeword_starting_with_u_but_not_with_un;
@@ -56,243 +56,243 @@ let prsr_for_typeword=Hparser.Disjunction
 
 
 
-let prsr_for_braced=Hparser.Chain
+let prsr_for_braced=Gparser.Chain
    [
-      Hparser.Constant "{";
-      Hparser.House_with_doors ("{","}",["/*","*/";"//","\n";"\"","\"";"'","'"]);
+      Gparser.Constant "{";
+      Gparser.House_with_doors ("{","}",["/*","*/";"//","\n";"\"","\"";"'","'"]);
    ];;
 
-let prsr_for_typename1=Hparser.Chain
+let prsr_for_typename1=Gparser.Chain
    [
-      Hparser.Constant "struct";
+      Gparser.Constant "struct";
       prsr_for_inline_white_maybe;
       prsr_for_typeword;
       prsr_for_white;
-      Hparser.Optional(prsr_for_braced);
+      Gparser.Optional(prsr_for_braced);
    ];;
    
-let prsr_for_typename2=Hparser.Chain
+let prsr_for_typename2=Gparser.Chain
    [
-      Hparser.Constant "unsigned";
+      Gparser.Constant "unsigned";
       prsr_for_inline_white_maybe;
-      Hparser.Constant "int";
+      Gparser.Constant "int";
    ];;    
 
 
-let prsr_for_typename3=Hparser.Chain
+let prsr_for_typename3=Gparser.Chain
    [
-      Hparser.Constant "long";
+      Gparser.Constant "long";
       prsr_for_inline_white_maybe;
-      Hparser.Constant "int";
+      Gparser.Constant "int";
    ];;    
 
-let prsr_for_typename4=Hparser.Chain
+let prsr_for_typename4=Gparser.Chain
    [
-      Hparser.Constant "unsigned";
+      Gparser.Constant "unsigned";
       prsr_for_inline_white_maybe;
-      Hparser.Constant "long";
+      Gparser.Constant "long";
    ];;    
 
-let prsr_for_typename=Hparser.Disjunction
+let prsr_for_typename=Gparser.Disjunction
    [
      prsr_for_typename1;
      prsr_for_typename2;
      prsr_for_typename3;
      prsr_for_typename4;
      prsr_for_typeword;
-     Hparser.Constant "FILE";
+     Gparser.Constant "FILE";
    ];;
 
-let prsr_for_possibly_starred_typename=Hparser.Chain
+let prsr_for_possibly_starred_typename=Gparser.Chain
    [
      prsr_for_typename;
      prsr_for_inline_white_maybe;
-     Hparser.Optional(Hparser.Constant "*");
+     Gparser.Optional(Gparser.Constant "*");
    ];;
 
-let prsr_for_variableword=Hparser.Chain
+let prsr_for_variableword=Gparser.Chain
 	[
-	  Hparser.Sample_char "abcdefghijklmnopqrstuvwxyz_";
-	  Hparser.Sample_star "abcdefghijklmnopqrstuvwxyz_0123456789"
+	  Gparser.Sample_char "abcdefghijklmnopqrstuvwxyz_";
+	  Gparser.Sample_star "abcdefghijklmnopqrstuvwxyz_0123456789"
 	];;
 
-let prsr_for_identword=Hparser.Chain
+let prsr_for_identword=Gparser.Chain
 	[
-	  Hparser.Sample_char "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	  Hparser.Sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	  Gparser.Sample_char "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	  Gparser.Sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	];;
 
-let prsr_for_uppercase_word=Hparser.Sample_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
+let prsr_for_uppercase_word=Gparser.Sample_plus "_ABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
 
-let prsr_for_negative_int=Hparser.Chain
+let prsr_for_negative_int=Gparser.Chain
 	[
-	  Hparser.Constant "-";
-	  Hparser.Sample_star "0123456789"
+	  Gparser.Constant "-";
+	  Gparser.Sample_star "0123456789"
 	];;
 
 
-let prsr_for_rvalue=Hparser.Disjunction
+let prsr_for_rvalue=Gparser.Disjunction
    [
      prsr_for_identword;
      prsr_for_negative_int;
-     Hparser.Sample_plus "0123456789";
+     Gparser.Sample_plus "0123456789";
      prsr_for_braced;
    ];;
 
-let prsr_for_vardecl=Hparser.Chain
+let prsr_for_vardecl=Gparser.Chain
    [
       
       prsr_for_possibly_starred_typename;
       prsr_for_inline_white_maybe;
       prsr_for_variableword;
       prsr_for_inline_white_maybe;
-      Hparser.Constant "=";
+      Gparser.Constant "=";
       prsr_for_inline_white_maybe;
       prsr_for_rvalue;
       prsr_for_inline_white_maybe;
-      Hparser.Constant ";";
+      Gparser.Constant ";";
    ];;
 
-let prsr_for_def_directive=Hparser.Chain
+let prsr_for_def_directive=Gparser.Chain
       [
-        Hparser.Constant "\n#";
+        Gparser.Constant "\n#";
         prsr_for_inline_white_maybe;
-        Hparser.Constant "define";
+        Gparser.Constant "define";
         prsr_for_space_or_tab;
-        Hparser.Race ("\\\n","\n");
+        Gparser.Race ("\\\n","\n");
       ];;
 
-let prsr_for_lonely_def_directive=Hparser.Chain
+let prsr_for_lonely_def_directive=Gparser.Chain
       [
-        Hparser.Constant "\n#";
+        Gparser.Constant "\n#";
         prsr_for_inline_white_maybe;
-        Hparser.Constant "define";
-        prsr_for_space_or_tab;
-        prsr_for_inline_white_maybe;
-        prsr_for_uppercase_word;
-        Hparser.Footless_constant "\n";
-      ];;
-
-let prsr_for_undef_directive=Hparser.Chain
-      [
-        Hparser.Constant "\n#";
-        prsr_for_inline_white_maybe;
-        Hparser.Constant "undef";
+        Gparser.Constant "define";
         prsr_for_space_or_tab;
         prsr_for_inline_white_maybe;
         prsr_for_uppercase_word;
-        Hparser.Footless_constant "\n";
+        Gparser.Footless_constant "\n";
       ];;
 
-let prsr_for_typename_inliner1=Hparser.Chain
+let prsr_for_undef_directive=Gparser.Chain
+      [
+        Gparser.Constant "\n#";
+        prsr_for_inline_white_maybe;
+        Gparser.Constant "undef";
+        prsr_for_space_or_tab;
+        prsr_for_inline_white_maybe;
+        prsr_for_uppercase_word;
+        Gparser.Footless_constant "\n";
+      ];;
+
+let prsr_for_typename_inliner1=Gparser.Chain
      [
-       Hparser.Constant "__inline";
+       Gparser.Constant "__inline";
        prsr_for_white;
-       Hparser.Constant "static";
+       Gparser.Constant "static";
      ];;
 
-let prsr_for_typename_inliner2=Hparser.Chain
+let prsr_for_typename_inliner2=Gparser.Chain
      [
-       Hparser.Constant "static";
+       Gparser.Constant "static";
        prsr_for_white;
-       Hparser.Constant "inline";
+       Gparser.Constant "inline";
        prsr_for_white;
-       Hparser.Constant "const";
+       Gparser.Constant "const";
      ];;
 
 
 
-let prsr_for_typename_inliner=Hparser.Disjunction
+let prsr_for_typename_inliner=Gparser.Disjunction
      [
        prsr_for_typename_inliner1;
        prsr_for_typename_inliner2;
-       Hparser.Constant "__inline";
-       Hparser.Constant "static";
-       Hparser.Constant "extern";
+       Gparser.Constant "__inline";
+       Gparser.Constant "static";
+       Gparser.Constant "extern";
      ];;
 
-let prsr_for_whitened_typename_inliner=Hparser.Chain
+let prsr_for_whitened_typename_inliner=Gparser.Chain
     [
       prsr_for_typename_inliner;
       prsr_for_white;
     ];;
 
 let prsr_for_fundecl1=
-     Hparser.Chain
+     Gparser.Chain
    [
       
-      Hparser.Optional(prsr_for_whitened_typename_inliner);
+      Gparser.Optional(prsr_for_whitened_typename_inliner);
       prsr_for_possibly_starred_typename;
       prsr_for_white_maybe;
       prsr_for_variableword;
       prsr_for_white_maybe;
-      Hparser.Optional(prsr_for_uppercase_word);
+      Gparser.Optional(prsr_for_uppercase_word);
       prsr_for_white_maybe;
-      Hparser.House_with_doors ("(",")",[]);
+      Gparser.House_with_doors ("(",")",[]);
       prsr_for_white_maybe;
-      Hparser.Optional(Hparser.Constant "internal_function");
-      Hparser.Constant ";";
+      Gparser.Optional(Gparser.Constant "internal_function");
+      Gparser.Constant ";";
    ];;
 
 let prsr_for_fundecl=
-   Hparser.Disjunction
+   Gparser.Disjunction
     [
       prsr_for_fundecl1;
     ];;
 
 
 let prsr_for_fundef1=
-     Hparser.Chain
+     Gparser.Chain
    [
       
-      Hparser.Optional(prsr_for_whitened_typename_inliner);
+      Gparser.Optional(prsr_for_whitened_typename_inliner);
       prsr_for_possibly_starred_typename;
       prsr_for_white_maybe;
-      Hparser.Optional(Hparser.Constant "internal_function");
+      Gparser.Optional(Gparser.Constant "internal_function");
       prsr_for_white_maybe;
       prsr_for_variableword;
       prsr_for_white;
-      Hparser.Enclosure ("(",")");
+      Gparser.Enclosure ("(",")");
       prsr_for_white;
-      Hparser.Sample_negstar "{";     
+      Gparser.Sample_negstar "{";     
       prsr_for_braced;
    ];;
    
 let prsr_for_fundef2=
-     Hparser.Chain
+     Gparser.Chain
    [
       
-      Hparser.Constant "RETSIGTYPE";
+      Gparser.Constant "RETSIGTYPE";
       prsr_for_white;
       prsr_for_variableword;
       prsr_for_white;
-      Hparser.Enclosure ("(",")");
+      Gparser.Enclosure ("(",")");
       prsr_for_white;
-      Hparser.Sample_negstar "{";     
+      Gparser.Sample_negstar "{";     
       prsr_for_braced;
    ];;   
    
 let prsr_for_fundef=
-   Hparser.Disjunction
+   Gparser.Disjunction
     [
       prsr_for_fundef1;
       prsr_for_fundef2;
     ];;   
 
 let prsr_for_structdef=
-     Hparser.Chain
+     Gparser.Chain
    [
-      Hparser.Constant "struct";
+      Gparser.Constant "struct";
       prsr_for_white;
       prsr_for_typeword;
       prsr_for_white_maybe;
       prsr_for_braced;
       prsr_for_white_maybe;
-      Hparser.Constant ";";
+      Gparser.Constant ";";
    ];;
 
 let elt_prsr=
-   Hparser.Disjunction
+   Gparser.Disjunction
      [
        prsr_for_inclusion; 
        prsr_for_lonely_def_directive;
@@ -308,7 +308,7 @@ let elt_prsr=
 
 
 let main_prsr=
-   Hparser.Star elt_prsr;;
+   Gparser.Star elt_prsr;;
 
 
 
