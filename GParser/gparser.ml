@@ -1,6 +1,6 @@
 (*
 
-#use"GParser/hparser.ml";;
+#use"GParser/gparser.ml";;
 
 *)
 
@@ -21,4 +21,5 @@ type t=
     |One_or_more of t
     |Optional of t
     |Recoiling_ending of t*t
+    |Detailed_chain of t list
 ;;

@@ -1,6 +1,6 @@
 (*
 
-#use"GParser/hparser_apply.ml";;
+#use"GParser/gparser_apply.ml";;
 
 *)
 
@@ -254,6 +254,37 @@ let starter_for_chain l s i=Usual([],l,s,i,i);;
 let chain l=
     ((fun s i->
      iterator_for_chain(starter_for_chain  l s i)):Gparser_fun.t);;
+     
+let pusher_for_detailed_chain=function
+  Usual(imp_ranges,da_ober,s,i0,k)->
+      (
+      match da_ober with
+      []->Result_found(
+           Gparser_result.veil
+               (i0,k-1)
+               (List.rev imp_ranges)
+               k
+               None
+          )
+      |prsr::rest->   
+         (
+           match prsr s k with
+            None->Failure_found
+           |Some(res)->Usual((Gparser_result.whole_range res)::imp_ranges,
+                       rest,s,i0,Gparser_result.final_cursor_position res)
+         )  
+        )
+    |x->x;;
+    
+let rec iterator_for_detailed_chain=function
+   Result_found(res)->Some(res)
+  |Failure_found->None
+  |x->iterator_for_detailed_chain(pusher_for_detailed_chain x);;
+    
+
+let detailed_chain l=
+    ((fun s i->
+     iterator_for_detailed_chain(starter_for_chain  l s i)):Gparser_fun.t);;     
 
 let disjunction l=
    let indexed_l=Ennig.index_everything l in   
@@ -354,7 +385,8 @@ let rec apply=function
     |Gparser.Star(x)->star(apply x)
     |Gparser.One_or_more(x)->one_or_more(apply x)
     |Gparser.Optional(x)->optional(apply x)
-    |Gparser.Recoiling_ending(x,y)->recoiling_ending (apply x) (apply y);;
+    |Gparser.Recoiling_ending(x,y)->recoiling_ending (apply x) (apply y)
+    |Gparser.Detailed_chain(l)->detailed_chain(Image.image apply l);;
    
 end;;   
    
