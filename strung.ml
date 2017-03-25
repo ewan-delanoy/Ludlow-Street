@@ -37,7 +37,7 @@ let enclose s=
  
 let show_indices s=
   let n=String.length s in
-  Ennig.doyle (fun i->(i,String.get s (i-1))) 1 n;;   
+  Ennig.doyle (fun i->(i,String.get s (i-1)) ) 1 n;;   
    
 let number_of_lines_before s i=
    if i<1 then 0 else

@@ -30,7 +30,17 @@ let read1 s=
 
 let update_accumulator (preceding_values,module_chain,current_module) ((i,j),idx)=
   if idx=1 /* we have a value */  
-  then 
+  then let new_item=
+        Ocaml_gysntax_item.make
+          Ocaml_gsyntax_category.Value
+          
+        {
+  		category =cat;
+        name =nm;
+        interval_for_name =nm_itv;
+        content =ctnt;
+        interval_for_content =ctnt_itv;  
+    };;
   
 let s1="let jiving=234  ;;";;
 let res1=Gparser.apply Gparser_for_ocaml_language.prsr_for_value_making s1 1;;  
