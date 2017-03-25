@@ -1,6 +1,6 @@
 (*
 
-#use"GParser/hparser_for_ocaml_language.ml";;
+#use"GParser/gparser_for_ocaml_language.ml";;
 
 *)
 
@@ -33,8 +33,8 @@ let prsr_for_special_sharp=Gparser.Chain
      Gparser.Sample_star "0123456789";
      prsr_for_inline_white_maybe;
      Gparser.Constant "\"";
-     Hparser.Sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ/.";
-     Hparser.Constant "\"";
+     Gparser.Sample_star "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ/.";
+     Gparser.Constant "\"";
      prsr_for_inline_white_maybe;
    ];;
 
