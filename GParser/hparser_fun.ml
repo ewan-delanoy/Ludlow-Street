@@ -4,4 +4,4 @@
 
 *)
 
-type t=(string->int->(Hparser_result.t option));;
+type t=(string->int->(Gparser_result.t option));;

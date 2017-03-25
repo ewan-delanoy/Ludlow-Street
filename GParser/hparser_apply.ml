@@ -17,7 +17,7 @@ let enclosure (left_encloser,right_encloser)=
    then None 
    else
    let i4=i3+(String.length right_encloser)-1 in
-   let res= Hparser_result.veil
+   let res= Gparser_result.veil
                (i1,i4)
                [i2,i3-1]
                (i4+1)
@@ -31,7 +31,7 @@ let constant t=
    then None
    else 
    let i2=i1+(String.length t) in
-   let res= Hparser_result.veil
+   let res= Gparser_result.veil
                (i1,i2-1)
                []
                i2
@@ -46,7 +46,7 @@ let footless_constant t=
    then None
    else 
    let i2=i1+(String.length t) in
-   let res= Hparser_result.veil
+   let res= Gparser_result.veil
                (i1,i2-1)
                []
                (i2-1)
@@ -59,7 +59,7 @@ let sample_char t=
    let tempf=(fun s i->
         let c=Strung.get s i in
         if List.mem c lc
-        then Some(Hparser_result.veil
+        then Some(Gparser_result.veil
                (i,i)
                []
                (i+1)
@@ -72,7 +72,7 @@ let sample_neg t=
    let tempf=(fun s i->
         let c=Strung.get s i in
         if not(List.mem c lc)
-        then Some(Hparser_result.veil
+        then Some(Gparser_result.veil
                (i,i)
                []
                (i+1)
@@ -85,7 +85,7 @@ let sample_star t=
    let tempf=(fun s i1->
         let j=Strung.finder (fun c->not(List.mem c lc)) s i1 in
         let better_j=(if j<1 then (String.length s)+1 else j) in
-        let res=Hparser_result.veil
+        let res=Gparser_result.veil
                (i1,better_j-1)
                []
                better_j
@@ -98,7 +98,7 @@ let sample_negstar t=
    let tempf=(fun s i1->
         let j=Strung.finder (fun c->List.mem c lc) s i1 in
         let better_j=(if j<1 then (String.length s)+1 else j) in
-        let res=Hparser_result.veil
+        let res=Gparser_result.veil
                (i1,better_j-1)
                []
                better_j
@@ -113,7 +113,7 @@ let sample_plus t=
         if (not(List.mem (Strung.get s i1 ) lc)) then None else
         let j=Strung.finder (fun c->not(List.mem c lc)) s i1 in
         let better_j=(if j<1 then (String.length s)+1 else j) in
-        let res=Hparser_result.veil
+        let res=Gparser_result.veil
                (i1,better_j-1)
                []
                better_j
@@ -134,7 +134,7 @@ let race (continuer,finalizer)=
         then tempf(s,i1,k+1)
         else
         let j1=k+(String.length finalizer) in
-        let res=Hparser_result.veil
+        let res=Gparser_result.veil
                (i1,j1-1)
                []
                (j1-1)
@@ -171,7 +171,7 @@ let first_case_in_hwd
    then old_f (main_opener,main_closer,other_enclosers,s,i1,k+(String.length main_closer),depth-1,None)
    else 
    let j1=k+(String.length main_closer) in
-   let res=Hparser_result.veil
+   let res=Gparser_result.veil
                (i1,j1-1)
                []
                j1
@@ -219,7 +219,7 @@ let house_with_doors
 
 type chain_artefact=
      Usual of (int * int) list * Hparser_fun.t list * bytes * int * int 
-    |Result_found of Hparser_result.t
+    |Result_found of Gparser_result.t
     |Failure_found;;
 
 let pusher_for_chain=function
@@ -227,7 +227,7 @@ let pusher_for_chain=function
       (
       match da_ober with
       []->Result_found(
-           Hparser_result.veil
+           Gparser_result.veil
                (i0,k-1)
                imp_ranges
                k
@@ -237,8 +237,8 @@ let pusher_for_chain=function
          (
            match prsr s k with
             None->Failure_found
-           |Some(res)->Usual(imp_ranges@(Hparser_result.important_ranges res),
-                       rest,s,i0,Hparser_result.final_cursor_position res)
+           |Some(res)->Usual(imp_ranges@(Gparser_result.important_ranges res),
+                       rest,s,i0,Gparser_result.final_cursor_position res)
          )  
         )
     |x->x;;
@@ -267,10 +267,10 @@ let disjunction l=
              None->tempf(rest,s,i0)
            |Some(res)->
           Some(
-             Hparser_result.veil
-               (Hparser_result.whole_range res)
-               (Hparser_result.important_ranges res)
-               (Hparser_result.final_cursor_position res)
+             Gparser_result.veil
+               (Gparser_result.whole_range res)
+               (Gparser_result.important_ranges res)
+               (Gparser_result.final_cursor_position res)
                (Some j)
            )
          )   
@@ -282,14 +282,14 @@ let star prsr=
    (imp_ranges,s,i0,k)->
       match prsr s k with
        None->Some(
-             Hparser_result.veil
+             Gparser_result.veil
                (i0,k-1)
                (imp_ranges)
                k
                None
             )
-      |Some(res)->tempf(imp_ranges@(Hparser_result.important_ranges res),
-                       s,i0,Hparser_result.final_cursor_position res)
+      |Some(res)->tempf(imp_ranges@(Gparser_result.important_ranges res),
+                       s,i0,Gparser_result.final_cursor_position res)
    
    ) in
    ((fun s i->tempf ([],s,i,i)):Hparser_fun.t);;
@@ -301,14 +301,14 @@ let optional prsr=
    let rec tempf=(fun s i->
       match prsr s i with
        Some(res)->Some(
-            Hparser_result.veil
-               (Hparser_result.whole_range res)
-               (Hparser_result.important_ranges res)
-               (Hparser_result.final_cursor_position res)
+            Gparser_result.veil
+               (Gparser_result.whole_range res)
+               (Gparser_result.important_ranges res)
+               (Gparser_result.final_cursor_position res)
                None
             )
       |None->Some(
-            Hparser_result.veil
+            Gparser_result.veil
                (i,i-1)
                []
                i
@@ -325,12 +325,12 @@ let recoiling_ending x y=
        None->None
       |Some(res)->
                   
-                  let j=Hparser_result.final_cursor_position res in
+                  let j=Gparser_result.final_cursor_position res in
                   if y s j=None then None else
                   Some(
-                  Hparser_result.veil
+                  Gparser_result.veil
                   (i,j-1)
-                  (Hparser_result.important_ranges res)
+                  (Gparser_result.important_ranges res)
                   j
                   None
                   )
