@@ -23,7 +23,7 @@ let enclosure (left_encloser,right_encloser)=
                (i4+1)
                None in
    Some(res)) in
-   (tempf: Hparser_fun.t);;
+   (tempf: Gparser_fun.t);;
    
 let constant t=
    let tempf=(fun s i1->
@@ -37,7 +37,7 @@ let constant t=
                i2
                None in
    Some(res)) in
-   (tempf: Hparser_fun.t);;
+   (tempf: Gparser_fun.t);;
 
 
 let footless_constant t=
@@ -52,7 +52,7 @@ let footless_constant t=
                (i2-1)
                None in
    Some(res)) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 let sample_char t=
    let lc=Strung.explode t in
@@ -65,7 +65,7 @@ let sample_char t=
                (i+1)
                None)
         else None) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 let sample_neg t=
    let lc=Strung.explode t in
@@ -78,7 +78,7 @@ let sample_neg t=
                (i+1)
                None)
         else None) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 let sample_star t=
    let lc=Strung.explode t in
@@ -91,7 +91,7 @@ let sample_star t=
                better_j
                None in
    Some(res)) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 let sample_negstar t=
    let lc=Strung.explode t in
@@ -104,7 +104,7 @@ let sample_negstar t=
                better_j
                None in
    Some(res)) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 let sample_plus t=
    let lc=Strung.explode t in
@@ -119,7 +119,7 @@ let sample_plus t=
                better_j
                None in
    Some(res)) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
    
 
 let race (continuer,finalizer)=
@@ -140,7 +140,7 @@ let race (continuer,finalizer)=
                (j1-1)
                None in
         Some(res)) in
-   ((fun s i->tempf(s,i,i)):Hparser_fun.t);;   
+   ((fun s i->tempf(s,i,i)):Gparser_fun.t);;   
    
 
 
@@ -215,10 +215,10 @@ let house_with_doors
           iterator_for_house_of_doors 
          (main_opener,main_closer,other_enclosers,s,i,j,1,None)
    ) in
-   (tempf:Hparser_fun.t);;   
+   (tempf:Gparser_fun.t);;   
 
 type chain_artefact=
-     Usual of (int * int) list * Hparser_fun.t list * bytes * int * int 
+     Usual of (int * int) list * Gparser_fun.t list * bytes * int * int 
     |Result_found of Gparser_result.t
     |Failure_found;;
 
@@ -253,7 +253,7 @@ let starter_for_chain l s i=Usual([],l,s,i,i);;
 
 let chain l=
     ((fun s i->
-     iterator_for_chain(starter_for_chain  l s i)):Hparser_fun.t);;
+     iterator_for_chain(starter_for_chain  l s i)):Gparser_fun.t);;
 
 let disjunction l=
    let indexed_l=Ennig.index_everything l in   
@@ -275,7 +275,7 @@ let disjunction l=
            )
          )   
    ) in
-   ((fun s i->tempf (indexed_l,s,i)):Hparser_fun.t);;
+   ((fun s i->tempf (indexed_l,s,i)):Gparser_fun.t);;
 
 let star prsr=
    let rec tempf=(fun
@@ -292,7 +292,7 @@ let star prsr=
                        s,i0,Gparser_result.final_cursor_position res)
    
    ) in
-   ((fun s i->tempf ([],s,i,i)):Hparser_fun.t);;
+   ((fun s i->tempf ([],s,i,i)):Gparser_fun.t);;
    
    
 let one_or_more prsr=chain [prsr;star prsr];;
@@ -316,7 +316,7 @@ let optional prsr=
             )
    
    ) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
 
 
 let recoiling_ending x y=
@@ -335,7 +335,7 @@ let recoiling_ending x y=
                   None
                   )
    ) in
-   (tempf:Hparser_fun.t);;
+   (tempf:Gparser_fun.t);;
      
 let rec apply=function        
      Gparser.Constant(s)->constant s
