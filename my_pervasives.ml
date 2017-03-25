@@ -109,9 +109,9 @@ let itv=Cull_string.interval;;
 
 open German_pervasives;;
 
-(*
+
 if (German_wrapper.data()=[]) then German_wrapper.initialize();;
-*)
+
 
 (* Module management code ends here *)
 
