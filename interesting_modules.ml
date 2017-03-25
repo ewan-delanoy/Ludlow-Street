@@ -15,6 +15,7 @@ let list=
      "interpolation";
      "legendre_symbol";
      "modularize";
+     "Ocaml_analysis/gdecompose_ocaml_text";
      "Optional/simplex_method";
      "optimize_polynomial";
      "Php_analizer/level_one";
