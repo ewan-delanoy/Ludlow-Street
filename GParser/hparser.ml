@@ -15,7 +15,6 @@ type t=
     |Sample_plus of string
     |Race of string*string
     |House_with_doors of string*string*((string*string) list)
-    
     |Chain of t list
     |Disjunction of t list
     |Star of t
