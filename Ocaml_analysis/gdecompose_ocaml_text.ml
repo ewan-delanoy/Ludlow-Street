@@ -30,7 +30,7 @@ let describe_value_item s (i,j)=
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
      and (i2,j2)=List.nth(Gparser_result.important_ranges res) 5 in
-       Ocaml_gysntax_item.make
+       Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Value
           (Cull_string.interval s i1 j1)
           (i1,j1)
