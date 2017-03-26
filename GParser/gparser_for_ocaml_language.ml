@@ -128,7 +128,7 @@ let prsr_for_type_making=Gparser.Detailed_chain
 
 
 
-let prsr_for_exception_making=Gparser.Chain
+let prsr_for_exception_making=Gparser.Detailed_chain
      [
      Gparser.Constant "exception";
      prsr_for_white;

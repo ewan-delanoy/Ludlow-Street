@@ -40,12 +40,26 @@ let describe_value_item s (i,j)=
           false;;
 
 let describe_type_item s (i,j)=
-     let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making s i in
+     let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_type_making s i in
+     let res=Option.unpack opt in
+     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 3
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 6 in
+       Ocaml_gsyntax_item.make
+          Ocaml_gsyntax_category.Type
+          (Cull_string.interval s i1 j1)
+          (i1,j1)
+          (* the -2 of because of the 2 characters in the double semicolon *)
+          (Cull_string.interval s i2 (j2-2))
+          (i2,j2-2)
+          false;;
+
+let describe_exception_item s (i,j)=
+     let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_type_making s i in
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
-     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 5 in
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 3 in
        Ocaml_gsyntax_item.make
-          Ocaml_gsyntax_category.Value
+          Ocaml_gsyntax_category.Exception
           (Cull_string.interval s i1 j1)
           (i1,j1)
           (* the -2 of because of the 2 characters in the double semicolon *)
@@ -74,8 +88,22 @@ let describe_type_item s (i,j)=
   
 (*  
 
-let s1="let jiving=234  ;;"
-describe_value_item s1 ();;
+let s1="let jiving=234  ;;";;
+describe_value_item s1 (1,String.length s1);;
+
+let s2="type ('a,'b) sister=('a list)*'b*string;;";;
+describe_type_item s2 (1,String.length s2);;
+
+let s3="type sister=(int list)*float*string;;";;
+describe_type_item s3 (1,String.length s3);;
+
+let s4="exception Foobar of string*int;;";;
+describe_exception_item s4 (1,String.length s4);;
+
+let s5="exception Foobar;;";;
+describe_exception_item s5 (1,String.length s5);;
+
+
 
 
 let update_accumulator s (preceding_values,module_chain,current_module) ((i,j),idx)=

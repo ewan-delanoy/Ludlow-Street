@@ -8,6 +8,8 @@ type t=
      Value
     |Type
     |Exception 
+    |Module_opener
+    |Module_closer
     |Module_inclusion;;
     
     
