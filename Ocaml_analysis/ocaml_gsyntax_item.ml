@@ -10,32 +10,18 @@ type t={
   interval_for_name : int*int;
   content : string;
   interval_for_content : int*int;  
+  is_an_included_item : bool;
 };;
 
 
 
-let make cat nm nm_itv ctnt ctnt_itv=
+let make cat nm nm_itv ctnt ctnt_itv incldd_or_not=
     {
   		category =cat;
         name =nm;
         interval_for_name =nm_itv;
         content =ctnt;
         interval_for_content =ctnt_itv;  
+        is_an_included_item =incldd_or_not;
     };;
 
-(*
-
-
- prsr_for_value_making;
-       prsr_for_type_making;
-       prsr_for_exception_making;
-       prsr_for_comment;
-       prsr_for_sharp_comment;
-       prsr_for_special_sharp;
-       prsr_for_module_opener;
-       prsr_for_module_ender;
-       prsr_for_module_inclusion;
-       prsr_for_specialities;
-       prsr_for_white;
-       
-*)       
