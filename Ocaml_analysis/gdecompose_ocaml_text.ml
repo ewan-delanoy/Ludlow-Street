@@ -39,6 +39,21 @@ let describe_value_item s (i,j)=
           (i2,j2-2)
           false;;
 
+let describe_type_item s (i,j)=
+     let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making s i in
+     let res=Option.unpack opt in
+     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 5 in
+       Ocaml_gsyntax_item.make
+          Ocaml_gsyntax_category.Value
+          (Cull_string.interval s i1 j1)
+          (i1,j1)
+          (* the -2 of because of the 2 characters in the double semicolon *)
+          (Cull_string.interval s i2 (j2-2))
+          (i2,j2-2)
+          false;;
+
+
 (*
 
 
@@ -58,6 +73,10 @@ let describe_value_item s (i,j)=
           
   
 (*  
+
+let s1="let jiving=234  ;;"
+describe_value_item s1 ();;
+
 
 let update_accumulator s (preceding_values,module_chain,current_module) ((i,j),idx)=
   if idx=1 /* we have a value */  
