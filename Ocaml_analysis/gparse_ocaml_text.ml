@@ -95,12 +95,34 @@ let describe_module_inclusion_item s (i,j)=
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2 in
        Ocaml_gsyntax_item.make
-          Ocaml_gsyntax_category.Module_opener
+          Ocaml_gsyntax_category.Module_inclusion
           (Cull_string.interval s i1 j1)
           (i1,j1)
           ""
           (0,0)
           false;;
+          
+ let describe_item s ((i,j),idx)=
+   if idx=Gparser_for_ocaml_language.index_for_value
+   then Some(describe_value_item s (i,j))
+   else
+   if idx=Gparser_for_ocaml_language.index_for_type
+   then Some(describe_type_item s (i,j))
+   else
+   if idx=Gparser_for_ocaml_language.index_for_exception
+   then Some(describe_exception_item s (i,j))
+   else
+   if idx=Gparser_for_ocaml_language.index_for_module_opener
+   then Some(describe_module_opener_item s (i,j))
+   else
+   if idx=Gparser_for_ocaml_language.index_for_module_ender
+   then Some(describe_module_closer_item)
+   else          
+   if idx=Gparser_for_ocaml_language.index_for_module_inclusion
+   then Some(describe_module_inclusion_item s (i,j))
+   else None;;
+   
+   
 
 (*
 
