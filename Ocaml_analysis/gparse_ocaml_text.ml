@@ -125,9 +125,34 @@ let describe_module_inclusion_item s (i,j)=
 let read2 s=
    Option.filter_and_unpack (describe_item s) (read1 s);;   
    
+(*   
 let pusher_from_level2_to_level3  
-   (graet,current_full_name,current_names) x=();;
+   (graet,current_full_namespace,current_names) x=match x.Ocaml_gsyntax_item.category with
+    Ocaml_gsyntax_category.Value                                                                          | Type                                                                          
+  | Ocaml_gsyntax_category.Type
+  | Ocaml_gsyntax_category.Exception->
+          let new_x=Ocaml_gsyntax_item.prepend_prefix current_full_name x in
+          (new_x::graet,current_full_namespace,current_names)
+  | Ocaml_gsyntax_category.Module_opener->
+          let new_name=x.Ocaml_gsyntax_item.name in
+          let new_names=current_names@[new_name] in
+          let new_full_namespace=String.concat "." new_names in
+          (graet,new_full_namespace,new_names)
+  | Ocaml_gsyntax_category.Module_closer->
+          let new_names=List.rev(List.tl(List.rev(current_names))) in
+          let new_full_namespace=String.concat "." new_names in
+          (graet,new_full_namespace,new_names)
+  | Ocaml_gsyntax_category.Module_inclusion->
+          let included_module=x.Ocaml_gsyntax_item.name in
+  		  let full_namespace=current_full_namespace^"."^included_module in
+  		  let included_items=List.filter(
+  		     fun y->let nm_y=y.Ocaml_gsyntax_item.name in
+  		     Substring.begins_with  
+  		  ) graet in 
    
+   ;;
+   
+*)
 
 (*
 
