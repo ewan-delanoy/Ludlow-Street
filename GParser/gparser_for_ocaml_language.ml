@@ -137,7 +137,7 @@ let prsr_for_exception_making=Gparser.Detailed_chain
    ];;
 
 let prsr_for_module_opener=
-   Gparser.Chain
+   Gparser.Detailed_chain
    [
      Gparser.Constant "module";
      prsr_for_white;
@@ -157,7 +157,7 @@ let prsr_for_module_ender=
    ];;
 
 let prsr_for_module_inclusion=
-   Gparser.Chain
+   Gparser.Detailed_chain
    [
      Gparser.Constant "include ";
      prsr_for_white_maybe;
