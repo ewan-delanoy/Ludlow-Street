@@ -25,3 +25,12 @@ let make cat nm nm_itv ctnt ctnt_itv incldd_or_not=
         is_an_included_item =incldd_or_not;
     };;
 
+let prepend_prefix prefix x=
+    {
+  		category =x.category;
+        name =prefix^"."^x.name;
+        interval_for_name =x.interval_for_name;
+        content =x.content;
+        interval_for_content =x.interval_for_content;  
+        is_an_included_item =x.is_an_included_item;
+    };;
