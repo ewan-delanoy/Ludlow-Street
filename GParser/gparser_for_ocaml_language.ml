@@ -148,7 +148,7 @@ let prsr_for_module_opener=
      Gparser.Constant "struct";
    ];;
 
-let prsr_for_module_ender=
+let prsr_for_module_closer=
    Gparser.Chain
    [
      Gparser.Constant "end";
@@ -188,7 +188,7 @@ let index_for_comment=4;;
 let index_for_sharp_comment=5;;
 let index_for_special_sharp=6;;
 let index_for_module_opener=7;;
-let index_for_module_ender=8;;
+let index_for_module_closer=8;;
 let index_for_module_inclusion=9;;
 let index_for_specialities=10;;
 let index_for_white=11;;
@@ -206,7 +206,7 @@ let elt_prsr=
        index_for_sharp_comment   ,prsr_for_sharp_comment;
        index_for_special_sharp   ,prsr_for_special_sharp;
        index_for_module_opener   ,prsr_for_module_opener;
-       index_for_module_ender    ,prsr_for_module_ender;
+       index_for_module_closer   ,prsr_for_module_closer;
        index_for_module_inclusion,prsr_for_module_inclusion;
        index_for_specialities    ,prsr_for_specialities;
        index_for_white           ,prsr_for_white;
