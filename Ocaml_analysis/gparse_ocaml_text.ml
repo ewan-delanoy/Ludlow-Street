@@ -115,7 +115,7 @@ let describe_module_inclusion_item s (i,j)=
    if idx=Gparser_for_ocaml_language.index_for_module_opener
    then Some(describe_module_opener_item s (i,j))
    else
-   if idx=Gparser_for_ocaml_language.index_for_module_ender
+   if idx=Gparser_for_ocaml_language.index_for_module_closer
    then Some(describe_module_closer_item)
    else          
    if idx=Gparser_for_ocaml_language.index_for_module_inclusion
