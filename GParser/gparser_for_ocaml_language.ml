@@ -181,21 +181,37 @@ let prsr_for_specialities=Gparser.Chain
      Gparser.Enclosure ("",double_semicolon);
    ];;   
 
+let index_for_value=1;;
+let index_for_type=2;;
+let index_for_exception=3;;
+let index_for_comment=4;;
+let index_for_sharp_comment=5;;
+let index_for_special_sharp=6;;
+let index_for_module_opener=7;;
+let index_for_module_ender=8;;
+let index_for_module_inclusion=9;;
+let index_for_specialities=10;;
+let index_for_white=11;;
+
+
 let elt_prsr=
    Gparser.Disjunction
+   (
+     List_with_indices.list_with_indices
      [
-       prsr_for_value_making;
-       prsr_for_type_making;
-       prsr_for_exception_making;
-       prsr_for_comment;
-       prsr_for_sharp_comment;
-       prsr_for_special_sharp;
-       prsr_for_module_opener;
-       prsr_for_module_ender;
-       prsr_for_module_inclusion;
-       prsr_for_specialities;
-       prsr_for_white;
-     ];;
+       index_for_value           ,prsr_for_value_making;
+       index_for_type            ,prsr_for_type_making;
+       index_for_exception       ,prsr_for_exception_making;
+       index_for_comment         ,prsr_for_comment;
+       index_for_sharp_comment   ,prsr_for_sharp_comment;
+       index_for_special_sharp   ,prsr_for_special_sharp;
+       index_for_module_opener   ,prsr_for_module_opener;
+       index_for_module_ender    ,prsr_for_module_ender;
+       index_for_module_inclusion,prsr_for_module_inclusion;
+       index_for_specialities    ,prsr_for_specialities;
+       index_for_white           ,prsr_for_white;
+     ]
+   );;
 
 
 let main_prsr=
