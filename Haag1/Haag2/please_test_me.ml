@@ -22,7 +22,18 @@ end;;
 let f x=match x.Mood.label with Mood.A|Mood.B|Mood.C->(1,x) 
 |Mood.D->(2,Mood.example) |Mood.E->(3,Mood.example);;
 
+
+
 (*
+
+let f x=match x.Ocaml_gsyntax_item.category with
+ Ocaml_gsyntax_category.Value                                                                          | Type                                                                          
+  | Ocaml_gsyntax_category.Type
+  | Ocaml_gsyntax_category.Exception->(1,x)
+  | Ocaml_gsyntax_category.Module_opener->(2,x)
+  | Ocaml_gsyntax_category.Module_closer->(3,x)
+  | Ocaml_gsyntax_category.Module_inclusion->(4,x);;
+
 module Mood=struct
 
 type mytype= A |B |C |D |E;;

@@ -153,7 +153,7 @@ let module_inclusion_in_pusher
    
 let pusher_from_level2_to_level3  
    (graet,current_full_namespace,current_names) x=match x.Ocaml_gsyntax_item.category with
-    Ocaml_gsyntax_category.Value                                                                          | Type                                                                          
+    Ocaml_gsyntax_category.Value                                                                          
   | Ocaml_gsyntax_category.Type
   | Ocaml_gsyntax_category.Exception->
           let new_x=Ocaml_gsyntax_item.prepend_prefix current_full_namespace x in
