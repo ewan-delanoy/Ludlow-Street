@@ -7,8 +7,6 @@
 
 
 
-
-
 module Mood=struct
 
 type mytype= A |B |C |D |E;;
