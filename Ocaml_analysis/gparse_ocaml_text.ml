@@ -125,7 +125,6 @@ let describe_module_inclusion_item s (i,j)=
 let read2 s=
    Option.filter_and_unpack (describe_item s) (read1 s);;   
    
-
 let pusher_from_level2_to_level3  
    (graet,current_full_namespace,current_names) x=match x.Ocaml_gsyntax_item.category with
     Ocaml_gsyntax_category.Value                                                                          | Type                                                                          
