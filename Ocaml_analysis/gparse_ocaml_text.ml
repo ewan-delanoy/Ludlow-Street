@@ -125,13 +125,13 @@ let describe_module_inclusion_item s (i,j)=
 let read2 s=
    Option.filter_and_unpack (describe_item s) (read1 s);;   
    
-(*   
+
 let pusher_from_level2_to_level3  
    (graet,current_full_namespace,current_names) x=match x.Ocaml_gsyntax_item.category with
     Ocaml_gsyntax_category.Value                                                                          | Type                                                                          
   | Ocaml_gsyntax_category.Type
   | Ocaml_gsyntax_category.Exception->
-          let new_x=Ocaml_gsyntax_item.prepend_prefix current_full_name x in
+          let new_x=Ocaml_gsyntax_item.prepend_prefix current_full_namespace x in
           (new_x::graet,current_full_namespace,current_names)
   | Ocaml_gsyntax_category.Module_opener->
           let new_name=x.Ocaml_gsyntax_item.name in
@@ -151,7 +151,7 @@ let pusher_from_level2_to_level3
   		     ||
   		     (Substring.begins_with nm_y included_module)  
   		  ) graet in 
-  		  /* local redifinition has priority over an outside definition */
+  		  (* local redifinition has priority over an outside definition *)
   		  let chosen_namespace=(if
   		    List.exists(fun y->
   		      y.Ocaml_gsyntax_item.name=included_module
@@ -163,13 +163,12 @@ let pusher_from_level2_to_level3
          	fun y->y.Ocaml_gsyntax_item.name=chosen_namespace
          ) maybe_included_items in
          let renamed_included_items=Image.image 
-         (include_in_new_namespace full_namespace )
+         (Ocaml_gsyntax_item.include_in_new_namespace full_namespace )
          included_items in
-         (List.rev_append renamed_included_items graet,current_full_namespace,current_names)
+         (List.rev_append renamed_included_items graet,current_full_namespace,current_names);;
          
-   ;;
    
-*)
+
 
 (*
 
