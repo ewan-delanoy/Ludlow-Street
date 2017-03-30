@@ -151,8 +151,10 @@ let module_inclusion_in_pusher
          included_items in
          (List.rev_append renamed_included_items graet,current_full_namespace,current_names);;
    
-let pusher_from_level2_to_level3  
-   (graet,current_full_namespace,current_names) x=match x.Ocaml_gsyntax_item.category with
+let first_pusher_from_level2_to_level3  
+   walker_state x=
+   let (graet,current_full_namespace,current_names)=walker_state in
+  match x.Ocaml_gsyntax_item.category with
     Ocaml_gsyntax_category.Value                                                                          
   | Ocaml_gsyntax_category.Type
   | Ocaml_gsyntax_category.Exception->
@@ -169,8 +171,22 @@ let pusher_from_level2_to_level3
           (graet,new_full_namespace,new_names)
   | Ocaml_gsyntax_category.Module_inclusion->
          module_inclusion_in_pusher (graet,current_full_namespace,current_names) x;;
+
+exception Pusher23_exn;;
+
+let pusher_from_level2_to_level3 (walker_state,da_ober)=
+   match da_ober with
+   []->raise(Pusher23_exn)
+   |x::peurrest->(first_pusher_from_level2_to_level3 walker_state x,peurrest);;    
+
          
-   
+let rec iterator_from_level2_to_level3 (walker_state,da_ober)=
+   if da_ober=[] 
+   then let  (graet,_,_)=walker_state in List.rev graet
+   else iterator_from_level2_to_level3(pusher_from_level2_to_level3 (walker_state,da_ober));; 
+
+
+
 
 
 (*
