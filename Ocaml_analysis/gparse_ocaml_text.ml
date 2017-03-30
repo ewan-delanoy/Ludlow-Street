@@ -147,7 +147,7 @@ let pusher_from_level2_to_level3
   		  let full_namespace=current_full_namespace^"."^included_module in
   		  let included_items=List.filter(
   		     fun y->let nm_y=y.Ocaml_gsyntax_item.name in
-  		     Substring.begins_with  
+  		     Substring.begins_with nm_y full_namespace  
   		  ) graet in 
    
    ;;

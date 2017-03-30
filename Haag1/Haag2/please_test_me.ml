@@ -18,3 +18,7 @@ include PrivateOne;;
 let d=5;;
 end;;
 
+module Weak=struct
+let e=6;;
+end;;
+
