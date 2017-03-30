@@ -145,11 +145,28 @@ let pusher_from_level2_to_level3
   | Ocaml_gsyntax_category.Module_inclusion->
           let included_module=x.Ocaml_gsyntax_item.name in
   		  let full_namespace=current_full_namespace^"."^included_module in
-  		  let included_items=List.filter(
+  		  let maybe_included_items=List.filter(
   		     fun y->let nm_y=y.Ocaml_gsyntax_item.name in
-  		     Substring.begins_with nm_y full_namespace  
+  		     (Substring.begins_with nm_y full_namespace)
+  		     ||
+  		     (Substring.begins_with nm_y included_module)  
   		  ) graet in 
-   
+  		  /* local redifinition has priority over an outside definition */
+  		  let chosen_namespace=(if
+  		    List.exists(fun y->
+  		      y.Ocaml_gsyntax_item.name=included_module
+  		    ) maybe_included_items
+  		    then included_module
+  		    else full_namespace
+  		  ) in
+         let included_items=List.filter(
+         	fun y->y.Ocaml_gsyntax_item.name=chosen_namespace
+         ) maybe_included_items in
+         let renamed_included_items=Image.image 
+         (include_in_new_namespace full_namespace )
+         included_items in
+         (List.rev_append renamed_included_items graet,current_full_namespace,current_names)
+         
    ;;
    
 *)

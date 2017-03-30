@@ -34,3 +34,21 @@ let prepend_prefix prefix x=
         interval_for_content =x.interval_for_content;  
         is_an_included_item =x.is_an_included_item;
     };;
+    
+let include_in_new_namespace new_nmspc x=
+    {
+  		category =x.category;
+        name =new_nmspc^(Father_and_son.invasive_father x.name '.');
+        interval_for_name =x.interval_for_name;
+        content =x.content;
+        interval_for_content =x.interval_for_content;  
+        is_an_included_item =true;
+    };;    
+    
+    
+    
+    
+    
+    
+    
+    

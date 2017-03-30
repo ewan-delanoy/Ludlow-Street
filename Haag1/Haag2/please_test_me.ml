@@ -22,3 +22,4 @@ module Weak=struct
 let e=6;;
 end;;
 
+let f=Weak.blit;;
