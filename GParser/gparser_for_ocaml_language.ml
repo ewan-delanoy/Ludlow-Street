@@ -215,7 +215,7 @@ let elt_prsr=
 
 
 let main_prsr=
-   Gparser.Star elt_prsr;;
+   Gparser.Detailed_star elt_prsr;;
 
 
 
