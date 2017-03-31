@@ -185,10 +185,11 @@ let rec iterator_from_level2_to_level3 (walker_state,da_ober)=
    then let  (graet,_,_)=walker_state in List.rev graet
    else iterator_from_level2_to_level3(pusher_from_level2_to_level3 (walker_state,da_ober));; 
 
-(*
+
 let from_level2_to_level3 (data_before,current_module) l=
-    iterator_from_level2_to_level3 ((graet,current_full_namespace,current_names),l);;
-*)
+    iterator_from_level2_to_level3 
+      ((data_before,current_module,Strung.split '.' current_module),l);;
+
 
 
 (*
