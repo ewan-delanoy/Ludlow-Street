@@ -44,6 +44,22 @@ let number_of_lines_before s i=
    let m=min i (String.length s) in
    List.length(List.filter(fun j->(get s j)='\n')(Ennig.ennig 1 m));;
      
+let split c s=
+   let n=String.length s in
+   let temp1=List.filter (fun j->(String.get s (j-1))=c) (Ennig.ennig 1 n) in
+   if temp1=[] then [s] else
+   let i1=List.hd(temp1) and i2=List.hd(List.rev temp1) in
+   let  leftmost_helper=(if i1=1 then [] else [0,i1])
+   and rightmost_helper=(if i2=n then [] else [i2,n+1]) in
+   let temp2=leftmost_helper@(Listennou.universal_delta_list temp1)@rightmost_helper in
+   Image.image (fun (i,j)->String.sub s i (j-i-1)) temp2;;
+   
+(*   
+  
+split '.' "abc.de.back.in.the.days";;  
+   
+*)   
+     
 exception No_match_found of string;;     
      
 let longest_match_parsing lexemes s=
