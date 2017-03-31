@@ -18,6 +18,7 @@ type t=
     |Chain of t list
     |Disjunction of t list
     |Star of t
+    |Detailed_star of t
     |One_or_more of t
     |Optional of t
     |Recoiling_ending of t*t

@@ -324,6 +324,23 @@ let star prsr=
    
    ) in
    ((fun s i->tempf ([],s,i,i)):Gparser_fun.t);;
+
+let detailed_star prsr=
+   let rec tempf=(fun
+   (imp_ranges,s,i0,k)->
+      match prsr s k with
+       None->Some(
+             Gparser_result.veil
+               (i0,k-1)
+               (List.rev(imp_ranges))
+               k
+               None
+            )
+      |Some(res)->tempf((Gparser_result.whole_range res)::imp_ranges,
+                       s,i0,Gparser_result.final_cursor_position res)
+   
+   ) in
+   ((fun s i->tempf ([],s,i,i)):Gparser_fun.t);;   
    
    
 let one_or_more prsr=chain [prsr;star prsr];;
@@ -383,6 +400,7 @@ let rec apply=function
     |Gparser.Chain(l)->chain(Image.image apply l)
     |Gparser.Disjunction(l)->disjunction(Image.image apply l)
     |Gparser.Star(x)->star(apply x)
+    |Gparser.Detailed_star(x)->detailed_star(apply x)
     |Gparser.One_or_more(x)->one_or_more(apply x)
     |Gparser.Optional(x)->optional(apply x)
     |Gparser.Recoiling_ending(x,y)->recoiling_ending (apply x) (apply y)

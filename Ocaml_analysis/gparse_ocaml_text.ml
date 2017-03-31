@@ -255,6 +255,6 @@ let g6=image (fun ap->let s=Io.read_whole_file ap in
   (-(String.length s),(ap,s))
 ) g5 ;;
 let g7=image snd (ofo(Tidel2.diforchan g6));;
-let g8=image (fun (ap,s)->read1 s) g7;;
+let g8=Explicit.image (fun (ap,s)->(ap,read2 s)) g7;;
 
 *)
