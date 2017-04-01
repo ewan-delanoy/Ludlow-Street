@@ -192,6 +192,27 @@ let from_level2_to_level3 (data_before,current_module) l=
 
 
 
+
+
+
+(*
+
+let g1=German_wrapper.data();;
+let g2=List.filter Modulesystem_data.ml_present g1;;
+let g3=List.flatten (image Modulesystem_data.acolytes g2);;
+let g4=List.filter (fun mlx->snd(Mlx_filename.decompose mlx)=Ocaml_ending.ml) g3;;
+let g5=image Mlx_filename.to_absolute_path g4;;
+let g6=image (fun ap->let s=Io.read_whole_file ap in
+  (-(String.length s),(ap,s))
+) g5 ;;
+let g7=image snd (ofo(Tidel2.diforchan g6));;
+let g8=Explicit.image (fun (ap,s)->(ap,read2 s)) g7;;
+let g9=Explicit.image (fun (ap,l)->
+  from_level2_to_level3 ([],"Moody") l
+) g8;;
+
+*)
+
 (*
 
 
@@ -242,19 +263,3 @@ describe_module_inclusion_item s8 (1,String.length s8);;
    
      
   
-
-
-(*
-
-let g1=German_wrapper.data();;
-let g2=List.filter Modulesystem_data.ml_present g1;;
-let g3=List.flatten (image Modulesystem_data.acolytes g2);;
-let g4=List.filter (fun mlx->snd(Mlx_filename.decompose mlx)=Ocaml_ending.ml) g3;;
-let g5=image Mlx_filename.to_absolute_path g4;;
-let g6=image (fun ap->let s=Io.read_whole_file ap in
-  (-(String.length s),(ap,s))
-) g5 ;;
-let g7=image snd (ofo(Tidel2.diforchan g6));;
-let g8=Explicit.image (fun (ap,s)->(ap,read2 s)) g7;;
-
-*)
