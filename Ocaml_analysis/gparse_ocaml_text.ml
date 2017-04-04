@@ -4,6 +4,7 @@
 
 *)
 
+module Private=struct
 exception Unreadable of string;;
 
 let accuse_final_excerpt s i=
@@ -190,7 +191,9 @@ let from_level2_to_level3 data_before (current_module,l)=
     iterator_from_level2_to_level3 
       ((data_before,current_module,Strung.split '.' current_module),l);;
 
-let read_files l_ap=
+end;;
+
+let read_ocaml_files l_ap=
    let temp1=Image.image( fun ap->
    let s_ap=Absolute_path.to_string ap
    and text=Io.read_whole_file ap in
