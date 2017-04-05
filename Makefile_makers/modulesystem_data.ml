@@ -564,7 +564,9 @@ let principal_mlx x=
    if x.ml_present then Mlx_filename.join x.name Ocaml_ending.ml else
    Mlx_filename.join x.name Ocaml_ending.mli;;
    
-let principal_path x=Mlx_filename.to_path (principal_mlx x);;   
+let principal_path x=Mlx_filename.to_path (principal_mlx x);;  
+
+let ml_path x=Mlx_filename.to_path (Mlx_filename.join x.name Ocaml_ending.ml);;   
 
 let unprefixed_compact_ocaml_name x=
    let enc=Strung.enclose in
