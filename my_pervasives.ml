@@ -93,6 +93,11 @@ let psnd= Positioned_php_token.snd;;
 
 let ps s=print_string("\n\n\n\n\n\n"^s^"\n\n\n\n\n");;
 
+let debug_image f l=
+   let rec mf=(fun (j,x)->try (fun _->false) (f x) with
+     _->true
+   ) in
+   Option.find_really mf (Ennig.index_everything l);;
 
 let ea opt1 opt2=
    if (opt1=None) then opt2=None else

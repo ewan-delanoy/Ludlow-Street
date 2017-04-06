@@ -208,7 +208,7 @@ let deduce_standard_preserving_lines_from_pivot (YY(p,l,visual,descr,old_descr,o
     else let adjusters_set_to_max=List.rev_map(function sr->
             (Simplex_relation.adjuster_part sr,
             Simplex_relation.constant_part sr)  )(l1) 
-         and others_set_to_0=Listennou.easy_big_concat(List.rev_map(function sr->
+         and others_set_to_0=List.flatten(List.rev_map(function sr->
            let vec=Simplex_relation.vector_part sr in
            Ordered_variable.rev_map (function x->(x,Rational.zero)) (Vector.support vec) )(l1)) in
          let complete_set=(adjusters_set_to_max@others_set_to_0) in
@@ -421,7 +421,7 @@ let original_descr l=
     and d2=Vector.add(Vector.of_variable toggled_var )(veg) in
     [Relation.of_vector d1;Relation.of_vector d2]
   ) in
-  let temp1=Listennou.easy_big_concat(Image.image(tempf)(l)) in
+  let temp1=List.flatten(Image.image(tempf)(l)) in
   Descriptive_system.make(temp1);; 
  
 type int_interdiction=int Nontranslatable_interdiction.t;; 
