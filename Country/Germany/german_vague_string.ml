@@ -5,15 +5,8 @@
 *)
 
 
-let current_directories()=
-  let temp1=List.filter (
-    fun x->x<>Subdirectory.SD ""
-  ) (German_wrapper.directories()) in
-  (Subdirectory.SD "")::(temp1@
-  [Subdirectory.SD "Remembered";Subdirectory.SD "Forgotten"]);;
-
 let to_path x=Find_suitable_ending.find_file_location 
-   German_constant.root (current_registered_directories()) x;;
+   German_constant.root (German_wrapper.directories()) x;;
 
 exception Absent_module of string;;
 
