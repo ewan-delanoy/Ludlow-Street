@@ -4,7 +4,6 @@
 
 *)
 
-let cmts=German_wrapper.whole;;
 
 let cdir=German_constant.root;;
 let s_cdir=Directory_name.to_string cdir;;
@@ -17,17 +16,8 @@ let current_directories()=
   (Subdirectory.SD "")::(temp1@
   [Subdirectory.SD "Remembered";Subdirectory.SD "Forgotten"]);;
 
-let fl x=Find_suitable_ending.find_file_location cdir (current_registered_directories()) x;;
-
-exception Absent_module of string;;
-
-let hmx x=
-  let s=Father_and_son.invasive_father x '.' in
-  match (Option.find_and_stop(
-      fun edg->try(Some(fl(s^edg))) with _->None
-  ) Ocaml_ending.all_string_endings) with
-  None->raise(Absent_module(x))
-  |Some(ap)->Half_dressed_module.of_path_and_root ap cdir;; 
+let fl=German_vague_string.to_path;;
+let hmx=German_vague_string.to_module;;
 
 let fmr x=Alaskan_data.find_module_registration (German_wrapper.data()) (hmx x);;
 let abo x=German_data.above (German_wrapper.data()) (hmx x);;
