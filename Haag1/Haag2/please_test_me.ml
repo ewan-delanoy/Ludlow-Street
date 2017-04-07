@@ -5,23 +5,9 @@
 *)
 
 
-module Mood=struct
+let a=Image.image;;
 
-type mylabel= A |B |C |D |E;;
-
-type labelled_value={
-   label:mylabel;
-   value:int;
-};;
-
-let example={label=D;value=57;};;
-
-end;;
-
-
-let f x=match x.Mood.label with Mood.A|Mood.B|Mood.C->(1,x) 
-|Mood.D->(2,Mood.example) |Mood.E->(3,Mood.example);;
-
+let b=5;;
 
 (*
 
