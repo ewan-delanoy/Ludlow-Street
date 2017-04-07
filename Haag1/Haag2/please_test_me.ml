@@ -30,5 +30,6 @@ let f x=match x with Mood.A|Mood.B|Mood.C->(1,x) |Mood.D->(2,Mood.D) |Mood.E->(3
 module Weak=struct
 let e=6;;
 end;;
+
 *)
 

@@ -6,17 +6,6 @@
 
 let cmts=German_wrapper.whole;;
 
-let whole_ref=(
-  German_wrapper.Private.data_ref,
-  German_wrapper.Private.directories_ref,
-  German_wrapper.Private.up_to_date_targets_ref,
-  German_wrapper.Private.outside_files_ref,
-  German_wrapper.Private.outside_directories_ref,
-  German_wrapper.Private.recently_deleted_ref,
-  German_wrapper.Private.printer_equipped_types_ref
-);;
-
-
 let cdir=German_constant.root;;
 let s_cdir=Directory_name.to_string cdir;;
 let current_registered_directories ()=German_wrapper.directories();;
@@ -31,8 +20,6 @@ let current_directories()=
 let fl x=Find_suitable_ending.find_file_location cdir (current_registered_directories()) x;;
 
 exception Absent_module of string;;
-
-let semi_fl s edg=try(Some(fl(s^edg))) with _->None;;
 
 let hmx x=
   let s=Father_and_son.invasive_father x '.' in
