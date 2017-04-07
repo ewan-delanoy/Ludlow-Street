@@ -13,7 +13,7 @@ exception Absent_module of string;;
 let to_module x=
   let s=Father_and_son.invasive_father x '.' in
   match (Option.find_and_stop(
-      fun edg->try(Some(fl(s^edg))) with _->None
+      fun edg->try(Some(to_path(s^edg))) with _->None
   ) Ocaml_ending.all_string_endings) with
   None->raise(Absent_module(x))
   |Some(ap)->Half_dressed_module.of_path_and_root ap cdir;; 
