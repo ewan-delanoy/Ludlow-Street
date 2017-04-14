@@ -17,6 +17,5 @@ let to_module x=
   ) Ocaml_ending.all_string_endings) with
   None->raise(Absent_module(x))
   |Some(ap)->Half_dressed_module.of_path_and_root ap German_constant.root;;
-  
    
 
