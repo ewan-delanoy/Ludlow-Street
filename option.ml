@@ -30,7 +30,6 @@ let rec filter_and_unpack f l=
  ) in
  filter0([],l);;
 
-
 let rec partition_and_unpack f l=
  let rec filter0=(function
   (graet1,graet2,da_ober)->match da_ober with
