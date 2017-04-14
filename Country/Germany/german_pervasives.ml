@@ -100,6 +100,8 @@ let df () =German_data.deletable_files (German_wrapper.data());;
 let ucc ()=German_update_copied_compiler.ucc (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco ()=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup None);;
+let reco_with_comment s=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup (Some s));;
+
 
 let fg x=(fg_without_backup x;German_wrapper.backup None);;
 let mmo x=(mmo_without_backup x;reco());;
