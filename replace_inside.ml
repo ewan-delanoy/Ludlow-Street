@@ -25,6 +25,23 @@ let replace_several_inside_file l fn=
     Io.erase_file_and_fill_it_with_string fn s2;; 
 
 
+let overwrite_at_interval_inside_string ovw_b (i,j) s=
+  let b=Overwriter.to_string ovw_b in
+  (String.sub s 0 (i-1))^b^(String.sub s j (String.length(s)-j) );;
+  ;;
+
+let overwrite_at_interval_inside_file ovw_b (i,j) fn=
+    let s1=Io.read_whole_file fn in
+    let s2=overwrite_at_interval_inside_string ovw_b (i,j) s1  in
+    Io.erase_file_and_fill_it_with_string fn s2;; 
+
+(*
+
+overwrite_at_interval_inside_string 
+(Overwriter.of_string "foobar") (3,5) "123456789";;
+
+*)
+
 exception Absent_beginning_marker of string;;
 exception Absent_ending_marker of string;; 
  
