@@ -83,7 +83,6 @@ let reco_without_backup ()=
 
 let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
 let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
-let ubk ()=German_wrapper.backup None;;
 let sd=German_wrapper.start_debugging;;
 
 let rv_without_backup x y=German_values_in_modules.rename_value (German_wrapper.data()) x y;;
@@ -100,17 +99,17 @@ let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
 let ucc ()=German_update_copied_compiler.ucc (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
-let reco ()=let bowl=reco_without_backup () in (if bowl then ubk());;
+let reco ()=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup None);;
 
-let fg x=(fg_without_backup x;ubk());;
+let fg x=(fg_without_backup x;German_wrapper.backup None);;
 let mmo x=(mmo_without_backup x;reco());;
 
-let regi x=(regi_without_backup x;ubk());;
+let regi x=(regi_without_backup x;German_wrapper.backup None);;
 
 let rego x=(rego_without_backup x;reco());;
 let relo x y=(relo_without_backup x y;reco());;
 let ren  x y=(ren_without_backup  x y;reco());;
-let rsh ()=(rsh_without_backup ();ubk());;
+let rsh ()=(rsh_without_backup ();German_wrapper.backup None);;
 let rv x y=(rv_without_backup x y;reco());;
 let ureg x=(ureg_without_backup x;reco());;
 
