@@ -8,7 +8,7 @@
 
 let replace_string mdata old_string new_string=
   let temp1=German_data.files_containing_string mdata old_string in
-  let m=String.length(Directory_string.to_string(German_constant.root)) in
+  let m=String.length(Directory_name.to_string(German_constant.root)) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
   let message="\n\n The following files will be rewritten : \n\n"^
