@@ -85,7 +85,13 @@ let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
 let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
 let sd=German_wrapper.start_debugging;;
 
+(*
 let rv_without_backup x y=German_values_in_modules.rename_value (German_wrapper.data()) x y;;
+*)
+
+let rv_without_backup x y=();;
+
+
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
 let muv x=German_values_in_modules.modules_using_value (German_wrapper.data()) x;;
