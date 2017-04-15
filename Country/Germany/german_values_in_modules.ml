@@ -6,16 +6,33 @@
 *)
 
 
-let rename_value mdata old_name new_name=
-  let temp1=German_data.files_containing_string mdata old_name in
-  let m=String.length(Directory_name.to_string(German_constant.root)) in
+let replace_string mdata old_string new_string=
+  let temp1=German_data.files_containing_string mdata old_string in
+  let m=String.length(Directory_string.to_string(German_constant.root)) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
   let message="\n\n The following files will be rewritten : \n\n"^
   (String.concat "\n" temp2) in
   let _=(print_string message;flush stdout) in
-  List.iter (Replace_inside.replace_inside_file (old_name,new_name)) temp1;;
+  List.iter (Replace_inside.replace_inside_file (old_string,new_string)) temp1;;
 
+(*
+
+if the string argument has a dot inside it, we interpret it
+as a value inside a module.
+Otherwise we interpret it as a mere string.
+
+*)
+
+(*
+
+let rename_string_or_value mdata old_name new_name=
+  if not(String.contains old_name '.')
+  then replace_string mdata old_name new_name
+  else 
+
+*)  
+  
 
 let list_values_from_module_in_file module_name file=
    let s=Io.read_whole_file file in
