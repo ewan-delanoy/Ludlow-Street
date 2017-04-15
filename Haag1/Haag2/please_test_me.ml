@@ -5,9 +5,32 @@
 *)
 
 
-let a=Image.image;;
 
-let b=5;;
+
+let a=5;;
+
+module Boogie=struct
+
+let b=6;;
+
+module Woogie=struct
+
+let c=7;;
+
+module Andrew=struct
+
+let d=8;;
+
+end;;
+
+let e=9;;
+
+end;;
+
+let f=10;;
+
+end;;
+
 
 (*
 
