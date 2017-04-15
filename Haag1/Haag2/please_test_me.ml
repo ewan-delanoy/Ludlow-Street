@@ -21,11 +21,11 @@ let d=8;;
 
 end;;
 
-let e=9;;
+let beep=9;;
 
 end;;
 
-let f=10;;
+let burp=10;;
 
 end;;
 
