@@ -91,7 +91,7 @@ let to_string = function
    CT(ctok)->vbar_escape(Php_constant_token.to_string ctok)
   |TC(tc)->Token_category.to_string(tc)
   |Prec(sol,op)->(Strict_or_loose.to_string sol)^(Php_operator.to_string op)
-  |x->try (fst(Option.country_honk (fun p->snd(p)=x) special_list)) 
+  |x->try (fst(Option.find_really (fun p->snd(p)=x) special_list)) 
       with 
       _->raise(Unregistered(x));;
 

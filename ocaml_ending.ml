@@ -27,10 +27,10 @@ let correspondances=List.combine all_endings all_string_endings;;
 exception Unknown_ending of string;;
 
 let of_string s=
-  try (fst(Option.country_honk (fun (x,y)->y=s) correspondances))
+  try (fst(Option.find_really (fun (x,y)->y=s) correspondances))
   with _->raise(Unknown_ending(s));;
 
-let to_string edg=snd(Option.country_honk (fun (x,y)->x=edg) correspondances);;  
+let to_string edg=snd(Option.find_really (fun (x,y)->x=edg) correspondances);;  
 
 
 
