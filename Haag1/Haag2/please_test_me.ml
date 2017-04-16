@@ -21,7 +21,7 @@ let d=8;;
 
 end;;
 
-let beep=9;;
+let pibarnon=9;;
 
 end;;
 
