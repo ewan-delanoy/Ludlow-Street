@@ -21,7 +21,7 @@ let d=8;;
 
 end;;
 
-let gaujac=9;;
+let macon=9;;
 
 end;;
 
