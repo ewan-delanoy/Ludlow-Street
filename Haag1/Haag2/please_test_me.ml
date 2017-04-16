@@ -21,7 +21,7 @@ let d=8;;
 
 end;;
 
-let pibarnon=9;;
+let gaujac=9;;
 
 end;;
 
