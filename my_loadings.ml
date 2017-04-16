@@ -200,6 +200,9 @@
 #load"Country/Alaska/alaskan_try_to_register.cmo";;
 #load"Country/Alaska/alaskan_create_target_system.cmo";;
 #load"Country/Germany/german_wrapper.cmo";;
+#load"Country/Germany/german_vague_string.cmo";;
+#load"Ocaml_analysis/rename_value_inside_module.cmo";;
+#load"Ocaml_analysis/read_needed_ocaml_files.cmo";;
 #load"multiset.cmo";;
 #load"modularize.cmo";;
 #load"martian_partial_ordering.cmo";;
