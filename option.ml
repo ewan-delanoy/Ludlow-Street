@@ -13,7 +13,6 @@ let propagate f=function
 None->None
 |Some(x)->Some(f(x));;
 
-
 let rec find_it f =function
 []->None
 |a::b->if f(a) then Some(a) else find_it(f)(b);;
