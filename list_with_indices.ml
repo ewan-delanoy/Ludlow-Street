@@ -16,7 +16,6 @@ let list_with_indices l=
      i->snd(Option.find_really(fun p->fst(p)=i) l)
   ) 1 n;;
 
-
 (*
 
 list_with_indices [3,"a";1,"b";2,"c"];;
