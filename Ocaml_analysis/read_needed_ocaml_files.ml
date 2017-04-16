@@ -16,6 +16,3 @@ let read_needed_ocaml_files hm=
    	 Mlx_filename.to_path(Mlx_filename.join hm Ocaml_ending.Ml)
    ) temp2 in
    Read_ocaml_files.read_ocaml_files all_files;;
-   
-let dummy_for_testing= Please_test_me.Boogie.Woogie.fleury;;   
-   
