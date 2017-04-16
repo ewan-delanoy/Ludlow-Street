@@ -89,8 +89,6 @@ let sd=German_wrapper.start_debugging;;
 let rv_without_backup x y=German_values_in_modules.rename_string_or_value (German_wrapper.data()) x y;;
 
 
-let rv_without_backup x y=();;
-
 
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
