@@ -30,7 +30,7 @@ let rename_string_or_value mdata old_name new_name=
   if not(String.contains old_name '.')
   then replace_string mdata old_name new_name
   else 
-    let new_full_name=(Father_and_son.father old_name '.')^new_name in
+    let new_full_name=(Father_and_son.father old_name '.')^"."^new_name in
     (Rename_value_inside_module.rename_value_inside_module 
             old_name (Overwriter.of_string new_name); 
      replace_string mdata old_name new_full_name
