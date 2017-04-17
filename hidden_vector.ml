@@ -314,7 +314,7 @@ let scalar_product  (V v1) (V v2)=
  let extract_named_basis lv=
 	  let vektorou=Image.image snd lv in
 	  let anv_klok=(fun v->
-	    Option.find_really(fun (x,y)->eq y v)(lv)
+	    Option.gimme_shelter(fun (x,y)->eq y v)(lv)
 	  ) in
 	  let (temp1,temp2)=extract_basis_carefully(vektorou) in
 	  let temp3=Image.image anv_klok temp1 in

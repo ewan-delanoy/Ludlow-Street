@@ -62,7 +62,7 @@ let before_and_after w x=
    let opt1=Option.find_it(fun j->not(List.mem(String.get s (j-1)) [' ';'\t';'\n']))(Ennig.ennig 1 n) in
    if opt1=None then "" else
    let i1=Option.unpack opt1 in
-   let k1=Option.find_really(fun j->not(List.mem(String.get s (n-j)) [' ';'\t';'\n']))(Ennig.ennig 1 n) in 
+   let k1=Option.gimme_shelter(fun j->not(List.mem(String.get s (n-j)) [' ';'\t';'\n']))(Ennig.ennig 1 n) in 
    let j1=(n+1)-k1 in
    interval s i1 j1;;
 

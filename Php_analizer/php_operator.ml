@@ -163,7 +163,7 @@ let list_for_precedences=
 
 
 let precedence oprtr=
-  let (_,(j,_))=Option.find_really 
+  let (_,(j,_))=Option.gimme_shelter 
   (fun (l,_)->List.mem oprtr l) list_for_precedences in
   j;;
 

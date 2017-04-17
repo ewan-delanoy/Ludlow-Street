@@ -40,7 +40,7 @@ let list_from_string s=
 
 exception Unregistered of t;; 
  
-let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) all_constants)) 
+let to_string x=try (fst(Option.gimme_shelter (fun p->snd(p)=x) all_constants)) 
       with 
       _->raise(Unregistered(x));;
 
