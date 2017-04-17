@@ -13,7 +13,7 @@ let list_with_indices l=
   then raise(Bad_set_of_indices)
   else
   Ennig.doyle (fun
-     i->snd(Option.gimme_shelter(fun p->fst(p)=i) l)
+     i->snd(Option.find_really(fun p->fst(p)=i) l)
   ) 1 n;;
 
 (*

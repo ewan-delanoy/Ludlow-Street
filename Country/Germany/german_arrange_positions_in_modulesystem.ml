@@ -45,7 +45,7 @@ let lower_bound mdata x l_other_bounds_before=
   let temp1=(fun l->
      if l=[] then None else
      let last_parent_name=List.hd(List.rev l) in
-     let j=fst(Option.gimme_shelter (fun (j,info)->
+     let j=fst(Option.find_really (fun (j,info)->
      (Modulesystem_data.name info)=last_parent_name) l1) in
      Some(j,Some(last_parent_name))
   )(Modulesystem_data.direct_fathers x) in

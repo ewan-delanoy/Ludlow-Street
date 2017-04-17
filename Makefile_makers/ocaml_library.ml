@@ -17,10 +17,10 @@ let correspondances=[NumLib,"num";StrLib,"str";UnixLib,"unix"];;
 exception Unknown_lib of string;;
 
 let of_string s=
-  try (fst(Option.gimme_shelter (fun (x,y)->y=s) correspondances))
+  try (fst(Option.find_really (fun (x,y)->y=s) correspondances))
   with _->raise(Unknown_lib(s));;
 
-let to_string lib=snd(Option.gimme_shelter (fun (x,y)->x=lib) correspondances);;  
+let to_string lib=snd(Option.find_really (fun (x,y)->x=lib) correspondances);;  
 
 
 let short_name=function
