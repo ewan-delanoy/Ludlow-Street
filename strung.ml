@@ -14,14 +14,14 @@ let enclose s=
   encloser^s^encloser;;
 
 
-  let implode l=
+let implode l=
    let n=List.length(l) in
    let by=Bytes.make n ' ' in
    let _=(for i=0 to (n-1) do Bytes.set by i (List.nth l i) done;) in
    Bytes.to_string by;;
   
     
-  let explode s=
+let explode s=
     let n=String.length s in
     Ennig.doyle (String.get s) 0 (n-1);;
     
