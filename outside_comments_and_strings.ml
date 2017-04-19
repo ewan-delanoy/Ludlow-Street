@@ -26,6 +26,7 @@ type state={
     string_mode         : bool;
     lastchar_is_a_left_paren        : bool;
     lastchar_is_a_star              : bool;
+    lastchar_is_a_backslash         : bool;
     penultchar_is_a_left_paren      : bool;
     interval_start : int;
     accumulator : (int*int*string) list;
@@ -53,7 +54,7 @@ let one_more_step s n j c x=
    
    ) in
    let new_start=
-      ((x.depth=0)&&(x.string_mode)&&(c='"'))
+      ((x.depth=0)&&(x.string_mode)&&(c='"')&&(not(x.lastchar_is_a_backslash)))
       ||
       ((x.depth=1)&&comment_closed_now)
       ||
@@ -62,7 +63,7 @@ let one_more_step s n j c x=
        if x.depth>0
        then None
        else
-       if (c='"')&&(not(x.string_mode))
+       if (c='"')&&(not(x.string_mode))&&(not(x.lastchar_is_a_backslash))
        then Some(j-1)
        else
        if comment_opened_now
@@ -86,11 +87,12 @@ let one_more_step s n j c x=
       
   {
     depth =new_depth;
-    string_mode    =(if c='\"' 
-                     then not(x.string_mode ) 
-                     else x.string_mode);
+    string_mode    =(if (x.lastchar_is_a_backslash)||(c<>'\"')
+                     then x.string_mode
+                     else not(x.string_mode));
     lastchar_is_a_left_paren   =(c='(');
     lastchar_is_a_star         =(c='*');
+    lastchar_is_a_backslash    =(c='\\');
     penultchar_is_a_left_paren =x.lastchar_is_a_left_paren;
     interval_start=(if new_start then j+1 else x.interval_start);
     accumulator=new_accu;
@@ -102,6 +104,7 @@ let initial_state=
     string_mode    =false;
     lastchar_is_a_left_paren   =false;
     lastchar_is_a_star         =false;
+    lastchar_is_a_backslash    =false;
     penultchar_is_a_left_paren =false;
     interval_start=1;
     accumulator=[];
@@ -127,9 +130,12 @@ good_substrings "ghi(**a(*b*)c**)def";;
 good_substrings "ghi(**a\"b\"c**)def";;
 good_substrings "123\"(*\"890\"*)\"567";;
 good_substrings "123(*67\"90\"23*)67";;
+good_substrings "let a=\"\\\"\" in a+1;;";;
+good_substrings "let a='\\\"' in a+1;;";;
+
 
 let nachste (s,n,j,st)=(s,n,j+1,one_more_step s n j (String.get s (j-1)) st);;
-let s0="123\"(*\"890\"*)\"567";;
+let s0="123456'\\\"'123456789";;
 let n0=String.length s0;;
 let v0=(s0,n0,1,initial_state);;
 let ff=Memoized.small nachste v0;;
