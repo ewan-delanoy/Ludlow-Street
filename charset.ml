@@ -59,6 +59,7 @@ let alphanumeric_characters =
 let is_a_lowercase c=let i=int_of_char c in (97<=i)&&(i<=122);;
 let is_an_uppercase c=let i=int_of_char c in (65<=i)&&(i<=90);;
 let character_is_alphanumeric c=List.mem c alphanumeric_characters;;
+let character_is_strictly_alphanumeric c=List.mem c strictly_alphanumeric_characters;;
 let is_an_uppercase_letter c=List.mem c uppercase_letters;;   
   
 let string_is_alphanumeric s=
