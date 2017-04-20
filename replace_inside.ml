@@ -37,6 +37,8 @@ let overwrite_at_interval_inside_file ovw_b (i,j) fn=
 
 (*
 
+let overwrite_isolated_occurrences_of_inside_string ovw_b substr s=
+
 overwrite_at_interval_inside_string 
 (Overwriter.of_string "foobar") (3,5) "123456789";;
 

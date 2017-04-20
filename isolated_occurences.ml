@@ -41,7 +41,7 @@ let test_for_admissiblity c=
 
 end;;
 
-let isolated_occurrences substr s=
+let isolated_occurrences_of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
   let main_test= (
