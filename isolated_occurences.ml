@@ -67,5 +67,4 @@ let isolated_occurrences_of_in substr s=
 isolated_occurrences "garfield" 
 "let x=garfield in let y=subgarfield and z=garfield2 in";;
 
-   
 *)   

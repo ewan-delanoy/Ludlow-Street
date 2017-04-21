@@ -24,46 +24,6 @@ let replace_several_inside_file l fn=
     let s2=replace_several_inside_string l s1  in
     Io.erase_file_and_fill_it_with_string fn s2;; 
 
-(*
-let overwrite_at_interval_inside_string ovw_b (i,j) s=
-  let b=Overwriter.to_string ovw_b in
-  (String.sub s 0 (i-1))^b^(String.sub s j (String.length(s)-j) );;
-
-let overwrite_at_interval_inside_file ovw_b (i,j) fn=
-    let s1=Io.read_whole_file fn in
-    let s2=overwrite_at_interval_inside_string ovw_b (i,j) s1  in
-    Io.erase_file_and_fill_it_with_string fn s2;; 
-
-let overwrite_at_intervals_inside_string replacings s=
-  List.fold_left(fun t ((i,j),ovw_b)->overwrite_at_interval_inside_string ovw_b (i,j) t)
-  s replacings;;
-
-let overwrite_at_intervals_inside_file replacings fn=
-  let old_t=Io.read_whole_file fn in
-  let new_t=overwrite_at_intervals_inside_string replacings old_t in
-  Io.erase_file_and_fill_it_with_string fn new_t;;  
-  
-
-
-let overwrite_isolated_occurrences_of_inside_string ovw_b substr s=
-  let l_itvs=Isolated_occurences.isolated_occurrences_of_in substr s in
-  overwrite_at_intervals_inside_string ovw_b l_itvs s;;
-
-let overwrite_isolated_occurrences_of_inside_file ovw_b substr fn=
-  let old_t=Io.read_whole_file fn in
-  let new_t=overwrite_isolated_occurrences_of_inside_string ovw_b substr old_t in
-  Io.erase_file_and_fill_it_with_string fn new_t;;  
-
-overwrite_isolated_occurrences_of_inside_string 
-(Overwriter.of_string "jack") "garfield" 
-"let x=garfield in let y=subgarfield and z=garfield2 in";;
-
-
-overwrite_at_interval_inside_string 
-(Overwriter.of_string "foobar") (3,5) "123456789";;
-
-*)
-
 exception Absent_beginning_marker of string;;
 exception Absent_ending_marker of string;; 
  
