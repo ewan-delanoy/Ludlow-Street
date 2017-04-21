@@ -23,7 +23,7 @@ let inside_string replacings s=
     fun j->
       if (j mod 2)=1
       then xy_substring j
-      else snd(List.nth replacings ((j-2)/2))
+      else Overwriter.to_string(snd(List.nth replacings ((j-2)/2)))
   ) 1 (2*r+1) in
   String.concat "" all_parts;;
 
@@ -31,7 +31,7 @@ let inside_string replacings s=
 
 inside_string
  [(7,12),"garfield";(23,24),"jack";(30,30),"gas"]
- "12345678901234567890123456789012345678901234567890"
+ "12345678901234567890123456789012345678901234567890";;
  
 
 *)
