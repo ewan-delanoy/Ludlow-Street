@@ -54,7 +54,9 @@ let overwrite_isolated_occurrences_of_inside_file ovw_b substr fn=
     
 
 (*
-
+overwrite_isolated_occurrences_of_inside_string 
+(Overwriter.of_string "jack") "garfield" 
+"let x=garfield in let y=subgarfield and z=garfield2 in";;
 
 
 overwrite_at_interval_inside_string 
@@ -123,6 +125,7 @@ let overwrite_and_dump_markers_inside_file
     let s2=overwrite_and_dump_markers_inside_string ovw_b (bm,em) s1 in
     Io.erase_file_and_fill_it_with_string fn s2;;      
 
+let show ()=Sys.command "ocamlc -i replace_inside.ml";;  
  
 (* 
 
