@@ -83,6 +83,8 @@ let reco_without_backup ()=
 
 let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
 let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
+
+let rd ()=Alaskan_remove_debuggables.rd German_constant.root (German_wrapper.data());;
 let sd=German_wrapper.start_debugging;;
 
 
