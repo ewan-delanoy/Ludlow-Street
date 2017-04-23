@@ -42,15 +42,17 @@ let rename_value_inside_module s new_name=
    let (i1,j1)=temp4.Ocaml_gsyntax_item.interval_for_name in
    let _=Overwrite_at_intervals.inside_file [(i1,j1),new_name] path in
    let temp3_again=Read_ocaml_files.read_ocaml_files all_files in
-   let s_new_name=Overwriter.to_string new_name in
+   let beheaded_name=Cull_string.cobeginning j s in
+   let s_new_beheaded_name=(Father_and_son.father beheaded_name '.')^
+   (Overwriter.to_string new_name) in
+   let new_beheaded_name=Overwriter.of_string s_new_beheaded_name in
+   let s_new_full_name=module_name^"."^s_new_beheaded_name in
    let temp4_again=Option.find_really (fun itm->
-     (itm.Ocaml_gsyntax_item.name)=s_new_name
+     (itm.Ocaml_gsyntax_item.name)=s_new_full_name
    ) temp3_again in
    let k1=Listennou.find_index temp4_again temp3_again in
    let temp5=Listennou.big_tail k1 temp3_again in
-   let beheaded_name=Cull_string.cobeginning j s in
-   let new_beheaded_name=Overwriter.of_string((Father_and_son.father beheaded_name '.')^
-   (Overwriter.to_string new_name)) in
+   
    let temp6=Option.filter_and_unpack(
       fun itm->
         let txt=itm.Ocaml_gsyntax_item.content in
