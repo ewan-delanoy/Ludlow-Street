@@ -42,8 +42,9 @@ let rename_value_inside_module s new_name=
    let (i1,j1)=temp4.Ocaml_gsyntax_item.interval_for_name in
    let _=Overwrite_at_intervals.inside_file [(i1,j1),new_name] path in
    let temp3_again=Read_ocaml_files.read_ocaml_files all_files in
+   let s_new_name=Overwriter.to_string new_name in
    let temp4_again=Option.find_really (fun itm->
-     (itm.Ocaml_gsyntax_item.name)=(Overwriter.to_string new_name)
+     (itm.Ocaml_gsyntax_item.name)=s_new_name
    ) temp3_again in
    let k1=Listennou.find_index temp4_again temp3_again in
    let temp5=Listennou.big_tail k1 temp3_again in
