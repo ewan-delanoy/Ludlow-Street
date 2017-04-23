@@ -17,8 +17,6 @@ let get_module_inside_name s=
    then raise(No_module_given(s))
    else f;;
    
-   
-
 let rename_value_inside_module s new_name=
    let j=Substring.leftmost_index_of_in "." s in
    if j<0 
