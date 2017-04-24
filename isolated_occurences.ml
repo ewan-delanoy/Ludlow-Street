@@ -43,16 +43,20 @@ end;;
 let isolated_occurrences_of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
-  let small_test=(fun v0 j->
-    (j=v0)||(Private.test_for_admissiblity (String.get s j))
+  let naive_test=(fun  j->Private.test_for_admissiblity (String.get s (j-1))) in
+  let leftmost_small_test=(fun j->
+    if j=0 then true else naive_test j
+  )
+  and rightmost_small_test=(fun j->
+    if j=((String.length s)+1) then true else naive_test j
   ) in
   let main_test= (
     fun k->
-      ( small_test 1 (k-2) )
+      ( leftmost_small_test (k-1) )
       &&
       ((String.sub s (k-1) l_substr)=substr) 
       &&
-      ( small_test (String.length s) (l_substr+k-1) )
+      ( rightmost_small_test  (k+l_substr) )
       
   ) in
   Option.filter_and_unpack(
@@ -60,13 +64,18 @@ let isolated_occurrences_of_in substr s=
        if main_test k
        then Some(k,k+l_substr-1)
        else None
-  ) (Ennig.ennig 2 (n-l_substr));;
+  ) (Ennig.ennig 1 (n+1-l_substr));;
 
 
    
 (*   
    
-isolated_occurrences "garfield" 
+isolated_occurrences_of_in "garfield" 
 "let x=garfield in let y=subgarfield and z=garfield2 in";;
+
+isolated_occurrences_of_in "garfield" 
+"garfield is a cat";;
+
+
 
 *)   
