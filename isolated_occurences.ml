@@ -43,13 +43,16 @@ end;;
 let isolated_occurrences_of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
+  let small_test=(fun v0 j->
+    (j=v0)||(Private.test_for_admissiblity (String.get s j))
+  ) in
   let main_test= (
     fun k->
-      ( Private.test_for_admissiblity (String.get s (k-2)) )
+      ( small_test 1 (k-2) )
       &&
       ((String.sub s (k-1) l_substr)=substr) 
       &&
-      ( Private.test_for_admissiblity (String.get s (l_substr+k-1)))
+      ( small_test (String.length s) (l_substr+k-1) )
       
   ) in
   Option.filter_and_unpack(
