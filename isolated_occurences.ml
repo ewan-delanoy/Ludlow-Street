@@ -73,9 +73,9 @@ let isolated_occurrences_of_in substr s=
 isolated_occurrences_of_in "garfield" 
 "let x=garfield in let y=subgarfield and z=garfield2 in";;
 
-isolated_occurrences_of_in "garfield" 
-"garfield is a cat";;
+isolated_occurrences_of_in "garfield" "garfield is a cat";;
 
+isolated_occurrences_of_in "Boogie.Woogie.c" "48+Boogie.Woogie.c";;
 
 
 *)   
