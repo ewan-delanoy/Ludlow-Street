@@ -22,4 +22,4 @@ let select_maximal_elements_carefully ll=
   Martian_partial_ordering.select_maximal_elements_carefully t ll;;
 
 let debbie=2+3*Please_test_me.Boogie.Woogie.barbecue;;
-let peggy=Please_test_me.b;;
+let peggy=Please_test_me.a;;
