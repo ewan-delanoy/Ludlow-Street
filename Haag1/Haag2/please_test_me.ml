@@ -5,7 +5,7 @@
 *)
 
 
-let a=5;;
+let byebyebird=5;;
 
 module Boogie=struct
 
@@ -30,7 +30,7 @@ let burp=10;;
 end;;
 
 let g=48+Boogie.Woogie.bird;;
-let h=49+a;;
+let h=49+byebyebird;;
 
 
 (*
