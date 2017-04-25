@@ -13,7 +13,7 @@ let b=6;;
 
 module Woogie=struct
 
-let bird=7;;
+let parker=7;;
 
 module Andrew=struct
 
@@ -29,7 +29,7 @@ let burp=10;;
 
 end;;
 
-let g=48+Boogie.Woogie.bird;;
+let g=48+Boogie.Woogie.parker;;
 let h=49+byebyebird;;
 
 
