@@ -30,7 +30,7 @@ let rejected_chars=
 
 let admitted_chars=
   [
-   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-';
+   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.';
   ];;
 
 let test_for_admissiblity c=
