@@ -45,7 +45,7 @@ let on_monitored_modules mdata old_name new_name=
    let temp4=Option.filter_and_unpack (
      fun s->try Some(Absolute_path.of_string s) with _->None
    ) [
-       German_constant.location_for_pervasivesfile;
+       German_constant.name_for_pervasivesfile;
        German_constant.location_for_printersfile;
      ] in
    
