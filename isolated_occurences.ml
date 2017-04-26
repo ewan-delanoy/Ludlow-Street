@@ -14,9 +14,10 @@ the surrounding characters, on the left and on the right.
 
 module Private=struct
 
-exception Unclear_char of char;;
+exception Unclear_left_char of char;;
+exception Unclear_right_char of char;;
 
-let rejected_chars=
+let rejected_left_chars=
   [
    	'a';'b';'c';'d';'e';'f';'g';'h';'i';'j';
     'k';'l';'m';'n';'o';'p';'q';'r';'s';'t';
@@ -28,35 +29,61 @@ let rejected_chars=
     '_';
   ];;
 
-let admitted_chars=
+let admitted_left_chars=
   [
    	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.';
   ];;
 
-let test_for_admissiblity c=
-   if List.mem c rejected_chars then false else
-   if List.mem c admitted_chars then true else
-   raise(Unclear_char(c));;
+let rejected_right_chars=
+  [
+   	'a';'b';'c';'d';'e';'f';'g';'h';'i';'j';
+    'k';'l';'m';'n';'o';'p';'q';'r';'s';'t';
+    'u';'v';'w';'x';'y';'z';
+    'A';'B';'C';'D';'E';'F';'G';'H';'I';'J';
+    'K';'L';'M';'N';'O';'P';'Q';'R';'S';'T';
+    'U';'V';'W';'X';'Y';'Z';
+    '0';'1';'2';'3';'4';'5';'6';'7';'8';'9';
+    '_';
+  ];;
+
+let admitted_right_chars=
+  [
+   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.';
+  ];;
+
+let test_for_left_admissiblity c=
+   if List.mem c rejected_left_chars then false else
+   if List.mem c admitted_left_chars then true else
+   raise(Unclear_left_char(c));;
+   
+let test_for_right_admissiblity c=
+   if List.mem c rejected_right_chars then false else
+   if List.mem c admitted_right_chars then true else
+   raise(Unclear_right_char(c));;   
+   
+let leftmost_small_test  s j=
+   if j=0 
+   then true 
+   else test_for_left_admissiblity (String.get s (j-1));;
+
+let rightmost_small_test  s j=
+   if j=((String.length s)+1) 
+   then true 
+   else test_for_right_admissiblity (String.get s (j-1));;   
+   
 
 end;;
 
 let isolated_occurrences_of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
-  let naive_test=(fun  j->Private.test_for_admissiblity (String.get s (j-1))) in
-  let leftmost_small_test=(fun j->
-    if j=0 then true else naive_test j
-  )
-  and rightmost_small_test=(fun j->
-    if j=((String.length s)+1) then true else naive_test j
-  ) in
   let main_test= (
     fun k->
-      ( leftmost_small_test (k-1) )
+      ( Private.leftmost_small_test s (k-1) )
       &&
       ((String.sub s (k-1) l_substr)=substr) 
       &&
-      ( rightmost_small_test  (k+l_substr) )
+      ( Private.rightmost_small_test s (k+l_substr) )
       
   ) in
   Option.filter_and_unpack(
