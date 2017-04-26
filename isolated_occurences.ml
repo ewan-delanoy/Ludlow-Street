@@ -79,9 +79,10 @@ let isolated_occurrences_of_in substr s=
   and n=String.length(s) in
   let main_test= (
     fun k->
+      if ((String.sub s (k-1) l_substr)<>substr)
+      then false
+      else 
       ( Private.leftmost_small_test s (k-1) )
-      &&
-      ((String.sub s (k-1) l_substr)=substr) 
       &&
       ( Private.rightmost_small_test s (k+l_substr) )
       
