@@ -9,7 +9,7 @@
 
 let loadings (dirs,tgts)=
   let s_root=Directory_name.to_string(German_constant.root) in
-  let part1="\n(*\n #use\""^s_root^(German_constant.location_for_loadingsfile)^"\";"^";\n*)\n\n" in
+  let part1="\n(*\n #use\""^s_root^(German_constant.name_for_loadingsfile)^"\";"^";\n*)\n\n" in
   let temp5=Image.image(
      fun sd->
      "#directory\""^s_root^(Subdirectory.to_string sd)^"\";"^";"
