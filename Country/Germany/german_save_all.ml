@@ -6,7 +6,7 @@
 
 module Private=struct
 
-let location_for_makefile=German_constant.nome_for_makefile;;
+let location_for_makefile=German_constant.nume_for_makefile;;
 let location_for_targetfile=German_constant.location_for_targetfile;;
 let location_for_loadingsfile=German_constant.location_for_loadingsfile;;
 let location_for_pervasivesfile=German_constant.location_for_pervasivesfile;;
