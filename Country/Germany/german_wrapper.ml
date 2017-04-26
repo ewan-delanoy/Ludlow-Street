@@ -135,7 +135,7 @@ let forget_module ap=
        );;         
     
  let initialize ()=
-   let s_ap=Directory_name.join German_constant.root  German_constant.location_for_targetfile in
+   let s_ap=Directory_name.join German_constant.root  German_constant.name_for_targetfile in
    let ap=Absolute_path.of_string s_ap in
    let the_archive=Io.read_whole_file ap in
    let 
