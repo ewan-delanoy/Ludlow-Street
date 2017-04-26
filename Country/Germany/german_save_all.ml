@@ -10,7 +10,7 @@ let location_for_makefile=German_constant.name_for_makefile;;
 let location_for_targetfile=German_constant.name_for_targetfile;;
 let location_for_loadingsfile=German_constant.name_for_loadingsfile;;
 let location_for_pervasivesfile=German_constant.name_for_pervasivesfile;;
-let location_for_printersfile=German_constant.location_for_printersfile;;
+let location_for_printersfile=German_constant.name_for_printersfile;;
 
 let joiner=Directory_name.force_join German_constant.root ;;
 

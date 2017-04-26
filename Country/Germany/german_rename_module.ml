@@ -46,7 +46,7 @@ let on_monitored_modules mdata old_name new_name=
      fun s->try Some(Absolute_path.of_string s) with _->None
    ) [
        German_constant.name_for_pervasivesfile;
-       German_constant.location_for_printersfile;
+       German_constant.name_for_printersfile;
      ] in
    
    let _=Image.image changer (temp3@temp4) in
