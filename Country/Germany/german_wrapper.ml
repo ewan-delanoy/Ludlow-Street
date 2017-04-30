@@ -223,7 +223,7 @@ let register_mlx_file mlx=
     (data(),directories(),(!Private.up_to_date_targets_ref)) 
         mlx in
    let (ndel,ncre)=German_created_or_deleted.update 
-        ([],[Mlx_filename.short_path mlx])
+        ([],[Mlx_ended_absolute_path.short_path mlx])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
    let default_top=(German_data.default_toplevel new_mdata) in     
    let (_,(new_mdata2,new_tgts2))=
@@ -273,6 +273,32 @@ let register_mlx_file mlx=
          Private.save_all();
          
        );;       
+ 
+ let rename_directory (old_subdir,new_subdirname)=
+    let _=Private.recompile() in
+    let pair=(old_subdir,new_subdirname) in
+    let new_data=German_rename_directory.on_data pair (!Private.data_ref)
+    and new_dirs=German_rename_directory.on_subdirectories pair (!Private.directories_ref)
+    and new_tgts=German_rename_directory.on_up_to_date_targets pair (!Private.up_to_date_targets_ref)
+    and new_ofiles=German_rename_directory.on_outside_files pair (!Private.outside_files_ref)
+    and new_odirs=German_rename_directory.on_subdirectories pair (!Private.outside_directories_ref)
+    and new_rdel=German_rename_directory.on_delchacre_files pair (!Private.recently_deleted_ref)
+    and new_rchan=German_rename_directory.on_delchacre_files pair (!Private.recently_changed_ref)
+    and new_rcre=German_rename_directory.on_delchacre_files pair (!Private.recently_created_ref)
+    and new_peqt=German_rename_directory.on_half_dressed_modules pair (!Private.printer_equipped_types_ref)
+    in
+       (
+         Private.data_ref:=new_data;
+         Private.directories_ref:=new_dirs;
+         Private.up_to_date_targets_ref:=new_tgts;
+         Private.outside_files_ref:=new_ofiles;
+         Private.outside_directories_ref:=new_odirs;
+         Private.recently_deleted_ref:=new_rdel;
+         Private.recently_changed_ref:=new_rchan;
+         Private.recently_created_ref:=new_rcre;
+         Private.printer_equipped_types_ref:=new_peqt;
+         Private.save_all();
+       );;   
     
  let rename_module old_name new_name=
     let _=Private.recompile() in
@@ -320,7 +346,7 @@ let reposition_module hm (l_before,l_after)=
    let (new_mdata,new_dirs,new_tgts)= 
     German_unregister_mlx_file.on_targets (data(),(!Private.up_to_date_targets_ref)) mlx in
    let (ndel,ncre)=German_created_or_deleted.update 
-        ([Mlx_filename.short_path mlx],[])
+        ([Mlx_ended_absolute_path.short_path mlx],[])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
        (
          Private.data_ref:=new_mdata;
