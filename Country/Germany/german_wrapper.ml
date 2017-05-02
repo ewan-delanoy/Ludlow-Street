@@ -207,9 +207,9 @@ let refresh ()=
 		Private.up_to_date_targets_ref:=new_tgts;
 		Private.outside_files_ref:=new_outsiders;
 		Private.outside_directories_ref:=[];
-		Private.recently_deleted_ref:=Dircopy_diff.recently_deleted new_diff;
-		Private.recently_changed_ref:=Dircopy_diff.recently_changed new_diff;
-		Private.recently_created_ref:=Dircopy_diff.recently_created new_diff;
+		Private.recently_deleted_ref:=Recently_deleted.of_string_list(Dircopy_diff.recently_deleted new_diff);
+		Private.recently_changed_ref:=Recently_changed.of_string_list(Dircopy_diff.recently_changed new_diff);
+		Private.recently_created_ref:=Recently_created.of_string_list(Dircopy_diff.recently_created new_diff);
 		Private.printer_equipped_types_ref:=new_ptypes;
         Private.save_all();
    );;  
@@ -281,9 +281,9 @@ let register_mlx_file mlx=
     and new_tgts=German_rename_directory.on_up_to_date_targets pair (!Private.up_to_date_targets_ref)
     and new_ofiles=German_rename_directory.on_outside_files pair (!Private.outside_files_ref)
     and new_odirs=German_rename_directory.on_subdirectories pair (!Private.outside_directories_ref)
-    and new_rdel=German_rename_directory.on_delchacre_files pair (!Private.recently_deleted_ref)
-    and new_rchan=German_rename_directory.on_delchacre_files pair (!Private.recently_changed_ref)
-    and new_rcre=German_rename_directory.on_delchacre_files pair (!Private.recently_created_ref)
+    and new_rdel=German_rename_directory.on_deleted_files pair (!Private.recently_deleted_ref)
+    and new_rchan=German_rename_directory.on_changed_files pair (!Private.recently_changed_ref)
+    and new_rcre=German_rename_directory.on_created_files pair (!Private.recently_created_ref)
     and new_peqt=German_rename_directory.on_half_dressed_modules pair (!Private.printer_equipped_types_ref)
     in
        (

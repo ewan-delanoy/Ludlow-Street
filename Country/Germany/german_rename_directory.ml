@@ -89,6 +89,25 @@ let on_up_to_date_targets (old_subdir,new_subdirname) l_tgts=
 
 let on_outside_files (old_subdir,new_subdirname) l=
     Image.image (on_absolute_path (old_subdir,new_subdirname)) l ;; 
+
+let on_deleted_files (old_subdir,new_subdirname) rl=
+    let l=Recently_deleted.to_string_list rl in
+    Recently_deleted.of_string_list(
+     Image.image (on_short_path (old_subdir,new_subdirname)) l 
+    );; 
+   
+let on_changed_files (old_subdir,new_subdirname) rl=
+    let l=Recently_deleted.to_string_list rl in
+    Recently_changed.of_string_list(
+     Image.image (on_short_path (old_subdir,new_subdirname)) l 
+    );;    
+   
+let on_created_files (old_subdir,new_subdirname) rl=
+    let l=Recently_deleted.to_string_list rl in
+    Recently_created.of_string_list(
+     Image.image (on_short_path (old_subdir,new_subdirname)) l 
+    );;       
+   
    
 let on_delchacre_files (old_subdir,new_subdirname) l=
     Image.image (on_short_path (old_subdir,new_subdirname)) l ;; 
