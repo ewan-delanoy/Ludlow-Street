@@ -18,7 +18,6 @@ let veil a b c={
    recently_deleted =Recently_deleted.to_string_list a;
    recently_changed =Recently_changed.to_string_list b;
    recently_created =Recently_created.to_string_list c;
-
 };;
 
 let compute_deleted_in_diff sourcedir destdir=
