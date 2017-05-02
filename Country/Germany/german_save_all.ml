@@ -59,9 +59,9 @@ let archive
    and temp3=Image.image Ocaml_target.archive up_to_date_targets 
    and temp4=Image.image (fun w->Absolute_path.to_string w) outside_files 
    and temp5=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) outside_directories 
-   and temp6=Image.image (fun w->Nonblank.make w) recently_deleted 
-   and temp7=Image.image (fun w->Nonblank.make w) recently_changed 
-   and temp8=Image.image (fun w->Nonblank.make w) recently_created 
+   and temp6=Image.image (fun w->Nonblank.make w) (Recently_deleted.to_string_list recently_deleted) 
+   and temp7=Image.image (fun w->Nonblank.make w) (Recently_changed.to_string_list recently_changed) 
+   and temp8=Image.image (fun w->Nonblank.make w) (Recently_created.to_string_list recently_created) 
    and temp9=Image.image Half_dressed_module.archive printer_equipped_types in
    String.concat industrial_separator1
    [
@@ -99,9 +99,9 @@ let read_all s=
    let new_targets=Image.image Ocaml_target.unarchive v3 in
    let new_ofiles=Image.image Absolute_path.of_string v4 in
    let new_odirectories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v5 in
-   let new_dfiles=Image.image Nonblank.decode v6 in
-   let new_chfiles=Image.image Nonblank.decode v7 in
-   let new_crfiles=Image.image Nonblank.decode v8 in
+   let new_dfiles=Recently_deleted.of_string_list(Image.image Nonblank.decode v6) in
+   let new_chfiles=Recently_changed.of_string_list(Image.image Nonblank.decode v7) in
+   let new_crfiles=Recently_created.of_string_list(Image.image Nonblank.decode v8) in
    let new_pe_types=Image.image Half_dressed_module.unarchive v9 in
    
 (

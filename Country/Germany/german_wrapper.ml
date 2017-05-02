@@ -12,9 +12,9 @@ let directories_ref=ref([]:Subdirectory.t list);;
 let up_to_date_targets_ref=ref([]:Ocaml_target.t list);;
 let outside_files_ref=ref([]:Absolute_path.t list);;
 let outside_directories_ref=ref([]:Subdirectory.t list);;
-let recently_deleted_ref=ref([]:string list);;
-let recently_changed_ref=ref([]:string list);;
-let recently_created_ref=ref([]:string list);;
+let recently_deleted_ref=ref(Recently_deleted.of_string_list []);;
+let recently_changed_ref=ref(Recently_changed.of_string_list []);;
+let recently_created_ref=ref(Recently_created.of_string_list []);;
 let printer_equipped_types_ref=ref([]:Half_dressed_module.t list);;
 
 let whole ()=(
