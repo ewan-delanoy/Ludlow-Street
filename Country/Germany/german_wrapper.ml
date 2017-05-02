@@ -208,9 +208,9 @@ let refresh ()=
 		Private.up_to_date_targets_ref:=new_tgts;
 		Private.outside_files_ref:=new_outsiders;
 		Private.outside_directories_ref:=[];
-		Private.recently_deleted_ref:=Prepare_dircopy_update.recently_deleted new_diff;
-		Private.recently_changed_ref:=Prepare_dircopy_update.recently_changed new_diff;
-		Private.recently_created_ref:=Prepare_dircopy_update.recently_created new_diff;
+		Private.recently_deleted_ref:=Dircopy_diff.recently_deleted new_diff;
+		Private.recently_changed_ref:=Dircopy_diff.recently_changed new_diff;
+		Private.recently_created_ref:=Dircopy_diff.recently_created new_diff;
 		Private.printer_equipped_types_ref:=new_ptypes;
         Private.save_all();
    );;  
