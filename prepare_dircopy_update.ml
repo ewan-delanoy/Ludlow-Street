@@ -37,45 +37,6 @@ let compute_nondeleted_in_diff (sourcedir,l) destdir=
    (Recently_created.of_string_list (!created_accu),
     Recently_changed.of_string_list (!changed_accu));;   
    
-(*   
-let display_diff x=
-   let tempf=(fun msg l->
-   "\n"::msg::(Image.image(fun w->"\t\t"^w) l)
-   ) in
-   let temp1=tempf "Deleted : " (Dircopy_diff.recently_deleted x)
-   and temp2=tempf "Created : " (Dircopy_diff.recently_created x)
-   and temp3=tempf "Changed : " (Dircopy_diff.recently_changed x) in
-   let temp4=String.concat "\n" (temp1@temp2@temp3) in
-   (print_string temp4;
-    flush stdout);;
- 
-let summarize_short_path s=
-   String.capitalize(Father_and_son.son (Father_and_son.invasive_father s '.') '/');;
- 
-let summarize_short_path_list l=
-    let temp1=Image.image summarize_short_path l in
-    Ordered.forget_order(Ordered_string.diforchan temp1);;
- 
-let explain_diff x=
-   let tempf=(fun (msg,l)->
-     if l=[]
-     then None
-     else Some(msg^" "^(String.concat "," l)^".")
-   ) in
-   let temp1=Option.filter_and_unpack tempf
-   [
-     "Deleted",summarize_short_path_list(Dircopy_diff.recently_deleted x);
-     "Created",summarize_short_path_list(Dircopy_diff.recently_created x);
-     "Modified",summarize_short_path_list(Dircopy_diff.recently_changed x);
-   ] in
-   if temp1=[] then "" else
-   let temp2=(String.uncapitalize (List.hd temp1))::(List.tl temp1) in
-   String.concat " " temp2;; 
- 
-let diff_is_empty x=
-  (Dircopy_diff.recently_deleted x,Dircopy_diff.recently_created x,Dircopy_diff.recently_changed x)=
-   ([],[],[]);;
-*)  
   
 let compute_diff (sourcedir,l) destdir=
    let (created,changed)=compute_nondeleted_in_diff (sourcedir,l) destdir in
