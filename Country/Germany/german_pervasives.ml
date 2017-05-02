@@ -38,7 +38,7 @@ let fg_without_backup x=
    else German_wrapper.forget_module (hmx x);;
 
 let regi_without_backup x= 
-  let mlx=Mlx_filename.of_path_and_root (fl x) cdir in
+  let mlx=Mlx_ended_absolute_path.of_path_and_root (fl x) cdir in
   German_wrapper.register_mlx_file mlx;;
 
 let rego_without_backup x=
@@ -46,7 +46,7 @@ let rego_without_backup x=
 
 let ureg_without_backup x=
   if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mll";".mly"] 
-  then let mlx=Mlx_filename.of_path_and_root (fl x) cdir in
+  then let mlx=Mlx_ended_absolute_path.of_path_and_root (fl x) cdir in
        German_wrapper.unregister_mlx_file mlx 
   else German_wrapper.unregister_module (hmx x);;
 
@@ -81,7 +81,7 @@ let reco_without_backup ()=
   German_wrapper.recompile();;
 
 
-let pbk ()=Prepare_dircopy_update.display_diff(German_wrapper.diff());;
+let pbk ()=Dircopy_diff.display(German_wrapper.diff());;
 let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
 
 let rd ()=Alaskan_remove_debuggables.rd German_constant.root (German_wrapper.data());;
