@@ -41,7 +41,7 @@ let commands_for_backup diff=
    let temp7=Image.image(
       fun fn->
       "git rm "^fn
-   ) (Prepare_dircopy_update.recently_deleted diff) in
+   ) (Dircopy_diff.recently_deleted diff) in
    (temp3@temp4@temp5,temp6@temp7);;
 
 let backup_with_message diff msg=
