@@ -48,10 +48,9 @@ let recompile ()=
 
 let diff ()=
     Dircopy_diff.veil
-   
-        (Recently_deleted.of_string_list(!(recently_deleted_ref)))
-        (Recently_changed.of_string_list(!(recently_changed_ref)))
-        (Recently_created.of_string_list(!(recently_created_ref)))
+        (!(recently_deleted_ref))
+        (!(recently_changed_ref))
+        (!(recently_created_ref))
     ;;
 
 end;;
@@ -61,9 +60,9 @@ let backup opt_msg=
   let _=German_backup_target_system.backup (Private.diff()) opt_msg in
   
   (
-		Private.recently_deleted_ref:=[];
-		Private.recently_changed_ref:=[];
-		Private.recently_created_ref:=[];
+		Private.recently_deleted_ref:=Recently_deleted.of_string_list [];
+		Private.recently_changed_ref:=Recently_changed.of_string_list [];
+		Private.recently_created_ref:=Recently_created.of_string_list [];
         Private.save_all();
    );;  
 
