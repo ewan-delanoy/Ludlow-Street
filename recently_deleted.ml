@@ -4,7 +4,7 @@
 
 *)
 
-type recently_deleted=RD of string;;
+type recently_deleted=RD of string list;;
 
-let of_string s=RD s;;
-let to_string (RD s)=s;;
+let of_string_list l=RD l;;
+let to_string_list (RD l)=l;;
