@@ -4,21 +4,6 @@
 
 *)
 
-type diff={
-   recently_deleted : string list;
-   recently_changed : string list;
-   recently_created : string list;
-};;
-
-let recently_deleted x=x.recently_deleted;;
-let recently_created x=x.recently_created;;
-let recently_changed x=x.recently_changed;;
-
-let veil a b c={
-   recently_deleted =Recently_deleted.to_string_list a;
-   recently_changed =Recently_changed.to_string_list b;
-   recently_created =Recently_created.to_string_list c;
-};;
 
 let compute_deleted_in_diff sourcedir destdir=
    let s_sourcedir=Directory_name.to_string sourcedir
@@ -49,15 +34,16 @@ let compute_nondeleted_in_diff (sourcedir,l) destdir=
    	    then changed_accu:=s::(!changed_accu)
    	    )
    ) l in
-   (!created_accu,!changed_accu);;   
+   (Recently_created.of_string_list (!created_accu),
+    Recently_changed.of_string_list (!changed_accu));;   
    
 let display_diff x=
    let tempf=(fun msg l->
    "\n"::msg::(Image.image(fun w->"\t\t"^w) l)
    ) in
-   let temp1=tempf "Deleted : " x.recently_deleted
-   and temp2=tempf "Created : " x.recently_created
-   and temp3=tempf "Changed : " x.recently_changed in
+   let temp1=tempf "Deleted : " (Dircopy_diff.recently_deleted x)
+   and temp2=tempf "Created : " (Dircopy_diff.recently_created x)
+   and temp3=tempf "Changed : " (Dircopy_diff.recently_changed x) in
    let temp4=String.concat "\n" (temp1@temp2@temp3) in
    (print_string temp4;
     flush stdout);;
@@ -77,25 +63,26 @@ let explain_diff x=
    ) in
    let temp1=Option.filter_and_unpack tempf
    [
-     "Deleted",summarize_short_path_list(x.recently_deleted);
-     "Created",summarize_short_path_list(x.recently_created);
-     "Modified",summarize_short_path_list(x.recently_changed);
+     "Deleted",summarize_short_path_list(Dircopy_diff.recently_deleted x);
+     "Created",summarize_short_path_list(Dircopy_diff.recently_created x);
+     "Modified",summarize_short_path_list(Dircopy_diff.recently_changed x);
    ] in
    if temp1=[] then "" else
    let temp2=(String.uncapitalize (List.hd temp1))::(List.tl temp1) in
    String.concat " " temp2;; 
  
 let diff_is_empty x=
-  (x.recently_deleted,x.recently_created,x.recently_changed)=
+  (Dircopy_diff.recently_deleted x,Dircopy_diff.recently_created x,Dircopy_diff.recently_changed x)=
    ([],[],[]);;
   
 let compute_diff (sourcedir,l) destdir=
    let (created,changed)=compute_nondeleted_in_diff (sourcedir,l) destdir in
-   {
-   	recently_deleted=compute_deleted_in_diff sourcedir destdir;
-   	recently_created=created;
-   	recently_changed=changed;
-   };;
+   Dircopy_diff.veil
+   
+   	(Recently_deleted.of_string_list(compute_deleted_in_diff sourcedir destdir))
+   	changed
+   	created
+   ;;
    
 let greedy_list sourcedir=
    let source_paths=More_unix.complete_ls_with_nondirectories_only sourcedir in
@@ -111,7 +98,7 @@ let commands_for_update destination_dir diff=
    then []
    else 
    let s_destination=Directory_name.to_string destination_dir in
-   let created_ones=diff.recently_created  in
+   let created_ones=Dircopy_diff.recently_created diff  in
    let temp2=Option.filter_and_unpack
    (fun fn->
      if String.contains fn '/'
@@ -126,7 +113,7 @@ let commands_for_update destination_dir diff=
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')
    ) created_ones in
-   let changed_ones=diff.recently_changed in
+   let changed_ones=Dircopy_diff.recently_changed diff in
    let temp5=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^fn
@@ -134,7 +121,7 @@ let commands_for_update destination_dir diff=
    let temp7=Image.image(
       fun fn->
       "rm "^s_destination^fn
-   ) (diff.recently_deleted) in
+   ) (Dircopy_diff.recently_deleted diff) in
    (temp3@temp4@temp5@temp7);;  
    
    
