@@ -97,13 +97,13 @@ let on_deleted_files (old_subdir,new_subdirname) rl=
     );; 
    
 let on_changed_files (old_subdir,new_subdirname) rl=
-    let l=Recently_deleted.to_string_list rl in
+    let l=Recently_changed.to_string_list rl in
     Recently_changed.of_string_list(
      Image.image (on_short_path (old_subdir,new_subdirname)) l 
     );;    
    
 let on_created_files (old_subdir,new_subdirname) rl=
-    let l=Recently_deleted.to_string_list rl in
+    let l=Recently_created.to_string_list rl in
     Recently_created.of_string_list(
      Image.image (on_short_path (old_subdir,new_subdirname)) l 
     );;       
