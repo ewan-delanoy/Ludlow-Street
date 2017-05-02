@@ -14,7 +14,7 @@ let commands_for_backup diff=
    else 
    let destination_dir=German_constant.dir_for_backup in
    let s_destination=Directory_name.to_string destination_dir in
-   let created_ones=Prepare_dircopy_update.recently_created diff in
+   let created_ones=Dircopy_diff.recently_created diff in
    let temp2=Option.filter_and_unpack
    (fun fn->
      if String.contains fn '/'
