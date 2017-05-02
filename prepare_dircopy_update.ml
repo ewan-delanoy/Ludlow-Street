@@ -37,6 +37,7 @@ let compute_nondeleted_in_diff (sourcedir,l) destdir=
    (Recently_created.of_string_list (!created_accu),
     Recently_changed.of_string_list (!changed_accu));;   
    
+(*   
 let display_diff x=
    let tempf=(fun msg l->
    "\n"::msg::(Image.image(fun w->"\t\t"^w) l)
@@ -74,6 +75,7 @@ let explain_diff x=
 let diff_is_empty x=
   (Dircopy_diff.recently_deleted x,Dircopy_diff.recently_created x,Dircopy_diff.recently_changed x)=
    ([],[],[]);;
+*)  
   
 let compute_diff (sourcedir,l) destdir=
    let (created,changed)=compute_nondeleted_in_diff (sourcedir,l) destdir in
@@ -94,7 +96,7 @@ let compute_greedy_diff sourcedir destdir=
    compute_diff (sourcedir,greedy_list sourcedir) destdir;;
    
 let commands_for_update destination_dir diff=
-   if diff_is_empty diff
+   if Dircopy_diff.is_empty diff
    then []
    else 
    let s_destination=Directory_name.to_string destination_dir in
