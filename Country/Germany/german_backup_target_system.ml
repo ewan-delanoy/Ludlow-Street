@@ -9,7 +9,7 @@
 let github_after_backup=ref(true);;
 
 let commands_for_backup diff=
-   if Prepare_dircopy_update.diff_is_empty diff
+   if Dircopy_diff.is_empty diff
    then ([],[])
    else 
    let destination_dir=German_constant.dir_for_backup in
