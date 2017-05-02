@@ -4,7 +4,7 @@
 
 *)
 
-type recently_changed=RC of string;;
+type recently_changed=RC of string list;;
 
-let of_string s=RC s;;
-let to_string (RC s)=s;;
+let of_string_list s=RC l;;
+let to_string_list (RC l)=l;;
