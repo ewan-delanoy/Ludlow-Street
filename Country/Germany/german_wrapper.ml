@@ -48,11 +48,11 @@ let recompile ()=
 
 let diff ()=
     Prepare_dircopy_update.veil
-   (
-        !(recently_deleted_ref),
-	    !(recently_changed_ref),
-		!(recently_created_ref)
-   );;
+   
+        (Recently_deleted.to_string_list(!(recently_deleted_ref)))
+        (Recently_changed.to_string_list(!(recently_changed_ref)))
+        (Recently_created.to_string_list(!(recently_created_ref)))
+    ;;
 
 end;;
 
