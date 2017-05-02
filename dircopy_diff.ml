@@ -57,3 +57,13 @@ let explain x=
    if temp1=[] then "" else
    let temp2=(String.uncapitalize (List.hd temp1))::(List.tl temp1) in
    String.concat " " temp2;; 
+   
+let is_empty x=
+  (x.recently_deleted,x.recently_created,x.recently_changed)=
+   ([],[],[]);;   
+   
+   
+   
+   
+   
+   
