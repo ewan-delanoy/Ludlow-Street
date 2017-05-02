@@ -49,9 +49,9 @@ let recompile ()=
 let diff ()=
     Prepare_dircopy_update.veil
    
-        (Recently_deleted.to_string_list(!(recently_deleted_ref)))
-        (Recently_changed.to_string_list(!(recently_changed_ref)))
-        (Recently_created.to_string_list(!(recently_created_ref)))
+        (Recently_deleted.of_string_list(!(recently_deleted_ref)))
+        (Recently_changed.of_string_list(!(recently_changed_ref)))
+        (Recently_created.of_string_list(!(recently_created_ref)))
     ;;
 
 end;;
