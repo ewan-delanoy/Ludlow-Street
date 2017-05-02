@@ -67,7 +67,7 @@ let backup_with_message diff msg=
 let backup diff opt=
   let msg=(
    match opt with
-    None->Prepare_dircopy_update.explain_diff diff
+    None->Dircopy_diff.explain diff
    |Some(msg0)->msg0) in
   backup_with_message diff msg;;
   
