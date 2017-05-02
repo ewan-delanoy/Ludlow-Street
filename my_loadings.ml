@@ -79,6 +79,9 @@
 #load"rename_file.cmo";;
 #load"relocate_file.cmo";;
 #load"reconstruct_linear_poset.cmo";;
+#load"recently_deleted.cmo";;
+#load"recently_created.cmo";;
+#load"recently_changed.cmo";;
 #load"rat_frac.cmo";;
 #load"is_an_ending_or_not.cmo";;
 #load"preserve_initial_ordering.cmo";;
@@ -99,6 +102,7 @@
 #load"chronometer.cmo";;
 #load"explicit.cmo";;
 #load"more_unix.cmo";;
+#load"dircopy_diff.cmo";;
 #load"Country/Germany/german_constant.cmo";;
 #load"prepare_dircopy_update.cmo";;
 #load"Php_analizer/php_char_range.cmo";;
@@ -128,6 +132,7 @@
 #load"Php_analizer/Beavers/beaver_for_statement.cmo";;
 #load"Php_analizer/level_one.cmo";;
 #load"path_is_in_directory.cmo";;
+#load"overwrite_at_intervals.cmo";;
 #load"outside_comments_and_strings.cmo";;
 #load"Ordered_Lists/ordered_integer.cmo";;
 #load"min.cmo";;
@@ -150,8 +155,9 @@
 #load"Makefile_makers/ocaml_library.cmo";;
 #load"naked_module.cmo";;
 #load"half_dressed_module.cmo";;
-#load"Makefile_makers/mlx_filename.cmo";;
+#load"Makefile_makers/mlx_ended_absolute_path.cmo";;
 #load"Makefile_makers/modulesystem_data.cmo";;
+#load"isolated_occurences.cmo";;
 #load"Makefile_makers/ocaml_target.cmo";;
 #load"Country/Germany/german_unregister_outside_file.cmo";;
 #load"Country/Germany/german_directories.cmo";;
@@ -181,6 +187,7 @@
 #load"Country/Germany/german_save_all.cmo";;
 #load"Makefile_makers/abstract_renamer.cmo";;
 #load"Country/Germany/german_rename_module.cmo";;
+#load"Country/Germany/german_rename_directory.cmo";;
 #load"Country/Germany/german_relocate_module.cmo";;
 #load"Country/Germany/german_register_outside_file.cmo";;
 #load"Makefile_makers/update_ancs_libs_and_dirs_in_modulesystem.cmo";;
