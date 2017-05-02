@@ -29,7 +29,7 @@ let commands_for_backup diff=
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')
    ) created_ones in
-   let changed_ones=Prepare_dircopy_update.recently_changed diff in
+   let changed_ones=Dircopy_diff.recently_changed diff in
    let temp5=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^fn
