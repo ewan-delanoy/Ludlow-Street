@@ -26,36 +26,36 @@ exception NonMarkedIngredientsForToplevel of string;;
 let targets_from_ancestor_data dt=
   let hm=Modulesystem_data.name dt in
   if Modulesystem_data.mll_present dt
-  then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+  then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
        [mll_target;Ocaml_target.ml_from_mll hm;Ocaml_target.cmi hm;Ocaml_target.cmo hm]
   else 
   if Modulesystem_data.mly_present dt
-  then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+  then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
        [mly_target;Ocaml_target.ml_from_mly hm;Ocaml_target.cmi hm;Ocaml_target.cmo hm]
   else
   if Modulesystem_data.ml_present dt
   then 
-       let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+       let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target;Ocaml_target.cmi hm;Ocaml_target.cmo hm]
-  else let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  else let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target;Ocaml_target.cmi hm];;  
 
 
 let debuggable_targets_from_ancestor_data dt=
   let hm=Modulesystem_data.name dt in
   if Modulesystem_data.mll_present dt
-  then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+  then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
        [mll_target;Ocaml_target.ml_from_mll hm;Ocaml_target.cmi hm;Ocaml_target.dcmo hm]
   else 
   if Modulesystem_data.mly_present dt
-  then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+  then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
        [mly_target;Ocaml_target.ml_from_mly hm;Ocaml_target.cmi hm;Ocaml_target.dcmo hm]
   else
   if Modulesystem_data.ml_present dt
   then 
-       let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+       let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target;Ocaml_target.cmi hm;Ocaml_target.dcmo hm]
-  else let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  else let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target;Ocaml_target.cmi hm];;  
 
 let targets_from_ancestors mdata dt=
@@ -78,18 +78,18 @@ let debuggable_targets_from_ancestors mdata ancestors=
 let optimized_targets_from_ancestor_data dt=
   let hm=Modulesystem_data.name dt in
   if Modulesystem_data.mll_present dt
-  then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+  then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
        [mll_target;Ocaml_target.ml_from_mll hm;Ocaml_target.cmi hm;Ocaml_target.cmx hm]
   else 
   if Modulesystem_data.mly_present dt
-  then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+  then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
        [mly_target;Ocaml_target.ml_from_mly hm;Ocaml_target.cmi hm;Ocaml_target.cmx hm]
   else
   if Modulesystem_data.ml_present dt
   then 
-       let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+       let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target;Ocaml_target.cmi hm;Ocaml_target.cmx hm]
-  else let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  else let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target;Ocaml_target.cmi hm];;  
 
 let optimized_targets_from_ancestors mdata dt=
@@ -102,41 +102,41 @@ let optimized_targets_from_ancestors mdata dt=
      Preserve_initial_ordering.preserve_initial_ordering temp1;;
 
 let immediate_ingredients_for_ml_from_mll hm=
-  let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+  let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
   [mll_target];;
 
 let immediate_ingredients_for_ml_from_mly hm=
-  let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+  let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
   [mly_target];;
 
 let immediate_ingredients_for_cmi dt hm=
     if Modulesystem_data.mll_present dt
-    then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+    then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
          [mll_target;Ocaml_target.ml_from_mll hm]
     else 
     if Modulesystem_data.mly_present dt
-    then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+    then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
          [mly_target;Ocaml_target.ml_from_mly hm]
     else
   if Modulesystem_data.mli_present dt
-  then let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  then let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target]
-  else let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+  else let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target];; 
 
 let immediate_ingredients_for_cmo dt hm=
     if Modulesystem_data.mll_present dt
-    then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+    then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
          [mll_target;Ocaml_target.ml_from_mll hm;Ocaml_target.cmi hm]
     else 
     if Modulesystem_data.mly_present dt
-    then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+    then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
          [mly_target;Ocaml_target.ml_from_mly hm;Ocaml_target.cmi hm]
     else
   if Modulesystem_data.ml_present dt
-  then let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+  then let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target;Ocaml_target.cmi hm]
-  else let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  else let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target;Ocaml_target.cmi hm];;  
 
 
@@ -146,17 +146,17 @@ let immediate_ingredients_for_cma=immediate_ingredients_for_cmo;;
 
 let immediate_ingredients_for_cmx dt hm=
     if Modulesystem_data.mll_present dt
-    then let mll_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mll) in
+    then let mll_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mll) in
          [mll_target;Ocaml_target.ml_from_mll hm;Ocaml_target.cmi hm]
     else 
     if Modulesystem_data.mly_present dt
-    then let mly_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mly) in
+    then let mly_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mly) in
          [mly_target;Ocaml_target.ml_from_mly hm;Ocaml_target.cmi hm]
     else
   if Modulesystem_data.ml_present dt
-  then let ml_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.ml) in
+  then let ml_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.ml) in
        [ml_target;Ocaml_target.cmi hm]
-  else let mli_target=Ocaml_target.no_dependencies(Mlx_filename.join hm Ocaml_ending.mli) in
+  else let mli_target=Ocaml_target.no_dependencies(Mlx_ended_absolute_path.join hm Ocaml_ending.mli) in
        [mli_target;Ocaml_target.cmi hm];;  
 
 
@@ -219,7 +219,7 @@ let ingredients_for_executable mdata hm=
   @(immediate_ingredients_for_executable hm);; 
   
 let ingredients_for_debuggable mdata hm=
-  let mlfile=Mlx_filename.join hm Ocaml_ending.Ml in
+  let mlfile=Mlx_ended_absolute_path.join hm Ocaml_ending.Ml in
   let genealogy=Read_info_on_file_in_system.find_needed_data mdata mlfile in
   let dirfath=Image.image (Modulesystem_data.name) genealogy in
   let temp1=Image.image 
@@ -306,7 +306,7 @@ let module_dependency_for_ocaml_target mdata l_hm =function
 
 
 let mlx_dependency_for_ocaml_target mdata mlx tgt=
-  let hm=Mlx_filename.half_dressed_core mlx in
+  let hm=Mlx_ended_absolute_path.half_dressed_core mlx in
   module_dependency_for_ocaml_target mdata [hm] tgt;;
 
 let mlx_list_dependency_for_ocaml_target mdata l_mlx tgt=

@@ -23,7 +23,7 @@ let find_needed_data_for_file l fn=
    Option.filter_and_unpack selecter l;;
 
 let find_needed_data l mlx=
-   let fn=Mlx_filename.to_path mlx in
+   let fn=Mlx_ended_absolute_path.to_path mlx in
    find_needed_data_for_file l fn;;
 
 let find_needed_names l mlx=
@@ -31,7 +31,7 @@ let find_needed_names l mlx=
    Image.image Modulesystem_data.name temp1;;
 
  let find_needed_libraries mlx genealogy=
-   let fn=Mlx_filename.to_path mlx in
+   let fn=Mlx_ended_absolute_path.to_path mlx in
    let temp1=Look_for_module_names.names_in_file fn in
    List.filter
    (
@@ -50,7 +50,7 @@ let find_needed_names l mlx=
    let temp1=Image.image 
      (fun t->Tidel.diforchan(Modulesystem_data.needed_directories t)) 
        genealogy in
-   let s_mlx=Mlx_filename.to_string mlx in
+   let s_mlx=Mlx_ended_absolute_path.to_string mlx in
    let temp2=(fun bowl->
        if bowl 
        then let new_subdir=Subdirectory.of_string(Father_and_son.father s_mlx '/') in
@@ -68,7 +68,7 @@ let find_needed_names l mlx=
  
  
  let complete_info l mlx=
-   let (hm,edg)=Mlx_filename.decompose mlx in
+   let (hm,edg)=Mlx_ended_absolute_path.decompose mlx in
    let genealogy=find_needed_data l mlx in
    let (mlp,mlip,mllp,mlyp)=check_presences l hm
    and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
@@ -92,7 +92,7 @@ let recompute_complete_info_for_module l hm=
   let opt=Option.find_it(fun a->Modulesystem_data.name a=hm) l in
   let dt=Option.unpack opt in
   let edg=List.hd(Modulesystem_data.registered_endings dt) in
-  let mlx=Mlx_filename.join hm edg in
+  let mlx=Mlx_ended_absolute_path.join hm edg in
   complete_info l mlx;;
         
     
@@ -108,7 +108,7 @@ let quick_update l x=
   else
   let (n_ml,n_mli,n_mll,n_mly)=new_values in
   let edg=List.hd(Modulesystem_data.registered_endings x) in
-  let mlx=Mlx_filename.join hm edg in
+  let mlx=Mlx_ended_absolute_path.join hm edg in
   let fathers=find_needed_names l mlx in
   Some(
   {

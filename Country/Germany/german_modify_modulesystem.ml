@@ -9,13 +9,13 @@
 
 
  
- exception Non_registered_file of Mlx_filename.t;;  
+ exception Non_registered_file of Mlx_ended_absolute_path.t;;  
  exception Non_registered_module of Half_dressed_module.t;;  
- exception Abandoned_children of Mlx_filename.t*(Half_dressed_module.t list);;
+ exception Abandoned_children of Mlx_ended_absolute_path.t*(Half_dressed_module.t list);;
  exception Derelict_children of Half_dressed_module.t*(Half_dressed_module.t list);;  
 
  let unregister_mlx_file_and_keep_old_data mdata mlxfile=
-    let hm=Mlx_filename.half_dressed_core mlxfile in
+    let hm=Mlx_ended_absolute_path.half_dressed_core mlxfile in
     let desc=German_data.descendants mdata [hm] in
     if desc<>[]
     then let temp1=Image.image Modulesystem_data.name desc in
@@ -26,7 +26,7 @@
     match opt with
      None->raise(Non_registered_file(mlxfile))
     |Some(dt)->
-      let edg=Mlx_filename.ending mlxfile in
+      let edg=Mlx_ended_absolute_path.ending mlxfile in
       if (not(Modulesystem_data.check_presence edg dt))
       then raise(Non_registered_file(mlxfile))
       else 
@@ -53,15 +53,15 @@
     
    
   
-exception Already_registered_file of Mlx_filename.t;;  
-exception Overcrowding of Mlx_filename.t*(Ocaml_ending.t list);;
-exception Bad_pair of Mlx_filename.t*Ocaml_ending.t;; 
+exception Already_registered_file of Mlx_ended_absolute_path.t;;  
+exception Overcrowding of Mlx_ended_absolute_path.t*(Ocaml_ending.t list);;
+exception Bad_pair of Mlx_ended_absolute_path.t*Ocaml_ending.t;; 
 exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;; 
    
  
  let register_mlx_file mdata mlx_file =
-   let hm=Mlx_filename.half_dressed_core mlx_file
-   and ending=Mlx_filename.ending mlx_file in 
+   let hm=Mlx_ended_absolute_path.half_dressed_core mlx_file
+   and ending=Mlx_ended_absolute_path.ending mlx_file in 
    let nm=Half_dressed_module.undress hm in
    let (before,opt,after)=Three_parts.select_center_element  (fun dt->
       Half_dressed_module.undress(Modulesystem_data.name dt)=nm) 
@@ -142,7 +142,7 @@ let reposition mdata hm (l_before,l_after)=
    and amputated_data=before@after in
    German_arrange_positions_in_modulesystem.insert_data amputated_data info (l_before,l_after);;  
 
-exception Non_existent_mtime of Mlx_filename.t;;
+exception Non_existent_mtime of Mlx_ended_absolute_path.t;;
 
     
 let recompute_module_info mdata hm=

@@ -10,7 +10,7 @@ let all_mlx_files mdata=
   List.flatten
   (Image.image Modulesystem_data.acolytes mdata);; 
 
-let all_mlx_paths mdata=Image.image Mlx_filename.to_absolute_path 
+let all_mlx_paths mdata=Image.image Mlx_ended_absolute_path.to_absolute_path 
   (all_mlx_files mdata);;  
 
 let all_short_paths mdata=List.flatten(

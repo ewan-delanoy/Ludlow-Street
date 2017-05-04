@@ -15,7 +15,7 @@ Note that  when the ml file is present, the ocamlc -c command produces the
 type target_name=string;;
 
 type t=
-  NO_DEPENDENCIES of Mlx_filename.t
+  NO_DEPENDENCIES of Mlx_ended_absolute_path.t
  |ML_FROM_MLL of Half_dressed_module.t
  |ML_FROM_MLY of Half_dressed_module.t 
  |CMI of Half_dressed_module.t
@@ -29,7 +29,7 @@ type t=
  
  
 let to_string =function
-  NO_DEPENDENCIES(mlx)->Mlx_filename.to_string mlx
+  NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
  |ML_FROM_MLL(hm)->(Half_dressed_module.to_string hm)^".ml"
  |ML_FROM_MLY(hm)->(Half_dressed_module.to_string hm)^".ml" 
  |CMI(hm)->(Half_dressed_module.to_string hm)^".cmi"
@@ -80,11 +80,11 @@ let is_a_nodep tgt=function
   |_->false;;
 
 let adhoc_test_for_renaming old_name=function
-  NO_DEPENDENCIES(mlx)->(Mlx_filename.half_dressed_core mlx)<>old_name
+  NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)<>old_name
  |_->true;;
 
 let naive_main_module=function
-  NO_DEPENDENCIES(mlx)->Some(Mlx_filename.half_dressed_core mlx)
+  NO_DEPENDENCIES(mlx)->Some(Mlx_ended_absolute_path.half_dressed_core mlx)
  |ML_FROM_MLL(hm)-> Some(hm)
  |ML_FROM_MLY(hm)-> Some(hm) 
  |CMI(hm)-> Some(hm)
@@ -111,7 +111,7 @@ let debuggable hm=DEBUGGABLE(hm);;
 let toplevel name l=TOPLEVEL(name,l);;
 
 let direct_connection hm0=function
-  NO_DEPENDENCIES(mlx)->(Mlx_filename.half_dressed_core mlx)=hm0
+  NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)=hm0
  |ML_FROM_MLL(hm)-> hm=hm0
  |ML_FROM_MLY(hm)-> hm=hm0
  |CMI(hm)-> hm=hm0
@@ -126,8 +126,8 @@ let direct_connection hm0=function
 
  
 let ml_from_lex_or_yacc_data=function 
-    ML_FROM_MLL(hm)->Some(Mlx_filename.join hm Ocaml_ending.ml)
-   |ML_FROM_MLY(hm)->Some(Mlx_filename.join hm Ocaml_ending.ml)
+    ML_FROM_MLL(hm)->Some(Mlx_ended_absolute_path.join hm Ocaml_ending.ml)
+   |ML_FROM_MLY(hm)->Some(Mlx_ended_absolute_path.join hm Ocaml_ending.ml)
    |_->None;;
  
 let complexity_level=function
@@ -146,7 +146,7 @@ let complexity_level=function
 let sliced_ocaml_name tgt=
   let sl=Sliced_string.of_string_list in
   match tgt with
-  NO_DEPENDENCIES(mlx)-> sl ["Ocaml"^"_target"^".no_dependencies ("^(Mlx_filename.ocaml_name mlx)^")"]
+  NO_DEPENDENCIES(mlx)-> sl ["Ocaml"^"_target"^".no_dependencies ("^(Mlx_ended_absolute_path.ocaml_name mlx)^")"]
  |ML_FROM_MLL(hm)-> sl ["Ocaml"^"_target"^".ml_from_mll ("^(Half_dressed_module.ocaml_name hm)^")"]
  |ML_FROM_MLY(hm)-> sl ["Ocaml"^"_target"^".ml_from_mly ("^(Half_dressed_module.ocaml_name hm)^")"]
  |CMI(hm)-> sl ["Ocaml"^"_target"^".cmi ("^(Half_dressed_module.ocaml_name hm)^")"]
@@ -202,7 +202,7 @@ let industrial_separator2=Industrial_separator.new_separator ();;
 
 
 let prepare_archive=function
-  NO_DEPENDENCIES(mlx)->["nodep";Mlx_filename.archive mlx]
+  NO_DEPENDENCIES(mlx)->["nodep";Mlx_ended_absolute_path.archive mlx]
  |ML_FROM_MLL(hm)-> ["mll";Half_dressed_module.archive hm]
  |ML_FROM_MLY(hm)-> ["mly";Half_dressed_module.archive hm]  
  |CMI(hm)->  ["cmi";Half_dressed_module.archive hm]
@@ -225,7 +225,7 @@ let archive x=String.concat industrial_separator2 (prepare_archive x);;
 let unarchive s=
    let l1=Str.split (Str.regexp_string industrial_separator2) s in
    let c=List.hd l1 and ms=List.nth l1 1 in
-   if c="nodep" then NO_DEPENDENCIES(Mlx_filename.unarchive ms) else
+   if c="nodep" then NO_DEPENDENCIES(Mlx_ended_absolute_path.unarchive ms) else
    if c="mll"  then  ML_FROM_MLL(Half_dressed_module.unarchive ms) else
    if c="mly"  then  ML_FROM_MLY(Half_dressed_module.unarchive ms) else
    if c="cmi"  then          CMI(Half_dressed_module.unarchive ms) else

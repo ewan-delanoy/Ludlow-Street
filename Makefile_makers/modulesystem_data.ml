@@ -260,7 +260,7 @@ let acolytes dt=
   Option.filter_and_unpack (fun 
     edg->
        if check_presence edg dt 
-       then Some(Mlx_filename.join name edg)
+       then Some(Mlx_ended_absolute_path.join name edg)
        else None
   ) Ocaml_ending.all_endings;;
   
@@ -270,14 +270,14 @@ let registered_endings dt=
     check_presence edg dt 
   ) Ocaml_ending.all_endings;;
 
-let short_paths dt=Image.image Mlx_filename.short_path (acolytes dt);;
+let short_paths dt=Image.image Mlx_ended_absolute_path.short_path (acolytes dt);;
   
 
 let compute_modification_times hm=
   let dir=Half_dressed_module.root_directory hm in
   Ocaml_ending.exhaustive_uple (fun edg->
-    let mlx=Mlx_filename.join hm edg in
-    let file=(Directory_name.to_string dir)^(Mlx_filename.to_string mlx) in
+    let mlx=Mlx_ended_absolute_path.join hm edg in
+    let file=(Directory_name.to_string dir)^(Mlx_ended_absolute_path.to_string mlx) in
     if not(Sys.file_exists file) then 0. else
     let st=Unix.stat file in
     st.Unix.st_mtime 
@@ -408,7 +408,7 @@ let outdated_acolytes dt=
   Option.filter_and_unpack (
     fun (edg,x,y)->
       if x<>y
-      then Some(Mlx_filename.join hm edg)
+      then Some(Mlx_ended_absolute_path.join hm edg)
       else None
   ) temp1;;
  
@@ -535,7 +535,7 @@ let fix_ancestors x anc=
 let needed_dirs_and_libs is_optimized dt=
    let extension=(if is_optimized then ".cmxa" else ".cma") in
    let dirs=String.concat(" ")
-    (Image.image(fun y->let z=Subdirectory.to_string(y) in
+    (Image.image(fun y->let z=Subdirectory.name_with_end_slash(y) in
      if z="" then "" else "-I "^z )
     dt.needed_directories)
 	and libs=String.concat(" ")
@@ -548,7 +548,7 @@ let needed_dirs_and_libs_for_several is_optimized l_dt=
    let pre_dirs1=Image.image (fun dt->Tidel.diforchan(dt.needed_directories)) l_dt in
    let pre_dirs2=Ordered.forget_order (Tidel.big_teuzin pre_dirs1) in
    let dirs=String.concat(" ")
-    (Image.image(fun y->let z=Subdirectory.to_string(y) in 
+    (Image.image(fun y->let z=Subdirectory.name_with_end_slash(y) in 
     if z="" then "" else "-I "^z )
     pre_dirs2) in
    let pre_libs1=Image.image (fun dt->Tidel.diforchan(dt.needed_libraries)) l_dt in
@@ -559,14 +559,14 @@ let needed_dirs_and_libs_for_several is_optimized l_dt=
     String.concat " " ["";dirs;libs;""];;
 
 let principal_mlx x=
-   if x.mll_present then Mlx_filename.join x.name Ocaml_ending.mll else
-   if x.mly_present then Mlx_filename.join x.name Ocaml_ending.mly else
-   if x.ml_present then Mlx_filename.join x.name Ocaml_ending.ml else
-   Mlx_filename.join x.name Ocaml_ending.mli;;
+   if x.mll_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.mll else
+   if x.mly_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.mly else
+   if x.ml_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.ml else
+   Mlx_ended_absolute_path.join x.name Ocaml_ending.mli;;
    
-let principal_path x=Mlx_filename.to_path (principal_mlx x);;  
+let principal_path x=Mlx_ended_absolute_path.to_path (principal_mlx x);;  
 
-let ml_path x=Mlx_filename.to_path (Mlx_filename.join x.name Ocaml_ending.ml);;   
+let ml_path x=Mlx_ended_absolute_path.to_path (Mlx_ended_absolute_path.join x.name Ocaml_ending.ml);;   
 
 let unprefixed_compact_ocaml_name x=
    let enc=Strung.enclose in
@@ -585,7 +585,7 @@ let unprefixed_compact_ocaml_name x=
   "["^(String.concat ";" (Image.image (fun w->enc(Ocaml_library.to_string w)) x.needed_libraries))^"],"^
   "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.direct_fathers))^"],"^
   "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.all_ancestors))^"],"^
-  "["^(String.concat ";" (Image.image (fun w->enc(Subdirectory.to_string w)) x.needed_directories))^"]"^
+  "["^(String.concat ";" (Image.image (fun w->enc(Subdirectory.name_with_end_slash w)) x.needed_directories))^"]"^
   ")";;    
   
 let compact_ocaml_name x=

@@ -6,15 +6,15 @@
 
 *)
 
-exception Already_registered_file of Mlx_filename.t;;  
-exception Overcrowding of Mlx_filename.t*(Ocaml_ending.t list);;
-exception Bad_pair of Mlx_filename.t*Ocaml_ending.t;; 
+exception Already_registered_file of Mlx_ended_absolute_path.t;;  
+exception Overcrowding of Mlx_ended_absolute_path.t*(Ocaml_ending.t list);;
+exception Bad_pair of Mlx_ended_absolute_path.t*Ocaml_ending.t;; 
 exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;; 
    
  
 let on_monitored_modules mdata mlx_file =
-   let hm=Mlx_filename.half_dressed_core mlx_file
-   and ending=Mlx_filename.ending mlx_file in 
+   let hm=Mlx_ended_absolute_path.half_dressed_core mlx_file
+   and ending=Mlx_ended_absolute_path.ending mlx_file in 
    let nm=Half_dressed_module.undress hm in
    let (before,opt,after)=Three_parts.select_center_element  (fun dt->
       Half_dressed_module.undress(Modulesystem_data.name dt)=nm) 
@@ -64,7 +64,7 @@ let on_monitored_modules mdata mlx_file =
 
   
 let on_targets (old_mdata,old_dirs,old_tgts) mlx=
-  let hm=Mlx_filename.half_dressed_core mlx in
+  let hm=Mlx_ended_absolute_path.half_dressed_core mlx in
   let new_dir=Half_dressed_module.subdirectory hm in
  let new_mdata=on_monitored_modules old_mdata mlx in
  let new_dirs=

@@ -24,7 +24,7 @@ let find_file_location dir l_subdir old_x=
   ) in
   let temp1=Cartesian.product(l_subdir) endings in
   let tempf=(fun (sd,edg)->
-  	let s1=s_dir^(Subdirectory.to_string sd)^x^edg in
+  	let s1=s_dir^(Subdirectory.name_with_end_slash sd)^x^edg in
   	if Sys.file_exists s1
   	then Some(Absolute_path.of_string s1)
   	else None

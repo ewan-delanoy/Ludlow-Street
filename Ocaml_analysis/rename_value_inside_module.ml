@@ -29,7 +29,7 @@ let rename_value_inside_module s new_name=
    let md1=Option.find_really (fun md->Modulesystem_data.name md=hm) temp1 in
    let temp2=(Modulesystem_data.all_ancestors md1)@[hm] in
    let all_files=Image.image  (fun hm2->
-   	 Mlx_filename.to_path(Mlx_filename.join hm2 Ocaml_ending.Ml)
+   	 Mlx_ended_absolute_path.to_path(Mlx_ended_absolute_path.join hm2 Ocaml_ending.Ml)
    ) temp2 in
    let temp3=Read_ocaml_files.read_ocaml_files all_files in
    let opt_temp4=Option.find_it (fun itm->

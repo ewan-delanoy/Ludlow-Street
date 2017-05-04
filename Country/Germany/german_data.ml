@@ -11,20 +11,20 @@ let filedata_selector mdata ending x=List.filter
    (Modulesystem_data.check_presence ending) mdata;;
  
   
-let inside_files mdata=Image.image Mlx_filename.to_path 
+let inside_files mdata=Image.image Mlx_ended_absolute_path.to_path 
 (Alaskan_data.all_mlx_files mdata);;  
   
 let local_directories mdata=
   let temp1=Alaskan_data.all_mlx_files mdata in
-  let temp5=Image.image Mlx_filename.to_string temp1 in
+  let temp5=Image.image Mlx_ended_absolute_path.to_string temp1 in
   let temp2=Image.image (fun s->Father_and_son.father s '/') temp5 in
   let temp3=Ordered_string.diforchan temp2 in
   let temp4=Ordered.forget_order temp3 in
   temp4;;
    
  let see_if_file_is_registered mdata mlx=
-    let hm=Mlx_filename.half_dressed_core mlx
-    and edg=Mlx_filename.ending mlx in  
+    let hm=Mlx_ended_absolute_path.half_dressed_core mlx
+    and edg=Mlx_ended_absolute_path.ending mlx in  
     match Option.find_it (fun a->Modulesystem_data.name a=hm) mdata with
     None->false
     |Some(dt)->Modulesystem_data.check_presence edg dt;;
@@ -60,13 +60,13 @@ let optionality_partition mdata=
     Modulesystem_data.is_optional mdata in
   (before,Option.add_perhaps core after);;    
 
-exception Deletability_issue of Mlx_filename.t;;
+exception Deletability_issue of Mlx_ended_absolute_path.t;;
 
 let is_deletable mdata mlxfile=
-   let hm=Mlx_filename.half_dressed_core mlxfile in
+   let hm=Mlx_ended_absolute_path.half_dressed_core mlxfile in
    if (descendants mdata [hm])<>[]
    then false
-   else let edg=Mlx_filename.ending mlxfile in
+   else let edg=Mlx_ended_absolute_path.ending mlxfile in
         if List.mem edg [Ocaml_ending.ml;Ocaml_ending.mli]
         then true
         else 
@@ -80,7 +80,7 @@ let is_deletable mdata mlxfile=
         else raise(Deletability_issue(mlxfile));; 
  
 let unregistered_mlx_files mdata=
-   let temp1=Mlx_filename.complete_ls German_constant.root in
+   let temp1=Mlx_ended_absolute_path.complete_ls German_constant.root in
    List.filter (fun mlx->
      not(see_if_file_is_registered mdata mlx)
    ) temp1;;

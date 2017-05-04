@@ -7,12 +7,12 @@
 
 *)
 
- exception Non_registered_file of Mlx_filename.t;;  
- exception Abandoned_children of Mlx_filename.t*(Half_dressed_module.t list);;
+ exception Non_registered_file of Mlx_ended_absolute_path.t;;  
+ exception Abandoned_children of Mlx_ended_absolute_path.t*(Half_dressed_module.t list);;
  
 
  let on_monitored_modules mdata mlxfile=
-    let hm=Mlx_filename.half_dressed_core mlxfile in
+    let hm=Mlx_ended_absolute_path.half_dressed_core mlxfile in
     let desc=German_data.descendants mdata [hm] in
     if desc<>[]
     then let temp1=Image.image Modulesystem_data.name desc in
@@ -23,7 +23,7 @@
     match opt with
      None->raise(Non_registered_file(mlxfile))
     |Some(dt)->
-      let edg=Mlx_filename.ending mlxfile in
+      let edg=Mlx_ended_absolute_path.ending mlxfile in
       if (not(Modulesystem_data.check_presence edg dt))
       then raise(Non_registered_file(mlxfile))
       else 
@@ -33,7 +33,7 @@
       else before@(new_dt::after);;
     
  let on_targets (old_mdata,old_tgts) mlx=
-  let hm=Mlx_filename.half_dressed_core mlx in
+  let hm=Mlx_ended_absolute_path.half_dressed_core mlx in
   let new_mdata=on_monitored_modules old_mdata mlx in
   let new_dirs=German_directories.from_data new_mdata
   and new_tgts=List.filter (fun tgt->

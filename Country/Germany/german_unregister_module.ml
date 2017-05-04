@@ -25,7 +25,7 @@ let on_monitored_modules mdata hm=
     then raise(Non_registered_module(hm))  
     else 
     let acolytes=Modulesystem_data.acolytes(Option.unpack opt) in
-    let short_paths=Image.image Mlx_filename.short_path acolytes in
+    let short_paths=Image.image Mlx_ended_absolute_path.short_path acolytes in
     (before@after,short_paths);;
     
 let on_targets (old_mdata,old_tgts) hm=

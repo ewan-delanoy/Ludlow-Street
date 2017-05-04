@@ -29,10 +29,10 @@ let on_monitored_modules mdata old_name new_name=
    else 
    let old_dt=Option.unpack opt in
    let old_acolytes=Modulesystem_data.acolytes old_dt in
-   let old_files=Image.image (fun mlx->Mlx_filename.short_path mlx) old_acolytes in 
-   let new_acolytes=Image.image (fun mlx->Mlx_filename.do_file_renaming mlx new_name) old_acolytes in
-   let new_files=Image.image (fun mlx->Mlx_filename.short_path mlx) new_acolytes in 
-   let new_hm=Mlx_filename.half_dressed_core(List.hd new_acolytes) in
+   let old_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) old_acolytes in 
+   let new_acolytes=Image.image (fun mlx->Mlx_ended_absolute_path.do_file_renaming mlx new_name) old_acolytes in
+   let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
+   let new_hm=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
    let old_mname=Half_dressed_module.module_name old_name
    and new_mname=Half_dressed_module.module_name new_hm
    in
@@ -41,7 +41,7 @@ let on_monitored_modules mdata old_name new_name=
    let desc=German_data.descendants mdata [old_name] in
    let temp1=Image.image Modulesystem_data.acolytes desc in
    let temp2=List.flatten temp1 in
-   let temp3=Image.image Mlx_filename.to_path temp2 in
+   let temp3=Image.image Mlx_ended_absolute_path.to_path temp2 in
    let temp4=Option.filter_and_unpack (
      fun s->try Some(Absolute_path.of_string s) with _->None
    ) [
