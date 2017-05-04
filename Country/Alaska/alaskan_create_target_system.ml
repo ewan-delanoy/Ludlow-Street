@@ -120,7 +120,7 @@ let compute_dependencies l=
   
 let from_prepared_list dir l=
    let temp1=Option.filter_and_unpack (fun (ap,s)->
-      Mlx_filename.try_from_path_and_root ap dir
+      Mlx_ended_absolute_path.try_from_path_and_root ap dir
    ) l in
    Alaskan_try_to_register.mlx_files [] temp1;;
 
