@@ -25,11 +25,32 @@ let is_admissible s=
     )
   )
   ;;
+  
+let name_of_clone_directory="/Users/ewandelanoy/Downloads/Clone";;  
+let github_clone_command=
+"git clone https://github.com/ewan-delanoy/Ludlow-Street "^
+name_of_clone_directory;;  
 
-let check remotedir=
+exception Failure_in_clone_directory_creation;;
+exception Failure_during_github_cloning;;
+
+let check ()=
+  let i=(
+    if Sys.file_exists(name_of_clone_directory)
+    then Sys.command("rm -rf "^name_of_clone_directory) 
+    else 0
+  ) in
+  if i<>0
+  then raise(Failure_in_clone_directory_creation)
+  else 
+  let remotedir=Directory_name.of_string name_of_clone_directory in
+  let j=Sys.command github_clone_command in
+  if j<>0
+  then raise(Failure_during_github_cloning)
+  else 
   let diff=Prepare_dircopy_update.compute_greedy_diff
      German_constant.root remotedir in
-  let rc1=List.filter is_admissible (Dircopy_diff.recently_changed diff)
+  let rc1=List.filter is_admissible (Dircopy_diff.recently_deleted diff)
   and rc2=List.filter is_admissible (Dircopy_diff.recently_changed diff)
-  and rc3=List.filter is_admissible (Dircopy_diff.recently_changed diff) in
+  and rc3=List.filter is_admissible (Dircopy_diff.recently_created diff) in
   (rc1,rc2,rc3);;
