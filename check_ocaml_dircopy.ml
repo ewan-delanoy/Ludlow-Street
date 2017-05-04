@@ -43,6 +43,7 @@ let check ()=
   if i<>0
   then raise(Failure_in_clone_directory_creation)
   else 
+  let _=Sys.command("mkdir -p "^name_of_clone_directory) in
   let remotedir=Directory_name.of_string name_of_clone_directory in
   let j=Sys.command github_clone_command in
   if j<>0
