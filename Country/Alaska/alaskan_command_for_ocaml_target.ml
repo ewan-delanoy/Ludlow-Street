@@ -7,7 +7,7 @@
 
 
 
-exception Command_called_on_nodep of Mlx_filename.t;;
+exception Command_called_on_nodep of Mlx_ended_absolute_path.t;;
 exception Unregistered_cmo  of Half_dressed_module.t;;
 exception Unregistered_dcmo of Half_dressed_module.t;;
 exception Unregistered_cmi  of Half_dressed_module.t;;
