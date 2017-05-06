@@ -10,7 +10,7 @@ rename A/B/C to D/E/F.
 *)
 
 let on_short_path (old_subdir,new_subdirname) s=
-  if Substring.begins_with s s_old_subdir
+  if Substring.begins_with s old_subdir
   then let sub_s=Cull_string.cobeginning (String.length s_old_subdir) s in
        new_subdirname^sub_s
   else s;;
