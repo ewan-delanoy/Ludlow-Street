@@ -10,9 +10,8 @@ rename A/B/C to D/E/F.
 *)
 
 let on_short_path (old_subdir,new_subdirname) s=
-  (* let s_old_subdir=Subdirectory.connectable_to_subpath old_subdir in *)
-  if Substring.begins_with s old_subdir
-  then let sub_s=Cull_string.cobeginning (String.length old_subdir) s in
+  if Substring.begins_with s s_old_subdir
+  then let sub_s=Cull_string.cobeginning (String.length s_old_subdir) s in
        new_subdirname^sub_s
   else s;;
 
