@@ -12,7 +12,7 @@ let loadings (dirs,tgts)=
   let part1="\n(*\n #use\""^s_root^(German_constant.name_for_loadingsfile)^"\";"^";\n*)\n\n" in
   let temp5=Image.image(
      fun sd->
-     "#directory\""^s_root^(Subdirectory.name_with_end_slash sd)^"\";"^";"
+     "#directory\""^s_root^(Subdirectory.connectable_to_subpath sd)^"\";"^";"
   ) dirs in
   let part2=String.concat "\n" temp5 
   and part3="\n\n#load\"nums.cma\";"^";\n#load\"str.cma\";"^";\n#load\"unix.cma\";"^";\n\n\n" in

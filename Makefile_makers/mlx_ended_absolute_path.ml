@@ -88,7 +88,7 @@ let do_file_renaming mlx new_name=
   of_path_and_root new_ap (root mlx);;   
   
 let do_file_displacing mlx new_subdir=
-  let s_new_subdir=Subdirectory.name_with_end_slash new_subdir
+  let s_new_subdir=Subdirectory.connectable_to_subpath new_subdir
   and dir=root mlx in
   let s_dir=Directory_name.to_string dir in
   let new_dir=Directory_name.of_string(s_dir^s_new_subdir) in

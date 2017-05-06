@@ -17,7 +17,7 @@ let depth (SD s)=
  if s="" then 0 else
  (List.length(Substring.occurrences_of_in "/" s))+1;;
 
-let name_with_end_slash (SD s)=if s="" then "" else s^"/";;
+let connectable_to_subpath (SD s)=if s="" then "" else s^"/";;
 
 
 let ocaml_name (SD s)="Subdirectory"^"."^"of_string(\""^s^"\")";;

@@ -535,7 +535,7 @@ let fix_ancestors x anc=
 let needed_dirs_and_libs is_optimized dt=
    let extension=(if is_optimized then ".cmxa" else ".cma") in
    let dirs=String.concat(" ")
-    (Image.image(fun y->let z=Subdirectory.name_with_end_slash(y) in
+    (Image.image(fun y->let z=Subdirectory.connectable_to_subpath(y) in
      if z="" then "" else "-I "^z )
     dt.needed_directories)
 	and libs=String.concat(" ")
@@ -548,7 +548,7 @@ let needed_dirs_and_libs_for_several is_optimized l_dt=
    let pre_dirs1=Image.image (fun dt->Tidel.diforchan(dt.needed_directories)) l_dt in
    let pre_dirs2=Ordered.forget_order (Tidel.big_teuzin pre_dirs1) in
    let dirs=String.concat(" ")
-    (Image.image(fun y->let z=Subdirectory.name_with_end_slash(y) in 
+    (Image.image(fun y->let z=Subdirectory.connectable_to_subpath(y) in 
     if z="" then "" else "-I "^z )
     pre_dirs2) in
    let pre_libs1=Image.image (fun dt->Tidel.diforchan(dt.needed_libraries)) l_dt in
@@ -585,7 +585,7 @@ let unprefixed_compact_ocaml_name x=
   "["^(String.concat ";" (Image.image (fun w->enc(Ocaml_library.to_string w)) x.needed_libraries))^"],"^
   "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.direct_fathers))^"],"^
   "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.all_ancestors))^"],"^
-  "["^(String.concat ";" (Image.image (fun w->enc(Subdirectory.name_with_end_slash w)) x.needed_directories))^"]"^
+  "["^(String.concat ";" (Image.image (fun w->enc(Subdirectory.connectable_to_subpath w)) x.needed_directories))^"]"^
   ")";;    
   
 let compact_ocaml_name x=
