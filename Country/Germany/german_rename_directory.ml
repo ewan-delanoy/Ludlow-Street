@@ -9,9 +9,8 @@ rename A/B/C to D/E/F.
 
 *)
 
-exception Not_implemented;;
-
 let on_short_path (old_subdir,new_subdirname) s=
+  (* let s_old_subdir=Subdirectory.name_with_end_slash old_subdir in *)
   if Substring.begins_with s old_subdir
   then let sub_s=Cull_string.cobeginning (String.length old_subdir) s in
        new_subdirname^sub_s
