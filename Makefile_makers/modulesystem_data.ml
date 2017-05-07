@@ -568,49 +568,6 @@ let principal_path x=Mlx_ended_absolute_path.to_path (principal_mlx x);;
 
 let ml_path x=Mlx_ended_absolute_path.to_path (Mlx_ended_absolute_path.join x.name Ocaml_ending.ml);;   
 
-let unprefixed_compact_ocaml_name x=
-   let enc=Strung.enclose in
-   let (s,dir)=Half_dressed_module.unveil x.name in
-  "("^
-  (Directory_name.ocaml_name dir)^","^
-  (enc(s))^","^
-  (string_of_bool x.ml_present)^","^
-  (string_of_bool x.mli_present)^","^
-  (string_of_bool x.mll_present)^","^
-  (string_of_bool x.mly_present)^","^
-  (string_of_float x.ml_modification_time)^","^
-  (string_of_float x.mli_modification_time)^","^
-  (string_of_float x.mll_modification_time)^","^
-  (string_of_float x.mly_modification_time)^","^
-  "["^(String.concat ";" (Image.image (fun w->enc(Ocaml_library.to_string w)) x.needed_libraries))^"],"^
-  "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.direct_fathers))^"],"^
-  "["^(String.concat ";" (Image.image (fun w->enc(Half_dressed_module.to_string w)) x.all_ancestors))^"],"^
-  "["^(String.concat ";" (Image.image (fun w->enc(Subdirectory.connectable_to_subpath w)) x.needed_directories))^"]"^
-  ")";;    
-  
-let compact_ocaml_name x=
-  "New_modulesystem"^"_data.compact_make"^
-  (unprefixed_compact_ocaml_name x);;
-     
-  
-let ocaml_name x=
-   let (s,dir)=Half_dressed_module.unveil x.name in
-  "New_modulesystem"^"_data.make("^
-  (Directory_name.ocaml_name dir)^","^
-  (Strung.enclose s)^","^
-  (string_of_bool x.mli_present)^","^
-  (string_of_bool x.mli_present)^","^
-  (string_of_bool x.mll_present)^","^
-  (string_of_bool x.mly_present)^","^
-  (string_of_float x.ml_modification_time)^","^
-  (string_of_float x.mli_modification_time)^","^
-  (string_of_float x.mll_modification_time)^","^
-  (string_of_float x.mly_modification_time)^","^
-  "["^(String.concat ";" (Image.image Ocaml_library.ocaml_name x.needed_libraries))^"],"^
-  "["^(String.concat ";" (Image.image Half_dressed_module.ocaml_name x.direct_fathers))^"],"^
-  "["^(String.concat ";" (Image.image Half_dressed_module.ocaml_name x.all_ancestors))^"],"^
-  "["^(String.concat ";" (Image.image Subdirectory.ocaml_name x.needed_directories))^"]"^
-  ")";;  
 
 let directories_from_list l=
   let temp2=Image.image (
