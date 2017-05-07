@@ -15,9 +15,9 @@ exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;;
 let on_monitored_modules mdata mlx_file =
    let hm=Mlx_ended_absolute_path.half_dressed_core mlx_file
    and ending=Mlx_ended_absolute_path.ending mlx_file in 
-   let nm=Half_dressed_module.undress hm in
+   let nm=Half_dressed_module.naked_module hm in
    let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-      Half_dressed_module.undress(Modulesystem_data.name dt)=nm) 
+      Half_dressed_module.naked_module(Modulesystem_data.name dt)=nm) 
       mdata in
    if opt=None
    then  let old_info=Read_info_on_file_in_system.complete_info mdata mlx_file in

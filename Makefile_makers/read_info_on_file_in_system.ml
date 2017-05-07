@@ -15,7 +15,7 @@ let find_needed_data_for_file l fn=
    let temp1=Look_for_module_names.names_in_file fn in
    let selecter=(fun info->
      let hm=Modulesystem_data.name info in
-     let name=Half_dressed_module.undress hm in
+     let name=Half_dressed_module.naked_module hm in
      if List.mem name temp1
      then Some(info)
      else None

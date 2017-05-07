@@ -39,7 +39,7 @@ let of_path_and_root ap dir=
     GYQ(Father_and_son.invasive_father subpath '.',dir) ;;    
     
     
-let undress (GYQ (s,dir))=
+let naked_module (GYQ (s,dir))=
    try ((fun r->Naked_module.of_string(String.sub s (r+1) (String.length(s)-(r+1))) )
    (String.rindex s '/'))
    with
