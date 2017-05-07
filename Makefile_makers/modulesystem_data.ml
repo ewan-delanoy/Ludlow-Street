@@ -274,7 +274,7 @@ let short_paths dt=Image.image Mlx_ended_absolute_path.short_path (acolytes dt);
   
 
 let compute_modification_times hm=
-  let dir=Half_dressed_module.root_directory hm in
+  let dir=Half_dressed_module.bundle_main_dir hm in
   Ocaml_ending.exhaustive_uple (fun edg->
     let mlx=Mlx_ended_absolute_path.join hm edg in
     let file=(Directory_name.to_string dir)^(Mlx_ended_absolute_path.to_string mlx) in
@@ -652,7 +652,7 @@ let unarchive s=
    and v3=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 11))
    and v4=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 12)) in
    let hm=Half_dressed_module.unarchive(List.hd l1) in
-   let dir=Half_dressed_module.root_directory hm in
+   let dir=Half_dressed_module.bundle_main_dir hm in
 {
     name = hm;
     ml_present  = bool_of_string(List.nth l1 1);

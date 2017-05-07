@@ -70,7 +70,7 @@ let subdirectory hm=
        let s_dir=Father_and_son.father s_hm '/' in
        Subdirectory.of_string s_dir;;
 
-let root_directory (GYQ(s,dir))= dir;;
+let bundle_main_dir (GYQ(s,dir))= dir;;
 
 let module_name (GYQ (s,dir))=
   let t=Father_and_son.son s '/'  in
