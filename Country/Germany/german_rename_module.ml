@@ -33,8 +33,8 @@ let on_monitored_modules mdata old_name new_name=
    let new_acolytes=Image.image (fun mlx->Mlx_ended_absolute_path.do_file_renaming mlx new_name) old_acolytes in
    let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
    let new_hm=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
-   let old_mname=Half_dressed_module.module_name old_name
-   and new_mname=Half_dressed_module.module_name new_hm
+   let old_mname=Half_dressed_module.capitalized_module_name old_name
+   and new_mname=Half_dressed_module.capitalized_module_name new_hm
    in
    let changer=Look_for_module_names.change_module_name_in_file
    old_mname new_mname in

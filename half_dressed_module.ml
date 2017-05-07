@@ -72,7 +72,7 @@ let subdirectory hm=
 
 let bundle_main_dir (GYQ(s,dir))= dir;;
 
-let module_name (GYQ (s,dir))=
+let capitalized_module_name (GYQ (s,dir))=
   let t=Father_and_son.son s '/'  in
   (String.capitalize t);;
 
