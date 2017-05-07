@@ -142,34 +142,6 @@ let complexity_level=function
  |EXECUTABLE(_)
  |DEBUGGABLE(_)
  |TOPLEVEL(_,_)->3;;
-
-(*
-let sliced_ocaml_name tgt=
-  let sl=Sliced_string.of_string_list in
-  match tgt with
-  NO_DEPENDENCIES(mlx)-> sl ["Ocaml"^"_target"^".no_dependencies ("^(Mlx_ended_absolute_path.ocaml_name mlx)^")"]
- |ML_FROM_MLL(hm)-> sl ["Ocaml"^"_target"^".ml_from_mll ("^(Half_dressed_module.ocaml_name hm)^")"]
- |ML_FROM_MLY(hm)-> sl ["Ocaml"^"_target"^".ml_from_mly ("^(Half_dressed_module.ocaml_name hm)^")"]
- |CMI(hm)-> sl ["Ocaml"^"_target"^".cmi ("^(Half_dressed_module.ocaml_name hm)^")"]
- |CMO(hm)-> sl ["Ocaml"^"_target"^".cmo ("^(Half_dressed_module.ocaml_name hm)^")"]
- |DCMO(hm)->sl ["Ocaml"^"_target"^".dcmo("^(Half_dressed_module.ocaml_name hm)^")"]
- |CMA(hm)-> sl ["Ocaml"^"_target"^".cma ("^(Half_dressed_module.ocaml_name hm)^")"]
- |CMX(hm)-> sl ["Ocaml"^"_target"^".cmx ("^(Half_dressed_module.ocaml_name hm)^")"]
- |EXECUTABLE(hm)-> sl ["Ocaml"^"_target"^".executable ("^(Half_dressed_module.ocaml_name hm)^")"]
- |DEBUGGABLE(hm)-> sl ["Ocaml"^"_target"^".debuggable ("^(Half_dressed_module.ocaml_name hm)^")"]
- |TOPLEVEL(name,l)->
-   let temp1=Image.image 
-   (fun hm->(Half_dressed_module.ocaml_name hm)^";") l in
-   let temp2=Sliced_string.make_aggregates "" ("["::temp1@["])"]) in
- 	Sliced_string.concat_two 
- 	(Sliced_string.of_string_list
- 	(["(Ocaml"^"_target"^".toplevel "^(Strung.enclose name)^" "]))
- 	temp2;;
- 
-
-let ocaml_name tgt=Sliced_string.print (sliced_ocaml_name tgt);;
-*)
-
   
 let still_up_to_date_test hms_to_be_updated=function
    TOPLEVEL(name,l_hm)->List.for_all
