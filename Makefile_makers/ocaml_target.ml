@@ -143,6 +143,7 @@ let complexity_level=function
  |DEBUGGABLE(_)
  |TOPLEVEL(_,_)->3;;
 
+(*
 let sliced_ocaml_name tgt=
   let sl=Sliced_string.of_string_list in
   match tgt with
@@ -167,6 +168,8 @@ let sliced_ocaml_name tgt=
  
 
 let ocaml_name tgt=Sliced_string.print (sliced_ocaml_name tgt);;
+*)
+
   
 let still_up_to_date_test hms_to_be_updated=function
    TOPLEVEL(name,l_hm)->List.for_all
