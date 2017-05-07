@@ -599,7 +599,7 @@ let archive x=
      Nonblank.make(String.concat industrial_separator2 (Image.image Ocaml_library.to_string x.needed_libraries));
      Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.direct_fathers));
      Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.all_ancestors));
-     Nonblank.make(String.concat industrial_separator2 (Image.image Subdirectory.unveil x.needed_directories));
+     Nonblank.make(String.concat industrial_separator2 (Image.image Subdirectory.without_trailing_slash x.needed_directories));
    ];;
 
 let unarchive s=

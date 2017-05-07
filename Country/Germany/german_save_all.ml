@@ -55,10 +55,10 @@ let archive
     recently_deleted,recently_changed,recently_created,
     printer_equipped_types)=
     
-   let temp2=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) directories 
+   let temp2=Image.image (fun w->Nonblank.make(Subdirectory.without_trailing_slash w)) directories 
    and temp3=Image.image Ocaml_target.archive up_to_date_targets 
    and temp4=Image.image (fun w->Absolute_path.to_string w) outside_files 
-   and temp5=Image.image (fun w->Nonblank.make(Subdirectory.unveil w)) outside_directories 
+   and temp5=Image.image (fun w->Nonblank.make(Subdirectory.without_trailing_slash w)) outside_directories 
    and temp6=Image.image (fun w->Nonblank.make w) (Recently_deleted.to_string_list recently_deleted) 
    and temp7=Image.image (fun w->Nonblank.make w) (Recently_changed.to_string_list recently_changed) 
    and temp8=Image.image (fun w->Nonblank.make w) (Recently_created.to_string_list recently_created) 

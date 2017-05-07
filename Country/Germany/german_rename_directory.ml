@@ -10,14 +10,14 @@ rename A/B/C to D/E/F.
 *)
 
 let on_short_path (old_subdir,new_subdirname) s=
-  (* let s_old_subsubdir=Subsubdirectory.of_string *)
-  if Substring.begins_with s old_subdir
-  then let sub_s=Cull_string.cobeginning (String.length old_subdir) s in
+  let s_old_subdir=Subdirectory.to_string old_subdir in
+  if Substring.begins_with s s_old_subdir
+  then let sub_s=Cull_string.cobeginning (String.length s_old_subdir) s in
        new_subdirname^sub_s
   else s;;
 
 let on_subdirectory (old_subdir,new_subdirname) sd=
-   let s=Subdirectory.unveil sd in
+   let s=Subdirectory.without_trailing_slash sd in
    Subdirectory.of_string(on_short_path (old_subdir,new_subdirname) s);;
 
 let on_half_dressed_module (old_subdir,new_subdirname) x=

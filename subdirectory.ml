@@ -8,7 +8,7 @@ Subdirectories name, with the trailing slash removed.
 
 type t=SD of string;;
 
-let unveil (SD s)=s;;
+let without_trailing_slash (SD s)=s;;
 
 
 let of_string s=SD s;;
