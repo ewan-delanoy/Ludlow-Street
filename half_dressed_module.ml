@@ -76,10 +76,6 @@ let capitalized_module_name (GYQ (s,dir))=
   let t=Father_and_son.son s '/'  in
   (String.capitalize t);;
 
-let ocaml_name (GYQ (s,dir))=
-  "Half_dressed_module"^".of_string_and_index(\""^s^"\")("^
-  (Directory_name.ocaml_name dir)^")";;    
-
 let industrial_separator=Industrial_separator.new_separator ();;  
 
 let archive x=
