@@ -64,14 +64,6 @@ let is_executable (GYQ (s,dir))=
   if String.length(s)<10 then false else
   String.sub s (n-10) 10="executable";;
 
-(*
-let optional_base_directory (GYQ (s,dir))=try (
-   let r=String.rindex s '/' in
-   let dir=Directory_name.of_string(String.sub s 0 r) in
-   Some dir )
-   with
-   _->None;;
-*)
 
 let subdirectory hm=
        let s_hm=to_string hm in
