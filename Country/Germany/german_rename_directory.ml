@@ -10,7 +10,7 @@ rename A/B/C to D/E/F.
 *)
 
 let on_short_path (old_subdir,new_subdirname) s=
-  let s_old_subdir=Subdirectory.to_string old_subdir in
+  let s_old_subdir=Subdirectory.connectable_to_subpath old_subdir in
   if Substring.begins_with s s_old_subdir
   then let sub_s=Cull_string.cobeginning (String.length s_old_subdir) s in
        new_subdirname^sub_s
@@ -46,8 +46,9 @@ let on_ms_data (old_subdir,new_subdirname) x=
 
 
 let on_absolute_path (old_subdir,new_subdirname) ap=
+  let s_old_subdir=Subdirectory.connectable_to_subpath old_subdir in
   let s_ap=Absolute_path.to_string ap in
-  let old_fulldir=(Directory_name.to_string(German_constant.root))^old_subdir in
+  let old_fulldir=(Directory_name.to_string(German_constant.root))^s_old_subdir in
   if Substring.begins_with s_ap old_fulldir
   then let sub_s=Cull_string.cobeginning (String.length old_fulldir) s_ap in
        Absolute_path.of_string(new_subdirname^sub_s)
