@@ -61,6 +61,11 @@
 #load"absolute_path.cmo";;
 #load"unjoin_path.cmo";;
 #load"substring.cmo";;
+#load"prepared.cmo";;
+#load"cull_string.cmo";;
+#load"industrial_separator.cmo";;
+#load"decimal_number.cmo";;
+#load"parenthesed_block.cmo";;
 #load"subdirectory.cmo";;
 #load"strung.cmo";;
 #load"strict_or_loose.cmo";;
@@ -68,15 +73,12 @@
 #load"relation.cmo";;
 #load"simplex_relation.cmo";;
 #load"overwriter.cmo";;
-#load"prepared.cmo";;
-#load"cull_string.cmo";;
-#load"industrial_separator.cmo";;
-#load"decimal_number.cmo";;
-#load"parenthesed_block.cmo";;
 #load"my_global_replace.cmo";;
 #load"io.cmo";;
 #load"replace_inside.cmo";;
 #load"rename_file.cmo";;
+#load"Country/Germany/german_constant.cmo";;
+#load"rename_endsubdirectory.cmo";;
 #load"relocate_file.cmo";;
 #load"reconstruct_linear_poset.cmo";;
 #load"recently_deleted.cmo";;
@@ -103,7 +105,6 @@
 #load"explicit.cmo";;
 #load"more_unix.cmo";;
 #load"dircopy_diff.cmo";;
-#load"Country/Germany/german_constant.cmo";;
 #load"prepare_dircopy_update.cmo";;
 #load"Php_analizer/php_char_range.cmo";;
 #load"Php_analizer/php_parser.cmo";;
@@ -222,11 +223,13 @@
 #load"inclusion.cmo";;
 #load"Haag1/Haag2/please_test_me.cmo";;
 #load"GParser/gparser_for_c_language.cmo";;
+#load"endsubdirectory.cmo";;
 #load"Creators/small_int_based_rational.cmo";;
 #load"Creators/big_int_based_rational.cmo";;
 #load"Country/Germany/german_values_in_modules.cmo";;
 #load"Country/Germany/german_update_copied_compiler.cmo";;
 #load"Country/Germany/german_pervasives.cmo";;
+#load"check_ocaml_dircopy.cmo";;
 
 
 
