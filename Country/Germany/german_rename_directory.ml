@@ -38,21 +38,7 @@ let on_absolute_path=Rename_endsubdirectory.on_absolute_path;;
 let on_mlx_ended_absolute_path=
   Mlx_ended_absolute_path.rename_endsubdirectory;;
 
-let on_ocaml_target (old_subdir,new_subdirname)=function
-  Ocaml_target.NO_DEPENDENCIES(mlx)->
-  Ocaml_target.no_dependencies(on_mlx_ended_absolute_path (old_subdir,new_subdirname) mlx)
- |Ocaml_target.ML_FROM_MLL(hm)->Ocaml_target.ml_from_mll(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.ML_FROM_MLY(hm)->Ocaml_target.ml_from_mly(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMI(hm)->Ocaml_target.cmi(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMO(hm)->Ocaml_target.cmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.DCMO(hm)->Ocaml_target.dcmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMA(hm)->Ocaml_target.cma(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMX(hm)->Ocaml_target.cmx(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.EXECUTABLE(hm)->Ocaml_target.executable(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.DEBUGGABLE(hm)->Ocaml_target.debuggable(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.TOPLEVEL(name,l)->
-          let new_l=Image.image (on_half_dressed_module (old_subdir,new_subdirname)) l in
-          Ocaml_target.TOPLEVEL(name,new_l);;
+let on_ocaml_target=Ocaml_target.rename_endsubdirectory;;
 
 let on_half_dressed_modules (old_subdir,new_subdirname) l=
     Image.image (on_half_dressed_module (old_subdir,new_subdirname)) l ;; 
