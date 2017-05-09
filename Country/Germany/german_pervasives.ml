@@ -102,7 +102,7 @@ let ed =German_wrapper.end_debugging;;
 
 let rsh_without_backup=German_wrapper.refresh;;
 
-let rndir p=(German_wrapper.rename_directory p;reco());;
+
 
 let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
@@ -116,6 +116,7 @@ let fg x=(fg_without_backup x;German_wrapper.backup None);;
 let mmo x=(mmo_without_backup x;reco());;
 
 let regi x=(regi_without_backup x;German_wrapper.backup None);;
+let rndir p=(German_wrapper.rename_directory p;reco());;
 
 let rego x=(rego_without_backup x;reco());;
 let relo x y=(relo_without_backup x y;reco());;
