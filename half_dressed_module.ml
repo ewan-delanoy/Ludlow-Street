@@ -89,9 +89,15 @@ let is_executable x=
 let capitalized_module_name x=
   (String.capitalize x.naked_module);;
   
-(*  
-let rename_endsubdirectory (old_esd,new_esd) x=
-*)  
+let rename_endsubdirectory (old_subdir,new_subdirname) x=
+   {
+	      bundle_main_dir = x.bundle_main_dir;
+   		  subdirectory    = Subdirectory.connectable_to_subpath(
+   		                    Subdirectory.rename_endsubdirectory
+   		                       (old_subdir,new_subdirname) 
+   		                       (Subdirectory.of_string(x.subdirectory)));
+          naked_module    = x.naked_module;
+    }  ;;    
    
 
 let industrial_separator=Industrial_separator.new_separator ();;  
