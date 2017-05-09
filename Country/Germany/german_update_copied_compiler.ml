@@ -14,16 +14,6 @@ let prepare destdir=
   let main_diff=Prepare_dircopy_update.compute_diff (German_constant.root,l1@l2) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
 
-(*
-let prepare_pervasives_file destdir=
-  let pervasives_file=Absolute_path.create_file(Directory_name.join destdir "my_pervasives.ml") in
-  let rep_text="\n\nSys.chdir(\""^(Directory_name.to_string destdir)^"\");;\n\n" in
-  Replace_inside.overwrite_between_markers_inside_file
-  (Overwriter.of_string rep_text)   
-  ("(* Directory setting starts here *)","(* Directory setting ends here *)")
-  pervasives_file;;
-*)
-
 let prepare_special_file destdir filename=
   let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
   Replace_inside.replace_inside_file
