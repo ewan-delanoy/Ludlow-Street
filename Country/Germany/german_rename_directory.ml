@@ -9,23 +9,11 @@ rename A/B/C to D/E/F.
 
 *)
 
-let on_short_path (old_subdir,new_subdirname) s=
-  let s_old_subdir=Subdirectory.connectable_to_subpath old_subdir in
-  if Substring.begins_with s s_old_subdir
-  then let sub_s=Cull_string.cobeginning (String.length s_old_subdir) s in
-       new_subdirname^sub_s
-  else s;;
+let on_short_path=Rename_endsubdirectory.re;;
 
-let on_subdirectory (old_subdir,new_subdirname) sd=
-   let s=Subdirectory.without_trailing_slash sd in
-   Subdirectory.of_string(on_short_path (old_subdir,new_subdirname) s);;
+let on_subdirectory=Subdirectory.rename_endsubdirectory;;
 
-let on_half_dressed_module (old_subdir,new_subdirname) x=
-   let (s,dir)=Half_dressed_module.unveil x in
-   Half_dressed_module.of_string_and_root
-   (on_short_path (old_subdir,new_subdirname) s)
-   dir
-;;
+let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory;;
 
 let on_ms_data (old_subdir,new_subdirname) x=
 {                                                                 
@@ -45,14 +33,7 @@ let on_ms_data (old_subdir,new_subdirname) x=
 };;
 
 
-let on_absolute_path (old_subdir,new_subdirname) ap=
-  let s_old_subdir=Subdirectory.connectable_to_subpath old_subdir in
-  let s_ap=Absolute_path.to_string ap in
-  let old_fulldir=(Directory_name.to_string(German_constant.root))^s_old_subdir in
-  if Substring.begins_with s_ap old_fulldir
-  then let sub_s=Cull_string.cobeginning (String.length old_fulldir) s_ap in
-       Absolute_path.of_string(new_subdirname^sub_s)
-  else ap;;
+let on_absolute_path=Rename_endsubdirectory.on_absolute_path;;
 
 let on_mlx_ended_absolute_path (old_subdir,new_subdirname) mlx=
   let old_ap=Mlx_ended_absolute_path.to_absolute_path mlx in
