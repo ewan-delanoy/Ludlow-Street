@@ -275,6 +275,7 @@ let register_mlx_file mlx=
  
  let rename_directory (old_subdir,new_subdirname)=
     let _=Private.recompile() in
+    let _=Rename_endsubdirectory.in_unix_world (old_subdir,new_subdirname) in
     let pair=(old_subdir,new_subdirname) in
     let new_data=German_rename_directory.on_data pair (!Private.data_ref)
     and new_dirs=German_rename_directory.on_subdirectories pair (!Private.directories_ref)
