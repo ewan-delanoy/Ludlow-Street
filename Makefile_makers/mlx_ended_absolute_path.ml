@@ -96,6 +96,8 @@ let do_file_displacing mlx new_subdir=
   let new_ap=Relocate_file.relocate ap new_dir in
   of_path_and_root new_ap (root mlx);;  
   
+let rename_endsubdirectory (subdir,newdirname) (MLX(edg,s,dir))=
+  MLX(edg,Rename_endsubdirectory.re (subdir,newdirname) s,dir);;
   
 let is_optional x=Half_dressed_module.is_optional(half_dressed_core x);;  
 let is_archived x=Half_dressed_module.is_archived(half_dressed_core x);;  
