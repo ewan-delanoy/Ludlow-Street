@@ -15,23 +15,7 @@ let on_subdirectory=Subdirectory.rename_endsubdirectory;;
 
 let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory;;
 
-let on_ms_data (old_subdir,new_subdirname) x=
-{                                                                 
-      Modulesystem_data.name = on_half_dressed_module (old_subdir,new_subdirname) (x.Modulesystem_data.name);
-      Modulesystem_data.ml_present = Modulesystem_data.ml_present x;
-      Modulesystem_data.mli_present = Modulesystem_data.mli_present x;
-      Modulesystem_data.mll_present = Modulesystem_data.mll_present x;
-      Modulesystem_data.mly_present = Modulesystem_data.mly_present x;
-      Modulesystem_data.ml_modification_time = Modulesystem_data.ml_modification_time x;
-      Modulesystem_data.mli_modification_time = Modulesystem_data.mli_modification_time x;
-      Modulesystem_data.mll_modification_time = Modulesystem_data.mll_modification_time x;
-      Modulesystem_data.mly_modification_time = Modulesystem_data.mly_modification_time x;
-      Modulesystem_data.needed_libraries = Modulesystem_data.needed_libraries x;
-      Modulesystem_data.direct_fathers = Modulesystem_data.direct_fathers x;
-      Modulesystem_data.all_ancestors = Modulesystem_data.all_ancestors x;
-      Modulesystem_data.needed_directories = Modulesystem_data.needed_directories x;
-};;
-
+let on_ms_data=Modulesystem_data.rename_endsubdirectory;; 
 
 let on_absolute_path=Rename_endsubdirectory.on_absolute_path;;
 
