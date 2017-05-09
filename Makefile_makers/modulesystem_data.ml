@@ -568,6 +568,24 @@ let principal_path x=Mlx_ended_absolute_path.to_path (principal_mlx x);;
 
 let ml_path x=Mlx_ended_absolute_path.to_path (Mlx_ended_absolute_path.join x.name Ocaml_ending.ml);;   
 
+let rename_endsubdirectory (old_subdir,new_subdirname) x=
+    let ren=Half_dressed_module.rename_endsubdirectory (old_subdir,new_subdirname) 
+    and ren_sub=Subdirectory.rename_endsubdirectory (old_subdir,new_subdirname) in
+{                                                                 
+      name = ren (x.name);
+      ml_present = x.ml_present;
+      mli_present = x.mli_present;
+      mll_present = x.mll_present;
+      mly_present = x.mly_present;
+      ml_modification_time =  x.ml_modification_time;
+      mli_modification_time = x.mli_modification_time;
+      mll_modification_time = x.mll_modification_time;
+      mly_modification_time = x.mly_modification_time;
+      needed_libraries = x.needed_libraries;
+      direct_fathers = Image.image ren x.direct_fathers;
+      all_ancestors = Image.image ren x.all_ancestors;
+      needed_directories = Image.image ren_sub x.needed_directories;
+};;
 
 let directories_from_list l=
   let temp2=Image.image (
