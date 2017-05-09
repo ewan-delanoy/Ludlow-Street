@@ -35,10 +35,8 @@ let on_ms_data (old_subdir,new_subdirname) x=
 
 let on_absolute_path=Rename_endsubdirectory.on_absolute_path;;
 
-let on_mlx_ended_absolute_path (old_subdir,new_subdirname) mlx=
-  let old_ap=Mlx_ended_absolute_path.to_absolute_path mlx in
-  let new_ap=on_absolute_path (old_subdir,new_subdirname) old_ap in
-  Mlx_ended_absolute_path.of_path_and_root new_ap German_constant.root;;
+let on_mlx_ended_absolute_path=
+  Mlx_ended_absolute_path.rename_endsubdirectory;;
 
 let on_ocaml_target (old_subdir,new_subdirname)=function
   Ocaml_target.NO_DEPENDENCIES(mlx)->

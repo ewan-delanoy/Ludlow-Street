@@ -171,24 +171,26 @@ let from_modulesystem_data dt=
 Option.filter_and_unpack (fun x->if fst x then Some(snd x) else None) temp1;;  
 
 
-(*
-let rename_endsubdirectory (old_subdir,new_subdirname)=function
-  Ocaml_target.NO_DEPENDENCIES(mlx)->
-  Ocaml_target.no_dependencies(on_mlx_ended_absolute_path (old_subdir,new_subdirname) mlx)
- |Ocaml_target.ML_FROM_MLL(hm)->Ocaml_target.ml_from_mll(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.ML_FROM_MLY(hm)->Ocaml_target.ml_from_mly(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMI(hm)->Ocaml_target.cmi(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMO(hm)->Ocaml_target.cmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.DCMO(hm)->Ocaml_target.dcmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMA(hm)->Ocaml_target.cma(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.CMX(hm)->Ocaml_target.cmx(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.EXECUTABLE(hm)->Ocaml_target.executable(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.DEBUGGABLE(hm)->Ocaml_target.debuggable(on_half_dressed_module (old_subdir,new_subdirname) hm)
- |Ocaml_target.TOPLEVEL(name,l)->
+
+let rename_endsubdirectory (old_subdir,new_subdirname) x=
+  let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory in
+  match x with
+  NO_DEPENDENCIES(mlx)->
+  no_dependencies(Mlx_ended_absolute_path.rename_endsubdirectory (old_subdir,new_subdirname) mlx)
+ |ML_FROM_MLL(hm)->ml_from_mll(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |ML_FROM_MLY(hm)->ml_from_mly(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |CMI(hm)->cmi(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |CMO(hm)->cmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |DCMO(hm)->dcmo(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |CMA(hm)->cma(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |CMX(hm)->cmx(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |EXECUTABLE(hm)->executable(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |DEBUGGABLE(hm)->debuggable(on_half_dressed_module (old_subdir,new_subdirname) hm)
+ |TOPLEVEL(name,l)->
           let new_l=Image.image (on_half_dressed_module (old_subdir,new_subdirname)) l in
-          Ocaml_target.TOPLEVEL(name,new_l);;
+          TOPLEVEL(name,new_l);;
   
-*)  
+
   
 let industrial_separator1=Industrial_separator.new_separator ();;  
 let industrial_separator2=Industrial_separator.new_separator ();;    
