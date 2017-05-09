@@ -98,7 +98,11 @@ let muv x=German_values_in_modules.modules_using_value (German_wrapper.data()) x
 
 let ed =German_wrapper.end_debugging;;
 
+
+
 let rsh_without_backup=German_wrapper.refresh;;
+
+let rndir p=(German_wrapper.rename_directory p;reco());;
 
 let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
