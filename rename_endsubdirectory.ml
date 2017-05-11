@@ -13,6 +13,10 @@ let in_unix_world (old_subdir,new_esdname)=
    if Sys.file_exists(new_name)
    then raise(Already_present_directory(new_name))
    else 
+   let container=Father_and_son.father  new_name '/' in
+   let _=
+   Shell_command.do_and_notice_failure 
+     ("mkdir -p "^container) in
    Shell_command.do_and_notice_failure 
      ("mv "^s_root^s_old_subdir^" "^new_name) ;;
 

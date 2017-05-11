@@ -4,8 +4,7 @@
 #use"Country/Germany/german_rename_directory.ml";;
 
 Renaming directories inside the Ocaml main directory.
-Multi-level renaming is supported, i.e. you can 
-rename A/B/C to D/E/F.
+
 
 *)
 
