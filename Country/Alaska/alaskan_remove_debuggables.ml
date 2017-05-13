@@ -8,7 +8,7 @@
 
 let rd dir mdata=
    let d=List.length(mdata) 
-   and sroot=Directory_name.to_string dir in
+   and sroot=Directory_name.connectable_to_subpath dir in
    let tempf=(fun j->
    let stars=String.concat "" (Ennig.doyle (fun t->"*/") 1 j) in
    sroot^stars^"*.d.cm*"

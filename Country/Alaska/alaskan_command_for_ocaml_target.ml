@@ -37,7 +37,7 @@ let command_for_nodep mlx=[];;
 
 let command_for_ml_from_mll dir hm=
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string dir in
+          let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           let s_for_display=
           "ocamllex "^
@@ -51,7 +51,7 @@ let command_for_ml_from_mll dir hm=
  
 let command_for_ml_from_mly dir hm=
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display="ocamlyacc "^s_hm^".mly" 
           and s_for_execution="ocamlyacc "^s_fhm^".mly" in
@@ -62,7 +62,7 @@ let command_for_cmi dir mdata hm=
           if opt=None then raise(Unregistered_cmi(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let ending=(
           if Modulesystem_data.mli_present dt
@@ -95,7 +95,7 @@ let command_for_cmo dir mdata hm=
           if opt=None then raise(Unregistered_cmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
           "ocamlc "^(Modulesystem_data.needed_dirs_and_libs false dt)^
@@ -112,7 +112,7 @@ let command_for_dcmo dir mdata hm=
           if opt=None then raise(Unregistered_dcmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
           "ocamlc -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
@@ -130,7 +130,7 @@ let command_for_cma dir mdata hm=
           if opt=None then raise(Unregistered_cma(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
           "ocamlopt -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
@@ -147,7 +147,7 @@ let command_for_cmx dir mdata hm=
           if opt=None then raise(Unregistered_cmx(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
           "ocamlopt "^(Modulesystem_data.needed_dirs_and_libs true dt)^
@@ -165,7 +165,7 @@ let command_for_executable dir mdata hm=
           if opt=None then raise(Unregistered_executable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.EXECUTABLE(hm)) in
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
@@ -185,7 +185,7 @@ let command_for_debuggable dir mdata hm=
           if opt=None then raise(Unregistered_debuggable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.DEBUGGABLE(hm)) in
           let temp2=Option.filter_and_unpack dcmo_manager temp1 in
@@ -216,7 +216,7 @@ let command_for_toplevel dir mdata name l=
              else " "
           ) l_dt in 
           let s_lhm=String.concat " " temp4 in
-          let s_root=Directory_name.to_string(dir) in
+          let s_root=Directory_name.connectable_to_subpath(dir) in
           let long_temp4=Image.image (fun fd->
              let hm=Modulesystem_data.name fd in
              let s_hm=(Half_dressed_module.to_string hm) in

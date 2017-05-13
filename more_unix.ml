@@ -26,7 +26,7 @@ let extension x=try (naive_extension x) with
    Directory_name.of_string (Cull_string.beginning i s);; 
    
  let son dir=
-   let s=Directory_name.to_string dir in
+   let s=Directory_name.connectable_to_subpath dir in
    let i=String.rindex s '/' in
    if i=0 then "" else
    (Cull_string.cobeginning (i+1) s);; 
@@ -37,7 +37,7 @@ let extension x=try (naive_extension x) with
   else not(Substring.is_a_substring_of(".nib/")(Absolute_path.to_string x));;
   
  let naive_ls dir=
-   let s=Directory_name.to_string dir in
+   let s=Directory_name.connectable_to_subpath dir in
    let s_with_slash=(function ()->
     if String.get(s)(String.length(s)-1)='/'
     then s
@@ -71,7 +71,7 @@ let extension x=try (naive_extension x) with
 
  
 let complete_ls dir=
-   let s_dir=Directory_name.to_string dir in
+   let s_dir=Directory_name.connectable_to_subpath dir in
    let x=Absolute_path.of_string s_dir in
    Explicit.explore_tree adhoc_ls [x];;   
 
@@ -107,7 +107,7 @@ let quick_complete_ls s=
 
 let quick_beheaded_complete_ls s=
   let x=Directory_name.of_string s in
-  let n=String.length(Directory_name.to_string x) in
+  let n=String.length(Directory_name.connectable_to_subpath x) in
   let temp1=complete_ls x in
   Image.image (fun ap->Cull_string.cobeginning n (Absolute_path.to_string ap)) temp1;; 
   

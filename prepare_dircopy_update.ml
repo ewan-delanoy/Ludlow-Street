@@ -6,8 +6,8 @@
 
 
 let compute_deleted_in_diff sourcedir destdir=
-   let s_sourcedir=Directory_name.to_string sourcedir
-   and s_destdir=Directory_name.to_string destdir in
+   let s_sourcedir=Directory_name.connectable_to_subpath sourcedir
+   and s_destdir=Directory_name.connectable_to_subpath destdir in
    let temp1=More_unix.quick_beheaded_complete_ls s_destdir in
    List.filter(
        fun s->(s<>"README")
@@ -16,8 +16,8 @@ let compute_deleted_in_diff sourcedir destdir=
    ) temp1;;
    
 let compute_nondeleted_in_diff (sourcedir,l) destdir=
-   let s_sourcedir=Directory_name.to_string sourcedir
-   and s_destdir=Directory_name.to_string destdir in
+   let s_sourcedir=Directory_name.connectable_to_subpath sourcedir
+   and s_destdir=Directory_name.connectable_to_subpath destdir in
    let created_accu=ref[]
    and changed_accu=ref[] in
    let _=Image.image(
@@ -60,7 +60,7 @@ let commands_for_update destination_dir diff=
    if Dircopy_diff.is_empty diff
    then []
    else 
-   let s_destination=Directory_name.to_string destination_dir in
+   let s_destination=Directory_name.connectable_to_subpath destination_dir in
    let created_ones=Dircopy_diff.recently_created diff  in
    let temp2=Option.filter_and_unpack
    (fun fn->
@@ -71,7 +71,7 @@ let commands_for_update destination_dir diff=
     )
    created_ones in
    let temp3=Ordered.forget_order(Ordered_string.diforchan temp2) in
-   let s_source=Directory_name.to_string German_constant.root in
+   let s_source=Directory_name.connectable_to_subpath German_constant.root in
    let temp4=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')

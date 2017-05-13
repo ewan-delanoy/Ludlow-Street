@@ -42,11 +42,11 @@ let to_string =function
  |TOPLEVEL(name,l)->name;;
 
 let test_path dir tgt=
-  let d=Directory_name.to_string dir in
+  let d=Directory_name.connectable_to_subpath dir in
   Sys.file_exists(d^(to_string tgt));; 
  
 let path dir tgt=
- let d=Directory_name.to_string dir in
+ let d=Directory_name.connectable_to_subpath dir in
  Absolute_path.of_string(d^(to_string tgt));;
 
 let is_a_debuggable=function

@@ -20,7 +20,7 @@ let on_targets triple ap=
    let bel=German_data.below mdata (Mlx_ended_absolute_path.half_dressed_core mlx) in
     if bel=[]
     then let s_hm=Half_dressed_module.to_string hm in
-         let fn=(Directory_name.to_string(root))^s_hm in
+         let fn=(Directory_name.connectable_to_subpath(root))^s_hm in
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg^"*"))
          [".cm";".d.cm";".caml_debuggable"] in

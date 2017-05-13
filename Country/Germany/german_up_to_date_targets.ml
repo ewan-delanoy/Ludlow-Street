@@ -8,7 +8,7 @@
 
 
 let loadings (dirs,tgts)=
-  let s_root=Directory_name.to_string(German_constant.root) in
+  let s_root=Directory_name.connectable_to_subpath(German_constant.root) in
   let part1="\n(*\n #use\""^s_root^(German_constant.name_for_loadingsfile)^"\";"^";\n*)\n\n" in
   let temp5=Image.image(
      fun sd->

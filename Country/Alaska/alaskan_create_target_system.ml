@@ -66,7 +66,7 @@ let select_good_files s_main_dir=
      identical names.
      Removes the files outside main_dir.
   *)
-  let s_dir=Directory_name.to_string main_dir in
+  let s_dir=Directory_name.connectable_to_subpath main_dir in
   let temp1=List.filter (fun ap->
     Substring.begins_with (Absolute_path.to_string ap) s_dir
   ) l in
@@ -133,7 +133,7 @@ let usual_outsiders=ref
     ];;
 
 let from_main_directory dir opt_topl_name special_outsiders=
-	let old_s=Directory_name.to_string(dir) in
+	let old_s=Directory_name.connectable_to_subpath(dir) in
 	let s1=Cull_string.coending 1 old_s in (* mind the trailing slash *)
 	let temp1=select_good_files s1 in
     let temp2=clean_list_of_files dir temp1 in

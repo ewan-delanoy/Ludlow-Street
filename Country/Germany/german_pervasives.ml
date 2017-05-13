@@ -7,7 +7,7 @@
 
 let cdir=German_constant.root;;
 
-let s_cdir=Directory_name.to_string cdir;;
+let s_cdir=Directory_name.connectable_to_subpath cdir;;
 let current_registered_directories ()=German_wrapper.directories();;
 
 let current_directories()=

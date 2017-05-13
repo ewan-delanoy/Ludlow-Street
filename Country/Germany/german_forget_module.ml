@@ -16,7 +16,7 @@ let on_targets (mdata,dirs,tgts) hm=
    let bel=German_data.below mdata hm in
     if bel=[]
     then let s_hm=Half_dressed_module.to_string hm in
-         let fn=(Directory_name.to_string(German_constant.root))^s_hm in
+         let fn=(Directory_name.connectable_to_subpath(German_constant.root))^s_hm in
          let (answer,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
          let _=Image.image
          (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg))

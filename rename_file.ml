@@ -17,7 +17,7 @@ exception Failed of Absolute_path.t*No_slashes.t;;
 let rename ap new_name=
   let old_path=Absolute_path.to_string ap
   and (dir,_)=Unjoin_path.unjoin_path ap in
-  let new_path=(Directory_name.to_string dir)^(No_slashes.to_string new_name) in
+  let new_path=(Directory_name.connectable_to_subpath dir)^(No_slashes.to_string new_name) in
   let i=Sys.command("mv "^old_path^" "^new_path) in
   if i<>0
   then raise(Failed(ap,new_name))

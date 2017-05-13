@@ -81,7 +81,7 @@ let announce_and_do x=
   else minimal_announce_and_do x;;
     
 let take_care_of_root_directory root l=
-  let s_root=Directory_name.to_string root 
+  let s_root=Directory_name.connectable_to_subpath root 
   and s_cwd=Sys.getcwd() in
   if Absolute_path.test_equal_paths s_root s_cwd
   then l

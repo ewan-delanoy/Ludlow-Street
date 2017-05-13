@@ -17,7 +17,7 @@ let prepare destdir=
 let prepare_special_file destdir filename=
   let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
   Replace_inside.replace_inside_file
-  (Directory_name.to_string German_constant.root,Directory_name.to_string destdir)
+  (Directory_name.connectable_to_subpath German_constant.root,Directory_name.connectable_to_subpath destdir)
   the_file;;
 
 

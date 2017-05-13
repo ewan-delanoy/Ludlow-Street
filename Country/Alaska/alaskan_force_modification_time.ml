@@ -18,7 +18,7 @@ let update dir mdata mlx=
    then raise(Non_existent_mtime(mlx))
    else 
    let dt=Option.unpack opt in
-   let file=(Directory_name.to_string dir)^(Mlx_ended_absolute_path.to_string mlx) in
+   let file=(Directory_name.connectable_to_subpath dir)^(Mlx_ended_absolute_path.to_string mlx) in
    let old_val=Modulesystem_data.modification_time dt edg 
    and new_val=(Unix.stat file).Unix.st_mtime  in
    if old_val=new_val

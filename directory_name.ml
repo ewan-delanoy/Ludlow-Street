@@ -20,7 +20,7 @@ let of_string s=
 
 let without_trailing_slash (D s)=s;;
 
-let to_string (D s)=s^"/";;
+let connectable_to_subpath (D s)=s^"/";;
 
 exception Nonexistent_file of string;;
 
