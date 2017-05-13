@@ -26,7 +26,7 @@ exception Inexistent_module of string;;
  
 let of_string_and_root old_s dir=
         let s=Father_and_son.invasive_father old_s '.' in
-        let s_dir=Directory_name.connectable_to_subpath dir in
+        let s_dir=Directory_name.without_trailing_slash dir in
 	    if List.for_all (fun edg->not(Sys.file_exists(s_dir^s^edg)) ) Ocaml_ending.all_string_endings
 	    then raise(Inexistent_module(s_dir^s))
 	    else
@@ -52,8 +52,8 @@ let of_path_and_root ap dir=
     if (not(Path_is_in_directory.path_is_in_directory ap dir))
     then raise(FileOutsideDirectory(ap,dir))
     else 
-    let s_dir=Directory_name.connectable_to_subpath dir in
-    let n_dir=String.length s_dir in
+    let s_dir=Directory_name.without_trailing_slash dir in
+    let n_dir=(String.length s_dir)+1 in
     let subpath=Cull_string.cobeginning n_dir (Absolute_path.to_string ap) in
     let s=Father_and_son.invasive_father subpath '.' in
     {
@@ -92,7 +92,7 @@ let capitalized_module_name x=
 let rename_endsubdirectory (old_subdir,new_subdirname) x=
    {
 	      bundle_main_dir = x.bundle_main_dir;
-   		  subdirectory    = Subdirectory.connectable_to_subpath(
+   		  subdirectory    = Subdirectory.without_trailing_slash(
    		                    Subdirectory.rename_endsubdirectory
    		                       (old_subdir,new_subdirname) 
    		                       (Subdirectory.of_string(x.subdirectory)));
