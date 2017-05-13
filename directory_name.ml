@@ -18,6 +18,8 @@ let of_string s=
   then D(Tools_for_absolute_path.remove_trailing_slash temp1)
   else raise(Non_directory(s));;
 
+let without_trailing_slash (D s)=s;;
+
 let to_string (D s)=s^"/";;
 
 exception Nonexistent_file of string;;
