@@ -13,6 +13,7 @@ type t={
   is_an_included_item : bool;
 };;
 
+let name x=x.name;;
 
 
 let make cat nm nm_itv ctnt ctnt_itv incldd_or_not=

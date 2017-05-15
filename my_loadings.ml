@@ -18,7 +18,7 @@
 #directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Beavers/";;
 #directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Php_syntax_types/";;
 #directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Preprinters/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Test_directory4/Test_directory2/";;
+#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Test_directory6/Test_directory7/Test_directory2/";;
 
 #load"nums.cma";;
 #load"str.cma";;
@@ -60,7 +60,7 @@
 #load"directory_name.cmo";;
 #load"absolute_path.cmo";;
 #load"unjoin_path.cmo";;
-#load"Test_directory4/Test_directory2/please_test_me.cmo";;
+#load"Test_directory6/Test_directory7/Test_directory2/please_test_me.cmo";;
 #load"substring.cmo";;
 #load"prepared.cmo";;
 #load"cull_string.cmo";;
@@ -212,6 +212,7 @@
 #load"Country/Germany/german_vague_string.cmo";;
 #load"Ocaml_analysis/rename_value_inside_module.cmo";;
 #load"Ocaml_analysis/read_needed_ocaml_files.cmo";;
+#load"Ocaml_analysis/find_value_definition.cmo";;
 #load"multiset.cmo";;
 #load"modularize.cmo";;
 #load"martian_partial_ordering.cmo";;
