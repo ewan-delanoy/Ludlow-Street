@@ -29,8 +29,3 @@ let fvd mdata s=
       fun itm->Ocaml_gsyntax_item.name(itm)=s
    ) temp1;;
    
-(*
-
-fvd "Image.image";;
-
-*)   
