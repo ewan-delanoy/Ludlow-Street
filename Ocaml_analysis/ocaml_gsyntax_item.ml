@@ -14,6 +14,7 @@ type t={
 };;
 
 let name x=x.name;;
+let content x=x.content;;
 
 
 let make cat nm nm_itv ctnt ctnt_itv incldd_or_not=
