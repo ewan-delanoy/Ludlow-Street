@@ -36,7 +36,7 @@ let describe_value_item s (i,j)=
           Ocaml_gsyntax_category.Value
           (Cull_string.interval s i1 j1)
           (i1,j1)
-          (i3,j3)
+          (Cull_string.interval s i3 j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -52,7 +52,7 @@ let describe_type_item s (i,j)=
           Ocaml_gsyntax_category.Type
           (Cull_string.interval s i1 j1)
           (i1,j1)
-          (i3,j3)
+          (Cull_string.interval s i3 j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -68,7 +68,7 @@ let describe_exception_item s (i,j)=
           Ocaml_gsyntax_category.Exception
           (Cull_string.interval s i1 j1)
           (i1,j1)
-          (i3,j3)
+          (Cull_string.interval s i3 j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -83,7 +83,7 @@ let describe_module_opener_item s (i,j)=
           Ocaml_gsyntax_category.Module_opener
           (Cull_string.interval s i1 j1)
           (i1,j1)
-          (i3,j3)
+          (Cull_string.interval s i3 j3)
           ""
           (0,0)
           false;;
@@ -94,7 +94,7 @@ let describe_module_closer_item=
           Ocaml_gsyntax_category.Module_closer
           ""
           (0,0)
-          (0,0)
+          ""
           ""
           (0,0)
           false;;
@@ -109,7 +109,7 @@ let describe_module_inclusion_item s (i,j)=
           Ocaml_gsyntax_category.Module_inclusion
           (Cull_string.interval s i1 j1)
           (i1,j1)
-          (i3,j3)
+          (Cull_string.interval s i3 j3)
           ""
           (0,0)
           false;;

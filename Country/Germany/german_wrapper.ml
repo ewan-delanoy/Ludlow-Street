@@ -397,7 +397,7 @@ let view_definition s=
   let opt=Find_value_definition.fvd (!(Private.data_ref)) s in
   if opt=None then () else
   let itm=Option.unpack opt in
-  let text="\n\n"^(Ocaml_gsyntax_item.content itm)^"\n\n" in
+  let text="\n\n"^(Ocaml_gsyntax_item.whole itm)^"\n\n" in
   (print_string text;flush stdout);;   
 
    
