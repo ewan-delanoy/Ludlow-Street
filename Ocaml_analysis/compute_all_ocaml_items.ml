@@ -8,7 +8,7 @@ Otherwise we interpret it as a mere string.
 
 *)
 
-(*
+
 let caoi mdata=
    let temp1=List.filter Modulesystem_data.ml_present mdata in
    let temp2=Image.image (fun md->
@@ -19,4 +19,4 @@ let caoi mdata=
    Read_ocaml_files.read_ocaml_files temp2
   ;;
    
-*)   
+  
