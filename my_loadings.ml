@@ -161,6 +161,7 @@
 #load"Makefile_makers/mlx_ended_absolute_path.cmo";;
 #load"Makefile_makers/modulesystem_data.cmo";;
 #load"isolated_occurences.cmo";;
+#load"Ocaml_analysis/find_value_definition.cmo";;
 #load"Makefile_makers/ocaml_target.cmo";;
 #load"Country/Germany/german_unregister_outside_file.cmo";;
 #load"Country/Germany/german_directories.cmo";;
@@ -212,7 +213,8 @@
 #load"Country/Germany/german_vague_string.cmo";;
 #load"Ocaml_analysis/rename_value_inside_module.cmo";;
 #load"Ocaml_analysis/read_needed_ocaml_files.cmo";;
-#load"Ocaml_analysis/find_value_definition.cmo";;
+#load"Ocaml_analysis/find_value_descendants.cmo";;
+#load"Ocaml_analysis/compute_all_ocaml_items.cmo";;
 #load"multiset.cmo";;
 #load"modularize.cmo";;
 #load"martian_partial_ordering.cmo";;
