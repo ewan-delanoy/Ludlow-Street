@@ -30,11 +30,13 @@ let describe_value_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making s i in
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
-     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 5 in
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 5 
+     and (i3,j3)=Gparser_result.whole_range res in
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Value
           (Cull_string.interval s i1 j1)
           (i1,j1)
+          (i3,j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -44,11 +46,13 @@ let describe_type_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_type_making s i in
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 3
-     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 6 in
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 6 
+     and (i3,j3)=Gparser_result.whole_range res in
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Type
           (Cull_string.interval s i1 j1)
           (i1,j1)
+          (i3,j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -58,11 +62,13 @@ let describe_exception_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_exception_making s i in
      let res=Option.unpack opt in
      let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
-     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 3 in
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 3 
+     and (i3,j3)=Gparser_result.whole_range res in
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Exception
           (Cull_string.interval s i1 j1)
           (i1,j1)
+          (i3,j3)
           (* the -2 of because of the 2 characters in the double semicolon *)
           (Cull_string.interval s i2 (j2-2))
           (i2,j2-2)
@@ -71,11 +77,13 @@ let describe_exception_item s (i,j)=
 let describe_module_opener_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_module_opener s i in
      let res=Option.unpack opt in
-     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2 in
+     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
+     and (i3,j3)=Gparser_result.whole_range res in 
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Module_opener
           (Cull_string.interval s i1 j1)
           (i1,j1)
+          (i3,j3)
           ""
           (0,0)
           false;;
@@ -86,6 +94,7 @@ let describe_module_closer_item=
           Ocaml_gsyntax_category.Module_closer
           ""
           (0,0)
+          (0,0)
           ""
           (0,0)
           false;;
@@ -94,11 +103,13 @@ let describe_module_closer_item=
 let describe_module_inclusion_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_module_inclusion s i in
      let res=Option.unpack opt in
-     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2 in
+     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2 
+     and (i3,j3)=Gparser_result.whole_range res in 
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Module_inclusion
           (Cull_string.interval s i1 j1)
           (i1,j1)
+          (i3,j3)
           ""
           (0,0)
           false;;
