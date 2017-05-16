@@ -99,6 +99,7 @@ let muv x=German_values_in_modules.modules_using_value (German_wrapper.data()) x
 let ed =German_wrapper.end_debugging;;
 
 
+let vd=German_wrapper.view_definition;;
 
 let rsh_without_backup=German_wrapper.refresh;;
 
