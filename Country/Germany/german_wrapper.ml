@@ -392,7 +392,14 @@ let unregister_module mlx=
    
 let up_to_date_targets ()=(!Private.up_to_date_targets_ref);;   
    
-let view_definition s=();;   
+(*   
+let view_definition s=
+  let opt=Find_value_definition.fvd s in
+  if opt=None then () else
+  let itm=Option.unpack opt in
+  let text="\n\n"^(Ocaml_gsyntax_item.content itm)^"\n\n" in
+  (print_string text;flush stdout);;   
+*)  
    
 let whole=Private.whole;;
  

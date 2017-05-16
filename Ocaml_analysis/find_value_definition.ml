@@ -8,13 +8,12 @@ Otherwise we interpret it as a mere string.
 
 *)
 
-let fvd s=
+let fvd mdata s=
    if not(String.contains s '.')
    then None
    else
    let j1=String.index(s)('.')+1 in
    let module_name=Cull_string.beginning (j1-1) s in
-   let mdata=German_wrapper.data() in
    let opt=Option.find_it (fun md->
    Half_dressed_module.naked_module(Modulesystem_data.name md)=
    Naked_module.of_string(String.uncapitalize(module_name)) ) mdata in
