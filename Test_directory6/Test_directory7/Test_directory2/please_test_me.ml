@@ -5,6 +5,13 @@
 *)
 
 
+(*
+
+This is a string : "*)"
+
+*)
+
+
 let byebyebird=5;;
 
 module Boogie=struct
