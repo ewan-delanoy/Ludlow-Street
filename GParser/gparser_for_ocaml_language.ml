@@ -126,6 +126,13 @@ let list_for_value_making=
   
 end;;
 
+let index_for_name_in_value_parser=Listennou.find_index
+   prsr_for_uncapitalized_word Private.list_for_value_making;;
+
+let index_for_content_in_value_parser=Listennou.find_index
+   (Gparser.Enclosure ("",double_semicolon)) Private.list_for_value_making;; 
+   
+
 let prsr_for_value_making=Gparser.Detailed_chain
    Private.list_for_value_making;;
 
