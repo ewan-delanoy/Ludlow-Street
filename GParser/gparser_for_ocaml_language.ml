@@ -9,7 +9,7 @@ let double_semicolon=";"^";";;
 let data_for_prsr_for_comment=("(*","*)",["\"","\""]);;
 
 let prsr_for_comment=
-  let (a,b,c)=("(*","*)",["\"","\""]) in
+  let (a,b,c)=data_for_prsr_for_comment in
   Gparser.House_with_doors (a,b,c);;
 
 
