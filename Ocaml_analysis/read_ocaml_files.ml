@@ -29,8 +29,10 @@ let read1 s=
 let describe_value_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making s i in
      let res=Option.unpack opt in
-     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 2
-     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 7 
+     let (i1,j1)=List.nth(Gparser_result.important_ranges res) 
+          Gparser_for_ocaml_language.index_for_name_in_value_parser
+     and (i2,j2)=List.nth(Gparser_result.important_ranges res) 
+          Gparser_for_ocaml_language.index_for_content_in_value_parser 
      and (i3,j3)=Gparser_result.whole_range res in
        Ocaml_gsyntax_item.make
           Ocaml_gsyntax_category.Value
