@@ -106,7 +106,7 @@ let prsr_for_parameters_in_type=
    ];;
 
 module Private=struct
-let list_for_value_making=Gparser.Detailed_chain
+let list_for_value_making=
    [
      Gparser.Constant "let";
      prsr_for_white_maybe;
