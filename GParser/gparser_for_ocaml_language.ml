@@ -105,13 +105,19 @@ let prsr_for_parameters_in_type=
      prsr_for_parameters2_in_type;
    ];;
 
+let prsr_for_rec_followed_by_white=Gparser.Chain
+   [
+     Gparser.Optional(Gparser.Constant "rec");
+     prsr_for_white;
+   ];;
+  
+
 module Private=struct
 let list_for_value_making=
    [
      Gparser.Constant "let";
-     prsr_for_white_maybe;
-     Gparser.Optional(Gparser.Constant "rec");
      prsr_for_white;
+     Gparser.Optional(prsr_for_rec_followed_by_white);
      prsr_for_uncapitalized_word;
      prsr_for_white_maybe;
      Gparser.Enclosure ("","=");
