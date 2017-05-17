@@ -222,69 +222,59 @@ type chain_artefact=
     |Result_found of Gparser_result.t
     |Failure_found;;
 
-let pusher_for_chain=function
-  Usual(imp_ranges,da_ober,s,i0,k)->
-      (
-      match da_ober with
-      []->Result_found(
-           Gparser_result.veil
-               (i0,k-1)
-               imp_ranges
-               k
-               None
-          )
-      |prsr::rest->   
-         (
-           match prsr s k with
-            None->Failure_found
-           |Some(res)->Usual(imp_ranges@(Gparser_result.important_ranges res),
-                       rest,s,i0,Gparser_result.final_cursor_position res)
-         )  
-        )
-    |x->x;;
-    
-let rec iterator_for_chain=function
-   Result_found(res)->Some(res)
-  |Failure_found->None
-  |x->iterator_for_chain(pusher_for_chain x);;
-    
-let starter_for_chain l s i=Usual([],l,s,i,i);;     
-
-
 let chain l=
-    ((fun s i->
-     iterator_for_chain(starter_for_chain  l s i)):Gparser_fun.t);;
-     
-let pusher_for_detailed_chain=function
-  Usual(imp_ranges,da_ober,s,i0,k)->
-      (
-      match da_ober with
-      []->Result_found(
-           Gparser_result.veil
-               (i0,k-1)
-               (List.rev imp_ranges)
-               k
-               None
-          )
-      |prsr::rest->   
-         (
-           match prsr s k with
-            None->Failure_found
-           |Some(res)->Usual((Gparser_result.whole_range res)::imp_ranges,
+  let main_f=
+  	(fun s i->
+   		let rec tempf=
+   		(
+         	fun (imp_ranges,da_ober,s,i0,k)->
+      		match da_ober with
+      		[]->Some(
+           		    	Gparser_result.veil
+               			(i0,k-1)
+               			imp_ranges
+               			k
+               			None
+          			)
+       		|prsr::rest->   
+         		(
+           			match prsr s k with
+            		None->None
+           		  |Some(res)->tempf(
+           		       imp_ranges@(Gparser_result.important_ranges res),
                        rest,s,i0,Gparser_result.final_cursor_position res)
+                )
          )  
-        )
-    |x->x;;
-    
-let rec iterator_for_detailed_chain=function
-   Result_found(res)->Some(res)
-  |Failure_found->None
-  |x->iterator_for_detailed_chain(pusher_for_detailed_chain x);;
-    
+    in tempf([],l,s,i,i)
+    ) in
+  (main_f:Gparser_fun.t);;
 
 let detailed_chain l=
-    ((fun s i->
-     iterator_for_detailed_chain(starter_for_chain  l s i)):Gparser_fun.t);;     
+  let main_f=
+  	(fun s i->
+   		let rec tempf=
+   		(
+         	fun (imp_ranges,da_ober,s,i0,k)->
+      		match da_ober with
+      		[]->Some(
+           		    	Gparser_result.veil
+               			(i0,k-1)
+               			imp_ranges
+               			k
+               			None
+          			)
+       		|prsr::rest->   
+         		(
+           			match prsr s k with
+            		None->None
+           		  |Some(res)->tempf(
+           		       (Gparser_result.whole_range res)::imp_ranges,
+                       rest,s,i0,Gparser_result.final_cursor_position res)
+                )
+         )  
+    in tempf([],l,s,i,i)
+    ) in
+  (main_f:Gparser_fun.t);;
 
 let disjunction l=
    let indexed_l=Ennig.index_everything l in   
