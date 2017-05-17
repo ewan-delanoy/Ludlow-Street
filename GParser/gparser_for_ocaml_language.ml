@@ -108,7 +108,7 @@ let prsr_for_parameters_in_type=
 let prsr_for_value_making=Gparser.Detailed_chain
    [
      Gparser.Constant "let";
-     prsr_for_white;
+     prsr_for_white_maybe;
      Gparser.Optional(Gparser.Constant "rec");
      prsr_for_white;
      prsr_for_uncapitalized_word;
