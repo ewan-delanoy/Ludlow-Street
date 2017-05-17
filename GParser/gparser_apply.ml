@@ -259,7 +259,7 @@ let detailed_chain l=
       		[]->Some(
            		    	Gparser_result.veil
                			(i0,k-1)
-               			imp_ranges
+               			(List.rev imp_ranges)
                			k
                			None
           			)
@@ -286,7 +286,7 @@ let debugful_detailed_chain l=
       		[]->let sol=Some(
            		    	Gparser_result.veil
                			(i0,k-1)
-               			imp_ranges
+               			(List.rev imp_ranges)
                			k
                			None
           			) in
