@@ -276,6 +276,34 @@ let detailed_chain l=
     ) in
   (main_f:Gparser_fun.t);;
 
+let debugful_detailed_chain l=
+  let main_f=
+  	(fun s i->
+   		let rec tempf=
+   		(
+         	fun (imp_ranges,da_ober,s,i0,k,opt)->
+      		match da_ober with
+      		[]->let sol=Some(
+           		    	Gparser_result.veil
+               			(i0,k-1)
+               			imp_ranges
+               			k
+               			None
+          			) in
+          	     (imp_ranges,da_ober,s,i0,k,sol) 		
+       		|prsr::rest->   
+         		(
+           			match prsr s k with
+            		None->(imp_ranges,da_ober,s,i0,k,opt)
+           		  |Some(res)->tempf(
+           		       (Gparser_result.whole_range res)::imp_ranges,
+                       rest,s,i0,Gparser_result.final_cursor_position res,None)
+                )
+         )  
+    in tempf([],l,s,i,i,None)
+    ) in
+  main_f;;
+
 let disjunction l=
    let indexed_l=Ennig.index_everything l in   
    let rec tempf=(fun
