@@ -105,8 +105,8 @@ let prsr_for_parameters_in_type=
      prsr_for_parameters2_in_type;
    ];;
 
-
-let prsr_for_value_making=Gparser.Detailed_chain
+module Private=struct
+let list_for_value_making=
    [
      Gparser.Constant "let";
      prsr_for_white_maybe;
@@ -117,6 +117,10 @@ let prsr_for_value_making=Gparser.Detailed_chain
      Gparser.Enclosure ("","=");
      Gparser.Enclosure ("",double_semicolon);
    ];;
+end;;
+
+let prsr_for_value_making=Gparser.Detailed_chain
+   Private.list_for_value_making;;
 
 let prsr_for_type_making=Gparser.Detailed_chain
    [
