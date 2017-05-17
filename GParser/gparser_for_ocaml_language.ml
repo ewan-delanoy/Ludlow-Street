@@ -214,9 +214,7 @@ let index_for_module_inclusion=9;;
 let index_for_specialities=10;;
 let index_for_white=11;;
 
-
-let elt_prsr=
-   Gparser.Disjunction
+let list_for_elt_prsr=
    (
      List_with_indices.list_with_indices
      [
@@ -233,6 +231,8 @@ let elt_prsr=
        index_for_white           ,prsr_for_white;
      ]
    );;
+
+let elt_prsr=Gparser.Disjunction list_for_elt_prsr;;
 
 
 let main_prsr=
