@@ -6,7 +6,8 @@
 
 let double_semicolon=";"^";";;
 
-let prsr_for_comment=Gparser.House_with_doors ("(*","*)",["\"","\""]);;
+let data_for_prsr_for_comment=("(*","*)",["\"","\""]);;
+let prsr_for_comment=Gparser.House_with_doors data_for_prsr_for_comment;;
 
 
 let prsr_for_sharp_comment=Gparser.Enclosure ("\n#","\n");;
