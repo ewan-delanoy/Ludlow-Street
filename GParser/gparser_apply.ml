@@ -217,6 +217,10 @@ let house_with_doors
    ) in
    (tempf:Gparser_fun.t);;   
 
+
+
+
+
 type chain_artefact=
      Usual of (int * int) list * Gparser_fun.t list * bytes * int * int 
     |Result_found of Gparser_result.t
