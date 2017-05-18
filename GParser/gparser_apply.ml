@@ -141,84 +141,8 @@ let race (continuer,finalizer)=
                None in
         Some(res)) in
    ((fun s i->tempf(s,i,i)):Gparser_fun.t);;   
-   
-
-
-(*
-
-In the first case, no encloser is opened except for the main one.
-In the second, the "rparen" opener is waited for before
-making any other change.
-
-*)
-
-let first_case_in_hwd 
-  old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth)=
-   let opt1=Option.find_it(fun (opener,closer)->
-     Substring.is_a_substring_located_at opener s k
-   ) other_enclosers in
-   if opt1<>None
-   then let (op1,cl1)=Option.unpack opt1 in
-        old_f (main_opener,main_closer,other_enclosers,s,i1,k+(String.length op1),depth,Some(cl1))
-   else 
-   if Substring.is_a_substring_located_at main_opener s k
-   then old_f (main_opener,main_closer,other_enclosers,s,i1,k+(String.length main_opener),depth+1,None)
-   else 
-   if not(Substring.is_a_substring_located_at main_closer s k)
-   then old_f (main_opener,main_closer,other_enclosers,s,i1,k+1,depth,None)
-   else 
-   if depth>1
-   then old_f (main_opener,main_closer,other_enclosers,s,i1,k+(String.length main_closer),depth-1,None)
-   else 
-   let j1=k+(String.length main_closer) in
-   let res=Gparser_result.veil
-               (i1,j1-1)
-               []
-               j1
-               None in
-   Some(res);;
-    
-    
-    
-let second_case_in_hwd 
-  old_f (main_opener,main_closer,other_enclosers,s,i1,k,depth,rparen)=
-  if Substring.is_a_substring_located_at rparen s k
-  then old_f(main_opener,main_closer,other_enclosers,s,i1,k+(String.length rparen),depth,None)
-  else old_f(main_opener,main_closer,other_enclosers,s,i1,k+1,depth,Some(rparen)) ;;
-
-let rec iterator_for_house_of_doors 
-   (main_opener,main_closer,other_enclosers,s,i1,k,depth,opt)=
-   if k>(String.length s)
-   then None
-   else
-          match opt with
-           None->first_case_in_hwd
-                 iterator_for_house_of_doors 
-                   (main_opener,main_closer,other_enclosers,s,i1,k,depth)
-          |Some(rparen)->second_case_in_hwd
-                 iterator_for_house_of_doors 
-                   (main_opener,main_closer,other_enclosers,s,i1,k,depth,rparen)
-    ;; 
-
-
- 
-   
-   
-let house_with_doors
-   (main_opener,main_closer)
-     other_enclosers=
-   let rec tempf=(fun s i->
-        if not(Substring.is_a_substring_located_at main_opener s i)
-        then None 
-        else 
-          let j=i+(String.length main_opener) in
-          iterator_for_house_of_doors 
-         (main_opener,main_closer,other_enclosers,s,i,j,1,None)
-   ) in
-   (tempf:Gparser_fun.t);;   
-
-
-
+      
+let house_with_doors=Gparser_house_with_doors.hwd;;
 
 
 type chain_artefact=
