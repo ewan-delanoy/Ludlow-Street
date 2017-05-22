@@ -135,7 +135,7 @@ good_substrings "let a='\\\"' in a+1;;";;
 
 
 let nachste (s,n,j,st)=(s,n,j+1,one_more_step s n j (String.get s (j-1)) st);;
-let s0="123456'\\\"'123456789";;
+let s0="123456'\\"^"\"'123456789";;
 let n0=String.length s0;;
 let v0=(s0,n0,1,initial_state);;
 let ff=Memoized.small nachste v0;;
