@@ -343,7 +343,6 @@ let rec apply=function
     |Gparser.Race(s1,s2)->race(s1,s2)
     |Gparser.Comment(s1,s2,s3,s4)->Gparser_ocaml_comment.main_prsr(s1,s2)(s3,s4)
     |Gparser.House_with_doors(s1,s2,l)->house_with_doors (s1,s2) l
-    
     |Gparser.Chain(l)->chain(Image.image apply l)
     |Gparser.Disjunction(l)->disjunction(Image.image apply l)
     |Gparser.Star(x)->star(apply x)
