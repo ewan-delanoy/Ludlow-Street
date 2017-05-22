@@ -14,6 +14,7 @@ type t=
     |Sample_negstar of string
     |Sample_plus of string
     |Race of string*string
+    |Comment of string*string*string*string
     |House_with_doors of string*string*((string*string) list)
     |Chain of t list
     |Disjunction of t list
