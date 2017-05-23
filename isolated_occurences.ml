@@ -74,7 +74,7 @@ let rightmost_small_test  s j=
 
 end;;
 
-let of_in substr s=
+let isolated_occurrences_of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
   let main_test= (
