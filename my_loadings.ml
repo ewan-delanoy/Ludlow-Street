@@ -1,24 +1,24 @@
 
 (*
- #use"/Users/ewandelanoy/Documents/OCaml/Ordinary/my_loadings.ml";;
+ #use"/Users/Ewandelanoy/Documents/OCaml/Ordinary/my_loadings.ml";;
 *)
 
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Country/Alaska/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Country/Germany/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Creators/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/GParser/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Generic_syntax_types/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Global_variables/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Makefile_makers/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Ocaml_analysis/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Optional/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Ordered_Lists/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Beavers/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Php_syntax_types/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Preprinters/";;
-#directory"/Users/ewandelanoy/Documents/OCaml/Ordinary/Test_directory6/Test_directory7/Test_directory2/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Country/Alaska/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Country/Germany/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Creators/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/GParser/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Generic_syntax_types/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Global_variables/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Makefile_makers/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Ocaml_analysis/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Optional/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Ordered_Lists/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Beavers/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Php_syntax_types/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Preprinters/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Test_directory6/Test_directory7/Test_directory2/";;
 
 #load"nums.cma";;
 #load"str.cma";;
@@ -56,6 +56,7 @@
 #load"uutf.cmo";;
 #load"no_slashes.cmo";;
 #load"father_and_son.cmo";;
+#load"capitalize_directory_names.cmo";;
 #load"tools_for_absolute_path.cmo";;
 #load"directory_name.cmo";;
 #load"absolute_path.cmo";;
@@ -237,7 +238,6 @@
 #load"Country/Germany/german_update_copied_compiler.cmo";;
 #load"Country/Germany/german_pervasives.cmo";;
 #load"check_ocaml_dircopy.cmo";;
-#load"capitalize_directory_names.cmo";;
 
 
 
