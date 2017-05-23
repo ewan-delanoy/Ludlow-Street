@@ -56,10 +56,10 @@ let rename_value_inside_module s new_name=
    let temp6=Option.filter_and_unpack(
       fun itm->
         let txt=itm.Ocaml_gsyntax_item.content in
-        let ttemp7=Isolated_occurences.isolated_occurrences_of_in 
+        let ttemp7=Of_in.isolated_occurrences_of_in 
            beheaded_name txt in
         if ttemp7<>[]
-        then  let isoc=Isolated_occurences.isolated_occurrences_of_in beheaded_name txt in
+        then  let isoc=Of_in.isolated_occurrences_of_in beheaded_name txt in
               let replacings=Image.image (fun p->(p,new_beheaded_name)) isoc in
               let new_txt=Overwrite_at_intervals.inside_string
                    replacings txt in
