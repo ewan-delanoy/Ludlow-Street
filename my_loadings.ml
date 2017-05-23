@@ -152,6 +152,8 @@
 #load"GParser/gparser.cmo";;
 #load"GParser/gparser_for_ocaml_language.cmo";;
 #load"GParser/gparser_fun.cmo";;
+#load"GParser/gparser_ocaml_comment.cmo";;
+#load"GParser/gparser_house_with_doors.cmo";;
 #load"GParser/gparser_apply.cmo";;
 #load"Ocaml_analysis/read_ocaml_files.cmo";;
 #load"nonblank.cmo";;
@@ -160,7 +162,7 @@
 #load"half_dressed_module.cmo";;
 #load"Makefile_makers/mlx_ended_absolute_path.cmo";;
 #load"Makefile_makers/modulesystem_data.cmo";;
-#load"isolated_occurences.cmo";;
+#load"isolated_occurrences.cmo";;
 #load"Ocaml_analysis/find_value_definition.cmo";;
 #load"Makefile_makers/ocaml_target.cmo";;
 #load"Country/Germany/german_unregister_outside_file.cmo";;
