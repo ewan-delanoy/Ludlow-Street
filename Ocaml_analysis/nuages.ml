@@ -21,7 +21,7 @@ let fvd all_ocaml_items s=
    let native_descendants=
    Option.filter_and_unpack(
      fun itm->
-        let current_namespace=Djangology.lsm 
+        let current_namespace=Longest_shared_module.lsm 
            s (Ocaml_gsyntax_item.name itm) in
         let l=(if current_namespace="" 
                then 0 
