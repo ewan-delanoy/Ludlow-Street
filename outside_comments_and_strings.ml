@@ -20,7 +20,6 @@ encountered.
 
 *)
 
-
 type state={
     depth : int;
     string_mode         : bool;
