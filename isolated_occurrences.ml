@@ -94,7 +94,6 @@ let of_in substr s=
        else None
   ) (Ennig.ennig 1 (n+1-l_substr));;
 
-
    
 (*   
    
