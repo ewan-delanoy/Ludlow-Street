@@ -71,7 +71,7 @@ let absolute_path_of_string0 s0=
   
  exception Inexistent_file of string;; 
   
- let of_string s=
+ let absolute_path_of_string1 s=
   let s0=absolute_path_of_string0(s) in
   if Sys.file_exists(s0)
   then if s0="/" then s0 else
@@ -81,4 +81,5 @@ let absolute_path_of_string0 s0=
        else s1
   else raise(Inexistent_file(s));;
   
- 
+ let of_string s=
+   Capitalize_directory_names.cdn(absolute_path_of_string1 s);;
