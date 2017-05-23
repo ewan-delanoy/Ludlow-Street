@@ -12,7 +12,7 @@ This is a string : "*)"
 *)
 
 
-let byebyebird=5;;
+let some_value=5;;
 
 module Boogie=struct
 
@@ -26,15 +26,26 @@ module Andrew=struct
 
 let d=8;;
 
+let first_user=d+1;;
+
 end;;
+
+let second_user=Andrew.d+2;;
 
 let fleury=9;;
 
 end;;
 
+let third_user=Woogie.Andrew.d+3;;
+
 let burp=10;;
 
 end;;
+
+
+
+let fourth_user=Boogie.Woogie.Andrew.d+3;;
+
 
 let g=48+Boogie.Woogie.parker;;
 let h=49+byebyebird;;
