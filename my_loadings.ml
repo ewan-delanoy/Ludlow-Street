@@ -215,7 +215,9 @@
 #load"Country/Germany/german_vague_string.cmo";;
 #load"Ocaml_analysis/rename_value_inside_module.cmo";;
 #load"Ocaml_analysis/read_needed_ocaml_files.cmo";;
+#load"Ocaml_analysis/longest_shared_module.cmo";;
 #load"Ocaml_analysis/find_value_descendants.cmo";;
+#load"Ocaml_analysis/djangology.cmo";;
 #load"Ocaml_analysis/compute_all_ocaml_items.cmo";;
 #load"multiset.cmo";;
 #load"modularize.cmo";;
@@ -235,6 +237,7 @@
 #load"Country/Germany/german_update_copied_compiler.cmo";;
 #load"Country/Germany/german_pervasives.cmo";;
 #load"check_ocaml_dircopy.cmo";;
+#load"capitalize_directory_names.cmo";;
 
 
 

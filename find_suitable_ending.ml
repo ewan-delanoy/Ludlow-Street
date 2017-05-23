@@ -8,7 +8,6 @@
 
 Note that the order in Ocaml_ending.correspondances is important
 
-
 *)
 
 exception No_suitable_location of Directory_name.t*(Subdirectory.t list)*string;;
