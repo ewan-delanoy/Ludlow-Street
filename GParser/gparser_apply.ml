@@ -142,7 +142,7 @@ let race (continuer,finalizer)=
         Some(res)) in
    ((fun s i->tempf(s,i,i)):Gparser_fun.t);;   
       
-let house_with_doors=Kparser_house_with_doors.hwd;;
+let house_with_doors=Gparser_house_with_doors.hwd;;
 
 
 type chain_artefact=
