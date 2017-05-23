@@ -74,7 +74,7 @@ let rightmost_small_test  s j=
 
 end;;
 
-let isolated_occurrences_of_in substr s=
+let of_in substr s=
   let l_substr=String.length substr 
   and n=String.length(s) in
   let main_test= (
@@ -98,12 +98,12 @@ let isolated_occurrences_of_in substr s=
    
 (*   
    
-isolated_occurrences_of_in "garfield" 
+of_in "garfield" 
 "let x=garfield in let y=subgarfield and z=garfield2 in";;
 
-isolated_occurrences_of_in "garfield" "garfield is a cat";;
+of_in "garfield" "garfield is a cat";;
 
-isolated_occurrences_of_in "Boogie.Woogie.c" "48+Boogie.Woogie.c";;
+of_in "Boogie.Woogie.c" "48+Boogie.Woogie.c";;
 
 
 *)   
