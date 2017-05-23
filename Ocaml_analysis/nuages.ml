@@ -1,10 +1,6 @@
 (*
 
-#use"Ocaml_analysis/nuages.ml";;
-
-if the string argument has a dot inside it, we interpret it
-as a value inside a module.
-Otherwise we interpret it as a mere string.
+#use"Ocaml_analysis/find_value_descendants.ml";;
 
 *)
 
