@@ -218,7 +218,6 @@
 #load"Ocaml_analysis/read_needed_ocaml_files.cmo";;
 #load"Ocaml_analysis/longest_shared_module.cmo";;
 #load"Ocaml_analysis/find_value_descendants.cmo";;
-#load"Ocaml_analysis/djangology.cmo";;
 #load"Ocaml_analysis/compute_all_ocaml_items.cmo";;
 #load"multiset.cmo";;
 #load"modularize.cmo";;
@@ -230,6 +229,7 @@
 #load"legendre_symbol.cmo";;
 #load"interpolation.cmo";;
 #load"inclusion.cmo";;
+#load"GParser/hparser_house_with_doors.cmo";;
 #load"GParser/gparser_for_c_language.cmo";;
 #load"endsubdirectory.cmo";;
 #load"Creators/small_int_based_rational.cmo";;
