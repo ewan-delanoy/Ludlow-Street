@@ -137,7 +137,7 @@ let finish_namespace w lbuf=
       (
         namespace_list_accu:=[];
         namespace_string_accu:="";
-        list_accu:=(mk tok (start_t,end_t))::(!list_accu);
+        list_accu:=Positioned_php_token_list.cons (mk tok (start_t,end_t)) (!list_accu);
       );;     
       
 let initialize_doc lbuf=(
@@ -419,11 +419,11 @@ and step_four_in_doc=parse
 {
 
 let parse_string s =
-          let _=(list_accu:=[];string_accu:="") in
+          let _=(list_accu:=Positioned_php_token_list.empty;string_accu:="") in
           outside_php (Lexing.from_string s);;
   
 let parse_file fn=
-         let _=(list_accu:=[];string_accu:="") in
+         let _=(list_accu:=Positioned_php_token_list.empty;string_accu:="") in
           outside_php (lexing_from_file fn);;
 }
   
