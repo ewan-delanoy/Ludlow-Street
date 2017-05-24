@@ -75,7 +75,7 @@ let rec iterator_for_parsing (graet,da_ober,lexings,l)=
 
 let parse (Trmt(trmt))=
   let f=(fun l->iterator_for_parsing ([],trmt,[],l) ) in
-  (f: Positioned_php_token.t list list Php_parser.t);;
+  (f: Positioned_php_token.t list list Old_php_parser.t);;
 
 
 let rec iterator_for_reverse_parsing (graet,da_ober,l)=

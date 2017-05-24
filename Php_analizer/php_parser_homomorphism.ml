@@ -9,7 +9,7 @@ Aka combinators.
 
 let star prsr=
   let rec tempf=(fun (graet,cr,z)->
-      match Php_parser.parse prsr z with
+      match Old_php_parser.parse prsr z with
        None->Some(List.rev graet,cr,z)
       |Some(res,cr2,z2)->tempf(res::graet,cr2,z2)
   ) in
@@ -22,5 +22,5 @@ let star prsr=
         and last_lxng=Php_char_range.snd cr3 in
         Some(res,Php_char_range.make first_lxng last_lxng,z3)
   ) in
-  (tempg: 'a list Php_parser.t);;
+  (tempg: 'a list Old_php_parser.t);;
 

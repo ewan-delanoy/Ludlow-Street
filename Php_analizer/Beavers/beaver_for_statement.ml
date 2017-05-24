@@ -101,7 +101,7 @@ let classical_parser (_,(_,string_for_termite,f,_))=
      match Termite.parse (Termite.of_string string_for_termite) l with
      None->None
     |Some(l1,cr,peurrest)->Some(f l1 cr,cr,peurrest)
-  ) : t Php_parser.t);;      
+  ) : t Old_php_parser.t);;      
    
 let order=Total_ordering.product special_string_order Total_ordering.standard;;   
    
@@ -871,7 +871,7 @@ add_data
 	];;
 
 
-let parser=(current_main_parser:t Php_parser.t);; 
+let parser=(current_main_parser:t Old_php_parser.t);; 
 
 
  
