@@ -10,6 +10,7 @@ type t={
 
 let empty={contained=[]};;
 let is_empty x=(x.contained=[]);;
+let hd=List.hd(x.contained);;
 
 let cons a x={contained=a::(x.contained)};;
 let rev x={contained=List.rev(x.contained)};;
