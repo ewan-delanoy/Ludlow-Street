@@ -314,29 +314,32 @@ rule outside_php = parse
   | _ as c
   	{  add_to_list lexbuf  (character c); inside_php lexbuf}
   | eof
-  	{ List.rev(!list_accu) }
+  	{ Positioned_php_token_list.rev(!list_accu) }
 and starred_comment=parse
   |"*/" {finish_comment lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; starred_comment lexbuf}
-  |eof {List.rev(!list_accu)}
+  |eof {Positioned_php_token_list.rev(!list_accu)}
 and slashed_comment=parse
   |['\n' '\r'] {finish_comment lexbuf; inside_php lexbuf}
   |" ?>" {finish_comment lexbuf; outside_php lexbuf}
   |"\n?>" {finish_comment lexbuf; outside_php lexbuf}
   | _ as c {add_to_string c; slashed_comment lexbuf}
-  |eof {List.rev(!list_accu)} 
+  |eof {Positioned_php_token_list.rev(!list_accu)} 
 and single_quoted_string=parse
   | "\\\'" {add_to_string '\''; single_quoted_string lexbuf}
   | "\\\\" {add_to_string '\\'; single_quoted_string lexbuf}
   | '\'' {finish_quote lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; single_quoted_string lexbuf}
-  |eof {List.rev(!list_accu)}    
+  |eof {Positioned_php_token_list.rev(!list_accu)}    
 and double_quoted_string=parse
   | "\\\"" {add_to_string '\''; double_quoted_string lexbuf}
   | "\\\\" {add_to_string '\\'; double_quoted_string lexbuf}
   | '\"' {finish_dquote lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; double_quoted_string lexbuf}
-  |eof {List.rev((mk end_of_text (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))::(!list_accu))}     
+  |eof {Positioned_php_token_list.rev(
+        Positioned_php_token_list.cons
+        (mk end_of_text (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
+         (!list_accu))}     
 and doc_string=parse
   | '\'' { current_doctype:=Nowdoc_type;step_one_in_doc lexbuf;}
   | '"'  { current_doctype:=Heredoc_type;step_one_in_doc lexbuf;}
