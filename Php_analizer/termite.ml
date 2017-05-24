@@ -15,7 +15,7 @@ will retain the () and {}'s contents and discard the "if" and the "then".
 
 *)
 
-type t=Trmt of (Glued_or_not.t*Php_constructible_recognizer.t) list;;
+type t=Trmt of (Glued_or_not.t*Old_php_constructible_recognizer.t) list;;
 
 let left_paren_for_retaining="##(";;
 let right_paren_for_retaining=")##";;
@@ -23,18 +23,18 @@ let right_paren_for_retaining=")##";;
 let parens_for_retaining=(left_paren_for_retaining,right_paren_for_retaining);;
 
 let default_embedding wh=
-   if Php_constructible_recognizer.is_constant wh
+   if Old_php_constructible_recognizer.is_constant wh
    then (Glued_or_not.Not_retained_not_glued,wh)
    else (Glued_or_not.Retained_not_glued,wh);;
 
 let rewriter (opt,t)=
       let better_t=Cull_string.trim_spaces t in
       if better_t="" then [] else
-      let wh=Php_constructible_recognizer.of_string better_t in
+      let wh=Old_php_constructible_recognizer.of_string better_t in
       if opt<>None 
       then [Glued_or_not.Glued,wh]
       else (
-                match Php_constructible_recognizer.chain_content wh with
+                match Old_php_constructible_recognizer.chain_content wh with
                  None->[default_embedding wh]
                 |Some(l)->
                   Image.image default_embedding l                
@@ -64,7 +64,7 @@ let rec iterator_for_parsing (graet,da_ober,lexings,l)=
        Some(List.rev(graet),cr,l)
   |(ret,wh)::da_ober2->
      (
-       match Php_constructible_recognizer.recognize wh l with
+       match Old_php_constructible_recognizer.recognize wh l with
        None->None
        |Some(cr,peurrest)->
           let d=List.length(l)-List.length(peurrest) in
@@ -83,8 +83,8 @@ let rec iterator_for_reverse_parsing (graet,da_ober,l)=
   []->None
   |(ret,wh)::da_ober2->
      (
-       match Php_constructible_recognizer.recognize wh l with
-       None->Some(graet,wh,l,Php_constructible_recognizer.reverse_sleepy_parse wh l)
+       match Old_php_constructible_recognizer.recognize wh l with
+       None->Some(graet,wh,l,Old_php_constructible_recognizer.reverse_sleepy_parse wh l)
        |Some(cr,peurrest)->
           let d=List.length(l)-List.length(peurrest) in
           let part=Listennou.big_head d l in
