@@ -191,7 +191,7 @@ rule outside_php = parse
   | "<?php "  {finish_nonphp lexbuf; inside_php lexbuf;}
   | "<?php\n"  {finish_nonphp lexbuf; inside_php lexbuf;}
   | _ as c {add_to_string c; outside_php lexbuf}
-  |eof {finish_nonphp lexbuf;List.rev(!list_accu)} 
+  |eof {finish_nonphp lexbuf;Positioned_php_token_list.rev(!list_accu)} 
   and inside_php=parse
   | " ?>"  {
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;

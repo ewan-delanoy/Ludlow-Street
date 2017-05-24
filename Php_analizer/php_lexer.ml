@@ -689,7 +689,7 @@ let
 
   | 3 ->
 # 194 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (finish_nonphp lexbuf;List.rev(!list_accu))
+       (finish_nonphp lexbuf;Positioned_php_token_list.rev(!list_accu))
 # 694 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
