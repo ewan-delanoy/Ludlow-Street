@@ -8,7 +8,7 @@ Generic parser for php code.
 *)
 
 type t=
-   Leaf of Php_short_selector.t
+   Leaf of Old_php_short_selector.t
   |Generalized of Generalizer.t*t
   |Chain of t list
   |Disjunction of t list;;
@@ -17,7 +17,7 @@ let pair_for_disjunction=("_l_","_rd_");;
 let associator_for_disjunction="_u_";;  
   
 let rec to_string=function
-   Leaf(sel)->Php_short_selector.to_string sel
+   Leaf(sel)->Old_php_short_selector.to_string sel
   |Generalized(grlz,x)->
                    let (lpar,rpar)=Generalizer.pair grlz in
                    lpar^(to_string x)^rpar
@@ -67,7 +67,7 @@ let rec of_string rough_s=
   if opt<>None
   then helper_for_string_reading of_string (opt,t)
   else
-  let temp5=Php_short_selector.list_from_string t in
+  let temp5=Old_php_short_selector.list_from_string t in
   let temp4=Image.image (fun sel->Leaf(sel)) temp5 in
   if List.length(temp4)=1
   then List.hd(temp4)
@@ -80,12 +80,12 @@ let chain_content wh=
 
 let is_constant wh=
   match wh  with
-   Leaf(sel)->Php_short_selector.is_constant sel
+   Leaf(sel)->Old_php_short_selector.is_constant sel
   |_->false;;
 
 
 
-let recognize_selector=Php_short_selector.recognize;;
+let recognize_selector=Old_php_short_selector.recognize;;
 
 let recognize_generalized old_f grlz x=Php_recognizer_homomorphism.generalize grlz (old_f x);;
 
