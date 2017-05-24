@@ -98,7 +98,7 @@ let special_string_order=
    
 let classical_parser (_,(_,string_for_termite,f,_))=
   ((fun l->
-     match Termite.parse (Termite.of_string string_for_termite) l with
+     match Old_termite.parse (Old_termite.of_string string_for_termite) l with
      None->None
     |Some(l1,cr,peurrest)->Some(f l1 cr,cr,peurrest)
   ) : t Old_php_parser.t);;      
@@ -143,7 +143,7 @@ let current_main_parser=
     
 let naive_individual_test_for_data helper_content helper s=
        let lexed=Php_lexer.parse_string s in
-       let termiteparsed=Termite.parse (Termite.of_string helper_content) lexed in
+       let termiteparsed=Old_termite.parse (Old_termite.of_string helper_content) lexed in
        let (termited,cr,_)=Option.unpack termiteparsed in
        let helped=helper termited cr in
        helped=dummy;;
@@ -186,9 +186,9 @@ let visualizer (helper_name,short_helper_content,helper_content,s)=
        @[""]) in
     let _=print_string message in   
     let lexed=Php_lexer.parse_string s 
-      and trmt=Termite.of_string helper_content in
-      let revp=Termite.reverse_parse trmt lexed in
-      match Termite.parse trmt lexed with 
+      and trmt=Old_termite.of_string helper_content in
+      let revp=Old_termite.reverse_parse trmt lexed in
+      match Old_termite.parse trmt lexed with 
       None->(None,revp)
       |Some(termited,_,_)->(Some(termited),revp);; 
             
