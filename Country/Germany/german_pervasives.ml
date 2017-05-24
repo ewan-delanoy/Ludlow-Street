@@ -100,6 +100,8 @@ let ed =German_wrapper.end_debugging;;
 
 
 let vd=German_wrapper.view_definition;;
+let vld=Find_value_descendants.fvd 
+  (Compute_all_ocaml_items.caoi(German_wrapper.data())) ;;
 
 let rsh_without_backup=German_wrapper.refresh;;
 
