@@ -105,7 +105,14 @@ let vld=Find_value_descendants.fvd
 
 let rsh_without_backup=German_wrapper.refresh;;
 
-
+let am ()=
+    let temp1=German_wrapper.data() in
+    let temp2=Image.image (fun md->
+     Naked_module.to_string(
+       Half_dressed_module.naked_module(Modulesystem_data.name md))
+    ) temp1 in
+    temp2;;
+    
 
 let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
