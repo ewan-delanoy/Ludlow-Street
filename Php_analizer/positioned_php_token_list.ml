@@ -11,6 +11,7 @@ type t={
 let empty={contained=[]};;
 let is_empty x=(x.contained=[]);;
 let hd x=List.hd(x.contained);;
+let tl x={contained=List.tl(x.contained)};;
 let concat x y={contained=(x.contained)@(y.contained)};;
 
 let cons a x={contained=a::(x.contained)};;
