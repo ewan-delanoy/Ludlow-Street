@@ -13,6 +13,8 @@ let is_empty x=(x.contained=[]);;
 
 let cons a x={contained=a::(x.contained)};;
 let rev x={contained=List.rev(x.contained)};;
+let length=List.length(x.contained);;
+
 
 exception Ht_exn;;
 
