@@ -5,8 +5,8 @@
 *)
 
 type 'a t= 
-((Positioned_php_token.t list)->
-((('a)*Php_char_range.t*(Positioned_php_token.t list)) option));;
+((Positioned_php_token_list.t )->
+((('a)*Php_char_range.t*(Positioned_php_token_list.t)) option));;
 
  
 let parse (f:'a t) l=f l;;  
