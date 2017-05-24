@@ -142,7 +142,7 @@ let current_main_parser=
     
     
 let naive_individual_test_for_data helper_content helper s=
-       let lexed=Php_lexer.parse_string s in
+       let lexed=Old_php_lexer.parse_string s in
        let termiteparsed=Old_termite.parse (Old_termite.of_string helper_content) lexed in
        let (termited,cr,_)=Option.unpack termiteparsed in
        let helped=helper termited cr in
@@ -185,7 +185,7 @@ let visualizer (helper_name,short_helper_content,helper_content,s)=
        (Image.image ( Ocaml_long_name.ocaml_long_name "") [short_helper_content;s])
        @[""]) in
     let _=print_string message in   
-    let lexed=Php_lexer.parse_string s 
+    let lexed=Old_php_lexer.parse_string s 
       and trmt=Old_termite.of_string helper_content in
       let revp=Old_termite.reverse_parse trmt lexed in
       match Old_termite.parse trmt lexed with 
