@@ -19,5 +19,5 @@ let  recognize_block blckr=
      |Some(((u,last_lxng,others),last_tok))->
         let fst_lxng=fst(Positioned_php_token.snd(a)) in
         Some(Php_char_range.make fst_lxng last_lxng,others)
-   ) : Php_recognizer.t);;
+   ) : Old_php_recognizer.t);;
 

@@ -65,7 +65,7 @@ let recognize_atom atom_sel=
              Some(Php_char_range.make u v,peurrest)
         else None
    ) in
-   (f : Php_recognizer.t);;   
+   (f : Old_php_recognizer.t);;   
 
 let recognize sel=
    let f=(function
@@ -75,7 +75,7 @@ let recognize sel=
         |Block(blckr)->Php_recognize_block.recognize_block blckr l
       )
    ) in
-   (f : Php_recognizer.t);; 
+   (f : Old_php_recognizer.t);; 
    
 
 
