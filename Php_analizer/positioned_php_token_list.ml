@@ -9,6 +9,8 @@ type t={
 };;
 
 let empty={contained=[]};;
+let is_empty x=(x.contained=[]);;
+
 let cons a x={contained=a::(x.contained)};;
 
 exception Ht_exn;;
