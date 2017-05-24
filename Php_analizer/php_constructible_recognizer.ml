@@ -87,11 +87,11 @@ let is_constant wh=
 
 let recognize_selector=Old_php_short_selector.recognize;;
 
-let recognize_generalized old_f grlz x=Php_recognizer_homomorphism.generalize grlz (old_f x);;
+let recognize_generalized old_f grlz x=Old_php_recognizer_homomorphism.generalize grlz (old_f x);;
 
-let recognize_chain old_f ch=Php_recognizer_homomorphism.chain (Image.image old_f ch);;
+let recognize_chain old_f ch=Old_php_recognizer_homomorphism.chain (Image.image old_f ch);;
 
-let recognize_disjunction old_f l=Php_recognizer_homomorphism.ordered_disjunction (Image.image old_f l);;
+let recognize_disjunction old_f l=Old_php_recognizer_homomorphism.ordered_disjunction (Image.image old_f l);;
 
 
 let rec recognize wh l=
