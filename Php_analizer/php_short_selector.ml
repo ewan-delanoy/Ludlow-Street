@@ -72,7 +72,7 @@ let recognize sel=
       l->(
         match sel with
          Atomic(atom_sel)->recognize_atom atom_sel l
-        |Block(blckr)->Php_recognize_block.recognize_block blckr l
+        |Block(blckr)->Old_php_recognize_block.recognize_block blckr l
       )
    ) in
    (f : Old_php_recognizer.t);; 
