@@ -115,7 +115,22 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (beg_m,end_m)
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
-   
+let projected_version=function
+     
+      (Constant ctok)->Php_constant_token.to_string ctok
+     |(Variable s)->"var"
+     |(Ident s)->"id"
+     |(Comment s)->"cmt"
+     |(Single_quoted s)->"sqs"
+     |(Double_quoted s)->"dqs"
+     |(Heredoc s)->"hdoc"
+     |(Nowdoc s)->"ndoc"
+     |(Namespacer (b,l,s))->"nmspc"
+     |(External_echo s)->"eecho"
+     |(Int s)->"int"
+     |(Float s)->"float"
+     |(Char c)->"char"
+     |(End_of_text)->"EOF";;   
 
 let precedence=function 
   Constant ctok->(match ctok with
