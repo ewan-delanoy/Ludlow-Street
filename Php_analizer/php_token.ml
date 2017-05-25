@@ -116,7 +116,6 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
 let projected_version=function
-     
       (Constant ctok)->Php_constant_token.to_string ctok
      |(Variable s)->"var"
      |(Ident s)->"id"

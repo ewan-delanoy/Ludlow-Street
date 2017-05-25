@@ -26,3 +26,17 @@ exception Ht_exn;;
 let ht x=match x.contained with
     []->raise(Ht_exn)
     |a::b->(a,{contained=b});;
+    
+let print x=
+  let temp1=Image.image(fun ptok->
+    let tok=Positioned_php_token.fst ptok in
+    Php_token.projected_version tok
+   ) x.contained in
+  "[ "^(String.concat " " temp1)^" ]";;
+
+let print_out (dummy:Format.formatter) x=
+   Format.open_box 0;
+   Format.print_string(print x);
+   Format.close_box();;
+
+    
