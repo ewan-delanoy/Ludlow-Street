@@ -68,6 +68,11 @@ let backup opt_msg=
 
 let data ()=(!Private.data_ref);;
 
+let declare_printer_equipped_type hm=
+  (Private.printer_equipped_types_ref:=
+  (!Private.printer_equipped_types_ref)@[hm]);;
+
+
 let diff=Private.diff;;
 let directories ()=(!Private.directories_ref);;
 
@@ -340,6 +345,10 @@ let reposition_module hm (l_before,l_after)=
 
     
  let save_all=Private.save_all;;   
+    
+ let undeclare_printer_equipped_type hm=
+  (Private.printer_equipped_types_ref:=
+  List.filter (fun x->x<>hm) (!Private.printer_equipped_types_ref));;   
     
  let unregister_mlx_file mlx=
    let _=Private.recompile() in
