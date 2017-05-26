@@ -98,7 +98,7 @@ let to_string = function
 let all_constants=
        let temp1=Cartesian.product Strict_or_loose.all Php_operator.all_operators in
        (
-         Image.image (fun (s,ct)->(vbar_escape s,CT ct) ) Php_constant_token.all_constants
+         Image.image (fun (s,ct)->(vbar_escape s,CT ct) ) Php_constant_token.all_pairs
        )
        @
        (
