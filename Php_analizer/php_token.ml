@@ -46,12 +46,9 @@ let short_content x=
 let is_a_comment=function
    (Comment s)->true
   |_->false;;
-     
-let fixture=
+
+let fixture_of_nonconstants=
     [
-       Constant(Php_constant_token.Kwd (Php_keyword.T_ABSTRACT));
-       Constant(Php_constant_token.Punct (Php_punctuator.T_LPARENTHESIS));
-       Constant(Php_constant_token.Op(Php_operator.T_NEW));
        Variable""; 
        Ident"";
        Comment"";
@@ -64,8 +61,17 @@ let fixture=
        Int "0";
        Float "0.";
        Char '0';
-       End_of_text
     ];;
+
+(*     
+let fixture=
+    [
+       Constant(Php_constant_token.Kwd (Php_keyword.T_ABSTRACT));
+       Constant(Php_constant_token.Punct (Php_punctuator.T_LPARENTHESIS));
+       Constant(Php_constant_token.Op(Php_operator.T_NEW));
+    ] @ fixture_of_nonconstants;;
+*)
+
 
 let put_lexeme_in_category=Memoized.make(fun s->
   match Php_operator.of_prudent_string s with
