@@ -123,7 +123,7 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
 
 let projected_version=function
       (Constant ctok)->Php_constant_token.to_string ctok
-     |(Variable s)->"var"
+     |(Variable s)->"rav" (* because var is already a keyword in PHP *)
      |(Ident s)->"id"
      |(Comment s)->"cmt"
      |(Single_quoted s)->"sqs"
