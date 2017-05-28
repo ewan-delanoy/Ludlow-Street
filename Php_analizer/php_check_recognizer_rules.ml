@@ -6,6 +6,7 @@ If everything is OK, all the components of they_should_be_empty are []
 
 *)
 
+let hi=List.length;;
 let ofo=Ordered.forget_order;;
 
 let part1=Image.image 
