@@ -75,7 +75,7 @@ let to_string=function
      |Namespacer->"nmspc"
      |External_item->"ext"
      |Integer->"integer"
-     |Floating_number->"floating"
+     |Floating_number->"float"
      |Character->"chr"
      |End_of_text->"eot";;
         

@@ -31,7 +31,7 @@ let rejected_left_chars=
 
 let admitted_left_chars=
   [
-   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.';
+   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.'; ',';
   ];;
 
 let rejected_right_chars=
@@ -48,7 +48,7 @@ let rejected_right_chars=
 
 let admitted_right_chars=
   [
-   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.';
+   	'(' ; ')' ; ';' ; ' ' ;'\n';'\r';'=';'<';'>';'+';'*';'/';'-'; '.'; ',';
   ];;
 
 let test_for_left_admissiblity c=
