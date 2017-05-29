@@ -2,6 +2,8 @@
 
 #use"Php_analizer/php_atomic_selector.ml";;
 
+Selector that only deals with one character.
+
 *)
 
 type t =                                                                    
