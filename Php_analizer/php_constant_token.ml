@@ -30,3 +30,9 @@ let of_string s=
    _->raise(Unknown(s));;
 
 let putative_of_string s=try (Some(of_string s)) with _->None;;
+
+let token_category=function
+      Kwd(_)           ->Token_category.Keyword
+     |Punct(_)         ->Token_category.Punctuator
+     |Op(_)            ->Token_category.Operator;;
+
