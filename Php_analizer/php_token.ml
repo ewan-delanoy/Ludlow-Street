@@ -142,19 +142,7 @@ let token_category =function
 
 let projected_version=function
       (Constant ctok)->Php_constant_token.to_string ctok
-     |(Variable s)->"rav" (* because var is already a keyword in PHP *)
-     |(Ident s)->"id"
-     |(Comment s)->"cmt"
-     |(Single_quoted s)->"sqs"
-     |(Double_quoted s)->"dqs"
-     |(Heredoc s)->"hdoc"
-     |(Nowdoc s)->"ndoc"
-     |(Namespacer (b,l,s))->"nmspc"
-     |(External_echo s)->"eecho"
-     |(Int s)->"int"
-     |(Float s)->"float"
-     |(Char c)->"char"
-     |(End_of_text)->"EOF";;   
+     |x->Token_category.to_string (token_category x);;
 
 let precedence=function 
   Constant ctok->(match ctok with
