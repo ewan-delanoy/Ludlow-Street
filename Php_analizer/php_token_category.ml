@@ -6,14 +6,9 @@
    
 *)
 
-let compute_for_constant_token=function
-      Php_constant_token.Kwd(_)           ->Token_category.Keyword
-     |Php_constant_token.Punct(_)         ->Token_category.Punctuator
-     |Php_constant_token.Op(_)            ->Token_category.Operator;;
-
 
 let compute =function
-      Php_token.Constant(ctok)   ->compute_for_constant_token ctok
+      Php_token.Constant(ctok)   ->Php_constant_token.token_category ctok
      |Php_token.Variable(_)      ->Token_category.Variable
      |Php_token.Ident(_)         ->Token_category.Identifier
      |Php_token.Comment (_)      ->Token_category.Comment
