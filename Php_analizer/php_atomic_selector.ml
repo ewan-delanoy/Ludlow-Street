@@ -127,14 +127,14 @@ let of_string s=match optional_of_string s with
   
 let test sel tok = match sel with
    CT(ctok)->Php_token.test ctok tok
-  |TC(tc)->Php_token_category.compute(tok)=tc
+  |TC(tc)->Php_token.token_category(tok)=tc
   |NCT(lctok)->List.for_all (fun ctok->not(Php_token.test ctok tok)) lctok
   |LCT(lctok)->List.exists (fun ctok->Php_token.test ctok tok) lctok
   |CTTC(lctok,ltc)->(List.exists (fun ctok->Php_token.test ctok tok) lctok)
                     ||
-                    (List.mem (Php_token_category.compute tok) ltc)
+                    (List.mem (Php_token.token_category tok) ltc)
   |Prec(sol,op)->
-     if (List.mem (Php_token_category.compute tok) Token_category.harmless_tokens)
+     if (List.mem (Php_token.token_category tok) Token_category.harmless_tokens)
            ||
            (List.mem tok [Php_token.punct"(";Php_token.punct")"])
        then true   
