@@ -121,6 +121,25 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (beg_m,end_m)
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
+let token_category =function
+      Constant(ctok)   ->Php_constant_token.token_category ctok
+     |Variable(_)      ->Token_category.Variable
+     |Ident(_)         ->Token_category.Identifier
+     |Comment (_)      ->Token_category.Comment
+     |Single_quoted(_) ->Token_category.Single_quoted_string
+     |Double_quoted(_) ->Token_category.Double_quoted_string
+     |Heredoc(_)       ->Token_category.Heredoc_string
+     |Nowdoc(_)        ->Token_category.Nowdoc_string
+     |Namespacer(_,_,_)->Token_category.Namespacer
+     |External_echo(_) ->Token_category.External_item
+     |Int(_)           ->Token_category.Integer
+     |Float(_)         ->Token_category.Floating_number
+     |Char(_)          ->Token_category.Character
+     |End_of_text      ->Token_category.End_of_text;;
+     
+     
+
+
 let projected_version=function
       (Constant ctok)->Php_constant_token.to_string ctok
      |(Variable s)->"rav" (* because var is already a keyword in PHP *)
