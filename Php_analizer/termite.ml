@@ -77,6 +77,7 @@ let parse (Trmt(trmt))=
   let f=(fun l->iterator_for_parsing ([],trmt,[],l) ) in
   (f: Positioned_php_token_list.t  list Php_parser.t);;
 
+let eat s t=parse (of_string s) (Php_lexer.parse_string t);;
 
 let rec iterator_for_reverse_parsing (graet,da_ober,l)=
   match da_ober with

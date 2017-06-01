@@ -225,7 +225,7 @@ add_data
   "class_abstract"
   "abstract class _l_ no_left_brace _r*_ {}"
   helper_for_abstract_class
-  [ "<?php abstract class Amy implements Peggy extends Betty {$cant=$be+$with;} "];;   
+  [ "<?php abstract class Amy implements Peggy extends Betty {$cant=$be+$with;}"];;   
   
 
 
