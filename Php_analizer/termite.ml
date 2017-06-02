@@ -51,9 +51,12 @@ let of_string s=
    
 exception Stepper_for_parsing_exn;;
 
- 
-let rec iterator_for_parsing (graet,da_ober,lexings,l)=
-  match da_ober with
+let pusher_for_parsing x=
+   let ((graet,da_ober,lexings,l),opt)=x in
+   if opt<>None 
+   then x
+   else 
+   match da_ober with
   []->let temp1=List.rev_map Php_char_range.fst lexings 
       and temp2=Image.image Php_char_range.snd lexings in
       let temp3=List.filter (fun x->x<>Php_char_range.dummy_lexing) temp1
@@ -61,41 +64,31 @@ let rec iterator_for_parsing (graet,da_ober,lexings,l)=
       let u=Php_char_range.select_head temp3
       and v=Php_char_range.select_head temp4 in
       let cr=Php_char_range.make u v in
-       Some(List.rev(graet),cr,l)
+       (([],[],[],Positioned_php_token_list.empty),Some(Some(List.rev(graet),cr,l)))
   |(ret,wh)::da_ober2->
      (
        match Php_constructible_recognizer.recognize wh l with
-       None->None
+       None->(([],[],[],Positioned_php_token_list.empty),Some(None))
        |Some(cr,peurrest)->
           let d=Positioned_php_token_list.length(l)-Positioned_php_token_list.length(peurrest) in
           let part=Positioned_php_token_list.big_head d l in
           let graet2=(if ret=Glued_or_not.Not_retained_not_glued then graet else part::graet) in
-          iterator_for_parsing (graet2,da_ober2,cr::lexings,peurrest)
+          ((graet2,da_ober2,cr::lexings,peurrest),None)
      );;
 
+ 
+let rec iterator_for_parsing x=
+     let y=snd(x) in
+     if y<>None 
+     then Option.unpack y
+     else iterator_for_parsing(pusher_for_parsing x);;
+
 let parse (Trmt(trmt))=
-  let f=(fun l->iterator_for_parsing ([],trmt,[],l) ) in
+  let f=(fun l->iterator_for_parsing (([],trmt,[],l),None) ) in
   (f: Positioned_php_token_list.t  list Php_parser.t);;
 
 let eat s t=parse (of_string s) (Php_lexer.parse_string t);;
 
-(*
-let rec iterator_for_reverse_parsing (graet,da_ober,l)=
-  match da_ober with
-  []->None
-  |(ret,wh)::da_ober2->
-     (
-       match Php_constructible_recognizer.recognize wh l with
-       None->Some(graet,wh,l,Php_constructible_recognizer.reverse_sleepy_parse wh l)
-       |Some(cr,peurrest)->
-          let d=Positioned_php_token_list.length(l)-Positioned_php_token_list.length(peurrest) in
-          let part=Positioned_php_token_list.big_head d l in
-          let graet2=(if ret=Glued_or_not.Not_retained_not_glued then graet else part::graet) in
-          iterator_for_reverse_parsing (graet2,da_ober2,peurrest)
-     );;
 
-let reverse_parse (Trmt(trmt)) l=iterator_for_reverse_parsing ([],trmt,l) ;;
-*)
-     
    
  
