@@ -251,15 +251,20 @@ add_data
 
 
 
-let assignable1="nmspc    _l_ :: id _r?_ ()";;
-let assignable2="id       _l_ :: id _r?_ ()";;
-let assignable3="variable -> id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";;
-let assignable4="variable -> variable  _l_ loose= _r*_ ";;
+let assignable1="nmspc         _l_ :: id _r?_ _l_ () _r?_";;
+let assignable2="id            _l_ :: id _r?_ ()";;
+let assignable3="include_like  _l_ loose= _r*_ ";;
+let assignable4="new id        ()";;
+let assignable5="new nmspc     ()";;
+let assignable6="variable ->   id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";;
+let assignable7="variable +    _l_ loose= _r*_ ";;
+let assignable8="@             id ()";;
 
 
 let assignable=" _l_ "^
 (String.concat " _u_ " 
-[assignable1;assignable2;assignable3;assignable4])
+[assignable1;assignable2;assignable3;assignable4;assignable5;
+ assignable6;assignable7;assignable8])
 ^" _rd_";;
 
 
