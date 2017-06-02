@@ -249,21 +249,14 @@ add_data
   
 
 
-let barley1="_l_ _l_ include_like _u_ new _u_ @ _rd_ _r?_";;
-let barley2="_l_ _l_ -> id () _r+_ _u_ _l_ loose= _r*_ _rd_";;
-let assignable1="variable "^barley2;;
+let assignable1="variable _l_ -> id _l_ () _r?_ _r*_";;
 
-let barley3="_l_ id _u_ nmspc _rd_";;
-let barley4="_l_ :: id _r?_";;
-let assignable2=barley3^" "^barley4^" ()";;
+let barley1="_l_ id _u_ nmspc _rd_";;
+let barley2="_l_ :: id _r?_";;
+let assignable2=barley1^" "^barley2^" ()";;
 
+let assignable=" _l_ "^(String.concat " _u_ " [assignable1;assignable2])^" _rd_";;
 
-let assignable3="variable _l_ -> id _l_ () _r?_ _r*_";;
-
-let assignable=
-" _l_ "^
-(String.concat " _u_ " [assignable1;assignable2;assignable3])
-^" _rd_";;
 
 add_shortcut "assignable" assignable;;
 

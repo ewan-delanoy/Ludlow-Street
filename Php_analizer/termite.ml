@@ -10,7 +10,7 @@ which are retained (for further analysis later) and other which
 are discarded (because they correspond to expected keywords in the
 pattern).
 A termite scanning according to pattern if()then{} for example,
-will retain the () and {}'s contents and discard the "if" and the "then".
+will retain the () and {}´s contents and discard the "if" and the "then".
  
 
 *)
