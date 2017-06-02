@@ -21,7 +21,7 @@ let rec iterator_for_reverse_parsing (graet,da_ober,l)=
           iterator_for_reverse_parsing (graet2,da_ober2,peurrest)
      );;
 
-let reverse_parse (Termite.Trmt(trmt)) l=iterator_for_reverse_parsing ([],trmt,l) ;;
+let rp (Termite.Trmt(trmt)) l=iterator_for_reverse_parsing ([],trmt,l) ;;
 
      
  
