@@ -20,14 +20,14 @@
 #install_printer Small_int_based_rational.print_out;;
 #install_printer Big_int_based_rational.print_out;;
 
-
-
 (*Registered printers end here *)
 
 (* Below are printers needed only in utop's environment which is
 unfriendly to Ocaml printers. *)
 
+(*
 let phptoklist=
-	Gather_preprinter_result.printer_of_preprinter(Preprinter_example.positioned_php_token_list);;
+	Gather_preprinter_result.printer_of_preprinter(Old_preprinter_example.positioned_php_token_list);;
 
 #install_printer phptoklist;;
+*)
