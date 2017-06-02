@@ -79,6 +79,7 @@ let parse (Trmt(trmt))=
 
 let eat s t=parse (of_string s) (Php_lexer.parse_string t);;
 
+(*
 let rec iterator_for_reverse_parsing (graet,da_ober,l)=
   match da_ober with
   []->None
@@ -94,7 +95,7 @@ let rec iterator_for_reverse_parsing (graet,da_ober,l)=
      );;
 
 let reverse_parse (Trmt(trmt)) l=iterator_for_reverse_parsing ([],trmt,l) ;;
-
+*)
      
    
  
