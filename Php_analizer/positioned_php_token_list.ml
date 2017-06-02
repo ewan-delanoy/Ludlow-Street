@@ -31,7 +31,7 @@ let print x=
     let tok=Positioned_php_token.fst ptok in
     Php_token.projected_version tok
    ) x.contained in
-  "[ "^(String.concat " " temp1)^" ]";;
+  "\xe3\x80\x90  "^(String.concat " " temp1)^"  \xe3\x80\x91";;
 
 let print_out (dummy:Format.formatter) x=
    Format.open_box 0;
