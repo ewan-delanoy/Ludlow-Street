@@ -249,22 +249,28 @@ add_data
   
 
 
-let assignable1="_l_ _l_ include_like _u_ new _u_ @ _rd_ _r?_";;
-let assignable2="_l_ _l_ -> id () _r+_ _u_ _l_ loose= _r*_ _rd_";;
-let assignable3="variable "^assignable2;;
+let barley1="_l_ _l_ include_like _u_ new _u_ @ _rd_ _r?_";;
+let barley2="_l_ _l_ -> id () _r+_ _u_ _l_ loose= _r*_ _rd_";;
+let assignable1="variable "^barley2;;
 
-let assignable4="_l_ id _u_ nmspc _rd_";;
-let assignable5="_l_ :: id _r?_";;
-let assignable6=assignable4^" "^assignable5^" ()";;
+let barley3="_l_ id _u_ nmspc _rd_";;
+let barley4="_l_ :: id _r?_";;
+let assignable2=barley3^" "^barley4^" ()";;
 
-let assignable=" _l_ "^(String.concat " _u_ " [assignable3;assignable6])^" _rd_";;
+
+let assignable3="variable _l_ -> id _l_ () _r?_ _r*_";;
+
+let assignable=
+" _l_ "^
+(String.concat " _u_ " [assignable1;assignable2;assignable3])
+^" _rd_";;
 
 add_shortcut "assignable" assignable;;
 
 
 add_data 
   "assign_to_simple"
-  "variable ##( assign )## _l_ assignable _r*_ ;"
+  "variable ##( assign )## assignable ;"
   helper_for_assignment
   [
     "<?php $winter=$snow+($melts*$down);";
