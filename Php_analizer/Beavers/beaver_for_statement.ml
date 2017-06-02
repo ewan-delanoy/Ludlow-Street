@@ -187,7 +187,7 @@ let visualizer (helper_name,short_helper_content,helper_content,s)=
     let _=print_string message in   
     let lexed=Php_lexer.parse_string s 
       and trmt=Termite.of_string helper_content in
-      let revp=Termite.reverse_parse trmt lexed in
+      let revp=Termite_reverse_parse.rp trmt lexed in
       match Termite.parse trmt lexed with 
       None->(None,revp)
       |Some(termited,_,_)->(Some(termited),revp);; 
