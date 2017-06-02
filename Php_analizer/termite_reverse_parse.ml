@@ -7,7 +7,6 @@ Useful to debug the Termite.parse function.
 *)
 
 
-
 let rec iterator_for_reverse_parsing (graet,da_ober,l)=
   match da_ober with
   []->None
@@ -25,5 +24,4 @@ let rec iterator_for_reverse_parsing (graet,da_ober,l)=
 let reverse_parse (Termite.Trmt(trmt)) l=iterator_for_reverse_parsing ([],trmt,l) ;;
 
      
-   
  
