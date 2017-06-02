@@ -19,6 +19,9 @@
 #install_printer Positioned_php_token.print_out;;
 #install_printer Small_int_based_rational.print_out;;
 #install_printer Big_int_based_rational.print_out;;
+#install_printer Positioned_php_token_list.print_out;;
+
+
 
 (*Registered printers end here *)
 
