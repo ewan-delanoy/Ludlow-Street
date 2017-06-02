@@ -20,6 +20,8 @@ let rev x={contained=List.rev(x.contained)};;
 let length x=List.length(x.contained);;
 let big_head d x={contained=Listennou.big_head d (x.contained)};;
 
+let filter f x={contained=List.filter f (x.contained)}
+
 exception Ht_exn;;
 
 let ht x=match x.contained with
