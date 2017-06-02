@@ -189,8 +189,8 @@ let visualizer (helper_name,short_helper_content,helper_content,s)=
       and trmt=Termite.of_string helper_content in
       let revp=Termite_reverse_parse.rp trmt lexed in
       match Termite.parse trmt lexed with 
-      None->(None,revp)
-      |Some(termited,_,_)->(Some(termited),revp);; 
+      None->(None,Some(revp))
+      |Some(termited,_,_)->(Some(termited),Some(revp));; 
             
 let see ()=match (should_be_empty()) with
    []->(None,None)
