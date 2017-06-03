@@ -36,6 +36,17 @@ let special_list =
                 Php_operator.T_MINUS_EQUALS;
                 Php_operator.T_STAR_EQUALS]
             );     
+    "coerce",LCT(
+              Image.image (fun x->Php_constant_token.Op(x))
+               [
+                Php_operator.T_COERCE_TO_INT; 
+                Php_operator.T_COERCE_TO_BOOL;
+                Php_operator.T_COERCE_TO_STRING;
+                Php_operator.T_COERCE_TO_ARRAY;
+                Php_operator.T_COERCE_TO_OBJECT; 
+                Php_operator.T_COERCE_TO_BOOL;
+               ]
+            );          
     "id_or_var",CTTC([],
                [
                 Token_category.Variable; Token_category.Identifier; 
