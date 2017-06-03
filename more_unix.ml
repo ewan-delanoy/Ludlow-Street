@@ -117,4 +117,18 @@ end;;
 let complete_ls=Private.complete_ls;;
 let quick_beheaded_complete_ls=Private.quick_beheaded_complete_ls;;
 let complete_ls_with_nondirectories_only=Private.complete_ls_with_nondirectories_only;;
+
+let all_files_with_endings dir l_endings=
+   let temp1=complete_ls dir in
+   let temp2=List.filter(
+   fun ap->
+     let s_ap=Absolute_path.to_string ap in
+     List.exists( fun ending->
+       Substring.ends_with s_ap ending)
+     l_endings  
+   ) temp1 in
+   temp2;;  
+
+
+
    
