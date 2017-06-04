@@ -28,6 +28,12 @@ let ht x=match x.contained with
     []->raise(Ht_exn)
     |a::b->(a,{contained=b});;
     
+exception File_exn;;    
+    
+let file x=match x.contained with
+    []->raise(File_exn)
+    |a::_->Positioned_php_token.file a;;    
+    
 let print x=
   let temp1=Image.image(fun ptok->
     let tok=Positioned_php_token.fst ptok in
