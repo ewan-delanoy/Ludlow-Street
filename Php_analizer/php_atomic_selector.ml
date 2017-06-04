@@ -75,6 +75,13 @@ let special_list =
                );
     "no_left_brace",   NCT[Php_constant_token.Punct Php_punctuator.T_LBRACE];
     "no_semicolon",NCT[Php_constant_token.Punct Php_punctuator.T_SEMICOLON];
+    "no_ternary",NCT(
+              Image.image (fun x->Php_constant_token.Op(x))
+               [
+                Php_operator.T_QUESTION; 
+                Php_operator.T_COLON;
+               ]
+            );   
     "stringy",CTTC(
                [
                 Php_constant_token.Op Php_operator.T_DOT; 
