@@ -254,11 +254,14 @@ add_data
 
 let assignables=
 [
+  "coerce        id ()";
   "nmspc         _l_ :: id _r?_ _l_ () _r?_";
   "id            _l_ :: id _r?_ ()";
   "include_like  _l_ loose= _r*_ ";
+  "integer";
   "new id        ()";
   "new nmspc     ()";
+  "sqs";
   "variable ->   id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
   "variable +    _l_ loose= _r*_ ";
   "@             id ()";
