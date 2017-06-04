@@ -254,19 +254,24 @@ add_data
 
 let assignables=
 [
-  "coerce        id ()";
-  "nmspc         _l_ :: id _r?_ _l_ () _r?_";
-  "id ::         id ()";
-  "id ()         ? no_ternary : no_semicolon";
-  "include_like  _l_ loose= _r*_ ";
-  "integer";
-  "new id        ()";
-  "new nmspc     ()";
+  "coerce           id ()";
+  "nmspc            _l_ :: id _r?_ _l_ () _r?_";
+  "id ::            id ()";
+  "id () ?          _l_ no_ternary _r+_ : no_semicolon";
+  "id () .          sqs";
+  "id ()            ";
+  "include_like     _l_ loose= _r*_ ";
+  "integer          ";
+  "new id           ()";
+  "new nmspc        ()";
+  "sqs .            variable . sqs";
   "sqs";
-  "variable =    sqs";
-  "variable ->   id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
-  "variable +    _l_ loose= _r*_ ";
-  "@             id ()";
+  "variable .       sqs";
+  "variable =       sqs";
+  "variable ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
+  "variable +       _l_ loose= _r*_ ";
+  "variable";
+  "@                id ()";
 ];;
 
 

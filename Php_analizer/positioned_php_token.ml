@@ -12,6 +12,8 @@ let unveil (PPL(x,y))=(x,y);;
 let fst (PPL(x,y))=x;;
 let snd (PPL(x,y))=y;;
 
+let file (PPL(_,(y1,_)))=y1.Lexing.pos_fname;;
+
 let print (PPL(x,y))=
   let s=Php_token.content x in
   if String.length(s)>50
