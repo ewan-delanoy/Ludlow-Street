@@ -109,11 +109,14 @@ let add_composite_to_list lbuf (b,c)=
 
 let semicolon=Php_token.of_string ";";;
 
+let insert_semicolon lbuf=
+    let start_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in
+    let end_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in
+    list_accu:=push lbuf (semicolon,start_a,end_a) (!list_accu);;
+
 let insert_semicolon_if_needed lbuf=
     if (!preceding_lexeme)<>(Some semicolon)
-    then let start_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in
-         let end_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in
-         list_accu:=push lbuf (semicolon,start_a,end_a) (!list_accu);;
+    then insert_semicolon lbuf;;
     
 let add_to_string c=(string_accu:=(!string_accu)^(String.make 1 c));;
 let add_to_doc_ident c=(doc_ident_accu:=(!doc_ident_accu)^(String.make 1 c))  ;;
@@ -161,7 +164,8 @@ let finish_doc lbuf=
       let _=(string_accu:=String.sub (!string_accu) 0 new_length) in
       let tok=adhoc_doc_string (!current_doctype) (!string_accu) in
       string_accu:="";
-      add_long_one_to_list lbuf tok;;
+      add_long_one_to_list lbuf tok;
+      insert_semicolon lbuf;;
       
 
 
