@@ -94,6 +94,11 @@ let add_long_one_to_list lbuf a=
     (list_accu:=push lbuf (a,start_a,end_a) (!list_accu);
      preceding_lexeme:=Some(a));;
 
+let add_long_doc_to_list lbuf a=
+    let start_a=translated_lexing (!faraway_beginning) 1
+    and end_a=translated_lexing (Lexing.lexeme_end_p lbuf) (-1) in
+    (list_accu:=push lbuf (a,start_a,end_a) (!list_accu);
+     preceding_lexeme:=Some(a));;
 
 
 let add_composite_to_list lbuf (b,c)=
@@ -164,7 +169,7 @@ let finish_doc lbuf=
       let _=(string_accu:=String.sub (!string_accu) 0 new_length) in
       let tok=adhoc_doc_string (!current_doctype) (!string_accu) in
       string_accu:="";
-      add_long_one_to_list lbuf tok;
+      add_long_doc_to_list lbuf tok;
       insert_semicolon lbuf;;
       
 
@@ -199,12 +204,12 @@ rule outside_php = parse
   and inside_php=parse
   | " ?>"  {
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
-            insert_semicolon_if_needed lexbuf;
+            (* insert_semicolon_if_needed lexbuf; *)
             outside_php lexbuf;}
   | "\n?>" {
             
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
-            insert_semicolon_if_needed lexbuf;
+            (* insert_semicolon_if_needed lexbuf; *)
             Lexing.new_line lexbuf;
             outside_php lexbuf;
             }
