@@ -107,6 +107,7 @@ let unfinished_star rcgzr=
    (f: Php_recognizer.t);;  
    
    
+let plus rcgzr=chain [rcgzr;star rcgzr];;   
 
 
 let optional rcgzr=
