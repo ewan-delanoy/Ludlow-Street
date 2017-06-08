@@ -345,6 +345,13 @@ add_data
 	helper_for_echo
 	;;
 
+add_data 
+	"echo2"
+	"echo variable"
+	"ext"
+	helper_for_echo
+	;;
+	
 let helper_for_exit l1 cr=Exit(cr);;
 
 add_data 
