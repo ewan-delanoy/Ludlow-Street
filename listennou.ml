@@ -143,7 +143,61 @@ let constant_slices f l=
   tempf ([],f a0,[a0],l0);;
    
 
+let glued_slices c l=
+  if l=[] then [] else
+  let rec tempf=(fun 
+    (graet,pure_glue,slice,slice_element,da_ober)->
+    match da_ober with
+    []->( 
+          if pure_glue=[]
+          then (
+                 if slice=[]
+                 then List.rev graet
+                 else List.rev((List.rev slice)::graet)
+               )  
+          else List.rev([pure_glue]::graet)
+        )  
+    |a::peurrest->
+        if a=c
+        then (
+              if pure_glue=[]
+              then (
+                    if slice_element<>[]
+                    then tempf(graet,[c],(List.rev slice_element)::slice,[],peurrest)
+                    else tempf(graet,[c],slice,slice_element,peurrest)
+                   )
+              else if pure_glue=[c]
+                   then (
+                          if slice=[]
+                          then tempf(graet,[c;c],[],[],peurrest)
+                          else tempf((List.rev slice)::graet,[c;c],[],[],peurrest)
+                        )  
+                   else tempf(graet,c::pure_glue,[],[],peurrest)
+             )
+        else ( 
+               if pure_glue=[]
+               then tempf(graet,[],slice,a::slice_element,peurrest)
+               else (
+                     if pure_glue=[c]
+                     then (
+                           if graet=[]
+                           then tempf([[[c]]],[],[],[a],peurrest)
+                           else tempf(graet,[],slice,[a],peurrest)
+                           )
+                     else tempf([pure_glue]::graet,[],[],[a],peurrest)
+                    )
+             ) 
+  ) in   
+  tempf ([],[],[],[],l);;
+
 let hi=List.length;;
 let rev=List.rev;;
 
+(*
+glued_slices 0 [1;2;3;0;4;5;0;6;7;8;0;0;0;9;10;0;11;0;12;13;0;0];;
+glued_slices 0 [0;1;2;3;0;4;5;0;6;7;8;0;0;0;9;10;0;11;0;12;13;0;0];;
+glued_slices 0 [0;0;1;2;3;0;4;5;0;6;7;8;0;0;0;9;10;0;11;0;12;13;0;0];;
 
+
+
+*)
