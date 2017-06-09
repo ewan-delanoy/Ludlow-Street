@@ -12,6 +12,17 @@ type t={
    filename   :string;  
 };;
 
+let create_from_webhost_local_remote_file 
+  (p,w,l,r,f)=
+  {
+   port    =p;
+   webhost =w;
+   local_root=l;
+   remote_root=r;
+   filename=f;  
+};;
+  
+
 let execute x=
   let cmd1=(
    if not(String.contains x.filename '/')
