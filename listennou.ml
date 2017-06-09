@@ -127,7 +127,20 @@ let rev_map f l=
    ) in
    tempf([],l);;
    
-   
+let constant_slices f l=
+  if l=[] then [] else
+  let (a0,l0)=(List.hd l,List.tl l) in
+  let rec tempf=(fun 
+    (graet,current_val,slice,da_ober)->
+    match da_ober with
+    []->List.rev((List.rev slice)::graet)
+    |a::peurrest->
+        let va=f(a) in
+        if va=current_val
+        then tempf(graet,current_val,slice,peurrest)
+        else tempf((List.rev slice)::graet,va,[a],peurrest) 
+  ) in   
+  tempf ([],f a0,[a0],l0);;
    
 
 let hi=List.length;;
