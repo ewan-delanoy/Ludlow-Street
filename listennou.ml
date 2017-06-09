@@ -137,7 +137,7 @@ let constant_slices f l=
     |a::peurrest->
         let va=f(a) in
         if va=current_val
-        then tempf(graet,current_val,slice,peurrest)
+        then tempf(graet,current_val,a::slice,peurrest)
         else tempf((List.rev slice)::graet,va,[a],peurrest) 
   ) in   
   tempf ([],f a0,[a0],l0);;
