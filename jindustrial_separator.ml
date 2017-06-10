@@ -14,5 +14,7 @@ let slow_copy_task1=key^"001";;
 let slow_copy_task2=key^"002";;
 let half_dressed_module=key^"003";;
 let mlx_ended_absolute_path=key^"004";;
+let ocaml_target1=key^"005";;
+let ocaml_target2=key^"006";;
 
   
