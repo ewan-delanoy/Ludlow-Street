@@ -99,11 +99,7 @@ let debug_image f l=
    ) in
    Option.unpack (Option.find_it mf (Ennig.index_everything l));;
 
-let ea opt1 opt2=
-   if (opt1=None) then opt2=None else
-   let (_,y1,z1)=Option.unpack opt1
-   and (_,y2,z2)=Option.unpack opt2 in
-   (y1,z1)=(y2,z2);;
+let ea=Termite.eat;;
    
 let scp t s=Termite.parse (Termite.of_string t)
 (Php_lexer.parse_string s);;   
