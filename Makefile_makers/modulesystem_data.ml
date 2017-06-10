@@ -597,8 +597,8 @@ let directories_from_list l=
   Ordered.forget_order temp3;;
 
   
-let industrial_separator1=Jindustrial_separator.modulesystem_data1;;  
-let industrial_separator2=Jindustrial_separator.modulesystem_data2;;    
+let industrial_separator1=Industrial_separator.modulesystem_data1;;  
+let industrial_separator2=Industrial_separator.modulesystem_data2;;    
 
   
   

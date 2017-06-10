@@ -14,8 +14,8 @@ type t={
 };;
 
 
-let industrial_separator1=Jindustrial_separator.slow_copy_task1;;
-let industrial_separator2=Jindustrial_separator.slow_copy_task2;;    
+let industrial_separator1=Industrial_separator.slow_copy_task1;;
+let industrial_separator2=Industrial_separator.slow_copy_task2;;    
 
   
   

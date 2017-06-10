@@ -192,8 +192,8 @@ let rename_endsubdirectory (old_subdir,new_subdirname) x=
   
 
   
-let industrial_separator1=Jindustrial_separator.ocaml_target1;;  
-let industrial_separator2=Jindustrial_separator.ocaml_target2;;    
+let industrial_separator1=Industrial_separator.ocaml_target1;;  
+let industrial_separator2=Industrial_separator.ocaml_target2;;    
 
 
 let prepare_archive=function

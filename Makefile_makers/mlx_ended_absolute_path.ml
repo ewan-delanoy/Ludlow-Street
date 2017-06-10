@@ -124,7 +124,7 @@ let ocaml_name w=
   (Strung.enclose s)^
   ")("^(Directory_name.connectable_to_subpath dir)^")";;    
 
-let industrial_separator=Jindustrial_separator.mlx_ended_absolute_path;;  
+let industrial_separator=Industrial_separator.mlx_ended_absolute_path;;  
  
 
 

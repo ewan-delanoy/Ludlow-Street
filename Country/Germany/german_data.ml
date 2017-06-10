@@ -155,7 +155,7 @@ let outdated_interesting_modules mdata=
     ) Interesting_modules.list;;
   
 
-let industrial_separator=Jindustrial_separator.german_data;;    
+let industrial_separator=Industrial_separator.german_data;;    
 
 
 let archive mdata=
