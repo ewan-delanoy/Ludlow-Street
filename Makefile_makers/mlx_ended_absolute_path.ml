@@ -124,7 +124,7 @@ let ocaml_name w=
   (Strung.enclose s)^
   ")("^(Directory_name.connectable_to_subpath dir)^")";;    
 
-let industrial_separator1=Industrial_separator.new_separator ();;  
+let industrial_separator=Jindustrial_separator.mlx_ended_absolute_path;;  
  
 
 
@@ -134,11 +134,11 @@ let prepare_archive (MLX(edg,s,dir))=
   [shortened_s_edg;s;Directory_name.connectable_to_subpath dir];;
 
   
-let archive x=String.concat industrial_separator1 (prepare_archive x);;
+let archive x=String.concat industrial_separator (prepare_archive x);;
  
 
 let unarchive s=
-   let l1=Str.split (Str.regexp_string industrial_separator1) s in
+   let l1=Str.split (Str.regexp_string industrial_separator) s in
    let edg=List.hd l1 
    and s=List.nth l1 1 
    and dir=Directory_name.of_string(List.nth l1 2) in
