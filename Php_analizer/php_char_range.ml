@@ -29,14 +29,3 @@ let select_head l=
    then dummy_lexing
    else List.hd(l);;
 
-(*
-let print (CR(a,b))=
-  let s1=string_of_int(a.Lexing.pos_cnum)
-  and s2=string_of_int(b.Lexing.pos_cnum) in
-  "char_range("^s1^","^s2^")";;
-
-let print_out (dummy:Format.formatter) x=
-   Format.open_box 0;
-   Format.print_string(print x);
-   Format.close_box();;
- *)     
