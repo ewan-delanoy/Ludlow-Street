@@ -42,11 +42,19 @@ let unarchive s=
 };;
 
 
+let watcher_file kn=
+   if not(String.contains kn '/')
+   then "ok_for_"^kn
+   else let (a,b)=Father_and_son.father_and_son kn '/' in
+        a^"/ok_for_"^b;;
+
+
 let initialize_from_file ap=unarchive(Io.read_whole_file ap);;
 
 let initialize_from_data
   (p,w,l,r,dir,kn)=
   let _=Sys.command("touch "^kn) in
+  let _=Sys.command("touch "^(watcher_file kn)) in
   let temp1=More_unix.complete_ls_with_nondirectories_only dir in
   let d=String.length(l) in
   let temp2=Image.image (fun ap->
@@ -64,6 +72,9 @@ let initialize_from_data
 let save x=
    let ap=Absolute_path.of_string(x.keeper_name) in
    Io.erase_file_and_fill_it_with_string ap (archive x);;
+   
+let ask_permission_to_execute x=
+   Sys.file_exists(watcher_file(x.keeper_name));;   
 
 let execute_one_step x=
    if x.filenames=[] then 0 else
@@ -80,15 +91,19 @@ let execute_one_step x=
 let execute_all_steps x=
    if x.filenames=[] then () else
    let sn=string_of_int(List.length(x.filenames)) in
-   let counter=ref(1) in
-   while x.filenames<>[]
+   let counter=ref(1) 
+   and watcher=ref(ask_permission_to_execute x) in
+   while (!watcher)
    do
    let i=execute_one_step x in
+   let perm=ask_permission_to_execute x  in
    let message_end=(if i=0 then "succeeded" else "failed") in
-   let message="Step "^(string_of_int(!counter))^" of "^sn^" "^message_end in
+   let message1="Step "^(string_of_int(!counter))^" of "^sn^" "^message_end in
+   let message=(if perm then message1 else "Computation stopped.") in
    let _=(if i=0 then counter:=(!counter)+1) in
    print_string message;
    flush stdout;
+   watcher:=(x.filenames<>[])&&perm;
    done;;  
    
 (*
