@@ -67,7 +67,6 @@
 #load"cull_string.cmo";;
 #load"decimal_number.cmo";;
 #load"parenthesed_block.cmo";;
-#load"industrial_separator.cmo";;
 #load"subdirectory.cmo";;
 #load"strung.cmo";;
 #load"strict_or_loose.cmo";;
@@ -77,6 +76,7 @@
 #load"chronometer.cmo";;
 #load"explicit.cmo";;
 #load"more_unix.cmo";;
+#load"jindustrial_separator.cmo";;
 #load"io.cmo";;
 #load"slow_copy_task.cmo";;
 #load"relation.cmo";;
