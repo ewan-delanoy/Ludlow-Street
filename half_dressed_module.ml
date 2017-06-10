@@ -100,7 +100,7 @@ let rename_endsubdirectory (old_subdir,new_subdirname) x=
     }  ;;    
    
 
-let industrial_separator=Industrial_separator.new_separator ();;  
+let industrial_separator=Jindustrial_separator.half_dressed_module;;  
 
 let archive x=
    String.concat industrial_separator 
