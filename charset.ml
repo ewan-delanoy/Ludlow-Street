@@ -35,6 +35,12 @@ let alphanumeric_characters =
   [
    '.';'\''
   ];;    
+
+let unix_filename_admissible_characters =
+  strictly_alphanumeric_characters @
+  [
+   '.';
+  ];;        
     
  let look_for_capitalized_identifiers s=
    let n=String.length s in
@@ -67,7 +73,10 @@ let string_is_alphanumeric s=
      character_is_alphanumeric(String.get s j)
    ) (Ennig.ennig 0 (String.length(s)-1));;  
   
-
+let is_unix_filename_admissible s=
+   List.for_all (fun j->
+     List.mem (String.get s j) unix_filename_admissible_characters
+   ) (Ennig.ennig 0 (String.length(s)-1));;  
   
 let starry_from l s i=
    let n=String.length s in
