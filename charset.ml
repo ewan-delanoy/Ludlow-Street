@@ -39,7 +39,7 @@ let alphanumeric_characters =
 let unix_filename_admissible_characters =
   strictly_alphanumeric_characters @
   [
-   '.';'/';
+   '.';'/';'!';
   ];;        
     
  let look_for_capitalized_identifiers s=
@@ -79,22 +79,35 @@ let is_unix_filename_admissible s=
    ) (Ennig.ennig 0 (String.length(s)-1));;  
 
 exception Unix_rewrite_exn of char;;
+
+let list_for_unix_rewriting=
+   [
+      ' ',"_";
+      '-',"_";
+      '\'',"_single_quote_";
+      '"',"_single_quote_";
+      '&',"_and_";
+      '(',"_left_parenthesis_";
+      ')',"_right_parenthesis_";
+      '?',"_question_mark_";
+      '|',"_vertical_bar_";
+      '<',"_lower_than_";
+      '>',"_greater_than_";
+      '=',"_equals_";
+    ];;
   
 let unix_rewrite_char c=
     if List.mem c unix_filename_admissible_characters
-    then c
+    then String.make 1 c
     else
     List.assoc c
-    [
-      ' ','_';
-      '-','_';
-    ];;
+    list_for_unix_rewriting;;
   
 exception Unix_unknown of char*string;;  
   
 let make_unix_compliant s=
    try String.concat "" (Image.image (fun j->
-     String.make 1 (unix_rewrite_char(String.get s j))
+     unix_rewrite_char(String.get s j)
    ) (Ennig.ennig 0 (String.length(s)-1))) with
    Unix_rewrite_exn(c)->raise(Unix_unknown(c,s));;  
   
