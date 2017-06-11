@@ -87,6 +87,7 @@ let unix_rewrite_char c=
     List.assoc c
     [
       ' ','_';
+      '-','_';
     ];;
   
 exception Unix_unknown of char*string;;  
