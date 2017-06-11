@@ -94,6 +94,8 @@ let list_for_unix_rewriting=
       '<',"_lower_than_";
       '>',"_greater_than_";
       '=',"_equals_";
+      ',',"_comma_";
+      ';',"_semicolon_";
     ];;
   
 let unix_rewrite_char c=
