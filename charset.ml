@@ -77,6 +77,26 @@ let is_unix_filename_admissible s=
    List.for_all (fun j->
      List.mem (String.get s j) unix_filename_admissible_characters
    ) (Ennig.ennig 0 (String.length(s)-1));;  
+
+exception Unix_rewrite_exn of char;;
+  
+let unix_rewrite_char c=
+    if List.mem c unix_filename_admissible_characters
+    then c
+    else
+    List.assoc c
+    [
+      ' ','_';
+    ];;
+  
+exception Unix_unknown of char*string;;  
+  
+let make_unix_compliant s=
+   try Image.image (fun j->
+     String.make 1 (unix_rewrite_char(String.get s j))
+   ) (Ennig.ennig 0 (String.length(s)-1)) with
+   Unix_rewrite_exn(c)->raise(Unix_unknown(c,s));;  
+  
   
 let starry_from l s i=
    let n=String.length s in
