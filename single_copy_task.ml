@@ -33,10 +33,10 @@ let execute x=
   ) in
   let i1=Sys.command cmd1  in
   if i1<>0 then 1 else
-  let cmd2="scp -P "^(string_of_int x.port)^" "^
-  (x.local_root)^(x.filename)^" "^
+  let cmd2="scp -P "^(string_of_int x.port)^" \\\""^
+  (x.local_root)^(x.filename)^"\\\""^
   (x.webhost)^":"^
-  (x.remote_root)^(x.filename) in
+  "\\\"^(x.remote_root)^(x.filename)^"\\\"" in
   let i2=Sys.command cmd2  in
   if i2<>0 then 2 else
   0;;
