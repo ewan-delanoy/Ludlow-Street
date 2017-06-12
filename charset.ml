@@ -39,7 +39,7 @@ let alphanumeric_characters =
 let unix_filename_admissible_characters =
   strictly_alphanumeric_characters @
   [
-   '.';'/';'!';
+   '.';'/';'!';'~';
   ];;        
     
  let look_for_capitalized_identifiers s=
