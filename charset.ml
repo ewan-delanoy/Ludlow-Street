@@ -78,41 +78,45 @@ let is_unix_filename_admissible s=
      List.mem (String.get s j) unix_filename_admissible_characters
    ) (Ennig.ennig 0 (String.length(s)-1));;  
 
-exception Unix_rewrite_exn of char;;
+exception Unix_rewrite_exn of string;;
+
+let list_for_unix_usual=
+   Image.image (fun c->let s=String.make 1 c in (s,s) ) 
+  unix_filename_admissible_characters;;
 
 let list_for_unix_rewriting=
    [
-      ' ',"_";
-      '-',"_";
-      '\'',"_single_quote_";
-      '"',"_single_quote_";
-      '&',"_and_";
-      '(',"_left_parenthesis_";
-      ')',"_right_parenthesis_";
-      '?',"_question_mark_";
-      '|',"_vertical_bar_";
-      '<',"_lower_than_";
-      '>',"_greater_than_";
-      '=',"_equals_";
-      ',',"_comma_";
-      ';',"_semicolon_";
+      " " ,"_";
+      "-" ,"_";
+      "'" ,"_single_quote_";
+      "\"","_single_quote_";
+      "&" ,"_and_";
+      "(" ,"_left_parenthesis_";
+      ")" ,"_right_parenthesis_";
+      "?" ,"_question_mark_";
+      "|" ,"_vertical_bar_";
+      "<" ,"_lower_than_";
+      ">" ,"_greater_than_";
+      "=" ,"_equals_";
+      "," ,"_comma_";
+      ";" ,"_semicolon_";
     ];;
   
-let unix_rewrite_char c=
-    if List.mem c unix_filename_admissible_characters
-    then String.make 1 c
-    else
-    List.assoc c
-    list_for_unix_rewriting;;
+let unix_rewrite_char t=List.assoc t
+  ((list_for_unix_usual)@(list_for_unix_rewriting));;
   
-exception Unix_unknown of char*string;;  
+exception Unix_unknown of string;;  
   
 let make_unix_compliant s=
-   try String.concat "" (Image.image (fun j->
-     unix_rewrite_char(String.get s j)
-   ) (Ennig.ennig 0 (String.length(s)-1))) with
-   Unix_rewrite_exn(c)->raise(Unix_unknown(c,s));;  
+   try String.concat "" (Image.image unix_rewrite_char (Utf_eight.decompose s)) with
+   _->raise(Unix_unknown(s));;  
   
+let unix_unknowns_in_string s=
+  List.filter(
+    fun t->try(fun _->false)
+    (unix_rewrite_char t) with
+    _->true
+  )(Utf_eight.decompose s);;  
   
 let starry_from l s i=
    let n=String.length s in
