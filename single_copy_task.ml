@@ -29,14 +29,14 @@ let execute x=
    then ""
    else let base=Father_and_son.father x.filename '/' in
         "ssh -p "^(string_of_int x.port)^" "^(x.webhost)^
-        " \"mkdir -p "^(x.remote_root)^base^"\""
+        " \"mkdir -p "^(Charset.make_unix_compliant((x.remote_root)^base))^"\""
   ) in
   let i1=Sys.command cmd1  in
   if i1<>0 then 1 else
   let cmd2="scp -P "^(string_of_int x.port)^" \""^
   (x.local_root)^(x.filename)^"\" "^
   (x.webhost)^":"^
-  (x.remote_root)^(Charset.make_unix_compliant(x.filename)) in
+  (Charset.make_unix_compliant((x.remote_root)^x.filename)) in
   let i2=Sys.command cmd2  in
   if i2<>0 then 2 else
   0;;
