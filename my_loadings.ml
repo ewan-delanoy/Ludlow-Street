@@ -54,6 +54,7 @@
 #load"binary_constraint.cmo";;
 #load"van_der_waerden_basics.cmo";;
 #load"uutf.cmo";;
+#load"utf_eight.cmo";;
 #load"no_slashes.cmo";;
 #load"father_and_son.cmo";;
 #load"capitalize_directory_names.cmo";;
@@ -61,6 +62,7 @@
 #load"directory_name.cmo";;
 #load"absolute_path.cmo";;
 #load"unjoin_path.cmo";;
+#load"unix_compliant_filename.cmo";;
 #load"Test_directory6/Test_directory7/Test_directory2/please_test_me.cmo";;
 #load"substring.cmo";;
 #load"prepared.cmo";;
@@ -71,13 +73,14 @@
 #load"strung.cmo";;
 #load"strict_or_loose.cmo";;
 #load"stabilize.cmo";;
+#load"charset.cmo";;
 #load"single_copy_task.cmo";;
 #load"nonblank.cmo";;
 #load"chronometer.cmo";;
 #load"explicit.cmo";;
 #load"more_unix.cmo";;
-#load"jindustrial_separator.cmo";;
 #load"io.cmo";;
+#load"industrial_separator.cmo";;
 #load"slow_copy_task.cmo";;
 #load"relation.cmo";;
 #load"simplex_relation.cmo";;
@@ -109,7 +112,6 @@
 #load"Php_analizer/php_keyword.cmo";;
 #load"Generic_syntax_types/token_category.cmo";;
 #load"Php_analizer/php_constant_token.cmo";;
-#load"charset.cmo";;
 #load"Php_analizer/php_token.cmo";;
 #load"Php_analizer/positioned_php_token.cmo";;
 #load"Php_analizer/positioned_php_token_list.cmo";;
@@ -233,7 +235,6 @@
 #load"legendre_symbol.cmo";;
 #load"interpolation.cmo";;
 #load"inclusion.cmo";;
-#load"hexdump.cmo";;
 #load"GParser/gparser_for_c_language.cmo";;
 #load"endsubdirectory.cmo";;
 #load"Creators/small_int_based_rational.cmo";;
