@@ -50,7 +50,7 @@ let unix_filename_admissible_characters =
        if (j0>=0)
        then if List.mem c lowercase_identifier_elements
             then tempf(graet,j+1,j0)
-            else let s1=String.lowercase(String.sub s j0 (j-j0+1)) in
+            else let s1=String.lowercase_ascii(String.sub s j0 (j-j0+1)) in
                  if List.mem s1 graet
                  then tempf(graet,j+1,-1)
                  else tempf(s1::graet,j+1,-1)

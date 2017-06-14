@@ -36,14 +36,12 @@ let rename_string_or_value mdata old_name new_name=
     );;
 
 
-  
-
 let list_values_from_module_in_file module_name file=
    let s=Io.read_whole_file file in
    let temp1=Look_for_module_names.indices_in_file file in
    let temp2=List.filter (fun (t,(i,j))->
      (t=My_str_example.index_for_pointed_case)&&
-     (Cull_string.interval s i j=(String.capitalize module_name))
+     (Cull_string.interval s i j=(String.capitalize_ascii module_name))
    ) temp1 in
    let temp3=Image.image(fun (t,(i,j))->
     Charset.starry_from

@@ -26,7 +26,7 @@
      in   
      let new_name=(fun _->
         if usual_case
-        then (String.capitalize(first_letter))^(Cull_string.cobeginning 1 son_without_points)
+        then (String.capitalize_ascii(first_letter))^(Cull_string.cobeginning 1 son_without_points)
         else "M"^son_without_points
      )() in
      let new_content=
