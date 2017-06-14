@@ -87,7 +87,7 @@ let is_executable x=
   String.sub s (n-10) 10="executable";;
 
 let capitalized_module_name x=
-  (String.capitalize x.naked_module);;
+  (String.capitalize_ascii x.naked_module);;
   
 let rename_endsubdirectory (old_subdir,new_subdirname) x=
    {

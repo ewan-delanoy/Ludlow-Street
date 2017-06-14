@@ -19,7 +19,7 @@ let names_in_string z=
   let temp2=Image.image (fun (_,(a,b))->String.sub z (a-1) (b-a+1) ) temp1 in
   let temp3=Three_parts.generic temp2 in
   let temp4=List.filter (fun (x,y,z)->not(List.mem y x)) temp3 in
-  let temp5=Image.image (fun (x,y,z)->Naked_module.of_string (String.uncapitalize y)) temp4 in
+  let temp5=Image.image (fun (x,y,z)->Naked_module.of_string (String.uncapitalize_ascii  y)) temp4 in
   temp5;;
 
 let indices_in_file file=indices_in_string(Io.read_whole_file file);;  

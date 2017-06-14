@@ -34,7 +34,7 @@ let display x=
 module Private=struct
 
 let summarize_short_path s=
-   String.capitalize(Father_and_son.son (Father_and_son.invasive_father s '.') '/');;
+   String.capitalize_ascii(Father_and_son.son (Father_and_son.invasive_father s '.') '/');;
  
 let summarize_short_path_list l=
     let temp1=Image.image summarize_short_path l in
@@ -55,7 +55,7 @@ let explain x=
      "Modified",Private.summarize_short_path_list(x.recently_changed);
    ] in
    if temp1=[] then "" else
-   let temp2=(String.uncapitalize (List.hd temp1))::(List.tl temp1) in
+   let temp2=(String.uncapitalize_ascii (List.hd temp1))::(List.tl temp1) in
    String.concat " " temp2;; 
    
 let is_empty x=
