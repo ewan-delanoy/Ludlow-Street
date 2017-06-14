@@ -5,7 +5,9 @@
 *)
 
 
-
+let ocamlc="ocamlc  -bin-annot ";;
+let ocamlopt="ocamlopt  -bin-annot ";;
+let cee=" -c ";;
 
 exception Command_called_on_nodep of Mlx_ended_absolute_path.t;;
 exception Unregistered_cmo  of Half_dressed_module.t;;
@@ -70,10 +72,10 @@ let command_for_cmi dir mdata hm=
           else ".ml"
           ) in
           let s1=
-          "ocamlc "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -c "^s_hm^ending 
-          and long_s1="ocamlc "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -c "^s_fhm^ending in
+          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          cee^s_hm^ending 
+          and long_s1=ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          cee^s_fhm^ending in
           let full_mli=s_root^s_hm^".mli" in
           if (not(Modulesystem_data.mli_present dt))
              &&(Sys.file_exists(full_mli))
@@ -98,13 +100,13 @@ let command_for_cmo dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
-          "ocamlc "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_hm^".cmo"^
-          " -c "^s_hm^".ml" 
+          cee^s_hm^".ml" 
           and s_for_execution=
-          "ocamlc "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_fhm^".cmo"^
-          " -c "^s_fhm^".ml"in
+          cee^s_fhm^".ml"in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;
 
 let command_for_dcmo dir mdata hm=
@@ -115,13 +117,13 @@ let command_for_dcmo dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
-          "ocamlc -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_hm^".d.cmo"^
-          " -c "^s_hm^".ml" 
+          cee^s_hm^".ml" 
           and  s_for_execution=
-          "ocamlc -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_fhm^".d.cmo"^
-          " -c "^s_fhm^".ml" in
+          cee^s_fhm^".ml" in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;
 
           
@@ -133,13 +135,13 @@ let command_for_cma dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
-          "ocamlopt -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlopt^" -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_hm^".cma"^
-          " -c "^s_hm^".ml" 
+          cee^s_hm^".ml" 
           and s_for_execution=
-          "ocamlopt -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlopt^" -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_fhm^".cma"^
-          " -c "^s_fhm^".ml" in
+          cee^s_fhm^".ml" in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];;
  
 let command_for_cmx dir mdata hm=
@@ -150,13 +152,13 @@ let command_for_cmx dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let s_for_display=
-          "ocamlopt "^(Modulesystem_data.needed_dirs_and_libs true dt)^
+          ocamlopt^(Modulesystem_data.needed_dirs_and_libs true dt)^
           " -o "^s_hm^".cma"^
-          " -c "^s_hm^".ml" 
+          cee^s_hm^".ml" 
           and s_for_execution=
-          "ocamlopt "^(Modulesystem_data.needed_dirs_and_libs true dt)^
+          ocamlopt^(Modulesystem_data.needed_dirs_and_libs true dt)^
           " -o "^s_fhm^".cma"^
-          " -c "^s_fhm^".ml"in
+          cee^s_fhm^".ml"in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
  
 
@@ -171,11 +173,11 @@ let command_for_executable dir mdata hm=
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
           let s_for_display=
-          "ocamlopt "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlopt^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_hm^".caml_executable"^
           (String.concat " " temp2) 
           and s_for_execution=
-          "ocamlopt "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlopt^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_fhm^".caml_executable"^
           (String.concat " " long_temp2) in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
@@ -191,11 +193,11 @@ let command_for_debuggable dir mdata hm=
           let temp2=Option.filter_and_unpack dcmo_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
           let s_for_display=
-          "ocamlc -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_hm^".ocaml_debuggable "^
           (String.concat " " temp2) 
           and s_for_execution=
-          "ocamlc -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
           " -o "^s_fhm^".ocaml_debuggable "^
           (String.concat " " long_temp2) in
           [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
