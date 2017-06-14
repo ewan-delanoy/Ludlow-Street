@@ -16,7 +16,7 @@ let cdn s=
   let tempf=(fun j->
     let t=String.make 1 (String.get s j) in
     if List.mem j temp2
-    then String.capitalize t
+    then String.capitalize_ascii t
     else t
   ) in
   let temp3=Ennig.doyle tempf 0 (n-1) in
