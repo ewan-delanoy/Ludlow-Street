@@ -16,7 +16,7 @@ let fvd mdata s=
    let module_name=Cull_string.beginning (j1-1) s in
    let opt=Option.find_it (fun md->
    Half_dressed_module.naked_module(Modulesystem_data.name md)=
-   Naked_module.of_string(String.uncapitalize(module_name)) ) mdata in
+   Naked_module.of_string(String.uncapitalize_ascii(module_name)) ) mdata in
    if opt=None
    then None
    else
