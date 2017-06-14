@@ -211,7 +211,7 @@ let read_ocaml_files l_ap=
    let s_ap=Absolute_path.to_string ap
    and text=Io.read_whole_file ap in
    let unpointed=Father_and_son.father s_ap '.' in
-   let module_name=String.capitalize (Father_and_son.son unpointed '/') in
+   let module_name=String.capitalize_ascii (Father_and_son.son unpointed '/') in
    (module_name,Private.read2 text)   
    ) l_ap in 
    List.fold_left Private.from_level2_to_level3 [] temp1;;
