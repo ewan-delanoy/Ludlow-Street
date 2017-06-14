@@ -6,41 +6,33 @@ Used for debugging purposes only.
 
 *)
 
-let s1=Io.read_whole_file 
-(Absolute_path.of_string "outside_comments_and_strings.ml");;
-let s2=Cull_string.cobeginning 3301 s1;;
+let h1=
+{Positioned_php_token_list.contained=
+Image.image
+(fun (x,y)->Positioned_php_token.PPL(x,y))
+[(Php_token.Constant (Php_constant_token.Kwd Php_keyword.T_ECHO),                                                                                 ({Lexing.pos_fname =                                                                                                                        
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 7},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 10}));
+   (Php_token.Variable "$foo",
+    ({Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 12},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 15}));
+   (Php_token.External_echo "\n",
+    ({Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 16},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 19}))]
+};;
 
-let z1=Read_ocaml_files.Private.read1 s2;;
-let z2=Gparser_apply.apply Gparser_for_ocaml_language.main_prsr s2 1;;
-let z3=Gparser_apply.apply Gparser_for_ocaml_language.elt_prsr s2 1;;
-let z4=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_comment s2 1;;
+let h2=Option.find_really (fun x->x.Beaver_for_statement.name="echo2") 
+(!(Beaver_for_statement.current_data_list));;
 
-
-(*
-
-let amy1 ()=
- let _=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making
-"let peggy x=45;;" 1 in
-failwith("I wanted to fail");;
-
-amy1();;
-
-*)
-
-
-
-
-(*
-
-German_wrapper.initialize();;
-
-
-let act1=Compute_all_ocaml_items.caoi 
-(German_wrapper.data());;
-
-
-*)
-
-
-
-
+let h3=Beaver_for_statement.classical_parser h2 h1;;
