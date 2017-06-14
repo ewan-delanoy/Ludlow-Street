@@ -13,7 +13,7 @@ Note that the order in Ocaml_ending.correspondances is important
 exception No_suitable_location of Directory_name.t*(Subdirectory.t list)*string;;
 
 let find_file_location dir l_subdir old_x=
-  let x=String.uncapitalize old_x in
+  let x=String.uncapitalize_ascii old_x in
   let s_dir=Directory_name.connectable_to_subpath(dir) in
   let original_endings=Ocaml_ending.all_string_endings in
   let endings=(
