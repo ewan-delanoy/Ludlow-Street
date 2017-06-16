@@ -36,9 +36,6 @@ let create_file w=
     let _=Unix_command.uc ("rm -f "^g1) in
     of_string w;;
     
-let print_out (dummy:Format.formatter) ap=
-   let x=to_string ap in
-   Format.open_box 0;
-   Format.print_string(x);
-   Format.close_box();;
+let print_out (fmt:Format.formatter) ap=
+   Format.fprintf fmt "@[%s@]" (to_string ap);;
 
