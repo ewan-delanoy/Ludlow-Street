@@ -6,9 +6,11 @@ Wrapper on the Sys dot command function.
 
 *)
 
-let uc=Sys.command;;
-
 (*
+let uc=Sys.command;;
+*)
+
+
 exception Command_failed of string;;
 
 let accu=ref([]:string list);;
@@ -26,4 +28,4 @@ let uc s=
    then hardcore_uc s
    else Sys.command s;;
 
-*)
+
