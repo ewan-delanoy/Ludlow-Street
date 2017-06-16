@@ -56,7 +56,7 @@ let cf t1 t2=
    let ap1=fl t1 in
    let s_ap1=Absolute_path.to_string ap1 in
    let s_ap2=(Father_and_son.invasive_father s_ap1 '/')^"/"^t2^".ml" in
-   let _=Sys.command ("cp "^s_ap1^" "^s_ap2) in
+   let _=Unix_command.uc ("cp "^s_ap1^" "^s_ap2) in
    let ap2=Absolute_path.of_string s_ap2 in
    let s1=Cull_string.cobeginning (String.length s_cdir) s_ap1
    and s2=Cull_string.cobeginning (String.length s_cdir) s_ap2 in
@@ -64,12 +64,12 @@ let cf t1 t2=
    and txt2="#use\""^s2^"\""^double_semicolon in
    let _=Replace_inside.replace_inside_file 
     (txt1,txt2) ap2  in 
-   Sys.command ("open -a \"/Applications/Visual"^".app\" "^s_ap2);;   
+   Unix_command.uc ("open -a \"/Applications/Visual"^".app\" "^s_ap2);;   
 
 let vo s=
   let temp1=Find_suitable_ending.find_file_location cdir (current_directories()) s in
   let s1=Absolute_path.to_string temp1 in
-  Sys.command ("open -a \"/Applications/Visual"^".app\" "^s1);;
+  Unix_command.uc ("open -a \"/Applications/Visual"^".app\" "^s1);;
 
 
 let syz()=German_data.system_size (German_wrapper.data());;

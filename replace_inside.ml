@@ -85,7 +85,7 @@ let overwrite_and_dump_markers_inside_file
     let s2=overwrite_and_dump_markers_inside_string ovw_b (bm,em) s1 in
     Io.erase_file_and_fill_it_with_string fn s2;;      
 
-let show ()=Sys.command "ocamlc -i replace_inside.ml";;  
+let show ()=Unix_command.uc "ocamlc -i replace_inside.ml";;  
  
 (* 
 

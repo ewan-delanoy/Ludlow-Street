@@ -20,7 +20,7 @@ let display_circular_dependencies printer l cycles=
 
 let select_good_files s_main_dir=
    let ap1=Absolute_path.of_string s_main_dir in
-   let _=Sys.command ("touch "^s_main_dir^"/"^(Debugger_name.debugger_name)^".ml") in
+   let _=Unix_command.uc ("touch "^s_main_dir^"/"^(Debugger_name.debugger_name)^".ml") in
    let temp1=More_unix.complete_ls (Directory_name.of_string s_main_dir) in
    let s_ap1=Absolute_path.to_string ap1 in
    let n1=String.length(s_ap1) in

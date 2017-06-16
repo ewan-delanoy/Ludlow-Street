@@ -86,5 +86,5 @@ let begins_with x y=
         let k0=tempf(i) in
         String.sub s (k0-1) (i-k0);;
 
- let show ()=Sys.command "ocamlc -i substring.ml";;  
+ let show ()=Unix_command.uc "ocamlc -i substring.ml";;  
    

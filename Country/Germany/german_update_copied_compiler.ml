@@ -23,7 +23,7 @@ let prepare_special_file destdir filename=
 
     
 let ucc destdir=
-  let _=Image.image Sys.command (prepare destdir) in
+  let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
     ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml"]
    in 

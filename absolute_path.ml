@@ -30,10 +30,10 @@ let create_file w=
     let i=String.rindex w '/' in
     let filename=String.sub w (i+1) ((String.length w)-(i+1)) in
     let g1="jnoxgghg_"^filename in
-    let _=Sys.command ("rm -f "^g1) in
+    let _=Unix_command.uc ("rm -f "^g1) in
     let _=cr g1 in
-    let _=Sys.command ("mv "^g1^" "^w) in
-    let _=Sys.command ("rm -f "^g1) in
+    let _=Unix_command.uc ("mv "^g1^" "^w) in
+    let _=Unix_command.uc ("rm -f "^g1) in
     of_string w;;
     
 let print_out (dummy:Format.formatter) ap=

@@ -37,7 +37,7 @@ let force_join (D s) w=
    let t=s^"/"^w in
    if Sys.file_exists t
    then t
-   else let _=Sys.command("touch "^t) in
+   else let _=Unix_command.uc("touch "^t) in
         t;;
 
 exception Cut_error of t*string;;

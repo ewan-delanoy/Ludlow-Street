@@ -18,12 +18,12 @@ let big_int_active=ref(current_description=description_of_big_int_mode);;
 
 let small_int_mode ()=
    let cmd="cp Creators/small_int_based_rational.ml rational.ml" in
-   let _=Sys.command(cmd) in
+   let _=Unix_command.uc(cmd) in
    ();;
    
 let big_int_mode ()=
    let cmd="cp Creators/big_int_based_rational.ml rational.ml" in
-   let _=Sys.command(cmd) in
+   let _=Unix_command.uc(cmd) in
    ();;
    
    

@@ -53,8 +53,8 @@ let initialize_from_file ap=unarchive(Io.read_whole_file ap);;
 
 let initialize_from_data
   (p,w,l,r,dir,kn)=
-  let _=Sys.command("touch "^kn) in
-  let _=Sys.command("touch "^(watcher_file kn)) in
+  let _=Unix_command.uc("touch "^kn) in
+  let _=Unix_command.uc("touch "^(watcher_file kn)) in
   let temp1=More_unix.complete_ls_with_nondirectories_only dir in
   let d=String.length(l) in
   let temp2=Image.image (fun ap->

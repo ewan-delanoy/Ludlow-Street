@@ -20,7 +20,7 @@ let of_strings s ann fai=C (s,ann,fai);;
 let change_dir s_dir ann fai=ChangeDir(s_dir,ann,fai);;
 
 let do_and_notice_failure s=
- let i=Sys.command s in
+ let i=Unix_command.uc s in
  if i<>0
  then print_string("Failed during "^s);flush stdout;;
 
@@ -45,7 +45,7 @@ let cd (d:dir_string)=(try (fun _->0)(Sys.chdir(d)) with
  
 
 let execute_without_commenting=function
- (C (s,ann,fai))->Sys.command s
+ (C (s,ann,fai))->Unix_command.uc s
  |ChangeDir(dir_string,ann,fai)->cd dir_string;;
 
 let print_if_nonempty s=
@@ -56,7 +56,7 @@ let print_if_nonempty s=
 let minimal_announce_and_do=function
  (C(s,ann,fai))->
   let _=print_if_nonempty ann in
-  let bowl=((Sys.command s)=0) in
+  let bowl=((Unix_command.uc s)=0) in
   let _=(if not(bowl) then print_if_nonempty fai) in
   bowl
  |(ChangeDir(dir_string,ann,fai))->
@@ -68,7 +68,7 @@ let minimal_announce_and_do=function
 let maximal_announce_and_do=function
  (C(s,ann,fai))->
   let _=print_if_nonempty s in
-  ((Sys.command s)=0)
+  ((Unix_command.uc s)=0)
  |(ChangeDir(dir_string,ann,fai))->
   let _=print_if_nonempty ("cd "^dir_string) in
   ((cd dir_string)=0);;
