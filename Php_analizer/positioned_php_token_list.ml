@@ -41,7 +41,7 @@ let print x=
    ) x.contained in
   "\xe3\x80\x90  "^(String.concat " " temp1)^"  \xe3\x80\x91";;
 
-let print_out (dummy:Format.formatter) x=
+let print_out (fmt:Format.formatter) x=
    Format.fprintf fmt "@[%s@]" (print x);;
 
     
