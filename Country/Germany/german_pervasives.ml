@@ -64,7 +64,7 @@ let cf t1 t2=
    and txt2="#use\""^s2^"\""^double_semicolon in
    let _=Replace_inside.replace_inside_file 
     (txt1,txt2) ap2  in 
-   Sys.command ("open -a \"/Applications/Visual"^".app\"" "^s_ap2);;   
+   Sys.command ("open -a \"/Applications/Visual"^".app\" "^s_ap2);;   
 
 let tw s=
   let temp1=Find_suitable_ending.find_file_location cdir (current_directories()) s in
