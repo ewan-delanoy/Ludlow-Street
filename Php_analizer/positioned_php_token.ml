@@ -20,8 +20,7 @@ let print (PPL(x,y))=
   then "\xe2\x8c\x98...\xe2\x8c\x98 "
   else "\xe2\x8c\x98 "^s^"\xe2\x8c\x98 ";;
 
-let print_out (dummy:Format.formatter) x=
-   Format.open_box 0;
-   Format.print_string(print x);
-   Format.close_box();;
+let print_out (fmt:Format.formatter) x=
+   Format.fprintf fmt "@[%s@]" (print x);;
+
 
