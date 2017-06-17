@@ -21,7 +21,6 @@ let absolute_location_for_loadingsfile =joiner location_for_loadingsfile;;
 let absolute_location_for_pervasivesfile =joiner location_for_pervasivesfile;;
 let absolute_location_for_printersfile =joiner location_for_printersfile;;
  
-
 let save_makefile mdata=
   let s1="# This makefile was automatocally written by\n"^
   "# the write_makefile function in the ml_manager module. \n\n"^
