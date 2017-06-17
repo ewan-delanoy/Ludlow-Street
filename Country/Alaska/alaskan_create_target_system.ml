@@ -41,7 +41,7 @@ let select_good_files s_main_dir=
      ))
      &&
      (List.for_all (fun edg->not(Substring.ends_with s edg) ) 
-     ["neptu";
+     ["neptu.ml";
      "my_loadings.ml";
      "my_printers.ml";
      (*"debugger.ml";*)"my_pervasives.ml";
@@ -127,6 +127,7 @@ let from_prepared_list dir l=
 
 let usual_outsiders=ref
     [
+      "neptu.ml";
       "my_loadings.ml";
       "my_pervasives.ml";
       "my_printers.ml";
