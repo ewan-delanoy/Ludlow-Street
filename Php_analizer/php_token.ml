@@ -3,7 +3,6 @@
 #use"Php_analizer/php_token.ml";;
 
 *)
-
 type t=
      Constant of Php_constant_token.t
     |Variable of string 
