@@ -18,7 +18,8 @@ let loadings (dirs,tgts)=
   and part3="\n\n#load\"nums.cma\";"^";\n#load\"str.cma\";"^";\n#load\"unix.cma\";"^";\n\n\n" in
   let temp2=Option.filter_and_unpack (
     function (Ocaml_target.CMO(x))->
-      Some("#load\""^(Half_dressed_module.to_string x)^".cmo\";"^";") 
+      let s=Father_and_son.son (Half_dressed_module.to_string x) '/' in
+      Some("#load\""^s^".cmo\";"^";") 
     |_->None
   ) tgts in
   let temp3="\n\n\n"::(List.rev ("\n\n\n"::temp2)) in
