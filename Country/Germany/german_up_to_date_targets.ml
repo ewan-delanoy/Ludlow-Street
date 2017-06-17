@@ -13,7 +13,7 @@ let loadings (dirs,tgts)=
   let temp5=Image.image(
      fun sd->
      "#directory\""^s_root^(Subdirectory.connectable_to_subpath sd)^"\";"^";"
-  ) dirs in
+  ) ((Subdirectory.of_string "_build")::dirs) in
   let part2=String.concat "\n" temp5 
   and part3="\n\n#load\"nums.cma\";"^";\n#load\"str.cma\";"^";\n#load\"unix.cma\";"^";\n\n\n" in
   let temp2=Option.filter_and_unpack (
