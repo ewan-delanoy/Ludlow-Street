@@ -113,6 +113,22 @@ open German_pervasives;;
 
 if (German_wrapper.data()=[]) then German_wrapper.initialize();;
 
+let push ()=
+   let _=(Unix_command.hardcore_mode:=true) in
+   Explicit.image Sys.command
+["mv *.cm* _build"; "mv Country/Alaska/*.cm* _build";                             
+ "mv Country/Germany/*.cm* _build"; "mv Creators/*.cm* _build";                
+   "mv GParser/*.cm* _build"; "mv Generic_syntax_types/*.cm* _build";
+   "mv Global_variables/*.cm* _build"; "mv Makefile_makers/*.cm* _build";
+   "mv Ocaml_analysis/*.cm* _build"; "mv Optional/*.cm* _build";
+   "mv Ordered_Lists/*.cm* _build"; "mv Php_analizer/*.cm* _build";
+   "mv Php_analizer/Beavers/*.cm* _build";
+   "mv Php_analizer/Php_syntax_types/*.cm* _build";
+   "mv Preprinters/*.cm* _build";
+   "mv Test_directory6/Test_directory7/Test_directory2/*.cm* _build"];;
+
+
+   
 
 (* Module management code ends here *)
 
