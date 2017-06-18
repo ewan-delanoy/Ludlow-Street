@@ -1,11 +1,3 @@
-(*
-
-#use"debugger.ml";;
-Used for debugging purposes only.
-
-
-*)
-
 let h1=
 {Positioned_php_token_list.contained=
 Image.image
@@ -36,3 +28,5 @@ let h2=Option.find_really (fun x->x.Beaver_for_statement.name="echo2")
 (!(Beaver_for_statement.current_data_list));;
 
 let h3=Beaver_for_statement.classical_parser h2 h1;;
+
+
