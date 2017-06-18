@@ -14,8 +14,7 @@ let forget ap=
          (Replace_inside.replace_inside_string ("/","_dir_") subpath) in
    let _=Unix_command.uc ("mkdir -p "^s_dir^"Forgotten") in
    let _=Unix_command.uc ("touch "^s_dir^"Forgotten/"^new_subpath) in
-   let cmd="mv "^s_ap^" "^s_dir^"Forgotten/"^new_subpath in
-   let _=Shell_command.do_and_notice_failure cmd in 
+   let _=Unix_command.uc ("mv "^s_ap^" "^s_dir^"Forgotten/"^new_subpath) in
    subpath;;
 
 

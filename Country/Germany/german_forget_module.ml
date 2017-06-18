@@ -19,7 +19,7 @@ let on_targets (mdata,dirs,tgts) hm=
          let fn=(Directory_name.connectable_to_subpath(German_constant.root))^s_hm in
          let (answer,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
          let _=Image.image
-         (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg))
+         (fun edg->Unix_command.uc("rm -f "^fn^edg))
          [".cm*";".d.cm*";".caml_debuggable"] in
          let temp1=Image.image (fun t->
             Absolute_path.of_string(Directory_name.join (German_constant.root) t)

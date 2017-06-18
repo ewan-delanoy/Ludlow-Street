@@ -22,7 +22,7 @@ let on_targets triple ap=
     then let s_hm=Half_dressed_module.to_string hm in
          let fn=(Directory_name.connectable_to_subpath(root))^s_hm in
          let _=Image.image
-         (fun edg->Shell_command.do_and_notice_failure("rm -f "^fn^edg^"*"))
+         (fun edg->Unix_command.uc("rm -f "^fn^edg^"*"))
          [".cm";".d.cm";".caml_debuggable"] in
          German_unregister_mlx_file.on_targets (mdata,tgts) mlx
     else raise(FileWithDependencies(mlx,bel));;
