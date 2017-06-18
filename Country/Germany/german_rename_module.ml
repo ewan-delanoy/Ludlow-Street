@@ -50,9 +50,9 @@ let on_monitored_modules mdata old_name new_name=
      ] in
    
    let _=Image.image changer (temp3@temp4) in
-   let cmd2=Shell_command.usual ("rm -f "^(Half_dressed_module.to_string old_name)^".cm* ") in
-   let cmd=Shell_command.take_care_of_root_directory German_constant.root [cmd2] in
-   let _=Image.image Shell_command.announce_and_do cmd in
+   let s_root=Directory_name.connectable_to_subpath(German_constant.root) in     
+   let _=Unix_command.uc
+       ("rm -f "^s_root^"_build/"^(Half_dressed_module.to_string old_name)^".cm* ") in
    let new_list=Image.image
    (Abstract_renamer.unabstractify new_hm) interm_list in
    (new_list,(old_files,new_files));;
