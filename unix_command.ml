@@ -29,7 +29,7 @@ let mild_uc s=
    ) in
    i;;
 
-let hardcore_mode=ref(true);;
+let hardcore_mode=ref(false);;
 
 let uc s=
    if (!hardcore_mode)

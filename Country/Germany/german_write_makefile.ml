@@ -9,7 +9,8 @@ e.g. manual rewriting of a ml coming from a mll, etc.
 *)
 
 let slice_targets tgts=
-   let temp1=Sliced_string.make_aggregates_if_possible " " 
+   let temp1=Sliced_string.make_aggregates_if_possible 
+                    (Separator.of_string " ") 
                     (Image.image Ocaml_target.to_string tgts) in
    Sliced_string.to_string_list temp1;;
 

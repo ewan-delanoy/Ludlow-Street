@@ -40,10 +40,8 @@ let print (Sl l)=String.concat "\n" l;;
   of_string_list temp3;;
  
 let max_line_length_ref=ref(70);;
-
-type inner_separator=string;;
   
- let make_aggregates_if_possible (sep:inner_separator)=function
+ let make_aggregates_if_possible sep=function
  []->Sl[]
  |a::b->
   let rec tempf=(function
@@ -57,5 +55,5 @@ type inner_separator=string;;
 		 else tempf(accu,y::breman,pouez_nevez,peurrest)
    ) in
    let temp1=tempf([],[a],String.length a,b) in
-   let string_sep=(sep:string) in
+   let string_sep=Separator.to_string(sep) in
    Sl(Image.image (String.concat string_sep) temp1);;
