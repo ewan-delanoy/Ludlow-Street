@@ -16,9 +16,9 @@ let in_unix_world (old_subdir,new_esdname)=
    else 
    let container=Father_and_son.father  new_name '/' in
    let _=
-   Shell_command.do_and_notice_failure 
+   Unix_command.uc 
      ("mkdir -p "^container) in
-   Shell_command.do_and_notice_failure 
+   Unix_command.uc 
      ("mv "^s_root^s_old_subdir^" "^new_name) ;;
 
 let re (old_subdir,new_esdname) s=

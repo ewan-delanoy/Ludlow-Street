@@ -14,7 +14,7 @@ let rd dir mdata=
    sroot^stars^"*.d.cm*"
    ) in
    let temp1=String.concat " " (Ennig.doyle tempf 0 d) in
-   Shell_command.do_and_notice_failure("rm -f "^temp1);;
+   Unix_command.uc("rm -f "^temp1);;
    
   
 
