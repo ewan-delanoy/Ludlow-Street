@@ -48,13 +48,13 @@ let backup_with_message diff msg=
   let destination_dir=German_constant.dir_for_backup  
   and (nongit_cmds,git_cmds)=commands_for_backup diff in
   let s_destination=Directory_name.connectable_to_subpath destination_dir in
-  let _=Image.image Shell_command.do_and_notice_failure nongit_cmds in
+  let _=Image.image Unix_command.uc nongit_cmds in
   let _=(
   if (!github_after_backup)
   then let cwd=Sys.getcwd() in
        let _=Sys.chdir s_destination in
-       let _=Image.image Shell_command.do_and_notice_failure git_cmds in
-       let _=Image.image Shell_command.do_and_notice_failure
+       let _=Image.image Unix_command.uc git_cmds in
+       let _=Image.image Unix_command.uc
        [
          "git commit -m \""^msg^"\"";
          "git push"
