@@ -6,7 +6,7 @@
 
 
 
-let cmd_for_tgt=Alaskan_command_for_ocaml_target.command_for_ocaml_target_in_dir;;
+let cmd_for_tgt=Alaskan_command_for_ocaml_target.command_for_ocaml_target;;
 
 let ingr_for_tgt =Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
 let ingr_for_top =Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel;;
@@ -27,8 +27,8 @@ let unit_make dir (bowl,(mdata,tgts)) tgt=
   if is_up_to_date dir tgts tgt
   then (true,(mdata,tgts))
   else 
-  let temp1=Image.image Shell_command.announce_and_do (cmd_for_tgt dir mdata tgt) in 
-  if List.for_all (fun bowl->bowl) temp1
+  let temp1=Image.image Unix_command.uc (cmd_for_tgt dir mdata tgt) in 
+  if List.for_all (fun i->i=0) temp1
   then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt then None else (Some tgt)) in
        let tgts2=Option.add_perhaps opt_tgt tgts in
         match Ocaml_target.ml_from_lex_or_yacc_data tgt with

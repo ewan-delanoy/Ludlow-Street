@@ -41,40 +41,33 @@ let command_for_ml_from_mll dir hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
-          let s_for_display=
-          "ocamllex "^
-          " -o "^s_hm^".ml"^
-          	 " "^s_hm^".mll" 
-          and s_for_execution=
-          "ocamllex "^
-          " -o "^s_fhm^".ml"^
-          	 " "^s_fhm^".mll" in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
+          [
+            "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll";
+            "mv "^s_fhm^".ml "^s_root^"_build/"
+          ];;
  
 let command_for_ml_from_mly dir hm=
           let s_hm=Half_dressed_module.to_string hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
-          let s_for_display="ocamlyacc "^s_hm^".mly" 
-          and s_for_execution="ocamlyacc "^s_fhm^".mly" in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];;  
+          [
+            "ocamlyacc "^s_fhm^".mly";
+            "mv "^s_fhm^".ml "^s_root^"_build/"
+          ];;  
 
 let command_for_cmi dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmi(hm)) else 
           let dt=Option.unpack opt in
-          let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_hm=Half_dressed_module.to_string hm in
           let s_fhm=s_root^s_hm in
           let ending=(
           if Modulesystem_data.mli_present dt
           then ".mli"
           else ".ml"
           ) in
-          let s1=
-          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          cee^s_hm^ending 
-          and long_s1=ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
+          let central_cmd=ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
           cee^s_fhm^ending in
           let full_mli=s_root^s_hm^".mli" in
           if (not(Modulesystem_data.mli_present dt))
@@ -85,12 +78,16 @@ let command_for_cmi dir mdata hm=
                  exist. We temporarily rename it so that ocamlc will ignore it.
                 *)
                 let dummy_mli=s_root^"uvueaoqhkt.mli" in
-                let s2="mv "^full_mli^" "^dummy_mli
-                and s3="mv "^dummy_mli^" "^full_mli in
-                [Shell_command.usual s2;
-                 Shell_command.semi_usual (long_s1,s1);
-                 Shell_command.usual s3]
-          else   [Shell_command.semi_usual (long_s1,s1)];;
+                [
+                 "mv "^full_mli^" "^dummy_mli;
+                 central_cmd;
+                 "mv "^s_fhm^".cm* "^s_root^"_build/";
+                 "mv "^dummy_mli^" "^full_mli
+                ] 
+          else  [
+                   central_cmd;
+                   "mv "^s_fhm^".cm* "^s_root^"_build/"
+                 ];;
 
 let command_for_cmo dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
@@ -99,15 +96,11 @@ let command_for_cmo dir mdata hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
-          let s_for_display=
-          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_hm^".cmo"^
-          cee^s_hm^".ml" 
-          and s_for_execution=
-          ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_fhm^".cmo"^
-          cee^s_fhm^".ml"in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];;
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlc -bin-annot "^dirs_and_libs^" -o "^s_fhm^".cmo -c "^s_fhm^".ml";
+            "mv "^s_fhm^".cm* "^s_root^"_build/"
+          ];;
 
 let command_for_dcmo dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
@@ -116,17 +109,12 @@ let command_for_dcmo dir mdata hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
-          let s_for_display=
-          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_hm^".d.cmo"^
-          cee^s_hm^".ml" 
-          and  s_for_execution=
-          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_fhm^".d.cmo"^
-          cee^s_fhm^".ml" in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];;
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlc -bin-annot -g "^dirs_and_libs^" -o "^s_fhm^".d.cmo -c "^s_fhm^".ml";
+            "mv "^s_fhm^".d.cm* "^s_root^"_build/"
+          ];;
 
-          
 let command_for_cma dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cma(hm)) else 
@@ -134,16 +122,12 @@ let command_for_cma dir mdata hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
-          let s_for_display=
-          ocamlopt^" -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_hm^".cma"^
-          cee^s_hm^".ml" 
-          and s_for_execution=
-          ocamlopt^" -a "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_fhm^".cma"^
-          cee^s_fhm^".ml" in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];;
- 
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlopt -bin-annot -a "^dirs_and_libs^" -o "^s_fhm^".cma -c "^s_fhm^".ml";
+            "mv "^s_fhm^".cm* "^s_root^"_build/"
+          ];;
+          
 let command_for_cmx dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmx(hm)) else 
@@ -151,15 +135,12 @@ let command_for_cmx dir mdata hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
-          let s_for_display=
-          ocamlopt^(Modulesystem_data.needed_dirs_and_libs true dt)^
-          " -o "^s_hm^".cma"^
-          cee^s_hm^".ml" 
-          and s_for_execution=
-          ocamlopt^(Modulesystem_data.needed_dirs_and_libs true dt)^
-          " -o "^s_fhm^".cma"^
-          cee^s_fhm^".ml"in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
+            "mv "^s_fhm^".cm* "^s_root^"_build/"
+          ];;
+          
  
 
 let command_for_executable dir mdata hm=
@@ -172,16 +153,14 @@ let command_for_executable dir mdata hm=
           let temp1=ingr mdata (Ocaml_target.EXECUTABLE(hm)) in
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
-          let s_for_display=
-          ocamlopt^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_hm^".caml_executable"^
-          (String.concat " " temp2) 
-          and s_for_execution=
-          ocamlopt^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_fhm^".caml_executable"^
-          (String.concat " " long_temp2) in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
-  
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
+                (String.concat " " long_temp2);
+            "mv "^s_fhm^".cm* "^s_root^"_build/";
+            "mv "^s_fhm^".ocaml_executable "^s_root^"_build/"
+          ];;
+          
 let command_for_debuggable dir mdata hm=
           let opt=Alaskan_data.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_debuggable(hm)) else 
@@ -190,17 +169,15 @@ let command_for_debuggable dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.DEBUGGABLE(hm)) in
-          let temp2=Option.filter_and_unpack dcmo_manager temp1 in
+          let temp2=Option.filter_and_unpack cmx_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
-          let s_for_display=
-          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_hm^".ocaml_debuggable "^
-          (String.concat " " temp2) 
-          and s_for_execution=
-          ocamlc^" -g "^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          " -o "^s_fhm^".ocaml_debuggable "^
-          (String.concat " " long_temp2) in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];; 
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          [ 
+            "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
+                (String.concat " " long_temp2);
+            "mv "^s_fhm^".cm* "^s_root^"_build/";
+            "mv "^s_fhm^".ocaml_debuggable "^s_root^"_build/"
+          ];;          
   
 let command_for_toplevel dir mdata name l=
           let temp1=Image.image (fun hm->(hm,Alaskan_data.find_module_registration mdata hm)) l  in
@@ -210,14 +187,6 @@ let command_for_toplevel dir mdata name l=
                raise(Unregistered_modules_in_toplevel(name,temp3))
           else
           let l_dt=Image.image (fun (_,y)->Option.unpack y) temp1 in
-          let temp4=Image.image (fun fd->
-             let hm=Modulesystem_data.name fd in
-             let s_hm=(Half_dressed_module.to_string hm) in
-             if Modulesystem_data.ml_present fd 
-             then s_hm^".cmo"
-             else " "
-          ) l_dt in 
-          let s_lhm=String.concat " " temp4 in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let long_temp4=Image.image (fun fd->
              let hm=Modulesystem_data.name fd in
@@ -227,15 +196,11 @@ let command_for_toplevel dir mdata name l=
              else " "
           ) l_dt in 
           let long_s_lhm=String.concat " " long_temp4 in
-          let s_for_display=
-          "ocamlmktop "^(Modulesystem_data.needed_dirs_and_libs_for_several false l_dt)^
-          " -o "^name^" "^
-          "  "^s_lhm^" " 
-          and s_for_execution=
-          "ocamlmktop "^(Modulesystem_data.needed_dirs_and_libs_for_several false l_dt)^
-          " -o "^s_root^name^" "^
-          "  "^long_s_lhm^" " in
-          [Shell_command.semi_usual (s_for_execution,s_for_display)];;   
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs_for_several false l_dt in
+          [
+          "ocamlmktop "^dirs_and_libs^" -o "^s_root^name^" "^long_s_lhm^" ";
+          "mv "^s_root^name^" "^s_root^"_build/";
+          ];;   
  
 let command_for_ocaml_target dir mdata tgt=
    match tgt with
@@ -251,12 +216,5 @@ let command_for_ocaml_target dir mdata tgt=
  |Ocaml_target.DEBUGGABLE(hm)->command_for_debuggable dir mdata hm
  |Ocaml_target.TOPLEVEL(name,l)->command_for_toplevel dir mdata name l;;
    
-  
-  
-  
- let command_for_ocaml_target_in_dir dir mdata tgt=
-   Shell_command.take_care_of_root_directory dir
-     (command_for_ocaml_target dir mdata tgt);; 
-          
 
  

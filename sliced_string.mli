@@ -8,5 +8,5 @@ val itemize : ('a -> string) -> 'a list -> t
 
 val max_line_length_ref : int ref 
 type inner_separator = string
-val make_aggregates : inner_separator -> string list -> t
+val make_aggregates_if_possible : inner_separator -> string list -> t
 

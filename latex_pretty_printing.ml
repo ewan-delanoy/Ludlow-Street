@@ -62,7 +62,7 @@ let write_anti_inclusion l=
        |Str.Text(text)->tempf((breman^text)::graet,"",peurrest)
    ) in
    let temp2=tempf([],"",temp1) in
-   let temp3=Sliced_string.make_aggregates "" temp2 in
+   let temp3=Sliced_string.make_aggregates_if_possible "" temp2 in
    let temp4=Sliced_string.to_string_list temp3 in
    let temp5=String.concat "\\\\\n" temp4 in
    "\\begin{displaymath}\n"^
