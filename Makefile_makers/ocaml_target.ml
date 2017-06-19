@@ -101,7 +101,13 @@ let main_module tgt=try naive_main_module tgt with _->None;;
 
 let to_shortened_string =function
   NO_DEPENDENCIES(mlx)->
-       Father_and_son.son (Mlx_ended_absolute_path.to_string mlx) '/'
+       (*
+         we do not shorten those because the makefile will
+         see them as file targets, and will need to know
+         their precise location in order to know if they are
+         up-to-date or not.
+       *)
+       Mlx_ended_absolute_path.to_string mlx
  |ML_FROM_MLL(hm)->(Half_dressed_module.to_shortened_string hm)^".ml"
  |ML_FROM_MLY(hm)->(Half_dressed_module.to_shortened_string hm)^".ml" 
  |CMI(hm)->(Half_dressed_module.to_shortened_string hm)^".cmi"
