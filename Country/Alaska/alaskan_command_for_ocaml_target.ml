@@ -42,8 +42,7 @@ let command_for_ml_from_mll dir hm=
           let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           [
-            "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll";
-            "mv "^s_fhm^".ml "^s_root^"_build/"
+            "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll"
           ];;
  
 let command_for_ml_from_mly dir hm=
@@ -51,8 +50,7 @@ let command_for_ml_from_mly dir hm=
           let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           [
-            "ocamlyacc "^s_fhm^".mly";
-            "mv "^s_fhm^".ml "^s_root^"_build/"
+            "ocamlyacc "^s_fhm^".mly"
           ];;  
 
 let command_for_cmi dir mdata hm=
