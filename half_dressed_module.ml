@@ -36,7 +36,6 @@ let of_string_and_root old_s dir=
           naked_module     =Father_and_son.son s '/';
 	    };;  
    
-   
 let to_string x=
    let sub=x.subdirectory in
    if sub=""
