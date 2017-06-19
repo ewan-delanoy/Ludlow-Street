@@ -534,11 +534,19 @@ let fix_ancestors x anc=
 
 let needed_dirs_and_libs is_optimized dt=
    let extension=(if is_optimized then ".cmxa" else ".cma") in
-   let dirs=String.concat(" ")
-    (Image.image(fun y->let z=Subdirectory.connectable_to_subpath(y) in
+   let s_root=Directory_name.connectable_to_subpath(
+        Half_dressed_module.bundle_main_dir(name dt)
+   ) in
+   let dirs=
+   (*  
+     String.concat(" ")
+    (Image.image(fun y->let z=
+    Subdirectory.connectable_to_subpath(y) in
      if z="" then "" else "-I "^z )
     dt.needed_directories)
-	and libs=String.concat(" ")
+	 *)
+   "-I "^s_root^"_build"
+  and libs=String.concat(" ")
     (Image.image(fun z->Ocaml_library.file_for_library(z)^extension)
     dt.needed_libraries) in
     String.concat " " ["";dirs;libs;""];;
