@@ -5,6 +5,13 @@
 
 *)
 
+Unix_command.hardcore_mode:=true;;
+
+let dir=Directory_name.of_string(
+"/Users/ewandelanoy/Documents/OCaml/Idaho"
+);;
+
+German_update_copied_compiler.ucc dir;;
 
 
 (*
@@ -69,6 +76,7 @@ let z3=Explicit.image Sys.command
 
 
 *)
+
 
 (*
 let z3=String.concat " " (List.flatten z2);;
