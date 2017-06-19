@@ -17,12 +17,15 @@ let prepare destdir=
 let prepare_special_file destdir filename=
   let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
   Replace_inside.replace_inside_file
-  (Directory_name.connectable_to_subpath German_constant.root,Directory_name.connectable_to_subpath destdir)
+  (Directory_name.connectable_to_subpath German_constant.root,
+   Directory_name.connectable_to_subpath destdir)
   the_file;;
 
 
     
 let ucc destdir=
+  let s_dir=Directory_name.connectable_to_subpath destdir in 
+  let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
     ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml"]
