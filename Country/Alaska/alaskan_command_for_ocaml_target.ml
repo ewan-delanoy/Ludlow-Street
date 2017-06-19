@@ -42,7 +42,7 @@ let command_for_ml_from_mll dir hm=
           let s_root=Directory_name.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           [
-            "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll"
+            "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll";
           ];;
  
 let command_for_ml_from_mly dir hm=
@@ -65,8 +65,10 @@ let command_for_cmi dir mdata hm=
           then ".mli"
           else ".ml"
           ) in
-          let central_cmd=ocamlc^(Modulesystem_data.needed_dirs_and_libs false dt)^
-          cee^s_fhm^ending in
+          let central_cmd=
+            "ocamlc  -bin-annot "^
+            (Modulesystem_data.needed_dirs_and_libs false dt)^
+          " -c "^s_fhm^ending in
           let full_mli=s_root^s_hm^".mli" in
           if (not(Modulesystem_data.mli_present dt))
              &&(Sys.file_exists(full_mli))
@@ -190,7 +192,7 @@ let command_for_toplevel dir mdata name l=
              let hm=Modulesystem_data.name fd in
              let s_hm=(Half_dressed_module.to_string hm) in
              if Modulesystem_data.ml_present fd 
-             then s_root^s_hm^".cmo"
+             then s_root^"_build/"^s_hm^".cmo"
              else " "
           ) l_dt in 
           let long_s_lhm=String.concat " " long_temp4 in
