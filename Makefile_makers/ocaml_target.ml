@@ -98,6 +98,21 @@ let naive_main_module=function
 
 let main_module tgt=try naive_main_module tgt with _->None;;
 
+(*
+let to_shortened_string =function
+  NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
+ |ML_FROM_MLL(hm)->(Half_dressed_module.to_string hm)^".ml"
+ |ML_FROM_MLY(hm)->(Half_dressed_module.to_string hm)^".ml" 
+ |CMI(hm)->(Half_dressed_module.to_string hm)^".cmi"
+ |CMO(hm)->(Half_dressed_module.to_string hm)^".cmo"
+ |DCMO(hm)->(Half_dressed_module.to_string hm)^".d.cmo"
+ |CMA(hm)->(Half_dressed_module.to_string hm)^".cma"
+ |CMX(hm)->(Half_dressed_module.to_string hm)^".cmx"
+ |EXECUTABLE(hm)->(Half_dressed_module.to_string hm)^".caml_executable"
+ |DEBUGGABLE(hm)->(Half_dressed_module.to_string hm)^".caml_debuggable"
+ |TOPLEVEL(name,l)->name;;
+*)
+
 let no_dependencies mlx=NO_DEPENDENCIES(mlx);;
 let ml_from_mll hm=ML_FROM_MLL(hm);; 
 let ml_from_mly hm=ML_FROM_MLY(hm);;

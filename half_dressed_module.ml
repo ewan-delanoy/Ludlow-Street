@@ -43,6 +43,8 @@ let to_string x=
    then x.naked_module
    else sub^"/"^(x.naked_module);;
 
+let to_shortened_string x=x.naked_module;;   
+
 let unveil x=(to_string x,bundle_main_dir x);;
 
 exception FileOutsideDirectory of Absolute_path.t*Directory_name.t;;
