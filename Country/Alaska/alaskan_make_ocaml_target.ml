@@ -29,7 +29,9 @@ let unit_make dir (bowl,(mdata,tgts)) tgt=
   else 
   let temp1=Image.image Unix_command.uc (cmd_for_tgt dir mdata tgt) in 
   if List.for_all (fun i->i=0) temp1
-  then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt then None else (Some tgt)) in
+  then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt 
+                    then None 
+                    else (Some tgt)) in
        let tgts2=Option.add_perhaps opt_tgt tgts in
         match Ocaml_target.ml_from_lex_or_yacc_data tgt with
        None->(true,(mdata,tgts2))
@@ -65,11 +67,18 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        ) in
        (new_successful_ones,others,ts2)
   else let hm=Option.unpack(Ocaml_target.main_module tgt) in
-  	   let remains=List.filter
+       let root=Half_dressed_module.bundle_main_dir hm in
+  	   let (rejects,remains)=List.partition
        (fun (tgt,_)->
          not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
          (fst ts) [hm] tgt)
        ) to_be_treated in
+       let _=Image.image (
+         fun (tgt,_)->
+         let ap=Ocaml_target.path root tgt in
+         let s_ap=Absolute_path.to_string ap in
+         Unix_command.uc("rm -f "^s_ap)
+       ) rejects in
        (successful_ones,remains,ts2);; 
 
 let rec iterator_for_toplevel dir (successful_ones,to_be_treated,ts)=
