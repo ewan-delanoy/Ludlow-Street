@@ -32,6 +32,7 @@ let g4=List.filter (
 
 *)
 
+(*
 let g1=dbel "shell_command";;
 let g2=image (fun hm->
 Mlx_ended_absolute_path.to_absolute_path
@@ -42,7 +43,7 @@ let g3=Image.image (fun ap->
    ("Shell_command.announce_and_do","Unix_command.uc")
    ap
 ) g2;;
-
+*)
 
 (*
 let z1=(!(German_wrapper.Private.directories_ref));;
@@ -64,6 +65,8 @@ let z3=Explicit.image Sys.command
    "mv Php_analizer/Php_syntax_types/*.cm* _build";
    "mv Preprinters/*.cm* _build";
    "mv Test_directory6/Test_directory7/Test_directory2/*.cm* _build"];;
+
+
 
 *)
 
