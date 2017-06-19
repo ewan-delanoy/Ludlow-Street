@@ -14,12 +14,18 @@ let slice_targets tgts=
                     (Image.image Ocaml_target.to_string tgts) in
    Sliced_string.to_string_list temp1;;
 
+let slice_shortened_targets tgts=
+   let temp1=Sliced_string.make_aggregates_if_possible 
+                    (Separator.of_string " ") 
+                    (Image.image Ocaml_target.to_shortened_string tgts) in
+   Sliced_string.to_string_list temp1;;
+
 let write_makefile_element mdata tgt=
   let ingrs=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target mdata tgt in
-  let sliced_ingrs=slice_targets ingrs in
+  let sliced_ingrs=slice_shortened_targets ingrs in
   let cmds=Alaskan_command_for_ocaml_target.command_for_ocaml_target 
                         German_constant.root mdata tgt in
-  let s1=(Ocaml_target.to_string tgt)^" : " 
+  let s1=(Ocaml_target.to_shortened_string tgt)^" : " 
   and s2=String.concat " \\\n" sliced_ingrs
   and s3="\n\t"
   and s4=String.concat "\n\t" cmds in
