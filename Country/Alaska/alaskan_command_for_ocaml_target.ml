@@ -191,8 +191,9 @@ let command_for_toplevel dir mdata name l=
           let long_temp4=Image.image (fun fd->
              let hm=Modulesystem_data.name fd in
              let s_hm=(Half_dressed_module.to_string hm) in
+             let short_s_hm=Father_and_son.son s_hm '/' in
              if Modulesystem_data.ml_present fd 
-             then s_root^"_build/"^s_hm^".cmo"
+             then s_root^"_build/"^short_s_hm^".cmo"
              else " "
           ) l_dt in 
           let long_s_lhm=String.concat " " long_temp4 in
