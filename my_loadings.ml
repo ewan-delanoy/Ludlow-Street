@@ -143,7 +143,6 @@
 #load"dictionary_order.cmo";;
 #load"beaver_for_statement.cmo";;
 #load"level_one.cmo";;
-#load"path_is_in_directory.cmo";;
 #load"overwrite_at_intervals.cmo";;
 #load"outside_comments_and_strings.cmo";;
 #load"ordered_integer.cmo";;
