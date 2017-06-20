@@ -75,9 +75,10 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        ) to_be_treated in
        let _=Image.image (
          fun (tgt,_)->
-         let ap=Ocaml_target.path root tgt in
-         let s_ap=Absolute_path.to_string ap in
-         Unix_command.uc("rm -f "^s_ap)
+         if Ocaml_target.has_dependencies tgt
+         then let ap=Ocaml_target.path root tgt in
+              let s_ap=Absolute_path.to_string ap in
+              Unix_command.uc("rm -f "^s_ap)
        ) rejects in
        (successful_ones,remains,ts2);; 
 

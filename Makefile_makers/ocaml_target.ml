@@ -75,7 +75,7 @@ None->None |Some(name,_)->Some(name);;
 let is_a_toplevel tgt=match toplevel_data tgt with
 None->false |Some(_,_)->true;;
 
-let has_dependencies tgt=function
+let has_dependencies=function
   NO_DEPENDENCIES(_)->false
   |_->true;;
 
