@@ -68,16 +68,16 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        (new_successful_ones,others,ts2)
   else let hm=Option.unpack(Ocaml_target.main_module tgt) in
        let root=Half_dressed_module.bundle_main_dir hm in
+       let s_root=Directory_name.connectable_to_subpath root in
   	   let (rejects,remains)=List.partition
-       (fun (tgt,_)->
+       (fun (tgtt,_)->
          Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
-         (fst ts) [hm] tgt
+         (fst ts) [hm] tgtt
        ) to_be_treated in
        let _=Image.image (
-         fun (tgt,_)->
-         if Ocaml_target.has_dependencies tgt
-         then let ap=Ocaml_target.path root tgt in
-              let s_ap=Absolute_path.to_string ap in
+         fun (tgtt,_)->
+         if Ocaml_target.has_dependencies tgtt
+         then let s_ap=s_root^(Ocaml_target.to_string tgtt) in
               let _=Unix_command.uc("rm -f "^s_ap) in
               ()
        ) rejects in
