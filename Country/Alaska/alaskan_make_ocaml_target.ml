@@ -70,8 +70,8 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        let root=Half_dressed_module.bundle_main_dir hm in
   	   let (rejects,remains)=List.partition
        (fun (tgt,_)->
-         not(Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
-         (fst ts) [hm] tgt)
+         Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
+         (fst ts) [hm] tgt
        ) to_be_treated in
        let _=Image.image (
          fun (tgt,_)->
