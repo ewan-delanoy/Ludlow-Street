@@ -77,7 +77,7 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        let _=Image.image (
          fun (tgtt,_)->
          if Ocaml_target.has_dependencies tgtt
-         then let s_ap=s_root^"_build"^
+         then let s_ap=s_root^"_build/"^
                   (Ocaml_target.to_shortened_string tgtt) in
               let _=Unix_command.uc("rm -f "^s_ap) in
               ()
