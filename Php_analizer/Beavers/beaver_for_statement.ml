@@ -97,7 +97,7 @@ let element_cmp elt1 elt2=
          (elt1.content,elt1.unadbriged_content,elt1.catalyser)     
          (elt2.content,elt2.unadbriged_content,elt2.catalyser);;
           
-let element_order=(element_cmp: element Total_ordering.t);; 
+llet element_order=(element_cmp: element Total_ordering.t);; 
 
 
 let classical_parser elt=
