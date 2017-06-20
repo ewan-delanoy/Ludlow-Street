@@ -75,9 +75,9 @@ None->None |Some(name,_)->Some(name);;
 let is_a_toplevel tgt=match toplevel_data tgt with
 None->false |Some(_,_)->true;;
 
-let is_a_nodep tgt=function
-  NO_DEPENDENCIES(_)->true
-  |_->false;;
+let has_dependencies tgt=function
+  NO_DEPENDENCIES(_)->false
+  |_->true;;
 
 let adhoc_test_for_renaming old_name=function
   NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)<>old_name
