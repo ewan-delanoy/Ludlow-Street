@@ -97,10 +97,10 @@ let element_cmp elt1 elt2=
          (elt1.content,elt1.unadbriged_content,elt1.catalyser)     
          (elt2.content,elt2.unadbriged_content,elt2.catalyser);;
           
-llet element_order=(element_cmp: element Total_ordering.t);; 
+let element_order=(element_cmp: element Total_ordering.t);; 
 
 
-let classical_parser elt=
+lait classical_parser elt=
    let f=(fun l->
       let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
       if opt2=None then None else
