@@ -187,20 +187,30 @@
 #load"alaskan_ingredients_for_ocaml_target.cmo";;
 #load"alaskan_force_modification_time.cmo";;
 #load"alaskan_command_for_ocaml_target.cmo";;
+#load"alaskan_make_ocaml_target.cmo";;
+#load"german_unregister_module.cmo";;
+#load"german_unregister_mlx_file.cmo";;
 #load"find_suitable_ending.cmo";;
 #load"german_arrange_positions_in_modulesystem.cmo";;
 #load"german_modify_modulesystem.cmo";;
 #load"alaskan_remove_debuggables.cmo";;
+#load"german_start_debugging.cmo";;
 #load"german_write_makefile.cmo";;
 #load"german_up_to_date_targets.cmo";;
 #load"alaskan_printer_equipped_types.cmo";;
 #load"german_save_all.cmo";;
 #load"abstract_renamer.cmo";;
+#load"german_rename_module.cmo";;
 #load"german_rename_directory.cmo";;
+#load"german_relocate_module.cmo";;
 #load"german_register_outside_file.cmo";;
 #load"update_ancs_libs_and_dirs_in_modulesystem.cmo";;
+#load"german_recompile.cmo";;
+#load"german_make_module_optional.cmo";;
 #load"current_date.cmo";;
 #load"german_forget_unregistered_file.cmo";;
+#load"german_forget_module.cmo";;
+#load"german_forget_file.cmo";;
 #load"german_delchacre_from_scratch.cmo";;
 #load"german_created_or_deleted.cmo";;
 #load"german_changed.cmo";;
@@ -209,6 +219,11 @@
 #load"alaskan_reposition_module.cmo";;
 #load"alaskan_register_mlx_file.cmo";;
 #load"alaskan_try_to_register.cmo";;
+#load"alaskan_create_target_system.cmo";;
+#load"german_wrapper.cmo";;
+#load"german_vague_string.cmo";;
+#load"rename_value_inside_module.cmo";;
+#load"read_needed_ocaml_files.cmo";;
 #load"longest_shared_module.cmo";;
 #load"find_value_descendants.cmo";;
 #load"compute_all_ocaml_items.cmo";;
@@ -227,6 +242,9 @@
 #load"endsubdirectory.cmo";;
 #load"small_int_based_rational.cmo";;
 #load"big_int_based_rational.cmo";;
+#load"german_values_in_modules.cmo";;
+#load"german_update_copied_compiler.cmo";;
+#load"german_pervasives.cmo";;
 #load"check_ocaml_dircopy.cmo";;
 
 
