@@ -5,6 +5,11 @@
 
 *)
 
+German_pervasives.abo;;
+German_rename_module.on_targets;;
+
+
+(*
 Unix_command.hardcore_mode:=true;;
 
 let dir=Directory_name.of_string(
@@ -12,7 +17,7 @@ let dir=Directory_name.of_string(
 );;
 
 German_update_copied_compiler.ucc dir;;
-
+*)
 
 (*
 `
