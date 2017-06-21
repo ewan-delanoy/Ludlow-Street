@@ -25,7 +25,8 @@ let self_contained_module_copy prefix hm=
    let temp2=List.combine replacements new_contents in
    let temp3=Image.image (
      fun ((_,new_mname),txt)->
-      "module "^(Naked_module.to_string new_mname)^"=struct "^txt^" end;;"
+      let name=String.capitalize_ascii(Naked_module.to_string new_mname) in
+      "module "^name^"=struct "^txt^" end;;"
    ) temp2 in    
    String.concat "\n\n\n" temp3;;
 
