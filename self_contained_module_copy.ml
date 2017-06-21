@@ -6,7 +6,7 @@
 let unsharped_content hm=
     let mlx=Mlx_ended_absolute_path.join hm Ocaml_ending.ml in
     let ap_ml=Mlx_ended_absolute_path.to_absolute_path mlx in
-    let naive_content=Io.read_whole_file ap in
+    let naive_content=Io.read_whole_file ap_ml in
     if Sys.file_exists((Absolute_path.to_string ap_ml)^"l")
     then (
            let temp1=Str.split (Str.regexp_string "\n") naive_content in
