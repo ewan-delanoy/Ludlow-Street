@@ -135,7 +135,7 @@ let command_for_cmx dir mdata hm=
           let s_hm=Half_dressed_module.to_string hm in
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
-          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs true dt in
           [ 
             "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
             "mv "^s_fhm^".cm* "^s_root^"_build/"
@@ -153,7 +153,7 @@ let command_for_executable dir mdata hm=
           let temp1=ingr mdata (Ocaml_target.EXECUTABLE(hm)) in
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
-          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs true dt in
           [ 
             "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
                 (String.concat " " long_temp2);
@@ -171,7 +171,7 @@ let command_for_debuggable dir mdata hm=
           let temp1=ingr mdata (Ocaml_target.DEBUGGABLE(hm)) in
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
-          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs true dt in
           [ 
             "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
                 (String.concat " " long_temp2);
