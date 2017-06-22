@@ -173,9 +173,8 @@ let command_for_debuggable dir mdata hm=
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs true dt in
           [ 
-            "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
+            "ocamlopt -bin-annot -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
                 (String.concat " " long_temp2);
-            "mv "^s_fhm^".cm* "^s_root^"_build/";
             "mv "^s_fhm^".ocaml_debuggable "^s_root^"_build/"
           ];;          
   
