@@ -5,4 +5,4 @@
 *)
 
 
-let debugger_name="debugger";;
+let debugger_name="debugged";;

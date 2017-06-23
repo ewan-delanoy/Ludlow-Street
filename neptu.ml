@@ -5,9 +5,103 @@
 
 *)
 
-German_pervasives.abo;;
-German_rename_module.on_targets;;
+let z1=(!(Unix_command.accu));;
+let z2=List.rev z1;;
 
+"ocamlc -bin-annot -g  str.cma unix.cma  -o debugger.d.cmo -c debugger.ml";
+"ocamlopt -bin-annot -g str.cmxa unix.cmxa  -o debugger.ocaml_debuggable ";
+ 
+
+
+(*
+let mdata=German_wrapper.data();;
+let tgts=German_wrapper.up_to_date_targets();;
+
+let _=Alaskan_remove_debuggables.rd German_constant.root mdata;;
+let dbg=Debugger_name.debugger_name;;
+let dir=German_constant.root;;
+let rdir=German_directories.from_data mdata;;
+let ap=Find_suitable_ending.find_file_location dir rdir 
+	     (dbg^".ml");;
+let hm=Half_dressed_module.of_path_and_root ap dir;;
+let mdata2=German_modify_modulesystem.recompute_module_info mdata hm;;
+let tgt=Ocaml_target.debuggable hm;;
+
+let bad1=Alaskan_make_ocaml_target.make_nontoplevel German_constant.root
+	(mdata2,tgts) tgt;;
+*)
+
+(*
+let l=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target
+   mdata2 tgt;;
+let v0=(true,(mdata2,tgts));;
+let v1=Alaskan_make_ocaml_target.unit_make dir v0 (List.nth l 0);;
+*)
+
+(*
+let bad2=Alaskan_make_ocaml_target.unit_make dir v1 (List.nth l 1);;
+*)
+
+(*
+let (bowl,(mdata,tgts))=v1 and tgt=List.nth l 1;;
+
+let see1=Alaskan_make_ocaml_target.is_up_to_date dir tgts tgt;;
+let l_cmd=Alaskan_command_for_ocaml_target.command_for_ocaml_target dir mdata tgt;;
+
+
+  let temp1=Image.image Unix_command.uc (cmd_for_tgt dir mdata tgt) in 
+  if List.for_all (fun i->i=0) temp1
+  then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt 
+                    then None 
+                    else (Some tgt)) in
+       let tgts2=Option.add_perhaps opt_tgt tgts in
+        match Ocaml_target.ml_from_lex_or_yacc_data tgt with
+       None->(true,(mdata,tgts2))
+       |Some(mlx)->
+                   let mdata2=Alaskan_force_modification_time.update dir mdata mlx in
+                   (true,(mdata2,tgts2))        
+  else (false,(mdata,tgts));;
+*)
+
+(*
+let txt1=Self_contained_module_copy.unsharped_content (hmx "php_lexer");;
+
+let see1=Substring.occurrences_of_in " 18 ->" txt1;;
+let i1=List.hd(see1);;
+let see2=itv txt1 i1 (i1+200);;
+
+let nm1=Naked_module.of_string "Positioned_php_token_list";;
+let nm2=Naked_module.of_string "Scp_positioned_php_token_list";;
+
+let txt2=Look_for_module_names.change_module_name_in_string
+   nm1 nm2 txt1;;
+
+let see3=Substring.occurrences_of_in " 18 ->" txt2;;
+let i2=List.hd(see3);;
+let see4=itv txt2 i2 (i2+200);;
+
+let bad1=Outside_comments_and_strings.good_substrings txt1;;
+let tag1=Option.find_really (fun (i,j,t)->i>=i1) bad1;;
+
+German_pervasives.sd;;
+
+
+let bad1=Look_for_module_names.indices_in_string txt1;;
+
+let tag1=List.filter (fun (x,y,z)->Substring.is_a_substring_of " 18 ->" z ) bad1;;
+*)
+
+(*
+
+let g1=hmx "please_test_me";;
+let g2=Self_contained_module_copy.self_contained_module_copy "Sc_" g1;;
+
+let ap=Absolute_path.of_string "debugger.ml";;
+let act1=Io.erase_file_and_fill_it_with_string ap g2;;
+
+
+
+*)
 
 (*
 Unix_command.hardcore_mode:=true;;
@@ -61,7 +155,7 @@ let g3=Image.image (fun ap->
 let z1=(!(German_wrapper.Private.directories_ref));;
 
 let z2=image (
-  fun sd->let s=Subdirectory.connectable_to_subpath sd in
+  fun sd->let s=Subdirectory.connectable_to_subpath sd;;
   "mv "^s^"*.cm* _build"
 ) z1;;
 let z3=Explicit.image Sys.command z2;;
@@ -126,7 +220,7 @@ let g4=List.filter
 g3;;
 
 let g5=image(
-   fun x->let i=Substring.leftmost_index_of_in ".fr." x in
+   fun x->let i=Substring.leftmost_index_of_in ".fr." x;;
     (itv x 1 (i-1),Cull_string.cobeginning (i+3) x)
 ) g4;;
 
@@ -135,10 +229,10 @@ let g6=Explicit.image(
       let temp=Option.filter_and_unpack (
          fun z->
             if (Substring.begins_with z s1)&&(Substring.ends_with z s2)
-            then let t=itv z (String.length(s1)+1) (String.length(z)-String.length(s2)) in
+            then let t=itv z (String.length(s1)+1) (String.length(z)-String.length(s2));;
                  Some(t)
             else None
-      ) g3 in
+      ) g3;;
       (temp,s1,s2)
 ) g5;;
 
@@ -147,7 +241,7 @@ let g7=List.filter (fun (l,s1,s2)->not(List.mem "." l)) g6;;
 let g8=image(
   fun (l,t1,t2)->
   let s1=Str.global_replace (Str.regexp_string " ") "\\ " t1
-  and s2=Str.global_replace (Str.regexp_string " ") "\\ " t2 in 
+  and s2=Str.global_replace (Str.regexp_string " ") "\\ " t2;; 
   "cp "^s1^"."^s2^" "^s1^".fr."^s2
 ) g6;;
 
@@ -175,7 +269,7 @@ let g12=Explicit.image(
 let g13=image(
   fun (t1,t2)->
   let s1=Str.global_replace (Str.regexp_string " ") "\\ " t1
-  and s2=Str.global_replace (Str.regexp_string " ") "\\ " t2 in 
+  and s2=Str.global_replace (Str.regexp_string " ") "\\ " t2;; 
   (s1,s2,Absolute_path.of_string(s1^".fr."^s2))
 ) g5;;
 
@@ -201,12 +295,12 @@ let stext2=itv text1 1 1000;;
 let u1=doyle (fun i->"w"^(string_of_int i)^".pdf") 1 29;;
 let u2=String.concat " " u1;;
 
-let soi i=let s=string_of_int i in if i<10 then "0"^s else s;;
+let soi i=let s=string_of_int i;; if i<10 then "0"^s else s;;
 
 
 let g2=doyle (
    fun i->
-    let s=soi i in
+    let s=soi i;;
    ("<a href=\"http://strobertbellarmine.net/wilhelm_scannell_"^s^".html",
     "<a href=\"wilhelm_"^s^".html")
 ) 1 19;;
@@ -215,7 +309,7 @@ let act1=Replace_inside.replace_several_inside_file g2 g1;;
 
 let g3=doyle (
    fun i->
-    let s=string_of_int i and t=soi(19+i) in
+    let s=string_of_int i and t=soi(19+i);;
    ("<a href=\"http://strobertbellarmine.net/wilhelm_scannell_2_"^s^".html",
     "<a href=\"wilhelm_"^t^".html")
 ) 1 7;;
@@ -228,7 +322,7 @@ let g4=(
 );;
 
 let g5=doyle (fun k->
-   let s=soi k in
+   let s=soi k;;
    Absolute_path.of_string 
    ("/Users/ewandelanoy/Documents/html_files/Wilhelm/wilhelm_"^s^".html")
 ) 1 26;;
@@ -262,7 +356,7 @@ let g4=List.filter (fun s->Substring.is_a_substring_of "erlin" s) g3;;
 let zz i=
    let si=string_of_int(i)
    and sii=string_of_int(i+1)
-   and siii=string_of_int(i+2) in
+   and siii=string_of_int(i+2);;
   "pre_level"^si^"=polrem(level"^siii^",level"^sii^",a)\n"^
   "level"^si^"=normalize(pre_level"^si^")";;
 
@@ -294,11 +388,11 @@ print_string z7;;
 let tower="/Users/ewandelanoy/Documents/Web_Projects/Patientcare_CakePHP/Control_Tower/";;
 
 let z8=image (fun l->
-   let s1=List.hd l in
-   let s2=tower^(Cull_string.cobeginning 7 s1) in
-   let s3=Cull_string.cobeginning 86 s2 in
-   let s4=List.hd(Str.split (Str.regexp_string"_") s3) in
-   let s5=String.capitalize(Cull_string.coending 1 s4) in
+   let s1=List.hd l;;
+   let s2=tower^(Cull_string.cobeginning 7 s1);;
+   let s3=Cull_string.cobeginning 86 s2;;
+   let s4=List.hd(Str.split (Str.regexp_string"_") s3);;
+   let s5=String.capitalize(Cull_string.coending 1 s4);;
    (Absolute_path.of_string s2,s5)
 ) z5;;
 
@@ -367,7 +461,7 @@ u6;;
 
 let old_u1=new_u1;;
 
-let g1= "<?php id ( variable [ integer ] ) ? (int) variable [ integer ] : integer";;
+let g1= "<?php id ( variable [;;teger ] ) ? (int) variable [;;teger ] :;;teger";;
 let sg1="id ()         ? _l_ no_ternary _r+_ : no_semicolon";;
 
 let t1=Termite.of_string sg1;;
@@ -388,7 +482,7 @@ let g3=image Positioned_php_token.snd g2;;
 
 (*
 
-variable = id ( variable [ integer ] ) ? (int) variable [ integer ] : integer ;
+variable = id ( variable [;;teger ] ) ? (int) variable [;;teger ] :;;teger ;
 
 let z1=Php_lexer.parse_string "<?php (bool)";;
 let z2=Positioned_php_token_list.hd z1;;
@@ -409,7 +503,7 @@ let u2=Explicit.image (fun x->(x,Level_one.level_one x)) u1;;
 
 let viz1=Explicit.filter(fun (x,y)->y=None) u2;;
 let u3=Explicit.image (fun (x,y)->
-  let (a,b,c)=Option.unpack y in
+  let (a,b,c)=Option.unpack y;;
   (x,a,b,c) ) u2;;
 let u4=Explicit.filter (fun (x,a,b,c)->c<>Positioned_php_token_list.empty) u3;;
 let u5=image (fun (x,a,b,c)->c) u4;;
@@ -433,7 +527,7 @@ let old_u2=Explicit.image Php_parser_homomorphism.star Beaver_for_statement.pars
 
 let commentless_lexer t=
   Positioned_php_token_list.filter (fun ptok->
-   let tok=Positioned_php_token.fst ptok in
+   let tok=Positioned_php_token.fst ptok;;
    not(Php_token.is_a_comment tok)
 )(Php_lexer.parse_file t);;
 
@@ -443,7 +537,7 @@ let u1=Directory_name.of_string
 let u2=More_unix.complete_ls u1;;
 let u3=List.filter(
    fun ap->
-     let s_ap=Absolute_path.to_string ap in
+     let s_ap=Absolute_path.to_string ap;;
      Substring.ends_with s_ap ".php"
 ) u2;;
 let u4=Explicit.image (commentless_lexer) u3;;
@@ -455,7 +549,7 @@ let u5=Explicit.image (fun x->(x,Level_one.level_one x)) u4;;
 
 let viz1=Explicit.filter(fun (x,y)->y=None) u5;;
 let u6=Explicit.image (fun (x,y)->
-  let (a,b,c)=Option.unpack y in
+  let (a,b,c)=Option.unpack y;;
   (x,a,b,c) ) u5;;
 let u7=List.filter (fun (x,a,b,c)->c<>Positioned_php_token_list.empty) u6;;
 
@@ -575,7 +669,7 @@ let ea=Termite.eat;;
 
 
 
-let barley1="_l_ _l_ include_like _u_ new _u_ @ _rd_ _r?_";;
+let barley1="_l_ _l_;;clude_like _u_ new _u_ @ _rd_ _r?_";;
 let barley2="_l_ _l_ -> id () _r+_ _u_ _l_ loose= _r*_ _rd_";;
 let assignable1="variable "^barley2;;
 
@@ -664,7 +758,7 @@ let part1=image
   Php_token.projected_version Php_token.fixture_of_nonconstants;;
 
 let z1=image (fun cst->
-   let tok=Php_token.Constant(cst) in
+   let tok=Php_token.Constant(cst);;
     (Php_token.projected_version tok,Php_constant_token.to_string cst))
     Php_constant_token.all ;;
 let z2=List.filter (fun (u,v)->u<>v) z1;;    
@@ -713,14 +807,14 @@ let check2=List.filter (fun (w,l)->List.length(l)>1) u3;;
 
 let whole=part1@part2;;
 
-let indexed_whole=
+let;;dexed_whole=
    List.flatten (
    [
     image (fun x->(1,x)) part1;
     image (fun x->(2,x)) part2
    ]
    );;
-let n1=hi indexed_whole;;   
+let n1=hi;;dexed_whole;;   
 let ordered_whole=ofo(Tidel.diforchan(whole));;
 let u1=List.filter (
    fun x->Option.filter_and_unpack (fun ) (ennig 1 n1)
@@ -785,8 +879,8 @@ let gg x=cf ("old_"^x) x;;
 let z1=Compute_all_ocaml_items.caoi (German_wrapper.data());;
 let z2=List.filter(
         fun itm->
-        let s=Ocaml_gsyntax_item.name itm in
-        let j=String.index(s)('.')+1 in
+        let s=Ocaml_gsyntax_item.name itm;;
+        let j=String.index(s)('.')+1;;
         (Cull_string.beginning (j-1) s)="Please_test_me"
 ) z1;;
 let z3=image Ocaml_gsyntax_item.name z2;;
@@ -806,7 +900,7 @@ let z1=German_wrapper.data();;
 let z2=image Modulesystem_data.name z1;;
 let z3=List.filter(
    fun hm->
-    let nm=Half_dressed_module.naked_module hm in
+    let nm=Half_dressed_module.naked_module hm;;
     Substring.is_a_substring_of "ango"
     (Naked_module.to_string nm)
 ) z2;;
@@ -852,11 +946,11 @@ let s1=Io.read_whole_file
 let s2=Cull_string.cobeginning 3301 s1;;
 
 let z1=
-   let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment in
+   let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment;;
    Gparser_house_with_doors.hwd (a,b) c s2 1;;
 
 let v0=
-let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment in
+let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment;;
 Gparser_house_with_doors.Private.starter_for_hwd (a,b) c s2 1;;  
 
 let ff=Memoized.small   
@@ -892,7 +986,7 @@ let z2=Gparser_apply.apply Gparser_for_ocaml_language.main_prsr s2 1;;
 let z3=Gparser_apply.apply Gparser_for_ocaml_language.elt_prsr s2 1;;
 let z4=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_comment s2 1;;
 let z5=
-   let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment in
+   let (a,b,c)=Gparser_for_ocaml_language.data_for_prsr_for_comment;;
    Gparser_apply.Private.house_with_doors (a,b) c s2 1;;
 
 
@@ -937,15 +1031,15 @@ let u9=image (
 ) u8;;
 let u10=image (
   fun (z,k)->
-    let a=(k+2)/3 in
-    let b=min(a+100)(n1) in
+    let a=(k+2)/3;;
+    let b=min(a+100)(n1);;
     (z,itv txt1 (a-2) b)
 ) u9;;
 
 let u9=image (fun l->(List.hd(l)<>("0A ", "\n"),l) ) u8;;
 let u10=image (fun (bowl,l)->
    if bowl
-   then let temp1=Listennou.constant_slices (fun t->List.mem(fst t) first_order) l in
+   then let temp1=Listennou.constant_slices (fun t->List.mem(fst t) first_order) l;;
         image (fun z->(List.mem(fst (List.hd z)) first_order,z) ) temp1
    else [(bowl,l)]
 ) u9;;
@@ -985,7 +1079,7 @@ let count=really_input_string chang 3;;
 
 exception Hexchar_exn of char;;
 
-let int_of_hexchar c=
+let;;t_of_hexchar c=
    try List.assoc c
    [
      ('0', 0); ('1', 1); ('2', 2); ('3', 3); ('4', 4); ('5', 5); 
@@ -994,24 +1088,24 @@ let int_of_hexchar c=
    ]  
    with _->raise(Hexchar_exn(c));;
 
-let int_of_hex s=
+let;;t_of_hex s=
   let n=String.length(s) 
-  and accu:=ref(0) in
+  and accu:=ref(0);;
   for i=1 to n do accu:=int_of_hexchar(String.get s (j-1))+16*(!accu) done;
   return(!accu);;
   
 let z1=Charset.unix_filename_admissible_characters;;
-let z2=Image.image (fun c->let s=String.make 1 c in (s,s) ) 
+let z2=Image.image (fun c->let s=String.make 1 c;; (s,s) ) 
   unix_filename_admissible_characters;;
   
 let ioh=int_of_hex;;
 
 let tf1 k=
   if k<=127 then [k] else
-  if k<=2047 then let t=(k-128)/64 in [194+t;k-64*t] else
-  if k<=4095 then let t=(k-2048)/64 in [224;160+t;k-1920-64*t] else
-  if k<=8191 then let t=(k-4096)/64 in [225;128+t;k-3968-64*t] else
-  if k<=k    then let t=(k-8192)/64 in [226;128+t;k-8064-64*t] else [];;
+  if k<=2047 then let t=(k-128)/64;; [194+t;k-64*t] else
+  if k<=4095 then let t=(k-2048)/64;; [224;160+t;k-1920-64*t] else
+  if k<=8191 then let t=(k-4096)/64;; [225;128+t;k-3968-64*t] else
+  if k<=k    then let t=(k-8192)/64;; [226;128+t;k-8064-64*t] else [];;
   
 let tf2 k=
  (Printf.sprintf "%X" k,
@@ -1049,8 +1143,8 @@ let act=Slow_copy_task.execute_all_steps example;;
 
 
 let u6=image (fun t->
-  let r1=Utf_eight.unicode_point t in
-  let r2=int_of_string("0x"^r1) in
+  let r1=Utf_eight.unicode_point t;;
+  let r2=int_of_string("0x"^r1);;
   (t,r1,r2,Utf_eight.encode r2)
 ) u5;;
 
@@ -1089,7 +1183,7 @@ let act=Slow_copy_task.execute_one_step example;;
 
 let print (CR(a,b))=
   let s1=string_of_int(a.Lexing.pos_cnum)
-  and s2=string_of_int(b.Lexing.pos_cnum) in
+  and s2=string_of_int(b.Lexing.pos_cnum);;
   "char_range("^s1^","^s2^")";;
 
 let print_out (dummy:Format.formatter) x=
@@ -1101,13 +1195,13 @@ let print_out (dummy:Format.formatter) x=
 *)
 
 (*
-INSERT INTO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
+INSERT;;TO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
 WHERE (user_id>=302) AND (user_id<=377);
 
 DELETE FROM `mysql_table_users` WHERE (user_id>=302) AND (user_id<=377);
 
 
-INSERT INTO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
+INSERT;;TO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
 WHERE user_id=161;
 
 DELETE FROM `mysql_table_users` WHERE user_id=161;
