@@ -8,7 +8,7 @@
 
 let sd (mdata,tgts)=
     let _=Alaskan_remove_debuggables.rd German_constant.root mdata in
-    let dbg=Debugger_name.debugger_name in
+    let dbg=Debugged_name.debugger_name in
 	let dir=German_constant.root in
 	let rdir=German_directories.from_data mdata in
 	let ap=Find_suitable_ending.find_file_location dir rdir 

@@ -98,7 +98,7 @@ let recompute_complete_info_for_module l hm=
     
 let quick_update l x=
   let hm=Modulesystem_data.name (x) in
-  if (Half_dressed_module.to_string hm)=Debugger_name.debugger_name
+  if (Half_dressed_module.to_string hm)=Debugged_name.debugger_name
   then None
   else
   let new_values=Modulesystem_data.compute_modification_times hm 
