@@ -125,7 +125,7 @@ let from_prepared_list dir l=
    Alaskan_try_to_register.mlx_files [] temp1;;
 
 
-let usual_outsiders=ref
+let usual_outsiders=
     [
       "neptu.ml";
       "my_loadings.ml";
