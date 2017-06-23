@@ -144,7 +144,8 @@ let from_main_directory dir opt_topl_name special_outsiders=
     let topl_name=(if opt_topl_name=None then "ecaml" else Option.unpack opt_topl_name) in
     let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
  	let (mdata2,new_tgts2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[]) topl) in
- 	let old_outsiders=(!usual_outsiders)@special_outsiders in
+  let temp2=List.filter (fun x->not(List.mem x special_outsiders)) usual_outsiders in 
+ 	let old_outsiders=temp2@special_outsiders in
  	let new_outsiders=Option.filter_and_unpack (fun t->
  	   let s_ap=Directory_name.join dir t in
  	   if Sys.file_exists s_ap
