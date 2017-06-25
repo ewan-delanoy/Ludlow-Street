@@ -16,12 +16,16 @@ type source={
    chunk_size     :int;
 };;
 
-let initialize (dir1,fname,i,j,opt)={
-   root_directory =(if Substring.ends_with dir1 "/" then dir1 else dir1^"/");
-   pdffile_name   =(if Substring.ends_with fname ".pdf" then fname else fname^".pdf");
-   page_interval  =(i,j);
-   chunk_size    =(if opt=None then 20 else Option.unpack opt);
+let initialize ~rootdir ~pdfname ~interval ~chunksize={
+   root_directory =(if Substring.ends_with rootdir "/" then rootdir else rootdir^"/");
+   pdffile_name   =(if Substring.ends_with pdfname ".pdf" then pdfname else pdfname^".pdf");
+   page_interval  =interval;
+   chunk_size    =(match chunksize with None->20 |Some(l)->l);
 };;    
+
+
+
+module Chunking=struct
 
 let individual_act x (act_description,act_output)=
     let cmd1="/Applications/cpdf "^x.root_directory^"Coherent_PDF/"^act_description^
@@ -53,8 +57,35 @@ let list_of_commands x=
     (prepare_premises x)::(Image.image (individual_command x) intervals)
     );; 
 
+end;;
 
+let chunk ~rootdir ~pdfname ~interval ~chunksize=
+  let worker=initialize ~rootdir ~pdfname ~interval ~chunksize in
+  let cmds=Chunking.list_of_commands worker in
+  Explicit.image Unix_command.uc cmds;;
+
+let merge ~rootdir ~pdfname ~interval=
+   let (i,j)=interval in
+   let temp1=Ennig.doyle (fun k->
+      pdfname^"_"^(string_of_int k)^".pdf" ) i j in
+   let temp2=String.concat " " temp1 in   
+   let cmd="/Applications/cpdf "^temp2^" -o "^pdfname^".pdf" in
+   let old_dir=Sys.getcwd() in
+   (
+     Sys.chdir rootdir;
+     let _=Unix_command.hardcore_uc cmd in
+     Sys.chdir old_dir;
+   );;
+   
 (*
+
+let example=merge 
+ ~rootdir:"/Users/ewandelanoy/Documents/Firpo"
+ ~pdfname:"charinq"
+ ~interval:(1,315);;
+
+
+
 
 let example=initialize
    (
