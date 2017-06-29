@@ -100,7 +100,7 @@ let element_cmp elt1 elt2=
 let element_order=(element_cmp: element Total_ordering.t);; 
 
 
-lait classical_parser elt=
+let classical_parser elt=
    let f=(fun l->
       let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
       if opt2=None then None else
@@ -111,8 +111,8 @@ lait classical_parser elt=
         else (Termite.parse (Termite.of_string elt.catalyser) peurrest)<>None
       ) in
       if catalyser_check
-      then None
-      else Some(elt.helper l2 cr2,cr2,peurrest)
+      then Some(elt.helper l2 cr2,cr2,peurrest)
+      else None
    ) in
    (f : t Php_parser.t);;
    
