@@ -88,9 +88,6 @@ let precedence=function
                  )
   |_->None;;
 
-let comment_part=function 
-  Comment s->Some(s)
- |_->None;;
 
 let constant_part=function 
  Constant ctok->Some(ctok)
