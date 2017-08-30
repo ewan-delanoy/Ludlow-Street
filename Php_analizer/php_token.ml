@@ -19,23 +19,23 @@ type t=
     |Char of char
     |End_of_text;;
 
-    (*
+    
 let form =function
-    (Constant ctok)->Php_projected_tokenConstant ctok
-    |(Variable s)->Php_projected_tokenVariable
-    |(Ident s)->s
-    |(Comment s)->s
-    |(Single_quoted s)->"'"^s^"'"
-|(Double_quoted s)->"\""^s^"\""
-|(Heredoc s)->s
-|(Nowdoc s)->s
-|(Namespacer (b,l,s))->s
-|(External_echo s)->s
-|(Int s)->s
-|(Float s)->s
-|(Char c)->String.make 1 c
-|(End_of_text)->"EOF";;
-*)
+    (Constant ctok)->Php_projected_token.Constant ctok
+    |(Variable s)->Php_projected_token.Variable
+    |(Ident s)->Php_projected_token.Ident
+    |(Comment s)->Php_projected_token.Comment
+    |(Single_quoted s)->Php_projected_token.Single_quoted
+|(Double_quoted s)->Php_projected_token.Double_quoted
+|(Heredoc s)->Php_projected_token.Heredoc
+|(Nowdoc s)->Php_projected_token.Nowdoc
+|(Namespacer (b,l,s))->Php_projected_token.Namespacer
+|(External_echo s)->Php_projected_token.External_echo
+|(Int s)->Php_projected_token.Int
+|(Float s)->Php_projected_token.Float
+|(Char c)->Php_projected_token.Char
+|(End_of_text)->Php_projected_token.End_of_text;;
+
 
 
 let content=function
