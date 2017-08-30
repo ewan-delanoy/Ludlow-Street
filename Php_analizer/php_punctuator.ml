@@ -9,7 +9,7 @@
 (* 
 
 from https://github.com/php/php-langspec/blob/master/spec/09-lexical-structure.md#operators-and-punctuators 
-I do not consider =& as a single token, but as a composite =+&.
+I do not consider =& as a single token, but as a composite = followed by &.
 
 *)
 
