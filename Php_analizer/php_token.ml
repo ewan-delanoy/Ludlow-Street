@@ -66,7 +66,7 @@ let make proj s=
     |Php_projected_token.Heredoc->Heredoc s
     |Php_projected_token.Nowdoc->Nowdoc s
     |Php_projected_token.Namespacer->
-                        let (b,l,n)=decode_namespace s in
+                        let (b,l,n)=Code_namespace.decode s in
                         Namespacer(b,l,n)
     |Php_projected_token.External_echo->External_echo s
     |Php_projected_token.Int->Int s
