@@ -101,18 +101,21 @@ let fixture_of_nonconstants=
        Char '0';
     ];;
 
-(*     
-let fixture=
-    [
-       Constant(Php_constant_token.Kwd (Php_keyword.T_ABSTRACT));
-       Constant(Php_constant_token.Punct (Php_punctuator.T_LPARENTHESIS));
-       Constant(Php_constant_token.Op(Php_operator.T_NEW));
-    ] @ fixture_of_nonconstants;;
-*)
 
-let of_char c=Char c;;
-let of_int i=Int i;;
-
+    let comment s = make Php_projected_token.Comment s;;
+    let constant ctok = make (Php_projected_token.Constant(ctok)) "";;
+    let double_quoted s = make Php_projected_token.Double_quoted s;;
+    let end_of_text s = make Php_projected_token.End_of_text s;;
+    let external_echo s = make Php_projected_token.External_echo s;;
+    let heredoc s = make Php_projected_token.Heredoc s;;
+    let namespacer triple = let s=Code_namespace.encode triple in
+                        make Php_projected_token.Namespacer s;;
+    let nowdoc s = make Php_projected_token.Nowdoc s;;
+    let of_char s = make Php_projected_token.Char s;;
+    let of_float s = make Php_projected_token.Float s;;
+    let of_int s = make Php_projected_token.Int s;;
+    let single_quoted s = make Php_projected_token.Single_quoted s;;
+    let variable s = make Php_projected_token.Variable s;;
 
 
 let put_lexeme_in_category=Memoized.make(fun s->
