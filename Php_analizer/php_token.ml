@@ -3,7 +3,10 @@
 #use"Php_analizer/php_token.ml";;
 
 *)
-type t=
+
+module Internal=struct
+
+type tt=
      Constant of Php_constant_token.t
     |Variable of string 
     |Ident of string
@@ -74,6 +77,12 @@ let make proj s=
     |Php_projected_token.Char->Char (String.get s 0)
     |Php_projected_token.End_of_text->End_of_text;;
 
+end;;
+
+type t=Internal.tt;;
+let form=Internal.form;;
+let content=Internal.content;;
+let make=Internal.make;;
 
 (* Constructors ¨*)
 
