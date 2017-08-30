@@ -113,6 +113,11 @@ let am ()=
     ) temp1 in
     temp2;;
     
+let tw x=
+  let hm=hmx x in
+  let s_hm=Half_dressed_module.to_string hm in
+  let fn=(Directory_name.connectable_to_subpath(c_dir))^s_hm in    
+  "open -a /Applications/TextWrangler.app "^fn;;
 
 let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
