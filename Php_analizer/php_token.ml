@@ -178,19 +178,17 @@ let token_category tok=
   
 let projected_version tok="";;     
 
-(*
-let projected_version tok=
-      if (form tok=Php_projected_token.Constant)
-      then Php_constant_token.to_string (content tok)
-      else Token_category.to_string (token_category tok);;
-*)    
 
-let precedence=function 
-  Constant ctok->(match ctok with
-                    (Php_constant_token.Op op)->Some(Php_operator.precedence(op))
-                   |_->None
-                 )
-  |_->None;;
+let projected_version tok=
+    match Php_projected_token.constant_part (form tok) with
+     Some(ctok)-> Php_constant_token.to_string ctok
+     | None->Token_category.to_string (token_category tok);;
+ 
+
+
+
+let precedence tok=Php_projected_token.precedence(form tok);;
+
 
 
 
