@@ -21,21 +21,20 @@ type t=
 
     
 let form =function
-    (Constant ctok)->Php_projected_token.Constant ctok
+     (Constant ctok)->Php_projected_token.Constant ctok
     |(Variable s)->Php_projected_token.Variable
     |(Ident s)->Php_projected_token.Ident
     |(Comment s)->Php_projected_token.Comment
     |(Single_quoted s)->Php_projected_token.Single_quoted
-|(Double_quoted s)->Php_projected_token.Double_quoted
-|(Heredoc s)->Php_projected_token.Heredoc
-|(Nowdoc s)->Php_projected_token.Nowdoc
-|(Namespacer (b,l,s))->Php_projected_token.Namespacer
-|(External_echo s)->Php_projected_token.External_echo
-|(Int s)->Php_projected_token.Int
-|(Float s)->Php_projected_token.Float
-|(Char c)->Php_projected_token.Char
-|(End_of_text)->Php_projected_token.End_of_text;;
-
+    |(Double_quoted s)->Php_projected_token.Double_quoted
+    |(Heredoc s)->Php_projected_token.Heredoc
+    |(Nowdoc s)->Php_projected_token.Nowdoc
+    |(Namespacer (b,l,s))->Php_projected_token.Namespacer
+    |(External_echo s)->Php_projected_token.External_echo
+    |(Int s)->Php_projected_token.Int
+    |(Float s)->Php_projected_token.Float
+    |(Char c)->Php_projected_token.Char
+    |(End_of_text)->Php_projected_token.End_of_text;;
 
 
 let content=function
@@ -53,6 +52,45 @@ let content=function
      |(Float s)->s
      |(Char c)->String.make 1 c
      |(End_of_text)->"EOF";;
+
+let encode_namespace (bowl,l,s)=
+   let s_bowl=(if bowl then "t" else "f") in
+   s_bowl^(String.concat "#" l)^"*"^s;;
+
+let decode_namespace s=
+  let j=Substring.leftmost_index_of_in "*" s in
+  let s1=Cull_string.interval s 2 (j-1)
+  and s2=Cull_string.cobeginning j s in
+  let l=Str.split (Str.regexp_string "#") s1 in
+  ((String.get s 0)='t',l,s2);;
+
+let z1=(false,["ani";"mal";"inst";"inct"],"sally");;
+let z2=encode_namespace z1;;
+let check=(decode_namespace z2);;
+
+let z1=(true,["uncle";"joe";"is";"sick"],"again");;
+let z2=encode_namespace z1;;
+let check=(decode_namespace z2);;
+
+let make proj s=
+    match proj with
+    |(Php_projected_token.Constant ctok)->Constant ctok
+    |Php_projected_token.Variable->Variable s
+    |Php_projected_token.Ident->Ident s
+    |Php_projected_token.Comment->Comment s
+    |Php_projected_token.Single_quoted->Single_quoted s
+    |Php_projected_token.Double_quoted->Double_quoted s
+    |Php_projected_token.Heredoc->Heredoc s
+    |Php_projected_token.Nowdoc->Nowdoc s
+    |Php_projected_token.Namespacer->
+                        let (b,l,n)=decode_namespace s in
+                        Namespacer(b,l,n)
+    |Php_projected_token.External_echo->External_echo s
+    |Php_projected_token.Int->Int s
+    |Php_projected_token.Float->Float s
+    |Php_projected_token.Char->Char (String.get s 0)
+    |Php_projected_token.End_of_text->End_of_text;;
+
 
 let short_content x=
    let s=content x in
@@ -88,6 +126,10 @@ let fixture=
        Constant(Php_constant_token.Op(Php_operator.T_NEW));
     ] @ fixture_of_nonconstants;;
 *)
+
+let of_char c=Char c;;
+let of_int i=Int i;;
+
 
 
 let put_lexeme_in_category=Memoized.make(fun s->
