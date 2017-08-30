@@ -5,7 +5,7 @@
 A termite object is the first decomposing a list of tokens
 during the parsing process.
 Each termite scans according to just one predefined pattern.
-This beginning is decomposed into several intervals, some of
+This pattern is decomposed into several intervals, some of
 which are retained (for further analysis later) and other which
 are discarded (because they correspond to expected keywords in the
 pattern).

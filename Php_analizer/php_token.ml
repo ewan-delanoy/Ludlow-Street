@@ -19,8 +19,26 @@ type t=
     |Char of char
     |End_of_text;;
 
+    (*
+let form =function
+    (Constant ctok)->Php_projected_tokenConstant ctok
+    |(Variable s)->Php_projected_tokenVariable
+    |(Ident s)->s
+    |(Comment s)->s
+    |(Single_quoted s)->"'"^s^"'"
+|(Double_quoted s)->"\""^s^"\""
+|(Heredoc s)->s
+|(Nowdoc s)->s
+|(Namespacer (b,l,s))->s
+|(External_echo s)->s
+|(Int s)->s
+|(Float s)->s
+|(Char c)->String.make 1 c
+|(End_of_text)->"EOF";;
+*)
+
+
 let content=function
-     
       (Constant ctok)->Php_constant_token.to_string ctok
      |(Variable s)->s 
      |(Ident s)->s
