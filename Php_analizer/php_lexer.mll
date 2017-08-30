@@ -74,7 +74,6 @@ let push lbuf (a,start_a,end_a) l=
    else
    let (h,peurrest)=Positioned_php_token_list.ht(l) in
    let (b,(start_b,end_b))=uv(h) in
-   match (a,b) with
     if (Php_token.form a,Php_token.form b)=
        (Php_projected_token.Comment,Php_projected_token.Comment)
     then  let ba=(Php_token.content a)^(Php_token.content b) in
