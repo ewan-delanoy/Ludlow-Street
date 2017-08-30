@@ -127,15 +127,15 @@ let make proj s=
 
 let put_lexeme_in_category=Memoized.make(fun s->
   match Php_operator.of_prudent_string s with
-   Some(s)->op s
+   Some(_)->op s
   |None->
   (
    match Php_punctuator.of_prudent_string s with
-   Some(s)->punct s
+   Some(_)->punct s
   |None->
    (
     match Php_keyword.of_prudent_string s with
-     Some(s)->kwd s
+     Some(_)->kwd s
     |None->ident s
    ) 
   ));;
@@ -194,7 +194,7 @@ let precedence=function
 
 
 
-let test ctok tok=(tok=Constant(ctok));;
+let test ctok tok=(tok=constant(ctok));;
 
 
 
