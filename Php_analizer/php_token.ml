@@ -185,8 +185,6 @@ let projected_version tok=
      | None->Token_category.to_string (token_category tok);;
  
 
-
-
 let precedence tok=Php_projected_token.precedence(form tok);;
 
 
