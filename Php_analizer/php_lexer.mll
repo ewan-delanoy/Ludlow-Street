@@ -75,10 +75,11 @@ let push lbuf (a,start_a,end_a) l=
    let (h,peurrest)=Positioned_php_token_list.ht(l) in
    let (b,(start_b,end_b))=uv(h) in
    match (a,b) with
-   (Php_token.comment(ca),Php_token.comment(cb))->
-    let ba=ca^cb in
-    Positioned_php_token_list.cons (mk (comment ba) (start_b,end_a)) peurrest
-    |_->Positioned_php_token_list.cons (mk a (start_a,end_a)) l ;;
+    if (Php_token.form a,Php_token.form b)=
+       (Php_projected_token.Comment,Php_projected_token.Comment)
+    then  let ba=(Php_token.content a)^(Php_token.content b) in
+          Positioned_php_token_list.cons (mk (comment ba) (start_b,end_a)) peurrest
+    else Positioned_php_token_list.cons (mk a (start_a,end_a)) l ;;
    
 let preceding_lexeme=ref(None);;
    
