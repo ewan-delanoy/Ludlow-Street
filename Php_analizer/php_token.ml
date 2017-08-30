@@ -176,8 +176,7 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
 let token_category tok=
       Php_projected_token.token_category(form tok);;
   
-let projected_version tok="";;     
-
+let comment_part tok=Php_projected_token.comment_part (form tok);;
 
 let projected_version tok=
     match Php_projected_token.constant_part (form tok) with

@@ -88,9 +88,15 @@ let precedence=function
                  )
   |_->None;;
 
+let comment_part=function 
+  Comment s->Some(s)
+ |_->None;;
+
 let constant_part=function 
  Constant ctok->Some(ctok)
 |_->None;;
+
+
 
 let op s=Constant(Php_constant_token.Op(Php_operator.of_string s));;
 let punct s=Constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
