@@ -35,15 +35,15 @@ let translated_lexing lxg j={
 };;
 
 
-let comment s=Php_token.Comment(s);;
-let ustring s=Php_token.Single_quoted(s);;
-let dstring s=Php_token.Double_quoted(s);;
-let variable s=Php_token.Variable(s);;
-let integer i=Php_token.Int(i);;
-let floating f=Php_token.Float(f);;
-let character c=Php_token.Char(c);;
-let end_of_text=Php_token.End_of_text;;
-let external_echo s=Php_token.External_echo s;;
+let comment s=Php_token.comment(s);;
+let ustring s=Php_token.single_quoted(s);;
+let dstring s=Php_token.double_quoted(s);;
+let variable s=Php_token.variable(s);;
+let integer i=Php_token.of_int(i);;
+let floating f=Php_token.of_float(f);;
+let character c=Php_token.of_char(c);;
+let end_of_text=Php_token.end_of_text;;
+let external_echo s=Php_token.external_echo s;;
 
 let read_word=Php_token.put_lexeme_in_category;;
     
@@ -59,8 +59,8 @@ let faraway_beginning=ref Lexing.dummy_pos;;
 
 
 let adhoc_doc_string doc_type s=match doc_type with
-  Nowdoc_type->Php_token.Nowdoc(s)
-  |_->Php_token.Heredoc(s);;
+  Nowdoc_type->Php_token.nowdoc(s)
+  |_->Php_token.heredoc(s);;
   
 let namespace_list_accu=ref([]:string list);;
 let namespace_absolute=ref(false);;
@@ -76,7 +76,7 @@ let push lbuf (a,start_a,end_a) l=
    let (h,peurrest)=Positioned_php_token_list.ht(l) in
    let (b,(start_b,end_b))=uv(h) in
    match (a,b) with
-   (Php_token.Comment(ca),Php_token.Comment(cb))->
+   (Php_token.comment(ca),Php_token.comment(cb))->
     let ba=ca^cb in
     Positioned_php_token_list.cons (mk (comment ba) (start_b,end_a)) peurrest
     |_->Positioned_php_token_list.cons (mk a (start_a,end_a)) l ;;
@@ -140,7 +140,7 @@ let ingest_namespace_element word=
 let finish_namespace w lbuf=
       let full_list=List.rev(w::(!namespace_list_accu))
       and full_string=(!namespace_string_accu)^w in
-      let tok=Php_token.Namespacer (!namespace_absolute,full_list,full_string) in
+      let tok=Php_token.namespacer (!namespace_absolute,full_list,full_string) in
       let start_t=(!faraway_beginning)
       and end_t=translated_lexing(Lexing.lexeme_end_p lbuf) 0 in
       (

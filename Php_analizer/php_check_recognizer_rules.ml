@@ -12,7 +12,7 @@ let ofo=Ordered.forget_order;;
 let part1=Image.image 
   Php_token.projected_version Php_token.fixture_of_nonconstants;;
 
-let z1=Image.image (fun cst->Php_token.Constant(cst))
+let z1=Image.image (fun cst->Php_token.constant(cst))
     Php_constant_token.all ;;
 let part2=Image.image  Php_token.projected_version z1;;
 
