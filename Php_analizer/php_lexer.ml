@@ -41,7 +41,7 @@ let dstring s=Php_token.double_quoted(s);;
 let variable s=Php_token.variable(s);;
 let integer i=Php_token.of_int(i);;
 let floating f=Php_token.of_float(f);;
-let character c=Php_token.of_char(c);;
+let character c=Php_token.of_char(String.make 1 c);;
 let end_of_text=Php_token.end_of_text;;
 let external_echo s=Php_token.external_echo s;;
 
