@@ -75,38 +75,14 @@ let make proj s=
     |Php_projected_token.End_of_text->End_of_text;;
 
 
-let short_content x=
-   let s=content x in
-   if String.length(s)>50
-   then "..."
-   else s;;
-
-let is_a_comment=function
-   (Comment s)->true
-  |_->false;;
-
-let fixture_of_nonconstants=
-    [
-       Variable""; 
-       Ident"";
-       Comment"";
-       Single_quoted"";
-       Double_quoted"";
-       Heredoc"";
-       Nowdoc"";
-       Namespacer (false,[],"");
-       External_echo"";
-       Int "0";
-       Float "0.";
-       Char '0';
-    ];;
-
+(* Constructors ¨*)
 
     let comment s = make Php_projected_token.Comment s;;
     let constant ctok = make (Php_projected_token.Constant(ctok)) "";;
     let double_quoted s = make Php_projected_token.Double_quoted s;;
     let end_of_text s = make Php_projected_token.End_of_text s;;
     let external_echo s = make Php_projected_token.External_echo s;;
+    let ident s = make Php_projected_token.Ident s;;
     let heredoc s = make Php_projected_token.Heredoc s;;
     let namespacer triple = let s=Code_namespace.encode triple in
                         make Php_projected_token.Namespacer s;;
@@ -117,19 +93,50 @@ let fixture_of_nonconstants=
     let single_quoted s = make Php_projected_token.Single_quoted s;;
     let variable s = make Php_projected_token.Variable s;;
 
+    let op s=constant(Php_constant_token.Op(Php_operator.of_string s));;
+    let punct s=constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
+    let kwd s=constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
+
+
+(* end of constructors ¨*)
+
+    let short_content x=
+      let s=content x in
+      if String.length(s)>50
+      then "..."
+      else s;;
+   
+   let is_a_comment x=(form x)=Php_projected_token.Comment;;
+   
+   let fixture_of_nonconstants=
+       [
+          variable""; 
+          ident"";
+          comment"";
+          single_quoted"";
+          double_quoted"";
+          heredoc"";
+          nowdoc"";
+          namespacer (false,[],"");
+          external_echo"";
+          of_int "0";
+          of_float "0.";
+          of_char "0";
+       ];;
+   
 
 let put_lexeme_in_category=Memoized.make(fun s->
   match Php_operator.of_prudent_string s with
-   Some(op)->Constant(Php_constant_token.Op(op))
+   Some(s)->op s
   |None->
   (
    match Php_punctuator.of_prudent_string s with
-   Some(punkt)->Constant(Php_constant_token.Punct (punkt))
+   Some(s)->punct s
   |None->
    (
     match Php_keyword.of_prudent_string s with
-     Some(kwd)->Constant(Php_constant_token.Kwd (kwd))
-    |None->Ident(s)
+     Some(s)->kwd s
+    |None->ident s
    ) 
   ));;
   
@@ -166,28 +173,17 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (beg_m,end_m)
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
-let token_category =function
-      Constant(ctok)   ->Php_constant_token.token_category ctok
-     |Variable(_)      ->Token_category.Variable
-     |Ident(_)         ->Token_category.Identifier
-     |Comment (_)      ->Token_category.Comment
-     |Single_quoted(_) ->Token_category.Single_quoted_string
-     |Double_quoted(_) ->Token_category.Double_quoted_string
-     |Heredoc(_)       ->Token_category.Heredoc_string
-     |Nowdoc(_)        ->Token_category.Nowdoc_string
-     |Namespacer(_,_,_)->Token_category.Namespacer
-     |External_echo(_) ->Token_category.External_item
-     |Int(_)           ->Token_category.Integer
-     |Float(_)         ->Token_category.Floating_number
-     |Char(_)          ->Token_category.Character
-     |End_of_text      ->Token_category.End_of_text;;
-     
-     
+let token_category tok=
+      Php_projected_token.token_category(form tok);;
+  
+let projected_version tok="";;     
 
-
-let projected_version=function
-      (Constant ctok)->Php_constant_token.to_string ctok
-     |x->Token_category.to_string (token_category x);;
+(*
+let projected_version tok=
+      if (form tok=Php_projected_token.Constant)
+      then Php_constant_token.to_string (content tok)
+      else Token_category.to_string (token_category tok);;
+*)    
 
 let precedence=function 
   Constant ctok->(match ctok with
@@ -196,9 +192,7 @@ let precedence=function
                  )
   |_->None;;
 
-let op s=Constant(Php_constant_token.Op(Php_operator.of_string s));;
-let punct s=Constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
-let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
+
 
 let test ctok tok=(tok=Constant(ctok));;
 

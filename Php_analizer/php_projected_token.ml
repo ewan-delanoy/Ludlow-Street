@@ -88,6 +88,10 @@ let precedence=function
                  )
   |_->None;;
 
+let constant_part=function 
+ Constant ctok->Some(ctok)
+|_->None;;
+
 let op s=Constant(Php_constant_token.Op(Php_operator.of_string s));;
 let punct s=Constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
 let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
