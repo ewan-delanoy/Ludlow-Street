@@ -15,13 +15,10 @@ let to_string=function
      |(Op s)->Php_operator.to_string s;;
   
 let all_pairs=
-  Ordered.forget_order(
-      Ordered.diforchan Keyval_ordering.ko 
-
-   (( Image.image (fun kwd->(Php_keyword.to_string kwd,Kwd kwd)) Php_keyword.all_keywords)
-  @( Image.image (fun punct->(Php_punctuator.to_string punct,Punct punct)) Php_punctuator.all_punctuators)
-  @( Image.image (fun op->(Php_operator.to_string op,Op op)) Php_operator.all_operators);;  
-  ));;
+       let kwds=Image.image (fun (s,kwd)->(s,Kwd kwd)) Php_keyword.all_pairs 
+       and puncts=Image.image (fun (s,punct)->(s,Punct punct)) Php_punctuator.all_pairs
+       and ops=Image.image (fun (s,op)->(s,Op op)) Php_operator.all_pairs in
+  Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  (kwds@puncts@ops) ));;
 
 let all_string_constants=Image.image fst all_pairs;;
 

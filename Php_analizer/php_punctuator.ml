@@ -36,7 +36,10 @@ let to_string=function
 
 
 
-let all_punctuators =
+
+  let all_pairs =
+    Ordered.forget_order() Ordered.diforchan Keyval_ordering.ko 
+    (Image.image (fun x->(to_string x,x))
 [
      T_LPARENTHESIS;
      T_RPARENTHESIS;
@@ -47,9 +50,10 @@ let all_punctuators =
      T_COMMA;
      T_COLON_COLON
 
-];;
+]));;
  
- 
+let all_punctuators =Image.image snd all_pairs;; 
+
 exception Unknown_punctuator_string of string;; 
 
 let of_prudent_string s=
@@ -60,7 +64,7 @@ let of_string s=
    None->raise(Unknown_punctuator_string(s))
   |Some(oprtr)->oprtr;;
   
-let all_strings=Image.image to_string all_punctuators;;      
+let all_strings=Image.image fst all_pairs;;      
  
   
   

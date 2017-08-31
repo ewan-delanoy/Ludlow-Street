@@ -126,8 +126,9 @@ let to_string=function
 
 
 
-let all_keywords =
-[
+let all_pairs =
+  Image.image (fun kwd->(to_string kwd,kwd))
+  [
      T_ABSTRACT;
      T_AS;
      T_BREAK;
@@ -185,7 +186,8 @@ let all_keywords =
 
 ];;
  
- 
+let all_keywords=Image.image fst all_pairs;; 
+
 exception Unknown_keyword_string of string;; 
 
 let of_prudent_string s=

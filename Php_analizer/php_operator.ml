@@ -167,12 +167,13 @@ let precedence oprtr=
   (fun (l,_)->List.mem oprtr l) list_for_precedences in
   j;;
 
-let all_operators=
-     let temp1=List.flatten(Image.image snd pre_list_for_precedences) in
-     let temp2=Image.image (fun x->(to_string x,x)) temp1 in
-     let temp3=Ordered.forget_order
-       (Ordered.diforchan Keyval_ordering.ko temp2) in
-     Image.image snd temp3;;  
+  let all_pairs=
+    let temp1=List.flatten(Image.image snd pre_list_for_precedences) in
+    let temp2=Image.image (fun x->(to_string x,x)) temp1 in
+    Ordered.forget_order
+      (Ordered.diforchan Keyval_ordering.ko temp2);;  
+
+let all_operators=Image.image snd all_pairs;;  
  
 exception Unknown_operator_string of string;; 
  
@@ -188,7 +189,7 @@ let level s=
   let p0=precedence(of_string s) in
   List.filter (fun op->precedence(op)=p0) all_operators;;  
   
-let all_strings=Image.image to_string all_operators;;   
+let all_strings=Image.image fst all_pairs;;   
  
   
   
