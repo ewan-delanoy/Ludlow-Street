@@ -21,7 +21,7 @@ let make proj s=
       content =s ;
     }
     
-(* Constructors ¨*)
+(* Constructors *)
 
     let comment s = make Php_projected_token.Comment s;;
     let constant ctok = make (Php_projected_token.Constant(ctok)) "";;
