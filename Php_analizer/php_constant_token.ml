@@ -18,7 +18,8 @@ let all_pairs=
        let kwds=Image.image (fun (s,kwd)->(s,Kwd kwd)) Php_keyword.all_pairs 
        and puncts=Image.image (fun (s,punct)->(s,Punct punct)) Php_punctuator.all_pairs
        and ops=Image.image (fun (s,op)->(s,Op op)) Php_operator.all_pairs in
-  Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  (kwds@puncts@ops) ));;
+  Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  
+     (kwds@puncts@ops) );;
 
 let all_string_constants=Image.image fst all_pairs;;
 
