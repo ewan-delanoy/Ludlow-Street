@@ -38,7 +38,7 @@ let to_string=function
 
 
   let all_pairs =
-    Ordered.forget_order() Ordered.diforchan Keyval_ordering.ko 
+    Ordered.forget_order( Ordered.diforchan Keyval_ordering.ko 
     (Image.image (fun x->(to_string x,x))
 [
      T_LPARENTHESIS;

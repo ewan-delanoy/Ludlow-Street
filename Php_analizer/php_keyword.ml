@@ -186,7 +186,7 @@ let all_pairs =
 
 ];;
  
-let all_keywords=Image.image fst all_pairs;; 
+let all_keywords=Image.image snd all_pairs;; 
 
 exception Unknown_keyword_string of string;; 
 
