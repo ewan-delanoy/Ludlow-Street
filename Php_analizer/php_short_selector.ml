@@ -6,7 +6,8 @@
 
 type t =                                                                    
          Atomic of Php_atomic_selector.t
-        |Block of Php_blocker_name.t;;
+        |Block of Php_blocker_name.t
+        |Unusual_block of Php_blocker.t;;
       
 let new_constants=
    [
@@ -73,6 +74,15 @@ let recognize sel=
         match sel with
          Atomic(atom_sel)->recognize_atom atom_sel l
         |Block(blckr)->Php_recognize_starting_block.rsb blckr l
+        |Unusual_block(blckr)->(match (Php_recognize_block.main (fun _->true) 
+                                 (Php_blocker.token_pair blckr) 
+                                 (Php_blocker.depth blckr) l) 
+                                 with
+                                 None->None
+                                 |Some(((u,last_lxng,others),last_tok))->
+                                    let fst_lxng=fst(Positioned_php_token.snd(List.hd l)) in
+                                    Some(Php_char_range.make fst_lxng last_lxng,others) 
+        )                       
       )
    ) in
    (f : Php_recognizer.t);; 
