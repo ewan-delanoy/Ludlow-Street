@@ -119,15 +119,9 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (beg_m,end_m)
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
-let token_category tok=
-      Php_projected_token.token_category(form tok);;
-  
 
+let projected_version tok=Php_projected_token.to_string(form tok);;
 
-let projected_version tok=
-    match Php_projected_token.constant_part (form tok) with
-     Some(ctok)-> Php_constant_token.to_string ctok
-     | None->Token_category.to_string (token_category tok);;
  
 
 let precedence tok=Php_projected_token.precedence(form tok);;

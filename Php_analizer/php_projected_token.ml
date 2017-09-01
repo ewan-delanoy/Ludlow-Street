@@ -39,23 +39,7 @@ let fixture_of_nonconstants=
        Char;
     ];;
 
-(*
-let token_category =function
-      Constant(ctok)   ->Php_constant_token.token_category ctok
-     |Variable      ->Token_category.Variable
-     |Ident        ->Token_category.Identifier
-     |Comment       ->Token_category.Comment
-     |Single_quoted ->Token_category.Single_quoted_string
-     |Double_quoted ->Token_category.Double_quoted_string
-     |Heredoc       ->Token_category.Heredoc_string
-     |Nowdoc        ->Token_category.Nowdoc_string
-     |Namespacer    ->Token_category.Namespacer
-     |External_echo ->Token_category.External_item
-     |Int           ->Token_category.Integer
-     |Float         ->Token_category.Floating_number
-     |Char          ->Token_category.Character
-     |End_of_text      ->Token_category.End_of_text;;
-*)     
+
   
 let precedence=function 
   Constant ctok->(match ctok with
