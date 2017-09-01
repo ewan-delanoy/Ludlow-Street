@@ -5,12 +5,468 @@
 
 *)
 
+
+
+
+let u1=abo "beaver_for_statement";;
+let u2=abo "php_token";;
+let u3=image (fun x->
+  x.Half_dressed_module.naked_module
+) u2;;
+
+let g1=vfm "php_atomic_selector";;
+let g2=image fst g1;;
+let g3=List.filter (
+   fun s->String.capitalize_ascii s=s
+) g2;;
+let g4=Ordered.diforchan Dictionary_order.dictionary_order g3;;
+
+let tf s=
+    if List.mem s ["Char";"Int";"Float"]
+    then "of_"^(String.lowercase_ascii s)
+    else String.lowercase_ascii s;;
+
+let g5=image (fun s->(tf s,s)) (ofo g4);;
+let owl=Total_ordering.product 
+ Dictionary_order.dictionary_order 
+ Total_ordering.standard;;
+let g6=ofo(Ordered.diforchan owl g5);;
+let g7=image (fun (a,b)->
+ "let "^a^" s = make Php_projected_token."^b^" s;;"
+) g6;;
+let g8="\n\n\n"^(String.concat "\n" g7)^"\n\n\n";;
+
+let g9=Explicit.image (fun (a,b)->
+German_values_in_modules.replace_string 
+ (German_wrapper.data()) ("Php_token."^b) ("Php_token."^a)
+) g5;;
+
+let g10=Explici
+
+
+
+
+
+(*
+
+let u1=Manage_lexed_data.get_data
+["symblog";"phpbb"];;
+
+let u2=Explicit.image Level_one.level_one u1;;
+
+let u3=Explicit.image Option.unpack u2;;
+
+let u4=Option.filter_and_unpack (fun (a,b,c)->
+   if Positioned_php_token_list.is_empty c 
+   then None 
+   else Some(c)
+) u3;;
+
+let u5=List.hd u4;;
+
+#use"Php_analizer/Beavers/beaver_for_statement.ml";;
+
+Beaver_for_statement.parser u5;;
+
+*)
+
+(*
+let s1="00:00:10,996 --> 00:00:13,198";;
+let n1=String.length s1;;
+let u1=Ennig.doyle (
+  fun j->(j,String.get s1 j)
+) 0 (n1-1);;
+
+
+let u1=Int_uple.list_of_pairs 44;;
+let u2=List.filter (fun (x,y)->x*y*(y*y-x*x)=2016) u1;;
+
+
+let u1=Int_uple.list_of_pairs 250;;
+let u3=image (fun (x,y)->(x*y*(y*y-x*x),(x,y))) u1;;
+let u4=ofo(Tidel2.diforchan u3);;
+
+
+let u4=List.filter (fun (m,(x,y))->) u3;;
+
+
+let v1=(ennig 1 6)@[8;9];;
+let v2=ennig 1 1000;;
+
+*)
+
+
+(*
+exception Uu_error;;
+exception Vv_error;;
+exception Ww_error;;
+
+
+let ff x=Memoized.small usual_son_for_list [x] 20;;
+let gg n=Memoized.small usual_son_for_list [p12] n;;
+
+
+let old_uu x=let l=sons x in if List.length(l)<>2 then raise(Uu_error) else List.nth l 0;;
+let old_vv x=let l=sons x in if List.length(l)<>2 then raise(Vv_error) else List.nth l 1;;
+let old_ww x=let l=sons x in if List.length(l)<>1 then raise(Ww_error) else List.nth l 0;;
+let uu=enhance old_uu;;
+let vv=enhance old_vv;;
+let ww=enhance old_ww;;
+*)
+
+(*
+let long_base=
+  "/Users/ewandelanoy/Documents/Web_Projects/Nand_to_Tetris/";;
+
+let long_name=long_base^"nand2tetris_again";;
+
+let preliminaries=Explicit.image Unix_command.hardcore_uc
+[
+  "mkdir -p "^long_name;
+  "rm -rf "^long_name^"/*";
+  "cp -R "^long_base^"nand2tetris/* "^long_name^"/";
+];;
+
+let dir=Directory_name.of_string long_name;;
+
+let u1=More_unix.complete_ls_with_nondirectories_only dir;;
+
+let u2=image (
+  fun ap->
+  let old_s=Absolute_path.to_string ap in
+  let new_s=Replace_inside.replace_inside_string (" ","\\ ") old_s in
+  (ap,new_s)
+) u1;;
+
+let u3=Ordered_string.diforchan(image (fun (ap,s)->Father_and_son.son s '.'  )u2);;
+
+let u4=Option.filter_and_unpack (
+  fun (ap,s)->
+    let (t1,t2)=Father_and_son.father_and_son s '.' in
+    if List.mem t2 ["gif";"out";"pdf";"xml";"html";"DS_Store";"txt"]
+    then None
+    else let new_s=t1^"_"^t2^".txt" in
+         Some("mv "^s^" "^new_s)
+) u2;;
+
+let u5=Explicit.image Unix_command.hardcore_uc u4;;
+*)
+
+
+(*
+let u1=[
+  238;1043;1077;1927;1931;1967;
+  1283;1273;1244;1389;1386;1396;1407;1460;1459;1880;1885;
+  1927;1931;1967;
+  2001;2015;2016;2022;2798;
+  3746;3822;
+  3141;3745;3750;3820;3834;3800;3983;3921;3934;
+  4106;4483;4771;
+  5273;5702;5732;5771
+];;
+
+let u2=ofo(Tidel.diforchan u1);;
+
+let dir="/Users/ewandelanoy/Documents/Giulio/";;
+
+let writer i=
+  let si=string_of_int i in
+  "/Applications/cpdf -scale-to-fit a4portrait "^dir^"p"^si^".pdf -o "^dir^"p_"^si^".pdf";;
+
+let u3=Ennig.doyle writer 1 14;;
+let act1=Explicit.image Unix_command.hardcore_uc u3;;
+
+let act2=More_coherent_pdf.merge
+   ~rootdir:"/Users/ewandelanoy/Documents/Giulio/"
+   ~pdfname:"p"
+   ~interval:(1,14);;
+
+*)   
+
+
+(*
+
+let dir=Directory_name.of_string "/Users/ewandelanoy/Documents/Giulio/";;
+let u1=More_unix.complete_ls dir;;
+let u2=image (fun ap->(ap,Absolute_path.to_string ap) ) u1;;
+let u3=List.filter(
+   fun (ap,s)->not(List.mem s
+     ["/Users/Ewandelanoy/Documents/Giulio/.DS_Store";                         
+      "/Users/Ewandelanoy/Documents/Giulio/"] 
+   )
+) u2;;
+
+let first_index s=
+   let i1=Substring.leftmost_index_of_in "-" s in
+    let i2=Substring.leftmost_index_of_in_from "-" s (i1+1) in
+    let t=Cull_string.interval s (i1+1) (i2-1) in
+    (int_of_string t);;
+
+let indexes=ofo(Tidel.diforchan(image (fun (ap,s)->first_index s) u3));;    
+let whole=
+     let a=List.hd(indexes) and b=List.hd(List.rev indexes) in
+     Ordered.S(Ennig.ennig a b);;
+let holes=Tidel.lemel whole (Ordered.S indexes);;
+
+let u4=image (
+  fun (ap,s)->
+    let j=find_index(first_index s) indexes in
+    let base=Father_and_son.father s '/' in
+    let new_s=(base)^"/isacruz_"^(string_of_int(j))^".pdf" in
+    "cp "^s^" "^new_s
+) u3;;
+
+let u5=Explicit.image Unix_command.hardcore_uc u4;;
+
+let u6=More_coherent_pdf.merge
+   ~rootdir:"/Users/ewandelanoy/Documents/Giulio/"
+   ~pdfname:"isacruz"
+   ~interval:(1,563);;
+
+
+let z5=List.filter (fun (ap,s)->List.mem (first_index s) [516;519;534;537]) u3;;
+let z6=image fst z5;;
+
+let  check1=List.filter (
+  fun (ap,s)->not(Substring.begins_with 
+    s "/Users/Ewandelanoy/Documents/Giulio/uva."
+  )
+) u3;;
+
+let  check2=List.filter (
+  fun (ap,s)->not(Substring.ends_with 
+    s ".pdf"
+  )
+) u3;;
+
+
+
+*)
+
+
+
+
+
+
+
+
+
+
+
+
+
+(*
+let dir="/Users/ewandelanoy/Documents/Firpo/";;
+
+let z1=More_coherent_pdf.merge
+   ~rootdir:"//Users/ewandelanoy/Documents/Firpo/"
+   ~pdfname:"p"
+   ~interval:(1,23);;
+
+let u1=Ennig.doyle (fun j->
+  let sj=string_of_int j in
+  "/Applications/cpdf -scale-to-fit a4portrait "^
+  dir^"p"^sj^".pdf -o "^dir^"p_"^sj^".pdf"
+) 1 23;;   
+
+let u2=image Unix_command.hardcore_uc u1;;
+*)
+
+(*
+let u1=[
+  636;643;617;628;627;605;624;653;
+  575;589;595;
+  760;746;768;725;727;713;
+  811;803;848;859;818;809
+];;
+
+let u2=ofo(Tidel.diforchan u1);;
+*)
+(*
+let ap=Absolute_path.of_string "/Users/ewandelanoy/Documents/html_files/Translations/membership_translated.txt";;
+let z1=Io.read_whole_file ap;;
+let i1=Substring.leftmost_index_of_in "OCTOBERR" z1;;
+
+let z2=itv z1 i1 (i1+1000);;
+
+let act1=Replace_inside.replace_several_inside_file
+[
+  ("a\204\128","\195\160");
+  ("a\204\130","\195\162");
+  ("c\204\167","\195\167");
+  ("e\204\128","\195\168");
+  ("e\204\129","\195\169");
+  ("e\204\130","\195\170");
+  ("e\204\136","\195\171");
+  ("o\204\130","\195\180");
+  ("u\204\130","\195\187");
+  ("C\204\167","\195\135");
+  ("E\204\129","\195\137");
+]
+ap;;
+
+*)
+
+
+
+
+
+(*
+type wrapped_int=Wr of int;;
+
+
+let print_out_wrapped_int (fmt:Format.formatter) (Wr i)=
+   Format.fprintf fmt "@[<1>%s%s@<1>%s@]" 
+   "\xe3\x80\x90" 
+   (" "^(string_of_int i)^" ")  
+   "\xe3\x80\x91";;  
+
+#install_printer print_out_wrapped_int;;
+
+
+let example1=Wr 7;;
+let example2=print_string(print_wrapped_int example1);;
+*)
+
+(*
+
+let print_out_wrapped_int (fmt:Format.formatter) (Wr i)=
+   Format.fprintf fmt "[@<1>%s%s@<2>%s@]" 
+   "\xe3\x80\x90" 
+   (" "^(string_of_int i)^" ")  
+   "\xe3\x80\x91";;  
+
+#install_printer print_out_wrapped_int;;
+
+let u1=Manage_lexed_data.get_data ["symblog";"phpbb"];;
+
+let old_u2=Explicit.image Php_parser_homomorphism.star Beaver_for_statement.parser u1;;
+
+let dummy=Positioned_php_token_list.print;;
+*)
+
+
+(*
+
+let h1=
+{Positioned_php_token_list.contained=
+Image.image
+(fun (x,y)->Positioned_php_token.PPL(x,y))
+[(Php_token.Constant (Php_constant_token.Kwd Php_keyword.T_ECHO),                                                                                 ({Lexing.pos_fname =                                                                                                                        
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 7},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 10}));
+   (Php_token.Variable "$foo",
+    ({Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 12},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 15}));
+   (Php_token.External_echo "\n",
+    ({Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 16},
+     {Lexing.pos_fname =
+       "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Vendor/Symfony/Symfony/Src/Symfony/Component/Templating/Tests/Fixtures/Templates/foo.php";
+      pos_lnum = 1; pos_bol = 0; pos_cnum = 19}))]
+};;
+
+let h2=Option.find_really (fun x->x.Beaver_for_statement.name="echo2") 
+(!(Beaver_for_statement.current_data_list));;
+
+let bad1=Beaver_for_statement.classical_parser h2 h1;;
+
+let elt=h2 and l=h1;;
+let trmt1=Termite.of_string elt.Beaver_for_statement.unadbriged_content;;
+let opt2=Termite.parse trmt1 l;;
+let (l2,cr2,peurrest)=Option.unpack opt2;;
+let cata=elt.Beaver_for_statement.catalyser;;
+let catalyser_check=(
+        if cata=""
+        then true
+        else (Termite.parse (Termite.of_string cata) peurrest)<>None
+);;
+
+*)
+
+(*
+let some_value=5;;
+
+module Boogie=struct
+
+let b=6;;
+
+module Woogie=struct
+
+let parker=7;;
+
+module Andrew=struct
+
+let d=8;;
+
+let first_user=d+1;;
+
+end;;
+
+let second_user=Andrew.d+2;;
+
+let fleury=9;;
+
+end;;
+
+let third_user=Woogie.Andrew.d+3;;
+
+let burp=10;;
+
+end;;
+
+
+
+let fourth_user=Boogie.Woogie.Andrew.d+3;;
+
+
+let g=48+Boogie.Woogie.parker;;
+let h=49+some_value;;
+
+*)
+
+(*
+
+let f x=match x.Ocaml_gsyntax_item.category with                                                                     
+  | Ocaml_gsyntax_category.Type
+  | Ocaml_gsyntax_category.Exception->(1,x)
+  | Ocaml_gsyntax_category.Module_opener->(2,x)
+  | Ocaml_gsyntax_category.Module_closer->(3,x)
+  | Ocaml_gsyntax_category.Module_inclusion->(4,x);;
+
+module Mood=struct
+
+type mytype= A |B |C |D |E;;
+
+end;;
+
+let f x=match x with Mood.A|Mood.B|Mood.C->(1,x) |Mood.D->(2,Mood.D) |Mood.E->(3,Mood.E);;
+
+
+module Weak=struct
+let e=6;;
+end;;
+
+*)
+
+
+
+
+(*
 let z1=(!(Unix_command.accu));;
 let z2=List.rev z1;;
 
 "ocamlc -bin-annot -g  str.cma unix.cma  -o debugger.d.cmo -c debugger.ml";
 "ocamlopt -bin-annot -g str.cmxa unix.cmxa  -o debugger.ocaml_debuggable ";
- 
+ *)
 
 
 (*
