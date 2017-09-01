@@ -10,9 +10,9 @@ type t =
       
 let new_constants=
    [
-     "()",Block(Php_blocker.Parenthesis);
-     "{}",Block(Php_blocker.Brace);
-     "[]",Block(Php_blocker.Bracket);
+     "()",Block(Php_blocker.parenthesis);
+     "{}",Block(Php_blocker.brace);
+     "[]",Block(Php_blocker.bracket);
    ];;
 
 let is_constant=function
