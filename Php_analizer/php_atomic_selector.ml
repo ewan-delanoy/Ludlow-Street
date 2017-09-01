@@ -8,11 +8,11 @@ Selector that only deals with one character.
 
 type t =                                                                    
         CT of Php_constant_token.t
-      | TC of Token_category.t
+      | TC of Php_projected_token.t
       | Prec of Strict_or_loose.t * Php_operator.t
       | LCT of Php_constant_token.t list
       | NCT of Php_constant_token.t list
-      | CTTC of (Php_constant_token.t list)*(Token_category.t list);;
+      | CTTC of (Php_constant_token.t list)*(Php_projected_token.t list);;
       
 let is_constant =function
    CT(_)->true
@@ -49,7 +49,7 @@ let special_list =
             );          
     "id_or_var",CTTC([],
                [
-                Token_category.Variable; Token_category.Identifier; 
+                Php_projected_token.Variable; Php_projected_token.Ident; 
                ]
               ); 
     "include_like",LCT(
@@ -61,9 +61,9 @@ let special_list =
                );                     
     "int_or_string_or_var",CTTC([],
                [
-                Token_category.Variable;Token_category.Identifier;
-                Token_category.Integer;
-                Token_category.Single_quoted_string;Token_category.Double_quoted_string;
+                Php_projected_token.Variable;Php_projected_token.Ident;
+                Php_projected_token.Int;
+                Php_projected_token.Single_quoted;Php_projected_token.Double_quoted;
                ]
               );             
     "no_breach",NCT[Php_constant_token.Kwd Php_keyword.T_FOREACH;
@@ -97,10 +97,11 @@ let special_list =
                 Php_constant_token.Punct Php_punctuator.T_ARROW;
                ],
                [
-                Token_category.Variable; Token_category.Identifier; 
-                Token_category.Comment; Token_category.Single_quoted_string;
-                Token_category.Double_quoted_string; Token_category.Heredoc_string; 
-                Token_category.Nowdoc_string
+                Php_projected_token.Variable; Php_projected_token.Ident; 
+                Php_projected_token.Comment; Php_projected_token.Single_quoted;
+                Php_projected_token.Double_quoted; 
+                Php_projected_token.Heredoc; 
+                Php_projected_token.Nowdoc
                ]
               );  
   ];; 
@@ -109,7 +110,7 @@ exception Unregistered of t;;
  
 let to_string = function
    CT(ctok)->vbar_escape(Php_constant_token.to_string ctok)
-  |TC(tc)->Token_category.to_string(tc)
+  |TC(tc)->Php_projected_token.to_string(tc)
   |Prec(sol,op)->(Strict_or_loose.to_string sol)^(Php_operator.to_string op)
   |x->try (fst(Option.find_really (fun p->snd(p)=x) special_list)) 
       with 
@@ -122,7 +123,7 @@ let all_constants=
        )
        @
        (
-         Image.image (fun tc->(Token_category.to_string tc,TC tc) ) Token_category.all_tokens
+         Image.image (fun tc->(Php_projected_token.to_string tc,TC tc) ) Php_projected_token.all_tokens
        )
        @
        (
@@ -145,14 +146,14 @@ let of_string s=match optional_of_string s with
   
 let test sel tok = match sel with
    CT(ctok)->Php_token.test ctok tok
-  |TC(tc)->Php_token.token_category(tok)=tc
+  |TC(tc)->Php_token.form(tok)=tc
   |NCT(lctok)->List.for_all (fun ctok->not(Php_token.test ctok tok)) lctok
   |LCT(lctok)->List.exists (fun ctok->Php_token.test ctok tok) lctok
   |CTTC(lctok,ltc)->(List.exists (fun ctok->Php_token.test ctok tok) lctok)
                     ||
                     (List.mem (Php_token.token_category tok) ltc)
   |Prec(sol,op)->
-     if (List.mem (Php_token.token_category tok) Token_category.harmless_tokens)
+     if (List.mem (Php_token.token_category tok) Php_projected_token.harmless_tokens)
            ||
            (List.mem tok [Php_token.punct"(";Php_token.punct")"])
        then true   

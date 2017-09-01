@@ -18,30 +18,6 @@ type t=
     |Float 
     |Char 
     |End_of_text;;
-(*
-let content=function
-     
-      (Constant ctok)->Php_constant_token.to_string ctok
-     |(Variable s)->s 
-     |(Ident s)->s
-     |(Comment s)->s
-     |(Single_quoted s)->"'"^s^"'"
-     |(Double_quoted s)->"\""^s^"\""
-     |(Heredoc s)->s
-     |(Nowdoc s)->s
-     |(Namespacer (b,l,s))->s
-     |(External_echo s)->s
-     |(Int s)->s
-     |(Float s)->s
-     |(Char c)->String.make 1 c
-     |(End_of_text)->"EOF";;
-
-let short_content x=
-   let s=content x in
-   if String.length(s)>50
-   then "..."
-   else s;;
-*)
 
 let is_a_comment=function
    Comment->true
@@ -101,5 +77,40 @@ let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
 
 let test ctok tok=(tok=Constant(ctok));;
 
+let to_string=function
+ Constant(ctok)->Php_constant_token.to_string ctok
+|Variable->"variable"
+|Ident->"id"
+|Comment->"cmt"
+|Single_quoted->"sqs"
+|Double_quoted->"dqs"
+|Heredoc->"heredoc"
+|Nowdoc->"nowdoc"
+|Namespacer->"nmspc"
+|External_item->"ext"
+|Int->"integer"
+|Floating_number->"float"
+|Character->"chr"
+|End_of_text->"eot";;
 
+let all_tokens=
+  (
+   Image.image (fun ctok->Constant ctok) Php_constant_token.all
+  )
+  @
+  fixture_of_nonconstants;;
 
+  let string_tokens=
+    [
+      
+      Variable;
+      Ident;
+      Comment;
+      Single_quoted;
+      Double_quoted;
+      Heredoc;
+      Nowdoc
+      
+    ];;     
+      
+ let harmless_tokens=string_tokens@[Int;Float];;  
