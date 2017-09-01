@@ -6,21 +6,23 @@
    
 *)
 
-type t=
+type bare_t=
    Parenthesis
   |Brace
   |Bracket
   |Ternop;;
   
-let parenthesis=Parenthesis;;
-let brace=Brace;;
-let bracket=Bracket;;
-let ternop=Ternop;;
+type t=Bl of bare_t * int;;
+
+let parenthesis=Bl(Parenthesis,0);;
+let brace=Bl(Brace,0);;
+let bracket=Bl(Bracket,0);;
+let ternop=Bl(Ternop,0);;
 
 let all=
   [parenthesis;brace;bracket;ternop];;  
   
-let pair=function
+let pair (Bl(x,d))=match x with
    Parenthesis->("(",")")
   |Brace->("{","}")
   |Bracket->("[","]")
