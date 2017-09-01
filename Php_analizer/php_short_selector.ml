@@ -6,13 +6,13 @@
 
 type t =                                                                    
          Atomic of Php_atomic_selector.t
-        |Block of Php_blocker.t;;
+        |Block of Php_blocker_name.t;;
       
 let new_constants=
    [
-     "()",Block(Php_blocker.parenthesis);
-     "{}",Block(Php_blocker.brace);
-     "[]",Block(Php_blocker.bracket);
+     "()",Block(Php_blocker_name.parenthesis);
+     "{}",Block(Php_blocker_name.brace);
+     "[]",Block(Php_blocker_name.bracket);
    ];;
 
 let is_constant=function
