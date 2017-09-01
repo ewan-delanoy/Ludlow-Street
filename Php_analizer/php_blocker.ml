@@ -12,6 +12,8 @@ type t=Bl of Php_blocker_name.t * int;;
 
 let depth (Bl(x,d))=d;;
 
+let make x d=Bl(x,d);;
+
 let parenthesis=Bl(Php_blocker_name.parenthesis,1);;
 let brace=Bl(Php_blocker_name.brace,1);;
 let bracket=Bl(Php_blocker_name.bracket,1);;
