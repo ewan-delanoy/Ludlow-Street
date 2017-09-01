@@ -14,7 +14,7 @@ let  rsb blckr=
      if  Positioned_php_token.fst(a)<>left_blocker
      then None
      else 
-     match Php_recognize_block.main (fun x->true) (left_blocker,right_blocker) depth peurrest 
+     match Php_recognize_block.main (fun x->true) (left_blocker,right_blocker) (depth+1) peurrest 
      with
      None->None
      |Some(((u,last_lxng,others),last_tok))->
