@@ -87,10 +87,10 @@ let to_string=function
 |Heredoc->"heredoc"
 |Nowdoc->"nowdoc"
 |Namespacer->"nmspc"
-|External_item->"ext"
+|External_echo->"ext"
 |Int->"integer"
-|Floating_number->"float"
-|Character->"chr"
+|Float->"float"
+|Char->"chr"
 |End_of_text->"eot";;
 
 let all_tokens=
