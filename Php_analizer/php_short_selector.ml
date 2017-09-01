@@ -80,7 +80,7 @@ let recognize sel=
                                  with
                                  None->None
                                  |Some(((u,last_lxng,others),last_tok))->
-                                    let fst_lxng=fst(Positioned_php_token.snd(List.hd l)) in
+                                    let fst_lxng=fst(Positioned_php_token.snd(Positioned_php_token_list.hd l)) in
                                     Some(Php_char_range.make fst_lxng last_lxng,others) 
         )                       
       )
