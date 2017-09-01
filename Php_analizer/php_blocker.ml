@@ -14,6 +14,8 @@ type bare_t=
   
 type t=Bl of bare_t * int;;
 
+let depth (Bl(x,d))=d;;
+
 let parenthesis=Bl(Parenthesis,0);;
 let brace=Bl(Brace,0);;
 let bracket=Bl(Bracket,0);;
