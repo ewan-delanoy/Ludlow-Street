@@ -18,7 +18,8 @@ let new_constants=
 
 let is_constant=function
    Atomic(atom_sel)->Php_atomic_selector.is_constant atom_sel
-  |Block(_)->false;;
+  |Block(_)->false
+  |Unusual_block(_)->false;;
 
 let all_constants=
    let temp1=
