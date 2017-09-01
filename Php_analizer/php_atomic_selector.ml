@@ -151,9 +151,9 @@ let test sel tok = match sel with
   |LCT(lctok)->List.exists (fun ctok->Php_token.test ctok tok) lctok
   |CTTC(lctok,ltc)->(List.exists (fun ctok->Php_token.test ctok tok) lctok)
                     ||
-                    (List.mem (Php_token.token_category tok) ltc)
+                    (List.mem (Php_token.form tok) ltc)
   |Prec(sol,op)->
-     if (List.mem (Php_token.token_category tok) Php_projected_token.harmless_tokens)
+     if (List.mem (Php_token.form tok) Php_projected_token.harmless_tokens)
            ||
            (List.mem tok [Php_token.punct"(";Php_token.punct")"])
        then true   
