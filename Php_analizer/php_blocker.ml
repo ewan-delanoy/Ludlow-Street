@@ -16,10 +16,10 @@ type t=Bl of bare_t * int;;
 
 let depth (Bl(x,d))=d;;
 
-let parenthesis=Bl(Parenthesis,0);;
-let brace=Bl(Brace,0);;
-let bracket=Bl(Bracket,0);;
-let ternop=Bl(Ternop,0);;
+let parenthesis=Bl(Parenthesis,1);;
+let brace=Bl(Brace,1);;
+let bracket=Bl(Bracket,1);;
+let ternop=Bl(Ternop,1);;
 
 let all=
   [parenthesis;brace;bracket;ternop];;  

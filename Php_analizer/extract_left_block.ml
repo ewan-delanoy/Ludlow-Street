@@ -7,7 +7,7 @@
 
 
 let main
-   f (left_blocker,right_blocker) tok_l=
+   f (left_blocker,right_blocker) depth tok_l=
    let rec tempf=(
    fun (graet,j,da_ober)->
      if Positioned_php_token_list.is_empty da_ober
@@ -27,5 +27,5 @@ let main
        then tempf(Positioned_php_token_list.cons  a graet,j,peurrest)
        else None
    ) in
-   tempf(Positioned_php_token_list.empty,1,tok_l);;
+   tempf(Positioned_php_token_list.empty,depth,tok_l);;
 
