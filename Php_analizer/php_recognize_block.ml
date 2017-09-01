@@ -5,7 +5,7 @@
 *)
 
 
-let  recognize_block blckr=
+let  rsb blckr=
    let (left_blocker,right_blocker)=Php_blocker.token_pair blckr 
    and depth=Php_blocker.depth blckr in
   ((function l->
