@@ -39,7 +39,7 @@ let fixture_of_nonconstants=
        Char;
     ];;
 
-
+(*
 let token_category =function
       Constant(ctok)   ->Php_constant_token.token_category ctok
      |Variable      ->Token_category.Variable
@@ -55,7 +55,7 @@ let token_category =function
      |Float         ->Token_category.Floating_number
      |Char          ->Token_category.Character
      |End_of_text      ->Token_category.End_of_text;;
-     
+*)     
   
 let precedence=function 
   Constant ctok->(match ctok with
