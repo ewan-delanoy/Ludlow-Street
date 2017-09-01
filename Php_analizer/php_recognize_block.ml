@@ -1,6 +1,6 @@
 (*
 
-#use"Php_analizer/php_recognize_block.ml";;
+#use"Php_analizer/php_recognize_starting_block.ml";;
 
 *)
 
