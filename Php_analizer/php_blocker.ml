@@ -6,29 +6,21 @@
    
 *)
 
-type bare_t=
-   Parenthesis
-  |Brace
-  |Bracket
-  |Ternop;;
+
   
-type t=Bl of bare_t * int;;
+type t=Bl of Php_blocker_name.t * int;;
 
 let depth (Bl(x,d))=d;;
 
-let parenthesis=Bl(Parenthesis,1);;
-let brace=Bl(Brace,1);;
-let bracket=Bl(Bracket,1);;
-let ternop=Bl(Ternop,1);;
+let parenthesis=Bl(Php_blocker_name.parenthesis,1);;
+let brace=Bl(Php_blocker_name.brace,1);;
+let bracket=Bl(Php_blocker_name.bracket,1);;
+let ternop=Bl(Php_blocker_name.ternop,1);;
 
 let all=
   [parenthesis;brace;bracket;ternop];;  
   
-let pair (Bl(x,d))=match x with
-   Parenthesis->("(",")")
-  |Brace->("{","}")
-  |Bracket->("[","]")
-  |Ternop->("?",":");;  
+let pair (Bl(x,d))=Php_blocker_name.pair x;;  
   
 let all_pairs=Image.image pair all;;  
   
