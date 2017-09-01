@@ -12,8 +12,13 @@ type t=
   |Bracket
   |Ternop;;
   
+let parenthesis=Parenthesis;;
+let brace=Brace;;
+let bracket=Bracket;;
+let ternop=Ternop;;
+
 let all=
-  [Parenthesis;Brace;Bracket;Ternop];;  
+  [parenthesis;brace;bracket;ternop];;  
   
 let pair=function
    Parenthesis->("(",")")
