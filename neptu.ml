@@ -6,6 +6,31 @@
 *)
 
 
+let level_one=Php_parser_homomorphism.star Beaver_for_statement.parser;;
+
+let u1=Manage_lexed_data.get_data
+["symblog";"phpbb"];;
+
+let u2=Explicit.image level_one u1;;
+
+let u3=Explicit.image Option.unpack u2;;
+
+let u4=Option.filter_and_unpack (fun (a,b,c)->
+   if Positioned_php_token_list.is_empty c 
+   then None 
+   else Some(c)
+) u3;;
+
+let u5=List.hd u4;;
+
+#use"Php_analizer/Beavers/beaver_for_statement.ml";;
+
+
+(*
+
+German_wrapper.undeclare_printer_equipped_type
+(hmx "debugged");;
+German_wrapper.save_all();;
 
 
 let u1=abo "beaver_for_statement";;
@@ -43,7 +68,7 @@ German_values_in_modules.replace_string
 
 let g10=Explici
 
-
+*)
 
 
 

@@ -196,10 +196,11 @@
 #load"php_parser.cmo";;
 #load"php_lexer.cmo";;
 #load"php_recognizer.cmo";;
-#load"php_blocker.cmo";;
-#load"extract_left_block.cmo";;
 #load"php_recognize_block.cmo";;
-#load"php_atomic_selector.cmo";;
+#load"php_blocker_name.cmo";;
+#load"php_recognize_starting_block.cmo";;
+#load"php_projected_token_set.cmo";;
+#load"php_blocker.cmo";;
 #load"tidel2.cmo";;
 #load"php_short_selector.cmo";;
 #load"generalizer.cmo";;
@@ -213,6 +214,7 @@
 #load"php_class_modifier.cmo";;
 #load"php_parser_homomorphism.cmo";;
 #load"php_check_recognizer_rules.cmo";;
+#load"php_atomic_selector.cmo";;
 #load"manage_lexed_data.cmo";;
 #load"beaver_for_statement.cmo";;
 #load"level_one.cmo";;
@@ -243,7 +245,6 @@
 #load"inclusion.cmo";;
 #load"gparser_for_c_language.cmo";;
 #load"endsubdirectory.cmo";;
-#load"debugger.cmo";;
 #load"small_int_based_rational.cmo";;
 #load"big_int_based_rational.cmo";;
 #load"german_values_in_modules.cmo";;
