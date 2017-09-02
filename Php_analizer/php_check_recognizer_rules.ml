@@ -6,6 +6,8 @@ If everything is OK, all the components of they_should_be_empty are []
 
 *)
 
+(*
+
 let hi=List.length;;
 let ofo=Ordered.forget_order;;
 
@@ -56,5 +58,5 @@ let check2=List.filter (fun (w,l)->List.length(l)>1) u3;;
 
 let they_should_be_empty=(check1,check2);;
 
-
+*)
 
