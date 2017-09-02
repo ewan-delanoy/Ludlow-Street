@@ -7,11 +7,11 @@
 
 
 let rd dir mdata=
-   let d=20
+   let d=2
    and sroot=Directory_name.connectable_to_subpath dir in
    let tempf=(fun j->
    let stars=String.concat "" (Ennig.doyle (fun t->"*/") 1 j) in
-   sroot^stars^"*.d.cm*"
+   sroot^stars^"*.d.cm*"^" "^sroot^stars^"*.ocaml_debuggable"
    ) in
    let temp1=String.concat " " (Ennig.doyle tempf 0 d) in
    Unix_command.uc("rm -f "^temp1);;
