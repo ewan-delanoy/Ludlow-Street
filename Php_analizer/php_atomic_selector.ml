@@ -105,7 +105,7 @@ let special_list =
 exception Unregistered of t;; 
  
 let to_string = function
-   CT(ctok)->vbar_escape(Php_constant_token.to_string ctok)
+   CT(ctok)->(Php_constant_token.to_string ctok)
   |TC(tc)->Php_projected_token.to_string(tc)
   |Prec(sol,op)->(Strict_or_loose.to_string sol)^(Php_operator.to_string op)
   |x->try (fst(Option.find_really (fun p->snd(p)=x) special_list)) 
