@@ -19,6 +19,8 @@ let lemel (N x) (N y)=N(Ordered.lemel
 Php_projected_token.order x y
 );;
 
+let is_a_singleton (N x)=(Ordered.length(x)=1);;
+
 let whole=from_list Php_projected_token.all_tokens;;
 
 let complement x=lemel whole x;;
@@ -241,7 +243,7 @@ end;;
 let all_pairs=Private.all_pairs;;
 
 let from_precedence=Private.from_precedence;;
-
+let is_a_singleton=Private.is_a_singleton;;
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
 
