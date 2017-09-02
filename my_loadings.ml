@@ -245,6 +245,7 @@
 #load"inclusion.cmo";;
 #load"gparser_for_c_language.cmo";;
 #load"endsubdirectory.cmo";;
+#load"debugging_tools.cmo";;
 #load"small_int_based_rational.cmo";;
 #load"big_int_based_rational.cmo";;
 #load"german_values_in_modules.cmo";;
