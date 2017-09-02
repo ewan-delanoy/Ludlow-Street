@@ -84,6 +84,11 @@ let all_tokens=
   @
   fixture_of_nonconstants;;
 
+let order=((
+  fun x y->Dictionary_order.dictionary_order 
+     (to_string x) (to_string y)
+): t Total_ordering.t);;
+
   let string_tokens=
     [
       
