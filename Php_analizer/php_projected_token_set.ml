@@ -230,7 +230,7 @@ get_name_for_set stringy (Some "stringy");;
 let all_pairs=
    (
      Image.image 
-     (fun (s,ptok)->(s,N[ptok]))
+     (fun (s,ptok)->(s,N(Ordered.S([ptok]))) )
      Php_projected_token.all_pairs
    )
    @
@@ -240,7 +240,7 @@ end;;
 
 let all_pairs=Private.all_pairs;;
 
-let from_precedence=Private.some_precedence;;
+let from_precedence=Private.from_precedence;;
 
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
