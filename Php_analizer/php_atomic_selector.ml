@@ -18,11 +18,7 @@ let is_constant =function
    CT(_)->true
    |_->false;;
 
-let escape_list=[];;
-
-let vbar_escape s=
-   try List.assoc s escape_list with
-   _->s;;      
+let escape_list=[];; 
 
 let everyone_selector=NCT[];;
 
