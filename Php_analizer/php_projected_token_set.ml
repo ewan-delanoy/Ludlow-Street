@@ -215,4 +215,4 @@ end;;
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
 
-let test (N s) x=Ordered.elfenn x s;; 
+let test (N s) x=Ordered.elfenn Php_projected_token.order x s;; 
