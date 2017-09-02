@@ -5,12 +5,11 @@
 *)
 
 type t =                                                                    
-         Atomic of Php_atomic_selector.t
-        |Atomac of Php_projected_token_set.t 
+         Atomac of Php_projected_token_set.t 
         |Block of Php_blocker_name.t
         |Unusual_block of Php_blocker.t;;
       
-let new_constants=
+let new_pairs=
    [
      "()",Block(Php_blocker_name.parenthesis);
      "{}",Block(Php_blocker_name.brace);
@@ -18,8 +17,7 @@ let new_constants=
    ];;
 
 let is_constant=function
-   Atomic(atom_sel)->Php_atomic_selector.is_constant atom_sel
-  |Atomac(_)->false 
+   Atomac(atomac_sel)->Php_projected_token_set.is_a_singleton atomac_sel
   |Block(_)->false
   |Unusual_block(_)->false;;
 
@@ -27,11 +25,11 @@ let all_pairs=
    let temp1=
    (
      Image.image (fun (s,ato)->
-        (s,Atomic(ato))
-     ) Php_atomic_selector.all_constants
+        (s,Atomac(ato))
+     ) Php_projected_token_set.all_pairs
    )
    @
-   new_constants in
+   new_pairs in
    let temp2=Image.image (fun (s,ato)->(-(String.length s),(s,ato)) ) temp1 in
    let temp3=Tidel2.diforchan temp2 in
    Tidel2.image snd temp3;;
@@ -58,18 +56,6 @@ let optional_of_string s0=match
 let of_string s=match optional_of_string s with
    None->raise(Unknown(s))
   |Some(s)->s;;
-  
-
-let recognize_atom atom_sel=
-   let f=(function x->
-      if x=Positioned_php_token_list.empty then None else
-      let (a,peurrest)=Positioned_php_token_list.ht x in
-        if Php_atomic_selector.test atom_sel (Positioned_php_token.fst a) 
-        then let (u,v)=Positioned_php_token.snd a in
-             Some(Php_char_range.make u v,peurrest)
-        else None
-   ) in
-   (f : Php_recognizer.t);;   
 
    let recognize_atomac atomac_sel=
     let f=(function x->
@@ -86,8 +72,7 @@ let recognize sel=
    let f=(function
       l->(
         match sel with
-         Atomic(atom_sel)->recognize_atom atom_sel l
-        |Atomac(atomac_sel)->recognize_atomac atomac_sel l 
+         Atomac(atomac_sel)->recognize_atomac atomac_sel l 
         |Block(blckr)->Php_recognize_starting_block.rsb blckr l
         |Unusual_block(blckr)->(match (Php_recognize_block.main (fun _->true) 
                                  (Php_blocker.token_pair blckr) 
