@@ -75,7 +75,7 @@ let recognize_atom atom_sel=
     let f=(function x->
        if x=Positioned_php_token_list.empty then None else
        let (a,peurrest)=Positioned_php_token_list.ht x in
-         if Php_projected_token_set.test atomac_sel (Positioned_php_token.fst a) 
+         if Php_projected_token_set.test atomac_sel (Php_token.form(Positioned_php_token.fst a)) 
          then let (u,v)=Positioned_php_token.snd a in
               Some(Php_char_range.make u v,peurrest)
          else None
