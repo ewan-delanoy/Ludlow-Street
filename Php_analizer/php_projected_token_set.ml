@@ -229,6 +229,8 @@ let stringy=complement_from_list(
   
 get_name_for_set stringy (Some "stringy");;
 
+define_precedence_set Strict_or_loose.Loose Php_operator.T_EQUALS;;
+
 let all_pairs=
    (
      Image.image 
