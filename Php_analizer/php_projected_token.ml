@@ -103,3 +103,8 @@ let order=((
     ];;     
       
  let harmless_tokens=string_tokens@[Int;Float];;  
+ 
+ let precedence_neutral_tokens=harmless_tokens@
+  (Image.image (fun x->Constant(Php_constant_token.punct(x))) 
+   [Php_punctuator.T_LPARENTHESIS;Php_punctuator.T_RPARENTHESIS]);;
+   

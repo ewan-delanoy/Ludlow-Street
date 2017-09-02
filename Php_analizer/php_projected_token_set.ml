@@ -25,6 +25,25 @@ let complement x=lemel whole x;;
 
 let complement_from_list l=complement(from_list l);;
 
+(*
+let from_precedence sol op=
+    from_list(
+
+
+      List.filter (
+        fun ptok->
+        if (List.mem ptok Php_projected_token.harmless_tokens)
+        ||
+        (List.mem ptok [Php_projectedtoken.punct"(";Php_token.punct")"])
+    then true   
+    else let p=Php_token.precedence(tok) in
+         if p=None
+         then false 
+         else Strict_or_loose.test sol (Option.unpack p) (Php_operator.precedence op)
+      ) Php_projected_token.all_tokens
+    );;
+*)
+
 
 (* Naming used sets *)
 
