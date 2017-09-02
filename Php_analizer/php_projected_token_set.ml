@@ -230,7 +230,7 @@ get_name_for_set stringy (Some "stringy");;
 let all_pairs=
    (
      Image.image 
-     (fun (s,ptok)->(s,N[ptok])
+     (fun (s,ptok)->(s,N[ptok]))
      Php_projected_token.all_pairs
    )
    @
