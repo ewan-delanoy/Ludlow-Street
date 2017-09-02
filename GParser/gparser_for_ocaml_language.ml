@@ -195,7 +195,7 @@ let prsr_for_special_names=
        Gparser.Constant "add_data ";
        Gparser.Constant "add_data\n";
        Gparser.Constant "add_shortcut ";
-       Gparser.Constant "get_name_for_set  ";
+       Gparser.Constant "get_name_for_set ";
      ];;   
    
 let prsr_for_specialities=Gparser.Chain
