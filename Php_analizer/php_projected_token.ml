@@ -84,7 +84,7 @@ let order=((
      (to_string x) (to_string y)
 ): t Total_ordering.t);;
 
-let (all_tokens,all_pairs)=
+let temp_pair=
   let temp1=(
     Image.image (fun ctok->Constant ctok) Php_constant_token.all
    )
@@ -92,6 +92,9 @@ let (all_tokens,all_pairs)=
    fixture_of_nonconstants in
    let temp2=Ordered.forget_order(Ordered.diforchan order temp1) in
    (temp2,Image.image (fun ptok->(to_string ptok,ptok)) temp2);; 
+
+let all_tokens=fst temp_pair;;
+let all_pairs=snd temp_pair;;
 
   let string_tokens=
     [
