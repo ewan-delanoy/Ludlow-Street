@@ -23,7 +23,7 @@ let is_constant=function
   |Block(_)->false
   |Unusual_block(_)->false;;
 
-let all_constants=
+let all_pairs=
    let temp1=
    (
      Image.image (fun (s,ato)->
@@ -36,22 +36,22 @@ let all_constants=
    let temp3=Tidel2.diforchan temp2 in
    Tidel2.image snd temp3;;
 
-let all_string_constants=Image.image fst all_constants;;
+let all_string_constants=Image.image fst all_pairs;;
 
 let list_from_string s=
   let temp1=Strung.longest_match_parsing all_string_constants s in
-  Image.image (fun a->List.assoc a all_constants) temp1;;
+  Image.image (fun a->List.assoc a all_pairs) temp1;;
 
 exception Unregistered of t;; 
  
-let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) all_constants)) 
+let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) all_pairs)) 
       with 
       _->raise(Unregistered(x));;
 
 exception Unknown of string;;
 
 let optional_of_string s0=match 
-   Option.find_it (fun (s,sel)->s=s0) all_constants with
+   Option.find_it (fun (s,sel)->s=s0) all_pairs with
    None->None
    |Some(_,sel)->Some(sel);;
    
