@@ -77,17 +77,21 @@ let to_string=function
 |Char->"chr"
 |End_of_text->"eot";;
 
-let all_tokens=
-  (
-   Image.image (fun ctok->Constant ctok) Php_constant_token.all
-  )
-  @
-  fixture_of_nonconstants;;
+
 
 let order=((
   fun x y->Dictionary_order.dictionary_order 
      (to_string x) (to_string y)
 ): t Total_ordering.t);;
+
+let (all_tokens,all_pairs)=
+  let temp1=(
+    Image.image (fun ctok->Constant ctok) Php_constant_token.all
+   )
+   @
+   fixture_of_nonconstants in
+   let temp2=Ordered.forget_order(Ordered.diforchan order temp1) in
+   (temp2,Image.image (fun ptok->(to_string ptok,ptok)) temp2);; 
 
   let string_tokens=
     [

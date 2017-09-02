@@ -25,47 +25,43 @@ let complement x=lemel whole x;;
 
 let complement_from_list l=complement(from_list l);;
 
-(*
+
 let from_precedence sol op=
     from_list(
-
-
-      List.filter (
-        fun ptok->
-        if (List.mem ptok Php_projected_token.harmless_tokens)
-        ||
-        (List.mem ptok [Php_projectedtoken.punct"(";Php_token.punct")"])
-    then true   
-    else let p=Php_token.precedence(tok) in
-         if p=None
-         then false 
-         else Strict_or_loose.test sol (Option.unpack p) (Php_operator.precedence op)
-      ) Php_projected_token.all_tokens
+      Php_projected_token.precedence_neutral_tokens
+      @
+      (
+        List.filter (fun ptok->
+        match Php_projected_token.precedence(ptok) with
+        None->false
+        |Some(p)->Strict_or_loose.test sol p (Php_operator.precedence op)
+        )
+        Php_projected_token.all_tokens
+      )
     );;
-*)
 
 
 (* Naming used sets *)
 
-let namelist=ref([]:(t*string) list);;
+let namelist=ref([]:(string*t) list);;
 
 let name_counter=ref(0);;
 
 let get_name_for_set x opt=
-    match Option.find_it(fun (y,n)->y=x)(!namelist) with
-     Some(_,name1)->name1
+    match Option.find_it(fun (n,y)->y=x)(!namelist) with
+     Some(name1,_)->name1
     |None->
       (
         match opt with
         Some(name2)->
-           let _=(namelist:=(x,name2)::(!namelist)) in
+           let _=(namelist:=(name2,x)::(!namelist)) in
            name2
         |None-> 
            let p=(!name_counter)+1 in
            let name3="tokset_"^(string_of_int p) in
            let _=(
                   name_counter:=p;
-                  namelist:=(x,name3)::(!namelist)
+                  namelist:=(name3,x)::(!namelist)
                   ) in
            name3        
       );;
@@ -73,10 +69,12 @@ let get_name_for_set x opt=
 exception Unused_name of string;;
 
 let get_set_for_name name=
-  match Option.find_it(fun (y,n)->n=name)(!namelist) with
-  Some(x,_)->x
+  match Option.find_it(fun (n,y)->n=name)(!namelist) with
+  Some(_,x)->x
  |None->raise(Unused_name(name));;
 
+let define_precedence_set sol op=
+    get_name_for_set (from_precedence sol op);;
 
 (* Particular sets *)
 
@@ -229,7 +227,20 @@ let stringy=complement_from_list(
   
 get_name_for_set stringy (Some "stringy");;
 
+let all_pairs=
+   (
+     Image.image 
+     (fun (s,ptok)->(s,N[ptok])
+     Php_projected_token.all_pairs
+   )
+   @
+   (!namelist);;
+
 end;;
+
+let all_pairs=Private.all_pairs;;
+
+let from_precedence=Private.some_precedence;;
 
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
