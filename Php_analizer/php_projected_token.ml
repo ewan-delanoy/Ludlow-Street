@@ -23,6 +23,10 @@ let is_a_comment=function
    Comment->true
   |_->false;;
 
+let acts_only_once=function
+  Constant(_) | Comment |End_of_text ->true
+ |_->false;;
+
 let fixture_of_nonconstants=
     [
        Variable; 
