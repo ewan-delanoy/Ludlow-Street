@@ -169,9 +169,10 @@ let command_for_debuggable dir mdata hm=
           let s_root=Directory_name.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.DEBUGGABLE(hm)) in
-          let temp2=Option.filter_and_unpack cmx_manager temp1 in
+          let temp2=Option.filter_and_unpack dcmo_manager temp1 in
           let long_temp2=Image.image (fun t->s_root^t) temp2 in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
+
           [ 
             "ocamlc -bin-annot -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
                 (String.concat " " long_temp2);
