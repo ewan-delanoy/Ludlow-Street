@@ -17,10 +17,10 @@ will retain the () and {}´s contents and discard the "if" and the "then".
 
 type t=Trmt of (Glued_or_not.t*Php_constructible_recognizer.t) list;;
 
-let left_paren_for_retaining="##(";;
-let right_paren_for_retaining=")##";;
+let left_paren_for_gluing="##(";;
+let right_paren_for_gluing=")##";;
 
-let parens_for_retaining=(left_paren_for_retaining,right_paren_for_retaining);;
+let parens_for_gluing=(left_paren_for_gluing,right_paren_for_gluing);;
 
 let default_embedding wh=
    if Php_constructible_recognizer.is_constant wh
@@ -43,7 +43,7 @@ let rewriter (opt,t)=
             
 let of_string s=
    let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
-     [parens_for_retaining] 
+     [parens_for_gluing] 
      (Cull_string.trim_spaces s) in
    let temp2=Image.image rewriter temp1 in
    let temp3=List.flatten temp2 in
