@@ -14,29 +14,32 @@ will retain the () and {}´s contents and discard the "if" and the "then".
 The default behavior is to discard constant elements and retain
 the interval of non-constant elements.
  
+In some cases, we wish to override this default behavior, for example
+when we have a complicated sub-term whose study we want to defer to later,
+so we would like to  keep the whole of it, including its constant parts.Absolute_path
 
-In some cases, we wish to oeverride this default behavior 
+We use special parentheses for that
 
 *)
 
-type t=Trmt of (Glued_or_not.t*Php_constructible_recognizer.t) list;;
+type t=Trmt of (Retained_or_not.t*Php_constructible_recognizer.t) list;;
 
-let left_paren_for_gluing="##(";;
-let right_paren_for_gluing=")##";;
+let left_paren_to_force_retaining="##(";;
+let right_paren_to_force_retaining=")##";;
 
-let parens_for_gluing=(left_paren_for_gluing,right_paren_for_gluing);;
+let parens_to_force_retaining=(left_paren_to_force_retaining,right_paren_to_force_retaining);;
 
 let default_embedding wh=
    if Php_constructible_recognizer.is_constant wh
-   then (Glued_or_not.Not_retained_not_glued,wh)
-   else (Glued_or_not.Retained_not_glued,wh);;
+   then (Retained_or_not.Not_retained,wh)
+   else (Retained_or_not.Retained,wh);;
 
 let rewriter (opt,t)=
       let better_t=Cull_string.trim_spaces t in
       if better_t="" then [] else
       let wh=Php_constructible_recognizer.of_string better_t in
       if opt<>None 
-      then [Glued_or_not.Glued,wh]
+      then [Retained_or_not.Retained,wh]
       else (
                 match Php_constructible_recognizer.chain_content wh with
                  None->[default_embedding wh]
@@ -47,7 +50,7 @@ let rewriter (opt,t)=
             
 let of_string s=
    let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
-     [parens_for_gluing] 
+     [parens_to_force_retaining] 
      (Cull_string.trim_spaces s) in
    let temp2=Image.image rewriter temp1 in
    let temp3=List.flatten temp2 in
@@ -78,7 +81,7 @@ let pusher_for_parsing x=
        |Some(cr,peurrest)->
           let d=Positioned_php_token_list.length(l)-Positioned_php_token_list.length(peurrest) in
           let part=Positioned_php_token_list.big_head d l in
-          let graet2=(if ret=Glued_or_not.Not_retained_not_glued 
+          let graet2=(if ret=Retained_or_not.Not_retained
                       then graet 
                       else part::graet) in
           ((graet2,da_ober2,cr::lexings,peurrest),None)

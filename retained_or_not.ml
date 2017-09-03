@@ -6,9 +6,8 @@
 
 
 type t=
-   Glued
-  |Retained_not_glued
-  |Not_retained_not_glued;;
+   Retained
+  |Not_retained;;
   
   
 
