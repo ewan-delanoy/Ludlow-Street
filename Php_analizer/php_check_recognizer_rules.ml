@@ -6,6 +6,14 @@ If everything is OK, all the components of they_should_be_empty are []
 
 *)
 
+
+let part1=
+   Uple.list_of_pairs Php_short_selector.all_pairs;;
+let should_be_empty1=
+   List.filter(
+     fun (x,y)->fst(x)=fst(y)
+   ) part1;;
+
 (*
 
 let hi=List.length;;
