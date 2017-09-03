@@ -2,10 +2,30 @@
 
 #use"neptu.ml";;
 
+*)
+
+
+["rm -f /Users/Ewandelanoy/Documents/OCaml/Ordinary/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*/*.ocaml_debuggable";
+"ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.d.cmo -c /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ml";
+"mv /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build/";
+"ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ocaml_debuggable ";
+"mv /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build/"]
+
+(*
+
+let g1=
+  Self_contained_module_copy.self_contained_module_copy
+    "sc" (hmx "please_test_me")
+;;
+
+let ap=Absolute_path.of_string "debugged.ml";;
+
+Io.erase_file_and_fill_it_with_string ap g1 ;;
 
 *)
 
 
+(*
 let level_one=Php_parser_homomorphism.star Beaver_for_statement.parser;;
 
 let u1=Manage_lexed_data.get_data
@@ -14,8 +34,22 @@ let u1=Manage_lexed_data.get_data
 let u2=Explicit.image level_one u1;;
 
 let v1=Debugging_tools.image level_one u1;;
+let (i1,v2)=v1;;
+let v3=v2.Positioned_php_token_list.contained;;
+let v4=Listennou.big_head 18 v3;;
+let v5={Positioned_php_token_list.contained=v4};;
 
-let v2=Beaver_for_statement.parser v1;; 
+#use"debugged.ml";;
+
+
+#use"Remembered/recreating_tools.ml";;
+
+let v6=encode_postokenlist v5;;
+
+let v61=Listennou.big_tail 10 v6;;
+
+
+let vv=Beaver_for_statement.parser v5;; 
 
 
 let u3=Explicit.image Option.unpack u2;;
@@ -29,6 +63,7 @@ let u4=Option.filter_and_unpack (fun (a,b,c)->
 let u5=List.hd u4;;
 
 #use"Php_analizer/Beavers/beaver_for_statement.ml";;
+*)
 
 
 (*
