@@ -25,14 +25,14 @@ let ingr=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
 
 let cmx_manager=function
  Ocaml_target.CMX(hm2)->
-    let s_hm2=Half_dressed_module.to_string hm2 in
-    Some(s_hm2^".cmx")
+    let s_hm2=Half_dressed_module.to_shortened_string hm2 in
+    Some("_build/"^s_hm2^".cmx")
  |_->None;;
 
 let dcmo_manager=function
  Ocaml_target.DCMO(hm2)->
-    let s_hm2=Half_dressed_module.to_string hm2 in
-    Some(s_hm2^".d.cmo")
+    let s_hm2=Half_dressed_module.to_shortened_string hm2 in
+    Some("_build/"^s_hm2^".d.cmo")
  |_->None;;
 
 let command_for_nodep mlx=[];;
