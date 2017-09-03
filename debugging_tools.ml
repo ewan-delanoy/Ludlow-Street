@@ -6,9 +6,10 @@
 
 
 let image f l=
-  let modified_f=(fun x->
+  let modified_f=(fun (j,x)->
     try( (function _->false) (f x) ) with _->true
   ) in
-  Option.find_really modified_f l;;
+  let modified_l=Ennig.index_everything l in
+  Option.find_really modified_f modified_l;;
 
 
