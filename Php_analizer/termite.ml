@@ -11,7 +11,11 @@ are discarded (because they correspond to expected keywords in the
 pattern).
 A termite scanning according to pattern if()then{} for example,
 will retain the () and {}´s contents and discard the "if" and the "then".
+The default behavior is to discard constant elements and retain
+the interval of non-constant elements.
  
+
+In some cases, we wish to oeverride this default behavior 
 
 *)
 
@@ -51,6 +55,8 @@ let of_string s=
    
 exception Stepper_for_parsing_exn;;
 
+let dummy_value=([],[],[],Positioned_php_token_list.empty);;
+
 let pusher_for_parsing x=
    let ((graet,da_ober,lexings,l),opt)=x in
    if opt<>None 
@@ -64,7 +70,7 @@ let pusher_for_parsing x=
       let u=Php_char_range.select_head temp3
       and v=Php_char_range.select_head temp4 in
       let cr=Php_char_range.make u v in
-       (([],[],[],Positioned_php_token_list.empty),Some(Some(List.rev(graet),cr,l)))
+       (dummy_value,Some(Some(List.rev(graet),cr,l)))
   |(ret,wh)::da_ober2->
      (
        match Php_constructible_recognizer.recognize wh l with
@@ -72,7 +78,9 @@ let pusher_for_parsing x=
        |Some(cr,peurrest)->
           let d=Positioned_php_token_list.length(l)-Positioned_php_token_list.length(peurrest) in
           let part=Positioned_php_token_list.big_head d l in
-          let graet2=(if ret=Glued_or_not.Not_retained_not_glued then graet else part::graet) in
+          let graet2=(if ret=Glued_or_not.Not_retained_not_glued 
+                      then graet 
+                      else part::graet) in
           ((graet2,da_ober2,cr::lexings,peurrest),None)
      );;
 
