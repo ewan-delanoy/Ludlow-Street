@@ -19,7 +19,13 @@ let lemel (N x) (N y)=N(Ordered.lemel
 Php_projected_token.order x y
 );;
 
-let is_a_singleton (N x)=(Ordered.length(x)=1);;
+exception Acts_only_once_exn;;
+
+let acts_only_once (N x)=
+  let l=Ordered.length(x) in
+  if l=0 then raise(Acts_only_once_exn) else
+  if l>1 then false else
+  Php_projected_token.acts_only_once(List.hd(Ordered.forget_order(x)));;
 
 let whole=from_list Php_projected_token.all_tokens;;
 
