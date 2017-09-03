@@ -249,10 +249,11 @@ let all_pairs=
 
 end;;
 
+let acts_only_once=Private.acts_only_once;;
 let all_pairs=Private.all_pairs;;
 
 let from_precedence=Private.from_precedence;;
-let is_a_singleton=Private.is_a_singleton;;
+
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
 

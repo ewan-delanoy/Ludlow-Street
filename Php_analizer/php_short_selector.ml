@@ -17,7 +17,7 @@ let new_pairs=
    ];;
 
 let is_constant=function
-   Atomic(atomac_sel)->Php_projected_token_set.is_a_singleton atomac_sel
+   Atomic(atomac_sel)->Php_projected_token_set.acts_only_once atomac_sel
   |Block(_)->false
   |Unusual_block(_)->false;;
 
