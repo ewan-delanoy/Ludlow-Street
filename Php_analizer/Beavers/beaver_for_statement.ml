@@ -100,6 +100,7 @@ let element_cmp elt1 elt2=
 let element_order=(element_cmp: element Total_ordering.t);; 
 
 
+(*
 let classical_parser elt=
    let f=(fun l->
       let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
@@ -115,7 +116,34 @@ let classical_parser elt=
       else None
    ) in
    (f : t Php_parser.t);;
+*)
+
+let old_classical_parser elt=
+  let f=(fun l->
+     let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
+     if opt2=None then None else
+     let (l2,cr2,peurrest)=Option.unpack opt2 in
+     let catalyser_check=(
+       if elt.catalyser=""
+       then true
+       else (Termite.parse (Termite.of_string elt.catalyser) peurrest)<>None
+     ) in
+     if catalyser_check
+     then Some(elt.helper l2 cr2,cr2,peurrest)
+     else None
+  ) in
+  (f : t Php_parser.t);;
    
+let bad_cases=ref[];;
+
+let classical_parser elt l=
+    try (
+      old_classical_parser elt l 
+    ) with
+    _->let _=(bad_cases:=[elt,l]) in
+     failwith("It is the animal");;
+
+
 let current_data_list=ref ([]:element list);;
 let shortcuts_list=ref ([]:(string*string) list);;
 
