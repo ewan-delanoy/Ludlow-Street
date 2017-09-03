@@ -80,7 +80,7 @@ let chain_content wh=
 
 let is_constant wh=
   match wh  with
-   Leaf(sel)->Php_short_selector.is_constant sel
+   Leaf(sel)->Php_short_selector.acts_only_once sel
   |_->false;;
 
 

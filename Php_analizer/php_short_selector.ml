@@ -16,7 +16,7 @@ let new_pairs=
      "[]",Block(Php_blocker_name.bracket);
    ];;
 
-let is_constant=function
+let acts_only_once=function
    Atomic(atomac_sel)->Php_projected_token_set.acts_only_once atomac_sel
   |Block(_)->false
   |Unusual_block(_)->false;;
