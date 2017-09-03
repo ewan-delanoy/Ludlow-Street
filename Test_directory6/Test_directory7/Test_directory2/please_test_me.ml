@@ -147,8 +147,10 @@ let example1=
   pos_lnum = 6; pos_bol = 387; pos_cnum = 388}))];;
   
   
-  let example2=Recreating_tools.decode_postokenlist example1;;
+let example2=Recreating_tools.decode_postokenlist example1;;
   
+let prsr=Beaver_for_statement.parser;;
+
   (*
   let answer=Beaver_for_statement.parser example2;;
   *)
