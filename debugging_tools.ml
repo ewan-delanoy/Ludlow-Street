@@ -26,7 +26,7 @@ let star prsr=
   let tempg=(fun l->
     let candidate1=tempf([],Php_char_range.dummy,l) in
     if candidate1<>None
-    then candidate1
+    then Option.unpack(candidate1)
     else raise(Star_exn)
   ) in
   tempg;;
