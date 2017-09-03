@@ -20,7 +20,7 @@ let sd (mdata,tgts)=
 	(mdata2,tgts) tgt in
 	let msg=(
 	  if (fst answer)
-	  then "\n\n Now, start \n\nocamldebug "^dbg^".ocaml_debuggable\n\nin another terminal\n\n"
+	  then "\n\n Now, start \n\nocamldebug _build/"^dbg^".ocaml_debuggable\n\nin another terminal\n\n"
 	  else "\n\n Something went wrong, see above. \n\n"
 	) in
 	let _=(
