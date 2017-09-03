@@ -11,7 +11,8 @@ type t=
    Leaf of Php_short_selector.t
   |Generalized of Generalizer.t*t
   |Chain of t list
-  |Disjunction of t list;;
+  |Disjunction of t list
+  |Accept_end_only;;
   
 let pair_for_disjunction=("_l_","_rd_");;
 let associator_for_disjunction="_u_";;  
@@ -27,7 +28,8 @@ let rec to_string=function
                    lpar^
                    (String.concat associator_for_disjunction 
                      (Image.image to_string l))
-                   ^rpar;;
+                   ^rpar
+  |Accept_end_only->"accept_end_only";;
 
 
 
@@ -93,13 +95,15 @@ let recognize_chain old_f ch=Php_recognizer_homomorphism.chain (Image.image old_
 
 let recognize_disjunction old_f l=Php_recognizer_homomorphism.ordered_disjunction (Image.image old_f l);;
 
+exception End_only_misuse;;
 
 let rec recognize wh l=
   match wh  with
    Leaf(sel)->recognize_selector sel l
   |Generalized(grlz,x)->recognize_generalized recognize grlz x l
   |Chain(ch)->recognize_chain recognize ch l
-  |Disjunction(dis)->recognize_disjunction recognize dis l;;
+  |Disjunction(dis)->recognize_disjunction recognize dis l
+  |Accept_end_only->raise(End_only_misuse);;
 
 
 exception Reverse_sleepy_parse_exn of string;;
@@ -109,8 +113,9 @@ let reverse_sleepy_parse wh l=
    Leaf(sel)->(Leaf(sel),l)
   |Generalized(grlz,x)->raise(Reverse_sleepy_parse_exn("generalized"))
   |Chain(ch)->raise(Reverse_sleepy_parse_exn("chain"))
-  |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"));;
-
+  |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"))
+  |Accept_end_only->raise(End_only_misuse);;
+  
 
 
 
