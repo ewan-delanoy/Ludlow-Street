@@ -45,7 +45,7 @@ let character c=Php_token.of_char(String.make 1 c);;
 let end_of_text=Php_token.end_of_text;;
 let external_echo s=Php_token.external_echo s;;
 
-let read_word=Php_token.put_lexeme_in_category;;
+let read_word=Php_token.of_string;;
     
 type doctype=Nowdoc_type |Heredoc_type |Naked_doc_type;;    
     

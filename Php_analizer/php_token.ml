@@ -88,45 +88,4 @@ let put_lexeme_in_category=Memoized.make(fun s->
   
 let of_string=put_lexeme_in_category;;  
   
-(*
-let all_constant_strings=
-   ( Php_operator.all_strings)
-  @( Php_punctuator.all_strings)
-  @( Php_keyword.all_strings);;  
-  
-let nonalphanumeric_lexemes=
-  let temp4=List.filter (fun s->
-     not(Charset.string_is_alphanumeric s)
-    ) all_constant_strings in
-  let temp5=Ordered_string.diforchan temp4 in
-  let temp6=Ordered.forget_order temp5 in
-  List.rev_map (fun s->(s,put_lexeme_in_category s) ) temp6;;
-   
-
-let instructions_for_nonalphanumeric_lexemes=
-  let temp1=Image.image (
-     fun (x,_)->Strung.enclose (Str.global_replace (Str.regexp_string "\n") "\\n" x) 
-  ) nonalphanumeric_lexemes in
-  let temp2=String.concat "\n  | " temp1 in
-  "\n  | "^temp2^" as op {add_to_list lexbuf (read_word op);usual lexbuf}";;
-  
-   
-let give_instructions_for_nonalphanumeric_lexemes ()=
-   let s=instructions_for_nonalphanumeric_lexemes 
-   and beg_m="(* instructions for nonalphanumeric chars begin here *)"
-   and end_m="(* instructions for nonalphanumeric chars end here *)" in
-   Replace_inside.overwrite_between_markers_inside_file 
-    (Overwriter.of_string s)
-    (beg_m,end_m)
-    (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
-
-
-let precedence tok=Php_projected_token.precedence(form tok);;
-
-
-
-
-let test ctok tok=(tok=constant(ctok));;
-*)
-
 
