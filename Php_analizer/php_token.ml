@@ -88,6 +88,7 @@ let put_lexeme_in_category=Memoized.make(fun s->
   
 let of_string=put_lexeme_in_category;;  
   
+(*
 let all_constant_strings=
    ( Php_operator.all_strings)
   @( Php_punctuator.all_strings)
@@ -120,16 +121,12 @@ let give_instructions_for_nonalphanumeric_lexemes ()=
     (Absolute_path.of_string "Php_analizer/php_lexer.mll");;
 
 
-let projected_version tok=Php_projected_token.to_string(form tok);;
-
- 
-
 let precedence tok=Php_projected_token.precedence(form tok);;
 
 
 
 
 let test ctok tok=(tok=constant(ctok));;
-
+*)
 
 
