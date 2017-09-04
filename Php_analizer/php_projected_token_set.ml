@@ -14,6 +14,8 @@ let from_list l=N(Ordered.diforchan_plaen Php_projected_token.order l);;
 let kengeij (N x) (N y)=N(Ordered.kengeij_plaen 
    Php_projected_token.order x y
 );;
+
+let kengeij_goullo x y=((kengeij x y)=N[]);;
     
 let lemel (N x) (N y)=N(Ordered.lemel_plaen
 Php_projected_token.order x y
