@@ -12,11 +12,12 @@ type t=
   |Generalized of Generalizer.t*t
   |Chain of t list
   |Disjunction of t list
-  |Accept_end_only;;
+  |End_already_reached;;
   
 let pair_for_disjunction=("_l_","_rd_");;
 let associator_for_disjunction="_u_";;  
-  
+let name_for_dummy_recognizer="end_already_reached";;
+
 let rec to_string=function
    Leaf(sel)->Php_short_selector.to_string sel
   |Generalized(grlz,x)->
@@ -29,11 +30,16 @@ let rec to_string=function
                    (String.concat associator_for_disjunction 
                      (Image.image to_string l))
                    ^rpar
-  |Accept_end_only->"accept_end_only";;
+  |End_already_reached->name_for_dummy_recognizer;;
 
 
 
 let all_pairs=pair_for_disjunction::Generalizer.all_pairs;;
+let new_symbols=
+    Ordered.forget_order(Tidel.diforchan(associator_for_disjunction::
+    name_for_dummy_recognizer::
+   (Image.image fst all_pairs)@(Image.image snd all_pairs)));;
+
 
 exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 
@@ -95,7 +101,7 @@ let recognize_chain old_f ch=Php_recognizer_homomorphism.chain (Image.image old_
 
 let recognize_disjunction old_f l=Php_recognizer_homomorphism.ordered_disjunction (Image.image old_f l);;
 
-exception End_only_misuse;;
+exception Computations_past_the_end;;
 
 let rec recognize wh l=
   match wh  with
@@ -103,7 +109,7 @@ let rec recognize wh l=
   |Generalized(grlz,x)->recognize_generalized recognize grlz x l
   |Chain(ch)->recognize_chain recognize ch l
   |Disjunction(dis)->recognize_disjunction recognize dis l
-  |Accept_end_only->raise(End_only_misuse);;
+  |End_already_reached->raise(Computations_past_the_end);;
 
 
 exception Reverse_sleepy_parse_exn of string;;
@@ -114,7 +120,7 @@ let reverse_sleepy_parse wh l=
   |Generalized(grlz,x)->raise(Reverse_sleepy_parse_exn("generalized"))
   |Chain(ch)->raise(Reverse_sleepy_parse_exn("chain"))
   |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"))
-  |Accept_end_only->raise(End_only_misuse);;
+  |End_already_reached->raise(Computations_past_the_end);;
   
 
 

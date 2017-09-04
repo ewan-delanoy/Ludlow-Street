@@ -6,6 +6,9 @@ If everything is OK, all the components of they_should_be_empty are []
 
 *)
 
+type t=
+     L1 of Php_short_selector.t
+    |L2 of string;;
 
 let part1=
    Uple.list_of_pairs Php_short_selector.all_pairs;;
