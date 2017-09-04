@@ -17,7 +17,7 @@ let new_pairs=
    ];;
 
 let acts_only_once=function
-   Atomic(atomac_sel)->Php_projected_token_set.acts_only_once atomac_sel
+   Atomic(atom_sel)->Php_projected_token_set.acts_only_once atom_sel
   |Block(_)->false
   |Unusual_block(_)->false;;
 
