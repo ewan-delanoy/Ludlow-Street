@@ -259,6 +259,8 @@ let from_precedence=Private.from_precedence;;
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
 
+let kengeij_goullo=Private.kengeij_goullo;;
+
 let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
 
 
