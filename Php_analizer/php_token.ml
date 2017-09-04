@@ -71,7 +71,7 @@ let kwd s=constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
        ];;
    
 
-let put_lexeme_in_category=Memoized.make(fun s->
+let of_string=Memoized.make(fun s->
   match Php_operator.of_prudent_string s with
    Some(_)->op s
   |None->
@@ -85,7 +85,4 @@ let put_lexeme_in_category=Memoized.make(fun s->
     |None->ident s
    ) 
   ));;
-  
-let of_string=put_lexeme_in_category;;  
-  
 
