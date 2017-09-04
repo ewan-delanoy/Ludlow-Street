@@ -212,6 +212,8 @@ let eq ox oy=(forget_order ox)=(forget_order oy);;
   
 let diforchan_plaen kenver x=
   forget_order(diforchan kenver  x);;
+let elfenn_plaen kenver e x=
+    elfenn kenver e (unsafe_set  x);;  
 let kengeij_plaen kenver x y=
     forget_order(kengeij kenver  (unsafe_set x) (unsafe_set y) );;
 let lemel_plaen kenver x y=

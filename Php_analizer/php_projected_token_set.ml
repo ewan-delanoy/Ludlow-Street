@@ -3,29 +3,29 @@
 #use"Php_analizer/php_projected_token_set.ml";;
 
 *)
-type t=N of Php_projected_token.t Ordered.old_set;;
+type t=N of Php_projected_token.t list;;
 
 
 module Private=struct
 (* Inherited set operations *)
 
-let from_list l=N(Ordered.diforchan Php_projected_token.order l);;
+let from_list l=N(Ordered.diforchan_plaen Php_projected_token.order l);;
 
-let kengeij (N x) (N y)=N(Ordered.kengeij 
+let kengeij (N x) (N y)=N(Ordered.kengeij_plaen 
    Php_projected_token.order x y
 );;
     
-let lemel (N x) (N y)=N(Ordered.lemel
+let lemel (N x) (N y)=N(Ordered.lemel_plaen
 Php_projected_token.order x y
 );;
 
 exception Acts_only_once_exn;;
 
 let acts_only_once (N x)=
-  let l=Ordered.length(x) in
+  let l=List.length(x) in
   if l=0 then raise(Acts_only_once_exn) else
   if l>1 then false else
-  Php_projected_token.acts_only_once(List.hd(Ordered.forget_order(x)));;
+  Php_projected_token.acts_only_once(List.hd(x));;
 
 let whole=from_list Php_projected_token.all_tokens;;
 
@@ -241,7 +241,7 @@ define_precedence_set Strict_or_loose.Loose Php_operator.T_EQUALS;;
 let all_pairs=
    (
      Image.image 
-     (fun (s,ptok)->(s,N(Ordered.S([ptok]))) )
+     (fun (s,ptok)->(s,N([ptok])) )
      Php_projected_token.all_pairs
    )
    @
@@ -257,7 +257,7 @@ let from_precedence=Private.from_precedence;;
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
 
-let test (N s) x=Ordered.elfenn Php_projected_token.order x s;; 
+let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
 
 (*
 let order=(fun (N x) (N y)->
