@@ -210,4 +210,9 @@ let nelfenn kenver a ox=not(elfenn kenver a ox);;
 let nental kenver a ox=not(ental kenver a ox);;
 let eq ox oy=(forget_order ox)=(forget_order oy);;
   
-
+let diforchan_plaen kenver x=
+  forget_order(diforchan kenver  x);;
+let kengeij_plaen kenver x y=
+    forget_order(kengeij kenver  (unsafe_set x) (unsafe_set y) );;
+let lemel_plaen kenver x y=
+      forget_order(lemel kenver  (unsafe_set x) (unsafe_set y) );;
