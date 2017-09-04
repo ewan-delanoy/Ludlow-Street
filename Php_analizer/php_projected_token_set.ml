@@ -259,8 +259,7 @@ let get_set_for_name=Private.get_set_for_name;;
 
 let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
 
-(*
-let order=(fun (N x) (N y)->
-  Total_ordering.lex_compare
-)
-*)
+
+let order=((fun (N x) (N y)->
+  Total_ordering.silex_compare Php_projected_token.order x y
+) : t Total_ordering.t);;
