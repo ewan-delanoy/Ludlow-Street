@@ -218,3 +218,6 @@ let kengeij_plaen kenver x y=
     forget_order(kengeij kenver  (unsafe_set x) (unsafe_set y) );;
 let lemel_plaen kenver x y=
       forget_order(lemel kenver  (unsafe_set x) (unsafe_set y) );;
+let teuzin_kalz_plaen kenver l=
+        forget_order(big_teuzin kenver  (Image.image unsafe_set l) );;
+             
