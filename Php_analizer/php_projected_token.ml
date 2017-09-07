@@ -61,7 +61,7 @@ let constant_part=function
 
 let op s=Constant(Php_constant_token.Op(Php_operator.from_visible s));;
 let punct s=Constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
-let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
+let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=Constant(ctok));;
 

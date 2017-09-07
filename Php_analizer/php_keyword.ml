@@ -189,7 +189,7 @@ let all=Image.image snd data;;
 exception Unknown_keyword_string of string;; 
 
 
-let of_string viz=
+let from_visible viz=
     match Option.find_it(
       fun (viz1,_)->viz1=viz
       ) data with
