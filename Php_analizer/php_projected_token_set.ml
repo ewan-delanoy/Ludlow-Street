@@ -131,9 +131,9 @@ get_name_for_set id_or_var (Some "id_or_var");;
 let include_like=from_list( 
     Image.image (fun x->Php_projected_token.Constant (Php_constant_token.Kwd x))
     [Php_keyword.t_include; 
-     Php_keyword.t_include_ONCE;                                
+     Php_keyword.t_include_once;                                
      Php_keyword.t_require; 
-     Php_keyword.t_require_ONCE]   
+     Php_keyword.t_require_once]   
   );;   
   
 get_name_for_set include_like (Some "include_like");;
@@ -153,7 +153,7 @@ let no_breach=complement_from_list(
   Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
   [
     Php_keyword.t_foreach;
-    Php_keyword.t_endforeach;
+    Php_keyword.T_ENDFOREACH;
   ]
   );;   
   
