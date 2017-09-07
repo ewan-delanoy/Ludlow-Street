@@ -188,13 +188,14 @@ let all_keywords=Image.image snd all_pairs;;
 
 exception Unknown_keyword_string of string;; 
 
-let of_prudent_string s=
-  Option.find_it (fun oprtr->to_string(oprtr)=s) all_keywords;; 
- 
-let of_string s=
-  match of_prudent_string s with
-   None->raise(Unknown_keyword_string(s))
-  |Some(oprtr)->oprtr;;
+
+let of_string viz=
+    match Option.find_it(
+      fun (viz1,_)->viz1=viz
+      ) all_pairs with
+     None->raise(Unknown_keyword_string(viz))
+    |Some(_,kwd)->kwd;;
+
   
 let all_strings=Image.image to_string all_keywords;;        
  

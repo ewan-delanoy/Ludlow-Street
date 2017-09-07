@@ -44,11 +44,17 @@ let all_triples=[
     (t_rbrace,"}","rbrace");
  ];;
  
- let to_string pkt=
+let to_string pkt=
   let (_,viz,_)=Option.find_really(
       fun (pkt1,_,_)->pkt1=pkt
   ) all_triples in
   viz;;
+
+let of_string viz=
+    let (pkt,_,_)=Option.find_really(
+        fun (_,viz1,_)->viz1=viz
+    ) all_triples in
+    pkt;;
 
 let all_pairs =
     Ordered.forget_order( Ordered.diforchan Keyval_ordering.ko 
@@ -58,14 +64,6 @@ let all_pairs =
 let all_punctuators =Image.image snd all_pairs;; 
 
 exception Unknown_punctuator_string of string;; 
-
-let of_prudent_string s=
-  Option.find_it (fun oprtr->to_string(oprtr)=s) all_punctuators;; 
- 
-let of_string s=
-  match of_prudent_string s with
-   None->raise(Unknown_punctuator_string(s))
-  |Some(oprtr)->oprtr;;
   
 let all_strings=Image.image fst all_pairs;;      
  

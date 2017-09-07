@@ -224,13 +224,12 @@ let all_operators=Image.image snd all_pairs;;
  
 exception Unknown_operator_string of string;; 
  
-let of_prudent_string s=
-   Option.find_it (fun oprtr->to_string(oprtr)=s) all_operators ;;
- 
-let of_string s=
-  match of_prudent_string s with
-   None->raise(Unknown_operator_string(s))
-  |Some(oprtr)->oprtr;;
+let of_string viz=
+  match Option.find_it(
+    fun (_,_,_,viz1,_)->viz1=viz
+    ) all_fiftuples with
+   None->raise(Unknown_operator_string(viz))
+  |Some(op,_,_,_,_)->op;;
   
 let level s=
   let p0=precedence(of_string s) in
