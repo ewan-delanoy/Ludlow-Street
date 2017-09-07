@@ -33,7 +33,7 @@ type t=
     let t_rbrace = (T_RBRACE);;
  
 
-let all_triples=[
+let data=[
     (t_lparenthesis,"(","lparenthesis");
     (t_rparenthesis,")","rparenthesis");
     (t_comma,",","comma");
@@ -47,26 +47,23 @@ let all_triples=[
 let to_string pkt=
   let (_,viz,_)=Option.find_really(
       fun (pkt1,_,_)->pkt1=pkt
-  ) all_triples in
+  ) data in
   viz;;
 
 let of_string viz=
     let (pkt,_,_)=Option.find_really(
         fun (_,viz1,_)->viz1=viz
-    ) all_triples in
+    ) data in
     pkt;;
 
 let all_pairs =
     Ordered.forget_order( Ordered.diforchan Keyval_ordering.ko 
-    (Image.image (fun (pkt,viz,sn)->(viz,pkt)) all_triples));;
+    (Image.image (fun (pkt,viz,sn)->(viz,pkt)) data));;
 
  
 let all =Image.image snd all_pairs;; 
 
-exception Unknown_punctuator_string of string;; 
-  
-let all_strings=Image.image fst all_pairs;;      
+
  
-  
   
    
