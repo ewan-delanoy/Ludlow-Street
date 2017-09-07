@@ -89,7 +89,7 @@ let sd=German_wrapper.start_debugging;;
 
 
 let rv_without_backup x y=German_values_in_modules.rename_string_or_value (German_wrapper.data()) x y;;
-
+let srv_without_backup x y=German_values_in_modules.replace_string (German_wrapper.data()) x y;;
 
 
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
@@ -138,6 +138,7 @@ let relo x y=(relo_without_backup x y;reco());;
 let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=(rsh_without_backup ();German_wrapper.backup None);;
 let rv x y=(rv_without_backup x y;reco());;
+let srv x y=(srv_without_backup x y;reco());;
 let ureg x=(ureg_without_backup x;reco());;
 
 
