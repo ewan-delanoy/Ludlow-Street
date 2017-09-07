@@ -130,10 +130,10 @@ get_name_for_set id_or_var (Some "id_or_var");;
 
 let include_like=from_list( 
     Image.image (fun x->Php_projected_token.Constant (Php_constant_token.Kwd x))
-    [Php_keyword.T_INCLUDE; 
-     Php_keyword.T_INCLUDE_ONCE;                                
-     Php_keyword.T_REQUIRE; 
-     Php_keyword.T_REQUIRE_ONCE]   
+    [Php_keyword.t_include; 
+     Php_keyword.t_include_ONCE;                                
+     Php_keyword.t_require; 
+     Php_keyword.t_require_ONCE]   
   );;   
   
 get_name_for_set include_like (Some "include_like");;
@@ -152,8 +152,8 @@ get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 let no_breach=complement_from_list( 
   Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
   [
-    Php_keyword.T_FOREACH;
-    Php_keyword.T_ENDFOREACH;
+    Php_keyword.t_foreach;
+    Php_keyword.t_endforeach;
   ]
   );;   
   
@@ -170,10 +170,10 @@ get_name_for_set no_colon (Some "no_colon");;
 let no_ivies=complement_from_list( 
   Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
   [
-    Php_keyword.T_IF; 
-    Php_keyword.T_ELSE; 
-    Php_keyword.T_ELSEIF; 
-    Php_keyword.T_ENDIF;
+    Php_keyword.t_if; 
+    Php_keyword.t_else; 
+    Php_keyword.t_elseIF; 
+    Php_keyword.t_endif;
   ]
   );;   
   
