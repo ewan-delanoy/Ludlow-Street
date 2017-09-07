@@ -61,7 +61,7 @@ let all_pairs =
     (Image.image (fun (pkt,viz,sn)->(viz,pkt)) all_triples));;
 
  
-let all_punctuators =Image.image snd all_pairs;; 
+let all =Image.image snd all_pairs;; 
 
 exception Unknown_punctuator_string of string;; 
   
