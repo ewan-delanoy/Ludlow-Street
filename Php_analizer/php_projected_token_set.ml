@@ -214,7 +214,7 @@ let stringy=complement_from_list(
       Php_constant_token.Op Php_operator.t_rbracket;
       Php_constant_token.Op Php_operator.t_question;
       Php_constant_token.Op Php_operator.t_colon;
-      Php_constant_token.Op Php_operator.t_equals_MORE;
+      Php_constant_token.Op Php_operator.t_equals_more;
       Php_constant_token.Punct Php_punctuator.T_COLON_COLON;
       Php_constant_token.Punct Php_punctuator.T_LPARENTHESIS;
       Php_constant_token.Punct Php_punctuator.T_RPARENTHESIS;
