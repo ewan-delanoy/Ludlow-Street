@@ -66,7 +66,7 @@ let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.from_visible s));;
 let test ctok tok=(tok=Constant(ctok));;
 
 let to_string=function
- Constant(ctok)->Php_constant_token.to_string ctok
+ Constant(ctok)->Php_constant_token.make_visible ctok
 |Variable->"variable"
 |Ident->"id"
 |Comment->"cmt"

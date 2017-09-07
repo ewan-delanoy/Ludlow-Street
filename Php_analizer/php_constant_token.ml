@@ -9,7 +9,7 @@ type t=
     |Punct of Php_punctuator.t
     |Op of Php_operator.t;;
 
-let to_string=function
+let make_visible=function
       (Kwd s)->Php_keyword.make_visible s
      |(Punct s)->Php_punctuator.make_visible s
      |(Op s)->Php_operator.make_visible s;;
@@ -30,6 +30,4 @@ exception Unknown of string;;
 let of_string s=
    try List.assoc s all_pairs with
    _->raise(Unknown(s));;
-
-let putative_of_string s=try (Some(of_string s)) with _->None;;
 
