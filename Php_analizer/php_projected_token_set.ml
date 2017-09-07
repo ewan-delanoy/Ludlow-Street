@@ -153,7 +153,7 @@ let no_breach=complement_from_list(
   Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
   [
     Php_keyword.t_foreach;
-    Php_keyword.T_ENDFOREACH;
+    Php_keyword.t_endforeach;
   ]
   );;   
   
