@@ -208,11 +208,10 @@ let associativity op=
     ) all_fourtuples in
     asc;;
 
-  let all_pairs=
-    let temp1=List.flatten(Image.image snd pre_list_for_precedences) in
-    let temp2=Image.image (fun x->(to_string x,x)) temp1 in
+let all_pairs=
+    let temp1=Image.image (fun (op,asc,prec,viz)->(viz,op)) all_fourtuples in
     Ordered.forget_order
-      (Ordered.diforchan Keyval_ordering.ko temp2);;  
+      (Ordered.diforchan Keyval_ordering.ko temp1);;  
 
 let all_operators=Image.image snd all_pairs;;  
  
