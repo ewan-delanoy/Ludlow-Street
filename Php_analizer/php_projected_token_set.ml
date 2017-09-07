@@ -91,7 +91,7 @@ let define_precedence_set sol op=
 
 let assign=from_list( Image.image 
            (fun x->Php_projected_token.Constant
-                (Php_constant_token.Op(x)))
+                (Php_constant_token.c_op(x)))
           [
            Php_operator.t_equals; 
            Php_operator.t_vline_equals; 
@@ -105,7 +105,7 @@ get_name_for_set assign (Some "assign");;
 
 let coerce=from_list( Image.image 
 (fun x->Php_projected_token.Constant
-     (Php_constant_token.Op(x)))
+     (Php_constant_token.c_op(x)))
 [
   Php_operator.t_coerce_to_int; 
   Php_operator.t_coerce_to_bool;
@@ -129,7 +129,7 @@ let id_or_var=from_list(
 get_name_for_set id_or_var (Some "id_or_var");;
 
 let include_like=from_list( 
-    Image.image (fun x->Php_projected_token.Constant (Php_constant_token.Kwd x))
+    Image.image (fun x->Php_projected_token.Constant (Php_constant_token.c_kwd x))
     [Php_keyword.t_include; 
      Php_keyword.t_include_once;                                
      Php_keyword.t_require; 
@@ -150,7 +150,7 @@ let int_or_string_or_var=from_list(
 get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 
 let no_breach=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
+  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_kwd(x)))
   [
     Php_keyword.t_foreach;
     Php_keyword.t_endforeach;
@@ -161,14 +161,14 @@ get_name_for_set no_breach (Some "no_breach");;
 
 let no_colon=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.Op Php_operator.t_colon)
+    Php_projected_token.Constant(Php_constant_token.c_op Php_operator.t_colon)
   ]
   );;   
   
 get_name_for_set no_colon (Some "no_colon");;
 
 let no_ivies=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Kwd(x)))
+  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_kwd(x)))
   [
     Php_keyword.t_if; 
     Php_keyword.t_else; 
@@ -181,7 +181,7 @@ get_name_for_set no_ivies (Some "no_ivies");;
 
 let no_left_brace=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.Punct Php_punctuator.t_lbrace)
+    Php_projected_token.Constant(Php_constant_token.c_punct Php_punctuator.t_lbrace)
   ]
   );;   
   
@@ -189,14 +189,14 @@ get_name_for_set no_left_brace (Some "no_left_brace");;
 
 let no_semicolon=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.Punct Php_punctuator.t_semicolon)
+    Php_projected_token.Constant(Php_constant_token.c_punct Php_punctuator.t_semicolon)
   ]
   );;   
   
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
 let no_ternary=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Op(x)))
+  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_op(x)))
   [
     Php_operator.t_question; 
     Php_operator.t_colon;
@@ -209,17 +209,17 @@ let stringy=complement_from_list(
   (
     Image.image (fun x->Php_projected_token.Constant(x))
     [
-      Php_constant_token.Op Php_operator.t_dot; 
-      Php_constant_token.Op Php_operator.t_lbracket;
-      Php_constant_token.Op Php_operator.t_rbracket;
-      Php_constant_token.Op Php_operator.t_question;
-      Php_constant_token.Op Php_operator.t_colon;
-      Php_constant_token.Op Php_operator.t_equals_more;
-      Php_constant_token.Punct Php_punctuator.t_colon_colon;
-      Php_constant_token.Punct Php_punctuator.t_lparenthesis;
-      Php_constant_token.Punct Php_punctuator.t_rparenthesis;
-      Php_constant_token.Punct Php_punctuator.t_comma;
-      Php_constant_token.Punct Php_punctuator.t_arrow;
+      Php_constant_token.c_op Php_operator.t_dot; 
+      Php_constant_token.c_op Php_operator.t_lbracket;
+      Php_constant_token.c_op Php_operator.t_rbracket;
+      Php_constant_token.c_op Php_operator.t_question;
+      Php_constant_token.c_op Php_operator.t_colon;
+      Php_constant_token.c_op Php_operator.t_equals_more;
+      Php_constant_token.c_punct Php_punctuator.t_colon_colon;
+      Php_constant_token.c_punct Php_punctuator.t_lparenthesis;
+      Php_constant_token.c_punct Php_punctuator.t_rparenthesis;
+      Php_constant_token.c_punct Php_punctuator.t_comma;
+      Php_constant_token.c_punct Php_punctuator.t_arrow;
     ]
   )
   @

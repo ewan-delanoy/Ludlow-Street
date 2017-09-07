@@ -39,9 +39,9 @@ let of_int s = make Php_projected_token.Int s;;
 let single_quoted s = make Php_projected_token.Single_quoted s;;
 let variable s = make Php_projected_token.Variable s;;
 
-let op s=constant(Php_constant_token.Op(Php_operator.from_visible s));;
-let punct s=constant(Php_constant_token.Punct(Php_punctuator.from_visible s));;
-let kwd s=constant(Php_constant_token.Kwd (Php_keyword.from_visible s));;
+let op s=constant(Php_constant_token.c_op(Php_operator.from_visible s));;
+let punct s=constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
+let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 
 (* end of constructors ¨*)

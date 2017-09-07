@@ -47,7 +47,7 @@ let fixture_of_nonconstants=
   
 let precedence=function 
   Constant ctok->(match ctok with
-                    (Php_constant_token.Op op)->Some(Php_operator.precedence(op))
+                    (Php_constant_token.c_op op)->Some(Php_operator.precedence(op))
                    |_->None
                  )
   |_->None;;
@@ -59,9 +59,9 @@ let constant_part=function
 
 
 
-let op s=Constant(Php_constant_token.Op(Php_operator.from_visible s));;
-let punct s=Constant(Php_constant_token.Punct(Php_punctuator.from_visible s));;
-let kwd s=Constant(Php_constant_token.Kwd (Php_keyword.from_visible s));;
+let op s=Constant(Php_constant_token.c_op(Php_operator.from_visible s));;
+let punct s=Constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
+let kwd s=Constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=Constant(ctok));;
 
@@ -116,6 +116,6 @@ let all_pairs=snd temp_pair;;
  let harmless_tokens=string_tokens@[Int;Float];;  
  
  let precedence_neutral_tokens=harmless_tokens@
-  (Image.image (fun x->Constant(Php_constant_token.Punct(x))) 
+  (Image.image (fun x->Constant(Php_constant_token.c_punct(x))) 
    [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
    
