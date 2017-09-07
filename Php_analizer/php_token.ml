@@ -39,7 +39,7 @@ let of_int s = make Php_projected_token.Int s;;
 let single_quoted s = make Php_projected_token.Single_quoted s;;
 let variable s = make Php_projected_token.Variable s;;
 
-let op s=constant(Php_constant_token.Op(Php_operator.of_string s));;
+let op s=constant(Php_constant_token.Op(Php_operator.from_visible s));;
 let punct s=constant(Php_constant_token.Punct(Php_punctuator.of_string s));;
 let kwd s=constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
 
@@ -72,7 +72,7 @@ let kwd s=constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
    
 
 let of_string=Memoized.make(fun s->
-  match Option.catch_exception Php_operator.of_string s with
+  match Option.catch_exception Php_operator.from_visible s with
    Some(_)->op s
   |None->
   (

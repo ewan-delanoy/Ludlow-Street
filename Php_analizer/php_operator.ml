@@ -224,7 +224,7 @@ let all=Image.image snd all_pairs;;
  
 exception Unknown_operator_string of string;; 
  
-let of_string viz=
+let from_visible viz=
   match Option.find_it(
     fun (_,_,_,viz1,_)->viz1=viz
     ) data with
@@ -232,7 +232,7 @@ let of_string viz=
   |Some(op,_,_,_,_)->op;;
   
 let level s=
-  let p0=precedence(of_string s) in
+  let p0=precedence(from_visible s) in
   List.filter (fun op->precedence(op)=p0) all;;  
   
 
