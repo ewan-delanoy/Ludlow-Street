@@ -11,12 +11,12 @@ type t=
 
 let to_string=function
       (Kwd s)->Php_keyword.make_visible s
-     |(Punct s)->Php_punctuator.to_string s
+     |(Punct s)->Php_punctuator.make_visible s
      |(Op s)->Php_operator.make_visible s;;
   
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,Kwd kwd)) Php_keyword.all
-       and puncts=Image.image (fun pkt->(Php_punctuator.to_string pkt,Punct pkt)) Php_punctuator.all
+       and puncts=Image.image (fun pkt->(Php_punctuator.make_visible pkt,Punct pkt)) Php_punctuator.all
        and ops=Image.image (fun op->(Php_operator.make_visible op,Op op)) Php_operator.all in
   Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  
      (kwds@puncts@ops) );;

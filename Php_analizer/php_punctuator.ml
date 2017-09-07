@@ -44,7 +44,7 @@ let data=[
     (t_rbrace,"}","rbrace");
  ];;
  
-let to_string pkt=
+let make_visible pkt=
   let (_,viz,_)=Option.find_really(
       fun (pkt1,_,_)->pkt1=pkt
   ) data in
