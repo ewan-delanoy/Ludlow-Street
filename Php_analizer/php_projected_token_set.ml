@@ -93,11 +93,11 @@ let assign=from_list( Image.image
            (fun x->Php_projected_token.Constant
                 (Php_constant_token.Op(x)))
           [
-           Php_operator.T_EQUALS; 
-           Php_operator.T_VLINE_EQUALS; 
-           Php_operator.T_PLUS_EQUALS; 
-           Php_operator.T_MINUS_EQUALS;
-           Php_operator.T_STAR_EQUALS
+           Php_operator.t_equals; 
+           Php_operator.t_vline_equals; 
+           Php_operator.t_plus_equals; 
+           Php_operator.t_minus_equals;
+           Php_operator.t_star_equals
            ]
 );;   
 
@@ -107,12 +107,12 @@ let coerce=from_list( Image.image
 (fun x->Php_projected_token.Constant
      (Php_constant_token.Op(x)))
 [
-  Php_operator.T_COERCE_TO_INT; 
-  Php_operator.T_COERCE_TO_BOOL;
-  Php_operator.T_COERCE_TO_STRING;
-  Php_operator.T_COERCE_TO_ARRAY;
-  Php_operator.T_COERCE_TO_OBJECT; 
-  Php_operator.T_COERCE_TO_BOOL;
+  Php_operator.t_coerce_to_int; 
+  Php_operator.t_coerce_to_bool;
+  Php_operator.t_coerce_to_string;
+  Php_operator.t_coerce_to_array;
+  Php_operator.t_coerce_to_object; 
+  Php_operator.t_coerce_to_bool;
 ]
 );;   
 
@@ -161,7 +161,7 @@ get_name_for_set no_breach (Some "no_breach");;
 
 let no_colon=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.Op Php_operator.T_COLON)
+    Php_projected_token.Constant(Php_constant_token.Op Php_operator.t_colon)
   ]
   );;   
   
@@ -198,8 +198,8 @@ get_name_for_set no_semicolon (Some "no_semicolon");;
 let no_ternary=complement_from_list( 
   Image.image (fun x->Php_projected_token.Constant(Php_constant_token.Op(x)))
   [
-    Php_operator.T_QUESTION; 
-    Php_operator.T_COLON;
+    Php_operator.t_question; 
+    Php_operator.t_colon;
   ]
   );;   
   
@@ -209,12 +209,12 @@ let stringy=complement_from_list(
   (
     Image.image (fun x->Php_projected_token.Constant(x))
     [
-      Php_constant_token.Op Php_operator.T_DOT; 
-      Php_constant_token.Op Php_operator.T_LBRACKET;
-      Php_constant_token.Op Php_operator.T_RBRACKET;
-      Php_constant_token.Op Php_operator.T_QUESTION;
-      Php_constant_token.Op Php_operator.T_COLON;
-      Php_constant_token.Op Php_operator.T_EQUALS_MORE;
+      Php_constant_token.Op Php_operator.t_dot; 
+      Php_constant_token.Op Php_operator.t_lbracket;
+      Php_constant_token.Op Php_operator.t_rbracket;
+      Php_constant_token.Op Php_operator.t_question;
+      Php_constant_token.Op Php_operator.t_colon;
+      Php_constant_token.Op Php_operator.t_equals_MORE;
       Php_constant_token.Punct Php_punctuator.T_COLON_COLON;
       Php_constant_token.Punct Php_punctuator.T_LPARENTHESIS;
       Php_constant_token.Punct Php_punctuator.T_RPARENTHESIS;
@@ -238,7 +238,7 @@ let stringy=complement_from_list(
   
 get_name_for_set stringy (Some "stringy");;
 
-define_precedence_set Strict_or_loose.Loose Php_operator.T_EQUALS;;
+define_precedence_set Strict_or_loose.Loose Php_operator.t_equals;;
 
 let all_pairs=
    (
