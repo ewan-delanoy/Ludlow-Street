@@ -197,7 +197,7 @@ let short_name op=
   ) all_fiftuples in
   sn;; 
 
-let to_string op=
+let make_visible op=
     let (_,_,_,viz,_)=Option.find_really(
         fun (op1,_,_,_,_)->op1=op
     ) all_fiftuples in

@@ -85,7 +85,7 @@ let get_set_for_name name=
 
 let define_precedence_set sol op=
     get_name_for_set (from_precedence sol op)
-    (Some((Strict_or_loose.to_string sol)^(Php_operator.to_string op)));;
+    (Some((Strict_or_loose.to_string sol)^(Php_operator.make_visible op)));;
 
 (* Particular sets *)
 

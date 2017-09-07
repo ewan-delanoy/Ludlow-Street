@@ -12,7 +12,7 @@ type t=
 let to_string=function
       (Kwd s)->Php_keyword.to_string s
      |(Punct s)->Php_punctuator.to_string s
-     |(Op s)->Php_operator.to_string s;;
+     |(Op s)->Php_operator.make_visible s;;
   
 let all_pairs=
        let kwds=Image.image (fun (s,kwd)->(s,Kwd kwd)) Php_keyword.all_pairs 
