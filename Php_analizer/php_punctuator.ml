@@ -50,10 +50,7 @@ let all_triples=[
   ) all_triples in
   viz;;
 
-
-
-
-  let all_pairs =
+let all_pairs =
     Ordered.forget_order( Ordered.diforchan Keyval_ordering.ko 
     (Image.image (fun (pkt,viz,sn)->(viz,pkt)) all_triples));;
 

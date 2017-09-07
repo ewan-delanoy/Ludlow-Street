@@ -72,15 +72,15 @@ let kwd s=constant(Php_constant_token.Kwd (Php_keyword.of_string s));;
    
 
 let of_string=Memoized.make(fun s->
-  match Php_operator.of_prudent_string s with
+  match Option.catch_exception(Php_operator.of_string s) with
    Some(_)->op s
   |None->
   (
-   match Php_punctuator.of_prudent_string s with
+   match Option.catch_exception(Php_punctuator.of_string s) with
    Some(_)->punct s
   |None->
    (
-    match Php_keyword.of_prudent_string s with
+    match Option.catch_exception(Php_keyword.of_string s) with
      Some(_)->kwd s
     |None->ident s
    ) 
