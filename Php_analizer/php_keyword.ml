@@ -122,7 +122,7 @@ let t_var = (T_VAR) ;;
 let t_while = (T_WHILE) ;;
 let t_yield = (T_YIELD) ;;
 
-let all_pairs=[
+let data=[
 ("abstract",t_abstract);
 ("as",t_as);
 ("break",t_break);
@@ -182,9 +182,9 @@ let all_pairs=[
     
 
 let to_string x=
-  fst(Option.find_really (fun (s,y)->y=x) all_pairs);;
+  fst(Option.find_really (fun (s,y)->y=x) data);;
   
-let all=Image.image snd all_pairs;; 
+let all=Image.image snd data;; 
 
 exception Unknown_keyword_string of string;; 
 
@@ -192,7 +192,7 @@ exception Unknown_keyword_string of string;;
 let of_string viz=
     match Option.find_it(
       fun (viz1,_)->viz1=viz
-      ) all_pairs with
+      ) data with
      None->raise(Unknown_keyword_string(viz))
     |Some(_,kwd)->kwd;;
 
