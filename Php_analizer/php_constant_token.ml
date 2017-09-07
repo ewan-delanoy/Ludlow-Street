@@ -15,9 +15,9 @@ let to_string=function
      |(Op s)->Php_operator.make_visible s;;
   
 let all_pairs=
-       let kwds=Image.image (fun (s,kwd)->(s,Kwd kwd)) Php_keyword.all_pairs 
-       and puncts=Image.image (fun (s,punct)->(s,Punct punct)) Php_punctuator.all_pairs
-       and ops=Image.image (fun (s,op)->(s,Op op)) Php_operator.all_pairs in
+       let kwds=Image.image (fun kwd->(Php_keyword.to_string kwd,Kwd kwd)) Php_keyword.all_keywords
+       and puncts=Image.image (fun pkt->(Php_punctuator.to_string pkt,Punct pkt)) Php_punctuator.all_punctuators
+       and ops=Image.image (fun op->(Php_operator.make_visible op,Op op)) Php_operator.all_operators in
   Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  
      (kwds@puncts@ops) );;
 
