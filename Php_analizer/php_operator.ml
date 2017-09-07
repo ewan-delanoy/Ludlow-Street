@@ -220,7 +220,7 @@ let all_pairs=
     Ordered.forget_order
       (Ordered.diforchan Keyval_ordering.ko temp1);;  
 
-let all_operators=Image.image snd all_pairs;;  
+let all=Image.image snd all_pairs;;  
  
 exception Unknown_operator_string of string;; 
  
@@ -233,10 +233,9 @@ let of_string viz=
   
 let level s=
   let p0=precedence(of_string s) in
-  List.filter (fun op->precedence(op)=p0) all_operators;;  
+  List.filter (fun op->precedence(op)=p0) all;;  
   
-let all_strings=Image.image fst all_pairs;;   
- 
+
   
   
    

@@ -17,7 +17,7 @@ let to_string=function
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.to_string kwd,Kwd kwd)) Php_keyword.all_keywords
        and puncts=Image.image (fun pkt->(Php_punctuator.to_string pkt,Punct pkt)) Php_punctuator.all_punctuators
-       and ops=Image.image (fun op->(Php_operator.make_visible op,Op op)) Php_operator.all_operators in
+       and ops=Image.image (fun op->(Php_operator.make_visible op,Op op)) Php_operator.all in
   Ordered.forget_order(Ordered.diforchan Keyval_ordering.ko  
      (kwds@puncts@ops) );;
 
