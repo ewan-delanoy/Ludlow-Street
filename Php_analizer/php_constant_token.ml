@@ -10,9 +10,9 @@ type t=
     |Op of Php_operator.t;;
 
 let make_visible=function
-      (Kwd s)->Php_keyword.make_visible s
-     |(Punct s)->Php_punctuator.make_visible s
-     |(Op s)->Php_operator.make_visible s;;
+      (Kwd kwd)->Php_keyword.make_visible kwd
+     |(Punct pkt)->Php_punctuator.make_visible pkt
+     |(Op op)->Php_operator.make_visible op;;
   
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,Kwd kwd)) Php_keyword.all
@@ -27,7 +27,7 @@ let all=Image.image snd all_pairs;;
 
 exception Unknown of string;;
 
-let of_string s=
+let from_visible s=
    try List.assoc s all_pairs with
    _->raise(Unknown(s));;
 
