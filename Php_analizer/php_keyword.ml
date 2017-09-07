@@ -181,7 +181,7 @@ let data=[
 
     
 
-let to_string x=
+let make_visible x=
   fst(Option.find_really (fun (s,y)->y=x) data);;
   
 let all=Image.image snd data;; 
