@@ -117,5 +117,5 @@ let all_pairs=snd temp_pair;;
  
  let precedence_neutral_tokens=harmless_tokens@
   (Image.image (fun x->Constant(Php_constant_token.Punct(x))) 
-   [Php_punctuator.T_LPARENTHESIS;Php_punctuator.T_RPARENTHESIS]);;
+   [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
    
