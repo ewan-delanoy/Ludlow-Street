@@ -50,7 +50,7 @@ let make_visible pkt=
   ) data in
   viz;;
 
-let of_string viz=
+let from_visible viz=
     let (pkt,_,_)=Option.find_really(
         fun (_,viz1,_)->viz1=viz
     ) data in
