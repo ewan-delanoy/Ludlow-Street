@@ -129,7 +129,7 @@ type t=
     let t_xor = (T_XOR) ;;
     let t_or = (T_OR) ;;
 
-    let all_fiftuples=[
+    let data=[
       (t_clone,nonassoc,1,"clone","clone");
     (t_new,nonassoc,1,"new","new");
     (t_lbracket,left,2,"[","lbracket");
@@ -194,29 +194,29 @@ type t=
 let short_name op=
   let (_,_,_,_,sn)=Option.find_really(
       fun (op1,_,_,_,_)->op1=op
-  ) all_fiftuples in
+  ) data in
   sn;; 
 
 let make_visible op=
     let (_,_,_,viz,_)=Option.find_really(
         fun (op1,_,_,_,_)->op1=op
-    ) all_fiftuples in
+    ) data in
     viz;;
 
 let precedence op=
       let (_,_,prec,_,_)=Option.find_really(
           fun (op1,_,_,_,_)->op1=op
-      ) all_fiftuples in
+      ) data in
       prec;;
 
 let associativity op=
   let (_,asc,_,_,_)=Option.find_really(
     fun (op1,_,_,_,_)->op1=op
-    ) all_fiftuples in
+    ) data in
     asc;;
 
 let all_pairs=
-    let temp1=Image.image (fun (op,asc,prec,viz,sn)->(viz,op)) all_fiftuples in
+    let temp1=Image.image (fun (op,asc,prec,viz,sn)->(viz,op)) data in
     Ordered.forget_order
       (Ordered.diforchan Keyval_ordering.ko temp1);;  
 
@@ -227,7 +227,7 @@ exception Unknown_operator_string of string;;
 let of_string viz=
   match Option.find_it(
     fun (_,_,_,viz1,_)->viz1=viz
-    ) all_fiftuples with
+    ) data with
    None->raise(Unknown_operator_string(viz))
   |Some(op,_,_,_,_)->op;;
   
