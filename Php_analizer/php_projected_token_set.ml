@@ -172,7 +172,7 @@ let no_ivies=complement_from_list(
   [
     Php_keyword.t_if; 
     Php_keyword.t_else; 
-    Php_keyword.t_elseIF; 
+    Php_keyword.t_elseif; 
     Php_keyword.t_endif;
   ]
   );;   
