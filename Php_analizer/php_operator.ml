@@ -128,88 +128,95 @@ type t=
     let t_and = (T_AND) ;;
     let t_xor = (T_XOR) ;;
     let t_or = (T_OR) ;;
-    
-    let all_fourtuples=[
-    (t_clone,nonassoc,1,"clone");
-    (t_new,nonassoc,1,"new");
-    (t_lbracket,left,2,"[");
-    (t_rbracket,left,2,"]");
-    (t_star_star,right,3,"**");
-    (t_plus_plus,right,4,"++");
-    (t_minus_minus,right,4,"--");
-    (t_tilda,right,4,"~");
-    (t_coerce_to_int,right,4,"(int)");
-    (t_coerce_to_float,right,4,"(float)");
-    (t_coerce_to_string,right,4,"(string)");
-    (t_coerce_to_array,right,4,"(array)");
-    (t_coerce_to_object,right,4,"(object)");
-    (t_coerce_to_bool,right,4,"(bool)");
-    (t_at,right,4,"@");
-    (t_instanceof,nonassoc,5,"instanceof");
-    (t_exclamation,right,6,"!");
-    (t_star,left,7,"*");
-    (t_divide,left,7,"/");
-    (t_percentage,left,7,"%");
-    (t_plus,left,8,"+");
-    (t_minus,left,8,"-");
-    (t_dot,left,8,".");
-    (t_less_less,left,9,"<<");
-    (t_more_more,left,9,">>");
-    (t_less,nonassoc,10,"<");
-    (t_less_equals,nonassoc,10,"<=");
-    (t_more,nonassoc,10,">");
-    (t_more_equals,nonassoc,10,">=");
-    (t_equals_equals,nonassoc,11,"==");
-    (t_exclamation_equals,nonassoc,11,"!=");
-    (t_equals_equals_equals,nonassoc,11,"===");
-    (t_exclamation_equals_equals,nonassoc,11,"!==");
-    (t_less_more,nonassoc,11,"<>");
-    (t_ampersand,left,12,"&");
-    (t_circumflex,left,13,"^");
-    (t_vline,left,14,"|");
-    (t_ampersand_ampersand,left,15,"&&");
-    (t_vline_vline,left,16,"||");
-    (t_question,left,17,"?");
-    (t_colon,left,17,":");
-    (t_equals,left,18,"=");
-    (t_plus_equals,left,18,"+=");
-    (t_minus_equals,left,18,"-=");
-    (t_star_equals,left,18,"*=");
-    (t_star_star_equals,left,18,"**=");
-    (t_divide_equals,left,18,"/=");
-    (t_dot_equals,left,18,".=");
-    (t_percentage_equals,left,18,"%=");
-    (t_ampersand_equals,left,18,"&=");
-    (t_vline_equals,left,18,"|=");
-    (t_circumflex_equals,left,18,"^=");
-    (t_less_less_equals,left,18,"<<=");
-    (t_more_more_equals,left,18,">>=");
-    (t_equals_more,left,18,"=>");
-    (t_and,left,19,"and");
-    (t_xor,left,20,"xor");
-    (t_or,left,21,"or");
+
+    let all_fiftuples=[
+      (t_clone,nonassoc,1,"clone","clone");
+    (t_new,nonassoc,1,"new","new");
+    (t_lbracket,left,2,"[","lbracket");
+    (t_rbracket,left,2,"]","rbracket");
+    (t_star_star,right,3,"**","star_star");
+    (t_plus_plus,right,4,"++","plus_plus");
+    (t_minus_minus,right,4,"--","minus_minus");
+    (t_tilda,right,4,"~","tilda");
+    (t_coerce_to_int,right,4,"(int)","coerce_to_int");
+    (t_coerce_to_float,right,4,"(float)","coerce_to_float");
+    (t_coerce_to_string,right,4,"(string)","coerce_to_string");
+    (t_coerce_to_array,right,4,"(array)","coerce_to_array");
+    (t_coerce_to_object,right,4,"(object)","coerce_to_object");
+    (t_coerce_to_bool,right,4,"(bool)","coerce_to_bool");
+    (t_at,right,4,"@","at");
+    (t_instanceof,nonassoc,5,"instanceof","instanceof");
+    (t_exclamation,right,6,"!","exclamation");
+    (t_star,left,7,"*","star");
+    (t_divide,left,7,"/","divide");
+    (t_percentage,left,7,"%","percentage");
+    (t_plus,left,8,"+","plus");
+    (t_minus,left,8,"-","minus");
+    (t_dot,left,8,".","dot");
+    (t_less_less,left,9,"<<","less_less");
+    (t_more_more,left,9,">>","more_more");
+    (t_less,nonassoc,10,"<","less");
+    (t_less_equals,nonassoc,10,"<=","less_equals");
+    (t_more,nonassoc,10,">","more");
+    (t_more_equals,nonassoc,10,">=","more_equals");
+    (t_equals_equals,nonassoc,11,"==","equals_equals");
+    (t_exclamation_equals,nonassoc,11,"!=","exclamation_equals");
+    (t_equals_equals_equals,nonassoc,11,"===","equals_equals_equals");
+    (t_exclamation_equals_equals,nonassoc,11,"!==","exclamation_equals_equals");
+    (t_less_more,nonassoc,11,"<>","less_more");
+    (t_ampersand,left,12,"&","ampersand");
+    (t_circumflex,left,13,"^","circumflex");
+    (t_vline,left,14,"|","vline");
+    (t_ampersand_ampersand,left,15,"&&","ampersand_ampersand");
+    (t_vline_vline,left,16,"||","vline_vline");
+    (t_question,left,17,"?","question");
+    (t_colon,left,17,":","colon");
+    (t_equals,left,18,"=","equals");
+    (t_plus_equals,left,18,"+=","plus_equals");
+    (t_minus_equals,left,18,"-=","minus_equals");
+    (t_star_equals,left,18,"*=","star_equals");
+    (t_star_star_equals,left,18,"**=","star_star_equals");
+    (t_divide_equals,left,18,"/=","divide_equals");
+    (t_dot_equals,left,18,".=","dot_equals");
+    (t_percentage_equals,left,18,"%=","percentage_equals");
+    (t_ampersand_equals,left,18,"&=","ampersand_equals");
+    (t_vline_equals,left,18,"|=","vline_equals");
+    (t_circumflex_equals,left,18,"^=","circumflex_equals");
+    (t_less_less_equals,left,18,"<<=","less_less_equals");
+    (t_more_more_equals,left,18,">>=","more_more_equals");
+    (t_equals_more,left,18,"=>","equals_more");
+    (t_and,left,19,"and","and");
+    (t_xor,left,20,"xor","xor");
+    (t_or,left,21,"or","or");
  ];;
+     
+
+let short_name op=
+  let (_,_,_,_,sn)=Option.find_really(
+      fun (op1,_,_,_,_)->op1=op
+  ) all_fiftuples in
+  sn;; 
 
 let to_string op=
-    let (_,_,_,viz)=Option.find_really(
-        fun (op1,_,_,_)->op1=op
-    ) all_fourtuples in
+    let (_,_,_,viz,_)=Option.find_really(
+        fun (op1,_,_,_,_)->op1=op
+    ) all_fiftuples in
     viz;;
 
 let precedence op=
-      let (_,_,prec,_)=Option.find_really(
-          fun (op1,_,_,_)->op1=op
-      ) all_fourtuples in
+      let (_,_,prec,_,_)=Option.find_really(
+          fun (op1,_,_,_,_)->op1=op
+      ) all_fiftuples in
       prec;;
 
 let associativity op=
-  let (_,asc,_,_)=Option.find_really(
-    fun (op1,_,_,_)->op1=op
-    ) all_fourtuples in
+  let (_,asc,_,_,_)=Option.find_really(
+    fun (op1,_,_,_,_)->op1=op
+    ) all_fiftuples in
     asc;;
 
 let all_pairs=
-    let temp1=Image.image (fun (op,asc,prec,viz)->(viz,op)) all_fourtuples in
+    let temp1=Image.image (fun (op,asc,prec,viz,sn)->(viz,op)) all_fiftuples in
     Ordered.forget_order
       (Ordered.diforchan Keyval_ordering.ko temp1);;  
 
