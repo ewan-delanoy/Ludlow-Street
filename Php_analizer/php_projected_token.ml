@@ -50,12 +50,6 @@ let precedence =function
   |_->None;;
 
 
-let constant_part=function 
- Constant ctok->Some(ctok)
-|_->None;;
-
-
-
 let op s=Constant(Php_constant_token.c_op(Php_operator.from_visible s));;
 let punct s=Constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
 let kwd s=Constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
