@@ -92,7 +92,7 @@ let define_precedence_set sol op=
 (* Particular sets *)
 
 let assign=from_list( Image.image 
-           (fun x->Php_projected_token.Constant
+           (fun x->Php_projected_token.constant
                 (Php_constant_token.c_op(x)))
           [
            Php_operator.t_equals; 
@@ -106,7 +106,7 @@ let assign=from_list( Image.image
 get_name_for_set assign (Some "assign");;
 
 let coerce=from_list( Image.image 
-(fun x->Php_projected_token.Constant
+(fun x->Php_projected_token.constant
      (Php_constant_token.c_op(x)))
 [
   Php_operator.t_coerce_to_int; 
@@ -123,15 +123,15 @@ get_name_for_set coerce (Some "coerce");;
 
 let id_or_var=from_list( 
 [
-  Php_projected_token.Variable; 
-  Php_projected_token.Ident; 
+  Php_projected_token.variable; 
+  Php_projected_token.ident; 
 ]
 );;   
 
 get_name_for_set id_or_var (Some "id_or_var");;
 
 let include_like=from_list( 
-    Image.image (fun x->Php_projected_token.Constant (Php_constant_token.c_kwd x))
+    Image.image (fun x->Php_projected_token.constant (Php_constant_token.c_kwd x))
     [Php_keyword.t_include; 
      Php_keyword.t_include_once;                                
      Php_keyword.t_require; 
@@ -142,17 +142,17 @@ get_name_for_set include_like (Some "include_like");;
 
 let int_or_string_or_var=from_list( 
   [
-    Php_projected_token.Variable; 
-    Php_projected_token.Ident; 
-    Php_projected_token.Single_quoted;
-    Php_projected_token.Double_quoted;
+    Php_projected_token.variable; 
+    Php_projected_token.ident; 
+    Php_projected_token.single_quoted;
+    Php_projected_token.double_quoted;
   ]
   );;   
   
 get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 
 let no_breach=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_kwd(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_kwd(x)))
   [
     Php_keyword.t_foreach;
     Php_keyword.t_endforeach;
@@ -163,14 +163,14 @@ get_name_for_set no_breach (Some "no_breach");;
 
 let no_colon=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.c_op Php_operator.t_colon)
+    Php_projected_token.constant(Php_constant_token.c_op Php_operator.t_colon)
   ]
   );;   
   
 get_name_for_set no_colon (Some "no_colon");;
 
 let no_ivies=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_kwd(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_kwd(x)))
   [
     Php_keyword.t_if; 
     Php_keyword.t_else; 
@@ -183,7 +183,7 @@ get_name_for_set no_ivies (Some "no_ivies");;
 
 let no_left_brace=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.c_punct Php_punctuator.t_lbrace)
+    Php_projected_token.constant(Php_constant_token.c_punct Php_punctuator.t_lbrace)
   ]
   );;   
   
@@ -191,14 +191,14 @@ get_name_for_set no_left_brace (Some "no_left_brace");;
 
 let no_semicolon=complement_from_list( 
   [
-    Php_projected_token.Constant(Php_constant_token.c_punct Php_punctuator.t_semicolon)
+    Php_projected_token.constant(Php_constant_token.c_punct Php_punctuator.t_semicolon)
   ]
   );;   
   
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
 let no_ternary=complement_from_list( 
-  Image.image (fun x->Php_projected_token.Constant(Php_constant_token.c_op(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_op(x)))
   [
     Php_operator.t_question; 
     Php_operator.t_colon;
@@ -209,7 +209,7 @@ get_name_for_set no_ternary (Some "no_ternary");;
 
 let stringy=complement_from_list( 
   (
-    Image.image (fun x->Php_projected_token.Constant(x))
+    Image.image (fun x->Php_projected_token.constant(x))
     [
       Php_constant_token.c_op Php_operator.t_dot; 
       Php_constant_token.c_op Php_operator.t_lbracket;
@@ -227,13 +227,13 @@ let stringy=complement_from_list(
   @
   (
     [
-      Php_projected_token.Variable; 
-      Php_projected_token.Ident; 
-      Php_projected_token.Comment; 
-      Php_projected_token.Single_quoted;
-      Php_projected_token.Double_quoted; 
-      Php_projected_token.Heredoc; 
-      Php_projected_token.Nowdoc
+      Php_projected_token.variable; 
+      Php_projected_token.ident; 
+      Php_projected_token.comment; 
+      Php_projected_token.single_quoted;
+      Php_projected_token.double_quoted; 
+      Php_projected_token.heredoc; 
+      Php_projected_token.nowdoc
     ]
   ) 
   );;   

@@ -568,7 +568,7 @@ exception Singleton_exn;;
    
 let helper_for_singleton l1 cr=
      let tok=Positioned_php_token.fst(Positioned_php_token_list.hd(List.hd l1)) in
-     if Php_token.form tok=Php_projected_token.External_echo
+     if Php_token.form tok=Php_projected_token.external_echo
      then External_echo(Php_token.content tok,cr)
      else raise(Singleton_exn);;
    
