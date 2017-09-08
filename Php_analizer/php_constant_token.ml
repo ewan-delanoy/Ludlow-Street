@@ -4,17 +4,15 @@
 
 *)
 
-type t=
-     Kwd of Php_keyword.t
-    |Punct of Php_punctuator.t
-    |Op of Php_operator.t;;
+type t=[ Php_keyword.t | Php_punctuator.t | Php_operator.t ];;
 
-let c_kwd kwd=Kwd(kwd);;
-let c_punct pkt=Punct(pkt);;
-let c_op op=Op(op);;    
+let c_kwd=((fun (kwd:Php_keyword.t) ->(kwd:>t)) : Php_keyword.t -> t);;
 
-let precedence = function
-   Op(op)->Some(Php_operator.precedence op) |_->None;;
+let c_punct (pkt:Php_punctuator.t)=(pkt:>t);;
+let c_op (op:Php_operator.t)=(op:>t);;    
+
+let precedence ctok=
+    Option.catch_exception Php_operator.precedence ctok;; 
 
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,c_kwd kwd)) Php_keyword.all
