@@ -13,8 +13,8 @@ let c_kwd kwd=Kwd(kwd);;
 let c_punct pkt=Punct(pkt);;
 let c_op op=Op(op);;    
 
-let operator_aspect = function
-   Op(op)->Some(op) |_->None;;
+let precedence = function
+   Op(op)->Some(Php_operator.precedence op) |_->None;;
 
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,c_kwd kwd)) Php_keyword.all

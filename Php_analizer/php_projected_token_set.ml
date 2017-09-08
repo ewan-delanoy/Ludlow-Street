@@ -38,16 +38,18 @@ let complement_from_list l=complement(from_list l);;
 
 let from_precedence sol op=
     from_list(
-      Php_projected_token.precedence_neutral_tokens
-      @
-      (
-        List.filter (fun ptok->
-        match Php_projected_token.precedence(ptok) with
-        None->false
-        |Some(p)->Strict_or_loose.test sol p (Php_operator.precedence op)
-        )
-        Php_projected_token.all_tokens
-      )
+                Php_projected_token.precedence_neutral_tokens
+                @
+                (
+                  List.filter 
+                    ( fun ptok->
+                          match Php_projected_token.precedence(ptok) with
+                            None->false
+                          |Some(p)->Strict_or_loose.test 
+                              sol p (Php_operator.precedence op)
+                    )
+                  Php_projected_token.all_tokens
+                )
     );;
 
 
