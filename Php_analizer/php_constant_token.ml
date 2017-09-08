@@ -11,8 +11,9 @@ let c_kwd=((fun (kwd:Php_keyword.t) ->(kwd:>t)) : Php_keyword.t -> t);;
 let c_punct (pkt:Php_punctuator.t)=(pkt:>t);;
 let c_op (op:Php_operator.t)=(op:>t);;    
 
-let precedence ctok=
-    Option.catch_exception Php_operator.precedence ctok;; 
+let precedence (ctok:t)=match ctok with
+    |#Php_operator.t as op->Some(Php_operator.precedence op)
+    |_->None;;
 
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,c_kwd kwd)) Php_keyword.all
