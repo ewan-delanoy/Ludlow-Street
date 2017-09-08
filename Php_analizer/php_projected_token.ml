@@ -23,6 +23,7 @@ type t=
 
 
 let cchar=Char;;
+let comment=Comment;;
 let constant x=Constant(x);;
 let double_quoted=Double_quoted;;
 let external_echo=External_echo;;
