@@ -45,11 +45,8 @@ let fixture_of_nonconstants=
 
 
   
-let precedence=function 
-  Constant ctok->(match ctok with
-                    (Php_constant_token.c_op op)->Some(Php_operator.precedence(op))
-                   |_->None
-                 )
+let precedence ptok=match Php_constant_token.operator_aspect ptok with
+  Some(op)->Some(Php_operator.precedence(op))
   |_->None;;
 
 

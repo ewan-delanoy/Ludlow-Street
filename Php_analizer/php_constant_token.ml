@@ -13,6 +13,9 @@ let c_kwd kwd=Kwd(kwd);;
 let c_punct pkt=Punct(pkt);;
 let c_op op=Op(op);;    
 
+let operator_aspect = function
+   Op(op)->Some(op) |_->None;;
+
 let all_pairs=
        let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,c_kwd kwd)) Php_keyword.all
        and puncts=Image.image (fun pkt->(Php_punctuator.make_visible pkt,c_punct pkt)) Php_punctuator.all
