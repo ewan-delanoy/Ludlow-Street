@@ -11,126 +11,128 @@ let nonassoc=Associativity.Non_associative;;
 
 (* from http://php.net/manual/en/language.operators.precedence.php *)
 type t=
-     T_CLONE
-    |T_NEW
-    |T_LBRACKET
-    |T_RBRACKET
-    |T_STAR_STAR
-    |T_PLUS_PLUS
-    |T_MINUS_MINUS
-    |T_TILDA
-    |T_COERCE_TO_INT
-    |T_COERCE_TO_FLOAT
-    |T_COERCE_TO_STRING
-    |T_COERCE_TO_ARRAY
-    |T_COERCE_TO_OBJECT
-    |T_COERCE_TO_BOOL
-    |T_AT
-    |T_INSTANCEOF
-    |T_EXCLAMATION
-    |T_STAR
-    |T_DIVIDE
-    |T_PERCENTAGE
-    |T_PLUS
-    |T_MINUS
-    |T_DOT
-    |T_LESS_LESS
-    |T_MORE_MORE
-    |T_LESS
-    |T_LESS_EQUALS
-    |T_MORE
-    |T_MORE_EQUALS
-    |T_EQUALS_EQUALS
-    |T_EXCLAMATION_EQUALS
-    |T_EQUALS_EQUALS_EQUALS
-    |T_EXCLAMATION_EQUALS_EQUALS
-    |T_LESS_MORE
-    |T_AMPERSAND
-    |T_CIRCUMFLEX
-    |T_VLINE
-    |T_AMPERSAND_AMPERSAND
-    |T_VLINE_VLINE
-    |T_QUESTION
-    |T_COLON
-    |T_EQUALS
-    |T_PLUS_EQUALS
-    |T_MINUS_EQUALS
-    |T_STAR_EQUALS
-    |T_STAR_STAR_EQUALS
-    |T_DIVIDE_EQUALS
-    |T_DOT_EQUALS
-    |T_PERCENTAGE_EQUALS
-    |T_AMPERSAND_EQUALS
-    |T_VLINE_EQUALS
-    |T_CIRCUMFLEX_EQUALS
-    |T_LESS_LESS_EQUALS
-    |T_MORE_MORE_EQUALS
-    |T_EQUALS_MORE
-    |T_AND
-    |T_XOR
-    |T_OR;;
+    [
+     `T_CLONE
+    |`T_NEW
+    |`T_LBRACKET
+    |`T_RBRACKET
+    |`T_STAR_STAR
+    |`T_PLUS_PLUS
+    |`T_MINUS_MINUS
+    |`T_TILDA
+    |`T_COERCE_TO_INT
+    |`T_COERCE_TO_FLOAT
+    |`T_COERCE_TO_STRING
+    |`T_COERCE_TO_ARRAY
+    |`T_COERCE_TO_OBJECT
+    |`T_COERCE_TO_BOOL
+    |`T_AT
+    |`T_INSTANCEOF
+    |`T_EXCLAMATION
+    |`T_STAR
+    |`T_DIVIDE
+    |`T_PERCENTAGE
+    |`T_PLUS
+    |`T_MINUS
+    |`T_DOT
+    |`T_LESS_LESS
+    |`T_MORE_MORE
+    |`T_LESS
+    |`T_LESS_EQUALS
+    |`T_MORE
+    |`T_MORE_EQUALS
+    |`T_EQUALS_EQUALS
+    |`T_EXCLAMATION_EQUALS
+    |`T_EQUALS_EQUALS_EQUALS
+    |`T_EXCLAMATION_EQUALS_EQUALS
+    |`T_LESS_MORE
+    |`T_AMPERSAND
+    |`T_CIRCUMFLEX
+    |`T_VLINE
+    |`T_AMPERSAND_AMPERSAND
+    |`T_VLINE_VLINE
+    |`T_QUESTION
+    |`T_COLON
+    |`T_EQUALS
+    |`T_PLUS_EQUALS
+    |`T_MINUS_EQUALS
+    |`T_STAR_EQUALS
+    |`T_STAR_STAR_EQUALS
+    |`T_DIVIDE_EQUALS
+    |`T_DOT_EQUALS
+    |`T_PERCENTAGE_EQUALS
+    |`T_AMPERSAND_EQUALS
+    |`T_VLINE_EQUALS
+    |`T_CIRCUMFLEX_EQUALS
+    |`T_LESS_LESS_EQUALS
+    |`T_MORE_MORE_EQUALS
+    |`T_EQUALS_MORE
+    |`T_AND
+    |`T_XOR
+    |`T_OR
+    ];;
 
-    let t_clone = (T_CLONE) ;;
-    let t_new = (T_NEW) ;;
-    let t_lbracket = (T_LBRACKET) ;;
-    let t_rbracket = (T_RBRACKET) ;;
-    let t_star_star = (T_STAR_STAR) ;;
-    let t_plus_plus = (T_PLUS_PLUS) ;;
-    let t_minus_minus = (T_MINUS_MINUS) ;;
-    let t_tilda = (T_TILDA) ;;
-    let t_coerce_to_int = (T_COERCE_TO_INT) ;;
-    let t_coerce_to_float = (T_COERCE_TO_FLOAT) ;;
-    let t_coerce_to_string = (T_COERCE_TO_STRING) ;;
-    let t_coerce_to_array = (T_COERCE_TO_ARRAY) ;;
-    let t_coerce_to_object = (T_COERCE_TO_OBJECT) ;;
-    let t_coerce_to_bool = (T_COERCE_TO_BOOL) ;;
-    let t_at = (T_AT) ;;
-    let t_instanceof = (T_INSTANCEOF) ;;
-    let t_exclamation = (T_EXCLAMATION) ;;
-    let t_star = (T_STAR) ;;
-    let t_divide = (T_DIVIDE) ;;
-    let t_percentage = (T_PERCENTAGE) ;;
-    let t_plus = (T_PLUS) ;;
-    let t_minus = (T_MINUS) ;;
-    let t_dot = (T_DOT) ;;
-    let t_less_less = (T_LESS_LESS) ;;
-    let t_more_more = (T_MORE_MORE) ;;
-    let t_less = (T_LESS) ;;
-    let t_less_equals = (T_LESS_EQUALS) ;;
-    let t_more = (T_MORE) ;;
-    let t_more_equals = (T_MORE_EQUALS) ;;
-    let t_equals_equals = (T_EQUALS_EQUALS) ;;
-    let t_exclamation_equals = (T_EXCLAMATION_EQUALS) ;;
-    let t_equals_equals_equals = (T_EQUALS_EQUALS_EQUALS) ;;
-    let t_exclamation_equals_equals = (T_EXCLAMATION_EQUALS_EQUALS) ;;
-    let t_less_more = (T_LESS_MORE) ;;
-    let t_ampersand = (T_AMPERSAND) ;;
-    let t_circumflex = (T_CIRCUMFLEX) ;;
-    let t_vline = (T_VLINE) ;;
-    let t_ampersand_ampersand = (T_AMPERSAND_AMPERSAND) ;;
-    let t_vline_vline = (T_VLINE_VLINE) ;;
-    let t_question = (T_QUESTION) ;;
-    let t_colon = (T_COLON) ;;
-    let t_equals = (T_EQUALS) ;;
-    let t_plus_equals = (T_PLUS_EQUALS) ;;
-    let t_minus_equals = (T_MINUS_EQUALS) ;;
-    let t_star_equals = (T_STAR_EQUALS) ;;
-    let t_star_star_equals = (T_STAR_STAR_EQUALS) ;;
-    let t_divide_equals = (T_DIVIDE_EQUALS) ;;
-    let t_dot_equals = (T_DOT_EQUALS) ;;
-    let t_percentage_equals = (T_PERCENTAGE_EQUALS) ;;
-    let t_ampersand_equals = (T_AMPERSAND_EQUALS) ;;
-    let t_vline_equals = (T_VLINE_EQUALS) ;;
-    let t_circumflex_equals = (T_CIRCUMFLEX_EQUALS) ;;
-    let t_less_less_equals = (T_LESS_LESS_EQUALS) ;;
-    let t_more_more_equals = (T_MORE_MORE_EQUALS) ;;
-    let t_equals_more = (T_EQUALS_MORE) ;;
-    let t_and = (T_AND) ;;
-    let t_xor = (T_XOR) ;;
-    let t_or = (T_OR) ;;
+    let t_clone = (`T_CLONE:t) ;;
+    let t_new = (`T_NEW:t) ;;
+    let t_lbracket = (`T_LBRACKET:t) ;;
+    let t_rbracket = (`T_RBRACKET:t) ;;
+    let t_star_star = (`T_STAR_STAR:t) ;;
+    let t_plus_plus = (`T_PLUS_PLUS:t) ;;
+    let t_minus_minus = (`T_MINUS_MINUS:t) ;;
+    let t_tilda = (`T_TILDA:t) ;;
+    let t_coerce_to_int = (`T_COERCE_TO_INT:t) ;;
+    let t_coerce_to_float = (`T_COERCE_TO_FLOAT:t) ;;
+    let t_coerce_to_string = (`T_COERCE_TO_STRING:t) ;;
+    let t_coerce_to_array = (`T_COERCE_TO_ARRAY:t) ;;
+    let t_coerce_to_object = (`T_COERCE_TO_OBJECT:t) ;;
+    let t_coerce_to_bool = (`T_COERCE_TO_BOOL:t) ;;
+    let t_at = (`T_AT:t) ;;
+    let t_instanceof = (`T_INSTANCEOF:t) ;;
+    let t_exclamation = (`T_EXCLAMATION:t) ;;
+    let t_star = (`T_STAR:t) ;;
+    let t_divide = (`T_DIVIDE:t) ;;
+    let t_percentage = (`T_PERCENTAGE:t) ;;
+    let t_plus = (`T_PLUS:t) ;;
+    let t_minus = (`T_MINUS:t) ;;
+    let t_dot = (`T_DOT:t) ;;
+    let t_less_less = (`T_LESS_LESS:t) ;;
+    let t_more_more = (`T_MORE_MORE:t) ;;
+    let t_less = (`T_LESS:t) ;;
+    let t_less_equals = (`T_LESS_EQUALS:t) ;;
+    let t_more = (`T_MORE:t) ;;
+    let t_more_equals = (`T_MORE_EQUALS:t) ;;
+    let t_equals_equals = (`T_EQUALS_EQUALS:t) ;;
+    let t_exclamation_equals = (`T_EXCLAMATION_EQUALS:t) ;;
+    let t_equals_equals_equals = (`T_EQUALS_EQUALS_EQUALS:t) ;;
+    let t_exclamation_equals_equals = (`T_EXCLAMATION_EQUALS_EQUALS:t) ;;
+    let t_less_more = (`T_LESS_MORE:t) ;;
+    let t_ampersand = (`T_AMPERSAND:t) ;;
+    let t_circumflex = (`T_CIRCUMFLEX:t) ;;
+    let t_vline = (`T_VLINE:t) ;;
+    let t_ampersand_ampersand = (`T_AMPERSAND_AMPERSAND:t) ;;
+    let t_vline_vline = (`T_VLINE_VLINE:t) ;;
+    let t_question = (`T_QUESTION:t) ;;
+    let t_colon = (`T_COLON:t) ;;
+    let t_equals = (`T_EQUALS:t) ;;
+    let t_plus_equals = (`T_PLUS_EQUALS:t) ;;
+    let t_minus_equals = (`T_MINUS_EQUALS:t) ;;
+    let t_star_equals = (`T_STAR_EQUALS:t) ;;
+    let t_star_star_equals = (`T_STAR_STAR_EQUALS:t) ;;
+    let t_divide_equals = (`T_DIVIDE_EQUALS:t) ;;
+    let t_dot_equals = (`T_DOT_EQUALS:t) ;;
+    let t_percentage_equals = (`T_PERCENTAGE_EQUALS:t) ;;
+    let t_ampersand_equals = (`T_AMPERSAND_EQUALS:t) ;;
+    let t_vline_equals = (`T_VLINE_EQUALS:t) ;;
+    let t_circumflex_equals = (`T_CIRCUMFLEX_EQUALS:t) ;;
+    let t_less_less_equals = (`T_LESS_LESS_EQUALS:t) ;;
+    let t_more_more_equals = (`T_MORE_MORE_EQUALS:t) ;;
+    let t_equals_more = (`T_EQUALS_MORE:t) ;;
+    let t_and = (`T_AND:t) ;;
+    let t_xor = (`T_XOR:t) ;;
+    let t_or = (`T_OR:t) ;;
 
-    let data=[
-      (t_clone,nonassoc,1,"clone","clone");
+    let data=(([
+    (t_clone,nonassoc,1,"clone","clone");
     (t_new,nonassoc,1,"new","new");
     (t_lbracket,left,2,"[","lbracket");
     (t_rbracket,left,2,"]","rbracket");
@@ -188,52 +190,61 @@ type t=
     (t_and,left,19,"and","and");
     (t_xor,left,20,"xor","xor");
     (t_or,left,21,"or","or");
- ];;
+ ]
+    ): (t * Associativity.t * int * string * string) list);;
      
 
-let short_name op=
+let short_name=((
+  fun op->
   let (_,_,_,_,sn)=Option.find_really(
       fun (op1,_,_,_,_)->op1=op
   ) data in
-  sn;; 
+  sn
+) : t -> string );; 
 
-let make_visible op=
+let make_visible=(( 
+    fun op->
     let (_,_,_,viz,_)=Option.find_really(
         fun (op1,_,_,_,_)->op1=op
     ) data in
-    viz;;
+    viz
+) : t -> string );;
 
-let precedence op=
+let precedence=((
+    fun op->
       let (_,_,prec,_,_)=Option.find_really(
           fun (op1,_,_,_,_)->op1=op
       ) data in
-      prec;;
+      prec
+   ) : t -> int );;
 
-let associativity op=
+let associativity=
+  (
+    (fun op->
   let (_,asc,_,_,_)=Option.find_really(
     fun (op1,_,_,_,_)->op1=op
     ) data in
-    asc;;
+    asc
+  ) : t -> Associativity.t );;
 
 let all_pairs=
     let temp1=Image.image (fun (op,asc,prec,viz,sn)->(viz,op)) data in
-    Ordered.forget_order
-      (Ordered.diforchan Keyval_ordering.ko temp1);;  
+    ((Ordered.diforchan_plaen Keyval_ordering.ko temp1): (string*t) list);;  
 
-let all=Image.image snd all_pairs;;  
+let all=((Image.image snd all_pairs):t list);;  
  
 exception Unknown_operator_string of string;; 
  
-let from_visible viz=
+let from_visible=((function viz->
   match Option.find_it(
     fun (_,_,_,viz1,_)->viz1=viz
     ) data with
    None->raise(Unknown_operator_string(viz))
-  |Some(op,_,_,_,_)->op;;
+  |Some(op,_,_,_,_)->op) : string -> t);;
   
-let level s=
+let level=((fun s->
   let p0=precedence(from_visible s) in
-  List.filter (fun op->precedence(op)=p0) all;;  
+  List.filter (fun op->precedence(op)=p0) all) : string -> t list);;  
   
 
   
