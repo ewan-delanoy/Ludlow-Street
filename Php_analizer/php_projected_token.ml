@@ -19,6 +19,24 @@ type t=
     |Char 
     |End_of_text;;
 
+
+
+
+let cchar=Char;;
+let constant x=Constant(x);;
+let double_quoted=Double_quoted;;
+let external_echo=External_echo;;
+let end_of_text=End_of_text;;
+let ffloat=Float;;
+let heredoc=Heredoc;;    
+let ident=Ident;;    
+let iint=Int;;
+let namespacer=Namespacer;;
+let nowdoc=Nowdoc;;
+let single_quoted=Single_quoted;;
+let variable=Variable;;
+
+
 let is_a_comment=function
    Comment->true
   |_->false;;
