@@ -246,7 +246,7 @@ let assignables=
   "id ()            ";
   "hdoc ";
   "include_like     _l_ loose= _r*_ ";
-  "integer          ";
+  "int          ";
   "new id           ()";
   "new nmspc        ()";
   "sqs .            vvar . sqs";
