@@ -21,7 +21,7 @@ let acts_only_once=function
   |Block(_)->false
   |Unusual_block(_)->false;;
 
-let all_pairs=
+let readables_and_selectors=
    let temp1=
    (
      Image.image (fun (s,ato)->
@@ -34,27 +34,27 @@ let all_pairs=
    let temp3=Tidel2.diforchan temp2 in
    Tidel2.image snd temp3;;
 
-let all_string_constants=Image.image fst all_pairs;;
+let all_string_constants=Image.image fst readables_and_selectors;;
 
 exception List_from_string_exn of string;;
 
 let list_from_string s=
   try( 
   let temp1=Strung.longest_match_parsing all_string_constants s in
-  Image.image (fun a->List.assoc a all_pairs) temp1
+  Image.image (fun a->List.assoc a readables_and_selectors) temp1
   ) with
   _->raise( List_from_string_exn(s));;
 
 exception Unregistered of t;; 
  
-let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) all_pairs)) 
+let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) readables_and_selectors)) 
       with 
       _->raise(Unregistered(x));;
 
 exception Unknown of string;;
 
 let optional_of_string s0=match 
-   Option.find_it (fun (s,sel)->s=s0) all_pairs with
+   Option.find_it (fun (s,sel)->s=s0) readables_and_selectors with
    None->None
    |Some(_,sel)->Some(sel);;
    
