@@ -8,8 +8,8 @@
 let  rsb blckr_name=
    let (left_blocker,right_blocker)=Php_blocker_name.token_pair blckr_name in
   ((function l->
-     if l=Positioned_php_token_list.empty then None else
-     let (a,peurrest)=Positioned_php_token_list.ht l in
+     if l=Php_positioned_token_list.empty then None else
+     let (a,peurrest)=Php_positioned_token_list.ht l in
      if  Php_positioned_token.fst(a)<>left_blocker
      then None
      else 

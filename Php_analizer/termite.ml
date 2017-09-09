@@ -58,7 +58,7 @@ let of_string s=
    
 exception Stepper_for_parsing_exn;;
 
-let dummy_value=([],[],[],Positioned_php_token_list.empty);;
+let dummy_value=([],[],[],Php_positioned_token_list.empty);;
 
 let pusher_for_parsing x=
    let ((graet,da_ober,lexings,l),opt)=x in
@@ -77,10 +77,10 @@ let pusher_for_parsing x=
   |(ret,wh)::da_ober2->
      (
        match Php_constructible_recognizer.recognize wh l with
-       None->(([],[],[],Positioned_php_token_list.empty),Some(None))
+       None->(([],[],[],Php_positioned_token_list.empty),Some(None))
        |Some(cr,peurrest)->
-          let d=Positioned_php_token_list.length(l)-Positioned_php_token_list.length(peurrest) in
-          let part=Positioned_php_token_list.big_head d l in
+          let d=Php_positioned_token_list.length(l)-Php_positioned_token_list.length(peurrest) in
+          let part=Php_positioned_token_list.big_head d l in
           let graet2=(if ret=Retained_or_not.Not_retained
                       then graet 
                       else part::graet) in
@@ -96,7 +96,7 @@ let rec iterator_for_parsing x=
 
 let parse (Trmt(trmt))=
   let f=(fun l->iterator_for_parsing (([],trmt,[],l),None) ) in
-  (f: Positioned_php_token_list.t  list Php_parser.t);;
+  (f: Php_positioned_token_list.t  list Php_parser.t);;
 
 let eat s t=parse (of_string s) (Php_lexer.parse_string t);;
 

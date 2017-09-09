@@ -64,8 +64,8 @@ let of_string s=match optional_of_string s with
 
    let recognize_atomic atomic_sel=
     let f=(function x->
-       if x=Positioned_php_token_list.empty then None else
-       let (a,peurrest)=Positioned_php_token_list.ht x in
+       if x=Php_positioned_token_list.empty then None else
+       let (a,peurrest)=Php_positioned_token_list.ht x in
          if Php_projected_token_set.test atomic_sel (Php_token.form(Php_positioned_token.fst a)) 
          then let (u,v)=Php_positioned_token.snd a in
               Some(Php_char_range.make u v,peurrest)
@@ -85,7 +85,7 @@ let recognize sel=
                                  with
                                  None->None
                                  |Some(((u,last_lxng,others),last_tok))->
-                                    let fst_lxng=fst(Php_positioned_token.snd(Positioned_php_token_list.hd l)) in
+                                    let fst_lxng=fst(Php_positioned_token.snd(Php_positioned_token_list.hd l)) in
                                     Some(Php_char_range.make fst_lxng last_lxng,others) 
         )                       
       )

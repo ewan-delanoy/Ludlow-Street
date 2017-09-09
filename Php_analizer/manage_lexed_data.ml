@@ -20,7 +20,7 @@ let recompute_lexed_data_from_scratch dir=
   let temp1=More_unix.all_files_with_endings dir [".php"] in
   let temp2=Image.image (
     fun t->
-   Positioned_php_token_list.filter (fun ptok->
+   Php_positioned_token_list.filter (fun ptok->
     let tok=Php_positioned_token.fst ptok in
     not(Php_token.is_a_comment tok)
     )(Php_lexer.parse_file t)
@@ -34,7 +34,7 @@ let marshaled_file_for_item s=
   
 let retrieve_lexed_data_from_marshaled_file s=
   let chan=open_in (marshaled_file_for_item s) in
-  let answer=((Marshal.from_channel chan):Positioned_php_token_list.t list) in
+  let answer=((Marshal.from_channel chan):Php_positioned_token_list.t list) in
   let _=close_in chan in
   answer;;
   

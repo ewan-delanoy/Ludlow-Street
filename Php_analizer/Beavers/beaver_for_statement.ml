@@ -5,7 +5,7 @@
 *)
 
 type plex=Php_positioned_token.t;;
-type plexl=Positioned_php_token_list.t;;
+type plexl=Php_positioned_token_list.t;;
 
 type php_var=Php_positioned_token.t;;
 type php_assign_op=Php_positioned_token.t;;
@@ -175,7 +175,7 @@ let display_data ()=
    
 
 let helper_for_byref_append l1 cr=
-   let a=Positioned_php_token_list.hd(List.hd l1) in
+   let a=Php_positioned_token_list.hd(List.hd l1) in
    Appending(a,List.nth l1 1,cr);;
 
 add_data 
@@ -186,8 +186,8 @@ add_data
 	;;
    
 let helper_for_assignment l1 cr=
-  let a=Positioned_php_token_list.hd(List.nth l1 0) 
-  and b=Positioned_php_token_list.hd(List.nth l1 1)  in
+  let a=Php_positioned_token_list.hd(List.nth l1 0) 
+  and b=Php_positioned_token_list.hd(List.nth l1 1)  in
   Assignment(a,b,List.nth l1 2,cr);;   
 
 add_data 
@@ -211,7 +211,7 @@ add_data
 	helper_for_assignment;;
 	
 let helper_for_servant_assign l1 cr=
-   let tf=(fun j->Positioned_php_token_list.hd(List.nth l1 j)) in
+   let tf=(fun j->Php_positioned_token_list.hd(List.nth l1 j)) in
    Assignment_on_class_property(tf 0,tf 1,tf 2,List.nth l1 3,cr);;
 
 add_data 
@@ -281,8 +281,8 @@ add_data
 	;;
 
 let helper_for_cell_assign l1 cr=
-   let a=Positioned_php_token_list.hd(List.hd l1) in
-   Cell_assignment(a,Positioned_php_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
+   let a=Php_positioned_token_list.hd(List.hd l1) in
+   Cell_assignment(a,Php_positioned_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 
 add_data 
@@ -388,8 +388,8 @@ add_data
 	;;
 
 let helper_for_fun_call l1 cr=Fun_call(
-not(Positioned_php_token_list.is_empty(List.hd(l1))),
-Positioned_php_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
+not(Php_positioned_token_list.is_empty(List.hd(l1))),
+Php_positioned_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 add_data 
 	"fun_call"
@@ -399,7 +399,7 @@ add_data
 	;;
 
 let helper_for_fun_def l1 cr=
-   let a=Positioned_php_token_list.hd(List.hd l1) in
+   let a=Php_positioned_token_list.hd(List.hd l1) in
    Fun_def(a,List.nth l1 1,List.nth l1 2,cr);;
 
 add_data 
@@ -422,7 +422,7 @@ add_data
 
 
 let helper_for_include_like l1 cr=
-      let a=Positioned_php_token_list.hd(List.hd l1) in
+      let a=Php_positioned_token_list.hd(List.hd l1) in
       let fa=Php_positioned_token.fst a in
       let na=Php_script_includer.from_lexeme fa in
       Script_inclusion(na,List.nth l1 1,cr);; 
@@ -436,8 +436,8 @@ add_data
 
 let helper_for_interface_decl l1 cr=
      let temp1=List.hd l1 in
-     Interface_decl(Positioned_php_token_list.hd temp1,
-       Positioned_php_token_list.tl temp1,List.nth l1 1,cr);;
+     Interface_decl(Php_positioned_token_list.hd temp1,
+       Php_positioned_token_list.tl temp1,List.nth l1 1,cr);;
 
 add_data 
 	"interface_decl"
@@ -459,7 +459,7 @@ add_data
    ;;
      
 
-let helper_for_ivy2 l1 cr=Ivy(List.nth l1 0,List.nth l1 1,Positioned_php_token_list.empty,cr);; 
+let helper_for_ivy2 l1 cr=Ivy(List.nth l1 0,List.nth l1 1,Php_positioned_token_list.empty,cr);; 
 
 add_data 
   "ivy2"
@@ -500,7 +500,7 @@ add_data
   ;; 
   
 let helper_for_meth_call_on_snake l1 cr=
-  Nonstatic_method_call(List.nth l1 0,Positioned_php_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
+  Nonstatic_method_call(List.nth l1 0,Php_positioned_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 
  add_data 
@@ -512,9 +512,9 @@ let helper_for_meth_call_on_snake l1 cr=
 
  
 let helper_for_nmspc_block l1 cr=
-   let optionized=(fun x->if Positioned_php_token_list.is_empty x
+   let optionized=(fun x->if Php_positioned_token_list.is_empty x
     					  then None 
-    					  else Some(Positioned_php_token_list.hd x) )(List.hd l1) in
+    					  else Some(Php_positioned_token_list.hd x) )(List.hd l1) in
    NamespaceBlock(optionized,List.nth l1 1,cr);;
 
 add_data 
@@ -526,7 +526,7 @@ add_data
 
 
 let helper_for_nmspc_definition l1 cr=
-   let a=Positioned_php_token_list.hd(List.hd l1) in
+   let a=Php_positioned_token_list.hd(List.hd l1) in
    Namespace_def(a,cr);;
 
 add_data 
@@ -539,7 +539,7 @@ add_data
 
 
 let helper_for_nmspc_lonely l1 cr=
-   let a=Positioned_php_token_list.hd(List.hd l1) in
+   let a=Php_positioned_token_list.hd(List.hd l1) in
    Namespace_def(a,cr);;
 
 add_data 
@@ -567,7 +567,7 @@ add_data
 exception Singleton_exn;; 
    
 let helper_for_singleton l1 cr=
-     let tok=Php_positioned_token.fst(Positioned_php_token_list.hd(List.hd l1)) in
+     let tok=Php_positioned_token.fst(Php_positioned_token_list.hd(List.hd l1)) in
      if Php_token.form tok=Php_projected_token.external_echo
      then External_echo(Php_token.content tok,cr)
      else raise(Singleton_exn);;
@@ -581,9 +581,9 @@ add_data
 
 
 let helper_for_snake_call l1 cr=
-  let temp1=Positioned_php_token_list.concat (List.hd l1) (List.nth l1 1) 
-  and last_leader=Positioned_php_token_list.hd(List.nth l1 2) in
-  if Positioned_php_token_list.is_empty (List.nth l1 3)
+  let temp1=Php_positioned_token_list.concat (List.hd l1) (List.nth l1 1) 
+  and last_leader=Php_positioned_token_list.hd(List.nth l1 2) in
+  if Php_positioned_token_list.is_empty (List.nth l1 3)
   then Class_property_call(temp1,last_leader,cr)
   else Nonstatic_method_call(temp1,last_leader,List.nth l1 3,cr);;
 
@@ -598,8 +598,8 @@ add_data
 
 
 let helper_for_static_assignment l1 cr=
-  let a=Positioned_php_token_list.hd(List.nth l1 0) 
-  and b=Positioned_php_token_list.hd(List.nth l1 1)  in
+  let a=Php_positioned_token_list.hd(List.nth l1 0) 
+  and b=Php_positioned_token_list.hd(List.nth l1 1)  in
   Static_assignment(a,b,List.nth l1 2,cr);; 
 
 add_data 
@@ -612,8 +612,8 @@ add_data
 
 
 let helper_for_static_meth l1 cr=
-   let a1=Positioned_php_token_list.hd(List.hd l1) 
-   and a2=Positioned_php_token_list.hd(List.nth l1 1) in
+   let a1=Php_positioned_token_list.hd(List.hd l1) 
+   and a2=Php_positioned_token_list.hd(List.nth l1 1) in
    Static_method_call(a1,a2,List.nth l1 2,cr);;
 
 add_data 
@@ -626,8 +626,8 @@ add_data
 
 
 let helper_for_statmeth_call l1 cr=
-  Static_method_call(Positioned_php_token_list.hd(List.nth l1 0),
-  Positioned_php_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
+  Static_method_call(Php_positioned_token_list.hd(List.nth l1 0),
+  Php_positioned_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 add_data 
 	"statmeth_call"
@@ -637,7 +637,7 @@ add_data
 	;;
 
 
-let helper_for_switch l1 cr=Switch(Positioned_php_token_list.hd(List.hd l1),List.nth l1 1,cr);;
+let helper_for_switch l1 cr=Switch(Php_positioned_token_list.hd(List.hd l1),List.nth l1 1,cr);;
 
 add_data 
 	"switch"
@@ -648,7 +648,7 @@ add_data
 
 let helper_for_trait_decl l1 cr=
   let temp1=List.hd l1 in
-  Trait_decl(Positioned_php_token_list.hd temp1,List.nth l1 1,cr);;
+  Trait_decl(Php_positioned_token_list.hd temp1,List.nth l1 1,cr);;
 
 add_data 
 	"trait_decl"
