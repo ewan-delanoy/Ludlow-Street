@@ -5,6 +5,11 @@
 *)
 
 
+(*
+In the type below, `Token(proj,s) we must have
+Php_projected_token.make_visible(proj)=Some(s)
+whenever the lhs is not None
+*)
 
 type t= [`Token of Php_projected_token.t * string];;
    
@@ -18,7 +23,9 @@ let make proj s=(`Token(proj,s):t);;
 (* Constructors *)
 
 let comment s = make Php_projected_token.comment s;;
-let constant ctok = make (Php_projected_token.constant(ctok)) "";;
+let constant ctok = 
+      let viz=(function Some(viz1)->viz1 |None->"") in
+       make (Php_projected_token.constant(ctok)) viz;;
 let double_quoted s = make Php_projected_token.double_quoted s;;
 let end_of_text = make Php_projected_token.end_of_text "";;
 let external_echo s = make Php_projected_token.external_echo s;;
