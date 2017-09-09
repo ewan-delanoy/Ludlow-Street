@@ -60,6 +60,20 @@ let from_visible=((
     ) data in
     pkt): string -> t );;
 
+let short_name =((
+        fun pkt->
+        let (_,_,sn)=Option.find_really(
+            fun (pkt1,_,_)->pkt1=pkt
+        ) data in
+        sn): t -> string );;
+      
+let from_short_name sn=((
+         fun viz->
+          let (pkt,_,_)=Option.find_really(
+              fun (_,_,sn1)->sn1=sn
+          ) data in
+          pkt): string -> t );;
+
 let all_pairs =
      ((Ordered.diforchan_plaen Keyval_ordering.ko 
     (Image.image (fun (pkt,viz,sn)->(viz,pkt)) data)): (string*t) list);;
