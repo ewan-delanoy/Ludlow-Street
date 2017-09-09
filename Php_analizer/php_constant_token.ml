@@ -30,6 +30,13 @@ let from_short_name s=
    try List.assoc s names_and_tokens with
    _->raise(Unknown_short_name(s));;
 
-let short_name tok=
-    let (s1,_)=Option.find_really(fun (s,tok1)->tok1=tok) names_and_tokens in
-    s1;;
+let short_name (ctok:t)=match ctok with 
+     #Php_operator.t as op->Php_operator.short_name op
+    |#Php_keyword.t as kwd->Php_keyword.short_name kwd
+    |#Php_punctuator.t as pkt->Php_punctuator.short_name pkt;;
+
+let make_visible (ctok:t)=match ctok with 
+    #Php_operator.t as op->Php_operator.make_visible op
+   |#Php_keyword.t as kwd->Php_keyword.make_visible kwd
+   |#Php_punctuator.t as pkt->Php_punctuator.make_visible pkt;;    
+

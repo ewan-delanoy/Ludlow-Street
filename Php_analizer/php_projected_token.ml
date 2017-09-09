@@ -93,6 +93,9 @@ let short_name (ptok:t)=match ptok with
 |`Char->"chr"
 |`End_of_text->"eot";;
 
+let make_visible (ptok:t)=match ptok with
+#Php_constant_token.t as ctok->Some(Php_constant_token.make_visible ctok)
+|_->None;;
 
 
 let order=((
