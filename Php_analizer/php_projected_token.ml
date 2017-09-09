@@ -77,7 +77,7 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=constant(ctok));;
 
-let to_string (ptok:t)=match ptok with
+let short_name (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Php_constant_token.short_name ctok
 |`Variable->"variable"
 |`Ident->"id"
@@ -97,7 +97,7 @@ let to_string (ptok:t)=match ptok with
 
 let order=((
   fun x y->Dictionary_order.dictionary_order 
-     (to_string x) (to_string y)
+     (short_name x) (short_name y)
 ): t Total_ordering.t);;
 
 let temp_pair=
@@ -107,7 +107,7 @@ let temp_pair=
    @
    fixture_of_nonconstants in
    let temp2=Ordered.forget_order(Ordered.diforchan order temp1) in
-   (temp2,Image.image (fun ptok->(to_string ptok,ptok)) temp2);; 
+   (temp2,Image.image (fun ptok->(short_name ptok,ptok)) temp2);; 
 
 let all_tokens=fst temp_pair;;
 let all_pairs=snd temp_pair;;
