@@ -52,3 +52,8 @@ let make_visible (ctok:t)=match ctok with
 let from_visible s=
     try List.assoc s visibles_and_tokens with
     _->raise(Unknown_visible(s));;
+
+let readable (ctok:t)=match ctok with 
+    #Php_operator.t as op->Php_operator.readable op
+   |#Php_keyword.t as kwd->Php_keyword.readable kwd
+   |#Php_punctuator.t as pkt->Php_punctuator.readable pkt;;    
