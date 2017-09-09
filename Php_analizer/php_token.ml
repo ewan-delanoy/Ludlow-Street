@@ -24,8 +24,8 @@ let make proj s=(`Token(proj,s):t);;
 
 let comment s = make Php_projected_token.comment s;;
 let constant ctok = 
-      let viz=(function Some(viz1)->viz1 |None->"") in
-       make (Php_projected_token.constant(ctok)) viz;;
+       make (Php_projected_token.constant(ctok)) 
+            (Php_constant_token.make_visible ctok);;
 let double_quoted s = make Php_projected_token.double_quoted s;;
 let end_of_text = make Php_projected_token.end_of_text "";;
 let external_echo s = make Php_projected_token.external_echo s;;
