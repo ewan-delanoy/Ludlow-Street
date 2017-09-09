@@ -6,20 +6,14 @@
 
 
 
-type t=
-    {
-      form : Php_projected_token.t;
-      content : string;
-    }
+type t= [`Token of Php_projected_token.t * string];;
+   
 
-let form tok=tok.form;;
-let content tok=tok.content;;
+let form (tok:t)= match tok with `Token(frm,ctnt)->frm;;
+let content (tok:t)= match tok with `Token(frm,ctnt)->ctnt;;
 
-let make proj s=
-    {
-      form = proj;
-      content =s ;
-    }
+let make proj s=(`Token(proj,s):t);;
+    
     
 (* Constructors *)
 
@@ -52,7 +46,7 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
       then "..."
       else s;;
    
-   let is_a_comment x=(form x)=Php_projected_token.comment;;
+   let is_a_comment x=((form x)=Php_projected_token.comment);;
    
    let fixture_of_nonconstants=
        [
