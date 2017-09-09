@@ -78,7 +78,7 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 let test ctok tok=(tok=constant(ctok));;
 
 let to_string (ptok:t)=match ptok with
-#Php_constant_token.t as ctok->Php_constant_token.make_visible ctok
+#Php_constant_token.t as ctok->Php_constant_token.short_name ctok
 |`Variable->"variable"
 |`Ident->"id"
 |`Comment->"cmt"

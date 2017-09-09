@@ -15,14 +15,14 @@ let precedence (ctok:t)=match ctok with
     |#Php_operator.t as op->Some(Php_operator.precedence op)
     |_->None;;
 
-let all_pairs=
-       let kwds=Image.image (fun kwd->(Php_keyword.make_visible kwd,c_kwd kwd)) Php_keyword.all
-       and puncts=Image.image (fun pkt->(Php_punctuator.make_visible pkt,c_punct pkt)) Php_punctuator.all
-       and ops=Image.image (fun op->(Php_operator.make_visible op,c_op op)) Php_operator.all in
+let names_and_tokens=
+       let kwds=Image.image (fun kwd->(Php_keyword.short_name kwd,c_kwd kwd)) Php_keyword.all
+       and puncts=Image.image (fun pkt->(Php_punctuator.short_name pkt,c_punct pkt)) Php_punctuator.all
+       and ops=Image.image (fun op->(Php_operator.short_name op,c_op op)) Php_operator.all in
   Ordered.diforchan_plaen Keyval_ordering.ko  
      (kwds@puncts@ops) ;;
 
-let all=Image.image snd all_pairs;;
+let all=Image.image snd names_and_tokens;;
 
 exception Unknown of string;;
 
@@ -30,6 +30,6 @@ let from_visible s=
    try List.assoc s all_pairs with
    _->raise(Unknown(s));;
 
-let make_visible tok=
-    let (s1,_)=Option.find_really(fun (s,tok1)->tok1=tok) all_pairs in
+let short_name tok=
+    let (s1,_)=Option.find_really(fun (s,tok1)->tok1=tok) names_and_tokens in
     s1;;
