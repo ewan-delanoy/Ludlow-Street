@@ -77,3 +77,4 @@ let from_visible=Memoized.make(fun s->
   Php_constant_token.Unknown_visible(s)->ident(s)
   );;
 
+let readable tok=Php_projected_token.readable(form tok);;
