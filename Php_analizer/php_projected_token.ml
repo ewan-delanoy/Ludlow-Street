@@ -77,24 +77,6 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=constant(ctok));;
 
-(*
-let short_name (ptok:t)=match ptok with
-#Php_constant_token.t as ctok->Php_constant_token.short_name ctok
-|`Variable->"variable"
-|`Ident->"id"
-|`Comment->"cmt"
-|`Single_quoted->"sqs"
-|`Double_quoted->"dqs"
-|`Heredoc->"heredoc"
-|`Nowdoc->"nowdoc"
-|`Namespacer->"nmspc"
-|`External_echo->"ext"
-|`Int->"integer"
-|`Float->"float"
-|`Char->"chr"
-|`End_of_text->"eot";;
-*)
-
 let readable (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Php_constant_token.readable ctok
 |`Variable->"vvar"
@@ -115,7 +97,7 @@ let readable (ptok:t)=match ptok with
 
 let order=((
   fun x y->Dictionary_order.dictionary_order 
-     (short_name x) (short_name y)
+     (readable x) (readable y)
 ): t Total_ordering.t);;
 
 let temp_pair=
