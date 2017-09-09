@@ -88,8 +88,8 @@ let rev=List.rev;;
 let oup=Option.unpack;;
 let ofo=Ordered.forget_order;;
 
-let pfst= Positioned_php_token.fst;;
-let psnd= Positioned_php_token.snd;;
+let pfst= Php_positioned_token.fst;;
+let psnd= Php_positioned_token.snd;;
 
 let ps s=print_string("\n\n\n\n\n\n"^s^"\n\n\n\n\n");;
 

@@ -4,12 +4,323 @@
 
 *)
 
+module Vegetable=struct
+    type t=[`Eggplant | `Leek];;
+end;;  
 
-["rm -f /Users/Ewandelanoy/Documents/OCaml/Ordinary/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*/*.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/*/*/*.ocaml_debuggable";
-"ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.d.cmo -c /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ml";
-"mv /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.d.cm* /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build/";
-"ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ocaml_debuggable ";
-"mv /Users/Ewandelanoy/Documents/OCaml/Ordinary/debugged.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Ordinary/_build/"]
+module Fruit=struct
+  type t=[`Apple | `Pear];;
+end;;  
+
+module Vegetable_or_Fruit=struct
+   type t=[Vegetable.t | Fruit.t];;
+
+   let of_vegetable =((fun (x:Vegetable.t)->(x:>t)): Vegetable.t -> t);;
+
+end;;  
+
+
+let current="Php_projected_token";;
+let pointed=current^".";;
+let g1=vfm current;;
+let g2=image fst g1;;
+let g3=List.filter (fun x->
+   String.capitalize_ascii x=x
+) g2;;
+let g4=image (
+ fun s->(pointed^s,pointed^""^(String.lowercase_ascii s))
+) g3;;
+
+let g5=Explicit.image(
+  fun (a,b)->
+  German_pervasives.srv_without_backup a b
+) g4;;
+
+
+(*
+let current="Php_constant_token";;
+let pointed=current^".";;
+
+rv (pointed^"all_punctuators") "all";;
+
+rv (pointed^"all_triples") "data";;
+
+rv (pointed^"to_string") "make_visible";;
+
+rv (pointed^"of_string") "from_visible";;
+*)
+
+
+(*
+let current="Php_punctuator";;
+let pointed=current^".";;
+
+rv (pointed^"all_punctuators") "all";;
+
+rv (pointed^"all_triples") "data";;
+
+rv (pointed^"to_string") "make_visible";;
+
+rv (pointed^"of_string") "from_visible";;
+*)
+
+(*
+
+let current="Php_keyword";;
+let pointed=current^".";;
+
+rv (pointed^"all_keywords") "all";;
+
+rv (pointed^"all_pairs") "data";;
+
+rv (pointed^"to_string") "make_visible";;
+
+rv (pointed^"of_string") "from_visible";;
+
+*)
+
+(*
+let current="Php_operator";;
+let pointed=current^".";;
+
+rv (pointed^"all_operators") "all";;
+
+rv (pointed^"all_fiftuples") "data";;
+
+rv (pointed^"to_string") "make_visible";;
+
+rv (pointed^"of_string") "from_visible";;
+*)
+
+(*
+let current="Php_punctuator";;
+let pointed=current^".";;
+let g1=vfm current;;
+let g2=image fst g1;;
+let g3=List.filter (fun x->
+   Substring.begins_with x "T_"
+) g2;;
+let g4=image (
+ fun s->(pointed^s,pointed^(String.lowercase_ascii s))
+) g3;;
+let g5=Explicit.image(
+  fun (a,b)->
+  German_pervasives.srv_without_backup a b
+) g4;;
+*)
+
+(*
+
+let ap=Absolute_path.of_string 
+"Php_analizer/php_punctuator.ml";;
+
+let v1=Php_punctuator.all_punctuators ;;
+
+let v2="Php_punctuator.T_LPARENTHESIS; Php_punctuator.T_RPARENTHESIS;                                                                                      Php_punctuator.T_COMMA; Php_punctuator.T_ARROW;                                                                                                 \n   Php_punctuator.T_COLON_COLON; Php_punctuator.T_SEMICOLON;\n   Php_punctuator.T_LBRACE; Php_punctuator.T_RBRACE";;
+
+let v3=Str.global_replace (Str.regexp_string "Php_punctuator.") "" v2;;
+let v4=Str.global_replace (Str.regexp_string "\n") "" v3;;
+let v5=Str.global_replace (Str.regexp_string " ") "" v4;;
+let v6=Str.split (Str.regexp_string ";")  v5;;
+let v7=List.combine v6 v1;;
+
+let v8=image (
+  fun (x,pkt)->
+  let y=String.lowercase_ascii x in
+  (y,
+  Strung.enclose(Php_punctuator.to_string pkt),
+  Strung.enclose(Cull_string.cobeginning 2 y))
+) v7;;
+
+let v9=image (fun (s,viz,sn)->
+"   ("^s^","^viz^","^sn^");"
+) v8;;
+
+let v10=String.concat "\n" v9;;
+let uu ()=print_string("\n\n\n let all_triples=[\n  "
+^v10^"\n];;\n\n\n");;
+
+
+let v11=image (
+  fun (x,pkt)->
+  let y=String.lowercase_ascii x in
+  "   let "^y^" = ("^x^");;"
+) v7;;
+
+let v12=String.concat "\n" v11;;
+let uu ()=print_string("\n\n\n"
+^v12^"\n\n\n");;
+
+*)
+
+(*
+
+let string_of_asso=function
+Associativity.Left_associative->"left"
+|Associativity.Right_associative->"right"
+|_->"nonassoc";;
+
+let asso op=
+    string_of_asso (Php_operator.associativity op);;
+
+let ap=Absolute_path.of_string 
+"Php_analizer/php_operator.ml";;
+
+let v1=image (fun (op,_,_,_)->op)
+Php_operator.all_fourtuples ;;
+
+let v2="Php_operator.T_CLONE; Php_operator.T_NEW; Php_operator.T_LBRACKET;                                                                                 Php_operator.T_RBRACKET; Php_operator.T_STAR_STAR; Php_operator.T_PLUS_PLUS;                                                                    \n   Php_operator.T_MINUS_MINUS; Php_operator.T_TILDA;\n   Php_operator.T_COERCE_TO_INT; Php_operator.T_COERCE_TO_FLOAT;\n   Php_operator.T_COERCE_TO_STRING; Php_operator.T_COERCE_TO_ARRAY;\n   Php_operator.T_COERCE_TO_OBJECT; Php_operator.T_COERCE_TO_BOOL;\n   Php_operator.T_AT; Php_operator.T_INSTANCEOF; Php_operator.T_EXCLAMATION;\n   Php_operator.T_STAR; Php_operator.T_DIVIDE; Php_operator.T_PERCENTAGE;\n   Php_operator.T_PLUS; Php_operator.T_MINUS; Php_operator.T_DOT;\n   Php_operator.T_LESS_LESS; Php_operator.T_MORE_MORE; Php_operator.T_LESS;\n   Php_operator.T_LESS_EQUALS; Php_operator.T_MORE; Php_operator.T_MORE_EQUALS;\n   Php_operator.T_EQUALS_EQUALS; Php_operator.T_EXCLAMATION_EQUALS;\n   Php_operator.T_EQUALS_EQUALS_EQUALS;\n   Php_operator.T_EXCLAMATION_EQUALS_EQUALS; Php_operator.T_LESS_MORE;\n   Php_operator.T_AMPERSAND; Php_operator.T_CIRCUMFLEX; Php_operator.T_VLINE;\n   Php_operator.T_AMPERSAND_AMPERSAND; Php_operator.T_VLINE_VLINE;\n   Php_operator.T_QUESTION; Php_operator.T_COLON; Php_operator.T_EQUALS;\n   Php_operator.T_PLUS_EQUALS; Php_operator.T_MINUS_EQUALS;\n   Php_operator.T_STAR_EQUALS; Php_operator.T_STAR_STAR_EQUALS;\n   Php_operator.T_DIVIDE_EQUALS; Php_operator.T_DOT_EQUALS;\n   Php_operator.T_PERCENTAGE_EQUALS; Php_operator.T_AMPERSAND_EQUALS;\n   Php_operator.T_VLINE_EQUALS; Php_operator.T_CIRCUMFLEX_EQUALS;\n   Php_operator.T_LESS_LESS_EQUALS; Php_operator.T_MORE_MORE_EQUALS;\n   Php_operator.T_EQUALS_MORE; Php_operator.T_AND; Php_operator.T_XOR;\n   Php_operator.T_OR";;
+let v3=Str.global_replace (Str.regexp_string "Php_operator.") "" v2;;
+let v4=Str.global_replace (Str.regexp_string "\n") "" v3;;
+let v5=Str.global_replace (Str.regexp_string " ") "" v4;;
+let v6=Str.split (Str.regexp_string ";")  v5;;
+let v7=List.combine v6 v1;;
+
+
+let v8=image (
+   fun (x,op)->
+   let y=String.lowercase_ascii x in
+   (String.lowercase_ascii x,
+   asso op,string_of_int(Php_operator.precedence op),
+   Strung.enclose(Php_operator.to_string op),
+   Strung.enclose(Cull_string.cobeginning 2 y))
+) v7;;
+
+let v9=image (fun (s,asc,prec,viz,sn)->
+"   ("^s^","^asc^","^prec^","^viz^","^sn^");"
+) v8;;
+
+let v10=String.concat "\n" v9;;
+let uu ()=print_string("\n\n\n let all_fiftuples=[\n  "
+^v10^"\n];;\n\n\n");;
+
+let g1=vfm "php_operator";;
+let g2=List.filter (fun (s,l)->
+   String.capitalize_ascii(s)<>s
+) g1;;
+
+*)
+
+(*
+let ap=Absolute_path.of_string 
+"Php_analizer/php_keyword.ml";;
+
+let s1=Io.read_whole_file ap;;
+let j1=Substring.leftmost_index_of_in "T_ABSTRACT;\n" s1;;
+let s2=Cull_string.cobeginning (j1-1) s1;;
+let j2=Substring.leftmost_index_of_in "YIELD" s2;;
+let s3=Cull_string.beginning (j2+5) s2;;
+let s4=Str.global_replace (Str.regexp_string ";") "" s3;;
+let s5=Str.global_replace (Str.regexp_string " ") "" s4;;
+let u1=Str.split (Str.regexp_string "\n") s5;;
+let u2=image (fun x->(String.lowercase_ascii x,x)) u1;;
+let u3=image (fun (a,b)->
+ "let "^a^" = ("^b^") ;;"
+) u2;;
+let u4=String.concat "\n" u3;;
+let uu ()=print_string("\n\n\n"^u4^"\n\n\n");;
+let u5=image (fun (a,b)->
+"   (\""^(Cull_string.cobeginning 2 a)^"\","^a^");"
+) u2;;
+let u6=String.concat "\n" u5;;
+let uu ()=print_string("\n\n\n let all_pairs=[\n  "
+^u6^"\n];;\n\n\n");;
+*)
+
+
+(*
+let u1=Manage_lexed_data.get_data
+["symblog";"phpbb"];;
+
+let u2=Explicit.image Level_one.level_one u1;;
+
+let u3=Explicit.image Option.unpack u2;;
+
+let u4=Option.filter_and_unpack (fun (a,b,c)->
+   if Positioned_php_token_list.is_empty c 
+   then None 
+   else Some(c)
+) u3;;
+
+let u5=List.hd u4;;
+*)
+
+
+(*
+
+Unix_command.remember_commands_mode:=true;;
+
+let z1=List.rev (!(Unix_command.accu));;
+
+*)
+
+(*
+
+let z1=
+  [
+  "rm -f /Users/Ewandelanoy/Documents/OCaml/Idaho/_build/*.d.cm*";
+  "rm -f /Users/Ewandelanoy/Documents/OCaml/Idaho/_build/*.ocaml_debuggable";                                                  
+  "ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Idaho/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Idaho/debugged.d.cmo -c /Users/Ewandelanoy/Documents/OCaml/Idaho/debugged.ml";
+  "mv /Users/Ewandelanoy/Documents/OCaml/Idaho/debugged.d.cm* /Users/Ewandelanoy/Documents/OCaml/Idaho/_build/";
+  "ocamlc -bin-annot -g  -I /Users/Ewandelanoy/Documents/OCaml/Idaho/_build str.cma unix.cma  -o /Users/Ewandelanoy/Documents/OCaml/Idaho/debugged.ocaml_debuggable ";
+  "mv /Users/Ewandelanoy/Documents/OCaml/Idaho/debugged.ocaml_debuggable /Users/Ewandelanoy/Documents/OCaml/Idaho/_build/"
+  ];;
+
+Sys.chdir "/Users/Ewandelanoy/Documents/OCaml/Idaho/";;
+
+let z1=
+  [
+  "rm -f _build/*.d.cm*";
+  "rm -f _build/*.ocaml_debuggable";                                                  
+  "ocamlc -bin-annot -g  -I _build str.cma unix.cma  -o debugged.d.cmo -c debugged.ml";
+  "mv debugged.d.cm* _build/";
+  "ocamlc -bin-annot -g  -I _build str.cma unix.cma debugged.d.cmo -o debugged.ocaml_debuggable ";
+  "mv debugged.ocaml_debuggable _build/"
+  ];;
+
+let z1=
+    [
+    "rm -f _build/*.d.cm*";
+    "rm -f _build/*.ocaml_debuggable";                                                  
+    "ocamlc  -g  -I _build str.cma unix.cma  -o debugged.d.cmo -c debugged.ml";
+    "mv debugged.d.cm* _build/";
+    "ocamlc  -g  -I _build str.cma unix.cma  -o debugged.ocaml_debuggable ";
+    "mv debugged.ocaml_debuggable _build/"
+    ];; 
+
+let z1=
+      [
+      "rm -f _build/*.cm*";
+      "rm -f _build/*.ocaml_debuggable";                                                  
+      "ocamlc  -g  -I _build str.cma unix.cma  -o debugged.cmo -c debugged.ml";
+      "mv debugged.cm* _build/";
+      "ocamlc  -g  -I _build str.cma unix.cma  -o debugged.ocaml_debuggable ";
+      "mv debugged.ocaml_debuggable _build/"
+      ];; 
+
+let z1=
+        [
+        "rm -f *.cm*";
+        "rm -f *.ocaml_debuggable";                                                  
+        "ocamlc  -g  str.cma unix.cma  -o debugged.cmo -c debugged.ml";
+        "ocamlc  -g  str.cma unix.cma  -o debugged.ocaml_debuggable "
+        ];; 
+
+let z1=
+          [
+          "rm -f *.cm*";
+          "rm -f *.ocaml_debuggable";                                                  
+          "ocamlc  -g  str.cma unix.cma  -c debugged.ml";
+          "ocamlc  -g  str.cma unix.cma  -o debugged.ocaml_debuggable "
+          ];; 
+
+   
+
+
+
+    let z2=Explicit.image Sys.command z1;;
+
+*)
 
 (*
 
@@ -31,7 +342,7 @@ let level_one=Php_parser_homomorphism.star Beaver_for_statement.parser;;
 let u1=Manage_lexed_data.get_data
 ["symblog";"phpbb"];;
 
-let u2=Explicit.image level_one u1;;
+let u2=Explicit.image Level_one.level_one u1;;
 
 let v1=Debugging_tools.image level_one u1;;
 let (i1,v2)=v1;;
@@ -1714,6 +2025,91 @@ let print_out (dummy:Format.formatter) x=
 
 
 *)
+
+(*
+
+let old_classical_parser elt=
+  let f=(fun l->
+     let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
+     if opt2=None then None else
+     let (l2,cr2,peurrest)=Option.unpack opt2 in
+     let catalyser_check=(
+       if elt.catalyser=""
+       then true
+       else (Termite.parse (Termite.of_string elt.catalyser) peurrest)<>None
+     ) in
+     if catalyser_check
+     then Some(elt.helper l2 cr2,cr2,peurrest)
+     else None
+  ) in
+  (f : t Php_parser.t);;
+   
+let bad_cases=ref[];;
+
+let classical_parser elt l=
+    try (
+      old_classical_parser elt l 
+    ) with
+    _->let _=(bad_cases:=[elt,l]) in
+     failwith("It is the animal");;
+
+*)     
+
+(*
+let encode_ctoken=function
+   Php_constant_token.c_kwd(kwd)->(Some(kwd),None,None)
+  |Php_constant_token.c_punct(pct)->(None,Some(pct),None)
+  |Php_constant_token.c_op(op)->(None,None,Some(op));;
+
+exception Decode_ctoken_exn;;
+
+let decode_ctoken (opt1,opt2,opt3)=
+   if opt1<>None
+   then Php_constant_token.c_kwd(Option.unpack opt1)
+   else 
+   if opt2<>None
+   then Php_constant_token.c_punct(Option.unpack opt2)
+   else 
+   if opt3<>None
+   then Php_constant_token.c_op(Option.unpack opt3)
+   else raise(Decode_ctoken_exn);;  
+
+let encode_ptoken ptok=match ptok with
+  Php_projected_token.Constant(ctok)->(encode_ctoken ctok,Php_projected_token.Int)
+  |_->((None,None,None),ptok);; 
+
+let decode_ptoken (w,ptok1)=
+    if w=(None,None,None)
+    then ptok1
+    else Php_projected_token.Constant(decode_ctoken w);;  
+
+let encode_token tok=
+    (encode_ptoken (tok.Php_token.form),tok.Php_token.content);;
+
+let decode_token (frm,ctnt)=
+   {
+    Php_token.form=decode_ptoken(frm);
+    Php_token.content=ctnt;
+   };;
+   
+let encode_postoken (Positioned_php_token.PPL(x,y))=
+    (encode_token x,y);;
+
+let decode_postoken (x1,y)=
+  (Positioned_php_token.PPL(decode_token x1,y));;
+      
+let encode_postokenlist x=
+    Image.image encode_postoken
+    (x.Positioned_php_token_list.contained);;
+
+let decode_postokenlist l=  
+  { Positioned_php_token_list.contained=
+     Image.image decode_postoken l };;
+*)
+
+
+
+
 
 (*
 INSERT;;TO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
