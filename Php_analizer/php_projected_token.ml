@@ -49,7 +49,7 @@ let acts_only_once=function
  |_->false;;
 
 let fixture_of_nonconstants=
-    (
+    [
        variable; 
        ident;
        comment;
