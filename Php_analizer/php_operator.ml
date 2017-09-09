@@ -194,21 +194,7 @@ type t=
     ): (t * Associativity.t * int * string * string) list);;
      
 
-let short_name=((
-  fun op->
-  let (_,_,_,_,sn)=Option.find_really(
-      fun (op1,_,_,_,_)->op1=op
-  ) data in
-  sn
-) : t -> string );; 
 
-let make_visible=(( 
-    fun op->
-    let (_,_,_,viz,_)=Option.find_really(
-        fun (op1,_,_,_,_)->op1=op
-    ) data in
-    viz
-) : t -> string );;
 
 let precedence=((
     fun op->
@@ -231,7 +217,31 @@ let associativity=
 let all=Image.image (fun (op,asc,prec,viz,sn)->op) data;;  
  
 exception Unknown_visible of string;; 
- 
+exception Unknown_short_name of string;;
+
+let short_name=((
+  fun op->
+  let (_,_,_,_,sn)=Option.find_really(
+      fun (op1,_,_,_,_)->op1=op
+  ) data in
+  sn
+) : t -> string );; 
+
+let from_short_name=((function sn->
+match Option.find_it(
+  fun (_,_,_,_,sn1)->sn1=sn
+  ) data with
+ None->raise(Unknown_short_name(sn))
+|Some(op,_,_,_,_)->op) : string -> t);;  
+
+let make_visible=(( 
+    fun op->
+    let (_,_,_,viz,_)=Option.find_really(
+        fun (op1,_,_,_,_)->op1=op
+    ) data in
+    viz
+) : t -> string );;
+
 let from_visible=((function viz->
   match Option.find_it(
     fun (_,_,_,viz1,_)->viz1=viz
@@ -239,14 +249,9 @@ let from_visible=((function viz->
    None->raise(Unknown_visible(viz))
   |Some(op,_,_,_,_)->op) : string -> t);;
 
-exception Unknown_short_name of string;;
 
-let from_short_name=((function sn->
-  match Option.find_it(
-    fun (_,_,_,_,sn1)->sn1=sn
-    ) data with
-   None->raise(Unknown_short_name(sn))
-  |Some(op,_,_,_,_)->op) : string -> t);;  
+
+
 
 let level=((fun s->
   let p0=precedence(from_visible s) in

@@ -46,6 +46,11 @@ let data=(([
     (t_rbrace,"}","rbrace");
  ]) : (t*string*string) list);;
  
+ let all =Image.image (fun (pkt,viz,sn)->pkt) data;; 
+
+ exception Unknown_visible of string;; 
+ exception Unknown_short_name of string;;
+
 let make_visible =((
   fun pkt->
   let (_,viz,_)=Option.find_really(
@@ -55,10 +60,11 @@ let make_visible =((
 
 let from_visible=((
    fun viz->
-    let (pkt,_,_)=Option.find_really(
+    match Option.find_it(
         fun (_,viz1,_)->viz1=viz
-    ) data in
-    pkt): string -> t );;
+    ) data with
+     None->raise(Unknown_visible(viz))
+    |Some(pkt,_,_)->pkt): string -> t );;
 
 let short_name =((
         fun pkt->
@@ -67,19 +73,17 @@ let short_name =((
         ) data in
         sn): t -> string );;
       
-let from_short_name sn=((
-         fun viz->
-          let (pkt,_,_)=Option.find_really(
-              fun (_,_,sn1)->sn1=sn
-          ) data in
-          pkt): string -> t );;
+let from_short_name =((
+    fun sn->
+    match Option.find_it(
+        fun (_,_,sn1)->sn1=sn
+    ) data with
+     None->raise(Unknown_short_name(sn))
+    |Some(pkt,_,_)->pkt): string -> t );;
 
-let all_pairs =
-     ((Ordered.diforchan_plaen Keyval_ordering.ko 
-    (Image.image (fun (pkt,viz,sn)->(viz,pkt)) data)): (string*t) list);;
 
  
-let all =((Image.image snd all_pairs): t list);; 
+
 
 
  
