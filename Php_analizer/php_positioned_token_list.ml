@@ -37,7 +37,7 @@ let file x=match x.contained with
 let print x=
   let temp1=Image.image(fun ptok->
     let tok=Php_positioned_token.fst ptok in
-    Php_projected_token.short_name(Php_token.form tok)
+    Php_projected_token.readable(Php_token.form tok)
    ) x.contained in
   "\xe3\x80\x90  "^(String.concat " " temp1)^"  \xe3\x80\x91";;
 
