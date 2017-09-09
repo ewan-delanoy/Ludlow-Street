@@ -8,10 +8,10 @@ If everything is OK, all the components of they_should_be_empty are []
 
 type t=
      Selector of Php_short_selector.t
-    |Punctuator of string;;
+    |New_symbol of string;;
 
 let part1=Image.image (fun (s,sel)->(s,Selector sel)) Php_short_selector.all_pairs;;
-let part2=Image.image (fun t->(t,Punctuator t)) Php_constructible_recognizer.new_symbols;;
+let part2=Image.image (fun t->(t,New_symbol t)) Php_constructible_recognizer.new_symbols;;
 let whole=part1@part2;;
 
 
