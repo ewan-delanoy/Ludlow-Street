@@ -233,15 +233,24 @@ let all_pairs=
 
 let all=((Image.image snd all_pairs):t list);;  
  
-exception Unknown_operator_string of string;; 
+exception Unknown_visible of string;; 
  
 let from_visible=((function viz->
   match Option.find_it(
     fun (_,_,_,viz1,_)->viz1=viz
     ) data with
-   None->raise(Unknown_operator_string(viz))
+   None->raise(Unknown_visible(viz))
   |Some(op,_,_,_,_)->op) : string -> t);;
-  
+
+exception Unknown_short_name of string;;
+
+let from_short_name=((function sn->
+  match Option.find_it(
+    fun (_,_,_,_,sn1)->sn1=sn
+    ) data with
+   None->raise(Unknown_short_name(sn))
+  |Some(op,_,_,_,_)->op) : string -> t);;  
+
 let level=((fun s->
   let p0=precedence(from_visible s) in
   List.filter (fun op->precedence(op)=p0) all) : string -> t list);;  
