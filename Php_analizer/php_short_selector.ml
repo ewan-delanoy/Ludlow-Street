@@ -26,7 +26,7 @@ let all_pairs=
    (
      Image.image (fun (s,ato)->
         (s,Atomic(ato))
-     ) Php_projected_token_set.all_pairs
+     ) Php_projected_token_set.readables_and_toksets
    )
    @
    new_pairs in

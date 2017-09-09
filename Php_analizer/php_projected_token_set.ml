@@ -254,7 +254,7 @@ let readables_and_toksets=
 end;;
 
 let acts_only_once=Private.acts_only_once;;
-let all_pairs=Private.readables_and_toksets;;
+let readables_and_toksets=Private.readables_and_toksets;;
 
 let from_precedence=Private.from_precedence;;
 
