@@ -100,8 +100,8 @@ let readable (ptok:t)=match ptok with
 |`Comment->"cmt"
 |`Single_quoted->"sqs"
 |`Double_quoted->"dqs"
-|`Heredoc->"heredoc"
-|`Nowdoc->"nowdoc"
+|`Heredoc->"hdoc"
+|`Nowdoc->"ndoc"
 |`Namespacer->"nmspc"
 |`External_echo->"ext"
 |`Int->"int"
@@ -109,11 +109,7 @@ let readable (ptok:t)=match ptok with
 |`Char->"char"
 |`End_of_text->"eot";;
 
-(*
-let make_visible (ptok:t)=match ptok with
-#Php_constant_token.t as ctok->Some(Php_constant_token.make_visible ctok)
-|_->None;;
-*)
+
 
 let order=((
   fun x y->Dictionary_order.dictionary_order 
@@ -127,7 +123,7 @@ let temp_pair=
    @
    fixture_of_nonconstants in
    let temp2=Ordered.forget_order(Ordered.diforchan order temp1) in
-   (temp2,Image.image (fun ptok->(short_name ptok,ptok)) temp2);; 
+   (temp2,Image.image (fun ptok->(readable ptok,ptok)) temp2);; 
 
 let all_tokens=fst temp_pair;;
 let all_pairs=snd temp_pair;;
