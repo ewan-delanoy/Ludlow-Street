@@ -188,7 +188,7 @@ let data=([
 
     
 
-let make_visible=((
+let short_name=((
    fun x->
   fst(Option.find_really (fun (s,y)->y=x) data)
   ) : t -> string);;
@@ -197,7 +197,7 @@ let all=(Image.image snd data : t list);;
 
 exception Unknown_keyword_string of string;; 
 
-let from_visible=(
+let from_short_name=(
   (fun viz->
     match Option.find_it(
       fun (viz1,_)->viz1=viz
@@ -206,6 +206,9 @@ let from_visible=(
     |Some(_,kwd)->kwd
   ): string -> t);;
 
-  
+let make_visible=short_name;;
+     
+let from_visible=from_short_name;;
+
   
    
