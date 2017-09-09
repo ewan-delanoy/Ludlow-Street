@@ -242,7 +242,7 @@ get_name_for_set stringy (Some "stringy");;
 
 define_precedence_set Strict_or_loose.Loose Php_operator.t_equals;;
 
-let all_pairs=
+let readables_and_toksets=
    (
      Image.image 
      (fun (s,ptok)->(s,N([ptok])) )
@@ -254,7 +254,7 @@ let all_pairs=
 end;;
 
 let acts_only_once=Private.acts_only_once;;
-let all_pairs=Private.all_pairs;;
+let all_pairs=Private.readables_and_toksets;;
 
 let from_precedence=Private.from_precedence;;
 
