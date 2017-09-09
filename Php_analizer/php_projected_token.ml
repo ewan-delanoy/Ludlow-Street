@@ -126,7 +126,7 @@ let temp_pair=
    (temp2,Image.image (fun ptok->(readable ptok,ptok)) temp2);; 
 
 let all_tokens=fst temp_pair;;
-let all_pairs=snd temp_pair;;
+let readables_and_tokens=snd temp_pair;;
 
   let string_tokens=
     [

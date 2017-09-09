@@ -246,7 +246,7 @@ let all_pairs=
    (
      Image.image 
      (fun (s,ptok)->(s,N([ptok])) )
-     Php_projected_token.all_pairs
+     Php_projected_token.readables_and_tokens
    )
    @
    (!namelist);;
