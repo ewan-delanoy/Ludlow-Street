@@ -77,6 +77,7 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=constant(ctok));;
 
+(*
 let short_name (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Php_constant_token.short_name ctok
 |`Variable->"variable"
@@ -92,6 +93,7 @@ let short_name (ptok:t)=match ptok with
 |`Float->"float"
 |`Char->"chr"
 |`End_of_text->"eot";;
+*)
 
 let readable (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Php_constant_token.readable ctok

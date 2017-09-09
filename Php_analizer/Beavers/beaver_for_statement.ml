@@ -244,7 +244,7 @@ let assignables=
   "id () ?          _l_ no_ternary _r+_ : no_semicolon";
   "id () .          sqs";
   "id ()            ";
-  "heredoc ";
+  "hdoc ";
   "include_like     _l_ loose= _r*_ ";
   "integer          ";
   "new id           ()";
