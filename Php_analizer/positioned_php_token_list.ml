@@ -5,7 +5,7 @@
 *)
 
 type t={
-   contained : Positioned_php_token.t list;
+   contained : Php_positioned_token.t list;
 };;
 
 let empty={contained=[]};;
@@ -32,11 +32,11 @@ exception File_exn;;
     
 let file x=match x.contained with
     []->raise(File_exn)
-    |a::_->Positioned_php_token.file a;;    
+    |a::_->Php_positioned_token.file a;;    
     
 let print x=
   let temp1=Image.image(fun ptok->
-    let tok=Positioned_php_token.fst ptok in
+    let tok=Php_positioned_token.fst ptok in
     Php_projected_token.short_name(Php_token.form tok)
    ) x.contained in
   "\xe3\x80\x90  "^(String.concat " " temp1)^"  \xe3\x80\x91";;

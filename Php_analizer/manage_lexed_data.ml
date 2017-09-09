@@ -21,7 +21,7 @@ let recompute_lexed_data_from_scratch dir=
   let temp2=Image.image (
     fun t->
    Positioned_php_token_list.filter (fun ptok->
-    let tok=Positioned_php_token.fst ptok in
+    let tok=Php_positioned_token.fst ptok in
     not(Php_token.is_a_comment tok)
     )(Php_lexer.parse_file t)
   ) temp1 in

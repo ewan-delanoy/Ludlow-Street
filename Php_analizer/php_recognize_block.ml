@@ -14,13 +14,13 @@ let main
      then None
      else 
      let (a,peurrest)=Positioned_php_token_list.ht da_ober in 
-     let lxm=Positioned_php_token.fst(a) in
+     let lxm=Php_positioned_token.fst(a) in
      if lxm=left_blocker
      then tempf(Positioned_php_token_list.cons a graet,j+1,peurrest)
      else
      if lxm=right_blocker
      then if j=1
-          then Some((Positioned_php_token_list.rev graet,snd(Positioned_php_token.snd(a)),peurrest),a)
+          then Some((Positioned_php_token_list.rev graet,snd(Php_positioned_token.snd(a)),peurrest),a)
           else tempf(Positioned_php_token_list.cons  a graet,j-1,peurrest)
      else 
        if f lxm
