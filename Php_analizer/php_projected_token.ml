@@ -93,6 +93,22 @@ let short_name (ptok:t)=match ptok with
 |`Char->"chr"
 |`End_of_text->"eot";;
 
+let readable (ptok:t)=match ptok with
+#Php_constant_token.t as ctok->Php_constant_token.readable ctok
+|`Variable->"var"
+|`Ident->"id"
+|`Comment->"cmt"
+|`Single_quoted->"sqs"
+|`Double_quoted->"dqs"
+|`Heredoc->"heredoc"
+|`Nowdoc->"nowdoc"
+|`Namespacer->"nmspc"
+|`External_echo->"ext"
+|`Int->"int"
+|`Float->"float"
+|`Char->"char"
+|`End_of_text->"eot";;
+
 (*
 let make_visible (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Some(Php_constant_token.make_visible ctok)
