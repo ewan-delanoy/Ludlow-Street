@@ -24,11 +24,11 @@ let names_and_tokens=
 
 let all=Image.image snd names_and_tokens;;
 
-exception Unknown of string;;
+exception Unknown_short_name of string;;
 
-let from_visible s=
+let from_short_name s=
    try List.assoc s names_and_tokens with
-   _->raise(Unknown(s));;
+   _->raise(Unknown_short_name(s));;
 
 let short_name tok=
     let (s1,_)=Option.find_really(fun (s,tok1)->tok1=tok) names_and_tokens in
