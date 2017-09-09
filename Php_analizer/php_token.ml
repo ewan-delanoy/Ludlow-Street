@@ -72,7 +72,7 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
        ];;
    
 
-let of_string=Memoized.make(fun s->
+let from_visible=Memoized.make(fun s->
   match Option.catch_exception Php_operator.from_visible s with
    Some(_)->op s
   |None->

@@ -44,7 +44,7 @@ let character c=Php_token.of_char(String.make 1 c);;
 let end_of_text=Php_token.end_of_text;;
 let external_echo s=Php_token.external_echo s;;
 
-let read_word=Php_token.of_string;;
+let read_word=Php_token.from_visible;;
     
 type doctype=Nowdoc_type |Heredoc_type |Naked_doc_type;;    
     
@@ -112,7 +112,7 @@ let add_composite_to_list lbuf (b,c)=
      preceding_lexeme:=Some(read_word c);
      );;     
 
-let semicolon=Php_token.of_string ";";;
+let semicolon=Php_token.from_visible ";";;
 
 let insert_semicolon lbuf=
     let start_a=translated_lexing(Lexing.lexeme_start_p lbuf) 1 in

@@ -28,6 +28,6 @@ let pair x=match x with
   
   let token_pair blckr=
     let (x,y)=pair blckr in
-    (Php_token.of_string x,Php_token.of_string y);;
+    (Php_token.from_visible x,Php_token.from_visible y);;
    
   
