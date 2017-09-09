@@ -4,92 +4,94 @@
 
 *)
 type t=
-     Constant of Php_constant_token.t
-    |Variable 
-    |Ident 
-    |Comment 
-    |Single_quoted 
-    |Double_quoted 
-    |Heredoc 
-    |Nowdoc 
-    |Namespacer 
-    |External_echo 
-    |Int 
-    |Float 
-    |Char 
-    |End_of_text;;
+    [
+     Php_constant_token.t
+    |`Variable 
+    |`Ident 
+    |`Comment 
+    |`Single_quoted 
+    |`Double_quoted 
+    |`Heredoc 
+    |`Nowdoc 
+    |`Namespacer 
+    |`External_echo 
+    |`Int 
+    |`Float 
+    |`Char 
+    |`End_of_text
+    ];;
 
 
 
 
-let cchar=Char;;
-let comment=Comment;;
-let constant x=Constant(x);;
-let double_quoted=Double_quoted;;
-let external_echo=External_echo;;
-let end_of_text=End_of_text;;
-let ffloat=Float;;
-let heredoc=Heredoc;;    
-let ident=Ident;;    
-let iint=Int;;
-let namespacer=Namespacer;;
-let nowdoc=Nowdoc;;
-let single_quoted=Single_quoted;;
-let variable=Variable;;
+let cchar=(`Char:t);;
+let comment=(`Comment:t);;
+let constant (x:Php_constant_token.t)=(x:>t);;
+let double_quoted=(`Double_quoted:t);;
+let external_echo=(`External_echo:t);;
+let end_of_text=(`End_of_text:t);;
+let ffloat=(`Float:t);;
+let heredoc=(`Heredoc:t);;    
+let ident=(`Ident:t);;    
+let iint=(`Int:t);;
+let namespacer=(`Namespacer:t);;
+let nowdoc=(`Nowdoc:t);;
+let single_quoted=(`Single_quoted:t);;
+let variable=(`Variable:t);;
 
 
 let is_a_comment=function
-   Comment->true
+   `Comment->true
   |_->false;;
 
 let acts_only_once=function
-  Constant(_) | Comment |End_of_text ->true
+  #Php_constant_token.t | `Comment |`End_of_text ->true
  |_->false;;
 
 let fixture_of_nonconstants=
-    [
-       Variable; 
-       Ident;
-       Comment;
-       Single_quoted;
-       Double_quoted;
-       Heredoc;
-       Nowdoc;
-       Namespacer;
-       External_echo;
-       Int;
-       Float;
-       Char;
+    (
+       variable; 
+       ident;
+       comment;
+       single_quoted;
+       double_quoted;
+       heredoc;
+       nowdoc;
+       namespacer;
+       external_echo;
+       iint;
+       ffloat;
+       cchar;
     ];;
 
 
   
-let precedence =function
-  Constant(ctok)->Php_constant_token.precedence(ctok)
+let precedence (ptok:t)=match ptok with
+  #Php_constant_token.t as ctok->Php_constant_token.precedence(ctok)
   |_->None;;
 
 
-let op s=Constant(Php_constant_token.c_op(Php_operator.from_visible s));;
-let punct s=Constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
-let kwd s=Constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
+let op s=constant(Php_constant_token.c_op(Php_operator.from_visible s));;
+let punct s=constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
+let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
-let test ctok tok=(tok=Constant(ctok));;
+let test ctok tok=(tok=constant(ctok));;
 
-let to_string=function
- Constant(ctok)->Php_constant_token.make_visible ctok
-|Variable->"variable"
-|Ident->"id"
-|Comment->"cmt"
-|Single_quoted->"sqs"
-|Double_quoted->"dqs"
-|Heredoc->"heredoc"
-|Nowdoc->"nowdoc"
-|Namespacer->"nmspc"
-|External_echo->"ext"
-|Int->"integer"
-|Float->"float"
-|Char->"chr"
-|End_of_text->"eot";;
+let to_string (ptok:t)=match ptok with
+#Php_constant_token.t as ctok->Php_constant_token.make_visible ctok
+|`Variable->"variable"
+|`Ident->"id"
+|`Comment->"cmt"
+|`Single_quoted->"sqs"
+|`Double_quoted->"dqs"
+|`Heredoc->"heredoc"
+|`Nowdoc->"nowdoc"
+|`Namespacer->"nmspc"
+|`External_echo->"ext"
+|`Int->"integer"
+|`Float->"float"
+|`Char->"chr"
+|`End_of_text->"eot";;
 
 
 
@@ -100,7 +102,7 @@ let order=((
 
 let temp_pair=
   let temp1=(
-    Image.image (fun ctok->Constant ctok) Php_constant_token.all
+    Image.image (fun ctok->constant ctok) Php_constant_token.all
    )
    @
    fixture_of_nonconstants in
@@ -113,19 +115,19 @@ let all_pairs=snd temp_pair;;
   let string_tokens=
     [
       
-      Variable;
-      Ident;
-      Comment;
-      Single_quoted;
-      Double_quoted;
-      Heredoc;
-      Nowdoc
+      variable;
+      ident;
+      comment;
+      single_quoted;
+      double_quoted;
+      heredoc;
+      nowdoc
       
     ];;     
       
- let harmless_tokens=string_tokens@[Int;Float];;  
+ let harmless_tokens=string_tokens@[iint;ffloat];;  
  
  let precedence_neutral_tokens=harmless_tokens@
-  (Image.image (fun x->Constant(Php_constant_token.c_punct(x))) 
+  (Image.image (fun x->constant(Php_constant_token.c_punct(x))) 
    [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
    
