@@ -180,7 +180,7 @@ let helper_for_byref_append l1 cr=
 
 add_data 
 	"append_byref"
-	"variable [ ] = ##( & _l_no_semicolon _r*_ )## ;"
+	"vvar [ ] = ##( & _l_no_semicolon _r*_ )## ;"
 	""
 	helper_for_byref_append
 	;;
@@ -192,21 +192,21 @@ let helper_for_assignment l1 cr=
 
 add_data 
 	"assign1"
-	"variable assign ##( () ?  _l_ id _u_ sqs _rd_  :  _l_ id _u_ variable _rd_  )## ;"
+	"vvar assign ##( () ?  _l_ id _u_ sqs _rd_  :  _l_ id _u_ vvar _rd_  )## ;"
 	""
 	helper_for_assignment
 	;;
 
 add_data 
 	"assign2"
-	"variable assign  ##( sqs . id . dqs . variable -> id () . dqs . variable -> id () . dqs )## ;"
+	"vvar assign  ##( sqs . id . dqs . vvar -> id () . dqs . vvar -> id () . dqs )## ;"
 	""
 	helper_for_assignment
 	;;  
 
 add_data 
 	"assign_byref"
-	"variable assign ##( & _l_loose= _r*_ )## ;"
+	"vvar assign ##( & _l_loose= _r*_ )## ;"
 	""
 	helper_for_assignment;;
 	
@@ -216,7 +216,7 @@ let helper_for_servant_assign l1 cr=
 
 add_data 
 	"assign_on_servant"
-	"variable -> id_or_var ##( assign )## _l_ loose= _r*_ ;"
+	"vvar -> id_or_var ##( assign )## _l_ loose= _r*_ ;"
 	""
 	helper_for_servant_assign;;
 
@@ -229,7 +229,7 @@ add_data
 
 add_data 
 	"assign_to_cell"
-	"variable assign ##( variable [ sqs ] )## ;"
+	"vvar assign ##( vvar [ sqs ] )## ;"
 	""
 	helper_for_assignment
 	;;
@@ -249,13 +249,13 @@ let assignables=
   "integer          ";
   "new id           ()";
   "new nmspc        ()";
-  "sqs .            variable . sqs";
+  "sqs .            vvar . sqs";
   "sqs";
-  "variable .       sqs";
-  "variable =       sqs";
-  "variable ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
-  "variable +       _l_ loose= _r*_ ";
-  "variable";
+  "vvar .       sqs";
+  "vvar =       sqs";
+  "vvar ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
+  "vvar +       _l_ loose= _r*_ ";
+  "vvar";
   "@                id ()";
 ];;
 
@@ -268,14 +268,14 @@ add_shortcut "assignable" assignable;;
 
 add_data 
   "assign_to_simple"
-  "variable ##( assign )## assignable ;"
+  "vvar ##( assign )## assignable ;"
   ""
   helper_for_assignment
   ;;
 
 add_data 
 	"assign_to_terna"
-	"variable ##( assign )## ##( () ? : new nmspc () )## ;"
+	"vvar ##( assign )## ##( () ? : new nmspc () )## ;"
 	""
 	helper_for_assignment
 	;;
@@ -287,14 +287,14 @@ let helper_for_cell_assign l1 cr=
 
 add_data 
 	"cell_assign"
-	"variable [ ##( int_or_string_or_var )## ] = _l_loose= _r*_ ;"
+	"vvar [ ##( int_or_string_or_var )## ] = _l_loose= _r*_ ;"
 	""
 	helper_for_cell_assign
 	;;
 
 add_data 
 	"cell_assign_byref"
-	"variable [  ##( int_or_string_or_var )##  ]  =  ##( & _l_loose= _r*_ )## ;"
+	"vvar [  ##( int_or_string_or_var )##  ]  =  ##( & _l_loose= _r*_ )## ;"
 	""
 	helper_for_cell_assign
 	;;
@@ -351,7 +351,7 @@ add_data
 
 add_data 
 	"echo2"
-	"echo variable"
+	"echo vvar"
 	"ext"
 	helper_for_echo
 	;;
@@ -604,7 +604,7 @@ let helper_for_static_assignment l1 cr=
 
 add_data 
   "static_assignment"
-  "static variable assign ##( id () )## ;"
+  "static vvar assign ##( id () )## ;"
   ""
   helper_for_static_assignment
   ;;
