@@ -27,7 +27,7 @@ let all=Image.image snd names_and_tokens;;
 exception Unknown of string;;
 
 let from_visible s=
-   try List.assoc s all_pairs with
+   try List.assoc s names_and_tokens with
    _->raise(Unknown(s));;
 
 let short_name tok=
