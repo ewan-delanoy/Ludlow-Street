@@ -48,8 +48,7 @@ let data=(([
  
  let all =Image.image (fun (pkt,viz,sn)->pkt) data;; 
 
- exception Unknown_visible of string;; 
- exception Unknown_short_name of string;;
+exception Unknown_visible of string;; 
 
 let make_visible =((
   fun pkt->
@@ -66,20 +65,7 @@ let from_visible=((
      None->raise(Unknown_visible(viz))
     |Some(pkt,_,_)->pkt): string -> t );;
 
-let short_name =((
-        fun pkt->
-        let (_,_,sn)=Option.find_really(
-            fun (pkt1,_,_)->pkt1=pkt
-        ) data in
-        sn): t -> string );;
-      
-let from_short_name =((
-    fun sn->
-    match Option.find_it(
-        fun (_,_,sn1)->sn1=sn
-    ) data with
-     None->raise(Unknown_short_name(sn))
-    |Some(pkt,_,_)->pkt): string -> t );;
+
 
 let readable=make_visible;;
  

@@ -20,5 +20,5 @@ let should_be_empty1=
      fun (x,y)->fst(x)=fst(y)
    ) (Uple.list_of_pairs whole);;
 
-
+assert(should_be_empty1=[]);;
 

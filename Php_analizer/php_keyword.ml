@@ -192,27 +192,26 @@ let data=([
   
 let all=(Image.image snd data : t list);; 
 
-exception Unknown_short_name of string;; 
+exception Unknown_readable of string;; 
 
-let short_name=((
+let readable=((
   fun x->
  fst(Option.find_really (fun (s,y)->y=x) data)
  ) : t -> string);;
 
-let from_short_name=(
+let from_readable=(
   (fun viz->
     match Option.find_it(
       fun (viz1,_)->viz1=viz
       ) data with
-     None->raise(Unknown_short_name(viz))
+     None->raise(Unknown_readable(viz))
     |Some(_,kwd)->kwd
   ): string -> t);;
 
-let make_visible=short_name;;
-     
-let readable=short_name;;
+let make_visible=readable;;
+  
 
-let from_visible=from_short_name;;
+let from_visible=from_readable;;
 
   
    
