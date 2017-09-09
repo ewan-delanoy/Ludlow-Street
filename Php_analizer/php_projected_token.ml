@@ -95,7 +95,7 @@ let short_name (ptok:t)=match ptok with
 
 let readable (ptok:t)=match ptok with
 #Php_constant_token.t as ctok->Php_constant_token.readable ctok
-|`Variable->"var"
+|`Variable->"vvar"
 |`Ident->"id"
 |`Comment->"cmt"
 |`Single_quoted->"sqs"
