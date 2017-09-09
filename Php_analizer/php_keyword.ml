@@ -188,21 +188,23 @@ let data=([
 
     
 
-let short_name=((
-   fun x->
-  fst(Option.find_really (fun (s,y)->y=x) data)
-  ) : t -> string);;
+
   
 let all=(Image.image snd data : t list);; 
 
-exception Unknown_keyword_string of string;; 
+exception Unknown_short_name of string;; 
+
+let short_name=((
+  fun x->
+ fst(Option.find_really (fun (s,y)->y=x) data)
+ ) : t -> string);;
 
 let from_short_name=(
   (fun viz->
     match Option.find_it(
       fun (viz1,_)->viz1=viz
       ) data with
-     None->raise(Unknown_keyword_string(viz))
+     None->raise(Unknown_short_name(viz))
     |Some(_,kwd)->kwd
   ): string -> t);;
 

@@ -227,11 +227,8 @@ let associativity=
     asc
   ) : t -> Associativity.t );;
 
-let all_pairs=
-    let temp1=Image.image (fun (op,asc,prec,viz,sn)->(viz,op)) data in
-    ((Ordered.diforchan_plaen Keyval_ordering.ko temp1): (string*t) list);;  
 
-let all=((Image.image snd all_pairs):t list);;  
+let all=Image.image (fun (op,asc,prec,viz,sn)->op) data;;  
  
 exception Unknown_visible of string;; 
  
