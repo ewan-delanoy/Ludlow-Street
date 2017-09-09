@@ -249,7 +249,7 @@ let from_visible=((function viz->
    None->raise(Unknown_visible(viz))
   |Some(op,_,_,_,_)->op) : string -> t);;
 
-
+let readable=make_visible;;
 
 
 

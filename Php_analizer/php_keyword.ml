@@ -210,6 +210,8 @@ let from_short_name=(
 
 let make_visible=short_name;;
      
+let readable=short_name;;
+
 let from_visible=from_short_name;;
 
   
