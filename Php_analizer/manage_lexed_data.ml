@@ -49,11 +49,19 @@ let get_individual_data s=
    if Sys.file_exists(marshaled_file_for_item s)
    then retrieve_lexed_data_from_marshaled_file s 
    else persist_lexed_data s;;
+
+let force_recompute_data l=
+    let _=Image.image (fun s->
+      Unix_command.hardcore_uc ("rm "^(marshaled_file_for_item s))
+    ) l in 
+    List.flatten(Image.image persist_lexed_data l);;  
    
- let get_data l=
+let get_data l=
     List.flatten(Image.image get_individual_data l);;  
   
 end;;  
   	 
 let get_data=Private.get_data;;  
-    
+let force_recompute_data=Private.force_recompute_data;;
+
+
