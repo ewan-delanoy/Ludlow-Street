@@ -73,7 +73,7 @@ let precedence (ptok:t)=match ptok with
 
 let op s=constant(Php_constant_token.of_operator(Php_operator.from_visible s));;
 let punct s=constant(Php_constant_token.of_punctuator(Php_punctuator.from_visible s));;
-let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
+let kwd s=constant(Php_constant_token.of_keyword (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=constant(ctok));;
 

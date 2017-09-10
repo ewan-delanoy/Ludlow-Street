@@ -131,7 +131,7 @@ let id_or_var=from_list(
 get_name_for_set id_or_var (Some "id_or_var");;
 
 let include_like=from_list( 
-    Image.image (fun x->Php_projected_token.constant (Php_constant_token.c_kwd x))
+    Image.image (fun x->Php_projected_token.constant (Php_constant_token.of_keyword x))
     [Php_keyword.t_include; 
      Php_keyword.t_include_once;                                
      Php_keyword.t_require; 
@@ -152,7 +152,7 @@ let int_or_string_or_var=from_list(
 get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 
 let no_breach=complement_from_list( 
-  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_kwd(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_keyword(x)))
   [
     Php_keyword.t_foreach;
     Php_keyword.t_endforeach;
@@ -170,7 +170,7 @@ let no_colon=complement_from_list(
 get_name_for_set no_colon (Some "no_colon");;
 
 let no_ivies=complement_from_list( 
-  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_kwd(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_keyword(x)))
   [
     Php_keyword.t_if; 
     Php_keyword.t_else; 
