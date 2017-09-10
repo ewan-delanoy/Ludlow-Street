@@ -155,7 +155,10 @@ let of_name=Private.of_name;;
 let of_definition=Private.of_definition;;
 
 
-let divisions nr=nr.divided;;
+let chain_content nr=
+   if Php_constructible_recognizer.chain_content(nr.unnamed_content)=None
+   then None  
+   else Some(nr.divided);;
 
 let is_constant nr=Php_constructible_recognizer.is_constant 
                     nr.unnamed_content;;

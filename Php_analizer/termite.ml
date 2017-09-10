@@ -22,7 +22,7 @@ We use special parentheses for that
 
 *)
 
-type t=Trmt of (Retained_or_not.t*Php_constructible_recognizer.t) list;;
+type t=Trmt of (Retained_or_not.t*Php_named_recognizer.t) list;;
 
 let left_paren_to_force_retaining="##(";;
 let right_paren_to_force_retaining=")##";;
