@@ -26,7 +26,7 @@ let rename_value_inside_module s new_name=
    let hm=German_vague_string.to_module module_name 
    and path=German_vague_string.to_path module_name in 
    let temp1=German_wrapper.data() in
-   let md1=Option.find_really (fun md->Modulesystem_data.name md=hm) temp1 in
+   let md1=Option.find (fun md->Modulesystem_data.name md=hm) temp1 in
    let temp2=(Modulesystem_data.all_ancestors md1)@[hm] in
    let all_files=Image.image  (fun hm2->
    	 Mlx_ended_absolute_path.to_path(Mlx_ended_absolute_path.join hm2 Ocaml_ending.Ml)
@@ -47,7 +47,7 @@ let rename_value_inside_module s new_name=
    (Father_and_son.father beheaded_name '.',Overwriter.to_string new_name) in
    let new_beheaded_name=Overwriter.of_string s_new_beheaded_name in
    let s_new_full_name=module_name^"."^s_new_beheaded_name in
-   let temp4_again=Option.find_really (fun itm->
+   let temp4_again=Option.find (fun itm->
      (itm.Ocaml_gsyntax_item.name)=s_new_full_name
    ) temp3_again in
    let k1=Listennou.find_index temp4_again temp3_again in

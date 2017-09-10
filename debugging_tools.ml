@@ -10,7 +10,7 @@ let image f l=
     try( (function _->false) (f x) ) with _->true
   ) in
   let modified_l=Ennig.index_everything l in
-  Option.find_really modified_f modified_l;;
+  Option.find modified_f modified_l;;
 
 exception Star_exn;;
 

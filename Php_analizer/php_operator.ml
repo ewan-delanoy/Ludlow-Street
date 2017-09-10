@@ -198,7 +198,7 @@ type t=
 
 let precedence=((
     fun op->
-      let (_,_,prec,_,_)=Option.find_really(
+      let (_,_,prec,_,_)=Option.find(
           fun (op1,_,_,_,_)->op1=op
       ) data in
       prec
@@ -207,7 +207,7 @@ let precedence=((
 let associativity=
   (
     (fun op->
-  let (_,asc,_,_,_)=Option.find_really(
+  let (_,asc,_,_,_)=Option.find(
     fun (op1,_,_,_,_)->op1=op
     ) data in
     asc
@@ -222,7 +222,7 @@ exception Unknown_visible of string;;
 
 let make_visible=(( 
     fun op->
-    let (_,_,_,viz,_)=Option.find_really(
+    let (_,_,_,viz,_)=Option.find(
         fun (op1,_,_,_,_)->op1=op
     ) data in
     viz

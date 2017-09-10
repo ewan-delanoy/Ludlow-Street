@@ -52,7 +52,7 @@ exception Unknown_visible of string;;
 
 let make_visible =((
   fun pkt->
-  let (_,viz,_)=Option.find_really(
+  let (_,viz,_)=Option.find(
       fun (pkt1,_,_)->pkt1=pkt
   ) data in
   viz): t -> string );;

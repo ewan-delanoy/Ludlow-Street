@@ -196,7 +196,7 @@ exception Unknown_readable of string;;
 
 let readable=((
   fun x->
- fst(Option.find_really (fun (s,y)->y=x) data)
+ fst(Option.find (fun (s,y)->y=x) data)
  ) : t -> string);;
 
 let from_readable=(

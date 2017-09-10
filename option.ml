@@ -17,7 +17,7 @@ let rec seek f =function
 []->None
 |a::b->if f(a) then Some(a) else seek(f)(b);;
 
-let find_really f l=unpack(seek f l);;
+let find f l=unpack(seek f l);;
 
 let rec filter_and_unpack f l=
  let rec filter0=(function

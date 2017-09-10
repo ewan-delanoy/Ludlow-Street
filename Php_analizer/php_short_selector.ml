@@ -47,7 +47,7 @@ let list_from_string s=
 
 exception Unregistered of t;; 
  
-let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) readables_and_selectors)) 
+let to_string x=try (fst(Option.find (fun p->snd(p)=x) readables_and_selectors)) 
       with 
       _->raise(Unregistered(x));;
 
