@@ -72,7 +72,7 @@ let precedence (ptok:t)=match ptok with
 
 
 let op s=constant(Php_constant_token.of_operator(Php_operator.from_visible s));;
-let punct s=constant(Php_constant_token.c_punct(Php_punctuator.from_visible s));;
+let punct s=constant(Php_constant_token.of_punctuator(Php_punctuator.from_visible s));;
 let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
 
 let test ctok tok=(tok=constant(ctok));;
@@ -128,6 +128,6 @@ let readables_and_tokens=snd temp_pair;;
  let harmless_tokens=string_tokens@[iint;ffloat];;  
  
  let precedence_neutral_tokens=harmless_tokens@
-  (Image.image (fun x->constant(Php_constant_token.c_punct(x))) 
+  (Image.image (fun x->constant(Php_constant_token.of_punctuator(x))) 
    [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
    

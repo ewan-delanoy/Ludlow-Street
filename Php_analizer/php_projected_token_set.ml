@@ -183,7 +183,7 @@ get_name_for_set no_ivies (Some "no_ivies");;
 
 let no_left_brace=complement_from_list( 
   [
-    Php_projected_token.constant(Php_constant_token.c_punct Php_punctuator.t_lbrace)
+    Php_projected_token.constant(Php_constant_token.of_punctuator Php_punctuator.t_lbrace)
   ]
   );;   
   
@@ -191,7 +191,7 @@ get_name_for_set no_left_brace (Some "no_left_brace");;
 
 let no_semicolon=complement_from_list( 
   [
-    Php_projected_token.constant(Php_constant_token.c_punct Php_punctuator.t_semicolon)
+    Php_projected_token.constant(Php_constant_token.of_punctuator Php_punctuator.t_semicolon)
   ]
   );;   
   
@@ -217,11 +217,11 @@ let stringy=complement_from_list(
       Php_constant_token.of_operator Php_operator.t_question;
       Php_constant_token.of_operator Php_operator.t_colon;
       Php_constant_token.of_operator Php_operator.t_equals_more;
-      Php_constant_token.c_punct Php_punctuator.t_colon_colon;
-      Php_constant_token.c_punct Php_punctuator.t_lparenthesis;
-      Php_constant_token.c_punct Php_punctuator.t_rparenthesis;
-      Php_constant_token.c_punct Php_punctuator.t_comma;
-      Php_constant_token.c_punct Php_punctuator.t_arrow;
+      Php_constant_token.of_punctuator Php_punctuator.t_colon_colon;
+      Php_constant_token.of_punctuator Php_punctuator.t_lparenthesis;
+      Php_constant_token.of_punctuator Php_punctuator.t_rparenthesis;
+      Php_constant_token.of_punctuator Php_punctuator.t_comma;
+      Php_constant_token.of_punctuator Php_punctuator.t_arrow;
     ]
   )
   @
