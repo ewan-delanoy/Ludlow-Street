@@ -11,8 +11,8 @@ let of_punctuator (pkt:Php_punctuator.t)=(pkt:>t);;
 let of_operator (op:Php_operator.t)=(op:>t);;    
 
 let seek_punctuator (ctok:t)=match ctok with 
-#Php_operator.t as op->None
-|#Php_keyword.t as kwd->None
+#Php_operator.t->None
+|#Php_keyword.t->None
 |#Php_punctuator.t as pkt->Some(pkt);;  
 
 

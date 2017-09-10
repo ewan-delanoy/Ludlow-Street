@@ -39,6 +39,9 @@ let nowdoc=(`Nowdoc:t);;
 let single_quoted=(`Single_quoted:t);;
 let variable=(`Variable:t);;
 
+let seek_constant_token (ptok:t)=match ptok with
+   #Php_constant_token.t as ctok->Some(ctok)
+  |_->None;;
 
 let is_a_comment=function
    `Comment->true
