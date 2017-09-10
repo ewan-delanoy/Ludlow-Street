@@ -151,7 +151,7 @@ let of_definition=Private.of_definition;;
 let _=of_definition (Some("statmeth")) " :: id ";; 
 let _=of_definition (Some("optional_statmeth")) "_l_ statmeth _r?_";; 
 *)
-(*
+
 let list_for_assignables=
   Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
   (Ennig.index_everything(
@@ -176,7 +176,7 @@ let list_for_assignables=
     "vvar";
     "@                id ()";
   ]));;
-*)
+
 
 (*  
 let assignables=Image.image (
