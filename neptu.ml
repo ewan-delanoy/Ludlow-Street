@@ -4,6 +4,101 @@
 
 *)
 
+let g1=dbel "Php_positioned_token_list";;
+let g2=vfm "Php_positioned_token_list";;
+let term="snd";;
+let g3=List.assoc term g2;;
+let act1=Explicit.image (
+    Replace_inside.replace_inside_file
+    ("Php_positioned_token."^term,term)
+) g3;;
+
+
+let d1=German_pervasives.fg_without_backup;;
+
+(*
+let u1=Manage_lexed_data.force_recompute_data
+["symblog";"phpbb"];;
+
+let u1=Manage_lexed_data.get_data
+["symblog";"phpbb"];;
+
+let u2=Explicit.image Level_one.level_one u1;;
+*)
+
+(*
+let u3=List.hd u1;;
+
+let u4=Php_positioned_token_list.big_head 18 u3;;
+
+let u5=u4.Php_positioned_token_list.contained;;
+
+let u6=image Php_positioned_token.unveil u5;;
+
+let (u7,u8)=(image fst u6,image snd u6);;
+
+let u9=image (fun tok->(Php_token.form tok,Php_token.content tok)) u7;;
+
+let u10=image (fun (lx1,lx2)->
+(lx1.Lexing.pos_lnum,lx1.Lexing.pos_bol,lx1.Lexing.pos_cnum,
+lx2.Lexing.pos_lnum,lx2.Lexing.pos_bol,lx2.Lexing.pos_cnum
+)
+) u8;;
+
+let ru8=image(
+   fun (n1,b1,c1,n2,b2,c2)->
+   ({Lexing.pos_fname =
+   "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Web/config.php";
+  pos_lnum = n1; pos_bol = b1; pos_cnum = c1},
+ {Lexing.pos_fname =
+   "/Users/Ewandelanoy/Documents/Sites/Symblog/Symblogproject/Web/config.php";
+  pos_lnum = n2; pos_bol = b2; pos_cnum = c2})
+)
+[(4, 274, 275, 4, 274, 276); (4, 274, 278, 4, 274, 278);                                                                                            (4, 274, 279, 4, 274, 279); (4, 274, 280, 4, 274, 284);                                                                                         
+(4, 274, 285, 4, 274, 285); (4, 274, 286, 4, 274, 293);
+(4, 274, 294, 4, 274, 294); (4, 274, 295, 4, 274, 305);
+(4, 274, 306, 4, 274, 306); (4, 274, 307, 4, 274, 307);
+(4, 274, 308, 4, 274, 308); (4, 274, 310, 4, 274, 310);
+(5, 311, 316, 5, 311, 319); (5, 311, 320, 5, 311, 320);
+(5, 311, 321, 5, 311, 384); (5, 311, 385, 5, 311, 385);
+(5, 311, 386, 5, 311, 386); (6, 387, 388, 6, 387, 388)];;
+
+let ru9=[(`T_IF, "if"); (`T_LPARENTHESIS, "("); (`T_EXCLAMATION, "!");                                                                                      (`Ident, "isset"); (`T_LPARENTHESIS, "("); (`Variable, "$_SERVER");                                                                               
+(`T_LBRACKET, "["); (`Single_quoted, "HTTP_HOST"); (`T_RBRACKET, "]");
+(`T_RPARENTHESIS, ")"); (`T_RPARENTHESIS, ")"); (`T_LBRACE, "{");
+(`T_EXIT, "exit"); (`T_LPARENTHESIS, "(");
+(`Single_quoted,
+ "This script cannot be run from the CLI. Run it from a browser.");
+(`T_RPARENTHESIS, ")"); (`T_SEMICOLON, ";"); (`T_RBRACE, "}")];;
+
+let ru7=image (fun (x,y)->Php_token.make x y) ru9;;
+
+let ru6=List.combine ru7 ru8;;
+
+let ru5=image (fun (x,y)->Php_positioned_token.make x y) ru6;;
+
+let ru4={Php_positioned_token_list.contained=ru5};;
+
+let bad=Beaver_for_statement.parser ru4;;
+*)
+
+(*
+let u5=u3.Php_positioned_token_list.contained;;
+
+let u6=image (fun 
+   (Php_positioned_token.PPL(x,_))->Php_token.readable x
+) u5;;
+
+let u7=String.concat " " u6;;
+*)
+
+(*
+let g1=dbel "php_positioned_token";;
+let g2=image (fun x->x.Half_dressed_module.naked_module) g1;;
+*)
+
+
+(*
 module Vegetable=struct
     type t=[`Eggplant | `Leek];;
 end;;  
@@ -18,8 +113,9 @@ module Vegetable_or_Fruit=struct
    let of_vegetable =((fun (x:Vegetable.t)->(x:>t)): Vegetable.t -> t);;
 
 end;;  
+*)
 
-
+(*
 let current="Php_projected_token";;
 let pointed=current^".";;
 let g1=vfm current;;
@@ -35,6 +131,7 @@ let g5=Explicit.image(
   fun (a,b)->
   German_pervasives.srv_without_backup a b
 ) g4;;
+*)
 
 
 (*

@@ -186,13 +186,11 @@
 #load"associativity.cmo";;
 #load"php_operator.cmo";;
 #load"php_keyword.cmo";;
-#load"dictionary_order.cmo";;
-#load"keyval_ordering.cmo";;
 #load"php_constant_token.cmo";;
+#load"dictionary_order.cmo";;
 #load"php_projected_token.cmo";;
 #load"code_namespace.cmo";;
 #load"php_token.cmo";;
-#load"php_positioned_token.cmo";;
 #load"php_positioned_token_list.cmo";;
 #load"php_char_range.cmo";;
 #load"php_parser.cmo";;
@@ -242,6 +240,7 @@
 #load"basics_on_small_primes.cmo";;
 #load"arithmetic.cmo";;
 #load"legendre_symbol.cmo";;
+#load"keyval_ordering.cmo";;
 #load"interpolation.cmo";;
 #load"inclusion.cmo";;
 #load"gparser_for_c_language.cmo";;
