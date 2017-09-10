@@ -7,6 +7,11 @@
 
 
 
+exception Ht_exn;;
+
+let ht x=match x with
+    []->raise(Ht_exn)
+    |a::b->(a,b);;
 
 let rec uncurrified_rev_append (x,y)=match x with
 []->y
