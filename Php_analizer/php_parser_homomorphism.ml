@@ -18,7 +18,7 @@ let star prsr=
      None->None
      |Some(res,cr3,z3)->
         if res=[] then Some(res,cr3,z3) else
-        let first_lxng=fst(snd(Php_positioned_token_list.hd(l))) 
+        let first_lxng=fst(snd(List.hd(l))) 
         and last_lxng=Php_char_range.snd cr3 in
         Some(res,Php_char_range.make first_lxng last_lxng,z3)
   ) in

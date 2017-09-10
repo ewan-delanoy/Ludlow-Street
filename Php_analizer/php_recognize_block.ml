@@ -16,15 +16,15 @@ let main
      let (a,peurrest)=Listennou.ht da_ober in 
      let lxm=fst(a) in
      if lxm=left_blocker
-     then tempf(Php_positioned_token_list.cons a graet,j+1,peurrest)
+     then tempf(List.cons a graet,j+1,peurrest)
      else
      if lxm=right_blocker
      then if j=1
-          then Some((Php_positioned_token_list.rev graet,snd(snd(a)),peurrest),a)
-          else tempf(Php_positioned_token_list.cons  a graet,j-1,peurrest)
+          then Some((List.rev graet,snd(snd(a)),peurrest),a)
+          else tempf(List.cons  a graet,j-1,peurrest)
      else 
        if f lxm
-       then tempf(Php_positioned_token_list.cons  a graet,j,peurrest)
+       then tempf(List.cons  a graet,j,peurrest)
        else None
    ) in
    tempf([],depth,tok_l);;

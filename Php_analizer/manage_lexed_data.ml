@@ -20,7 +20,7 @@ let recompute_lexed_data_from_scratch dir=
   let temp1=More_unix.all_files_with_endings dir [".php"] in
   let temp2=Image.image (
     fun t->
-   Php_positioned_token_list.filter (fun ptok->
+   List.filter (fun ptok->
     let tok=fst ptok in
     not(Php_token.is_a_comment tok)
     )(Php_lexer.parse_file t)

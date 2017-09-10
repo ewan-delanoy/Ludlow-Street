@@ -77,8 +77,8 @@ let push lbuf (a,start_a,end_a) l=
     if (Php_token.form a,Php_token.form b)=
        (Php_projected_token.comment,Php_projected_token.comment)
     then  let ba=(Php_token.content a)^(Php_token.content b) in
-          Php_positioned_token_list.cons (mk (comment ba) (start_b,end_a)) peurrest
-    else Php_positioned_token_list.cons (mk a (start_a,end_a)) l ;;
+          List.cons (mk (comment ba) (start_b,end_a)) peurrest
+    else List.cons (mk a (start_a,end_a)) l ;;
    
 let preceding_lexeme=ref(None);;
    
@@ -145,7 +145,7 @@ let finish_namespace w lbuf=
       (
         namespace_list_accu:=[];
         namespace_string_accu:="";
-        list_accu:=Php_positioned_token_list.cons (mk tok (start_t,end_t)) (!list_accu);
+        list_accu:=List.cons (mk tok (start_t,end_t)) (!list_accu);
       );;     
       
 let initialize_doc lbuf=(
@@ -200,7 +200,7 @@ rule outside_php = parse
   | "<?php "  {finish_nonphp lexbuf; inside_php lexbuf;}
   | "<?php\n"  {finish_nonphp lexbuf; inside_php lexbuf;}
   | _ as c {add_to_string c; outside_php lexbuf}
-  |eof {finish_nonphp lexbuf;Php_positioned_token_list.rev(!list_accu)} 
+  |eof {finish_nonphp lexbuf;List.rev(!list_accu)} 
   and inside_php=parse
   | " ?>"  {
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
@@ -323,30 +323,30 @@ rule outside_php = parse
   | _ as c
   	{  add_to_list lexbuf  (character c); inside_php lexbuf}
   | eof
-  	{ Php_positioned_token_list.rev(!list_accu) }
+  	{ List.rev(!list_accu) }
 and starred_comment=parse
   |"*/" {finish_comment lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; starred_comment lexbuf}
-  |eof {Php_positioned_token_list.rev(!list_accu)}
+  |eof {List.rev(!list_accu)}
 and slashed_comment=parse
   |['\n' '\r'] {finish_comment lexbuf; inside_php lexbuf}
   |" ?>" {finish_comment lexbuf; outside_php lexbuf}
   |"\n?>" {finish_comment lexbuf; outside_php lexbuf}
   | _ as c {add_to_string c; slashed_comment lexbuf}
-  |eof {Php_positioned_token_list.rev(!list_accu)} 
+  |eof {List.rev(!list_accu)} 
 and single_quoted_string=parse
   | "\\\'" {add_to_string '\''; single_quoted_string lexbuf}
   | "\\\\" {add_to_string '\\'; single_quoted_string lexbuf}
   | '\'' {finish_quote lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; single_quoted_string lexbuf}
-  |eof {Php_positioned_token_list.rev(!list_accu)}    
+  |eof {List.rev(!list_accu)}    
 and double_quoted_string=parse
   | "\\\"" {add_to_string '\''; double_quoted_string lexbuf}
   | "\\\\" {add_to_string '\\'; double_quoted_string lexbuf}
   | '\"' {finish_dquote lexbuf; inside_php lexbuf}
   | _ as c {add_to_string c; double_quoted_string lexbuf}
-  |eof {Php_positioned_token_list.rev(
-        Php_positioned_token_list.cons
+  |eof {List.rev(
+        List.cons
         (mk end_of_text (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
          (!list_accu))}     
 and doc_string=parse

@@ -78,8 +78,8 @@ let push lbuf (a,start_a,end_a) l=
     if (Php_token.form a,Php_token.form b)=
        (Php_projected_token.comment,Php_projected_token.comment)
     then  let ba=(Php_token.content a)^(Php_token.content b) in
-          Php_positioned_token_list.cons (mk (comment ba) (start_b,end_a)) peurrest
-    else Php_positioned_token_list.cons (mk a (start_a,end_a)) l ;;
+          List.cons (mk (comment ba) (start_b,end_a)) peurrest
+    else List.cons (mk a (start_a,end_a)) l ;;
    
 let preceding_lexeme=ref(None);;
    
@@ -146,7 +146,7 @@ let finish_namespace w lbuf=
       (
         namespace_list_accu:=[];
         namespace_string_accu:="";
-        list_accu:=Php_positioned_token_list.cons (mk tok (start_t,end_t)) (!list_accu);
+        list_accu:=List.cons (mk tok (start_t,end_t)) (!list_accu);
       );;     
       
 let initialize_doc lbuf=(
@@ -698,7 +698,7 @@ let
 
   | 3 ->
 # 203 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (finish_nonphp lexbuf;Php_positioned_token_list.rev(!list_accu))
+       (finish_nonphp lexbuf;List.rev(!list_accu))
 # 703 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
@@ -869,7 +869,7 @@ let
 
   | 18 ->
 # 326 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-   ( Php_positioned_token_list.rev(!list_accu) )
+   ( List.rev(!list_accu) )
 # 874 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
@@ -896,7 +896,7 @@ let
 
   | 2 ->
 # 330 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (Php_positioned_token_list.rev(!list_accu))
+       (List.rev(!list_accu))
 # 901 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
@@ -933,7 +933,7 @@ let
 
   | 4 ->
 # 336 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (Php_positioned_token_list.rev(!list_accu))
+       (List.rev(!list_accu))
 # 938 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
@@ -970,7 +970,7 @@ let
 
   | 4 ->
 # 342 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (Php_positioned_token_list.rev(!list_accu))
+       (List.rev(!list_accu))
 # 975 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
@@ -1007,8 +1007,8 @@ let
 
   | 4 ->
 # 348 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-       (Php_positioned_token_list.rev(
-        Php_positioned_token_list.cons
+       (List.rev(
+        List.cons
         (mk end_of_text (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
          (!list_accu)))
 # 1015 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
