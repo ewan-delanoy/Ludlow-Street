@@ -70,7 +70,6 @@ let kwd s=constant(Php_constant_token.c_kwd (Php_keyword.from_visible s));;
           of_float "0.";
           of_char "0";
        ];;
-   
 
 let from_visible=Memoized.make(fun s->
   try constant(Php_constant_token.from_visible s) with
