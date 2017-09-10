@@ -569,7 +569,7 @@ exception Singleton_exn;;
    
 let helper_for_singleton l1 cr=
      let tok=fst(List.hd(List.hd l1)) in
-     if Php_token.form tok=Php_projected_token.external_echo
+     if Php_token.proj_test Php_projected_token.external_echo tok
      then External_echo(Php_token.content tok,cr)
      else raise(Singleton_exn);;
    

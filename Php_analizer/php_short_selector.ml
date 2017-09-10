@@ -66,7 +66,7 @@ let of_string s=match optional_of_string s with
     let f=(function x->
        if x=[] then None else
        let (a,peurrest)=Listennou.ht x in
-         if Php_token.atomic_test atomic_sel (fst a)
+         if Php_token.projset_test atomic_sel (fst a)
          then let (u,v)=snd a in
               Some(Php_char_range.make u v,peurrest)
          else None
