@@ -51,6 +51,9 @@ module Private=struct
                else definition;;     
 
     let make (opt_name,defn,rcgzr,div)=
+         match Option.seek(fun nr->nr.unnamed_content=rcgzr) (!data) with
+         Some(nr1)->nr1
+         |None->
          let x={
           name =compute_name (opt_name,defn);
           definition=defn;
