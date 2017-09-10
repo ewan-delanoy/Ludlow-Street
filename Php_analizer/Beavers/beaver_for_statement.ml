@@ -582,7 +582,7 @@ add_data
 
 
 let helper_for_snake_call l1 cr=
-  let temp1=Php_positioned_token_list.concat (List.hd l1) (List.nth l1 1) 
+  let temp1= (List.hd l1)@(List.nth l1 1) 
   and last_leader=Php_positioned_token_list.hd(List.nth l1 2) in
   if (List.nth l1 3)=[]
   then Class_property_call(temp1,last_leader,cr)

@@ -9,7 +9,7 @@ type t= ( Php_token.t * (Lexing.position * Lexing.position)  ) list;;
 
 let hd (x:t)=List.hd(x);;
 let tl (x:t)=List.tl(x);;
-let concat (x:t) (y:t)=(x@y:t);;
+
 
 let cons a (x:t)=(a::x:t);;
 let singleton (x:t)=[x];;
