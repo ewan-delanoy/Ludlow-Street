@@ -88,6 +88,13 @@ module Private=struct
       try Option.find(fun nr->nr.name=nahme)(!data) with
       Option.Unpackable(_)->raise(Unknown_name(nahme));;
 
+    let of_elementary_definition opt_name defn=
+      let names=Image.image (fun nr->nr.name) (!data) in
+      let temp1=Strung.longest_match_parsing names defn in
+      let temp2=Image.image of_name temp1 in
+      chain opt_name temp2;;
+    
+
     exception Helper_for_definition_reading_exn of ((string*string) option)*string;;
     
     
@@ -105,7 +112,8 @@ module Private=struct
                      let temp1=Parenthesed_block.decompose_with_associator
                                 Php_constructible_recognizer.associator_for_disjunction 
                                 Php_constructible_recognizer.all_pairs t in
-                     disjunction opt_name (Image.image of_name temp1)
+                     disjunction opt_name (Image.image 
+                          (of_elementary_definition None) temp1)
                 else
                 raise(Helper_for_definition_reading_exn(opt,t));; 
     
@@ -119,25 +127,15 @@ module Private=struct
         let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
            Php_constructible_recognizer.all_pairs s in
         let temp2=Image.image (fun (opt,t)->(opt,Cull_string.trim_spaces t) ) temp1 in
-        let temp3=List.filter (fun (opt,t)->t<>"") temp2 in
-        if List.length(temp3)>1
-        then raise(Complicated(s,temp3))
-        else 
+        let temp3=List.filter (fun (opt,t)->t<>"") temp2 in 
         if temp3=[]
         then raise(Empty_output)
         else
-        let (opt,t)=List.hd temp3 in
-        if opt<>None
-        then helper_for_definition_reading opt_name (opt,t)
-        else
-        let l_sel=Php_short_selector.list_from_string t in
-        let rcgzr=(
-           if List.length(l_sel)=1
-           then Php_constructible_recognizer.Leaf(List.hd l_sel)
-           else let l=Image.image (fun sel->Php_constructible_recognizer.Leaf(sel)) l_sel in
-           Php_constructible_recognizer.Chain(l)
-         ) in
-        make (opt_name,s,rcgzr);;            
+        if List.length(temp3)=1
+        then helper_for_definition_reading opt_name (List.hd temp3)
+        else  
+        let temp4=Image.image (helper_for_definition_reading None) temp3 in
+        chain opt_name temp4;;            
 
 end;;
 
@@ -149,6 +147,11 @@ let disjunction=Private.disjunction;;
 let of_name=Private.of_name;;
 let of_definition=Private.of_definition;;
 
+(*
+let _=of_definition (Some("statmeth")) " :: id ";; 
+let _=of_definition (Some("optional_statmeth")) "_l_ statmeth _r?_";; 
+*)
+(*
 let list_for_assignables=
   Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
   (Ennig.index_everything(
@@ -173,10 +176,13 @@ let list_for_assignables=
     "vvar";
     "@                id ()";
   ]));;
+*)
 
+(*  
 let assignables=Image.image (
-  fun (nahme,defn)->Private.of_definition nahme defn
+  fun (nahme,defn)->Private.of_definition (Some(nahme)) defn
 ) list_for_assignables;;
+*)
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;
