@@ -15,7 +15,7 @@ None->None
 
 let rec seek f =function
 []->None
-|a::b->if f(a) then Some(a) else find_it(f)(b);;
+|a::b->if f(a) then Some(a) else seek(f)(b);;
 
 let find_really f l=unpack(seek f l);;
 
