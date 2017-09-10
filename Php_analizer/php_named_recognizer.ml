@@ -153,12 +153,14 @@ let _=of_definition (Some("statmeth")) " :: id ";;
 let _=of_definition (Some("optional_statmeth")) "_l_ statmeth _r?_";; 
 *)
 
+let _=of_definition (Some("optional_pblock")) "_l_ () _r?_";;
+
 let list_for_assignables=
   Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
   (Ennig.index_everything(
   [
     "coerce           id ()";
-    "nmspc            _l_ :: id _r?_ _l_ () _r?_";
+    "nmspc            _l_ :: id _r?_ optional_pblock";
     "id ::            id ()";
     "id () ?          _l_ no_ternary _r+_ : no_semicolon";
     "id () .          sqs";
@@ -172,18 +174,20 @@ let list_for_assignables=
     "sqs";
     "vvar .       sqs";
     "vvar =       sqs";
-    "vvar ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
+    "vvar ->      id optional_pblock _l_ -> id optional_pblock _r*_";
     "vvar +       _l_ loose= _r*_ ";
     "vvar";
     "@                id ()";
   ]));;
 
 
-(*  
+
 let assignables=Image.image (
   fun (nahme,defn)->Private.of_definition (Some(nahme)) defn
 ) list_for_assignables;;
-*)
+
+let assignable =disjunction (Some"assignable") assignables;;
+
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;
