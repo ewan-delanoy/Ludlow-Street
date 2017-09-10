@@ -99,13 +99,14 @@ module Private=struct
     
     
     let helper_for_definition_reading opt_name (opt,t)=
-                if opt=None then of_elementary_definition opt_name t else
+                let oed=of_elementary_definition in
+                if opt=None then oed opt_name t else
                 let pair=Option.unpack opt in
                 let opt2=Option.seek
                   (fun x->(Generalizer.pair x)=pair)
                   Generalizer.all in
                 if opt2<>None 
-                then generalized opt_name (Option.unpack opt2) (of_name t) 
+                then generalized opt_name (Option.unpack opt2) (oed None t) 
                 else
                 if pair=Php_constructible_recognizer.pair_for_disjunction
                 then 
@@ -113,7 +114,7 @@ module Private=struct
                                 Php_constructible_recognizer.associator_for_disjunction 
                                 Php_constructible_recognizer.all_pairs t in
                      disjunction opt_name (Image.image 
-                          (of_elementary_definition None) temp1)
+                          (oed None) temp1)
                 else
                 raise(Helper_for_definition_reading_exn(opt,t));; 
     
