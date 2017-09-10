@@ -30,18 +30,18 @@ let right_paren_to_force_retaining=")##";;
 let parens_to_force_retaining=(left_paren_to_force_retaining,right_paren_to_force_retaining);;
 
 let default_embedding wh=
-   if Php_constructible_recognizer.is_constant wh
+   if Php_named_recognizer.is_constant wh
    then (Retained_or_not.Not_retained,wh)
    else (Retained_or_not.Retained,wh);;
 
 let rewriter (opt,t)=
       let better_t=Cull_string.trim_spaces t in
       if better_t="" then [] else
-      let wh=Php_constructible_recognizer.of_string better_t in
+      let wh=Php_named_recognizer.of_definition None better_t in
       if opt<>None 
       then [Retained_or_not.Retained,wh]
       else (
-                match Php_constructible_recognizer.chain_content wh with
+                match Php_named_recognizer.chain_content wh with
                  None->[default_embedding wh]
                 |Some(l)->
                   Image.image default_embedding l                
@@ -76,7 +76,7 @@ let pusher_for_parsing x=
        (dummy_value,Some(Some(List.rev(graet),cr,l)))
   |(ret,wh)::da_ober2->
      (
-       match Php_constructible_recognizer.recognize wh l with
+       match Php_named_recognizer.recognize wh l with
        None->(([],[],[],[]),Some(None))
        |Some(cr,peurrest)->
           let d=List.length(l)-List.length(peurrest) in
