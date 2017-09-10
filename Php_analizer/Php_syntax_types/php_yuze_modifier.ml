@@ -14,7 +14,7 @@ let from_lexemes l=
   match l with
   []->None
   |a1::l1->
-    let p1=Php_positioned_token.fst a1 in
+    let p1=fst a1 in
     if p1=Php_token.kwd"function" 
     then Some(Function,l1)
     else 

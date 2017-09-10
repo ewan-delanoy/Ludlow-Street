@@ -4,19 +4,20 @@
 
 *)
 
-type plex=Php_positioned_token.t;;
+type postok = ( Php_token.t * (Lexing.position * Lexing.position)  ) ;;
+type plex= postok ;;
 type plexl=Php_positioned_token_list.t;;
 
-type php_var=Php_positioned_token.t;;
-type php_assign_op=Php_positioned_token.t;;
-type php_class=Php_positioned_token.t;;
-type php_static_method=Php_positioned_token.t;;
-type php_class_property=Php_positioned_token.t;;
-type php_fun_name=Php_positioned_token.t;;
-type php_interface_name=Php_positioned_token.t;;
-type php_trait_name=Php_positioned_token.t;;
-type php_namespace=Php_positioned_token.t;;
-type php_index=Php_positioned_token.t;;
+type php_var=postok;;
+type php_assign_op=postok;;
+type php_class=postok;;
+type php_static_method=postok;;
+type php_class_property=postok;;
+type php_fun_name=postok;;
+type php_interface_name=postok;;
+type php_trait_name=postok;;
+type php_namespace=postok;;
+type php_index=postok;;
 
 
 type t=
@@ -423,7 +424,7 @@ add_data
 
 let helper_for_include_like l1 cr=
       let a=Php_positioned_token_list.hd(List.hd l1) in
-      let fa=Php_positioned_token.fst a in
+      let fa=fst a in
       let na=Php_script_includer.from_lexeme fa in
       Script_inclusion(na,List.nth l1 1,cr);; 
 
@@ -567,7 +568,7 @@ add_data
 exception Singleton_exn;; 
    
 let helper_for_singleton l1 cr=
-     let tok=Php_positioned_token.fst(Php_positioned_token_list.hd(List.hd l1)) in
+     let tok=fst(Php_positioned_token_list.hd(List.hd l1)) in
      if Php_token.form tok=Php_projected_token.external_echo
      then External_echo(Php_token.content tok,cr)
      else raise(Singleton_exn);;

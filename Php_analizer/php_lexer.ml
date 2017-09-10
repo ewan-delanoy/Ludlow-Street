@@ -66,8 +66,8 @@ let namespace_list_accu=ref([]:string list);;
 let namespace_absolute=ref(false);;
 let namespace_string_accu=ref"";;  
   
-let mk=Php_positioned_token.make;;
-let uv=Php_positioned_token.unveil;;
+let mk x y=(x,y);;
+let uv (x,y)=(x,y);;
 
 let push lbuf (a,start_a,end_a) l=
    if Php_positioned_token_list.is_empty l 
