@@ -389,7 +389,7 @@ add_data
 	;;
 
 let helper_for_fun_call l1 cr=Fun_call(
-not(Php_positioned_token_list.is_empty(List.hd(l1))),
+(List.hd(l1))<>[],
 Php_positioned_token_list.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 add_data 
@@ -513,7 +513,7 @@ let helper_for_meth_call_on_snake l1 cr=
 
  
 let helper_for_nmspc_block l1 cr=
-   let optionized=(fun x->if Php_positioned_token_list.is_empty x
+   let optionized=(fun x->if x=[]
     					  then None 
     					  else Some(Php_positioned_token_list.hd x) )(List.hd l1) in
    NamespaceBlock(optionized,List.nth l1 1,cr);;
@@ -584,7 +584,7 @@ add_data
 let helper_for_snake_call l1 cr=
   let temp1=Php_positioned_token_list.concat (List.hd l1) (List.nth l1 1) 
   and last_leader=Php_positioned_token_list.hd(List.nth l1 2) in
-  if Php_positioned_token_list.is_empty (List.nth l1 3)
+  if (List.nth l1 3)=[]
   then Class_property_call(temp1,last_leader,cr)
   else Nonstatic_method_call(temp1,last_leader,List.nth l1 3,cr);;
 

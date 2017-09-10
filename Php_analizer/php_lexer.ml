@@ -70,7 +70,7 @@ let mk x y=(x,y);;
 let uv (x,y)=(x,y);;
 
 let push lbuf (a,start_a,end_a) l=
-   if Php_positioned_token_list.is_empty l 
+   if l=[] 
    then [(a,(start_a,end_a))]
    else
    let (h,peurrest)=Php_positioned_token_list.ht(l) in

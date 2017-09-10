@@ -10,7 +10,7 @@ let main
    f (left_blocker,right_blocker) depth tok_l=
    let rec tempf=(
    fun (graet,j,da_ober)->
-     if Php_positioned_token_list.is_empty da_ober
+     if da_ober=[]
      then None
      else 
      let (a,peurrest)=Php_positioned_token_list.ht da_ober in 

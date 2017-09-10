@@ -7,7 +7,7 @@
 type t= ( Php_token.t * (Lexing.position * Lexing.position)  ) list;;
 
 let empty=([]:t);;
-let is_empty (x:t)=(x=[]);;
+
 let hd (x:t)=List.hd(x);;
 let tl (x:t)=List.tl(x);;
 let concat (x:t) (y:t)=(x@y:t);;
