@@ -19,12 +19,8 @@ let brace=Bl(Php_blocker_name.brace,1);;
 let bracket=Bl(Php_blocker_name.bracket,1);;
 let ternop=Bl(Php_blocker_name.ternop,1);;
 
-let all=
-  [parenthesis;brace;bracket;ternop];;  
   
 let pair (Bl(x,d))=Php_blocker_name.pair x;;  
-  
-let all_pairs=Image.image pair all;;  
   
 let token_pair blckr=
    let (x,y)=pair blckr in
