@@ -99,7 +99,7 @@ module Private=struct
     
     
     let helper_for_definition_reading opt_name (opt,t)=
-                if opt=None then of_name t else
+                if opt=None then of_elementary_definition opt_name t else
                 let pair=Option.unpack opt in
                 let opt2=Option.seek
                   (fun x->(Generalizer.pair x)=pair)
