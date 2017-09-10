@@ -46,7 +46,7 @@ exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 let helper_for_string_reading old_f (opt,t)=
        if opt=None then old_f t else
        let pair=Option.unpack opt in
-       let opt2=Option.find_it
+       let opt2=Option.seek
          (fun x->(Generalizer.pair x)=pair)
          Generalizer.all in
        if opt2<>None then Generalized(Option.unpack opt2,old_f t) else

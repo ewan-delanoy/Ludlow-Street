@@ -61,7 +61,7 @@ let find_needed_names l mlx=
    Ordered.forget_order temp3;;
  
  let check_presences l hm=
- match Option.find_it (fun a->Modulesystem_data.name a=hm) l with
+ match Option.seek (fun a->Modulesystem_data.name a=hm) l with
     None->Ocaml_ending.exhaustive_uple (fun _->false)
     |Some(dt)->Ocaml_ending.exhaustive_uple 
      (fun edg->Modulesystem_data.check_presence edg dt);;
@@ -89,7 +89,7 @@ let find_needed_names l mlx=
    (hm,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
    
 let recompute_complete_info_for_module l hm=
-  let opt=Option.find_it(fun a->Modulesystem_data.name a=hm) l in
+  let opt=Option.seek(fun a->Modulesystem_data.name a=hm) l in
   let dt=Option.unpack opt in
   let edg=List.hd(Modulesystem_data.registered_endings dt) in
   let mlx=Mlx_ended_absolute_path.join hm edg in

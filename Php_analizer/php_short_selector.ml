@@ -54,7 +54,7 @@ let to_string x=try (fst(Option.find_really (fun p->snd(p)=x) readables_and_sele
 exception Unknown of string;;
 
 let optional_of_string s0=match 
-   Option.find_it (fun (s,sel)->s=s0) readables_and_selectors with
+   Option.seek (fun (s,sel)->s=s0) readables_and_selectors with
    None->None
    |Some(_,sel)->Some(sel);;
    

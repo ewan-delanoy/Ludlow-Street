@@ -207,7 +207,7 @@ let subkernel_in_image l linear_form =
    let eval_form=(fun v->let tempm=mult linear_form v in get tempm 1 1) in
    let temp1=Ennig.index_everything l in
    let temp2=List.rev_map (fun (j,v)->(j,v,eval_form v)) temp1 in
-   let pack=Option.find_it(fun (j,v,r)->Rational.is_nonzero r) temp2 in
+   let pack=Option.seek(fun (j,v,r)->Rational.is_nonzero r) temp2 in
    if pack=None then l else
    let (j0,v0,pivot)=Option.unpack pack in
    let projector=(

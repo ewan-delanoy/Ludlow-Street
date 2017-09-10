@@ -36,7 +36,7 @@ tempf(j2+2*j+1,j+1)
 tempf(1,1);;
 
 let modular_square_root z n=
-Option.find_it(function j->((j*j-z) mod n)=0)(Ennig.ennig(0)(n-1));;
+Option.seek(function j->((j*j-z) mod n)=0)(Ennig.ennig(0)(n-1));;
 
 let p_partition p n=
 if n=0 then failwith("infinite exponent") else

@@ -270,7 +270,7 @@ let scalar_product  (V v1) (V v2)=
    let write_as_a_linear_combination_of_l_variables w old_lv=
     let unan=V[Rational.one,Variable.dummy] 
     and rlv=Three_parts.generic(old_lv) in
-    let search=Option.find_it(fun (x,y,z)->y=unan)(rlv) in
+    let search=Option.seek(fun (x,y,z)->y=unan)(rlv) in
     let lv=(function None->unan::old_lv 
                     |Some(x,y,z)->y::(List.rev_append x z) )(search) 
     and lvar=(function 0->Variable.of_string("u")

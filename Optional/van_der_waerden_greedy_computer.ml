@@ -157,12 +157,12 @@ type t=
     then Hashtbl.find x.hashtbl_for_convolution (d,a,b)
     else 
     let see_depth=Ennig.ennig 1 d in
-    let opt1=Option.find_it(extsol_undefined x a) see_depth in
+    let opt1=Option.seek(extsol_undefined x a) see_depth in
     if opt1<>None 
     then let d1=Option.unpack(opt1) in
          raise(Unknown_Extsol(d1,a))
     else 
-    let opt2=Option.find_it(extsol_undefined x b) see_depth in
+    let opt2=Option.seek(extsol_undefined x b) see_depth in
     if opt2<>None 
     then let d2=Option.unpack(opt2) in
          raise(Unknown_Extsol(d2,b))

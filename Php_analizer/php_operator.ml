@@ -229,7 +229,7 @@ let make_visible=((
 ) : t -> string );;
 
 let from_visible=((function viz->
-  match Option.find_it(
+  match Option.seek(
     fun (_,_,_,viz1,_)->viz1=viz
     ) data with
    None->raise(Unknown_visible(viz))

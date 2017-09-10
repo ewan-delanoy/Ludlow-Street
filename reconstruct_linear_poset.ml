@@ -63,7 +63,7 @@ let iterator coat
          [],not_yet_checked2,None) 
     else 
     (*see if we can close the cycle *)
-    match Option.find_it(fun (x,y)->Tidel.elfenn x temp1) between with
+    match Option.seek(fun (x,y)->Tidel.elfenn x temp1) between with
      None->(checked,checked_union,cycles,cycles_union,
      		(a,Tidel.hd temp1)::between,not_yet_checked,None)
     |Some(p)->

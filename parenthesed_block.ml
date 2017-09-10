@@ -73,7 +73,7 @@ let process_without_open_pars app  s data=
 let process_with_open_pars app  s data=
   let temp1=List.hd(data.currently_open_pars) 
   and i=data.cursor_location in
-  let opt1=Option.find_it (fun paren->test_for_right_paren_at_index s i paren) temp1 in
+  let opt1=Option.seek (fun paren->test_for_right_paren_at_index s i paren) temp1 in
   if opt1=None
   then process_without_open_pars app  s data
   else 
@@ -156,7 +156,7 @@ module With_associator=struct
 let process_with_open_pars (asc:associator) app  s data=
   let temp1=List.hd(data.currently_open_pars) 
   and i=data.cursor_location in
-  let opt1=Option.find_it (fun paren->test_for_right_paren_at_index s i paren) temp1 in
+  let opt1=Option.seek (fun paren->test_for_right_paren_at_index s i paren) temp1 in
   if opt1=None
   then (
           match look_for_left_paren_at_index app s data.cursor_location with

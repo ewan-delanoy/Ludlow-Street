@@ -201,7 +201,7 @@ let readable=((
 
 let from_readable=(
   (fun viz->
-    match Option.find_it(
+    match Option.seek(
       fun (viz1,_)->viz1=viz
       ) data with
      None->raise(Unknown_readable(viz))

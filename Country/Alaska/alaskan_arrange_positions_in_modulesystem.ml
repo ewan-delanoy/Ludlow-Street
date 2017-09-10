@@ -18,14 +18,14 @@ let reserved_item_for_beginning_of_optional_files=None;;
 
 let index_necessarily_before_optional_file mdata=
    let l1=Ennig.index_everything (mdata) in
-   match Option.find_it(fun (j,info)->Modulesystem_data.is_optional info
+   match Option.seek(fun (j,info)->Modulesystem_data.is_optional info
    ) l1 with
    None->Some(List.length(l1),reserved_item_for_beginning_of_optional_files)
    |Some(j1,_)->Some(j1-1,reserved_item_for_beginning_of_optional_files);;
 
 let index_necessarily_after_nonoptional_file mdata=
    let l1=Ennig.index_everything (mdata) in
-   match Option.find_it(fun (j,info)->Modulesystem_data.is_optional info
+   match Option.seek(fun (j,info)->Modulesystem_data.is_optional info
    ) l1 with
    None->None
    |Some(j1,_)->Some(j1,reserved_item_for_beginning_of_optional_files);;
@@ -33,7 +33,7 @@ let index_necessarily_after_nonoptional_file mdata=
 let formalize_other_bounds mdata l=
   let l1=Ennig.index_everything (mdata) in
   let localize=(fun anv->
-    match Option.find_it (fun (j,info)->(Modulesystem_data.name info)=anv) l1 with
+    match Option.seek (fun (j,info)->(Modulesystem_data.name info)=anv) l1 with
     None->None
     |Some(j1,_)->Some(j1,Some(anv))
   ) in
@@ -62,7 +62,7 @@ let lower_bound mdata x l_other_bounds_before=
 let upper_bound mdata x l_other_bounds_after=
   let name_of_x=Modulesystem_data.name x in
   let l1=Ennig.index_everything mdata in
-  let temp0=Option.find_it (fun (j,info)->List.mem name_of_x (Modulesystem_data.all_ancestors info)) l1 in
+  let temp0=Option.seek (fun (j,info)->List.mem name_of_x (Modulesystem_data.all_ancestors info)) l1 in
   let temp1=(function 
      None->None
      |Some(j1,data1)->Some(j1,Some(Modulesystem_data.name data1))

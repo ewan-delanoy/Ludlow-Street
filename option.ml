@@ -13,11 +13,11 @@ let propagate f=function
 None->None
 |Some(x)->Some(f(x));;
 
-let rec find_it f =function
+let rec seek f =function
 []->None
 |a::b->if f(a) then Some(a) else find_it(f)(b);;
 
-let find_really f l=unpack(find_it f l);;
+let find_really f l=unpack(seek f l);;
 
 let rec filter_and_unpack f l=
  let rec filter0=(function

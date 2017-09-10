@@ -135,7 +135,7 @@ let make_move vdw_s (j,c)=
   
 let first_free_cell (S(r,s))= 
    let n=String.length(s) in
-   Option.find_it 
+   Option.seek 
    (fun j->let c=String.get(s)(j-1) in (c<>'0')&&(c<>'1')) 
    (Ennig.ennig 1 n);;
 

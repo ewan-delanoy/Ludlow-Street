@@ -25,18 +25,18 @@ let local_directories mdata=
  let see_if_file_is_registered mdata mlx=
     let hm=Mlx_ended_absolute_path.half_dressed_core mlx
     and edg=Mlx_ended_absolute_path.ending mlx in  
-    match Option.find_it (fun a->Modulesystem_data.name a=hm) mdata with
+    match Option.seek (fun a->Modulesystem_data.name a=hm) mdata with
     None->false
     |Some(dt)->Modulesystem_data.check_presence edg dt;;
  
 let check_presences mdata hm=
-    match Option.find_it (fun a->Modulesystem_data.name a=hm) mdata with
+    match Option.seek (fun a->Modulesystem_data.name a=hm) mdata with
     None->Ocaml_ending.exhaustive_uple (fun _->false)
     |Some(dt)->Ocaml_ending.exhaustive_uple 
      (fun edg->Modulesystem_data.check_presence edg dt);;
  
  let acolytes mdata hm=
-    match Option.find_it (fun a->Modulesystem_data.name a=hm) 
+    match Option.seek (fun a->Modulesystem_data.name a=hm) 
       mdata with
      None->[]
     |Some(dt)->Modulesystem_data.acolytes dt;;    
@@ -71,7 +71,7 @@ let is_deletable mdata mlxfile=
         then true
         else 
         if List.mem edg [Ocaml_ending.mll;Ocaml_ending.mly]
-        then let opt=Option.find_it (fun a->Modulesystem_data.name a=hm) mdata in
+        then let opt=Option.seek (fun a->Modulesystem_data.name a=hm) mdata in
              (
                match opt with
                None->true
@@ -90,7 +90,7 @@ let system_size mdata=List.length(mdata);;
 exception  Non_registered_module of Half_dressed_module.t;;
  
 let above mdata hm=
-   match Option.find_it(fun dt->Modulesystem_data.name dt=hm) mdata with
+   match Option.seek(fun dt->Modulesystem_data.name dt=hm) mdata with
     None->raise(Non_registered_module(hm))
    |Some(dt)->Modulesystem_data.all_ancestors dt;;
    
@@ -145,7 +145,7 @@ let deletable_files mdata=
 
 let outdated_interesting_modules mdata=
 	List.filter (
-       fun s->match Option.find_it(
+       fun s->match Option.seek(
          fun md->Half_dressed_module.to_string(Modulesystem_data.name md)=s
        ) mdata with
        None->true

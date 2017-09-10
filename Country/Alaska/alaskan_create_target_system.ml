@@ -104,7 +104,7 @@ let compute_dependencies l=
   let tempg=(fun x-> let (_,(_,s))=x in
      if Substring.ends_with s ".mli"
      then let t=Cull_string.coending 1 s in
-          match Option.find_it (fun (_,(_,s1))->s1=t) temp1 with
+          match Option.seek (fun (_,(_,s1))->s1=t) temp1 with
            None->tempf x
           |Some(y)->tempf y 
      else tempf x

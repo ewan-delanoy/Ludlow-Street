@@ -292,7 +292,7 @@ type t=Ratio of Big_int.big_int*Big_int.big_int;;
 let sign_preserving_gauss_operation l=
  if l=[] then [] else
  let n=List.length(l) in
- match Option.find_it(function j->not(is_zero(fst(List.nth l j))))(Ennig.ennig 0 (n-1)) with
+ match Option.seek(function j->not(is_zero(fst(List.nth l j))))(Ennig.ennig 0 (n-1)) with
  None->l
  |Some(j)->let temp1=gauss_operation(l) in
               let x1=fst(List.nth(l)(j)) and y1=fst(List.nth(temp1)(j)) in

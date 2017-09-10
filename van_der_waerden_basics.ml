@@ -22,7 +22,7 @@ let global n r=semi_global 3 n r;;
 
 let test_for_admissibility (z:int_set)=
    let temp1=Uple.list_of_triples(Ordered.forget_order z) in
-   Option.find_it (fun (i,j,k)->j-i=k-j) temp1;;
+   Option.seek (fun (i,j,k)->j-i=k-j) temp1;;
    
  let is_admissible (z:int_set)=((test_for_admissibility z)=None);;  
    

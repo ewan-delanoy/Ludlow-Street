@@ -60,7 +60,7 @@ let namelist=ref([]:(string*t) list);;
 let name_counter=ref(0);;
 
 let get_name_for_set x opt=
-    match Option.find_it(fun (n,y)->y=x)(!namelist) with
+    match Option.seek(fun (n,y)->y=x)(!namelist) with
      Some(name1,_)->name1
     |None->
       (
@@ -81,7 +81,7 @@ let get_name_for_set x opt=
 exception Unused_name of string;;
 
 let get_set_for_name name=
-  match Option.find_it(fun (n,y)->n=name)(!namelist) with
+  match Option.seek(fun (n,y)->n=name)(!namelist) with
   Some(_,x)->x
  |None->raise(Unused_name(name));;
 

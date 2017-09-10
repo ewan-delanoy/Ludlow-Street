@@ -22,7 +22,7 @@ type walker={
 
 
 let new_walker_in_first_case_in_hwd (m,wlkr)=
-   let opt1=Option.find_it(fun (opener,closer)->
+   let opt1=Option.seek(fun (opener,closer)->
      Substring.is_a_substring_located_at opener 
         m.processed_argument wlkr.current_index
    ) m.other_enclosers in

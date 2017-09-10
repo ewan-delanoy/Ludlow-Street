@@ -73,7 +73,7 @@ let longest_match_parsing lexemes s=
           if List.mem c [' ';'\n';'\r';'\t']
           then tempf(graet,j+1)
           else
-          match Option.find_it(fun t->
+          match Option.seek(fun t->
             let l=String.length(t) in
             if j+l>n+1
             then false

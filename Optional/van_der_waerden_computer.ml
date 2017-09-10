@@ -132,7 +132,7 @@ let indirect_sum cptr n cases other_side=
   if opt<>None
   then raise(ForgottenCase(Option.unpack opt))
   else
-  let opt2=Option.find_it (check cptr) other_side in
+  let opt2=Option.seek (check cptr) other_side in
   if opt2<>None
   then raise(NonStandardConstraint(Option.unpack opt2))
   else

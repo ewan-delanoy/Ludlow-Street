@@ -314,7 +314,7 @@ let solve syst=
   let rec impose_several_simple_equalities l_eq yy0=
     let syst=impose_several_simple_equalities_naively l_eq yy0 in
     let (YY(p0,l0,visual0,descr0,old_descr,old_p0))=syst in
-    match Option.find_it(Simplex_relation.is_a_gift)(l0) with
+    match Option.seek(Simplex_relation.is_a_gift)(l0) with
      None->syst
     |Some(sr)->
        let supp=Vector.support(Simplex_relation.vector_part(sr)) in
@@ -518,7 +518,7 @@ let rewrite_main_vector yy new_p=
 let flatten syst=
     let p=main_vector(syst) in
     let temp1=Vector.unveil(p) in
-    match Option.find_it(function (lambda,x)->
+    match Option.seek(function (lambda,x)->
        (Rational.is_negative lambda)&&(x<>Variable.dummy) )(temp1) with
     None->failwith("There is nothing to flatten.")
     |Some(lambda0,x0)->

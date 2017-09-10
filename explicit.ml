@@ -202,7 +202,7 @@ let rec unchronometered_find_leaves
        []->(0,0,[],None)
        |a::peurrest->
          let temp1=f a in
-         let temp2=Option.find_it checker temp1 in
+         let temp2=Option.seek checker temp1 in
          if temp2<>None
          then (p+1,0,[],temp2)
          else 
@@ -229,7 +229,7 @@ let rec unchronometered_find_leaves
        []->([],None)
        |a::peurrest->
          let temp1=f a in
-         let temp2=Option.find_it checker temp1 in
+         let temp2=Option.seek checker temp1 in
          if temp2<>None
          then ([],temp2)
          else 

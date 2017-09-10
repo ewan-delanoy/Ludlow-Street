@@ -12,7 +12,7 @@ answer is Foo.Baz.
 
 let lsm name1 name2=
   let m=min(String.length name1)(String.length name2) in
-  let opt=Option.find_it(fun k->
+  let opt=Option.seek(fun k->
      (Strung.get name1 k)<>(Strung.get name2 k)
   )(Ennig.ennig 1 m) in
   let j1=(fun ()->if opt=None then m else (Option.unpack opt)-1)() in

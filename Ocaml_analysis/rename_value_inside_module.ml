@@ -32,7 +32,7 @@ let rename_value_inside_module s new_name=
    	 Mlx_ended_absolute_path.to_path(Mlx_ended_absolute_path.join hm2 Ocaml_ending.Ml)
    ) temp2 in
    let temp3=Read_ocaml_files.read_ocaml_files all_files in
-   let opt_temp4=Option.find_it (fun itm->
+   let opt_temp4=Option.seek (fun itm->
      (itm.Ocaml_gsyntax_item.name)=s
    ) temp3 in
    if opt_temp4=None
