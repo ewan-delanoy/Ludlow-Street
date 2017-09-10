@@ -32,7 +32,7 @@ end;;
 
 let molecularize l=Private.iterator_for_molecularization ([],l);;
 let demolecularize (l:Php_positioned_molecule_list.t)=
-    let temp1=Image.image Php_molecule.uniformize l in
+    let temp1=Explicit.image Php_molecule.uniformize l in
     ((List.flatten temp1):Php_positioned_token_list.t);;
 
 
