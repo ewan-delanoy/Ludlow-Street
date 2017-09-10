@@ -41,13 +41,13 @@ let variable=(`Variable:t);;
 
 let seek_constant_token (ptok:t)=match ptok with
    #Php_constant_token.t as ctok->Some(ctok)
-  |_->None;;
+  |_->(None:Php_constant_token.t option);;
 
-let is_a_comment=function
+let is_a_comment (ptok:t)=match ptok with
    `Comment->true
   |_->false;;
 
-let acts_only_once=function
+let acts_only_once (ptok:t)=match ptok with
   #Php_constant_token.t | `Comment |`End_of_text ->true
  |_->false;;
 
