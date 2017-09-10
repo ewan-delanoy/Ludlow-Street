@@ -73,7 +73,7 @@ let push lbuf (a,start_a,end_a) l=
    if l=[] 
    then [(a,(start_a,end_a))]
    else
-   let (h,peurrest)=Php_positioned_token_list.ht(l) in
+   let (h,peurrest)=Listennou.ht(l) in
    let (b,(start_b,end_b))=uv(h) in
     if (Php_token.form a,Php_token.form b)=
        (Php_projected_token.comment,Php_projected_token.comment)
