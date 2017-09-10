@@ -10,7 +10,7 @@ module Private=struct
 
 exception Molecularization_exn;;  
 
-let rec iterator_for_molecuralization
+let rec iterator_for_molecularization
   (graet,da_ober)=match da_ober with
    []->((List.rev(graet)):Php_positioned_molecule_list.t)
   |a::peurrest->
@@ -30,8 +30,8 @@ let rec iterator_for_molecuralization
 
 end;;
 
-let molecuralize l=Private.iterator_for_molecuralization ([],l);;
-let demolecuralize (l:Php_positioned_molecule_list.t)=
+let molecularize l=Private.iterator_for_molecularization ([],l);;
+let demolecularize (l:Php_positioned_molecule_list.t)=
     let temp1=Image.image Php_molecule.uniformize l in
     ((List.flatten temp1):Php_positioned_token_list.t);;
 
