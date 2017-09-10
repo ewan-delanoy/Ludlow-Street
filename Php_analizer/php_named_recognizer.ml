@@ -91,21 +91,21 @@ module Private=struct
     exception Helper_for_definition_reading_exn of ((string*string) option)*string;;
     
     
-    let helper_for_definition_reading (opt,t)=
+    let helper_for_definition_reading opt_name (opt,t)=
                 if opt=None then of_name t else
                 let pair=Option.unpack opt in
                 let opt2=Option.seek
                   (fun x->(Generalizer.pair x)=pair)
                   Generalizer.all in
                 if opt2<>None 
-                then generalized None (Option.unpack opt2) (of_name t) 
+                then generalized opt_name (Option.unpack opt2) (of_name t) 
                 else
                 if pair=Php_constructible_recognizer.pair_for_disjunction
                 then 
                      let temp1=Parenthesed_block.decompose_with_associator
                                 Php_constructible_recognizer.associator_for_disjunction 
                                 Php_constructible_recognizer.all_pairs t in
-                     disjunction None (Image.image of_name temp1)
+                     disjunction opt_name (Image.image of_name temp1)
                 else
                 raise(Helper_for_definition_reading_exn(opt,t));; 
     
@@ -113,7 +113,7 @@ module Private=struct
     exception Complicated of string*((((string*string) option)*string) list);; 
         
                 
-    let of_definition rough_s=
+    let of_definition opt_name rough_s=
         let s=Cull_string.trim_spaces rough_s in
         if s="" then raise(Empty_output) else
         let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
@@ -128,7 +128,7 @@ module Private=struct
         else
         let (opt,t)=List.hd temp3 in
         if opt<>None
-        then helper_for_definition_reading (opt,t)
+        then helper_for_definition_reading opt_name (opt,t)
         else
         let l_sel=Php_short_selector.list_from_string t in
         let rcgzr=(
@@ -137,7 +137,7 @@ module Private=struct
            else let l=Image.image (fun sel->Php_constructible_recognizer.Leaf(sel)) l_sel in
            Php_constructible_recognizer.Chain(l)
          ) in
-        make (None,s,rcgzr);;            
+        make (opt_name,s,rcgzr);;            
 
 end;;
 
@@ -149,6 +149,34 @@ let disjunction=Private.disjunction;;
 let of_name=Private.of_name;;
 let of_definition=Private.of_definition;;
 
+let list_for_assignables=
+  Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
+  (Ennig.index_everything(
+  [
+    "coerce           id ()";
+    "nmspc            _l_ :: id _r?_ _l_ () _r?_";
+    "id ::            id ()";
+    "id () ?          _l_ no_ternary _r+_ : no_semicolon";
+    "id () .          sqs";
+    "id ()            ";
+    "hdoc ";
+    "include_like     _l_ loose= _r*_ ";
+    "int          ";
+    "new id           ()";
+    "new nmspc        ()";
+    "sqs .            vvar . sqs";
+    "sqs";
+    "vvar .       sqs";
+    "vvar =       sqs";
+    "vvar ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
+    "vvar +       _l_ loose= _r*_ ";
+    "vvar";
+    "@                id ()";
+  ]));;
+
+let assignables=Image.image (
+  fun (nahme,defn)->Private.of_definition nahme defn
+) list_for_assignables;;
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;
