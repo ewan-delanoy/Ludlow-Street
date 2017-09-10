@@ -93,7 +93,7 @@ let define_precedence_set sol op=
 
 let assign=from_list( Image.image 
            (fun x->Php_projected_token.constant
-                (Php_constant_token.c_op(x)))
+                (Php_constant_token.of_operator(x)))
           [
            Php_operator.t_equals; 
            Php_operator.t_vline_equals; 
@@ -107,7 +107,7 @@ get_name_for_set assign (Some "assign");;
 
 let coerce=from_list( Image.image 
 (fun x->Php_projected_token.constant
-     (Php_constant_token.c_op(x)))
+     (Php_constant_token.of_operator(x)))
 [
   Php_operator.t_coerce_to_int; 
   Php_operator.t_coerce_to_bool;
@@ -163,7 +163,7 @@ get_name_for_set no_breach (Some "no_breach");;
 
 let no_colon=complement_from_list( 
   [
-    Php_projected_token.constant(Php_constant_token.c_op Php_operator.t_colon)
+    Php_projected_token.constant(Php_constant_token.of_operator Php_operator.t_colon)
   ]
   );;   
   
@@ -198,7 +198,7 @@ let no_semicolon=complement_from_list(
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
 let no_ternary=complement_from_list( 
-  Image.image (fun x->Php_projected_token.constant(Php_constant_token.c_op(x)))
+  Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_operator(x)))
   [
     Php_operator.t_question; 
     Php_operator.t_colon;
@@ -211,12 +211,12 @@ let stringy=complement_from_list(
   (
     Image.image (fun x->Php_projected_token.constant(x))
     [
-      Php_constant_token.c_op Php_operator.t_dot; 
-      Php_constant_token.c_op Php_operator.t_lbracket;
-      Php_constant_token.c_op Php_operator.t_rbracket;
-      Php_constant_token.c_op Php_operator.t_question;
-      Php_constant_token.c_op Php_operator.t_colon;
-      Php_constant_token.c_op Php_operator.t_equals_more;
+      Php_constant_token.of_operator Php_operator.t_dot; 
+      Php_constant_token.of_operator Php_operator.t_lbracket;
+      Php_constant_token.of_operator Php_operator.t_rbracket;
+      Php_constant_token.of_operator Php_operator.t_question;
+      Php_constant_token.of_operator Php_operator.t_colon;
+      Php_constant_token.of_operator Php_operator.t_equals_more;
       Php_constant_token.c_punct Php_punctuator.t_colon_colon;
       Php_constant_token.c_punct Php_punctuator.t_lparenthesis;
       Php_constant_token.c_punct Php_punctuator.t_rparenthesis;
