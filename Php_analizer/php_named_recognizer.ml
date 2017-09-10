@@ -11,6 +11,7 @@ type t=
     name : string;
     definition : string;
     unnamed_content : Php_constructible_recognizer.t;
+    divided : t list;
   };;
   
   
@@ -25,6 +26,7 @@ module Private=struct
         name =s;
         definition=s;
         unnamed_content=Php_constructible_recognizer.Leaf(sel);
+        divided=[];
       }
     ) Php_short_selector.readables_and_selectors);; 
     let automatic_name_counter=ref(0);;
@@ -48,11 +50,12 @@ module Private=struct
                then new_automatic_name ()
                else definition;;     
 
-    let make (opt_name,defn,rcgzr)=
+    let make (opt_name,defn,rcgzr,div)=
          let x={
           name =compute_name (opt_name,defn);
           definition=defn;
           unnamed_content=rcgzr;
+          divided=div;
          }  in
          let _=(data:=(x::(!data))) in
          x;; 
@@ -62,13 +65,13 @@ module Private=struct
           let definition=lpar^(nr.name)^rpar in
           let rcgzr=Php_constructible_recognizer.Generalized
              (grlzr,nr.unnamed_content) in  
-          make (opt_name,definition,rcgzr);;   
+          make (opt_name,definition,rcgzr,[]);;   
              
     let chain opt_name l_nr=
           let definition=String.concat " " (Image.image (fun nr->nr.name) l_nr) in
           let rcgzr=Php_constructible_recognizer.Chain
           (Image.image (fun nr->nr.unnamed_content) l_nr) in  
-           make (opt_name,definition,rcgzr);;   
+           make (opt_name,definition,rcgzr,l_nr);;   
         
     let disjunction opt_name l_nr=     
       let (lpar,rpar)=Php_constructible_recognizer.pair_for_disjunction in
@@ -80,7 +83,7 @@ module Private=struct
       in
       let rcgzr=Php_constructible_recognizer.Chain
       (Image.image (fun nr->nr.unnamed_content) l_nr) in  
-       make (opt_name,definition,rcgzr);;   
+       make (opt_name,definition,rcgzr,l_nr);;   
 
     exception Unknown_name of string;;
 
@@ -148,6 +151,15 @@ let disjunction=Private.disjunction;;
 let of_name=Private.of_name;;
 let of_definition=Private.of_definition;;
 
+
+let divisions nr=nr.divided;;
+
+let is_constant nr=Php_constructible_recognizer.is_constant 
+                    nr.unnamed_content;;
+
+let recognize nr=Php_constructible_recognizer.recognize 
+                    nr.unnamed_content;;
+
 (*
 let _=of_definition (Some("statmeth")) " :: id ";; 
 let _=of_definition (Some("optional_statmeth")) "_l_ statmeth _r?_";; 
@@ -187,6 +199,7 @@ let assignables=Image.image (
 ) list_for_assignables;;
 
 let assignable =disjunction (Some"assignable") assignables;;
+
 
 
 let print (x:t)=
