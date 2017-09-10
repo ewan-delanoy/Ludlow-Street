@@ -64,7 +64,7 @@ let of_string s=match optional_of_string s with
 
    let recognize_atomic atomic_sel=
     let f=(function x->
-       if x=Php_positioned_token_list.empty then None else
+       if x=[] then None else
        let (a,peurrest)=Php_positioned_token_list.ht x in
          if Php_projected_token_set.test atomic_sel (Php_token.form(fst a)) 
          then let (u,v)=snd a in

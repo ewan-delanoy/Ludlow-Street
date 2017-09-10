@@ -48,7 +48,7 @@ let read_word=Php_token.from_visible;;
     
 type doctype=Nowdoc_type |Heredoc_type |Naked_doc_type;;    
     
-let list_accu=ref Php_positioned_token_list.empty;;
+let list_accu=ref [];;
 let string_accu=ref"";;
 let doc_ident_accu=ref"";;
 let match_counter=ref 0;;
@@ -431,11 +431,11 @@ and step_four_in_doc=parse
 {
 
 let parse_string s =
-          let _=(list_accu:=Php_positioned_token_list.empty;string_accu:="") in
+          let _=(list_accu:=[];string_accu:="") in
           outside_php (Lexing.from_string s);;
   
 let parse_file fn=
-         let _=(list_accu:=Php_positioned_token_list.empty;string_accu:="") in
+         let _=(list_accu:=[];string_accu:="") in
           outside_php (lexing_from_file fn);;
 }
   

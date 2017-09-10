@@ -58,7 +58,7 @@ let of_string s=
    
 exception Stepper_for_parsing_exn;;
 
-let dummy_value=([],[],[],Php_positioned_token_list.empty);;
+let dummy_value=([],[],[],[]);;
 
 let pusher_for_parsing x=
    let ((graet,da_ober,lexings,l),opt)=x in
@@ -77,7 +77,7 @@ let pusher_for_parsing x=
   |(ret,wh)::da_ober2->
      (
        match Php_constructible_recognizer.recognize wh l with
-       None->(([],[],[],Php_positioned_token_list.empty),Some(None))
+       None->(([],[],[],[]),Some(None))
        |Some(cr,peurrest)->
           let d=Php_positioned_token_list.length(l)-Php_positioned_token_list.length(peurrest) in
           let part=Php_positioned_token_list.big_head d l in

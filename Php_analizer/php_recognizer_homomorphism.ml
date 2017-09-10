@@ -26,7 +26,7 @@ let stepper_for_chain
    |rcgzr::peurrest->
      (
         match Php_recognizer.recognize rcgzr support with
-       None->([],Php_positioned_token_list.empty,[],[],true)
+       None->([],[],[],[],true)
       |Some(cr,support2)->
         (peurrest,support2,
           Php_char_range.add_if_nondummy (Php_char_range.fst cr) nondummy_left_lexings,
