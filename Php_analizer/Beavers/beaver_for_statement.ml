@@ -549,12 +549,12 @@ add_data
   ;;   
 
 
-let helper_for_snake_call l1 cr=
-  let temp1= (List.hd l1)@(List.nth l1 1) 
-  and last_leader=List.hd(List.nth l1 2) in
-  if (List.nth l1 3)=[]
-  then Class_property_call(temp1,last_leader,cr)
-  else Nonstatic_method_call(temp1,last_leader,List.nth l1 3,cr);;
+  let helper_for_snake_call l1 cr=
+    let temp1= (List.hd l1)@(List.nth l1 1) 
+    and last_actor=List.hd(List.nth l1 2) in
+    if (List.nth l1 3)=[]
+    then Class_property_call(temp1,last_actor,cr)
+  else Nonstatic_method_call(temp1,last_actor,List.nth l1 3,cr);;
 
 add_data 
 	"snake_call"
