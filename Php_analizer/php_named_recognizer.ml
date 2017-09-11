@@ -12,6 +12,7 @@ type t=
     definition : string;
     unnamed_content : Php_constructible_recognizer.t;
     divided : t list;
+    is_a_chain : bool;
   };;
   
   
@@ -27,6 +28,7 @@ module Private=struct
         definition=s;
         unnamed_content=Php_constructible_recognizer.Leaf(sel);
         divided=[];
+        is_a_chain=false;
       }
     ) Php_short_selector.readables_and_selectors);; 
     let encode elt=
@@ -67,6 +69,7 @@ module Private=struct
           definition=defn;
           unnamed_content=rcgzr;
           divided=div;
+          is_a_chain=(Php_constructible_recognizer.chain_content(rcgzr)<>None);
          }  in
          let _=(data:=Ordered.insert_plaen order x (!data)) in
          x;; 
@@ -78,7 +81,13 @@ module Private=struct
              (grlzr,nr.unnamed_content) in  
           make (opt_name,definition,rcgzr,[]);;   
              
-    let chain opt_name l_nr=
+    let chain opt_name old_l_nr=
+          let temp1=Image.image (
+              fun nr->if nr.is_a_chain 
+                      then nr.divided
+                      else [nr]
+          ) old_l_nr in
+          let l_nr=List.flatten temp1 in
           let definition=String.concat " " (Image.image (fun nr->nr.name) l_nr) in
           let rcgzr=Php_constructible_recognizer.Chain
           (Image.image (fun nr->nr.unnamed_content) l_nr) in  
