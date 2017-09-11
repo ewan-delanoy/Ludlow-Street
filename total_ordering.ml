@@ -205,9 +205,26 @@ let lex_for_strings=
       None->standard m1 m2
       |Some(j)->standard (String.get s1 j) (String.get s2 j) 
     ) : string t);;
-    
- 
- 
+
+let silex_for_strings=
+      ((fun s1 s2->
+        let m1=String.length s1
+        and m2=String.length s2
+        in
+        let first_try=standard(m1)(m2) in
+        if first_try<>Equal
+        then first_try
+        else lex_for_strings s1 s2
+      ) : string t);;    
+
+
+let for_longest_match_pairs=  
+((fun (s1,v1) (s2,v2)->
+  let first_try=silex_for_strings(s2)(s1) in
+  if first_try<>Equal 
+  then first_try
+  else standard v1 v2
+ ): (string*'b) t);;
  
  
  
