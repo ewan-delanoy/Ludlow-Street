@@ -30,9 +30,7 @@ let readables_and_selectors=
    )
    @
    new_pairs in
-   let temp2=Image.image (fun (s,ato)->(-(String.length s),(s,ato)) ) temp1 in
-   let temp3=Tidel2.diforchan temp2 in
-   Tidel2.image snd temp3;;
+   Ordered.diforchan_plaen Total_ordering.for_longest_match_pairs temp1;;
 
 let all_string_constants=Image.image fst readables_and_selectors;;
 
