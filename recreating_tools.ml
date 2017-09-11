@@ -4,7 +4,7 @@
 
 *)
 
-let encode_projtok x=find_index x Php_projected_token.all_tokens;;
+let encode_projtok x=Listennou.find_index x Php_projected_token.all_tokens;;
 let decode_projtok i=List.nth Php_projected_token.all_tokens (i-1);;
 
 let encode_tok tok=(encode_projtok (Php_token.form tok),Php_token.content tok);;
