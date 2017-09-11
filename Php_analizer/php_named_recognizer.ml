@@ -96,7 +96,7 @@ module Private=struct
 
     let of_elementary_definition opt_name defn=
       let names=Image.image (fun nr->nr.name) (!data) in
-      let cleaned_defn=Replace_inside.replace_inside_string (" ","") defn in
+      let cleaned_defn=Str.global_replace (Str.regexp_string " ") "" defn in
       let temp1=Strung.longest_match_parsing names cleaned_defn in
       let temp2=Image.image of_name temp1 in
       chain opt_name temp2;;
