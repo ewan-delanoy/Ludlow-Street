@@ -183,7 +183,7 @@ module Private=struct
     
     
     let assignables=Image.image (
-      fun (nahme,defn)->Private.of_definition (Some(nahme)) defn
+      fun (nahme,defn)->of_definition (Some(nahme)) defn
     ) list_for_assignables;;
     
     let _ =disjunction (Some"assignable") assignables;;
