@@ -40,6 +40,19 @@ let new_symbols=
     name_for_dummy_recognizer::
    (Image.image fst all_pairs)@(Image.image snd all_pairs)));;
 
+let chain_content wh=
+    match wh  with
+     Chain(ch)->Some(ch)
+    |_->None;;
+
+let flattened_chain l=
+    let temp1=Image.image (
+        fun x->match chain_content x
+        with 
+        None->[x]
+        |Some(ch)->ch
+    ) l in
+    Chain(List.flatten temp1);;
 
 exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 
@@ -69,7 +82,7 @@ let rec of_string rough_s=
   let temp2=Image.image (fun (opt,t)->(opt,Cull_string.trim_spaces t) ) temp1 in
   let temp3=List.filter (fun (opt,t)->t<>"") temp2 in
   if List.length(temp3)>1
-  then Chain(Image.image (helper_for_string_reading of_string) temp3)
+  then flattened_chain(Image.image (helper_for_string_reading of_string) temp3)
   else 
   let (opt,t)=List.hd temp3 in
   if opt<>None
@@ -79,12 +92,9 @@ let rec of_string rough_s=
   let temp4=Image.image (fun sel->Leaf(sel)) temp5 in
   if List.length(temp4)=1
   then List.hd(temp4)
-  else Chain(temp4);;
+  else flattened_chain(temp4);;
 
-let chain_content wh=
-  match wh  with
-   Chain(ch)->Some(ch)
-  |_->None;;
+
 
 let is_constant wh=
   match wh  with
