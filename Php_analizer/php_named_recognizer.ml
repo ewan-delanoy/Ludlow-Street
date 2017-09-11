@@ -153,6 +153,43 @@ module Private=struct
         let temp4=Image.image (helper_for_definition_reading None) temp3 in
         chain opt_name temp4;;            
 
+    let _=of_definition (Some("optional_pblock")) "_l_ () _r?_";;
+
+    let list_for_assignables=
+      Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
+      (Ennig.index_everything(
+      [
+        "coerce           id ()";
+        "nmspc            _l_ :: id _r?_ optional_pblock";
+        "id ::            id ()";
+        "id () ?          _l_ no_ternary _r+_ : no_semicolon";
+        "id () .          sqs";
+        "id ()            ";
+        "hdoc ";
+        "include_like     _l_ loose= _r*_ ";
+        "int          ";
+        "new id           ()";
+        "new nmspc        ()";
+        "sqs .            vvar . sqs";
+        "sqs";
+        "vvar .       sqs";
+        "vvar =       sqs";
+        "vvar ->      id optional_pblock _l_ -> id optional_pblock _r*_";
+        "vvar +       _l_ loose= _r*_ ";
+        "vvar";
+        "@                id ()";
+      ]));;
+    
+    
+    
+    let assignables=Image.image (
+      fun (nahme,defn)->Private.of_definition (Some(nahme)) defn
+    ) list_for_assignables;;
+    
+    let _ =disjunction (Some"assignable") assignables;;
+    
+    let _=of_definition (Some("names_and_spaces")) "_l_ id _u_ nmspc _rd_";;
+
 end;;
 
 
@@ -175,45 +212,7 @@ let is_constant nr=Php_constructible_recognizer.is_constant
 let recognize nr=Php_constructible_recognizer.recognize 
                     nr.unnamed_content;;
 
-(*
-let _=of_definition (Some("statmeth")) " :: id ";; 
-let _=of_definition (Some("optional_statmeth")) "_l_ statmeth _r?_";; 
-*)
 
-let _=of_definition (Some("optional_pblock")) "_l_ () _r?_";;
-
-let list_for_assignables=
-  Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
-  (Ennig.index_everything(
-  [
-    "coerce           id ()";
-    "nmspc            _l_ :: id _r?_ optional_pblock";
-    "id ::            id ()";
-    "id () ?          _l_ no_ternary _r+_ : no_semicolon";
-    "id () .          sqs";
-    "id ()            ";
-    "hdoc ";
-    "include_like     _l_ loose= _r*_ ";
-    "int          ";
-    "new id           ()";
-    "new nmspc        ()";
-    "sqs .            vvar . sqs";
-    "sqs";
-    "vvar .       sqs";
-    "vvar =       sqs";
-    "vvar ->      id optional_pblock _l_ -> id optional_pblock _r*_";
-    "vvar +       _l_ loose= _r*_ ";
-    "vvar";
-    "@                id ()";
-  ]));;
-
-
-
-let assignables=Image.image (
-  fun (nahme,defn)->Private.of_definition (Some(nahme)) defn
-) list_for_assignables;;
-
-let assignable =disjunction (Some"assignable") assignables;;
 
 
 

@@ -488,7 +488,7 @@ let helper_for_nmspc_block l1 cr=
 
 add_data 
 	"nmspc_block"
-	"namespace _l_ _l_ id _u_ nmspc _rd_ _r?_ {}"
+	"namespace _l_ names_and_spaces _r?_ {}"
 	""
 	helper_for_nmspc_block
 	;;
