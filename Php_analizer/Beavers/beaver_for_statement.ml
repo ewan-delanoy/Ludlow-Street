@@ -558,7 +558,7 @@ let helper_for_snake_call l1 cr=
 
 add_data 
 	"snake_call"
-	"id_or_var _l_ -> id_or_var _l_() _r?_  _r~_ -> id_or_var _l_() _r?_ ;"
+	"id_or_var _l_ -> id_or_var optional_pblock  _r~_ -> id_or_var optional_pblock ;"
 	""
 	helper_for_snake_call
 	;;

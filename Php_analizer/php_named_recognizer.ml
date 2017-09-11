@@ -153,7 +153,13 @@ module Private=struct
         let temp4=Image.image (helper_for_definition_reading None) temp3 in
         chain opt_name temp4;;            
 
-    let _=of_definition (Some("optional_pblock")) "_l_ () _r?_";;
+    let official_defs=ref([]:(string*string) list);;
+    
+    let make_official_def x y=
+        (official_defs:=(x,y)::(!official_defs);
+         of_definition (Some x) y);;
+
+    let _=make_official_def "optional_pblock" "_l_ () _r?_";;
 
     let list_for_assignables=
       Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
@@ -188,7 +194,7 @@ module Private=struct
     
     let _ =disjunction (Some"assignable") assignables;;
     
-    let _=of_definition (Some("names_and_spaces")) "_l_ id _u_ nmspc _rd_";;
+    let _=make_official_def "names_and_spaces" "_l_ id _u_ nmspc _rd_";;
 
 end;;
 
