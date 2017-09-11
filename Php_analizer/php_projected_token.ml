@@ -100,7 +100,7 @@ let readable (ptok:t)=match ptok with
 
 
 let order=((
-  fun x y->Total_ordering.dictionary_order 
+  fun x y->Total_ordering.lex_for_strings 
      (readable x) (readable y)
 ): t Total_ordering.t);;
 

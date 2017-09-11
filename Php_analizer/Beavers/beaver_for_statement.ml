@@ -91,7 +91,7 @@ type element={
 };;   
    
 let element_cmp elt1 elt2=
-   let step1=Total_ordering.dictionary_order elt1.name elt2.name in
+   let step1=Total_ordering.lex_for_strings elt1.name elt2.name in
    if step1<>Total_ordering.Equal
    then step1
    else Tidel.cmp

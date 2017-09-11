@@ -195,7 +195,7 @@ let for_characters=let tempf=(fun x y->
   ) in (tempf:>char t);;
 
 
-let dictionary_order=
+let lex_for_strings=
     ((fun s1 s2->
       let m1=String.length s1
       and m2=String.length s2
