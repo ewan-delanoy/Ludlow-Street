@@ -235,38 +235,6 @@ add_data
 	helper_for_assignment
 	;;
 	
-	
-
-let assignables=
-[
-  "coerce           id ()";
-  "nmspc            _l_ :: id _r?_ _l_ () _r?_";
-  "id ::            id ()";
-  "id () ?          _l_ no_ternary _r+_ : no_semicolon";
-  "id () .          sqs";
-  "id ()            ";
-  "hdoc ";
-  "include_like     _l_ loose= _r*_ ";
-  "int          ";
-  "new id           ()";
-  "new nmspc        ()";
-  "sqs .            vvar . sqs";
-  "sqs";
-  "vvar .       sqs";
-  "vvar =       sqs";
-  "vvar ->      id _l_ () _r?_ _l_ -> id _l_ () _r?_ _r*_";
-  "vvar +       _l_ loose= _r*_ ";
-  "vvar";
-  "@                id ()";
-];;
-
-
-let assignable=" _l_ "^(String.concat " _u_ " assignables)^" _rd_";;
-
-
-add_shortcut "assignable" assignable;;
-
-
 add_data 
   "assign_to_simple"
   "vvar ##( assign )## assignable ;"
