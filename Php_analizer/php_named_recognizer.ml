@@ -29,6 +29,14 @@ module Private=struct
         divided=[];
       }
     ) Php_short_selector.readables_and_selectors);; 
+    let encode elt=
+         (elt.name,(elt.definition,elt.unnamed_content,elt.divided));;
+    let order =((
+      fun elt1 elt2->
+        Total_ordering.for_longest_match_pairs (encode elt1) (encode elt2)
+    ) : t Total_ordering.t);;
+
+
     let automatic_name_counter=ref(0);;
     
     let new_automatic_name ()=
@@ -60,7 +68,7 @@ module Private=struct
           unnamed_content=rcgzr;
           divided=div;
          }  in
-         let _=(data:=(x::(!data))) in
+         let _=(data:=Ordered.insert_plaen order x (!data)) in
          x;; 
     
     let generalized opt_name grlzr nr=
