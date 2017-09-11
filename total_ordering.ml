@@ -195,7 +195,17 @@ let for_characters=let tempf=(fun x y->
   ) in (tempf:>char t);;
 
 
-
+let dictionary_order=
+    ((fun s1 s2->
+      let m1=String.length s1
+      and m2=String.length s2
+      in
+      let m=Pervasives.min(m1)(m2) in
+      match Option.seek (fun j->(String.get s1 j)<>(String.get s2 j)) (Ennig.ennig 0 (m-1)) with
+      None->standard m1 m2
+      |Some(j)->standard (String.get s1 j) (String.get s2 j) 
+    ) : string t);;
+    
  
  
  
