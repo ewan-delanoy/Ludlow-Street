@@ -52,7 +52,10 @@ let flattened_chain l=
         None->[x]
         |Some(ch)->ch
     ) l in
-    Chain(List.flatten temp1);;
+    let temp2=List.flatten temp1 in
+    if List.length(temp2)=1
+    then List.hd temp2
+    else Chain(temp2);;
 
 exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 

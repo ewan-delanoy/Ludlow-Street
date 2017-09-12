@@ -88,6 +88,9 @@ module Private=struct
                       else [nr]
           ) old_l_nr in
           let l_nr=List.flatten temp1 in
+          if List.length(l_nr)=1
+          then List.hd l_nr
+          else 
           let definition=String.concat " " (Image.image (fun nr->nr.name) l_nr) in
           let rcgzr=Php_constructible_recognizer.Chain
           (Image.image (fun nr->nr.unnamed_content) l_nr) in  
