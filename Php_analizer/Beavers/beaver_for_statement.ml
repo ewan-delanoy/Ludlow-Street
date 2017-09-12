@@ -26,7 +26,7 @@ type t=
     External_echo of string*Php_char_range.t
    |Comment of string*Php_char_range.t
    |Class_decl of Php_class_modifier.t*plexl*plexl*Php_char_range.t
-   |Ivy of plexl*plexl*plexl*Php_char_range.t
+   |Ivy of plexl*plexl*Php_char_range.t
    |Script_inclusion of Php_script_includer.t*plexl*Php_char_range.t
    |Assignment of php_var*php_assign_op*plexl*Php_char_range.t
    |AssignmentByRef of php_var*php_assign_op*plexl*Php_char_range.t
@@ -58,7 +58,7 @@ let char_range=function
     External_echo(_,cr)->cr
    |Comment(_,cr)->cr
    |Class_decl(_,_,_,cr)->cr
-   |Ivy(_,_,_,cr)->cr 
+   |Ivy(_,_,cr)->cr 
    |Script_inclusion(_,_,cr)->cr 
    |Assignment(_,_,_,cr)->cr
    |AssignmentByRef(_,_,_,cr)->cr
@@ -407,68 +407,39 @@ add_data
 
 
 
-let helper_for_ivy l1 cr=
-  Ivy(List.nth l1 0,List.nth l1 1,List.nth l1 2,cr);;
 
-add_data 
-   "ivy1"
-   "if () ##( {} )## ##( _l_else if () {} _r*__l_else {} _r?_ )##"
-   ""
-   helper_for_ivy
-   ;;
      
 
-let helper_for_ivy2 l1 cr=Ivy(List.nth l1 0,List.nth l1 1,[],cr);; 
+let helper_for_ivy l1 cr=Ivy(List.nth l1 0,List.nth l1 1,[],cr);; 
 
 add_data 
   "ivy2"
-  "if () ##( exit ; )##"
-  ""
-  helper_for_ivy2
-  ;;    
-
-add_data 
-  "ivy3"
-  "if () ##( {} )## else ##(if () {})## "
+  "if () beheaded_ivy"
   ""
   helper_for_ivy
   ;;    
 
 
+
+
 add_data 
-   "iwy1"
-   "if () : ##( _l_no_ivies _r*_ )## endif ;"
+   "iwy"
+   "if () : beheaded_iwy endif ;"
    ""
-   helper_for_ivy2
+   helper_for_ivy
    ;; 
 
-add_data 
-  "iwy2"
-  "if () : ##( _l_no_ivies _r*_ if () : _l_no_ivies _r*_ endif _l_no_ivies _r*_ )## endif ;"
-  ""
-  helper_for_ivy2
-  ;; 
-  
-
-
-add_data 
-  "iwy3"
-  "if () : ##( _l_no_ivies _r*_ if () : _l_no_ivies _r*_ else : _l_no_ivies _r*_ endif ; _l_no_ivies _r*_ )## endif ;"
-  ""
-  helper_for_ivy2
-  ;; 
-  
+(*   
 let helper_for_meth_call_on_snake l1 cr=
-  Nonstatic_method_call(List.nth l1 0,List.hd(List.nth l1 1),List.nth l1 2,cr);;
-
+    Nonstatic_method_call(List.nth l1 0,List.hd(List.nth l1 1),List.nth l1 2,cr);;   
 
  add_data 
 	"meth_call_on_snake"
-	"##( id :: id () _l_-> id () _r~_ )## -> id () ;"
+	" id :: id () _l_-> id () _r+_  ;"
 	""
 	helper_for_meth_call_on_snake
 	;;
-
+*)
  
 let helper_for_nmspc_block l1 cr=
    let optionized=(fun x->if x=[]

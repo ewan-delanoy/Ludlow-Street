@@ -221,8 +221,38 @@ module Private=struct
       fun (nahme,defn)->of_definition (Some(nahme)) defn
     ) list_for_assignables;;
     
-    let _ =disjunction (Some"assignable") assignables;;
+    let list_for_beheaded_ivies=
+      Image.image (fun (j,s)->("beheaded_ivy"^(string_of_int j),s)) 
+      (Ennig.index_everything(
+      [
+        "exit ;";
+        "{}   _l_ else if () {} _r*_      else {} ";
+      ]));;
     
+    let beheaded_ivies=Image.image (
+      fun (nahme,defn)->of_definition (Some(nahme)) defn
+    ) list_for_beheaded_ivies;;
+    
+
+    let _ =disjunction (Some"beheaded_ivy") beheaded_ivies;;
+    
+    let list_for_beheaded_iwies=
+      Image.image (fun (j,s)->("beheaded_iwy"^(string_of_int j),s)) 
+      (Ennig.index_everything(
+      [
+        
+        "_l_no_ivies _r*_ if () : _l_no_ivies _r*_ else : _l_no_ivies _r*_ endif ; _l_no_ivies _r*_";
+        "_l_ no_ivies _r*_ if () : _l_no_ivies _r*_ endif _l_ no_ivies _r*_";
+        "_l_ no_ivies _r*_";
+      ]));;
+    
+    let beheaded_iwies=Image.image (
+      fun (nahme,defn)->of_definition (Some(nahme)) defn
+    ) list_for_beheaded_iwies;;
+    
+
+    let _ =disjunction (Some"beheaded_iwy") beheaded_iwies;;
+
     let _=make_official_def "names_and_spaces" "_l_ id _u_ nmspc _rd_";;
 
 end;;
