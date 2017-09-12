@@ -185,15 +185,17 @@ module Private=struct
         "int          ";
         "new id           ()";
         "new nmspc        ()";
-        "sqs .            vvar . sqs";
+        "sqs . vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
+        "sqs . vvar . sqs";
         "sqs";
-        "vvar .       sqs";
-        "vvar =       sqs";
-        "vvar ->      id optional_pblock _l_ -> id optional_pblock _r*_";
-        "vvar +       _l_ loose= _r*_ ";
+        "vvar [ sqs ]";
+        "vvar . sqs";
+        "vvar = sqs";
+        "vvar -> id optional_pblock _l_ -> id optional_pblock _r*_";
+        "vvar + _l_ loose= _r*_ ";
         "vvar";
         "@                id ()";
-        "() ?  var_or_string  :  var_or_string  "
+        "() ?  string_or_var  :  string_or_var  "
       ]));;
     
     

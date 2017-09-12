@@ -27,6 +27,7 @@ type t=
    |Ivy of plexl*plexl*plexl*Php_char_range.t
    |Script_inclusion of Php_script_includer.t*plexl*Php_char_range.t
    |Assignment of php_var*php_assign_op*plexl*Php_char_range.t
+   |AssignmentByRef of php_var*php_assign_op*plexl*Php_char_range.t
    |Assignment_on_class_property of php_var*php_class_property*php_assign_op*plexl*Php_char_range.t
    |Static_assignment of php_var*php_assign_op*plexl*Php_char_range.t
    |Yuze_decl of plexl*Php_char_range.t
@@ -57,6 +58,7 @@ let char_range=function
    |Ivy(_,_,_,cr)->cr 
    |Script_inclusion(_,_,cr)->cr 
    |Assignment(_,_,_,cr)->cr
+   |AssignmentByRef(_,_,_,cr)->cr
    |Assignment_on_class_property(_,_,_,_,cr)->cr
    |Static_assignment(_,_,_,cr)->cr
    |Yuze_decl(_,cr)->cr
@@ -186,25 +188,18 @@ let helper_for_assignment l1 cr=
   and b=List.hd(List.nth l1 1)  in
   Assignment(a,b,List.nth l1 2,cr);;   
 
-add_data 
-	"assign1"
-	"vvar assign ##( () ?  _l_ id _u_ sqs _rd_  :  _l_ id _u_ vvar _rd_  )## ;"
-	""
-	helper_for_assignment
-	;;
 
-add_data 
-	"assign2"
-	"vvar assign  ##( sqs . id . dqs . vvar -> id () . dqs . vvar -> id () . dqs )## ;"
-	""
-	helper_for_assignment
-	;;  
+
+let helper_for_assignment_byref l1 cr=
+    let a=List.hd(List.nth l1 0) 
+    and b=List.hd(List.nth l1 1)  in
+    AssignmentByRef(a,b,List.nth l1 2,cr);;  
 
 add_data 
 	"assign_byref"
-	"vvar assign ##( & _l_loose= _r*_ )## ;"
+	"vvar assign & assignable ;"
 	""
-	helper_for_assignment;;
+	helper_for_assignment_byref;;
 	
 let helper_for_servant_assign l1 cr=
    let tf=(fun j->List.hd(List.nth l1 j)) in
@@ -212,37 +207,26 @@ let helper_for_servant_assign l1 cr=
 
 add_data 
 	"assign_on_servant"
-	"vvar -> id_or_var ##( assign )## _l_ loose= _r*_ ;"
+	"vvar -> id_or_var  assign  assignable ;"
 	""
 	helper_for_servant_assign;;
 
 add_data 
 	"assign_on_static"
-	"id :: id_or_var ##( assign )## _l_ loose= _r*_ ;"
+	"id :: id_or_var assign  assignable ;"
 	""
 	helper_for_servant_assign
 	;;
 
-add_data 
-	"assign_to_cell"
-	"vvar assign ##( vvar [ sqs ] )## ;"
-	""
-	helper_for_assignment
-	;;
+
 	
 add_data 
-  "assign_to_simple"
-  "vvar ##( assign )## assignable ;"
+  "assign_usual"
+  "vvar assign  assignable ;"
   ""
   helper_for_assignment
   ;;
 
-add_data 
-	"assign_to_terna"
-	"vvar ##( assign )## ##( () ? : new nmspc () )## ;"
-	""
-	helper_for_assignment
-	;;
 
 let helper_for_cell_assign l1 cr=
    let a=List.hd(List.hd l1) in
@@ -251,14 +235,14 @@ let helper_for_cell_assign l1 cr=
 
 add_data 
 	"cell_assign"
-	"vvar [ ##( int_or_string_or_var )## ] = _l_loose= _r*_ ;"
+	"vvar [  int_or_string_or_var  ] = assignable ;"
 	""
 	helper_for_cell_assign
 	;;
 
 add_data 
 	"cell_assign_byref"
-	"vvar [  ##( int_or_string_or_var )##  ]  =  ##( & _l_loose= _r*_ )## ;"
+	"vvar [  ##( int_or_string_or_var )##  ]  =  ##( & assignable )## ;"
 	""
 	helper_for_cell_assign
 	;;
