@@ -168,6 +168,20 @@ module Private=struct
         (official_defs:=(x,y)::(!official_defs);
          of_definition (Some x) y);;
 
+    let rec iterator_for_apparition_order (graet,names,da_ober)=
+        if da_ober=[]
+        then List.flatten(List.rev graet)
+        else 
+        let tester=(fun nr->
+           List.for_all (fun t->
+             Ordered_string.elfenn t anoiou
+           ) nr.divided
+        ) in
+        let (dead_ones,still_alive)=List.partition tester da_ober in
+        let dead_names=image (fun nr->nr.name) dead_ones in
+        let updated_names=Ordered_string.teuzin names (Ordered_string.diforchan dead_names) in
+        iterator_for_apparition_order (dead_ones::graet,updated_names,still_alive);;
+
     let _=make_official_def "optional_pblock" "_l_ () _r?_";;
 
     let list_for_assignables=
@@ -230,13 +244,19 @@ let is_constant nr=Php_constructible_recognizer.is_constant
 let recognize nr=Php_constructible_recognizer.recognize 
                     nr.unnamed_content;;
 
+let eat_prechewed x l= 
+  let temp1=of_definition None x in
+  let temp2=temp1.unnamed_content in
+  Php_constructible_recognizer.recognize temp2 l;;
+
 let eat x y=
-    let temp1=of_definition None x in
-    let temp2=temp1.unnamed_content 
-    and temp3=Php_lexer.parse_string ("<?php "^y) in
-    Php_constructible_recognizer.recognize temp2 temp3;;
+    let temp3=Php_lexer.parse_string ("<?php "^y) in
+    eat_prechewed x temp3;;
 
-
+let data_in_apparition_order ()=
+    Private.iterator_for_apparition_order (
+      [],Ordered.S[],(!(Private.data))
+    );;
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;

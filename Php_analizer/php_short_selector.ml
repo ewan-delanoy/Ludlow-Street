@@ -14,6 +14,7 @@ let new_pairs=
      "()",Block(Php_blocker_name.parenthesis);
      "{}",Block(Php_blocker_name.brace);
      "[]",Block(Php_blocker_name.bracket);
+     "?:",Block(Php_blocker_name.ternop);
    ];;
 
 let acts_only_once=function
