@@ -436,14 +436,14 @@ add_data
 
 
 add_data 
-   "ivy4"
+   "iwy1"
    "if () : ##( _l_no_ivies _r*_ )## endif ;"
    ""
    helper_for_ivy2
    ;; 
 
 add_data 
-  "ivy5"
+  "iwy2"
   "if () : ##( _l_no_ivies _r*_ if () : _l_no_ivies _r*_ endif _l_no_ivies _r*_ )## endif ;"
   ""
   helper_for_ivy2
@@ -452,7 +452,7 @@ add_data
 
 
 add_data 
-  "ivy6"
+  "iwy3"
   "if () : ##( _l_no_ivies _r*_ if () : _l_no_ivies _r*_ else : _l_no_ivies _r*_ endif ; _l_no_ivies _r*_ )## endif ;"
   ""
   helper_for_ivy2
