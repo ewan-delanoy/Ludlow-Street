@@ -85,7 +85,6 @@ let dummy=External_echo("",Php_char_range.dummy);;
 type element={
     name               : string;
     content            : string;
-    unadbriged_content : string;
     catalyser          : string;
     helper             : (plexl list -> Php_char_range.t -> t);
 };;   
@@ -95,8 +94,8 @@ let element_cmp elt1 elt2=
    if step1<>Total_ordering.Equal
    then step1
    else Tidel.cmp
-         (elt1.content,elt1.unadbriged_content,elt1.catalyser)     
-         (elt2.content,elt2.unadbriged_content,elt2.catalyser);;
+         (elt1.content,elt1.catalyser)     
+         (elt2.content,elt2.catalyser);;
           
 let element_order=(element_cmp: element Total_ordering.t);; 
 
@@ -104,7 +103,7 @@ let element_order=(element_cmp: element Total_ordering.t);;
 
 let classical_parser elt=
    let f=(fun l->
-      let opt2=Termite.parse (Termite.of_string elt.unadbriged_content) l in
+      let opt2=Termite.parse (Termite.of_string elt.content) l in
       if opt2=None then None else
       let (l2,cr2,peurrest)=Option.unpack opt2 in
       let catalyser_check=(
@@ -125,8 +124,6 @@ let shortcuts_list=ref ([]:(string*string) list);;
 let expand_element elt={
     name               = elt.name;
     content            = elt.content;
-    unadbriged_content = Replace_inside.replace_several_inside_string
-      						(!shortcuts_list) elt.content;
     catalyser          = elt.catalyser;
     helper             = elt.helper;
 };;   
@@ -136,8 +133,6 @@ let add_data a b c d=
    let elt={
     name               = a;
     content            = b;
-    unadbriged_content = Replace_inside.replace_several_inside_string
-      						(!shortcuts_list) b;
     catalyser          = c;
     helper             = d;
    }  in
