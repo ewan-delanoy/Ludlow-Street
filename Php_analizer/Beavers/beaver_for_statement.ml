@@ -334,7 +334,7 @@ let helper_for_foreach2 l1 cr=ForeachLoop(List.nth l1 0,List.nth l1 1,cr);;
 
 add_data 
 	"foreach2"
-	"foreach () : ##( _l_no_breach _r*_ )## endforeach ;"
+	"foreach () :  _l_ no_breach _r*_  endforeach ;"
 	""
 	helper_for_foreach2
 	;;
@@ -344,8 +344,15 @@ let helper_for_fun_call l1 cr=Fun_call(
 List.hd(List.nth l1 1),List.nth l1 2,cr);;
 
 add_data 
-	"fun_call"
-	"_l_ @ _r?_ ##(id)## () ;"
+	"fun_call1"
+	"_l_ @ _r?_ id () ;"
+	""
+	helper_for_fun_call
+	;;
+
+add_data 
+	"fun_call2"
+	"_l_ @ _r?_ id () ;"
 	""
 	helper_for_fun_call
 	;;
