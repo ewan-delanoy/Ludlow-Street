@@ -2,6 +2,9 @@
 
 #use"Php_analizer/Beavers/beaver_for_statement.ml";;
 
+
+
+
 *)
 
 type postok = ( Php_token.t * (Lexing.position * Lexing.position)  ) ;;
@@ -41,6 +44,7 @@ type t=
    |Namespace_def of php_namespace*Php_char_range.t
    |Appending of php_var*plexl*Php_char_range.t
    |Cell_assignment of php_var*php_index*plexl*Php_char_range.t
+   |Cell_assignment_byref of php_var*php_index*plexl*Php_char_range.t
    |Trait_decl of php_trait_name*plexl*Php_char_range.t
    |Echo of plexl*Php_char_range.t
    |Exit of Php_char_range.t
@@ -72,6 +76,7 @@ let char_range=function
    |Namespace_def(_,cr)->cr
    |Appending(_,_,cr)->cr
    |Cell_assignment(_,_,_,cr)->cr
+   |Cell_assignment_byref(_,_,_,cr)->cr
    |Trait_decl(_,_,cr)->cr
    |Echo(_,cr)->cr
    |Exit(cr)->cr
@@ -241,7 +246,7 @@ add_data
 
 add_data 
 	"cell_assign_byref"
-	"vvar [  ##( int_or_string_or_var )##  ]  =  ##( & assignable )## ;"
+	"vvar [  int_or_string_or_var   ]  =   & assignable  ;"
 	""
 	helper_for_cell_assign
 	;;
@@ -298,8 +303,8 @@ add_data
 
 add_data 
 	"echo2"
-	"echo vvar"
-	"ext"
+	"echo vvar ext"
+	""
 	helper_for_echo
 	;;
 	
