@@ -193,6 +193,7 @@ module Private=struct
         "vvar +       _l_ loose= _r*_ ";
         "vvar";
         "@                id ()";
+        "() ?  var_or_string  :  var_or_string  "
       ]));;
     
     

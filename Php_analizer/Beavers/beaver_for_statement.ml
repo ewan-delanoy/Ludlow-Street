@@ -176,7 +176,7 @@ let helper_for_byref_append l1 cr=
 
 add_data 
 	"append_byref"
-	"vvar [ ] = ##( & _l_no_semicolon _r*_ )## ;"
+	"vvar [ ] = assignable ;"
 	""
 	helper_for_byref_append
 	;;

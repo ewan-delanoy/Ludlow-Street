@@ -121,6 +121,17 @@ let coerce=from_list( Image.image
 get_name_for_set coerce (Some "coerce");;
 
 
+let id_or_string_or_var=from_list( 
+  [
+    Php_projected_token.variable; 
+    Php_projected_token.ident; 
+    Php_projected_token.single_quoted;
+    Php_projected_token.double_quoted;
+  ]
+  );;   
+  
+get_name_for_set id_or_string_or_var (Some "id_or_string_or_var");;
+
 let id_or_var=from_list( 
 [
   Php_projected_token.variable; 
@@ -143,7 +154,7 @@ get_name_for_set include_like (Some "include_like");;
 let int_or_string_or_var=from_list( 
   [
     Php_projected_token.variable; 
-    Php_projected_token.ident; 
+    Php_projected_token.iint; 
     Php_projected_token.single_quoted;
     Php_projected_token.double_quoted;
   ]
@@ -240,6 +251,16 @@ let stringy=complement_from_list(
   
 get_name_for_set stringy (Some "stringy");;
 
+let string_or_var=from_list( 
+  [
+    Php_projected_token.variable; 
+    Php_projected_token.single_quoted;
+    Php_projected_token.double_quoted;
+  ]
+  );;   
+  
+get_name_for_set string_or_var (Some "string_or_var");;
+
 define_precedence_set Strict_or_loose.Loose Php_operator.t_equals;;
 
 let readables_and_toksets=
@@ -252,6 +273,9 @@ let readables_and_toksets=
    (!namelist);;
 
 end;;
+
+
+
 
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
