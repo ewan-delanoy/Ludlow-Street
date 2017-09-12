@@ -227,7 +227,11 @@ let is_constant nr=Php_constructible_recognizer.is_constant
 let recognize nr=Php_constructible_recognizer.recognize 
                     nr.unnamed_content;;
 
-
+let eat x y=
+    let temp1=of_definition None x in
+    let temp2=temp1.unnamed_content 
+    and temp3=Php_lexer.parse_string ("<?php "^y) in
+    Php_constructible_recognizer.recognize temp2 temp3;;
 
 
 
