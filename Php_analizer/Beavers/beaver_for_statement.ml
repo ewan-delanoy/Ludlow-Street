@@ -410,7 +410,7 @@ add_data
 
      
 
-let helper_for_ivy l1 cr=Ivy(List.nth l1 0,List.nth l1 1,[],cr);; 
+let helper_for_ivy l1 cr=Ivy(List.nth l1 0,List.nth l1 1,cr);; 
 
 add_data 
   "ivy2"
