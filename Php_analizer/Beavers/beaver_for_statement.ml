@@ -19,7 +19,6 @@ type php_trait_name=postok;;
 type php_namespace=postok;;
 type php_index=postok;;
 
-
 type t=
     External_echo of string*Php_char_range.t
    |Comment of string*Php_char_range.t
