@@ -174,11 +174,11 @@ module Private=struct
         else 
         let tester=(fun nr->
            List.for_all (fun t->
-             Ordered_string.elfenn t anoiou
+             Ordered_string.elfenn t.name names
            ) nr.divided
         ) in
         let (dead_ones,still_alive)=List.partition tester da_ober in
-        let dead_names=image (fun nr->nr.name) dead_ones in
+        let dead_names=Image.image (fun nr->nr.name) dead_ones in
         let updated_names=Ordered_string.teuzin names (Ordered_string.diforchan dead_names) in
         iterator_for_apparition_order (dead_ones::graet,updated_names,still_alive);;
 
