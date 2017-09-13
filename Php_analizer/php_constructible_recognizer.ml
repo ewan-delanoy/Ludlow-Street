@@ -11,12 +11,11 @@ type t=
    Leaf of Php_short_selector.t
   |Generalized of Generalizer.t*t
   |Chain of t list
-  |Disjunction of t list
-  |End_already_reached;;
+  |Disjunction of t list;;
   
 let pair_for_disjunction=("_l_","_rd_");;
 let associator_for_disjunction="_u_";;  
-let name_for_dummy_recognizer="end_already_reached";;
+
 
 let rec to_string=function
    Leaf(sel)->Php_short_selector.to_string sel
@@ -29,15 +28,15 @@ let rec to_string=function
                    lpar^
                    (String.concat associator_for_disjunction 
                      (Image.image to_string l))
-                   ^rpar
-  |End_already_reached->name_for_dummy_recognizer;;
+                   ^rpar;;
+  
 
 
 
 let all_pairs=pair_for_disjunction::Generalizer.all_pairs;;
 let new_symbols=
     Ordered.forget_order(Tidel.diforchan(associator_for_disjunction::
-    name_for_dummy_recognizer::
+    
    (Image.image fst all_pairs)@(Image.image snd all_pairs)));;
 
 let chain_content wh=
@@ -57,6 +56,24 @@ let chain l=
     then List.hd temp2
     else Chain(temp2);;
 
+    
+let disjunction_content wh=
+      match wh  with
+       Disjunction(ds)->Some(ds)
+      |_->None;;
+  
+  let disjunction l=
+      let temp1=Image.image (
+          fun x->match disjunction_content x
+          with 
+          None->[x]
+          |Some(ds)->ds
+      ) l in
+      let temp2=List.flatten temp1 in
+      if List.length(temp2)=1
+      then List.hd temp2
+      else Disjunction(temp2);;
+
 exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 
 let helper_for_string_reading old_f (opt,t)=
@@ -70,7 +87,7 @@ let helper_for_string_reading old_f (opt,t)=
        then 
             let temp1=Parenthesed_block.decompose_with_associator
                   associator_for_disjunction all_pairs t in
-            Disjunction(Image.image old_f temp1)
+            disjunction(Image.image old_f temp1)
        else
        raise(Helper_for_string_reading_exn(opt,t));; 
 
@@ -121,8 +138,7 @@ let rec recognize wh l=
    Leaf(sel)->recognize_selector sel l
   |Generalized(grlz,x)->recognize_generalized recognize grlz x l
   |Chain(ch)->recognize_chain recognize ch l
-  |Disjunction(dis)->recognize_disjunction recognize dis l
-  |End_already_reached->raise(Computations_past_the_end);;
+  |Disjunction(dis)->recognize_disjunction recognize dis l;;
 
 
 exception Reverse_sleepy_parse_exn of string;;
@@ -132,8 +148,7 @@ let reverse_sleepy_parse wh l=
    Leaf(sel)->(Leaf(sel),l)
   |Generalized(grlz,x)->raise(Reverse_sleepy_parse_exn("generalized"))
   |Chain(ch)->raise(Reverse_sleepy_parse_exn("chain"))
-  |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"))
-  |End_already_reached->raise(Computations_past_the_end);;
+  |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"));;
   
 
 

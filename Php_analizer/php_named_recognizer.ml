@@ -215,12 +215,12 @@ module Private=struct
         "() ?  string_or_var  :  string_or_var  "
       ]));;
     
-    let _ =disjunction (Some"assignable") beheaded_ivies;;
-    
     let assignables=Image.image (
       fun (nahme,defn)->of_definition (Some(nahme)) defn
     ) list_for_assignables;;
     
+    let _ =disjunction (Some"assignable") assignables;;
+
     let list_for_beheaded_ivies=
       Image.image (fun (j,s)->("beheaded_ivy"^(string_of_int j),s)) 
       (Ennig.index_everything(
