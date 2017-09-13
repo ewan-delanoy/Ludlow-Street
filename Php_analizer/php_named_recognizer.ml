@@ -253,7 +253,7 @@ module Private=struct
 
     let _ =disjunction (Some"beheaded_iwy") beheaded_iwies;;
 
-    let _=make_official_def "names_and_spaces" "_l_ id _u_ nmspc _rd_";;
+    let _=make_official_def "namespace_name" "_l_ id _u_ nmspc _rd_";;
 
 end;;
 
