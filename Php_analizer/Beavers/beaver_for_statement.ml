@@ -376,8 +376,8 @@ let helper_for_fun_returning l1 cr=
       "fun_returning"
       [a]
       [
-       "function_args",List.nth l1 1;
-       "function_body",List.nth l1 2; 
+       "function_args",List.nth l1 0;
+       "function_body",List.nth l1 1; 
       ]
        cr;;    
 
