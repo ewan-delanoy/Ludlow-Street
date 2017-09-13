@@ -404,11 +404,7 @@ add_data
 	""
 	helper_for_interface_decl
 	;;
-
-
-
-
-     
+ 
 
 let helper_for_ivy l1 cr=Ivy(List.nth l1 0,List.nth l1 1,cr);; 
 
