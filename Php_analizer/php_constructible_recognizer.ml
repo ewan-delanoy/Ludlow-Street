@@ -12,7 +12,10 @@ type t=
   |Generalized of Generalizer.t*t
   |Chain of t list
   |Disjunction of t list;;
-  
+
+let leaf sel=Leaf(sel);;
+let generalized grlzr x=Generalized(grlzr,x);;  
+
 let pair_for_disjunction=("_l_","_rd_");;
 let associator_for_disjunction="_u_";;  
 
