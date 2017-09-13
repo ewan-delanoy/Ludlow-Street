@@ -27,7 +27,7 @@ module Private=struct
       fun (s,sel)->{
         name =s;
         definition=s;
-        unnamed_content=Php_constructible_recognizer.Leaf(sel);
+        unnamed_content=Php_constructible_recognizer.leaf(sel);
         divided=[];
         is_a_chain=false;
         is_a_disjunction=false;
@@ -80,8 +80,8 @@ module Private=struct
     let generalized opt_name grlzr nr=
           let (lpar,rpar)=Generalizer.pair grlzr in
           let definition=lpar^(nr.name)^rpar in
-          let rcgzr=Php_constructible_recognizer.Generalized
-             (grlzr,nr.unnamed_content) in  
+          let rcgzr=Php_constructible_recognizer.generalized
+             grlzr nr.unnamed_content in  
           make (opt_name,definition,rcgzr,[]);;   
              
     let chain opt_name old_l_nr=
