@@ -141,16 +141,6 @@ let rec recognize wh l=
   |Disjunction(dis)->recognize_disjunction recognize dis l;;
 
 
-exception Reverse_sleepy_parse_exn of string;;
-
-let reverse_sleepy_parse wh l=
-  match wh  with
-   Leaf(sel)->(Leaf(sel),l)
-  |Generalized(grlz,x)->raise(Reverse_sleepy_parse_exn("generalized"))
-  |Chain(ch)->raise(Reverse_sleepy_parse_exn("chain"))
-  |Disjunction(dis)->raise(Reverse_sleepy_parse_exn("dis"));;
-  
-
 
 
 

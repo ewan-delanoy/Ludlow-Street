@@ -13,6 +13,7 @@ type t=
     unnamed_content : Php_constructible_recognizer.t;
     divided : t list;
     is_a_chain : bool;
+    is_a_disjunction : bool;
   };;
   
   
@@ -29,6 +30,7 @@ module Private=struct
         unnamed_content=Php_constructible_recognizer.Leaf(sel);
         divided=[];
         is_a_chain=false;
+        is_a_disjunction=false;
       }
     ) Php_short_selector.readables_and_selectors);; 
     let encode elt=
@@ -70,6 +72,7 @@ module Private=struct
           unnamed_content=rcgzr;
           divided=div;
           is_a_chain=(Php_constructible_recognizer.chain_content(rcgzr)<>None);
+          is_a_disjunction=(Php_constructible_recognizer.disjunction_content(rcgzr)<>None);
          }  in
          let _=(data:=Ordered.insert_plaen order x (!data)) in
          x;; 
@@ -92,11 +95,17 @@ module Private=struct
           then List.hd l_nr
           else 
           let definition=String.concat " " (Image.image (fun nr->nr.name) l_nr) in
-          let rcgzr=Php_constructible_recognizer.Chain
+          let rcgzr=Php_constructible_recognizer.chain
           (Image.image (fun nr->nr.unnamed_content) l_nr) in  
            make (opt_name,definition,rcgzr,l_nr);;   
         
-    let disjunction opt_name l_nr=     
+    let disjunction opt_name old_l_nr=
+      let temp1=Image.image (
+        fun nr->if nr.is_a_disjunction 
+                then nr.divided
+                else [nr]
+      ) old_l_nr in
+      let l_nr=List.flatten temp1 in     
       let (lpar,rpar)=Php_constructible_recognizer.pair_for_disjunction in
       let definition=
         lpar^
@@ -104,7 +113,7 @@ module Private=struct
           (Image.image (fun nr->nr.name) l_nr))
         ^rpar
       in
-      let rcgzr=Php_constructible_recognizer.Chain
+      let rcgzr=Php_constructible_recognizer.disjunction
       (Image.image (fun nr->nr.unnamed_content) l_nr) in  
        make (opt_name,definition,rcgzr,l_nr);;   
 
