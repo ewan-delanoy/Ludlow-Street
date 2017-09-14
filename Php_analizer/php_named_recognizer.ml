@@ -106,10 +106,10 @@ module Private=struct
                 else [nr]
       ) old_l_nr in
       let l_nr=List.flatten temp1 in     
-      let (lpar,rpar)=Php_constructible_recognizer.pair_for_disjunction in
+      let (lpar,rpar)=Php_symbols_for_recognizer_description.pair_for_disjunction in
       let definition=
         lpar^
-        (String.concat Php_constructible_recognizer.associator_for_disjunction 
+        (String.concat Php_symbols_for_recognizer_description.associator_for_disjunction 
           (Image.image (fun nr->nr.name) l_nr))
         ^rpar
       in
@@ -144,11 +144,11 @@ module Private=struct
                 if opt2<>None 
                 then generalized opt_name (Option.unpack opt2) (oed None t) 
                 else
-                if pair=Php_constructible_recognizer.pair_for_disjunction
+                if pair=Php_symbols_for_recognizer_description.pair_for_disjunction
                 then 
                      let temp1=Parenthesed_block.decompose_with_associator
-                                Php_constructible_recognizer.associator_for_disjunction 
-                                Php_constructible_recognizer.all_pairs t in
+                                Php_symbols_for_recognizer_description.associator_for_disjunction 
+                                Php_symbols_for_recognizer_description.all_pairs t in
                      disjunction opt_name (Image.image 
                           (oed None) temp1)
                 else
@@ -162,7 +162,7 @@ module Private=struct
         let s=Cull_string.trim_spaces rough_s in
         if s="" then raise(Empty_output) else
         let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
-           Php_constructible_recognizer.all_pairs s in
+           Php_symbols_for_recognizer_description.all_pairs s in
         let temp2=Image.image (fun (opt,t)->(opt,Cull_string.trim_spaces t) ) temp1 in
         let temp3=List.filter (fun (opt,t)->t<>"") temp2 in 
         if temp3=[]
@@ -228,7 +228,7 @@ module Private=struct
       fun (nahme,defn)->of_definition (Some(nahme)) defn
     ) list_for_assignables;;
     
-    
+
     let _ =disjunction (Some"assignable") assignables;;
 
     let list_for_beheaded_ivies=
