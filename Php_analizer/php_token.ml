@@ -81,7 +81,6 @@ let from_visible=Memoized.make(fun s->
 let readable tok=Php_projected_token.readable(form tok);;
 
 let proj_test ptok tok=((form tok)=ptok);; 
-let projset_test tokset tok=Php_projected_token_set.test tokset (form tok);; 
 
 
 let pair_for_blocker blckr=
