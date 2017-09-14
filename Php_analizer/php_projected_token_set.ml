@@ -91,17 +91,18 @@ let define_precedence_set sol op=
 
 (* Particular sets *)
 
-
+let noneof blckr=
+    let (lt,rt)=Php_projected_token.pair_for_blocker blckr in
+    complement_from_list [lt;rt];;
 
 let list_for_block_complements =
     Image.image
     (
       fun blckr->
-        let (l,r)=Php_blocker_name.make_visible blckr
-        and (lt,rt)=Php_projected_token.pair_for_blocker blckr in
+        let (l,r)=Php_blocker_name.make_visible blckr in
         (
           "noneof"^l^r,
-          complement_from_list [lt;rt]
+          noneof blckr
         )
     )
     Php_blocker_name.all;;
@@ -143,18 +144,7 @@ let coerce=from_list( Image.image
 
 get_name_for_set coerce (Some "coerce");;
 
-(*
-let id_or_string_or_var=from_list( 
-  [
-    Php_projected_token.variable; 
-    Php_projected_token.ident; 
-    Php_projected_token.single_quoted;
-    Php_projected_token.double_quoted;
-  ]
-  );;   
-  
-get_name_for_set id_or_string_or_var (Some "id_or_string_or_var");;
-*)
+
 
 let id_or_var=from_list( 
 [
@@ -289,11 +279,9 @@ let readables_and_toksets=
 
 end;;
 
-
-
-
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
+let noneof=Private.noneof;;
 
 let from_precedence=Private.from_precedence;;
 
