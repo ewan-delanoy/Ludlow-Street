@@ -91,6 +91,28 @@ let define_precedence_set sol op=
 
 (* Particular sets *)
 
+
+(*
+let list_for_block_complements =
+    Image.image
+    (
+      fun blckr->
+        let (l,r)=Php_blocker_name.pair blckr
+        and (lt,rt)=Php_blocker_name.token_pair blckr in
+        (
+          "noneof"^l^r,
+          complement_from_list(Image.image Php_token.form [lt;rt])
+        )
+    )
+    Php_blocker_name.all;;
+
+let _=Image.image (fun (name,z)->get_name_for_set z (Some name)) 
+list_for_block_complements;;
+*)
+
+
+
+
 let assign=from_list( Image.image 
            (fun x->Php_projected_token.constant
                 (Php_constant_token.of_operator(x)))
@@ -120,7 +142,7 @@ let coerce=from_list( Image.image
 
 get_name_for_set coerce (Some "coerce");;
 
-
+(*
 let id_or_string_or_var=from_list( 
   [
     Php_projected_token.variable; 
@@ -131,6 +153,7 @@ let id_or_string_or_var=from_list(
   );;   
   
 get_name_for_set id_or_string_or_var (Some "id_or_string_or_var");;
+*)
 
 let id_or_var=from_list( 
 [
@@ -208,15 +231,6 @@ let no_semicolon=complement_from_list(
   
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
-let no_ternary=complement_from_list( 
-  Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_operator(x)))
-  [
-    Php_operator.t_question; 
-    Php_operator.t_colon;
-  ]
-  );;   
-  
-get_name_for_set no_ternary (Some "no_ternary");;
 
 let stringy=complement_from_list( 
   (
