@@ -7,7 +7,7 @@
 type t =                                                                    
          Atomic of Php_projected_token_set.t 
         |Block of Php_blocker_name.t
-        |Unusual_block of Php_blocker.t;;
+        |Unusual_block of Php_blocker_name.t*int;;
       
 let new_pairs=
    [
@@ -20,7 +20,7 @@ let new_pairs=
 let acts_only_once=function
    Atomic(atom_sel)->Php_projected_token_set.acts_only_once atom_sel
   |Block(_)->false
-  |Unusual_block(_)->false;;
+  |Unusual_block(_,_)->false;;
 
 let readables_and_selectors=
    let temp1=
@@ -78,20 +78,26 @@ let recognize sel=
         match sel with
          Atomic(atomic_sel)->recognize_atomic atomic_sel l 
         |Block(blckr)->Php_recognize_starting_block.rsb blckr l
-        |Unusual_block(blckr)->(match (Php_recognize_block.main (fun _->true) 
-                                 (Php_blocker.token_pair blckr) 
-                                 (Php_blocker.depth blckr) l) 
+        |Unusual_block(blckr,d)->(match (Php_recognize_block.main (fun _->true) 
+                                 (Php_blocker_name.token_pair blckr) 
+                                 d l) 
                                  with
                                  None->None
                                  |Some(((u,last_lxng,others),last_tok))->
                                     let fst_lxng=fst(snd(List.hd l)) in
-                                    Some(Php_char_range.make fst_lxng last_lxng,others) 
+                                    Some(Php_char_range.make fst_lxng last_lxng,
+                                         others) 
         )                       
       )
    ) in
    (f : Php_recognizer.t);; 
    
-
+(*   
+let head_tail_decomposition=function   
+   Atomic(sel)->
+   |Block of Php_blocker_name.t
+   |Unusual_block of Php_blocker.t;;
+*)
 
 (*
 
