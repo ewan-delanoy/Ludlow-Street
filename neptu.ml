@@ -4,17 +4,149 @@
 
 *)
 
+
+
+exception Bad_one of string*Php_positioned_token_list.t;;
+let prison=ref(None);;
+let prison2=ref(None);;
+let cpar=Beaver_for_statement.classical_parser;;
+let data=Beaver_for_statement.current_data_list;;
+
+let prsr l=
+    try Beaver_for_statement.parser l with
+    _->
+      let _=(prison:=Some(l)) in
+      let dt=Option.find 
+      (fun tr->try (function _->false)(cpar tr l) with _->true) (!data) in
+      let _=(prison2:=Some(dt)) in
+      raise(Bad_one(dt.Beaver_for_statement.name,l));;
+
+
+let u1= Manage_lexed_data.get_data ["symblog";"phpbb"];;
+
+let u2=Explicit.image (fun l->Php_parser_homomorphism.star
+prsr l ) u1;;
+
+
+let u3=Option.unpack(!prison);;
+let elt1=Option.unpack(!prison2);;
+
+let u4=cpar elt1 u3;;
+
+let trmt=Termite.of_string elt1.Beaver_for_statement.content ;;
+let u5=Termite.parse trmt u3;;
+
+let u6=Php_lexer.parse_string "<?php $amy->b(1,2)->c(3)->d($u,$v);";;
+let u7=Termite.parse trmt u6;;
+
+let g1=Termite.of_string "foreach () : ##( _l_no_breach _r*_ )## endforeach ;";;
+let g2=Termite.of_string "foreach () :  _l_no_breach _r*_ endforeach ;";;
+
+let tc x y=
+    let trm1=Termite.of_string x
+    and trm2=Termite.of_string y
+    in (trm1=trm2,trm1,trm2);;
+
+let g1=vfm "Php_constructible_recognizer";;
+let g2=List.filter(
+   fun (s,l)->String.capitalize_ascii s=s
+) g1;;
+
+
+(*
+
+open Beaver_for_statement;;
+let w1=List.filter(fun z->z.catalyser<>"")(!current_data_list);;
+let w2=image(
+    fun x->x.content
+) (!current_data_list);;
+
+*)
+
+
+(*
+let u4=List.hd u1;;
+
+let u5=Listennou.big_head 18 u4;;
+
+let l_data=(!(Php_named_recognizer.Private.data));;
+let names=Image.image (fun nr->nr.Php_named_recognizer.name) (l_data) in
+let temp1=Strung.longest_match_parsing names "id_or_var";;
+
+let ru5=decode_postok_list [(94, "if", "", 4, 274, 275, 4, 274, 276);                                                               (9, "(", "", 4, 274, 278, 4, 274, 278);                                                              
+(1, "!", "", 4, 274, 279, 4, 274, 279);
+(93, "isset", "", 4, 274, 280, 4, 274, 284);
+(9, "(", "", 4, 274, 285, 4, 274, 285);
+(123, "$_SERVER", "", 4, 274, 286, 4, 274, 293);
+(51, "[", "", 4, 274, 294, 4, 274, 294);
+(115, "HTTP_HOST", "", 4, 274, 295, 4, 274, 305);
+(52, "]", "", 4, 274, 306, 4, 274, 306);
+(16, ")", "", 4, 274, 307, 4, 274, 307);
+(16, ")", "", 4, 274, 308, 4, 274, 308);
+(127, "{", "", 4, 274, 310, 4, 274, 310);
+(81, "exit", "", 5, 311, 316, 5, 311, 319);
+(9, "(", "", 5, 311, 320, 5, 311, 320);
+(115, "This script cannot be run from the CLI. Run it from a browser.", "",
+ 5, 311, 321, 5, 311, 384);
+(16, ")", "", 5, 311, 385, 5, 311, 385);
+(35, ";", "", 5, 311, 386, 5, 311, 386);
+(131, "}", "", 6, 387, 388, 6, 387, 388)];;
+
+
+let bad=Beaver_for_statement.parser ru5;;
+
+#remove_printer Php_positioned_token_list.print_out;;
+
+*)
+
+(*
+let hm=hmx "php_positioned_molecule_list";;
+German_wrapper.declare_printer_equipped_type hm;;
+*)
+
+(*
+let g1=vfm "Php_token";;
+let g2=List.assoc "form" g1;;
+let g3=(hmx "php_parser")::(bel "php_parser");;
+let g4=image (fun hm->
+Mlx_ended_absolute_path.to_path(
+Mlx_ended_absolute_path.join
+  hm Ocaml_ending.ml) )g3;;
+let g5=image (fun (x,y)->(x,List.filter (fun z->List.mem z g4) y )) g1;;
+
+let g6=List.filter (fun (x,y)->y<>[]) g5;;
+
+
+let g4=image fst g3;;
+let g5=Ordered.diforchan Dictionary_order.dictionary_order g4;;
+*)
+
+(*
 let g1=dbel "Php_positioned_token_list";;
 let g2=vfm "Php_positioned_token_list";;
-let term="snd";;
+
+let peggy=(fun term->
+ let gg3=List.assoc term g2  in
+  image (
+  Replace_inside.replace_inside_file
+  ("Php_positioned_token_list."^term,"List."^term)
+) gg3
+);;
+
+let act2=Explicit.image peggy 
+["hd"; "tl"; "rev"; "cons"; "filter"; "length"]  ;;
+
+let term="big_head";;
 let g3=List.assoc term g2;;
 let act1=Explicit.image (
     Replace_inside.replace_inside_file
-    ("Php_positioned_token."^term,term)
+    ("Php_positioned_token_list."^term,"Listennou."^term)
 ) g3;;
 
 
 let d1=German_pervasives.fg_without_backup;;
+*)
+
 
 (*
 let u1=Manage_lexed_data.force_recompute_data
@@ -2205,17 +2337,59 @@ let decode_postokenlist l=
 *)
 
 
+(*
+
+let niy=[];;
+
+let ld_leaf sel=niy;;
+
+let ld_generalized old_f gen rcgzr=niy;;
+
+exception Empty_chain;;
+
+let ld_chain old_f l=
+   if l=[] then raise(Empty_chain) else
+   let h=List.hd(l) and peurrest=List.tl(l) in
+   let temp1=old_f(h) in
+   Image.image (fun (x,y)->
+   (x,Php_constructible_recognizer.Chain (y::peurrest))) temp1;;
+
+exception Nondisjoint of  Php_constructible_recognizer.t list;;
+
+let ld_disjunction old_f l=
+    let temp1=List.flatten(Image.image old_f l) in
+    let temp2=Image.image fst temp1 in
+    let temp3=Uple.list_of_pairs temp2 in
+    if List.exists (fun (x,y)->
+      not(Php_projected_token_set.kengeij_goullo x y)
+    ) temp3
+    then raise(Nondisjoint(l))
+    else 
+    let temp4=Ordered.diforchan_plaen Php_projected_token_set.order temp2 in
+    let temp5=Image.image (fun x->(x,List.assoc x temp1)) temp4 in
+    temp5;;
 
 
+let rec ld =function
+   Php_constructible_recognizer.Leaf(sel)->ld_leaf sel
+  |Php_constructible_recognizer.Generalized(gen,rcgzr)->ld_generalized ld gen rcgzr
+  |Php_constructible_recognizer.Chain(l)->ld_chain ld l
+  |Php_constructible_recognizer.Disjunction(l)->ld_disjunction ld l
+  |Php_constructible_recognizer.End_already_reached->[];;
+
+
+
+
+*)
 
 (*
-INSERT;;TO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
-WHERE (user_id>=302) AND (user_id<=377);
+INSERT INTO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
+WHERE (user_id>=378) AND (user_id<=488);
 
-DELETE FROM `mysql_table_users` WHERE (user_id>=302) AND (user_id<=377);
+DELETE FROM `mysql_table_users` WHERE (user_id>=378) AND (user_id<=488);
 
 
-INSERT;;TO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
+INSERT INTO `mysql_table_fake_users` SELECT * FROM `mysql_table_users` 
 WHERE user_id=161;
 
 DELETE FROM `mysql_table_users` WHERE user_id=161;
