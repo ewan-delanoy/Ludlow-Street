@@ -1,6 +1,6 @@
 (*
 
-#use"Php_analizer/php_constructible_recognizer.ml";;
+#use"Php_analizer/php_unrestricted_recognizer.ml";;
 
 Generic parser for php code.
 
