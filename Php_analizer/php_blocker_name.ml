@@ -6,25 +6,20 @@
    
 *)
 
-type t=
-   Parenthesis
-  |Brace
-  |Bracket
-  |Ternop;;
+type t=Among of Php_constant_token.t * Php_constant_token.t;; 
 
-let parenthesis=Parenthesis;;
-let brace=Brace;;
-let bracket=Bracket;;
-let ternop=Ternop;;
+let parenthesis=Among(`T_LPARENTHESIS, `T_RPARENTHESIS);;
+let brace=Among(`T_LBRACE, `T_RBRACE);;
+let bracket=Among(`T_LBRACKET, `T_RBRACKET);;
+let ternop=Among(`T_QUESTION, `T_COLON);;
 
 let all=
   [parenthesis;brace;bracket;ternop];;  
 
-let pair x=match x with
-   Parenthesis->("(",")")
-  |Brace->("{","}")
-  |Bracket->("[","]")
-  |Ternop->("?",":");;  
+let pair (Among(x,y))=
+  (Php_constant_token.make_visible x,
+  Php_constant_token.make_visible y)
+  ;;  
   
   let token_pair blckr=
     let (x,y)=pair blckr in
