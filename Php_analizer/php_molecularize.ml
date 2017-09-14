@@ -16,7 +16,7 @@ let rec iterator_for_molecularization
   |a::peurrest->
       (
         let (tok,lxg)=a in
-         match Php_blocker_name.seek_block_beginning tok with
+         match Php_token.seek_block_beginning tok with
          None->iterator_for_molecularization((Php_molecule.of_token tok,lxg)::graet,da_ober)
         |Some(blckr)->
            let opt=Php_recognize_starting_block.rsb blckr da_ober in

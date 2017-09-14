@@ -6,7 +6,7 @@
 
 
 let  rsb blckr_name=
-   let (left_blocker,right_blocker)=Php_blocker_name.token_pair blckr_name in
+   let (left_blocker,right_blocker)=Php_token.pair_for_blocker blckr_name in
   ((function l->
      if l=[] then None else
      let (a,peurrest)=Listennou.ht l in

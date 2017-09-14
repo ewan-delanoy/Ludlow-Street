@@ -79,7 +79,7 @@ let recognize sel=
          Atomic(atomic_sel)->recognize_atomic atomic_sel l 
         |Block(blckr)->Php_recognize_starting_block.rsb blckr l
         |Unusual_block(blckr,d)->(match (Php_recognize_block.main (fun _->true) 
-                                 (Php_blocker_name.token_pair blckr) 
+                                 (Php_token.pair_for_blocker blckr) 
                                  d l) 
                                  with
                                  None->None
