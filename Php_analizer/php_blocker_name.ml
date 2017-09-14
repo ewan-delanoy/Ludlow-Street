@@ -16,13 +16,13 @@ let ternop=Among(`T_QUESTION, `T_COLON);;
 let all=
   [parenthesis;brace;bracket;ternop];;  
 
-let pair (Among(x,y))=
+let make_visible (Among(x,y))=
   (Php_constant_token.make_visible x,
   Php_constant_token.make_visible y)
   ;;  
   
   let token_pair blckr=
-    let (x,y)=pair blckr in
+    let (x,y)=make_visible blckr in
     (Php_token.from_visible x,Php_token.from_visible y);;
    
 

@@ -17,4 +17,4 @@ let uniformize ((mole:t),cr)=match mole with
 
 let readable (mole:t)=match mole with
    #Php_token.t as tok->Php_token.readable(tok)
-  |`Block(blckr,l)->let (a,b)=Php_blocker_name.pair blckr in a^b;;
+  |`Block(blckr,l)->let (a,b)=Php_blocker_name.make_visible blckr in a^b;;

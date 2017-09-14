@@ -97,7 +97,7 @@ let list_for_block_complements =
     Image.image
     (
       fun blckr->
-        let (l,r)=Php_blocker_name.pair blckr
+        let (l,r)=Php_blocker_name.make_visible blckr
         and (lt,rt)=Php_blocker_name.token_pair blckr in
         (
           "noneof"^l^r,
