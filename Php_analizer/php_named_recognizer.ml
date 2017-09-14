@@ -203,7 +203,7 @@ module Private=struct
         "coerce           id ()";
         "nmspc            _l_ :: id _r?_ optional_pblock";
         "id ::            id ()";
-        "id () ?          _l_ noneof?: _r+_ : no_semicolon";
+        (* "id () ?          _l_ noneof?: _r+_ : no_semicolon"; *)
         "id () .          sqs";
         "id ()            ";
         "hdoc ";
