@@ -16,31 +16,7 @@ type t=
 let leaf sel=Leaf(sel);;
 let generalized grlzr x=Generalized(grlzr,x);;  
 
-let pair_for_disjunction=("_l_","_rd_");;
-let associator_for_disjunction="_u_";;  
 
-
-let rec to_string=function
-   Leaf(sel)->Php_short_selector.to_string sel
-  |Generalized(grlz,x)->
-                   let (lpar,rpar)=Generalizer.pair grlz in
-                   lpar^(to_string x)^rpar
-  |Chain(l)->String.concat " " (Image.image to_string l)
-  |Disjunction(l)->
-                   let (lpar,rpar)=pair_for_disjunction in
-                   lpar^
-                   (String.concat associator_for_disjunction 
-                     (Image.image to_string l))
-                   ^rpar;;
-  
-
-
-
-let all_pairs=pair_for_disjunction::Generalizer.all_pairs;;
-let new_symbols=
-    Ordered.forget_order(Tidel.diforchan(associator_for_disjunction::
-    
-   (Image.image fst all_pairs)@(Image.image snd all_pairs)));;
 
 let chain_content wh=
     match wh  with
@@ -86,10 +62,11 @@ let helper_for_string_reading old_f (opt,t)=
          (fun x->(Generalizer.pair x)=pair)
          Generalizer.all in
        if opt2<>None then Generalized(Option.unpack opt2,old_f t) else
-       if pair=pair_for_disjunction
+       if pair=Php_symbols_for_recognizer_description.pair_for_disjunction
        then 
             let temp1=Parenthesed_block.decompose_with_associator
-                  associator_for_disjunction all_pairs t in
+            Php_symbols_for_recognizer_description.associator_for_disjunction 
+            Php_symbols_for_recognizer_description.all_pairs t in
             disjunction(Image.image old_f temp1)
        else
        raise(Helper_for_string_reading_exn(opt,t));; 
@@ -101,7 +78,8 @@ exception Empty_output;;
 let rec of_string rough_s=
   let s=Cull_string.trim_spaces rough_s in
   if s="" then raise(Empty_output) else
-  let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account all_pairs s in
+  let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
+             Php_symbols_for_recognizer_description.all_pairs s in
   let temp2=Image.image (fun (opt,t)->(opt,Cull_string.trim_spaces t) ) temp1 in
   let temp3=List.filter (fun (opt,t)->t<>"") temp2 in
   if List.length(temp3)>1
