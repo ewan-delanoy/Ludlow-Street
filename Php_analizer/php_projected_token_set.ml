@@ -92,23 +92,24 @@ let define_precedence_set sol op=
 (* Particular sets *)
 
 
-(*
+
 let list_for_block_complements =
     Image.image
     (
       fun blckr->
         let (l,r)=Php_blocker_name.make_visible blckr
-        and (lt,rt)=Php_blocker_name.token_pair blckr in
+        and (lt,rt)=Php_projected_token.pair_for_blocker blckr in
         (
           "noneof"^l^r,
-          complement_from_list(Image.image Php_token.form [lt;rt])
+          complement_from_list [lt;rt]
         )
     )
     Php_blocker_name.all;;
 
+ 
 let _=Image.image (fun (name,z)->get_name_for_set z (Some name)) 
 list_for_block_complements;;
-*)
+
 
 
 

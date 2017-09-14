@@ -61,11 +61,11 @@ let of_string s=match optional_of_string s with
    None->raise(Unknown(s))
   |Some(s)->s;;
 
-   let recognize_atomic atomic_sel=
+let recognize_atomic atomic_sel=
     let f=(function x->
        if x=[] then None else
        let (a,peurrest)=Listennou.ht x in
-         if Php_token.projset_test atomic_sel (fst a)
+         if Php_projected_token_set.test atomic_sel (Php_token.form(fst a)) 
          then let (u,v)=snd a in
               Some(Php_char_range.make u v,peurrest)
          else None

@@ -129,9 +129,13 @@ let readables_and_tokens=snd temp_pair;;
       
     ];;     
       
- let harmless_tokens=string_tokens@[iint;ffloat];;  
+let harmless_tokens=string_tokens@[iint;ffloat];;  
  
- let precedence_neutral_tokens=harmless_tokens@
+let precedence_neutral_tokens=harmless_tokens@
   (Image.image (fun x->constant(Php_constant_token.of_punctuator(x))) 
    [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
+   
+let pair_for_blocker blckr=
+    let (ctok_left,ctok_right)=Php_blocker_name.unveil blckr in
+    (constant ctok_left,constant ctok_right);;
    

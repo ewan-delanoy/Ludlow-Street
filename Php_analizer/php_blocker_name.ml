@@ -18,8 +18,6 @@ let ternop=Among(`T_QUESTION, `T_COLON);;
 let all=
   [parenthesis;brace;bracket;ternop];;  
 
-
-
 let make_visible (Among(x,y))=
   (Php_constant_token.make_visible x,
   Php_constant_token.make_visible y)
