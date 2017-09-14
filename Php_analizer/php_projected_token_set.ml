@@ -281,7 +281,15 @@ end;;
 
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
+
 let noneof=Private.noneof;;
+let left_blocker blckr=
+  let (lt,_)=Php_projected_token.pair_for_blocker blckr in
+  N [lt];;
+let right_blocker blckr=
+    let (_,rt)=Php_projected_token.pair_for_blocker blckr in
+    N [rt];;  
+
 
 let from_precedence=Private.from_precedence;;
 
