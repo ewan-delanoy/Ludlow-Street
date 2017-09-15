@@ -329,6 +329,7 @@ let get_set_for_name=Private.get_set_for_name;;
 let get_old_name_for_set=Private.get_old_name_for_set;;
 
 let empty_intersection=Private.empty_intersection;;
+let generated_algebra=Private.generated_algebra;;
 
 let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
 
