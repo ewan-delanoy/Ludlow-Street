@@ -291,11 +291,12 @@ let readables_and_toksets=
 
 let helper_for_generated_algebra l new_elt=
     let temp1=Image.image 
-      (fun (x,descr)->(setminus x new_elt,(new_elt,false)::descr) ) l 
+      (fun (x,descr)->(setminus x new_elt,descr) ) l 
     and temp2=Image.image 
-      (fun (x,descr)->(intersection x new_elt,(new_elt,true)::descr) ) l in
-    let temp3=Image.image fst   (snd(List.hd l)) in
-    let temp4=(new_elt,true)::(Image.image (fun t->(t,false)) temp3) 
+      (fun (x,descr)->(intersection x new_elt,
+         Tidel.insert new_elt descr) ) l in
+    let temp3=Tidel.forget_order(Tidel.big_teuzin(Image.image (fun (x,y)-> y) l)) in
+    let temp4=Tidel.singleton(new_elt)
     and temp5=setminus new_elt (union temp3) in
     let temp6=(temp5,temp4)::(temp1@temp2) in
     List.filter(fun (N y,descr)->y<>[]) temp6;;
@@ -303,7 +304,7 @@ let helper_for_generated_algebra l new_elt=
 let generated_algebra=function  
    []->[]
    |a::peurrest->
-     let start=[a,[a,true]] in
+     let start=[a,Tidel.singleton a] in
      List.fold_left helper_for_generated_algebra start peurrest;;
 
 
