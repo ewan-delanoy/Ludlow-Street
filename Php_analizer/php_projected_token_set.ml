@@ -11,14 +11,18 @@ module Private=struct
 
 let from_list l=N(Ordered.diforchan_plaen Php_projected_token.order l);;
 
-let kengeij (N x) (N y)=N(Ordered.kengeij_plaen 
+let intersection (N x) (N y)=N(Ordered.kengeij_plaen 
    Php_projected_token.order x y
 );;
 
-let kengeij_goullo x y=((kengeij x y)=N[]);;
+let empty_intersection x y=((intersection x y)=N[]);;
     
-let lemel (N x) (N y)=N(Ordered.lemel_plaen
+let setminus (N x) (N y)=N(Ordered.lemel_plaen
 Php_projected_token.order x y
+);;
+
+let union l=N(Ordered.teuzin_kalz_plaen
+Php_projected_token.order (Image.image (fun (N z)->z) l)
 );;
 
 exception Acts_only_once_exn;;
@@ -31,7 +35,7 @@ let acts_only_once (N x)=
 
 let whole=from_list Php_projected_token.all_tokens;;
 
-let complement x=lemel whole x;;
+let complement x=setminus whole x;;
 
 let complement_from_list l=complement(from_list l);;
 
@@ -58,6 +62,13 @@ let from_precedence sol op=
 let namelist=ref([]:(string*t) list);;
 
 let name_counter=ref(0);;
+
+exception Unnamed_set of t;;
+
+let get_old_name_for_set x=
+  match Option.seek(fun (n,y)->y=x)(!namelist) with
+  Some(name1,_)->name1
+  |None->raise(Unnamed_set(x));;
 
 let get_name_for_set x opt=
     match Option.seek(fun (n,y)->y=x)(!namelist) with
@@ -277,6 +288,26 @@ let readables_and_toksets=
    @
    (!namelist);;
 
+
+let helper_for_generated_algebra l new_elt=
+    let temp1=Image.image 
+      (fun (x,descr)->(setminus x new_elt,(new_elt,false)::descr) ) l 
+    and temp2=Image.image 
+      (fun (x,descr)->(intersection x new_elt,(new_elt,true)::descr) ) l in
+    let temp3=Image.image fst   (snd(List.hd l)) in
+    let temp4=(new_elt,true)::(Image.image (fun t->(t,false)) temp3) 
+    and temp5=setminus new_elt (union temp3) in
+    let temp6=(temp5,temp4)::(temp1@temp2) in
+    List.filter(fun (N y,descr)->y<>[]) temp6;;
+    
+let generated_algebra=function  
+   []->[]
+   |a::peurrest->
+     let start=[a,[a,true]] in
+     List.fold_left helper_for_generated_algebra start peurrest;;
+
+
+
 end;;
 
 let acts_only_once=Private.acts_only_once;;
@@ -295,8 +326,9 @@ let from_precedence=Private.from_precedence;;
 
 let get_name_for_set=Private.get_name_for_set;;
 let get_set_for_name=Private.get_set_for_name;;
+let get_old_name_for_set=Private.get_old_name_for_set;;
 
-let kengeij_goullo=Private.kengeij_goullo;;
+let empty_intersection=Private.empty_intersection;;
 
 let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
 
