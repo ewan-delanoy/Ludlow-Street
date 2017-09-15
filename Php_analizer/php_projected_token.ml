@@ -136,6 +136,6 @@ let precedence_neutral_tokens=harmless_tokens@
    [Php_punctuator.t_lparenthesis;Php_punctuator.t_rparenthesis]);;
    
 let pair_for_blocker blckr=
-    let (ctok_left,ctok_right)=Php_blocker_name.unveil blckr in
+    let (ctok_left,ctok_right)=Php_blocker.unveil blckr in
     (constant ctok_left,constant ctok_right);;
    

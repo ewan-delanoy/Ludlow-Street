@@ -99,13 +99,13 @@ let list_for_block_complements =
     Image.image
     (
       fun blckr->
-        let (l,r)=Php_blocker_name.make_visible blckr in
+        let (l,r)=Php_blocker.make_visible blckr in
         (
           "noneof"^l^r,
           noneof blckr
         )
     )
-    Php_blocker_name.all;;
+    Php_blocker.all;;
 
  
 let _=Image.image (fun (name,z)->get_name_for_set z (Some name)) 

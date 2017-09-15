@@ -84,11 +84,11 @@ let proj_test ptok tok=((form tok)=ptok);;
 
 
 let pair_for_blocker blckr=
-    let (ctok_left,ctok_right)=Php_blocker_name.unveil blckr in
+    let (ctok_left,ctok_right)=Php_blocker.unveil blckr in
     (constant ctok_left,constant ctok_right);;
 
 let seek_block_beginning tok=
       Option.seek (
         fun blckr->
           fst(pair_for_blocker blckr)=tok
-      ) Php_blocker_name.all;;         
+      ) Php_blocker.all;;         

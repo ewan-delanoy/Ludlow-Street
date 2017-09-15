@@ -6,15 +6,15 @@
 
 type t =                                                                    
          Atomic of Php_projected_token_set.t 
-        |Block of Php_blocker_name.t
-        |Unusual_block of Php_blocker_name.t*int;;
+        |Block of Php_blocker.t
+        |Unusual_block of Php_blocker.t*int;;
       
 let new_pairs=
    [
-     "()",Block(Php_blocker_name.parenthesis);
-     "{}",Block(Php_blocker_name.brace);
-     "[]",Block(Php_blocker_name.bracket);
-     "?:",Block(Php_blocker_name.ternop);
+     "()",Block(Php_blocker.parenthesis);
+     "{}",Block(Php_blocker.brace);
+     "[]",Block(Php_blocker.bracket);
+     "?:",Block(Php_blocker.ternop);
    ];;
 
 let acts_only_once=function
@@ -92,12 +92,27 @@ let recognize sel=
    ) in
    (f : Php_recognizer.t);; 
    
-(*   
+
 let head_tail_decomposition=function   
-   Atomic(sel)->
-   |Block of Php_blocker_name.t
-   |Unusual_block of Php_blocker.t;;
-*)
+   Atomic(sel)->[sel,None]
+   |Block(blckr)->[Php_projected_token_set.left_blocker blckr,
+                    Some(Unusual_block(blckr,1))]
+   |Unusual_block(blckr,d)->
+           let temp1=(if d=1 
+                      then None 
+                      else Some(Unusual_block(blckr,d-1))
+           ) in
+           [
+            Php_projected_token_set.left_blocker blckr,
+            Some(Unusual_block(blckr,d+1)) ;
+            Php_projected_token_set.right_blocker blckr,
+            temp1;
+            Php_projected_token_set.noneof blckr,
+            Some(Unusual_block(blckr,d-1)) ;
+            
+           ]
+     ;;
+
 
 (*
 
