@@ -113,6 +113,14 @@ let head_tail_decomposition=function
            ]
      ;;
 
+let nonempty_accepted_word=function   
+     Atomic(sel)->[sel]
+     |Block(blckr)->[Php_projected_token_set.left_blocker blckr;
+                     Php_projected_token_set.right_blocker blckr]
+     |Unusual_block(blckr,d)->
+             Ennig.doyle (fun _->Php_projected_token_set.right_blocker blckr) 1 d
+       ;;
+  
 
 (*
 
