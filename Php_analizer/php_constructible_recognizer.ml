@@ -119,7 +119,32 @@ let rec recognize wh l=
   |Chain(ch)->recognize_chain recognize ch l
   |Disjunction(dis)->recognize_disjunction recognize dis l;;
 
+  let rec accepts_empty_word=function
+     Leaf(_)->false
+    |Generalized(grlz,x)->if List.mem grlz [Generalizer.Zero_or_one;Generalizer.Zero_or_more]
+                          then true
+                          else accepts_empty_word x
+    |Chain(ch)->List.for_all accepts_empty_word ch
+    |Disjunction(dis)->List.exists accepts_empty_word dis;;  
+
+let htd_for_generalized old_f grlz x=
+    let (accepts_ew,l)=old_f x in
+    if grlz=Generalizer.Zero_or_one
+    then (true,l)
+    else 
+    if grlz=Generalizer.Zero_or_more
+    then (true,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l) 
+    else (accepts_ew,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l) ;;
 
 
+
+(*
+let head_tail_decomposition=function
+ Leaf(sel)->let temp1=Php_short_selector.head_tail_decomposition sel in
+            (false,Image.image () temp1) 
+|Generalized(grlz,x)->
+|Chain(ch)->List.for_all accepts_empty_word ch
+|Disjunction(dis)->List.exists accepts_empty_word dis;;  
+*)
 
 

@@ -14,16 +14,14 @@ and Php_constructible_recognizer.associator_for_disjunction values.
 type t=
    Zero_or_one
   |Zero_or_more
-  |One_or_more
-  |One_or_more_with_right_end_removed;;
+  |One_or_more;;
   
 let all=
-  [Zero_or_one;Zero_or_more;One_or_more;One_or_more_with_right_end_removed];;  
+  [Zero_or_one;Zero_or_more;One_or_more];;  
   
 let pair=function
    Zero_or_one->("_l_","_r?_")
   |Zero_or_more->("_l_","_r*_")
-  |One_or_more->("_l_","_r+_")
-  |One_or_more_with_right_end_removed->("_l_","_r~_");;  
+  |One_or_more->("_l_","_r+_");;  
   
  let all_pairs=Image.image pair all;; 
