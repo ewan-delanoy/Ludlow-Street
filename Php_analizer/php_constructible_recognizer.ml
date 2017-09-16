@@ -129,22 +129,48 @@ let rec recognize wh l=
 
 let htd_for_generalized old_f grlz x=
     let (accepts_ew,l)=old_f x in
-    if grlz=Generalizer.Zero_or_one
-    then (true,l)
-    else 
-    if grlz=Generalizer.Zero_or_more
-    then (true,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l) 
-    else (accepts_ew,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l) ;;
+    match grlz with
+    Generalizer.Zero_or_one->(true,l)
+    |Generalizer.Zero_or_more->(true,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l)
+    |Generalizer.One_or_more->(accepts_ew,Image.image (fun (a,peurrest)->(a,chain[peurrest;x])) l);;
+
+let normalize_head_tail_decomposition l=
+    let temp1=Image.image fst l in
+    let temp2=Php_projected_token_set.generated_algebra temp1 in
+    let temp3=Image.image(
+      fun (generated,generators)->
+      (generated,disjunction(Option.filter_and_unpack (fun (a,peurrest)->
+         if Tidel.elfenn a generators
+         then Some(peurrest)
+         else None
+      ) l))
+    ) temp2 in
+    temp3;;
 
 
 
-(*
-let head_tail_decomposition=function
+let rec head_tail_decomposition=function
  Leaf(sel)->let temp1=Php_short_selector.head_tail_decomposition sel in
-            (false,Image.image () temp1) 
-|Generalized(grlz,x)->
-|Chain(ch)->List.for_all accepts_empty_word ch
-|Disjunction(dis)->List.exists accepts_empty_word dis;;  
-*)
+            (false,Image.image (fun (a,opt)->match opt with None->(a,Chain[]) |Some(sel2)->(a,Leaf(sel2))) temp1) 
+|Generalized(grlz,x)->htd_for_generalized head_tail_decomposition grlz x
+|Chain(ch)->if ch=[] then (true,[]) else
+            let (elt1,peurrest1)=Listennou.ht ch in
+            let (aew1,l1)=head_tail_decomposition elt1 in
+            let first_part=Image.image (fun (b,peurrest2)->(b,chain (peurrest2::peurrest1))) l1 in
+            if not(aew1)
+            then (false,first_part)
+            else let (aew2,l2)=head_tail_decomposition (Chain(peurrest1)) in
+                 (aew2,normalize_head_tail_decomposition (l1@l2))
+|Disjunction(dis)->let temp2=Image.image head_tail_decomposition dis in
+                   let aew=List.exists fst temp2 in
+                   let temp3=List.flatten(Image.image snd temp2) in
+                   (aew,normalize_head_tail_decomposition temp3);;  
+
+
+
+
+
+
+
 
 
