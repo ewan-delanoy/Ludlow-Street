@@ -159,6 +159,8 @@ let define_precedence_set sol op=
 
 (* Particular sets *)
 
+get_name_for_set (N[]) (Some"empty_set");;
+
 let noneof blckr=
     let (lt,rt)=Php_projected_token.pair_for_blocker blckr in
     anonymous_complement_from_list [lt;rt];;
@@ -336,14 +338,15 @@ get_name_for_set string_or_var (Some "string_or_var");;
 
 define_precedence_set Strict_or_loose.Loose Php_operator.t_equals;;
 
-let readables_and_toksets=
-   (
-     Image.image 
-     (fun (s,ptok)->(s,N([ptok])) )
-     Php_projected_token.readables_and_tokens
-   )
-   @
-   (!namelist);;
+let old_readables=Image.image 
+(fun (s,ptok)->(s,N([ptok])) )
+Php_projected_token.readables_and_tokens;;
+
+let _=Image.image (fun (s,ptok)->get_name_for_set ptok (Some s) ) old_readables;;
+
+(* Now we have finished giving names *)
+
+let readables_and_toksets=(!namelist);;
 
 
 
