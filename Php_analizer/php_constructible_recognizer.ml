@@ -13,11 +13,32 @@ type t=
   |Chain of t list
   |Disjunction of t list;;
 
-let empty_word_acceptor=Chain[];;  
+let empty_word_acceptor=Chain[];;
+
+let rec nonempty_accepted_word=function
+Leaf(sel)->Some(Php_short_selector.nonempty_accepted_word sel)
+|Generalized(grlz,x)->nonempty_accepted_word x
+|Chain(ch)->Option.find_and_stop nonempty_accepted_word ch
+|Disjunction(dis)->Option.find_and_stop nonempty_accepted_word dis;; 
+
+
+let rec accepts_empty_word=function
+    Leaf(_)->false
+   |Generalized(grlz,x)->if List.mem grlz [Generalizer.Zero_or_one;Generalizer.Zero_or_more]
+                         then true
+                         else accepts_empty_word x
+   |Chain(ch)->List.for_all accepts_empty_word ch
+   |Disjunction(dis)->List.exists accepts_empty_word dis;;  
+
+let accepts_only_empty_word wh=((nonempty_accepted_word wh)=None);;
+
+let standardize x=
+    if accepts_only_empty_word x
+    then empty_word_acceptor
+    else x;;
+
 let leaf sel=Leaf(sel);;
-let generalized grlzr x=Generalized(grlzr,x);;  
-
-
+let generalized grlzr x=standardize(Generalized(grlzr,x));;  
 
 let chain_content wh=
     match wh  with
@@ -32,9 +53,10 @@ let chain l=
         |Some(ch)->ch
     ) l in
     let temp2=List.flatten temp1 in
-    if List.length(temp2)=1
+    let proposed=(if List.length(temp2)=1
     then List.hd temp2
-    else Chain(temp2);;
+    else Chain(temp2)) in
+    standardize proposed;;
 
     
 let disjunction_content wh=
@@ -50,9 +72,10 @@ let disjunction_content wh=
           |Some(ds)->ds
       ) l in
       let temp2=List.flatten temp1 in
-      if List.length(temp2)=1
+      let proposed=(if List.length(temp2)=1
       then List.hd temp2
-      else Disjunction(temp2);;
+      else Disjunction(temp2)) in
+      standardize proposed;;
 
 exception Helper_for_string_reading_exn of ((string*string) option)*string;;
 
@@ -62,7 +85,7 @@ let helper_for_string_reading old_f (opt,t)=
        let opt2=Option.seek
          (fun x->(Generalizer.pair x)=pair)
          Generalizer.all in
-       if opt2<>None then Generalized(Option.unpack opt2,old_f t) else
+       if opt2<>None then generalized(Option.unpack opt2)(old_f t) else
        if pair=Php_symbols_for_recognizer_description.pair_for_disjunction
        then 
             let temp1=Parenthesed_block.decompose_with_associator
@@ -93,7 +116,7 @@ let rec of_string rough_s=
   let temp5=Php_short_selector.list_from_string t in
   let temp4=Image.image (fun sel->Leaf(sel)) temp5 in
   if List.length(temp4)=1
-  then List.hd(temp4)
+  then standardize(List.hd(temp4))
   else chain(temp4);;
 
 
