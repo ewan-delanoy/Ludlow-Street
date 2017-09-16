@@ -121,9 +121,11 @@ let optional rcgzr=
 let generalize glz rcgzr=match glz with
     Generalizer.Zero_or_one->optional rcgzr
    |Generalizer.Zero_or_more->star rcgzr
-   |Generalizer.One_or_more->plus rcgzr
-   |Generalizer.One_or_more_with_right_end_removed->unfinished_star rcgzr;;
+   |Generalizer.One_or_more->plus rcgzr;;
 
+(*
+   |Generalizer.One_or_more_with_right_end_removed->unfinished_star rcgzr;;
+*)
    
    
    
