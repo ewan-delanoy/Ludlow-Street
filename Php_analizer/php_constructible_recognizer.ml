@@ -120,15 +120,13 @@ let rec recognize wh l=
   |Chain(ch)->recognize_chain recognize ch l
   |Disjunction(dis)->recognize_disjunction recognize dis l;;
 
-(*  
+
 let nonempty_accepted_word=function
- Leaf(sel)->Some()
-|Generalized(grlz,x)->if List.mem grlz [Generalizer.Zero_or_one;Generalizer.Zero_or_more]
-                      then true
-                      else accepts_empty_word x
-|Chain(ch)->List.for_all accepts_empty_word ch
-|Disjunction(dis)->List.exists accepts_empty_word dis;; 
-*)
+ Leaf(sel)->Some(Php_short_selector.nonempty_accepted_word sel)
+|Generalized(grlz,x)->nonempty_accepted_word x
+|Chain(ch)->Option.find_and_stop nonempty_accepted_word ch
+|Disjunction(dis)->Option.find_and_stop nonempty_accepted_word dis;; 
+
 
 let rec accepts_empty_word=function
      Leaf(_)->false
@@ -138,7 +136,7 @@ let rec accepts_empty_word=function
     |Chain(ch)->List.for_all accepts_empty_word ch
     |Disjunction(dis)->List.exists accepts_empty_word dis;;  
 
-
+let accepts_nonempty_word wh=((nonempty_accepted_word wh)<>None);;
 
 let htd_for_generalized old_f grlz x=
     let (accepts_ew,l)=old_f x in
