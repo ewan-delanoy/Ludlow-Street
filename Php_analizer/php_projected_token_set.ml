@@ -11,17 +11,15 @@ module Private=struct
 
 let from_list l=N(Ordered.diforchan_plaen Php_projected_token.order l);;
 
-let intersection (N x) (N y)=N(Ordered.kengeij_plaen 
+let anonymous_intersection (N x) (N y)=N(Ordered.kengeij_plaen 
    Php_projected_token.order x y
 );;
-
-let empty_intersection x y=((intersection x y)=N[]);;
     
-let setminus (N x) (N y)=N(Ordered.lemel_plaen
+let anonymous_setminus (N x) (N y)=N(Ordered.lemel_plaen
 Php_projected_token.order x y
 );;
 
-let union l=N(Ordered.teuzin_kalz_plaen
+let anonymous_union l=N(Ordered.teuzin_kalz_plaen
 Php_projected_token.order (Image.image (fun (N z)->z) l)
 );;
 
@@ -35,12 +33,12 @@ let acts_only_once (N x)=
 
 let whole=from_list Php_projected_token.all_tokens;;
 
-let complement x=setminus whole x;;
+let complement x=anonymous_setminus whole x;;
 
 let complement_from_list l=complement(from_list l);;
 
 
-let from_precedence sol op=
+let anonymous_from_precedence sol op=
     from_list(
                 Php_projected_token.precedence_neutral_tokens
                 @
@@ -59,13 +57,11 @@ let from_precedence sol op=
 
 (* Naming used sets *)
 
-let namelist=ref([]:(string*t) list);;
+let namelist=ref(["whole",whole]);;
 
 let name_counter=ref(0);;
 
-exception Unnamed_set of t;;
-
-
+let ref_for_new_names=ref[];;
 
 let get_name_for_set x opt=
     match Option.seek(fun (n,y)->y=x)(!namelist) with
@@ -85,6 +81,56 @@ let get_name_for_set x opt=
                   ) in
            name3        
       );;
+
+let from_precedence sol op=
+    let z=anonymous_from_precedence sol op in
+    let _=(
+      if List.for_all(fun (n,y)->y<>z)(!namelist) 
+      then ref_for_new_names:=
+         ((!name_counter)+1,
+          "precedence",Strict_or_loose.to_string sol,
+          Php_operator.readable op)::(!ref_for_new_names)
+      ) in
+    z;;
+
+let intersection u v=
+      let z=anonymous_intersection u v in
+      let _=(
+        if List.for_all(fun (n,y)->y<>z)(!namelist) 
+        then ref_for_new_names:=
+           ((!name_counter)+1,
+            "intersection",get_name_for_set u None,
+            get_name_for_set v None)::(!ref_for_new_names)
+        ) in
+      z;;    
+    
+let setminus u v=
+        let z=anonymous_setminus u v in
+        let _=(
+          if List.for_all(fun (n,y)->y<>z)(!namelist) 
+          then ref_for_new_names:=
+             ((!name_counter)+1,
+              "setminus",get_name_for_set u None,
+              get_name_for_set v None)::(!ref_for_new_names)
+          ) in
+        z;;          
+
+let union l=
+          let z=anonymous_union l in
+          let _=(
+            if List.for_all(fun (n,y)->y<>z)(!namelist) 
+            then 
+               let temp1=Image.image (fun w->get_name_for_set w None) l in
+               ref_for_new_names:=
+               ((!name_counter)+1,
+                "union",String.concat " " temp1,
+                "")::(!ref_for_new_names)
+            ) in
+          z;;            
+    
+
+
+    
 
 exception Unused_name of string;;
 
