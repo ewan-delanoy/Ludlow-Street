@@ -37,6 +37,7 @@ let anonymous_complement x=anonymous_setminus whole x;;
 
 let anonymous_complement_from_list l=anonymous_complement(from_list l);;
 
+let head_name (N l)=Php_projected_token.readable(List.hd l);;
 
 let anonymous_from_precedence sol op=
     from_list(
@@ -74,7 +75,7 @@ let get_name_for_set x opt=
            name2
         |None-> 
            let p=(!name_counter)+1 in
-           let name3="tokset_"^(string_of_int p) in
+           let name3="tokset_"^(string_of_int p)^":"^(head_name x)^"..." in
            let _=(
                   name_counter:=p;
                   namelist:=(name3,x)::(!namelist)
@@ -89,7 +90,8 @@ let from_precedence sol op=
       then ref_for_new_names:=
          ((!name_counter)+1,
           "precedence",Strict_or_loose.to_string sol,
-          Php_operator.readable op)::(!ref_for_new_names)
+          Php_operator.readable op)::(!ref_for_new_names);
+          get_name_for_set z None;
       ) in
     z;;
 
@@ -100,7 +102,8 @@ let intersection u v=
         then ref_for_new_names:=
            ((!name_counter)+1,
             "intersection",get_name_for_set u None,
-            get_name_for_set v None)::(!ref_for_new_names)
+            get_name_for_set v None)::(!ref_for_new_names);
+            get_name_for_set z None;
         ) in
       z;;    
     
@@ -111,20 +114,22 @@ let setminus u v=
           then ref_for_new_names:=
              ((!name_counter)+1,
               "setminus",get_name_for_set u None,
-              get_name_for_set v None)::(!ref_for_new_names)
+              get_name_for_set v None)::(!ref_for_new_names);
+              get_name_for_set z None;
           ) in
         z;;          
 
 let union l=
           let z=anonymous_union l in
           let _=(
+            let temp1=Image.image (fun w->get_name_for_set w None) l in
             if List.for_all(fun (n,y)->y<>z)(!namelist) 
             then 
-               let temp1=Image.image (fun w->get_name_for_set w None) l in
                ref_for_new_names:=
                ((!name_counter)+1,
                 "union",String.concat " " temp1,
-                "")::(!ref_for_new_names)
+                "")::(!ref_for_new_names);
+                get_name_for_set z None;
             ) in
           z;;            
     
