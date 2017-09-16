@@ -121,7 +121,7 @@ let rec recognize wh l=
   |Disjunction(dis)->recognize_disjunction recognize dis l;;
 
 
-let nonempty_accepted_word=function
+let rec nonempty_accepted_word=function
  Leaf(sel)->Some(Php_short_selector.nonempty_accepted_word sel)
 |Generalized(grlz,x)->nonempty_accepted_word x
 |Chain(ch)->Option.find_and_stop nonempty_accepted_word ch
