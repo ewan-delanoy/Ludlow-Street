@@ -195,6 +195,7 @@ module Private=struct
         iterator_for_apparition_order (dead_ones::graet,updated_names,still_alive);;
 
     let _=make_official_def "optional_pblock" "_l_ () _r?_";;
+    let _=make_official_def "namespace_name" "_l_ id _u_ nmspc _rd_";;
 
     let list_for_assignables=
       Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
@@ -263,7 +264,54 @@ module Private=struct
 
     let _ =disjunction (Some"beheaded_iwy") beheaded_iwies;;
 
-    let _=make_official_def "namespace_name" "_l_ id _u_ nmspc _rd_";;
+    let pairs_for_statements=
+    [("append_byref", "vvar [ ] = assignable ;");                                                            ("assign_byref", "vvar assign & assignable ;");                                                      
+    ("assign_on_servant", "vvar -> id_or_var  =  assignable ;");
+    ("assign_on_static", "id :: id_or_var =  assignable ;");
+    ("assign_usual", "vvar assign  assignable ;");
+    ("cell_assign", "vvar [  int_or_string_or_var  ] = assignable ;");
+    ("cell_assign_byref",
+     "vvar [  int_or_string_or_var   ]  =   & assignable  ;");
+    ("class_abstract", "abstract class _l_ no_left_brace _r*_ {}");
+    ("class_final", "final class _l_ no_left_brace _r*_ {}");
+    ("class_usual", "class _l_ no_left_brace _r*_ {}");
+    ("decl", "declare () ;"); ("echo1", "echo vvar ext");
+    ("echo2", "echo _l_ no_semicolon _r*_ ;"); ("exit", "exit ;");
+    ("foreach1", "foreach () {}");
+    ("foreach2", "foreach () :  _l_ no_breach _r*_  endforeach ;");
+    ("fun_call2", "@ id () ;"); ("fun_def", "function id () {}");
+    ("fun_returning", "return  function () {} ;");
+    ("include_like", "include_like _l_stringy _r*_ ;");
+    ("interface_decl", "interface _l_ no_left_brace _r*_ {}");
+    ("ivy", "if () beheaded_ivy"); ("iwy", "if () : beheaded_iwy endif ;");
+    ("nmspc_long_definition", "namespace nmspc ;");
+    ("nmspc_short_definition", "namespace id ;");
+    ("nonroot_namespace_use", "namespace  namespace_name {}");
+    ("returning", "return _l_ no_semicolon _r*_ ;");
+    ("root_namespace_use", "namespace  {}"); ("singleton", "ext");
+    ("snake_on_meth_call", " id :: id () _l_ -> id () _r+_  ;");
+    ("snake_on_var", "vvar _l_ -> id_or_var optional_pblock  _r+_ ;");
+    ("static_assignment", "static vvar assign assignable ;");
+    ("static_meth", "id :: id () ;");
+    ("static_meth_on_nmspc", "nmspc :: id () ;"); ("switch", "switch () {}");
+    ("trait_decl", "trait id {}"); ("trycatch", "try {} catch () {}");
+    ("while_loop", "while () {}"); ("yuze_decl", "use _l_ no_semicolon _r*_ ;")];;
+
+    let list_for_statements=
+      Image.image (fun (j,s)->("statement"^(string_of_int j),s)) 
+      (Ennig.index_everything(
+      
+        Image.image snd pairs_for_statements
+      ));;
+    
+    let statements=Image.image (
+      fun (nahme,defn)->of_definition (Some(nahme)) defn
+    ) list_for_statements;;
+    
+
+    let _ =disjunction (Some"statement") statements;;
+
+    
 
 end;;
 

@@ -33,9 +33,9 @@ let acts_only_once (N x)=
 
 let whole=from_list Php_projected_token.all_tokens;;
 
-let complement x=anonymous_setminus whole x;;
+let anonymous_complement x=anonymous_setminus whole x;;
 
-let complement_from_list l=complement(from_list l);;
+let anonymous_complement_from_list l=anonymous_complement(from_list l);;
 
 
 let anonymous_from_precedence sol op=
@@ -128,10 +128,6 @@ let union l=
             ) in
           z;;            
     
-
-
-    
-
 exception Unused_name of string;;
 
 let get_set_for_name name=
@@ -140,14 +136,32 @@ let get_set_for_name name=
  |None->raise(Unused_name(name));;
 
 let define_precedence_set sol op=
-    get_name_for_set (from_precedence sol op)
+    get_name_for_set (anonymous_from_precedence sol op)
     (Some((Strict_or_loose.to_string sol)^(Php_operator.make_visible op)));;
+
+    let helper_for_generated_algebra l new_elt=
+      let temp1=Image.image 
+        (fun (x,descr)->(setminus x new_elt,descr) ) l 
+      and temp2=Image.image 
+        (fun (x,descr)->(intersection x new_elt,
+           Tidel.insert new_elt descr) ) l in
+      let temp3=Tidel.forget_order(Tidel.big_teuzin(Image.image (fun (x,y)-> y) l)) in
+      let temp4=Tidel.singleton(new_elt)
+      and temp5=setminus new_elt (union temp3) in
+      let temp6=(temp5,temp4)::(temp1@temp2) in
+      List.filter(fun (N y,descr)->y<>[]) temp6;;
+      
+  let generated_algebra=function  
+     []->[]
+     |a::peurrest->
+       let start=[a,Tidel.singleton a] in
+       List.fold_left helper_for_generated_algebra start peurrest;;
 
 (* Particular sets *)
 
 let noneof blckr=
     let (lt,rt)=Php_projected_token.pair_for_blocker blckr in
-    complement_from_list [lt;rt];;
+    anonymous_complement_from_list [lt;rt];;
 
 let list_for_block_complements =
     Image.image
@@ -230,7 +244,7 @@ let int_or_string_or_var=from_list(
   
 get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 
-let no_breach=complement_from_list( 
+let no_breach=anonymous_complement_from_list( 
   Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_keyword(x)))
   [
     Php_keyword.t_foreach;
@@ -240,7 +254,7 @@ let no_breach=complement_from_list(
   
 get_name_for_set no_breach (Some "no_breach");;
 
-let no_colon=complement_from_list( 
+let no_colon=anonymous_complement_from_list( 
   [
     Php_projected_token.constant(Php_constant_token.of_operator Php_operator.t_colon)
   ]
@@ -248,7 +262,7 @@ let no_colon=complement_from_list(
   
 get_name_for_set no_colon (Some "no_colon");;
 
-let no_ivies=complement_from_list( 
+let no_ivies=anonymous_complement_from_list( 
   Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_keyword(x)))
   [
     Php_keyword.t_if; 
@@ -260,7 +274,7 @@ let no_ivies=complement_from_list(
   
 get_name_for_set no_ivies (Some "no_ivies");;
 
-let no_left_brace=complement_from_list( 
+let no_left_brace=anonymous_complement_from_list( 
   [
     Php_projected_token.constant(Php_constant_token.of_punctuator Php_punctuator.t_lbrace)
   ]
@@ -268,7 +282,7 @@ let no_left_brace=complement_from_list(
   
 get_name_for_set no_left_brace (Some "no_left_brace");;
 
-let no_semicolon=complement_from_list( 
+let no_semicolon=anonymous_complement_from_list( 
   [
     Php_projected_token.constant(Php_constant_token.of_punctuator Php_punctuator.t_semicolon)
   ]
@@ -277,7 +291,7 @@ let no_semicolon=complement_from_list(
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
 
-let stringy=complement_from_list( 
+let stringy=anonymous_complement_from_list( 
   (
     Image.image (fun x->Php_projected_token.constant(x))
     [
@@ -330,25 +344,6 @@ let readables_and_toksets=
    )
    @
    (!namelist);;
-
-
-let helper_for_generated_algebra l new_elt=
-    let temp1=Image.image 
-      (fun (x,descr)->(setminus x new_elt,descr) ) l 
-    and temp2=Image.image 
-      (fun (x,descr)->(intersection x new_elt,
-         Tidel.insert new_elt descr) ) l in
-    let temp3=Tidel.forget_order(Tidel.big_teuzin(Image.image (fun (x,y)-> y) l)) in
-    let temp4=Tidel.singleton(new_elt)
-    and temp5=setminus new_elt (union temp3) in
-    let temp6=(temp5,temp4)::(temp1@temp2) in
-    List.filter(fun (N y,descr)->y<>[]) temp6;;
-    
-let generated_algebra=function  
-   []->[]
-   |a::peurrest->
-     let start=[a,Tidel.singleton a] in
-     List.fold_left helper_for_generated_algebra start peurrest;;
 
 
 
