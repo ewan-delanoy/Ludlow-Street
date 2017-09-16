@@ -65,10 +65,7 @@ let name_counter=ref(0);;
 
 exception Unnamed_set of t;;
 
-let get_old_name_for_set x=
-  match Option.seek(fun (n,y)->y=x)(!namelist) with
-  Some(name1,_)->name1
-  |None->raise(Unnamed_set(x));;
+
 
 let get_name_for_set x opt=
     match Option.seek(fun (n,y)->y=x)(!namelist) with
@@ -325,11 +322,7 @@ let right_blocker blckr=
 
 let from_precedence=Private.from_precedence;;
 
-let get_name_for_set=Private.get_name_for_set;;
-let get_set_for_name=Private.get_set_for_name;;
-let get_old_name_for_set=Private.get_old_name_for_set;;
 
-let empty_intersection=Private.empty_intersection;;
 let generated_algebra=Private.generated_algebra;;
 
 let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;; 
@@ -338,3 +331,11 @@ let test (N l) x=Ordered.elfenn_plaen Php_projected_token.order x l;;
 let order=((fun (N x) (N y)->
   Total_ordering.silex_compare Php_projected_token.order x y
 ) : t Total_ordering.t);;
+
+let print (x:t)=
+  "\xef\xbd\x9f  "^(Private.get_name_for_set x None)^"  \xef\xbd\xa0";;
+
+let print_out (fmt:Format.formatter) (x:t)=
+   Format.fprintf fmt "@[%s@]" (print x);;
+
+    
