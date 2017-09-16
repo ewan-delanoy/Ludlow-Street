@@ -13,6 +13,7 @@ type t=
   |Chain of t list
   |Disjunction of t list;;
 
+let empty_word_acceptor=Chain[];;  
 let leaf sel=Leaf(sel);;
 let generalized grlzr x=Generalized(grlzr,x);;  
 
