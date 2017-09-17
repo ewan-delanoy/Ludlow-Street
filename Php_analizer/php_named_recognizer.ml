@@ -79,7 +79,7 @@ module Private=struct
     
     let generalized opt_name grlzr nr=
           let (lpar,rpar)=Generalizer.pair grlzr in
-          let definition=lpar^(nr.name)^rpar in
+          let definition=lpar^" "^(nr.name)^" "^rpar in
           let rcgzr=Php_constructible_recognizer.generalized
              grlzr nr.unnamed_content in  
           make (opt_name,definition,rcgzr,[]);;   
@@ -193,124 +193,23 @@ module Private=struct
         let dead_names=Image.image (fun nr->nr.name) dead_ones in
         let updated_names=Ordered_string.teuzin names (Ordered_string.diforchan dead_names) in
         iterator_for_apparition_order (dead_ones::graet,updated_names,still_alive);;
-
-    let _=make_official_def "optional_pblock" "_l_ () _r?_";;
-    let _=make_official_def "namespace_name" "_l_ id _u_ nmspc _rd_";;
-
-    let list_for_assignables=
-      Image.image (fun (j,s)->("assignable"^(string_of_int j),s)) 
-      (Ennig.index_everything(
-      [
-        "coerce           id ()";
-        "nmspc            _l_ :: id _r?_ optional_pblock";
-        "id ::            id ()";
-        "id () ?: no_semicolon";
-        "id () .          sqs";
-        "id ()            ";
-        "hdoc ";
-        "include_like     _l_ loose= _r*_ ";
-        "int          ";
-        "new id           ()";
-        "new nmspc        ()";
-        "sqs . vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
-        "sqs . vvar . sqs";
-        "sqs";
-        "vvar [ sqs ]";
-        "vvar . sqs";
-        "vvar = sqs";
-        "vvar -> id optional_pblock _l_ -> id optional_pblock _r*_";
-        "vvar + _l_ loose= _r*_ ";
-        "vvar";
-        "@                id ()";
-        "() ?  string_or_var  :  string_or_var  "
-      ]));;
     
-    let assignables=Image.image (
-      fun (nahme,defn)->of_definition (Some(nahme)) defn
-    ) list_for_assignables;;
+    let absorb_spider_item (item_name,l)=
+         let temp1=Ennig.index_everything(l) in
+         let temp2=Image.image(fun (j,s)->
+              let tj=item_name^"_"^(string_of_int j) in
+              make_official_def tj s
+         ) temp1 in
+         disjunction (Some item_name) temp2;;
     
+    let absorb_spider  spider=
+        let l=Php_spider.unveil spider in
+        Image.image  absorb_spider_item l;;   
 
-    let _ =disjunction (Some"assignable") assignables;;
-
-    let list_for_beheaded_ivies=
-      Image.image (fun (j,s)->("beheaded_ivy"^(string_of_int j),s)) 
-      (Ennig.index_everything(
-      [
-        "exit ;";
-        "{}   _l_ else if () {} _r*_      else {} ";
-      ]));;
-    
-    let beheaded_ivies=Image.image (
-      fun (nahme,defn)->of_definition (Some(nahme)) defn
-    ) list_for_beheaded_ivies;;
-    
-
-    let _ =disjunction (Some"beheaded_ivy") beheaded_ivies;;
-    
-    let list_for_beheaded_iwies=
-      Image.image (fun (j,s)->("beheaded_iwy"^(string_of_int j),s)) 
-      (Ennig.index_everything(
-      [
-        
-        "_l_ no_ivies _r*_ if () : _l_no_ivies _r*_ else : _l_no_ivies _r*_ endif ; _l_no_ivies _r*_";
-        "_l_ no_ivies _r*_ if () : _l_no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-        "_l_ no_ivies _r*_";
-      ]));;
-    
-    let beheaded_iwies=Image.image (
-      fun (nahme,defn)->of_definition (Some(nahme)) defn
-    ) list_for_beheaded_iwies;;
-    
-
-    let _ =disjunction (Some"beheaded_iwy") beheaded_iwies;;
-
-    let pairs_for_statements=
-    [("append_byref", "vvar [ ] = assignable ;");                                                            ("assign_byref", "vvar assign & assignable ;");                                                      
-    ("assign_on_servant", "vvar -> id_or_var  =  assignable ;");
-    ("assign_on_static", "id :: id_or_var =  assignable ;");
-    ("assign_usual", "vvar assign  assignable ;");
-    ("cell_assign", "vvar [  int_or_string_or_var  ] = assignable ;");
-    ("cell_assign_byref",
-     "vvar [  int_or_string_or_var   ]  =   & assignable  ;");
-    ("class_abstract", "abstract class _l_ no_left_brace _r*_ {}");
-    ("class_final", "final class _l_ no_left_brace _r*_ {}");
-    ("class_usual", "class _l_ no_left_brace _r*_ {}");
-    ("decl", "declare () ;"); ("echo1", "echo vvar ext");
-    ("echo2", "echo _l_ no_semicolon _r*_ ;"); ("exit", "exit ;");
-    ("foreach1", "foreach () {}");
-    ("foreach2", "foreach () :  _l_ no_breach _r*_  endforeach ;");
-    ("fun_call2", "@ id () ;"); ("fun_def", "function id () {}");
-    ("fun_returning", "return  function () {} ;");
-    ("include_like", "include_like _l_stringy _r*_ ;");
-    ("interface_decl", "interface _l_ no_left_brace _r*_ {}");
-    ("ivy", "if () beheaded_ivy"); ("iwy", "if () : beheaded_iwy endif ;");
-    ("nmspc_long_definition", "namespace nmspc ;");
-    ("nmspc_short_definition", "namespace id ;");
-    ("nonroot_namespace_use", "namespace  namespace_name {}");
-    ("returning", "return _l_ no_semicolon _r*_ ;");
-    ("root_namespace_use", "namespace  {}"); ("singleton", "ext");
-    ("snake_on_meth_call", " id :: id () _l_ -> id () _r+_  ;");
-    ("snake_on_var", "vvar _l_ -> id_or_var optional_pblock  _r+_ ;");
-    ("static_assignment", "static vvar assign assignable ;");
-    ("static_meth", "id :: id () ;");
-    ("static_meth_on_nmspc", "nmspc :: id () ;"); ("switch", "switch () {}");
-    ("trait_decl", "trait id {}"); ("trycatch", "try {} catch () {}");
-    ("while_loop", "while () {}"); ("yuze_decl", "use _l_ no_semicolon _r*_ ;")];;
-
-    let list_for_statements=
-      Image.image (fun (j,s)->("statement"^(string_of_int j),s)) 
-      (Ennig.index_everything(
-      
-        Image.image snd pairs_for_statements
-      ));;
-    
-    let statements=Image.image (
-      fun (nahme,defn)->of_definition (Some(nahme)) defn
-    ) list_for_statements;;
-    
-
-    let _ =disjunction (Some"statement") statements;;
-
+    (*
+    absorb_spider Php_spider.php;;
+    *)
+     
     
 
 end;;
