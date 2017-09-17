@@ -210,7 +210,13 @@ module Private=struct
 
     let absorb_spider  l=Image.image  absorb_spider_item l;;   
 
+    let reset_with_spider l=(data:=original_data;absorb_spider l);;
     
+    let reset_with_usual ()=reset_with_spider (Php_spider.php());;
+
+    let add_dependencies x=(Php_spider.add_dependencies x;reset_with_usual ());;
+    let remove_dependencies x=(Php_spider.remove_dependencies x;reset_with_usual ());;
+
     absorb_spider (Php_spider.php());;
     
 
@@ -259,6 +265,9 @@ let data_in_apparition_order ()=
     Private.iterator_for_apparition_order (
       [],Ordered.S[],(!(Private.data))
     );;
+
+let add_dependencies=Private.add_dependencies;;
+let remove_dependencies=Private.remove_dependencies;;
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;
