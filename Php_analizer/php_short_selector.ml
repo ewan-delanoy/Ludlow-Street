@@ -122,7 +122,8 @@ let nonempty_accepted_word=function
        ;;
   
 let all_symbols_so_far=
-        Ordered_string.diforchan(""::all_string_constants);;
+        Ordered_string.diforchan(""::all_string_constants
+         @Php_symbols_for_recognizer_description.new_symbols);;
         
 let  dependencies l=
        let temp1=Str.split (Str.regexp_string " ") l in   
