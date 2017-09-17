@@ -60,6 +60,12 @@ let anonymous_from_precedence sol op=
 
 let namelist=ref(["whole",whole]);;
 
+let from_index idx=List.nth(!namelist)(idx-1);; 
+
+let get_index x=
+  let temp1=Ennig.index_everything(!namelist) in
+  fst(Option.find(fun (i,p)->snd p=x) temp1);;
+
 let name_counter=ref(0);;
 
 let ref_for_new_names=ref[];;
@@ -359,6 +365,8 @@ end;;
 
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
+let from_index=Private.from_index;;
+let get_index=Private.get_index;;
 
 let noneof=Private.noneof;;
 let left_blocker blckr=

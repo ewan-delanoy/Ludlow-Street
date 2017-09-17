@@ -83,7 +83,9 @@ x->raise(Enc_exn(x));;
 let dane_infty=function
 x->raise(Dec_exn(x));;   
 
-let (hank1,dane1)=leveller (hank_infty,dane_infty);;
+let (hank3,dane3)=leveller (hank_infty,dane_infty);;
+let (hank2,dane2)=leveller (hank3,dane3);;
+let (hank1,dane1)=leveller (hank2,dane2);;
 let (encode_cons_rcgzr,decode_cons_rcgzr)=leveller (hank1,dane1);;
 
 
