@@ -59,27 +59,32 @@ let decode_short_sel (i_pattern,i_projtok,i_blocker,depth)=
 
 let dummy_short_sel=(4,[],0,0);;   
 
+let leveller (old_encode,old_decode)=
+  let new_encode=(function
+    Php_constructible_recognizer.Leaf (ssel)->(1,encode_short_sel ssel,0,[])  
+  | Php_constructible_recognizer.Generalized (grzr,x)->(2,dummy_short_sel,encode_generalizer grzr,[old_encode x])                                      
+  | Php_constructible_recognizer.Chain(l)->(3,dummy_short_sel,0,Image.image old_encode l)
+  | Php_constructible_recognizer.Disjunction(l)->(4,dummy_short_sel,0,Image.image old_encode l)
+  ) and new_decode=(function
+  (i_pattern,e_sel,i_grzr,e_older)->
+  match i_pattern with
+  1->Php_constructible_recognizer.Leaf (decode_short_sel e_sel)
+  |2->Php_constructible_recognizer.Generalized (decode_generalizer i_grzr,old_decode (List.hd e_older))
+  |3->Php_constructible_recognizer.Chain(Image.image old_decode e_older)                                      
+  |_->Php_constructible_recognizer.Disjunction(Image.image old_decode e_older)
+  ) in
+  (new_encode,new_decode);;  
+
 exception Enc_exn of Php_constructible_recognizer.t;;
 exception Dec_exn of Php_constructible_recognizer.t;;
 
-let encode1_cons_recgzr=function
-   x->raise(Enc_exn(x));;   
-let decode1_cons_recgzr=function
-   x->raise(Dec_exn(x));;   
+let hank_infty=function
+x->raise(Enc_exn(x));;   
+let dane_infty=function
+x->raise(Dec_exn(x));;   
 
-let encode0_cons_recgzr=function
- Php_constructible_recognizer.Leaf (ssel)->(1,encode_short_sel ssel,0,[])  
-| Php_constructible_recognizer.Generalized (grzr,x)->(2,dummy_short_sel,encode_generalizer grzr,[encode1_cons_recgzr x])                                      
-| Php_constructible_recognizer.Chain(l)->(3,dummy_short_sel,0,Image.image encode1_cons_recgzr l)
-| Php_constructible_recognizer.Disjunction(l)->(4,dummy_short_sel,0,Image.image encode1_cons_recgzr l);;
-
-let decode0_cons_recgzr (i_pattern,e_sel,i_grzr,e_older)=
-   match i_pattern with
-   1->Php_constructible_recognizer.Leaf (decode_short_sel e_sel)
-  |2->Php_constructible_recognizer.Generalized (decode_generalizer i_grzr,decode1_cons_recgzr (List.hd e_older))
-  |3->Php_constructible_recognizer.Chain(Image.image decode1_cons_recgzr e_older)                                      
-  |_->Php_constructible_recognizer.Disjunction(Image.image decode1_cons_recgzr e_older);;
-
+let (hank1,dane1)=leveller (hank_infty,dane_infty);;
+let (encode_cons_rcgzr,decode_cons_rcgzr)=leveller (hank1,dane1);;
 
 
 
