@@ -195,6 +195,9 @@ module Private=struct
         iterator_for_apparition_order (dead_ones::graet,updated_names,still_alive);;
     
     let absorb_spider_item (item_name,l)=
+         if List.length l=1
+         then make_official_def item_name (List.hd l)
+         else
          let temp1=Ennig.index_everything(l) in
          let temp2=Image.image(fun (j,s)->
               let tj=item_name^"_"^(string_of_int j) in
@@ -202,6 +205,8 @@ module Private=struct
          ) temp1 in
          disjunction (Some item_name) temp2;;
     
+
+
     let absorb_spider  spider=
         let l=Php_spider.unveil spider in
         Image.image  absorb_spider_item l;;   
@@ -209,7 +214,7 @@ module Private=struct
     (*
     absorb_spider Php_spider.php;;
     *)
-     
+
     
 
 end;;
