@@ -37,9 +37,10 @@ let decode_postok  (i,s,t,j1,j2,j3,k1,k2,k3)=
 let encode_postok_list=Image.image encode_postok;;
 let decode_postok_list=Image.image decode_postok;;
 
+(*
 let encode_projtok_set (Php_projected_token_set.N l)=Image.image encode_projtok l;;
 let decode_projtok_set l=Php_projected_token_set.N(Image.image decode_projtok l);;
-
+*)
 let encode_generalizer blckr=Listennou.find_index blckr Generalizer.all;;
 let decode_generalizer k=List.nth Generalizer.all (k-1);;
 
@@ -47,17 +48,17 @@ let encode_blocker blckr=Listennou.find_index blckr Php_blocker.all;;
 let decode_blocker k=List.nth Php_blocker.all (k-1);;
 
 let encode_short_sel=function
-  Php_short_selector.Atomic(pts)->(1,encode_projtok_set pts,0,0)
-| Php_short_selector.Block(blckr)->(2,[],encode_blocker blckr,0)
-| Php_short_selector.Unusual_block(blckr,d)->(3,[],encode_blocker blckr,d);;
+  Php_short_selector.Atomic(pts)->(1,Php_projected_token_set.get_index pts,0,0)
+| Php_short_selector.Block(blckr)->(2,0,encode_blocker blckr,0)
+| Php_short_selector.Unusual_block(blckr,d)->(3,0,encode_blocker blckr,d);;
 
 let decode_short_sel (i_pattern,i_projtok,i_blocker,depth)=
    match i_pattern with
-    1->Php_short_selector.Atomic(decode_projtok_set i_projtok)
+    1->Php_short_selector.Atomic(Php_projected_token_set.from_index i_projtok)
    |2->Php_short_selector.Block(decode_blocker i_blocker)
    |_->Php_short_selector.Unusual_block(decode_blocker i_blocker,depth);;
 
-let dummy_short_sel=(4,[],0,0);;   
+let dummy_short_sel=(4,0,0,0);;   
 
 let leveller (old_encode,old_decode)=
   let new_encode=(function
