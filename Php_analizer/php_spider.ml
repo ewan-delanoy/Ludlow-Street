@@ -11,6 +11,10 @@ module Private=struct
 
 type t=Sp of (string*(string list)) list;;
 
+exception Cycle of string list;;
+exception Unregistered_dependencies of string list;;
+
+
 let unveil (Sp l)=l;;
 
 (* Definition of PHP spider begins here *)
@@ -152,9 +156,58 @@ let change_and_remember new_spider=
        this_file
     );;   
 
+let check_dependencies (Sp l)=
+   let naively_ordered=Image.image fst l in
+   let table_for_coatoms=Image.image(
+      fun s->
+        let ttemp1=List.assoc s l in
+        let ttemp2=Image.image Php_symbols_for_recognizer_description.dependencies ttemp1 in
+        let ttemp3=Ordered_string.big_teuzin ttemp2 in
+        let ttemp4=Ordered_string.forget_order ttemp3 in
+        (s,ttemp4)
+   ) naively_ordered in
+   let temp5=Image.image(fun (s,coatoms)->
+     Ordered.filter(fun x->not(List.mem x naively_ordered)) (Ordered.unsafe_set(coatoms)) )
+     table_for_coatoms in
+   let temp6=Ordered.forget_order(Ordered_string.big_teuzin temp5) in
+   if  temp6<>[] then raise(Unregistered_dependencies(temp6)) else
+   let coat_function=Memoized.make(fun s->List.assoc s table_for_coatoms) in
+   let (cycles,better_ordered)=
+      Reconstruct_linear_poset.reconstruct_linear_poset 
+       coat_function naively_ordered in
+   if cycles<>[] then raise(Cycle(List.hd cycles)) else
+   Sp(Image.image (fun (s,_)->(s,List.assoc s l) ) better_ordered)
+   ;;
+  
+  let temporary_spider_for_insertion  (s,l)=
+    let temp1=php() in
+    match Option.seek(fun (s1,_)->s1=s)(temp1) with
+     Some(_,l1)->let l2=Ordered.diforchan_plaen Total_ordering.lex_for_strings (l1@l) in
+                 let temp2=Image.image (fun (s3,l3)->if s3=s then (s,l2) else (s3,l3)) temp1 in
+                 Sp(temp2)
+    |None->Sp((s,l)::temp1);;
+
+
+
+
+  let add_dependencies (s,l)=
+    let temp=temporary_spider_for_insertion  (s,l) in
+    let new_spider=check_dependencies temp in
+    change_and_remember new_spider;;
+
+  let remove_dependencies (s,l)=
+      let temp=(Sp(Image.image (fun (s1,l1)->
+         if s1<>s 
+         then (s1,l1)
+         else (s,List.filter (fun t->not(List.mem t l)) l1)
+      )  (php()))) in
+      let new_spider=check_dependencies temp in
+      change_and_remember new_spider;; 
+
 end;;  
   
 let php=Private.php;;
- 
+let add_dependencies=Private.add_dependencies;;
+let remove_dependencies=Private.remove_dependencies;; 
     
 
