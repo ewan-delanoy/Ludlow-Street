@@ -35,15 +35,15 @@ This allows us to deduce that if xi is Chain[], then this pair is already dead.
 *)
 
 let individual_push (l:head_tail list)=
-    let (temp7,temp8)=
+    let (temp7,not_immediately_dead)=
         List.partition (
-          fun (idx,x)->not(Php_constructible_recognizer.accepts_nonempty_word x)
+          fun (idx,x)->not(Php_constructible_recognizer.equals_empty_word_acceptor x)
         ) l in
     let first_dead=Image.image (fun pair->([],fst pair)) temp7 in
     let temp1=List.flatten(Image.image (fun (idx,x)->
         let ttemp2=snd(Php_constructible_recognizer.head_tail_decomposition x) in
         Image.image (fun (a,peurrest)->((idx,a),peurrest) ) ttemp2
-    ) temp8) in
+    ) not_immediately_dead) in
     let temp2=Image.image fst temp1 in
     let temp3=Php_projected_token_set.generated_algebra (Image.image snd temp2) in
     let temp4=Image.image(
@@ -53,11 +53,15 @@ let individual_push (l:head_tail list)=
          then Some((idx,peurrest))
          else None
          ) temp1 in
-         let ttemp9=Image.image (
-           fun (idx,_)->((idx,Php_constructible_recognizer.disjunction(Option.filter_and_unpack (fun (idx2,peurrest2)->
-              if idx2=idx then Some(peurrest2) else None
-           ) ttemp5)):head_tail)
-         ) temp8 in
+         let ttemp9=Option.filter_and_unpack (
+           fun (idx,_)->
+            let tttemp10=Option.filter_and_unpack (fun (idx2,peurrest2)->
+            if idx2=idx then Some(peurrest2) else None
+            ) ttemp5 in
+            if tttemp10=[]
+            then None
+            else Some((idx,Php_constructible_recognizer.disjunction tttemp10):head_tail)
+         ) not_immediately_dead in
         (generated,ttemp9)
       ) temp3 in
     let (temp6,living_ones)=List.partition (fun (x,l)->List.length l=1) temp4 in

@@ -30,10 +30,11 @@ let rec accepts_empty_word=function
    |Chain(ch)->List.for_all accepts_empty_word ch
    |Disjunction(dis)->List.exists accepts_empty_word dis;;  
 
-let accepts_only_empty_word wh=((nonempty_accepted_word wh)=None);;
+let equals_empty_word_acceptor x=
+  ((nonempty_accepted_word x)=None)&&(accepts_empty_word x);;
 
 let standardize x=
-    if accepts_only_empty_word x
+    if (equals_empty_word_acceptor x)
     then empty_word_acceptor
     else x;;
 
