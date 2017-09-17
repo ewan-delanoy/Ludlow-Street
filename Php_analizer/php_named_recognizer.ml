@@ -23,7 +23,7 @@ module Private=struct
     exception Name_already_in_use of string;; 
 
     let max_name_length=100;;
-    let data=ref(Image.image(
+    let original_data=(Image.image(
       fun (s,sel)->{
         name =s;
         definition=s;
@@ -33,6 +33,7 @@ module Private=struct
         is_a_disjunction=false;
       }
     ) Php_short_selector.readables_and_selectors);; 
+    let data=ref(original_data);;
     let encode elt=
          (elt.name,(elt.definition,elt.unnamed_content,elt.divided));;
     let order =((
@@ -236,6 +237,14 @@ let is_constant nr=Php_constructible_recognizer.is_constant
 
 let recognize nr=Php_constructible_recognizer.recognize 
                     nr.unnamed_content;;
+
+let basic_parser nr=((function l->
+   match recognize nr l with
+    None->None
+   |Some(cr,peurrest)->Some((),cr,peurrest)
+): unit Php_parser.t);;
+
+let star_parser nr=Php_parser_homomorphism.star (basic_parser nr);;
 
 let eat_prechewed x l= 
   let temp1=of_definition None x in
