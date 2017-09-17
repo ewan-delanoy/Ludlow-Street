@@ -8,11 +8,6 @@ where anc_a is the list of all ancestors of a, ordered as in L, and a_is_clean
 is a boolean indicating if a is the ancestor or a descendant of an "active"
 element.
 
-The input is a list of vertex*bool elements,  where the boolean indicates
-if the vertex is "active". If you don't need that functionality, you can set
-those booleans to any arbitrary value.
-
-
 Also returns a (non-canonical,non-exhaustive) set of cycles.
 
 
