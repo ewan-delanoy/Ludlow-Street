@@ -212,7 +212,7 @@ module Private=struct
         Image.image  absorb_spider_item l;;   
 
     
-    absorb_spider Php_spider.php;;
+    absorb_spider (Php_spider.php());;
     
 
     
