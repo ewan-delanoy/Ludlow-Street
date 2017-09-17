@@ -27,7 +27,7 @@ let all_symbols_so_far=
 let  dependencies l=
    let temp1=Str.split (Str.regexp_string " ") l in   
    let temp2=Ordered_string.diforchan temp1 in
-   let temp3=Ordered_string.lemel temp2 all_symbols_so_far in
+   let temp3=Ordered_string.lemel temp2 (""::all_symbols_so_far) in
    temp3;;
 
 
