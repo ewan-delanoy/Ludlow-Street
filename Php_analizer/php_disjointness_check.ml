@@ -37,7 +37,7 @@ This allows us to deduce that if xi is Chain[], then this pair is already dead.
 let individual_push (l:head_tail list)=
     let (temp7,not_immediately_dead)=
         List.partition (
-          fun (idx,x)->not(Php_constructible_recognizer.equals_empty_word_acceptor x)
+          fun (idx,x)->Php_constructible_recognizer.equals_empty_word_acceptor x
         ) l in
     let first_dead=Image.image (fun pair->([],fst pair)) temp7 in
     let temp1=List.flatten(Image.image (fun (idx,x)->
