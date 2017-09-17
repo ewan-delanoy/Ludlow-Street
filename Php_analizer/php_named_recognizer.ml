@@ -211,9 +211,9 @@ module Private=struct
         let l=Php_spider.unveil spider in
         Image.image  absorb_spider_item l;;   
 
-    (*
+    
     absorb_spider Php_spider.php;;
-    *)
+    
 
     
 
