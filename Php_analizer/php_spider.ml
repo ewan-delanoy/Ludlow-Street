@@ -107,6 +107,9 @@ let print_spider (Sp l)=
    let temp2=String.concat "\n" temp1 in
    "["^temp2^"]";;
 
+let helper_for_rememberance new_spider=
+  "\n\n\n let php_ref=ref(Sp\n"^(print_spider new_spider)^");;\n\n\n";;
+
 end;;  
   
 let php=Private.php;;
