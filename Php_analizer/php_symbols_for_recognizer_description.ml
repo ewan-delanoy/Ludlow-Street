@@ -19,5 +19,15 @@ let new_symbols=
     
    (Image.image fst all_pairs)@(Image.image snd all_pairs)));;
 
+let all_symbols_so_far=
+    Ordered_string.diforchan(
+    (Image.image fst Php_projected_token_set.readables_and_toksets)
+    @new_symbols );;
+    
+let  dependencies l=
+   let temp1=Str.split (Str.regexp_string " ") l in   
+   let temp2=Ordered_string.diforchan temp1 in
+   let temp3=Ordered_string.lemel temp2 all_symbols_so_far in
+   Ordered.forget_order temp3;;
 
 

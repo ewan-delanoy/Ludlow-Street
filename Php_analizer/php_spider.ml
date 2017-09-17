@@ -46,8 +46,8 @@ let php=Sp [
       "{}   _l_ else if () {} _r*_      else {} ";
     ];
     "beheaded_iwy",[
-      "_l_ no_ivies _r*_ if () : _l_no_ivies _r*_ else : _l_no_ivies _r*_ endif ; _l_no_ivies _r*_";
-      "_l_ no_ivies _r*_ if () : _l_no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+      "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+      "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
       "_l_ no_ivies _r*_"
     ];  
     "statement",[
@@ -60,7 +60,7 @@ let php=Sp [
       "declare () ;"; "echo vvar ext"; "echo _l_ no_semicolon _r*_ ;"; "exit ;";
       "foreach () {}"; "foreach () :  _l_ no_breach _r*_  endforeach ;";
       "@ id () ;"; "function id () {}"; "return  function () {} ;";
-      "include_like _l_stringy _r*_ ;"; "interface _l_ no_left_brace _r*_ {}";
+      "include_like _l_ stringy _r*_ ;"; "interface _l_ no_left_brace _r*_ {}";
       "if () beheaded_ivy"; "if () : beheaded_iwy endif ;"; "namespace nmspc ;";
       "namespace id ;"; "namespace  namespace_name {}";
       "return _l_ no_semicolon _r*_ ;"; "namespace  {}"; "ext";
