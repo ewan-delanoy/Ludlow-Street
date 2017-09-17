@@ -25,9 +25,10 @@ let all_symbols_so_far=
     @new_symbols );;
     
 let  dependencies l=
+   let temp0=Ordered_string.insert ""  all_symbols_so_far in 
    let temp1=Str.split (Str.regexp_string " ") l in   
    let temp2=Ordered_string.diforchan temp1 in
-   let temp3=Ordered_string.lemel temp2 (""::all_symbols_so_far) in
+   let temp3=Ordered_string.lemel temp2 temp0 in
    temp3;;
 
 
