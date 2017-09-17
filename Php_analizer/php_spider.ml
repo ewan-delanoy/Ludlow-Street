@@ -161,7 +161,7 @@ let check_dependencies (Sp l)=
    let table_for_coatoms=Image.image(
       fun s->
         let ttemp1=List.assoc s l in
-        let ttemp2=Image.image Php_symbols_for_recognizer_description.dependencies ttemp1 in
+        let ttemp2=Image.image Php_short_selector.dependencies ttemp1 in
         let ttemp3=Ordered_string.big_teuzin ttemp2 in
         let ttemp4=Ordered_string.forget_order ttemp3 in
         (s,ttemp4)

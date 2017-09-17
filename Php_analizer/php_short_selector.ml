@@ -121,6 +121,15 @@ let nonempty_accepted_word=function
              Ennig.doyle (fun _->Php_projected_token_set.right_blocker blckr) 1 d
        ;;
   
+let all_symbols_so_far=
+        Ordered_string.diforchan(""::all_string_constants);;
+        
+let  dependencies l=
+       let temp1=Str.split (Str.regexp_string " ") l in   
+       let temp2=Ordered_string.diforchan temp1 in
+       let temp3=Ordered_string.lemel temp2 all_symbols_so_far in
+       temp3;;
+
 
 (*
 
