@@ -60,7 +60,7 @@ let anonymous_from_precedence sol op=
 
 let namelist=ref(["whole",whole]);;
 
-let from_index idx=List.nth(!namelist)(idx-1);; 
+let from_index idx=snd(List.nth(!namelist)(idx-1));; 
 
 let get_index x=
   let temp1=Ennig.index_everything(!namelist) in
