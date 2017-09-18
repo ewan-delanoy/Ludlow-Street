@@ -12,7 +12,7 @@ module Private=struct
 type t=Sp of (string*(string list)) list;;
 
 exception Cycle of string list;;
-exception Unregistered_dependencies of string list;;
+exception Unregistered_dependencies of (string*string) list;;
 
 
 let unveil (Sp l)=l;;
@@ -174,9 +174,11 @@ let check_dependencies (Sp l)=
         (s,ttemp4)
    ) naively_ordered in
    let temp5=Image.image(fun (s,coatoms)->
-     Ordered.filter(fun x->not(List.mem x naively_ordered)) (Ordered.unsafe_set(coatoms)) )
+      let ttemp7=Ordered.filter(fun x->not(List.mem x naively_ordered)) 
+       (Ordered.unsafe_set(coatoms))  in
+      Ordered.image (fun t->(s,t)) ttemp7) 
      table_for_coatoms in
-   let temp6=Ordered.forget_order(Ordered_string.big_teuzin temp5) in
+   let temp6=List.flatten temp5 in
    if  temp6<>[] then raise(Unregistered_dependencies(temp6)) else
    let coat_function=Memoized.make(fun s->List.assoc s table_for_coatoms) in
    let (cycles,better_ordered)=
