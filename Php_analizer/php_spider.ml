@@ -232,5 +232,5 @@ end;;
 let php=Private.php;;
 let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;; 
-let see_item s=Private.see_item;;    
+let see_item=Private.see_item;;    
 
