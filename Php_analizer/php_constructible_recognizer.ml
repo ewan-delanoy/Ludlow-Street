@@ -201,8 +201,14 @@ let rec head_tail_decomposition=function
                    let temp3=List.flatten(Image.image snd temp2) in
                    (aew,normalize_head_tail_decomposition temp3);;  
 
+let rec helper_for_bhtd (graet,da_ober)=
+    let (aew,l)=head_tail_decomposition da_ober in
+    if aew||(List.length(l)<>1)
+    then (List.rev graet,da_ober)
+    else let (a,peurrest)=List.hd(l) in
+         helper_for_bhtd (a::graet,peurrest);; 
 
-
+let big_head_tail_decomposition x=helper_for_bhtd ([],x);;         
 
 
 
