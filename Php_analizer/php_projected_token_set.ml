@@ -303,6 +303,13 @@ let no_semicolon=anonymous_complement_from_list(
   
 get_name_for_set no_semicolon (Some "no_semicolon");;
 
+let no_var=anonymous_complement_from_list( 
+  [
+    Php_projected_token.variable
+  ]
+  );;   
+  
+get_name_for_set no_var (Some "no_var");;
 
 let stringy=anonymous_complement_from_list( 
   (
