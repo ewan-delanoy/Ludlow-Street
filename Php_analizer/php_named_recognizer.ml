@@ -220,6 +220,9 @@ module Private=struct
     absorb_spider (Php_spider.php());;
     
     let of_official_name old_name=
+       match Option.seek(fun nr->nr.name=old_name)(!data) with
+       Some(nr)->nr
+       |None->
        let name=(
            match Option.seek (fun (x,y)->x=old_name) (!official_defs) with
            Some(_,y)->y
