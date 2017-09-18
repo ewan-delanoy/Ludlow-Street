@@ -200,6 +200,12 @@ let check_dependencies (Sp l)=
     let temp=temporary_spider_for_insertion  (s,l) in
     let new_spider=check_dependencies temp in
     change_and_remember new_spider;;
+  
+  let erase_item s=
+     let temp=Sp(List.filter (fun (s1,_)->s1<>s) (php()) ) in
+     let new_spider=check_dependencies temp in
+     change_and_remember new_spider;;  
+
 
   let remove_dependencies (s,l)=
       let temp1=php() in
