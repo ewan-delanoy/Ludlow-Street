@@ -221,7 +221,7 @@ module Private=struct
     
     let of_official_name old_name=
        let name=(
-           match Option.seek (fun (x,y)->x=old_name) official_defs with
+           match Option.seek (fun (x,y)->x=old_name) (!official_defs) with
            Some(_,y)->y
            |None->old_name
        ) in
