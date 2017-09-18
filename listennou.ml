@@ -32,9 +32,9 @@ let factor (x,y)=
     ) in
     factor0([],x,y);;
 
-let comparable_for_prefix_order (a,b)=
+let comparable_for_prefix_order  a b=
     let (_,a1,b1)=factor(a,b) in (a1=[])||(b1=[]);;
-    
+
 
 let didrochan x=
 let rec didrochan0=

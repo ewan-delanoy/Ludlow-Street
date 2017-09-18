@@ -219,7 +219,23 @@ module Private=struct
 
     absorb_spider (Php_spider.php());;
     
-
+    let analize_item s=
+       let temp1=List.assoc s (Php_spider.php()) in
+       if List.length (temp1)<2
+       then []
+       else 
+       let temp2=Ennig.index_everything temp1 in
+       let temp3=Image.image(
+           fun (j,s)->
+              let named_rcgzr=of_name(s^"_"^(string_of_int j)) in
+              let rcgzr=named_rcgzr.unnamed_content in
+              (s,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
+       ) temp2 in
+       let temp4=Uple.list_of_pairs temp3 in
+       let temp5=List.filter (
+          fun ((_,l1),(_,l2))->Listennou.comparable_for_prefix_order l1 l2
+       ) temp4 in
+       temp5;;
     
 
 end;;
@@ -268,6 +284,8 @@ let data_in_apparition_order ()=
 
 let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
+
+let analize_item=Private.analize_item;;
 
 let print (x:t)=
     "\xc9\xbe  "^(x.name)^"  \xc9\xbf";;
