@@ -216,8 +216,6 @@ module Private=struct
 
     let add_dependencies x=(Php_spider.add_dependencies x;reset_with_usual ());;
     let remove_dependencies x=(Php_spider.remove_dependencies x;reset_with_usual ());;
-
-    absorb_spider (Php_spider.php());;
     
     let of_official_name old_name=
        match Option.seek(fun nr->nr.name=old_name)(!data) with
@@ -248,8 +246,9 @@ module Private=struct
           fun ((_,l1),(_,l2))->Listennou.comparable_for_prefix_order l1 l2
        ) temp4 in
        temp5;;
-    
-
+    (*
+       absorb_spider (Php_spider.php());;
+    *)
 end;;
 
 
