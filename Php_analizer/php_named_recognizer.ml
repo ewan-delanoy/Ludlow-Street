@@ -219,6 +219,14 @@ module Private=struct
 
     absorb_spider (Php_spider.php());;
     
+    let of_official_name old_name=
+       let name=(
+           match Option.seek (fun (x,y)->x=old_name) official_defs with
+           Some(_,y)->y
+           |None->old_name
+       ) in
+       of_name name;;
+
     let analize_item s=
        let temp1=List.assoc s (Php_spider.php()) in
        if List.length (temp1)<2
@@ -227,7 +235,7 @@ module Private=struct
        let temp2=Ennig.index_everything temp1 in
        let temp3=Image.image(
            fun (j,t)->
-              let named_rcgzr=of_name(s^"_"^(string_of_int j)) in
+              let named_rcgzr=of_official_name(s^"_"^(string_of_int j)) in
               let rcgzr=named_rcgzr.unnamed_content in
               (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
        ) temp2 in
