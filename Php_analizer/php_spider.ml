@@ -68,45 +68,46 @@ let unveil (Sp l)=l;;
                   ];
 
    "statement",[
-                 "vvar [ ] = assignable ;";
-                 "vvar assign & assignable ;";
-                 "vvar -> id_or_var  =  assignable ;";
-                 "id :: id_or_var =  assignable ;";
-                 "vvar assign  assignable ;";
-                 "vvar [  int_or_string_or_var  ] = assignable ;";
-                 "vvar [  int_or_string_or_var   ]  =   & assignable  ;";
+                 " id :: id () _l_ -> id () _r+_  ;";
+                 "@ id () ;";
                  "abstract class _l_ no_left_brace _r*_ {}";
-                 "final class _l_ no_left_brace _r*_ {}";
                  "class _l_ no_left_brace _r*_ {}";
                  "declare () ;";
-                 "echo vvar ext";
                  "echo _l_ no_semicolon _r*_ ;";
+                 "echo vvar ext";
                  "exit ;";
-                 "foreach () {}";
+                 "ext";
+                 "final class _l_ no_left_brace _r*_ {}";
                  "foreach () :  _l_ no_breach _r*_  endforeach ;";
-                 "@ id () ;";
+                 "foreach () {}";
                  "function id () {}";
-                 "return  function () {} ;";
+                 "id :: id () ;";
+                 "id :: id_or_var =  assignable ;";
+                 "if () : beheaded_iwy endif ;";
+                 "if () beheaded_ivy";
+                 "if () {} _l_ else if () {} _r*_ else {}";
                  "include_like _l_ stringy _r*_ ;";
                  "interface _l_ no_left_brace _r*_ {}";
-                 "if () beheaded_ivy";
-                 "if () : beheaded_iwy endif ;";
-                 "namespace nmspc ;";
-                 "namespace id ;";
                  "namespace  namespace_name {}";
-                 "return _l_ no_semicolon _r*_ ;";
                  "namespace  {}";
-                 "ext";
-                 " id :: id () _l_ -> id () _r+_  ;";
-                 "vvar _l_ -> id_or_var optional_pblock  _r+_ ;";
-                 "static vvar assign assignable ;";
-                 "id :: id () ;";
+                 "namespace id ;";
+                 "namespace nmspc ;";
                  "nmspc :: id () ;";
+                 "return  function () {} ;";
+                 "return _l_ no_semicolon _r*_ ;";
+                 "static vvar assign assignable ;";
                  "switch () {}";
                  "trait id {}";
                  "try {} catch () {}";
-                 "while () {}";
-                 "use _l_ no_semicolon _r*_ ;"
+                 "use _l_ no_semicolon _r*_ ;";
+                 "vvar -> id_or_var  =  assignable ;";
+                 "vvar [  int_or_string_or_var   ]  =   & assignable  ;";
+                 "vvar [  int_or_string_or_var  ] = assignable ;";
+                 "vvar [ ] = assignable ;";
+                 "vvar _l_ -> id_or_var optional_pblock  _r+_ ;";
+                 "vvar assign  assignable ;";
+                 "vvar assign & assignable ;";
+                 "while () {}"
                ]
 
 
