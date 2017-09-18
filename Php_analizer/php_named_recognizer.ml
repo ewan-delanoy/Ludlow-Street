@@ -253,7 +253,7 @@ let generalized=Private.generalized;;
 let chain=Private.chain;;
 let disjunction=Private.disjunction;;
 
-let of_name=Private.of_name;;
+let of_name=Private.of_official_name;;
 let of_definition=Private.of_definition;;
 
 
