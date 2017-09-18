@@ -21,6 +21,18 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "beheaded_iwy",[
+                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+                    "_l_ no_ivies _r*_"
+                  ];
+
+   "beheaded_ivwy",[
+                     ": beheaded_iwy";
+                     "exit ;";
+                     "{} _l_ else if () {} _r*_  else {}"
+                   ];
+
    "optional_pblock",["_l_ () _r?_"];
 
    "namespace_name",["_l_ id _u_ nmspc _rd_"];
@@ -53,12 +65,6 @@ let unveil (Sp l)=l;;
    "beheaded_ivy",[
                     "exit ;";
                     "{}   _l_ else if () {} _r*_      else {} "
-                  ];
-
-   "beheaded_iwy",[
-                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                    "_l_ no_ivies _r*_"
                   ];
 
    "statement",[
@@ -196,13 +202,22 @@ let check_dependencies (Sp l)=
     change_and_remember new_spider;;
 
   let remove_dependencies (s,l)=
-      let temp=(Sp(Image.image (fun (s1,l1)->
-         if s1<>s 
-         then (s1,l1)
-         else (s,List.filter (fun t->not(List.mem t l)) l1)
-      )  (php()))) in
-      let new_spider=check_dependencies temp in
-      change_and_remember new_spider;; 
+      let temp1=php() in
+      match Option.seek(fun (s1,_)->s1=s)(temp1) with
+      None->()
+      |Some(_,l1)->
+         let l2=List.filter (fun t->not(List.mem t l)) l1 in
+         let new_list=(
+          if l2=[]
+          then List.filter (fun (s1,_)->s1<>s) temp1
+          else Image.image (fun (s1,l1)->
+               if s1<>s 
+              then (s1,l1)
+              else (s,l2)
+          ) temp1
+         ) in 
+        let new_spider=Sp(new_list) in
+        change_and_remember new_spider;; 
    
   
 
