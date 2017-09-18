@@ -232,15 +232,14 @@ module Private=struct
 
     let analize_item s=
        let temp1=List.assoc s (Php_spider.php()) in
-       let temp6=of_name s in
-       let temp7=temp6.divided in
        if List.length (temp1)<2
        then []
        else 
        let temp2=Ennig.index_everything temp1 in
        let temp3=Image.image(
            fun (j,t)->
-              let named_rcgzr=List.nth temp7 (j-1) in
+              let sj=s^"_"^(string_of_int j)
+              let named_rcgzr=of_official_name sj in
               let rcgzr=named_rcgzr.unnamed_content in
               (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
        ) temp2 in

@@ -63,12 +63,11 @@ let unveil (Sp l)=l;;
                 ];
 
    "statement",[
-                 "id :: id () _l_ -> id () _r+_  ;";
                  "@ id () ;";
                  "abstract class _l_ no_left_brace _r*_ {}";
                  "class _l_ no_left_brace _r*_ {}";
                  "declare () ;";
-                 "echo _l_ no_semicolon _r*_ ;";
+                 "echo no_var no_semicolon _r*_ ;";
                  "echo vvar ext";
                  "exit ;";
                  "ext";
@@ -77,6 +76,7 @@ let unveil (Sp l)=l;;
                  "foreach () {}";
                  "function id () {}";
                  "id :: id () ;";
+                 "id :: id () _l_ -> id () _r+_  ;";
                  "id :: id_or_var =  assignable ;";
                  "if () : beheaded_iwy endif ;";
                  "if () {} _l_ else if () {} _r*_ else {}";
