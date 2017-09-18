@@ -226,10 +226,10 @@ module Private=struct
        else 
        let temp2=Ennig.index_everything temp1 in
        let temp3=Image.image(
-           fun (j,s)->
+           fun (j,t)->
               let named_rcgzr=of_name(s^"_"^(string_of_int j)) in
               let rcgzr=named_rcgzr.unnamed_content in
-              (s,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
+              (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
        ) temp2 in
        let temp4=Uple.list_of_pairs temp3 in
        let temp5=List.filter (
