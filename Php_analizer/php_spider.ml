@@ -67,7 +67,7 @@ let unveil (Sp l)=l;;
                  "abstract class _l_ no_left_brace _r*_ {}";
                  "class _l_ no_left_brace _r*_ {}";
                  "declare () ;";
-                 "echo no_var no_semicolon _r*_ ;";
+                 "echo no_var _l_ no_semicolon _r*_ ;";
                  "echo vvar ext";
                  "exit ;";
                  "ext";
