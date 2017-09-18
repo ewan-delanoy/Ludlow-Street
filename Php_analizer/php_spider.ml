@@ -216,7 +216,7 @@ let check_dependencies (Sp l)=
               else (s,l2)
           ) temp1
          ) in 
-        let new_spider=Sp(new_list) in
+        let new_spider=check_dependencies(Sp(new_list)) in
         change_and_remember new_spider;; 
    
   
