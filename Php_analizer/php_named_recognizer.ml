@@ -238,7 +238,7 @@ module Private=struct
        let temp2=Ennig.index_everything temp1 in
        let temp3=Image.image(
            fun (j,t)->
-              let sj=s^"_"^(string_of_int j)
+              let sj=s^"_"^(string_of_int j) in
               let named_rcgzr=of_official_name sj in
               let rcgzr=named_rcgzr.unnamed_content in
               (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
