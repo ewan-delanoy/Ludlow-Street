@@ -219,12 +219,18 @@ let check_dependencies (Sp l)=
         let new_spider=check_dependencies(Sp(new_list)) in
         change_and_remember new_spider;; 
    
-  
-
+    let see_item s=
+       let temp1=List.assoc(s)(php()) in
+       let temp2=Ennig.index_everything temp1 in
+       let temp3=Image.image (fun (j,s)->
+         (Strung.left_completed_string_of_int 2 j)^":"^(Strung.enclose s) ) temp2 in
+       let temp4="\n\n\n"^(String.concat "\n" temp3)^"\n\n\n" in
+       print_string temp4;;
+   
 end;;  
   
 let php=Private.php;;
 let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;; 
-let see_item s=List.assoc(s)(php());;    
+let see_item s=Private.see_item;;    
 
