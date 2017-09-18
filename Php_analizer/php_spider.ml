@@ -62,13 +62,8 @@ let unveil (Sp l)=l;;
                   "() ?  string_or_var  :  string_or_var  "
                 ];
 
-   "beheaded_ivy",[
-                    "exit ;";
-                    "{}   _l_ else if () {} _r*_      else {} "
-                  ];
-
    "statement",[
-                 " id :: id () _l_ -> id () _r+_  ;";
+                 "id :: id () _l_ -> id () _r+_  ;";
                  "@ id () ;";
                  "abstract class _l_ no_left_brace _r*_ {}";
                  "class _l_ no_left_brace _r*_ {}";
@@ -84,7 +79,6 @@ let unveil (Sp l)=l;;
                  "id :: id () ;";
                  "id :: id_or_var =  assignable ;";
                  "if () : beheaded_iwy endif ;";
-                 "if () beheaded_ivy";
                  "if () {} _l_ else if () {} _r*_ else {}";
                  "include_like _l_ stringy _r*_ ;";
                  "interface _l_ no_left_brace _r*_ {}";
