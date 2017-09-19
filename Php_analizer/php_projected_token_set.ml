@@ -257,6 +257,15 @@ let int_or_string_or_var=from_list(
   
 get_name_for_set int_or_string_or_var (Some "int_or_string_or_var");;
 
+let no_ampersand=anonymous_complement_from_list( 
+  [
+    Php_projected_token.constant(Php_constant_token.of_operator Php_operator.t_ampersand)
+  ]
+  );;   
+  
+get_name_for_set no_ampersand (Some "no_ampersand");;
+
+
 let no_breach=anonymous_complement_from_list( 
   Image.image (fun x->Php_projected_token.constant(Php_constant_token.of_keyword(x)))
   [

@@ -21,6 +21,13 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "optional_pblock",["_l_ () _r?_"];
+
+   "beheaded_varan",[
+                      ";";
+                      "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;"
+                    ];
+
    "beheaded_iwy",[
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
@@ -42,8 +49,6 @@ let unveil (Sp l)=l;;
                      "exit ;";
                      "{} _l_ else if () {} _r*_ else {}"
                    ];
-
-   "optional_pblock",["_l_ () _r?_"];
 
    "namespace_name",["_l_ id _u_ nmspc _rd_"];
 
@@ -102,9 +107,7 @@ let unveil (Sp l)=l;;
                  "try {} catch () {}";
                  "use _l_ no_semicolon _r*_ ;";
                  "vvar -> id_or_var  =  assignable ;";
-                 "vvar -> id_or_var () _l_ -> id_or_var optional_pblock  _r*_ ;";
-                 "vvar -> id_or_var () ;";
-                 "vvar -> id_or_var () -> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;";
+                 "vvar -> id_or_var () beheaded_varan";
                  "vvar [  int_or_string_or_var   ]  =   & assignable  ;";
                  "vvar [  int_or_string_or_var  ] = assignable ;";
                  "vvar [ ] = assignable ;";
