@@ -107,12 +107,11 @@ let unveil (Sp l)=l;;
                  "try {} catch () {}";
                  "use _l_ no_semicolon _r*_ ;";
                  "vvar -> id_or_var  =  assignable ;";
-                 "vvar -> id_or_var () beheaded_varan";
-                 "vvar [  int_or_string_or_var   ]  =   & assignable  ;";
-                 "vvar [  int_or_string_or_var  ] = assignable ;";
                  "vvar [ ] = assignable ;";
-                 "vvar assign  assignable ;";
+                 "vvar [ int_or_string_or_var ] = & assignable ;";
+                 "vvar [ int_or_string_or_var ] = no_ampersand assignable ;";
                  "vvar assign & assignable ;";
+                 "vvar assign no_ampersand assignable ;";
                  "while () {}"
                ]
 
