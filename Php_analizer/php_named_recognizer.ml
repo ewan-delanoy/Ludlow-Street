@@ -69,7 +69,7 @@ module Private=struct
       let force_add_name_to_element nahme x =
         let new_x= 
         {
-          names =x.names;
+          names =x.names@[nahme];
           definition=x.definition;
           shortened_definition=x.shortened_definition;
           unnamed_content=x.unnamed_content;
