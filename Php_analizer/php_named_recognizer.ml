@@ -308,7 +308,9 @@ let remove_dependencies=Private.remove_dependencies;;
 let analize_item=Private.analize_item;;
 
 let print (x:t)=
-    "\xc9\xbe  "^(name x)^" : "^(definition x)^"  \xc9\xbf";;
+    let (nahme,defn)=(name x,definition x) in
+    let descr=(if nahme=defn then nahme else nahme^" : "^defn)
+     "\xc9\xbe  "^descr^"  \xc9\xbf";;
   
 let print_out (fmt:Format.formatter) (x:t)=
      Format.fprintf fmt "@[%s@]" (print x);;
