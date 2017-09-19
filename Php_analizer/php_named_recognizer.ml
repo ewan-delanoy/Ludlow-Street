@@ -239,6 +239,15 @@ module Private=struct
 
     let add_dependencies x=(Php_spider.add_dependencies x;reset_with_usual ());;
     let remove_dependencies x=(Php_spider.remove_dependencies x;reset_with_usual ());;
+    
+    let remove_idependencies (x,l)=
+      let nr1=of_name x in
+      let l1=x.elements in
+      let l2=Image.image (fun j->
+        let nr2=List.nth l1 (j-1) in nr2.definition) l in
+      remove_dependencies (x,l2);;   
+
+
 
     let analize_item s=
        let temp1=List.assoc s (Php_spider.php()) in

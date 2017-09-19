@@ -21,6 +21,11 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "beheaded_foreach",[
+                        ":  _l_ no_breach _r*_  endforeach ;";
+                        "{}"
+                      ];
+
    "beheaded_iwy",[
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
@@ -72,8 +77,7 @@ let unveil (Sp l)=l;;
                  "exit ;";
                  "ext";
                  "final class _l_ no_left_brace _r*_ {}";
-                 "foreach () :  _l_ no_breach _r*_  endforeach ;";
-                 "foreach () {}";
+                 "foreach () beheaded_foreach";
                  "function id () {}";
                  "id :: id () ;";
                  "id :: id () _l_ -> id () _r+_  ;";
