@@ -22,7 +22,7 @@ let unveil (Sp l)=l;;
 
  let php_ref=ref(Sp[
    "beheaded_droid",[
-                      "-> id () _l_ -> id () _r+_  ;";
+                      "-> id () _l_ -> id () _r*_  ;";
                       ";"
                     ];
 
@@ -84,8 +84,6 @@ let unveil (Sp l)=l;;
                  "final class _l_ no_left_brace _r*_ {}";
                  "foreach () beheaded_foreach";
                  "function id () {}";
-                 "id :: id () -> id () _l_ -> id () _r+_  ;";
-                 "id :: id () ;";
                  "id :: id () beheaded_droid";
                  "id :: id =  assignable ;";
                  "if () : beheaded_iwy endif ;";

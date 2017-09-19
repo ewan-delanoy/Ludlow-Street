@@ -258,6 +258,9 @@ module Private=struct
       remove_dependencies (x,l2);;   
 
     let replace_dependencies x l_idx l_name=
+      if l_idx=[]
+      then add_dependencies (x,l_name)
+      else 
       let _=remove_idependencies (x,l_idx) in
         add_dependencies (x,l_name);;  
 
