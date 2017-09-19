@@ -309,7 +309,7 @@ let analize_item=Private.analize_item;;
 
 let print (x:t)=
     let (nahme,defn)=(name x,definition x) in
-    let descr=(if nahme=defn then nahme else nahme^" : "^defn)
+    let descr=(if nahme=defn then nahme else nahme^" : "^defn) in
      "\xc9\xbe  "^descr^"  \xc9\xbf";;
   
 let print_out (fmt:Format.formatter) (x:t)=
