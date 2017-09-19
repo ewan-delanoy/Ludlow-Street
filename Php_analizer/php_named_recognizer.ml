@@ -247,6 +247,11 @@ module Private=struct
         let nr2=List.nth l1 (j-1) in nr2.definition) l in
       remove_dependencies (x,l2);;   
 
+    let replace_dependencies x l_idx l_name=
+      (
+        remove_idependencies (x,l_idx);
+        add_dependencies (x,l_name)
+      );;  
 
 
     let analize_item s=
@@ -317,6 +322,7 @@ let data_in_apparition_order ()=
 
 let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
+let replace_dependencies=Private.replace_dependencies;;
 
 let analize_item=Private.analize_item;;
 
