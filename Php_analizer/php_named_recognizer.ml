@@ -254,9 +254,9 @@ module Private=struct
           fun ((_,l1),(_,l2))->Listennou.comparable_for_prefix_order l1 l2
        ) temp4 in
        temp5;;
-    (*
-       absorb_spider (Php_spider.php());;
-    *)
+    
+    absorb_spider (Php_spider.php());;
+    
 end;;
 
 
