@@ -66,31 +66,32 @@ module Private=struct
                     else nahme)
         |None->new_automatic_name ();;     
       
-      let force_add_name_to_element nahme x =
-        let new_x= 
+      let force_add_name_to_element nahme nr =
+        let new_nr= 
         {
-          names =x.names@[nahme];
-          definition=x.definition;
-          shortened_definition=x.shortened_definition;
-          unnamed_content=x.unnamed_content;
-          elements=x.elements;
-          is_a_chain=x.is_a_chain;
-          is_a_disjunction=x.is_a_disjunction;
+          names =nr.names@[nahme];
+          definition=nr.definition;
+          shortened_definition=nr.shortened_definition;
+          unnamed_content=nr.unnamed_content;
+          elements=nr.elements;
+          is_a_chain=nr.is_a_chain;
+          is_a_disjunction=nr.is_a_disjunction;
         } in
-        let new_data=Image.image (fun y->if y.names=x.names then new_x else y) (!data) in
+        let new_data=Image.image (fun y->if y.names=nr.names then new_nr else y) (!data) in
         let _=(data:=new_data) in
-        new_x;;
+        new_nr;;
+
+      let add_name_to_element_if_necessary opt_name nr=
+        match opt_name with
+        None->nr
+       |Some(nahme)->
+        if List.mem nahme nr.names 
+        then nr
+        else force_add_name_to_element nahme nr;;
 
     let make (opt_name,defn,short_defn,rcgzr,elts)=
          match Option.seek(fun nr->nr.unnamed_content=rcgzr) (!data) with
-         Some(nr1)->(
-               match opt_name with
-               None->nr1
-              |Some(nahme)->
-                  if List.mem nahme nr1.names 
-                  then nr1
-                  else force_add_name_to_element nahme nr1
-              )
+         Some(nr1)->add_name_to_element_if_necessary opt_name nr1
          |None->
          let x={
           names =[compute_name (opt_name)];
@@ -119,7 +120,7 @@ module Private=struct
           ) old_l_nr in
           let l_nr=List.flatten temp1 in
           if List.length(l_nr)=1
-          then List.hd l_nr
+          then add_name_to_element_if_necessary opt_name (List.hd l_nr)
           else 
           let definition=String.concat " " (Image.image principal_name l_nr) in
           let rcgzr=Php_constructible_recognizer.chain
@@ -133,6 +134,9 @@ module Private=struct
                 else [nr]
       ) old_l_nr in
       let l_nr=List.flatten temp1 in     
+      if List.length(l_nr)=1
+      then add_name_to_element_if_necessary opt_name (List.hd l_nr)
+      else 
       let (lpar,rpar)=Php_symbols_for_recognizer_description.pair_for_disjunction in
       let definition=
         lpar^
