@@ -261,8 +261,10 @@ module Private=struct
       if l_idx=[]
       then add_dependencies (x,l_name)
       else 
-      let _=remove_idependencies (x,l_idx) in
-        add_dependencies (x,l_name);;  
+      let temp=remove_idependencies (x,l_idx) in
+      if l_name=[]
+      then temp
+      else add_dependencies (x,l_name);;  
 
 
     let analize_item s=
