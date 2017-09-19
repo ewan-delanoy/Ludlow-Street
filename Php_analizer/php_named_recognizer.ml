@@ -266,6 +266,7 @@ module Private=struct
       then temp
       else add_dependencies (x,l_name);;  
 
+    let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
 
     let analize_item s=
        let temp1=List.assoc s (Php_spider.php()) in
@@ -336,6 +337,7 @@ let data_in_apparition_order ()=
 let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
 let replace_dependencies=Private.replace_dependencies;;
+let erase_item=Private.erase_item;;
 
 let analize_item=Private.analize_item;;
 

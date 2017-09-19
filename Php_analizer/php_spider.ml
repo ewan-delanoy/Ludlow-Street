@@ -21,10 +21,6 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
-   "beheaded_ivyw",[
-
-                   ];
-
    "beheaded_iwy",[
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
                     "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
@@ -42,9 +38,9 @@ let unveil (Sp l)=l;;
                       ];
 
    "beheaded_ivwy",[
-                     ": beheaded_iwy";
+                     ": beheaded_iwy endif ;";
                      "exit ;";
-                     "{} _l_ else if () {} _r*_  else {}"
+                     "{} _l_ else if () {} _r*_ else {}"
                    ];
 
    "optional_pblock",["_l_ () _r?_"];
@@ -90,8 +86,7 @@ let unveil (Sp l)=l;;
                  "function id () {}";
                  "id :: id () beheaded_droid";
                  "id :: id =  assignable ;";
-                 "if () : beheaded_iwy endif ;";
-                 "if () {} _l_ else if () {} _r*_ else {}";
+                 "if () beheaded_ivwy";
                  "include_like _l_ stringy _r*_ ;";
                  "interface _l_ no_left_brace _r*_ {}";
                  "namespace  namespace_name {}";
