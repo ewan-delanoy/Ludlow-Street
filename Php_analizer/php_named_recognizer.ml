@@ -248,10 +248,8 @@ module Private=struct
       remove_dependencies (x,l2);;   
 
     let replace_dependencies x l_idx l_name=
-      (
-        remove_idependencies (x,l_idx);
-        add_dependencies (x,l_name)
-      );;  
+      let _=remove_idependencies (x,l_idx) in
+        add_dependencies (x,l_name);;  
 
 
     let analize_item s=
