@@ -13,6 +13,7 @@ type t=
     names : string list;
     definition : string;
     shortened_definition : string option;
+    external_definition : string option;
     unnamed_content : Php_constructible_recognizer.t;
     elements : t list;
     is_a_chain : bool;
@@ -24,6 +25,7 @@ module Private=struct
 
     exception Name_too_long of string;;
     exception Name_already_in_use of string;; 
+    exception No_external_definition of t;;
 
     let max_name_length=100;;
     let original_data=(Image.image(
@@ -31,6 +33,7 @@ module Private=struct
         names =[s];
         definition=s;
         shortened_definition=None;
+        external_definition=Some(s);
         unnamed_content=Php_constructible_recognizer.leaf(sel);
         elements=[];
         is_a_chain=false;
@@ -40,6 +43,10 @@ module Private=struct
     let data=ref(original_data);;
 
     let principal_name nr=List.hd(nr.names);;
+
+    let external_definition nr=match nr.external_definition with
+    None->raise(No_external_definition(nr))
+    |Some(ext_defn)->ext_defn;;
 
     let encode nr=
          (principal_name nr,nr.unnamed_content);;
@@ -72,6 +79,7 @@ module Private=struct
           names =nr.names@[nahme];
           definition=nr.definition;
           shortened_definition=nr.shortened_definition;
+          external_definition=nr.external_definition;
           unnamed_content=nr.unnamed_content;
           elements=nr.elements;
           is_a_chain=nr.is_a_chain;
@@ -89,7 +97,7 @@ module Private=struct
         then nr
         else force_add_name_to_element nahme nr;;
 
-    let make (opt_name,defn,short_defn,rcgzr,elts)=
+    let make (opt_name,defn,short_defn,ext_defn,rcgzr,elts)=
          match Option.seek(fun nr->nr.unnamed_content=rcgzr) (!data) with
          Some(nr1)->add_name_to_element_if_necessary opt_name nr1
          |None->
@@ -97,6 +105,7 @@ module Private=struct
           names =[compute_name (opt_name)];
           definition=defn;
           shortened_definition=short_defn;
+          external_definition=ext_defn;
           unnamed_content=rcgzr;
           elements=elts;
           is_a_chain=(Php_constructible_recognizer.chain_content(rcgzr)<>None);
@@ -105,14 +114,14 @@ module Private=struct
          let _=(data:=Ordered.insert_plaen order x (!data)) in
          x;; 
     
-    let generalized (opt_name,short_defn) grlzr nr=
+    let generalized (opt_name,short_defn,ext_defn) grlzr nr=
           let (lpar,rpar)=Generalizer.pair grlzr in
           let definition=lpar^" "^(principal_name nr)^" "^rpar in
           let rcgzr=Php_constructible_recognizer.generalized
              grlzr nr.unnamed_content in  
-          make (opt_name,definition,short_defn,rcgzr,[]);;   
+          make (opt_name,definition,short_defn,ext_defn,rcgzr,[]);;   
              
-    let chain (opt_name,short_defn) old_l_nr=
+    let chain (opt_name,short_defn,ext_defn) old_l_nr=
           let temp1=Image.image (
               fun nr->if nr.is_a_chain 
                       then nr.elements
@@ -125,9 +134,9 @@ module Private=struct
           let definition=String.concat " " (Image.image principal_name l_nr) in
           let rcgzr=Php_constructible_recognizer.chain
           (Image.image (fun nr->nr.unnamed_content) l_nr) in  
-           make (opt_name,definition,short_defn,rcgzr,l_nr);;   
+           make (opt_name,definition,short_defn,ext_defn,rcgzr,l_nr);;   
         
-    let disjunction (opt_name,short_defn) old_l_nr=
+    let disjunction (opt_name,short_defn,ext_defn) old_l_nr=
       let temp1=Image.image (
         fun nr->if nr.is_a_disjunction 
                 then nr.elements
@@ -146,7 +155,7 @@ module Private=struct
       in
       let rcgzr=Php_constructible_recognizer.disjunction
       (Image.image (fun nr->nr.unnamed_content) l_nr) in  
-       make (opt_name,definition,short_defn,rcgzr,l_nr);;   
+       make (opt_name,definition,short_defn,ext_defn,rcgzr,l_nr);;   
 
     exception Unknown_name of string;;
 
@@ -154,11 +163,11 @@ module Private=struct
       try Option.find(fun nr->List.mem nahme nr.names)(!data) with
       Option.Unpackable(_)->raise(Unknown_name(nahme));;
 
-    let of_elementary_definition (opt_name,short_defn) defn=
+    let of_elementary_definition (opt_name,short_defn,ext_defn) defn=
       let names=List.flatten(Image.image (fun nr->nr.names) (!data)) in
       let temp1=Strung.longest_match_parsing names defn in
       let temp2=Image.image of_name temp1 in
-      chain (opt_name,short_defn) temp2;;
+      chain (opt_name,short_defn,ext_defn) temp2;;
   
     exception Helper_for_definition_reading_exn of ((string*string) option)*string;;
     
@@ -170,7 +179,7 @@ module Private=struct
                   (fun x->(Generalizer.pair x)=pair)
                   Generalizer.all in
                 if opt2<>None 
-                then generalized name_options (Option.unpack opt2) (oed (None,None) t) 
+                then generalized name_options (Option.unpack opt2) (oed (None,None,None) t) 
                 else
                 if pair=Php_symbols_for_recognizer_description.pair_for_disjunction
                 then 
@@ -178,7 +187,7 @@ module Private=struct
                                 Php_symbols_for_recognizer_description.associator_for_disjunction 
                                 Php_symbols_for_recognizer_description.all_pairs t in
                      disjunction name_options (Image.image 
-                          (oed (None,None))  temp1)
+                          (oed (None,None,None))  temp1)
                 else
                 raise(Helper_for_definition_reading_exn(opt,t));; 
     
@@ -199,7 +208,7 @@ module Private=struct
         if List.length(temp3)=1
         then helper_for_definition_reading name_options (List.hd temp3)
         else  
-        let temp4=Image.image (helper_for_definition_reading (None,None)) temp3 in
+        let temp4=Image.image (helper_for_definition_reading (None,None,None)) temp3 in
         chain name_options temp4;;            
 
     let rec iterator_for_apparition_order (graet,names,da_ober)=
@@ -219,15 +228,16 @@ module Private=struct
     let absorb_spider_item (item_name,l)=
          let n=List.length l in
          if n=1
-         then of_definition (Some(item_name),None) (List.hd l)
+         then let defn=List.hd l in
+              of_definition (Some(item_name),None,Some(defn)) defn
          else
          let temp1=Ennig.index_everything(l) in
          let temp2=Image.image(fun (j,s)->
               let tj=item_name^"_"^(string_of_int j) in
-              of_definition (Some(tj),None) s
+              of_definition (Some(tj),None,Some(s)) s
          ) temp1 in
          let shortened_def=item_name^"_i (1<=i<="^(string_of_int n)^")" in
-         disjunction (Some item_name,Some shortened_def) temp2;;
+         disjunction (Some item_name,Some shortened_def,None) temp2;;
     
 
 
@@ -244,7 +254,7 @@ module Private=struct
       let nr1=of_name x in
       let l1=nr1.elements in
       let l2=Image.image (fun j->
-        let nr2=List.nth l1 (j-1) in nr2.definition) l in
+        let nr2=List.nth l1 (j-1) in external_definition nr2) l in
       remove_dependencies (x,l2);;   
 
     let replace_dependencies x l_idx l_name=
@@ -282,7 +292,7 @@ let of_name=Private.of_name;;
 let definition x= match x.shortened_definition with
                   Some(sdef)->sdef
                   |None->x.definition;;
-let of_definition=Private.of_definition (None,None);;
+let of_definition=Private.of_definition (None,None,None);;
 
 
 let chain_content nr=
