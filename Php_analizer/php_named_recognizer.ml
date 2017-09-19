@@ -242,7 +242,7 @@ module Private=struct
     
     let remove_idependencies (x,l)=
       let nr1=of_name x in
-      let l1=x.elements in
+      let l1=nr1.elements in
       let l2=Image.image (fun j->
         let nr2=List.nth l1 (j-1) in nr2.definition) l in
       remove_dependencies (x,l2);;   
