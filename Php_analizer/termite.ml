@@ -37,7 +37,7 @@ let default_embedding wh=
 let rewriter (opt,t)=
       let better_t=Cull_string.trim_spaces t in
       if better_t="" then [] else
-      let wh=Php_named_recognizer.of_definition None better_t in
+      let wh=Php_named_recognizer.of_definition better_t in
       if opt<>None 
       then [Retained_or_not.Retained,wh]
       else (
