@@ -312,13 +312,22 @@ let is_constant nr=Php_constructible_recognizer.is_constant
 let recognize nr=Php_constructible_recognizer.recognize 
                     nr.unnamed_content;;
 
-let basic_parser nr=((function l->
-   match recognize nr l with
+let basic_parser nahme=((function l->
+   match recognize (of_name nahme) l with
     None->None
    |Some(cr,peurrest)->Some((),cr,peurrest)
 ): unit Php_parser.t);;
 
-let star_parser nr=Php_parser_homomorphism.star (basic_parser nr);;
+let star_parser nahme=Php_parser_homomorphism.star (basic_parser nahme);;
+
+let clean_lily nahme ll=
+    Option.filter_and_unpack 
+    (
+      fun l->match star_parser nahme l with
+      None->(if l=[] then None else Some(l))
+      |Some(_,_,l2)->(if l2=[] then None else Some(l2))
+    )
+    ll;;
 
 let eat_prechewed x l= 
   let temp1=of_definition x in
