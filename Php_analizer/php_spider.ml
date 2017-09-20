@@ -21,6 +21,28 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "after_var_in_assignable",[
+                               ". sqs";
+                               "= sqs";
+                               "[ sqs ]"
+                             ];
+
+   "after_sqs_in_assignable",[
+                               ". vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
+                               ". vvar . sqs"
+                             ];
+
+   "after_id_paren_in_assignable",[
+                                    "?: no_semicolon";
+                                    ". sqs"
+                                  ];
+
+   "beheaded_ivy",[
+                    "else {}";
+                    "else if () {} _l_ else if () {} _r*_ else {}";
+                    "if () {} include_like id () . sqs ;"
+                  ];
+
    "optional_pblock",["_l_ () _r?_"];
 
    "beheaded_varan",[
@@ -46,35 +68,25 @@ let unveil (Sp l)=l;;
 
    "beheaded_ivwy",[
                      ": beheaded_iwy endif ;";
-                     "exit ;";
-                     "{} _l_ else if () {} _r*_ else {}"
+                     "{} beheaded_ivy"
                    ];
 
    "namespace_name",["_l_ id _u_ nmspc _rd_"];
 
    "assignable",[
-                  "coerce           id ()";
-                  "nmspc            _l_ :: id _r?_ optional_pblock";
-                  "id ::            id ()";
-                  "id () ?: no_semicolon";
-                  "id () .          sqs";
-                  "id ()            ";
+                  "() ?  string_or_var  :  string_or_var  ";
+                  "@ id ()";
+                  "coerce id ()";
                   "hdoc ";
+                  "id () _l_ after_id_paren_in_assignable _r?_";
+                  "id :: id ()";
                   "include_like     _l_ loose= _r*_ ";
-                  "int          ";
-                  "new id           ()";
-                  "new nmspc        ()";
-                  "sqs . vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
-                  "sqs . vvar . sqs";
-                  "sqs";
-                  "vvar [ sqs ]";
-                  "vvar . sqs";
-                  "vvar = sqs";
-                  "vvar -> id optional_pblock _l_ -> id optional_pblock _r*_";
-                  "vvar + _l_ loose= _r*_ ";
-                  "vvar";
-                  "@                id ()";
-                  "() ?  string_or_var  :  string_or_var  "
+                  "int";
+                  "new id ()";
+                  "new nmspc ()";
+                  "nmspc _l_ :: id _r?_ optional_pblock";
+                  "sqs _l_ after_sqs_in_assignable _r?_";
+                  "vvar _l_ after_var_in_assignable _r?_"
                 ];
 
    "statement",[

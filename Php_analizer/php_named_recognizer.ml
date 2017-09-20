@@ -287,6 +287,14 @@ module Private=struct
        ) temp4 in
        temp5;;
     
+    let analize_all_items ()=
+        let temp1=Php_spider.php() in
+        let temp2=List.filter (fun (s,l)->List.length(l)>1) temp1 in
+        Image.image(
+             fun (s,_)->(s,analize_item s)
+        ) temp2;;
+
+
     absorb_spider (Php_spider.php());;
     
 end;;
@@ -350,6 +358,7 @@ let replace_dependencies=Private.replace_dependencies;;
 let erase_item=Private.erase_item;;
 
 let analize_item=Private.analize_item;;
+let analize_all_items=Private.analize_all_items;;
 
 let print (x:t)=
     let (nahme,defn)=(name x,definition x) in
