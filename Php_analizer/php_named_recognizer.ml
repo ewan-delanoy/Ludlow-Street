@@ -321,13 +321,14 @@ let basic_parser nahme=((function l->
 let star_parser nahme=Php_parser_homomorphism.star (basic_parser nahme);;
 
 let clean_lily nahme ll=
-    Option.filter_and_unpack 
+    let temp1=Explicit.image 
     (
       fun l->match star_parser nahme l with
       None->(if l=[] then None else Some(l))
       |Some(_,_,l2)->(if l2=[] then None else Some(l2))
     )
-    ll;;
+    ll in
+    Option.filter_and_unpack  (fun x->x) temp1;;
 
 let eat_prechewed x l= 
   let temp1=of_definition x in
