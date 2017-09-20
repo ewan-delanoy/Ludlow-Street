@@ -249,7 +249,8 @@ module Private=struct
 
     let add_dependencies x=(Php_spider.add_dependencies x;reset_with_usual ());;
     let remove_dependencies x=(Php_spider.remove_dependencies x;reset_with_usual ());;
-    
+    let substitute_dependencies x=(Php_spider.substitute_dependencies x;reset_with_usual ());;
+
     let remove_idependencies (x,l)=
       let nr1=of_name x in
       let l1=nr1.elements in
@@ -260,6 +261,9 @@ module Private=struct
     let replace_dependencies x l_idx l_name=
       if l_idx=[]
       then add_dependencies (x,l_name)
+      else 
+      if l_idx=[-1]
+      then substitute_dependencies (x,l_name)
       else 
       let temp=remove_idependencies (x,l_idx) in
       if l_name=[]
