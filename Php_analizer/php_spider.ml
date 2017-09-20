@@ -21,7 +21,13 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "beheaded3_iwy",[
+                     "else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+                     "endif ; _l_ no_ivies _r*_"
+                   ];
+
    "beheaded2_iwy",[
+                     "if () : _l_ no_ivies _r*_ beheaded3_iwy";
                      "if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
                      "if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_"
                    ];
@@ -55,9 +61,7 @@ let unveil (Sp l)=l;;
                       "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;"
                     ];
 
-   "beheaded_iwy",[
-                    "no_ivies _l_ no_ivies _r*_ beheaded2_iwy"
-                  ];
+   "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ beheaded2_iwy"];
 
    "beheaded_droid",[
                       "-> id () _l_ -> id () _r*_  ;";
@@ -248,6 +252,11 @@ let check_dependencies (Sp l)=
         let new_spider=check_dependencies(Sp(new_list)) in
         change_and_remember new_spider;; 
    
+    let substitute_dependencies (s,l)=
+      let temp=Sp(Image.image (fun (s1,l1)->if s1<>s then (s1,l1) else (s,l)) (php()) ) in
+      let new_spider=check_dependencies temp in
+      change_and_remember new_spider;;  
+
     let see_item s=
        let temp1=List.assoc(s)(php()) in
        let temp2=Ennig.index_everything temp1 in
@@ -262,5 +271,6 @@ let php=Private.php;;
 let add_dependencies=Private.add_dependencies;;
 let erase_item=Private.erase_item;;  
 let remove_dependencies=Private.remove_dependencies;; 
+let substitute_dependencies=Private.substitute_dependencies;; 
 let see_item=Private.see_item;;    
 
