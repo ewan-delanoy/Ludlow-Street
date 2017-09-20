@@ -19,7 +19,7 @@ let rec pusher_for_molecularization
     (
       let (tok,lxg)=a in
        match Php_token.seek_block_beginning tok with
-       None->((Php_molecule.of_token tok,lxg)::graet,da_ober)
+       None->((Php_molecule.of_token tok,lxg)::graet,peurrest)
       |Some(blckr)->
          let opt=Php_recognize_starting_block.rsb blckr da_ober in
          if opt=None then raise(Molecularization_exn) else
