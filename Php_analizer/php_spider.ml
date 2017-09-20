@@ -21,6 +21,11 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
+   "beheaded2_iwy",[
+                     "if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+                     "if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_"
+                   ];
+
    "after_var_in_assignable",[
                                ". sqs";
                                "= sqs";
@@ -51,9 +56,7 @@ let unveil (Sp l)=l;;
                     ];
 
    "beheaded_iwy",[
-                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                    "_l_ no_ivies _r*_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                    "_l_ no_ivies _r*_"
+                    "no_ivies _l_ no_ivies _r*_ beheaded2_iwy"
                   ];
 
    "beheaded_droid",[
