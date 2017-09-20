@@ -290,8 +290,12 @@ module Private=struct
     let analize_all_items ()=
         let temp1=Php_spider.php() in
         let temp2=List.filter (fun (s,l)->List.length(l)>1) temp1 in
-        Image.image(
-             fun (s,_)->(s,analize_item s)
+        Option.filter_and_unpack(
+             fun (s,_)->
+               let l=analize_item s in 
+               if l=[] 
+               then None
+               else Some(s,analize_item s)
         ) temp2;;
 
 
