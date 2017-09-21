@@ -46,9 +46,11 @@ let unveil (Sp l)=l;;
                                   ];
 
    "beheaded_ivy",[
+                    "class id extends id {}";
                     "else if () {} _l_ else if () {} _r*_ else {}";
                     "else {}";
                     "if () {} include_like id () . sqs ;";
+                    "vvar = new id () ;";
                     "vvar = require id . sqs ;"
                   ];
 
@@ -109,7 +111,9 @@ let unveil (Sp l)=l;;
                  "id :: id () beheaded_droid";
                  "id :: id =  assignable ;";
                  "if () beheaded_ivwy";
-                 "include_like _l_ stringy _r*_ ;";
+                 "include_like id () . sqs ;";
+                 "include_like id . sqs ;";
+                 "include_like stringy _l_ stringy _r*_ ;";
                  "interface _l_ no_left_brace _r*_ {}";
                  "namespace id ;";
                  "namespace id {}";
@@ -125,9 +129,10 @@ let unveil (Sp l)=l;;
                  "use _l_ no_semicolon _r*_ ;";
                  "vvar -> id  =  assignable ;";
                  "vvar -> id () ;";
-                 "vvar [ ] = assignable ;";
-                 "vvar [ int_or_string_or_var ] = & assignable ;";
-                 "vvar [ int_or_string_or_var ] = no_ampersand assignable ;";
+                 "vvar = id () ;";
+                 "vvar = id :: id () ;";
+                 "vvar = require id . sqs ;";
+                 "vvar [] = & vvar ;";
                  "vvar assign & assignable ;";
                  "vvar assign (bool) id () ;";
                  "vvar assign new id () ;";
