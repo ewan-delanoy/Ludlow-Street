@@ -46,9 +46,10 @@ let unveil (Sp l)=l;;
                                   ];
 
    "beheaded_ivy",[
-                    "else {}";
                     "else if () {} _l_ else if () {} _r*_ else {}";
-                    "if () {} include_like id () . sqs ;"
+                    "else {}";
+                    "if () {} include_like id () . sqs ;";
+                    "vvar = require id . sqs ;"
                   ];
 
    "optional_pblock",["_l_ () _r?_"];
@@ -58,7 +59,7 @@ let unveil (Sp l)=l;;
                       "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;"
                     ];
 
-   "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ beheaded2_iwy"];
+   "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ _l_ beheaded2_iwy _r?_"];
 
    "beheaded_droid",[
                       "-> id () _l_ -> id () _r*_  ;";
@@ -122,11 +123,14 @@ let unveil (Sp l)=l;;
                  "trait id {}";
                  "try {} catch () {}";
                  "use _l_ no_semicolon _r*_ ;";
-                 "vvar -> id_or_var  =  assignable ;";
+                 "vvar -> id  =  assignable ;";
+                 "vvar -> id () ;";
                  "vvar [ ] = assignable ;";
                  "vvar [ int_or_string_or_var ] = & assignable ;";
                  "vvar [ int_or_string_or_var ] = no_ampersand assignable ;";
                  "vvar assign & assignable ;";
+                 "vvar assign (bool) id () ;";
+                 "vvar assign new id () ;";
                  "vvar assign vvar _l_ after_var_in_assignable _r?_ ;";
                  "while () {}"
                ]
