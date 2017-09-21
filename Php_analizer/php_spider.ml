@@ -29,6 +29,7 @@ let unveil (Sp l)=l;;
    "beheaded2_iwy",["if () : _l_ no_ivies _r*_ beheaded3_iwy"];
 
    "after_var_in_assignable",[
+                               "-> id ()";
                                ". sqs";
                                "= sqs";
                                "[ sqs ]"
@@ -126,7 +127,7 @@ let unveil (Sp l)=l;;
                  "vvar [ int_or_string_or_var ] = & assignable ;";
                  "vvar [ int_or_string_or_var ] = no_ampersand assignable ;";
                  "vvar assign & assignable ;";
-                 "vvar assign no_ampersand assignable ;";
+                 "vvar assign vvar _l_ after_var_in_assignable _r?_ ;";
                  "while () {}"
                ]
 
