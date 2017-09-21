@@ -26,11 +26,7 @@ let unveil (Sp l)=l;;
                      "endif ; _l_ no_ivies _r*_"
                    ];
 
-   "beheaded2_iwy",[
-                     "if () : _l_ no_ivies _r*_ beheaded3_iwy";
-                     "if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                     "if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_"
-                   ];
+   "beheaded2_iwy",["if () : _l_ no_ivies _r*_ beheaded3_iwy"];
 
    "after_var_in_assignable",[
                                ". sqs";
