@@ -52,7 +52,7 @@ let get_individual_data s=
 
 let force_recompute_data l=
     let _=Image.image (fun s->
-      Unix_command.hardcore_uc ("rm "^(marshaled_file_for_item s))
+      Unix_command.hardcore_uc ("rm -f "^(marshaled_file_for_item s))
     ) l in 
     List.flatten(Image.image persist_lexed_data l);;  
    
