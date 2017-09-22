@@ -225,7 +225,7 @@ let coerce=from_list( Image.image
 
 get_name_for_set coerce (Some "coerce");;
 
-let end_of_file=anonymous_complement_from_list( 
+let end_of_file=from_list( 
   [
     Php_projected_token.end_of_file
   ]
