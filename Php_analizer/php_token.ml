@@ -74,6 +74,7 @@ let kwd s=constant(Php_constant_token.of_keyword (Php_keyword.from_visible s));;
 
 
 let from_visible=Memoized.make(fun s->
+   if s="end_of_file" then end_of_file else
   try constant(Php_constant_token.from_visible s) with
   Php_constant_token.Unknown_visible(s)->ident(s)
   );;

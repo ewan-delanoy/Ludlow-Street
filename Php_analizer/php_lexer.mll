@@ -172,7 +172,12 @@ let finish_doc lbuf=
       add_long_doc_to_list lbuf tok;
       insert_semicolon lbuf;;
       
-
+let add_end_of_file_if_necessary l=
+   let temp1=List.rev l in
+   let (tok,(lxg1,lxg2))=List.hd(temp1) in
+   if Php_token.form tok=Php_projected_token.end_of_file
+   then l
+   else List.rev((Php_token.end_of_file,(lxg2,lxg2))::temp1);;
 
 
 exception Illegal_first_character_in_doc of char;;
@@ -432,11 +437,11 @@ and step_four_in_doc=parse
 
 let parse_string s =
           let _=(list_accu:=[];string_accu:="") in
-          outside_php (Lexing.from_string s);;
+          add_end_of_file_if_necessary( outside_php (Lexing.from_string s));;
   
 let parse_file fn=
          let _=(list_accu:=[];string_accu:="") in
-          outside_php (lexing_from_file fn);;
+         add_end_of_file_if_necessary( outside_php (lexing_from_file fn));;
 }
   
   
