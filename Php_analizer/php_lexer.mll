@@ -41,7 +41,7 @@ let variable s=Php_token.variable(s);;
 let integer i=Php_token.of_int(i);;
 let floating f=Php_token.of_float(f);;
 let character c=Php_token.of_char(String.make 1 c);;
-let end_of_text=Php_token.end_of_file;;
+let end_of_file=Php_token.end_of_file;;
 let external_echo s=Php_token.external_echo s;;
 
 let read_word=Php_token.from_visible;;
@@ -352,7 +352,7 @@ and double_quoted_string=parse
   | _ as c {add_to_string c; double_quoted_string lexbuf}
   |eof {List.rev(
         List.cons
-        (mk end_of_text (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
+        (mk end_of_file (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
          (!list_accu))}     
 and doc_string=parse
   | '\'' { current_doctype:=Nowdoc_type;step_one_in_doc lexbuf;}
