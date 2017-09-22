@@ -27,7 +27,7 @@ let constant ctok =
        make (Php_projected_token.constant(ctok)) 
             (Php_constant_token.make_visible ctok);;
 let double_quoted s = make Php_projected_token.double_quoted s;;
-let end_of_file = make Php_projected_token.end_of_file "";;
+let end_of_file = make Php_projected_token.end_of_file "end_of_file";;
 let external_echo s = make Php_projected_token.external_echo s;;
 let ident s = make Php_projected_token.ident s;;
 let heredoc s = make Php_projected_token.heredoc s;;

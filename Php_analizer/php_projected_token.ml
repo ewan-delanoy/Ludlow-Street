@@ -95,7 +95,7 @@ let readable (ptok:t)=match ptok with
 |`Int->"int"
 |`Float->"float"
 |`Char->"char"
-|`End_of_text->"eot";;
+|`End_of_text->"end_of_file";;
 
 
 
