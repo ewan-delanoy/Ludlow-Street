@@ -41,7 +41,7 @@ let variable s=Php_token.variable(s);;
 let integer i=Php_token.of_int(i);;
 let floating f=Php_token.of_float(f);;
 let character c=Php_token.of_char(String.make 1 c);;
-let end_of_text=Php_token.end_of_text;;
+let end_of_text=Php_token.end_of_file;;
 let external_echo s=Php_token.external_echo s;;
 
 let read_word=Php_token.from_visible;;
