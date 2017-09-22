@@ -103,6 +103,7 @@ let unveil (Sp l)=l;;
                  "declare () ;";
                  "echo no_var _l_ no_semicolon _r*_ ;";
                  "echo vvar ext";
+                 "end_of_file";
                  "exit ;";
                  "ext";
                  "final class _l_ no_left_brace _r*_ {}";
