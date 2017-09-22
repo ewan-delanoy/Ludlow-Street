@@ -173,6 +173,7 @@ let finish_doc lbuf=
       insert_semicolon lbuf;;
       
 let add_end_of_file_if_necessary l=
+  if l=[] then [] else
    let temp1=List.rev l in
    let (tok,(lxg1,lxg2))=List.hd(temp1) in
    if Php_token.form tok=Php_projected_token.end_of_file

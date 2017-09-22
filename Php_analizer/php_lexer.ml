@@ -174,6 +174,7 @@ let finish_doc lbuf=
       insert_semicolon lbuf;;
       
 let add_end_of_file_if_necessary l=
+  if l=[] then [] else
    let temp1=List.rev l in
    let (tok,(lxg1,lxg2))=List.hd(temp1) in
    if Php_token.form tok=Php_projected_token.end_of_file
@@ -196,7 +197,7 @@ let debug_list=ref [];;
 
     
 
-# 200 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 201 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base = 
    "\000\000\252\255\253\255\000\000\000\000\000\000\001\000\000\000\
@@ -682,29 +683,29 @@ let rec outside_php lexbuf =
 and __ocaml_lex_outside_php_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 205 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 206 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
               (finish_nonphp lexbuf; inside_php lexbuf;)
-# 688 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 689 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 206 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 207 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                (finish_nonphp lexbuf; inside_php lexbuf;)
-# 693 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 694 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
 let
-# 207 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 208 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 699 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 700 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 207 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 208 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string c; outside_php lexbuf)
-# 703 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 704 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
-# 208 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 209 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (finish_nonphp lexbuf;List.rev(!list_accu))
-# 708 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 709 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_outside_php_rec lexbuf __ocaml_lex_state
@@ -714,15 +715,15 @@ and inside_php lexbuf =
 and __ocaml_lex_inside_php_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 210 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 211 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
             (* insert_semicolon_if_needed lexbuf; *)
             outside_php lexbuf;)
-# 723 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 724 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 214 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 215 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (
             
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
@@ -730,152 +731,152 @@ and __ocaml_lex_inside_php_rec lexbuf __ocaml_lex_state =
             Lexing.new_line lexbuf;
             outside_php lexbuf;
             )
-# 734 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 735 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 221 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 222 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( starred_comment lexbuf;)
-# 739 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 740 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
-# 222 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 223 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( slashed_comment lexbuf;)
-# 744 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 745 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 4 ->
-# 223 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 224 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( 
             faraway_beginning:=Lexing.lexeme_start_p lexbuf; 
             single_quoted_string lexbuf;)
-# 751 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 752 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 5 ->
-# 226 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 227 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( 
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
             double_quoted_string lexbuf;)
-# 758 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 759 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 6 ->
-# 229 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 230 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (
              faraway_beginning:=Lexing.lexeme_start_p lexbuf;
              doc_string lexbuf;
           )
-# 766 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 767 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 7 ->
-# 233 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 234 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                (inside_php lexbuf;)
-# 771 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 772 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 8 ->
-# 234 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 235 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                 (Lexing.new_line lexbuf;inside_php lexbuf;)
-# 776 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 777 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 9 ->
 let
-# 235 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-              inum
-# 782 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
-= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
 # 236 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+              inum
+# 783 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 237 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
    ( 
   	  let tok=integer inum in
   	  add_to_list lexbuf  tok; inside_php lexbuf
 	)
-# 789 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 790 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 10 ->
 let
-# 240 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-                         fnum
-# 795 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
-= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
 # 241 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+                         fnum
+# 796 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 242 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
    ( 
 	  let tok=floating fnum in
   	  add_to_list lexbuf  tok; inside_php lexbuf
 	)
-# 802 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 803 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 11 ->
 let
-# 245 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 246 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
               varname
-# 808 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 809 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 245 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 246 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                       (  add_to_list lexbuf  (variable varname); inside_php lexbuf)
-# 812 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 813 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 12 ->
 let
-# 310 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 311 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            op
-# 818 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 819 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 310 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 311 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
               (
                 add_to_list lexbuf (read_word op);
                 inside_php lexbuf
               )
-# 825 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 826 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 13 ->
 let
-# 315 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 316 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                word
-# 831 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 832 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 315 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 316 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                     (
                       initialize_namespace lexbuf;
                       ingest_namespace_element word;
                       namespace_mode lexbuf
                     )
-# 839 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 840 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 14 ->
-# 320 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 321 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (
             namespace_absolute:=true;
             namespace_string_accu:="\\";
             initialize_namespace lexbuf;
             namespace_mode lexbuf
            )
-# 849 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 850 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 15 ->
-# 326 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 327 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
               ( add_composite_to_list lexbuf  ("else","if"); inside_php lexbuf )
-# 854 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 855 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 16 ->
 let
-# 327 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 328 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           word
-# 860 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 861 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 327 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 328 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                ( add_to_list lexbuf  (read_word word); inside_php lexbuf )
-# 864 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 865 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 17 ->
 let
-# 328 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-         c
-# 870 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
-= Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
 # 329 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+         c
+# 871 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+= Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
+# 330 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
    (  add_to_list lexbuf  (character c); inside_php lexbuf)
-# 874 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 875 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 18 ->
-# 331 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 332 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
    ( List.rev(!list_accu) )
-# 879 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 880 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_inside_php_rec lexbuf __ocaml_lex_state
@@ -885,24 +886,24 @@ and starred_comment lexbuf =
 and __ocaml_lex_starred_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 333 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 334 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
         (finish_comment lexbuf; inside_php lexbuf)
-# 891 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 892 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
 let
-# 334 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 335 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 897 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 898 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 334 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 335 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string c; starred_comment lexbuf)
-# 901 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 902 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 335 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 336 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (List.rev(!list_accu))
-# 906 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 907 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_starred_comment_rec lexbuf __ocaml_lex_state
@@ -912,34 +913,34 @@ and slashed_comment lexbuf =
 and __ocaml_lex_slashed_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 337 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 338 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                (finish_comment lexbuf; inside_php lexbuf)
-# 918 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 919 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 338 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 339 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          (finish_comment lexbuf; outside_php lexbuf)
-# 923 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 924 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 339 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 340 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (finish_comment lexbuf; outside_php lexbuf)
-# 928 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 929 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
 let
-# 340 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 341 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 934 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 935 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 340 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 341 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string c; slashed_comment lexbuf)
-# 938 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 939 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 4 ->
-# 341 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 342 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (List.rev(!list_accu))
-# 943 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 944 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_slashed_comment_rec lexbuf __ocaml_lex_state
@@ -949,34 +950,34 @@ and single_quoted_string lexbuf =
 and __ocaml_lex_single_quoted_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 343 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 344 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string '\''; single_quoted_string lexbuf)
-# 955 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 956 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 344 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 345 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string '\\'; single_quoted_string lexbuf)
-# 960 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 961 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 345 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 346 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          (finish_quote lexbuf; inside_php lexbuf)
-# 965 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 966 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
 let
-# 346 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 347 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 971 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 972 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 346 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 347 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string c; single_quoted_string lexbuf)
-# 975 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 976 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 4 ->
-# 347 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 348 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (List.rev(!list_accu))
-# 980 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 981 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_single_quoted_string_rec lexbuf __ocaml_lex_state
@@ -986,37 +987,37 @@ and double_quoted_string lexbuf =
 and __ocaml_lex_double_quoted_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 349 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 350 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string '\''; double_quoted_string lexbuf)
-# 992 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 993 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 350 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 351 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string '\\'; double_quoted_string lexbuf)
-# 997 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 998 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 351 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 352 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          (finish_dquote lexbuf; inside_php lexbuf)
-# 1002 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1003 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
 let
-# 352 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 353 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 1008 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1009 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 352 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 353 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (add_to_string c; double_quoted_string lexbuf)
-# 1012 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1013 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 4 ->
-# 353 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 354 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (List.rev(
         List.cons
         (mk end_of_file (Lexing.lexeme_start_p lexbuf,Lexing.lexeme_end_p lexbuf))
          (!list_accu)))
-# 1020 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1021 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_double_quoted_string_rec lexbuf __ocaml_lex_state
@@ -1026,36 +1027,36 @@ and doc_string lexbuf =
 and __ocaml_lex_doc_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 358 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 359 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( current_doctype:=Nowdoc_type;step_one_in_doc lexbuf;)
-# 1032 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1033 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 359 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 360 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          ( current_doctype:=Heredoc_type;step_one_in_doc lexbuf;)
-# 1037 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1038 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
 let
-# 360 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 361 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                 s
-# 1043 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1044 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 360 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 361 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                   (current_doctype:=Naked_doc_type;
                    doc_ident_accu:=s;
                    step_two_in_doc lexbuf;)
-# 1049 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1050 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
 let
-# 363 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 364 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 1055 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1056 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 363 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 364 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (raise(Illegal_first_character_in_doc(c)))
-# 1059 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1060 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_doc_string_rec lexbuf __ocaml_lex_state
@@ -1066,23 +1067,23 @@ and __ocaml_lex_step_one_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
 let
-# 365 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 366 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                 doc_ident
-# 1072 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1073 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 365 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 366 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                           (doc_ident_accu:=doc_ident;step_two_in_doc lexbuf)
-# 1076 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1077 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
 let
-# 366 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 367 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          c
-# 1082 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1083 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 366 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 367 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
            (raise(Illegal_character_in_doc(c)))
-# 1086 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1087 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_step_one_in_doc_rec lexbuf __ocaml_lex_state
@@ -1092,30 +1093,30 @@ and step_two_in_doc lexbuf =
 and __ocaml_lex_step_two_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 368 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 369 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (if((!current_doctype)<>Heredoc_type) 
             then raise(Badly_terminated_doc_ident) 
             else initialize_doc lexbuf;step_three_in_doc lexbuf)
-# 1100 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1101 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 371 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 372 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (if((!current_doctype)<>Nowdoc_type) 
             then raise(Badly_terminated_doc_ident) 
             else initialize_doc lexbuf;step_three_in_doc lexbuf)
-# 1107 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1108 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
-# 374 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 375 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          (if((!current_doctype)<>Naked_doc_type) 
             then raise(Badly_terminated_doc_ident) 
             else initialize_doc lexbuf;step_three_in_doc lexbuf)
-# 1114 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1115 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 3 ->
-# 377 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 378 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (raise(Missing_newline_in_doc_beginning))
-# 1119 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1120 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_step_two_in_doc_rec lexbuf __ocaml_lex_state
@@ -1125,17 +1126,17 @@ and step_three_in_doc lexbuf =
 and __ocaml_lex_step_three_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 379 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 380 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (raise(Unfinished_doc(!string_accu,!doc_ident_accu,!match_counter)))
-# 1131 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1132 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
 let
-# 380 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 381 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           c
-# 1137 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1138 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 380 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 381 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
             (
       let s=(!doc_ident_accu)  in
       let n=String.length s in
@@ -1153,7 +1154,7 @@ let
            ) 
       else step_three_in_doc lexbuf
     )
-# 1157 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1158 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_step_three_in_doc_rec lexbuf __ocaml_lex_state
@@ -1163,27 +1164,27 @@ and step_four_in_doc lexbuf =
 and __ocaml_lex_step_four_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 398 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 399 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
        (
          step_five_in_doc lexbuf      
         )
-# 1171 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1172 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 401 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 402 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
         (
          finish_doc lexbuf;
          inside_php lexbuf         
         )
-# 1179 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1180 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
 let
-# 405 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
-        c
-# 1185 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
-= Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
 # 406 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+        c
+# 1186 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+= Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
+# 407 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
         (
            let m=String.length(!doc_ident_accu) in
            string_accu:=((!string_accu)^(!doc_ident_accu));
@@ -1194,7 +1195,7 @@ let
            else match_counter:=m);
            step_three_in_doc lexbuf;
         )
-# 1198 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1199 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_step_four_in_doc_rec lexbuf __ocaml_lex_state
@@ -1204,19 +1205,19 @@ and step_five_in_doc lexbuf =
 and __ocaml_lex_step_five_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 417 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 418 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (
              finish_doc lexbuf;
              inside_php lexbuf   
           )
-# 1213 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1214 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
-# 422 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 423 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
          (
            raise(Badly_terminated_doc_text);
          )
-# 1220 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1221 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_step_five_in_doc_rec lexbuf __ocaml_lex_state
@@ -1227,46 +1228,46 @@ and __ocaml_lex_namespace_mode_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
 let
-# 426 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 427 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                word
-# 1233 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1234 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 426 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 427 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
                     (
                       ingest_namespace_element word;
                       namespace_mode lexbuf
                     )
-# 1240 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1241 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 1 ->
 let
-# 430 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 431 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           w
-# 1246 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1247 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 430 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 431 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
              (
                finish_namespace w lexbuf;
                inside_php lexbuf
              )
-# 1253 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1254 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | 2 ->
 let
-# 434 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 435 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
         c
-# 1259 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1260 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 434 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 435 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
           (raise(Illegal_character_in_namespace(c)))
-# 1263 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1264 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
       __ocaml_lex_namespace_mode_rec lexbuf __ocaml_lex_state
 
 ;;
 
-# 436 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
+# 437 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.mll"
  
 
 let parse_string s =
@@ -1277,4 +1278,4 @@ let parse_file fn=
          let _=(list_accu:=[];string_accu:="") in
          add_end_of_file_if_necessary( outside_php (lexing_from_file fn));;
 
-# 1281 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
+# 1282 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
