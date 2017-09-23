@@ -115,6 +115,7 @@ end;;
 
  
 let complete_ls=Private.complete_ls;;
+let is_a_directory=Private.is_a_directory;;
 let quick_beheaded_complete_ls=Private.quick_beheaded_complete_ls;;
 let complete_ls_with_nondirectories_only=Private.complete_ls_with_nondirectories_only;;
 
