@@ -79,16 +79,16 @@ let commands_for_removed_dirs
  (remote_port,remote_host,remote_dir)  
  removed_dirs=Image.image(fun dir->
     "ssh -p "^(string_of_int remote_port)^
-    " "^remote_host^
-    (Strung.enclose "rm -rf "^remote_dir^"/"^dir)
+    " "^remote_host^" "^
+    (Strung.enclose ("rm -rf "^remote_dir^"/"^dir))
  ) removed_dirs;;    
 
 let commands_for_new_dirs 
  (remote_port,remote_host,remote_dir)  
  new_dirs=Image.image(fun dir->
     "ssh -p "^(string_of_int remote_port)^
-    " "^remote_host^
-    (Strung.enclose "mkdir -p "^remote_dir^"/"^dir)
+    " "^remote_host^" "^
+    (Strung.enclose ("mkdir -p "^remote_dir^"/"^dir))
  ) new_dirs;;    
 
 let commands_for_changed_or_new_files 
