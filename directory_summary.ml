@@ -48,11 +48,14 @@ let ocaml_description x=
    (Copyable_printing.print_sbf_list 3 x.files);;
    
 
-    
 
 (*   
 
 let compute_differences old_x new_x=
+    let (temp1,temp2)=Ordered_string.partition 
+     (fun s->Ordered_string.elfenn s new_x.subd)
+     (Ordered_string.safe_set old_x.subdirectories)
+    
 
 let dir1=Directory_name.of_string "Remembered/Tests";;   
 let g1=compute dir1;;

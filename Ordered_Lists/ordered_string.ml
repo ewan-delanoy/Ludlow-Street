@@ -54,7 +54,10 @@ let big_teuzin x=List.fold_left teuzin empty_set x;;
 let big_kengeij=function
     []->failwith("empty intersection undefined")
     |a::b->List.fold_left(kengeij)(a)(b);;
-    
+
+let cooperation_for_two=
+			((fun x y->Ordered.cooperation_for_two cmp x y):>
+			 (set->set->set*set*set ));; 		
     
 let expand_boolean_algebra=
  ((fun x->Ordered.expand_boolean_algebra cmp x):>(set list->(set list)));; 
