@@ -95,7 +95,7 @@ let commands_for_changed_or_new_files
  (remote_port,remote_host,remote_dir)  
  root files=Image.image(fun fn->
     let above_fn=Father_and_son.father fn '/'  in
-    "scp -p "^(string_of_int remote_port)^
+    "scp -P "^(string_of_int remote_port)^
     " "^(Directory_name.connectable_to_subpath root)^fn^
     " "^remote_host^":"^remote_dir^"/"^above_fn
  ) files;;  
