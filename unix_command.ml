@@ -21,7 +21,7 @@ let hardcore_uc s=
         i;;
 
 let hardcore_verbose_uc s=
-   let _=(print_string ("Executing "^s);flush stdout) in
+   let _=(print_string ("Executing "^s^"\n\n");flush stdout) in
    hardcore_uc s;;
 
 let mild_uc s=
