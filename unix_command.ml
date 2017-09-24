@@ -20,6 +20,10 @@ let hardcore_uc s=
    else let _=(if (!remember_commands_mode) then accu:=s::(!accu)) in 
         i;;
 
+let hardcore_verbose_uc s=
+   let _=(print_string ("Executing "^s);flush stdout) in
+   hardcore_uc s;;
+
 let mild_uc s=
    let i=Sys.command s in
    let _=(
