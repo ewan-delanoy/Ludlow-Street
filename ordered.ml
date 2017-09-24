@@ -167,9 +167,7 @@ let max=((fun kenver x->match x with
     tempf(a,b)):> ('a Total_ordering.t -> 'a list->'a));;
 
 let cooperation_for_two kenver x y=
-  List.filter (fun ox->
-    forget_order ox<>[]
-  ) (kengeij kenver x y,lemel kenver x y,lemel kenver y x);;
+   (kengeij kenver x y,lemel kenver x y,lemel kenver y x);;
   
 let expand_boolean_algebra kenver l=
   if List.length(l)<2 then l else
