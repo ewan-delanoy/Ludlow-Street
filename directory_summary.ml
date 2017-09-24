@@ -12,9 +12,14 @@ type t={
 };;
 
 let make l1 l2={
-    subdirectories=l1;
-    files=l2;
+    subdirectories=Ordered.forget_order(Ordered_string.diforchan l1);
+    files=Ordered.forget_order(
+    Ordered.diforchan Total_ordering.for_longest_match_pairs  
+    l2
+    );
 };;
+
+let empty_instance=make [] [];;
 
 let compute dir=
     let temp1=More_unix.complete_ls dir in
@@ -42,7 +47,13 @@ let ocaml_description x=
    (Copyable_printing.print_stringlist 3 x.subdirectories)^"\n\n"^
    (Copyable_printing.print_sbf_list 3 x.files);;
    
+
+    
+
 (*   
+
+let compute_differences old_x new_x=
+
 let dir1=Directory_name.of_string "Remembered/Tests";;   
 let g1=compute dir1;;
 let g2=ocaml_description g1;;
