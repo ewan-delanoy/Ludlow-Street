@@ -119,10 +119,13 @@ let commands_for_remote_update
        commands_for_changed_or_new_files data old_x.root (changed_files@new_files)
     ];;
 
-
-
-
 end;;    
+
+let do_remote_update
+   data (old_x,new_x)=
+   let temp1=Private.commands_for_remote_update data (old_x,new_x) in
+   Image.image 
+   Unix_command.hardcore_verbose_uc temp1;;
 
 (*   
 
