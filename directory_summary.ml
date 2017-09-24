@@ -11,6 +11,11 @@ type t={
     files : (string*float) list;
 };;
 
+let make l1 l2={
+    subdirectories=l1;
+    files=l2;
+};;
+
 let compute dir=
     let temp1=More_unix.complete_ls dir in
     let (temp2,temp3)=List.partition (
@@ -31,6 +36,15 @@ let compute dir=
     }
     ;;
 
-(*    
-let ocaml_description =    
+
+let ocaml_description x=
+   "D"^"irectory_summary"^"."^"make\n\n"^
+   (Copyable_printing.print_stringlist 3 x.subdirectories)^"\n\n"^
+   (Copyable_printing.print_sbf_list 3 x.files);;
+   
+(*   
+let dir1=Directory_name.of_string "Remembered/Tests";;   
+let g1=compute dir1;;
+let g2=ocaml_description g1;;
+print_string ("\n\n\n let g3="^g2^";;\n\n\n");;
 *)
