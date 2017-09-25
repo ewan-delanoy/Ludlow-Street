@@ -173,6 +173,15 @@ let print_spider (Sp l)=
 let helper_for_rememberance new_spider=
   "\n\n\n let php_ref=ref(Sp[\n"^(print_spider new_spider)^"\n\n\n]);;\n\n\n";;
 
+let order_for_branches=((
+    fun s1 s2->
+      let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") s1) 
+      and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") s2) in
+      Total_ordering.lex_for_string_lists l1 l2
+): string Total_ordering.t);;
+
+let sort_branch l=Ordered.diforchan_plaen order_for_branches l;;
+
 let change_and_remember new_spider=
     let this_file=Absolute_path.of_string "Php_analizer/php_spider.ml" in
     (
@@ -208,7 +217,7 @@ let check_dependencies (Sp l)=
       Reconstruct_linear_poset.reconstruct_linear_poset 
        coat_function naively_ordered in
    if cycles<>[] then raise(Cycle(List.hd cycles)) else
-   Sp(Image.image (fun (s,_)->(s,List.assoc s l) ) better_ordered)
+   Sp(Image.image (fun (s,_)->(s,sort_branch(List.assoc s l)) ) better_ordered)
    ;;
   
   let temporary_spider_for_insertion  (s,l)=
