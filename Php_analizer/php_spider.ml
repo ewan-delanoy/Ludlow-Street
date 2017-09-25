@@ -41,8 +41,8 @@ let unveil (Sp l)=l;;
                              ];
 
    "after_id_paren_in_assignable",[
-                                    "?: no_semicolon";
-                                    ". sqs"
+                                    ". sqs";
+                                    "?: no_semicolon"
                                   ];
 
    "beheaded_ivy",[
@@ -57,8 +57,8 @@ let unveil (Sp l)=l;;
    "optional_pblock",["_l_ () _r?_"];
 
    "beheaded_varan",[
-                      ";";
-                      "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;"
+                      "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;";
+                      ";"
                     ];
 
    "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ _l_ beheaded2_iwy _r?_"];
@@ -107,7 +107,8 @@ let unveil (Sp l)=l;;
                  "exit ;";
                  "ext";
                  "final class _l_ no_left_brace _r*_ {}";
-                 "foreach () beheaded_foreach";
+                 "foreach () : _l_ no_breach _r*_ endforeach ;";
+                 "foreach () {}";
                  "function id () {}";
                  "id () ;";
                  "id :: id () beheaded_droid";
@@ -129,8 +130,8 @@ let unveil (Sp l)=l;;
                  "trait id {}";
                  "try {} catch () {}";
                  "use _l_ no_semicolon _r*_ ;";
-                 "vvar -> id  =  assignable ;";
                  "vvar -> id () ;";
+                 "vvar -> id  =  assignable ;";
                  "vvar = id () ;";
                  "vvar = id :: id () ;";
                  "vvar = require id . sqs ;";
