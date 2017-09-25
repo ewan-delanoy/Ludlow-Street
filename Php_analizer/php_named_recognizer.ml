@@ -370,6 +370,7 @@ let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
 let replace_dependencies=Private.replace_dependencies;;
 let erase_item=Private.erase_item;;
+let analize_item s=Private.analize_item (s,List.assoc s (Php_spider.php()));;
 let analize_all=Private.analize_all;;
 
 let print (x:t)=
