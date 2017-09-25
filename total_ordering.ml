@@ -217,6 +217,17 @@ let silex_for_strings=
         else lex_for_strings s1 s2
       ) : string t);;    
 
+let lex_for_string_lists=
+  ((fun l1 l2->
+      let (_,left_part,right_part)=Listennou.factor (l1,l2) in
+      if left_part=[] 
+      then (if right_part=[] 
+           then Equal 
+           else Lower)
+      else if right_part=[] 
+           then Greater 
+           else lex_for_strings (List.hd left_part) (List.hd right_part)  
+  ) : (string list) t);;
 
 let for_longest_match_pairs=  
 ((fun (s1,v1) (s2,v2)->
