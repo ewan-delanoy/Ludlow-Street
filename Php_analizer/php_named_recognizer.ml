@@ -271,8 +271,43 @@ module Private=struct
       else add_dependencies (x,l_name);;  
 
     let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
-
     
+    let is_not_a_name nahme=List.for_all
+       (fun nr->not(List.mem nahme nr.names))(!data);;
+        
+
+    let pair_is_bad (t1,t2)=
+      let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
+      and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
+      let rec tempf2=(
+          (* by construction, gl1 and gl2 are always non-equal *)
+          fun (gl1,gl2)->
+            if (gl1=[])||(gl2=[])
+            then false
+            else  let (a1,peurrest1)=Listennou.ht gl1 
+                  and (a2,peurrest2)=Listennou.ht gl2 in
+                  if ((is_not_a_name a1)||(is_not_a_name a2))
+                  then true   
+                  else 
+                  if a1=a2
+                  then tempf2(peurrest1,peurrest2)
+                  else false
+      ) in
+      if l1=l2
+      then true
+      else tempf2(l1,l2);;
+
+    let analize_item (s,l)=
+      if List.length(l)<2 then [] else
+      let temp1=Uple.list_of_pairs l in
+      Option.filter_and_unpack(
+        fun (t1,t2)->
+           if pair_is_bad (t1,t2)
+           then Some(s,t1,t2)
+           else None
+      )  temp1;;
+
+   let analize_all ()=List.flatten (Image.image analize_item (Php_spider.php()));;
 
     absorb_spider (Php_spider.php());;
     
@@ -335,6 +370,7 @@ let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
 let replace_dependencies=Private.replace_dependencies;;
 let erase_item=Private.erase_item;;
+let analize_all=Private.analize_all;;
 
 let print (x:t)=
     let (nahme,defn)=(name x,definition x) in

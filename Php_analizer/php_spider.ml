@@ -298,17 +298,7 @@ let check_dependencies (Sp l)=
       then true
       else tempf2(l1,l2);;
     
-    let analize_item (s,l)=
-        if List.length(l)<2 then [] else
-        let temp1=Uple.list_of_pairs l in
-        Option.filter_and_unpack(
-          fun (t1,t2)->
-             if pair_is_bad (t1,t2)
-             then Some(s,t1,t2)
-             else None
-        )  temp1;;
-
-    let analize_all ()=List.flatten (Image.image analize_item (php()));;
+    
 
 end;;  
   
@@ -318,4 +308,4 @@ let erase_item=Private.erase_item;;
 let remove_dependencies=Private.remove_dependencies;; 
 let substitute_dependencies=Private.substitute_dependencies;; 
 let see_item=Private.see_item;;    
-let analize_all=Private.analize_all;;
+
