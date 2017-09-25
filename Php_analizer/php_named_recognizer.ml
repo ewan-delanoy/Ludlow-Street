@@ -272,36 +272,7 @@ module Private=struct
 
     let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
 
-    let analize_item s=
-       let temp1=List.assoc s (Php_spider.php()) in
-       if List.length (temp1)<2
-       then []
-       else 
-       let temp2=Ennig.index_everything temp1 in
-       let temp3=Image.image(
-           fun (j,t)->
-              let sj=s^"_"^(string_of_int j) in
-              let named_rcgzr=of_name sj in
-              let rcgzr=named_rcgzr.unnamed_content in
-              (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
-       ) temp2 in
-       let temp4=Uple.list_of_pairs temp3 in
-       let temp5=List.filter (
-          fun ((_,l1),(_,l2))->Listennou.comparable_for_prefix_order l1 l2
-       ) temp4 in
-       temp5;;
     
-    let analize_all_items ()=
-        let temp1=Php_spider.php() in
-        let temp2=List.filter (fun (s,l)->List.length(l)>1) temp1 in
-        Option.filter_and_unpack(
-             fun (s,_)->
-               let l=analize_item s in 
-               if l=[] 
-               then None
-               else Some(s,analize_item s)
-        ) temp2;;
-
 
     absorb_spider (Php_spider.php());;
     
@@ -364,9 +335,6 @@ let add_dependencies=Private.add_dependencies;;
 let remove_dependencies=Private.remove_dependencies;;
 let replace_dependencies=Private.replace_dependencies;;
 let erase_item=Private.erase_item;;
-
-let analize_item=Private.analize_item;;
-let analize_all_items=Private.analize_all_items;;
 
 let print (x:t)=
     let (nahme,defn)=(name x,definition x) in

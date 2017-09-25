@@ -272,7 +272,44 @@ let check_dependencies (Sp l)=
          (Strung.left_completed_string_of_int 2 j)^":"^(Strung.enclose s) ) temp2 in
        let temp4="\n\n\n"^(String.concat "\n" temp3)^"\n\n\n" in
        print_string temp4;;
-   
+    
+    let pair_is_bad (t1,t2)=
+      let current_list=php() in
+      let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
+      and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
+      let tempf1=(fun s->try Some(List.assoc s current_list) with _->None)   in
+      let rec tempf2=(
+          (* by construction, gl1 and gl2 are always non-equal *)
+          fun (gl1,gl2)->
+            if (gl1=[])||(gl2=[])
+            then false
+            else  let (a1,peurrest1)=Listennou.ht gl1 
+                  and (a2,peurrest2)=Listennou.ht gl2 in
+                  let opt1=tempf1 a1
+                  and opt2=tempf1 a2 in
+                  if ((opt1=None)||(opt2=None))
+                  then true   
+                  else 
+                  if opt1=opt2
+                  then tempf2(peurrest1,peurrest2)
+                  else false
+      ) in
+      if l1=l2
+      then true
+      else tempf2(l1,l2);;
+    
+    let analize_item (s,l)=
+        if List.length(l)<2 then [] else
+        let temp1=Uple.list_of_pairs l in
+        Option.filter_and_unpack(
+          fun (t1,t2)->
+             if pair_is_bad (t1,t2)
+             then Some(s,t1,t2)
+             else None
+        )  temp1;;
+
+    let analize_all ()=List.flatten (Image.image analize_item (php()));;
+
 end;;  
   
 let php=Private.php;;
@@ -281,4 +318,4 @@ let erase_item=Private.erase_item;;
 let remove_dependencies=Private.remove_dependencies;; 
 let substitute_dependencies=Private.substitute_dependencies;; 
 let see_item=Private.see_item;;    
-
+let analize_all=Private.analize_all;;
