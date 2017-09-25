@@ -272,10 +272,6 @@ module Private=struct
 
     let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
     
-    let is_not_a_name nahme=List.for_all
-       (fun nr->not(List.mem nahme nr.names))(!data);;
-        
-
     let pair_is_bad (t1,t2)=
       let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
       and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
@@ -286,7 +282,11 @@ module Private=struct
             then false
             else  let (a1,peurrest1)=Listennou.ht gl1 
                   and (a2,peurrest2)=Listennou.ht gl2 in
-                  if ((is_not_a_name a1)||(is_not_a_name a2))
+                  if (
+                      (Php_projected_token_set.is_not_a_tokset_name a1)
+                      ||
+                      (Php_projected_token_set.is_not_a_tokset_name a2)
+                     )
                   then true   
                   else 
                   if a1=a2
