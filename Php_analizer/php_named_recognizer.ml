@@ -288,8 +288,8 @@ module Private=struct
       if right_part=[]
       then false
       else 
-      let g1=List.hd(l1)
-      and g2=List.hd(l2) in
+      let g1=List.hd(left_part)
+      and g2=List.hd(right_part) in
       not(Php_projected_token_set.empty_intersection
          (tail g1) (tail g2));;
 
