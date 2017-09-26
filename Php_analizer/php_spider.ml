@@ -63,38 +63,12 @@ let unveil (Sp l)=l;;
 
    "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ _l_ beheaded2_iwy _r?_"];
 
-   "beheaded_droid",[
-                      "-> id () _l_ -> id () _r*_  ;";
-                      ";"
-                    ];
-
-   "beheaded_foreach",[
-                        ":  _l_ no_breach _r*_  endforeach ;";
-                        "{}"
-                      ];
-
    "beheaded_ivwy",[
                      ": beheaded_iwy endif ;";
                      "{} beheaded_ivy"
                    ];
 
    "namespace_name",["_l_ id _u_ nmspc _rd_"];
-
-   "assignable",[
-                  "() ?  string_or_var  :  string_or_var  ";
-                  "@ id ()";
-                  "coerce id ()";
-                  "hdoc ";
-                  "id () _l_ after_id_paren_in_assignable _r?_";
-                  "id :: id ()";
-                  "include_like     _l_ loose= _r*_ ";
-                  "int";
-                  "new id ()";
-                  "new nmspc ()";
-                  "nmspc _l_ :: id _r?_ optional_pblock";
-                  "sqs _l_ after_sqs_in_assignable _r?_";
-                  "vvar _l_ after_var_in_assignable _r?_"
-                ];
 
    "statement",[
                  "@ id () ;";
@@ -111,9 +85,17 @@ let unveil (Sp l)=l;;
                  "foreach () {}";
                  "function id () {}";
                  "id () ;";
-                 "id :: id () beheaded_droid";
-                 "id :: id =  assignable ;";
-                 "if () beheaded_ivwy";
+                 "id :: id () -> id () _l_ -> id () _r*_  ;";
+                 "id :: id () ;";
+                 "if () : _l_ no_ivies _r+_ _l_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ _r?_ endif ;";
+                 "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
+                 "if () : _l_ no_ivies _r+_  endif ;";
+                 "if () {} class id extends id {}";
+                 "if () {} else if () {} _l_ else if () {} _r*_ else {}";
+                 "if () {} else {}";
+                 "if () {} if () {} include_like id () . sqs ;";
+                 "if () {} vvar = new id () ;";
+                 "if () {} vvar = require id . sqs ;";
                  "include_like id () . sqs ;";
                  "include_like id . sqs ;";
                  "include_like stringy _l_ stringy _r*_ ;";
@@ -125,13 +107,11 @@ let unveil (Sp l)=l;;
                  "namespace {}";
                  "nmspc :: id () ;";
                  "return _l_ no_semicolon _r*_ ;";
-                 "static vvar assign assignable ;";
                  "switch () {}";
                  "trait id {}";
                  "try {} catch () {}";
                  "use _l_ no_semicolon _r*_ ;";
                  "vvar -> id () ;";
-                 "vvar -> id  =  assignable ;";
                  "vvar = id () ;";
                  "vvar = id :: id () ;";
                  "vvar = require id . sqs ;";
@@ -142,10 +122,8 @@ let unveil (Sp l)=l;;
                  "vvar [] = sqs ;";
                  "vvar [] = vvar [] ;";
                  "vvar [] = vvar [] [] ;";
-                 "vvar assign & assignable ;";
                  "vvar assign (bool) id () ;";
                  "vvar assign new id () ;";
-                 "vvar assign vvar _l_ after_var_in_assignable _r?_ ;";
                  "while () {}"
                ]
 
