@@ -200,13 +200,12 @@ let rec head_tail_decomposition=function
                    let aew=List.exists fst temp2 in
                    let temp3=List.flatten(Image.image snd temp2) in
                    (aew,normalize_head_tail_decomposition temp3);;  
-
-(*                   
+             
 let summarized_head x=
      let (_,l)=head_tail_decomposition x in
      let temp1=Image.image fst l in
-     Php_projected_token_set.Private.union temp1;;
-*)
+     Php_projected_token_set.union temp1;;
+
 
 
 
