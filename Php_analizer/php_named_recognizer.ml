@@ -272,40 +272,27 @@ module Private=struct
 
     let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
     
-     
     let tail s=
-        let temp1=of_name s in
-        let rcgzr=temp1.unnamed_content in
-        Php_constructible_recognizer.head_tail_decomposition rcgzr;;     
+         let nr=of_name s in
+         let rcgzr=nr.unnamed_content in
+         Php_constructible_recognizer.summarized_head rcgzr;; 
+        
 
-    let pair_is_bad (t1,t2)=false;;
-     (*
+    let pair_is_bad (t1,t2)=
       let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
       and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
       let (_,left_part,right_part)=Listennou.factor (l1,l2) in
-      let rec tempf2=(
-          (* by construction, gl1 and gl2 are always non-equal *)
-          fun (gl1,gl2)->
-            if (gl1=[])||(gl2=[])
-            then false
-            else  let (a1,peurrest1)=Listennou.ht gl1 
-                  and (a2,peurrest2)=Listennou.ht gl2 in
-                  if (
-                      (Php_projected_token_set.is_not_a_tokset_name a1)
-                      ||
-                      (Php_projected_token_set.is_not_a_tokset_name a2)
-                     )
-                  then true   
-                  else 
-                  if a1=a2
-                  then tempf2(peurrest1,peurrest2)
-                  else false
-      ) in
-      if l1=l2
-      then true
-      else tempf2(l1,l2);;
-      *)
-      
+      if (left_part=[])
+      then right_part=[]
+      else 
+      if right_part=[]
+      then false
+      else 
+      let g1=List.hd(l1)
+      and g2=List.hd(l2) in
+      not(Php_projected_token_set.empty_intersection
+         (tail g1) (tail g2));;
+
     let analize_item (s,l)=
       if List.length(l)<2 then [] else
       let temp1=Uple.list_of_pairs l in
