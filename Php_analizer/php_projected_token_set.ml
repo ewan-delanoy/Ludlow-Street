@@ -389,6 +389,7 @@ end;;
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
 let union=Private.union;;
+let empty_intersection x y=((Private.anonymous_intersection x y)=N[]);;
 let from_index=Private.from_index;;
 let get_index=Private.get_index;;
 
