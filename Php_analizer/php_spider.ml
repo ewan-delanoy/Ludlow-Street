@@ -21,55 +21,6 @@ let unveil (Sp l)=l;;
 
 
  let php_ref=ref(Sp[
-   "beheaded3_iwy",[
-                     "else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
-                     "endif ; _l_ no_ivies _r*_"
-                   ];
-
-   "beheaded2_iwy",["if () : _l_ no_ivies _r*_ beheaded3_iwy"];
-
-   "after_var_in_assignable",[
-                               "-> id ()";
-                               ". sqs";
-                               "= sqs";
-                               "[ sqs ]"
-                             ];
-
-   "after_sqs_in_assignable",[
-                               ". vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
-                               ". vvar . sqs"
-                             ];
-
-   "after_id_paren_in_assignable",[
-                                    ". sqs";
-                                    "?: no_semicolon"
-                                  ];
-
-   "beheaded_ivy",[
-                    "class id extends id {}";
-                    "else if () {} _l_ else if () {} _r*_ else {}";
-                    "else {}";
-                    "if () {} include_like id () . sqs ;";
-                    "vvar = new id () ;";
-                    "vvar = require id . sqs ;"
-                  ];
-
-   "optional_pblock",["_l_ () _r?_"];
-
-   "beheaded_varan",[
-                      "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;";
-                      ";"
-                    ];
-
-   "beheaded_iwy",["no_ivies _l_ no_ivies _r*_ _l_ beheaded2_iwy _r?_"];
-
-   "beheaded_ivwy",[
-                     ": beheaded_iwy endif ;";
-                     "{} beheaded_ivy"
-                   ];
-
-   "namespace_name",["_l_ id _u_ nmspc _rd_"];
-
    "statement",[
                  "@ id () ;";
                  "abstract class _l_ no_left_brace _r*_ {}";
@@ -87,9 +38,9 @@ let unveil (Sp l)=l;;
                  "id () ;";
                  "id :: id () -> id () _l_ -> id () _r*_  ;";
                  "id :: id () ;";
+                 "if () : _l_ no_ivies _r+_  endif ;";
                  "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
                  "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
-                 "if () : _l_ no_ivies _r+_  endif ;";
                  "if () {} class id extends id {}";
                  "if () {} else if () {} _l_ else if () {} _r*_ else {}";
                  "if () {} else {}";
