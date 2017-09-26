@@ -388,9 +388,7 @@ end;;
 
 let acts_only_once=Private.acts_only_once;;
 let readables_and_toksets=Private.readables_and_toksets;;
-let is_not_a_tokset_name s1=List.for_all (
-   fun (s,_)->s<>s1
-) readables_and_toksets;;
+let union=Private.union;;
 let from_index=Private.from_index;;
 let get_index=Private.get_index;;
 

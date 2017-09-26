@@ -272,9 +272,17 @@ module Private=struct
 
     let erase_item s=(Php_spider.erase_item s;reset_with_usual ());;
     
-    let pair_is_bad (t1,t2)=
+     
+    let tail s=
+        let temp1=of_name s in
+        let rcgzr=temp1.unnamed_content in
+        Php_constructible_recognizer.head_tail_decomposition rcgzr;;     
+
+    let pair_is_bad (t1,t2)=false;;
+     (*
       let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
       and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
+      let (_,left_part,right_part)=Listennou.factor (l1,l2) in
       let rec tempf2=(
           (* by construction, gl1 and gl2 are always non-equal *)
           fun (gl1,gl2)->
@@ -296,7 +304,8 @@ module Private=struct
       if l1=l2
       then true
       else tempf2(l1,l2);;
-
+      *)
+      
     let analize_item (s,l)=
       if List.length(l)<2 then [] else
       let temp1=Uple.list_of_pairs l in

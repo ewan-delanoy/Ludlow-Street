@@ -201,41 +201,12 @@ let rec head_tail_decomposition=function
                    let temp3=List.flatten(Image.image snd temp2) in
                    (aew,normalize_head_tail_decomposition temp3);;  
 
-let rec helper_for_bhtd (graet,da_ober)=
-    let (aew,l)=head_tail_decomposition da_ober in
-    if aew||(List.length(l)<>1)
-    then (List.rev graet,da_ober)
-    else let (a,peurrest)=List.hd(l) in
-         helper_for_bhtd (a::graet,peurrest);; 
-
-let big_head_tail_decomposition x=helper_for_bhtd ([],x);;         
-
-let rec iterator_for_exhaustion (j,graet,da_ober)=
-    match da_ober with
-    []->(j,graet)
-    |a::peurrest->
-      let tempf=(
-          fun (idx,rcgzr)->
-            let (_,ttemp1)=head_tail_decomposition rcgzr in
-            let ttemp2=Option.filter_and_unpack (
-               fun (tokset,rcgzr2)->
-                 if Php_projected_token_set.test tokset (Php_token.form(fst a))
-                 then Some(rcgzr2)
-                 else None
-            ) ttemp1 in
-            if ttemp2=[]
-            then None
-            else Some(idx,disjunction ttemp2)
-      ) in
-      let temp3=Option.filter_and_unpack tempf graet in
-      if temp3=[]
-      then (j,graet)
-      else iterator_for_exhaustion (j+1,temp3,peurrest);;
-
-let exhaust l (arg:Php_positioned_token_list.t)=
-    iterator_for_exhaustion (0,Ennig.index_everything l,arg);;
-
-
+(*                   
+let summarized_head x=
+     let (_,l)=head_tail_decomposition x in
+     let temp1=Image.image fst l in
+     Php_projected_token_set.Private.union temp1;;
+*)
 
 
 
