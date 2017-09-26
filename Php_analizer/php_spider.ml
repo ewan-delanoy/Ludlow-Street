@@ -87,7 +87,7 @@ let unveil (Sp l)=l;;
                  "id () ;";
                  "id :: id () -> id () _l_ -> id () _r*_  ;";
                  "id :: id () ;";
-                 "if () : _l_ no_ivies _r+_ _l_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ _r?_ endif ;";
+                 "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
                  "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
                  "if () : _l_ no_ivies _r+_  endif ;";
                  "if () {} class id extends id {}";
