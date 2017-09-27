@@ -278,7 +278,7 @@ module Private=struct
          Php_constructible_recognizer.summarized_head rcgzr;; 
         
 
-    let pair_is_bad (t1,t2)=
+    let pair_is_naively_bad (t1,t2)=
       let l1=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t1) 
       and l2=List.filter(fun t->t<>"")(Str.split (Str.regexp_string " ") t2)  in
       let (_,left_part,right_part)=Listennou.factor (l1,l2) in
@@ -292,6 +292,8 @@ module Private=struct
       and g2=List.hd(right_part) in
       not(Php_projected_token_set.empty_intersection
          (tail g1) (tail g2));;
+
+    let pair_is_bad p=try (pair_is_naively_bad p) with _->true;;     
 
     let analize_item (s,l)=
       if List.length(l)<2 then [] else
