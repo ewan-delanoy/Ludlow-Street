@@ -208,6 +208,10 @@ rule outside_php = parse
   | _ as c {add_to_string c; outside_php lexbuf}
   |eof {finish_nonphp lexbuf;List.rev(!list_accu)} 
   and inside_php=parse
+  | "?>"  {
+            faraway_beginning:=Lexing.lexeme_start_p lexbuf;
+            (* insert_semicolon_if_needed lexbuf; *)
+            outside_php lexbuf;}
   | " ?>"  {
             faraway_beginning:=Lexing.lexeme_start_p lexbuf;
             (* insert_semicolon_if_needed lexbuf; *)
