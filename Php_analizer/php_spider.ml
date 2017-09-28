@@ -55,7 +55,6 @@ let unveil (Sp l)=l;;
                  "if () : _l_ no_ivies _r+_  endif ;";
                  "if () : _l_ no_ivies _r+_ endif ext";
                  "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
-                 "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_ endif ;";
                  "if () : _l_ no_ivies _r+_ if () : _l_ no_ivies _r+_ endif _l_ no_ivies _r+_ endif ;";
                  "if () : _l_ no_ivies _r+_ if () {} _l_ no_ivies _r+_ if () {} _l_ no_ivies _r+_ if () {} _l_ no_ivies _r+_ endif ext";
                  "if () {} class id extends id {}";

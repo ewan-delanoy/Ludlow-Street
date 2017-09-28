@@ -293,11 +293,11 @@ module Private=struct
       not(Php_projected_token_set.empty_intersection
          (tail g1) (tail g2));;
 
-    let pair_is_bad p=try (pair_is_naively_bad p) with _->true;;     
+    let pair_is_bad ((i1,t1),(i2,t2))=try (pair_is_naively_bad (t1,t2)) with _->true;;     
 
     let analize_item (s,l)=
       if List.length(l)<2 then [] else
-      let temp1=Uple.list_of_pairs l in
+      let temp1=Uple.list_of_pairs (Ennig.index_everything l) in
       Option.filter_and_unpack(
         fun (t1,t2)->
            if pair_is_bad (t1,t2)
