@@ -22,17 +22,21 @@ let separate s=
 exception No_file_locations_specified;;
 exception Dimension_mismatch of int list;;
 
+let parse_localized_text s=
+  let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
+  [parentheses_for_file;parentheses_for_item] s in
+  let (temp2,temp3)=List.partition (fun (opt,_)->opt=Some(parentheses_for_file)) temp1 in
+  if temp2=[]
+  then  raise(No_file_locations_specified)
+  else   
+  let temp4=separate (snd(List.hd(temp2))) in
+  let temp5=Image.image(fun (opt,s)->
+    if opt=None then (false,[s]) else (true,separate s)
+  ) temp3 in
+  (temp4,temp5);;
+
 let decompose_localized_text s=
-    let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
-    [parentheses_for_file;parentheses_for_item] s in
-    let (temp2,temp3)=List.partition (fun (opt,_)->opt=Some(parentheses_for_file)) temp1 in
-    if temp2=[]
-    then  raise(No_file_locations_specified)
-    else   
-    let temp4=separate (snd(List.hd(temp2))) in
-    let temp5=Image.image(fun (opt,s)->
-      if opt=None then (false,[s]) else (true,separate s)
-    ) temp3 in
+    let (temp4,temp5)=parse_localized_text s in
     let temp6=Option.filter_and_unpack (
        fun (is_item,l)->if is_item then Some(List.length l) else None
     ) temp5 in
