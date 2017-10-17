@@ -88,7 +88,7 @@ let namespace_computation s k=
   let opt1=after_whites s k in
   let i1=Option.unpack opt1 in
   if not(Substring.is_a_substring_located_at "namespace" s i1)
-  then ("",0,i1,false)
+  then ("",0,i1-1,i1,false)
   else 
   let opt2=after_whites s (i1+9) in
   let i2=Option.unpack opt2 in
@@ -96,7 +96,7 @@ let namespace_computation s k=
   let i3=Option.unpack opt3 in
   let opt4=after_whites s i3 in
   let i4=Option.unpack opt4 in
-  (Cull_string.interval s i2 (i3-1),i1,i4,(String.get s (i4-1))='{') 
+  (Cull_string.interval s i2 (i3-1),i1,i4-1,i4,(String.get s (i4-1))='{') 
   ;;
 
 (*
@@ -119,15 +119,15 @@ let decompose s=
   then raise(Absent_php_open_tag)
   else
   let opt1=after_first_whites_and_comments s 6 in
-  if opt1=None then ("",0,0,false) else
+  if opt1=None then ("",0,1,2,false) else
   let i1=Option.unpack opt1 in
   let first_try=namespace_computation s i1 in 
-  let (nspc_name,nspc_idx,sep_idx,is_standard)=first_try in
+  let (nspc_name,nspc_idx,left_idx,right_idx,is_standard)=first_try in
   if nspc_idx<>0
   then first_try
   else 
   if not(Substring.is_a_substring_located_at "declare" s i1)
-  then ("",0,i1,false)
+  then ("",0,i1,i1+1,false)
   else 
   let opt2=after_whites s (i1+7) in
   if opt2=None then raise(Incomplete_declaration) else
@@ -139,7 +139,7 @@ let decompose s=
   let (nspc_name2,nspc_idx2,sep_idx2,is_standard2)=second_try in
   if nspc_idx2<>0
   then second_try
-  else ("",0,i4+1,false);;
+  else ("",0,i4,i4+1,false);;
 
 (*
 
@@ -152,14 +152,13 @@ decompose "<?php  declare(678){ namespace 2345{ 890 } }";;
 *)
 
 let standardize s=
-    let  (nspc_name,nspc_idx,sep_idx,is_standard)=decompose s in
+    let  (nspc_name,nspc_idx,left_idx,right_idx,is_standard)=decompose s in
     if is_standard   then s else 
     let n=String.length s in
-    let i=(if nspc_idx=0 then 5 else nspc_idx-1) in
-    (Cull_string.interval s 1 i)^
+    (Cull_string.interval s 1 left_idx)^
     "\nnamespace "^nspc_name^
     " {\n"^
-    (Cull_string.interval s (sep_idx+1)  n)^
+    (Cull_string.interval s right_idx  n)^
     "\n}\n\n\n";;
 
 (*
