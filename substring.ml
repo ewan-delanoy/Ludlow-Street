@@ -86,5 +86,26 @@ let begins_with x y=
         let k0=tempf(i) in
         String.sub s (k0-1) (i-k0);;
 
- let show ()=Unix_command.uc "ocamlc -i substring.ml";;  
+exception Nonunique_substring;;
+
+let unique_replace ((left_complement,a),b) s=
+       let unique_place=left_complement^a in
+       let temp1=occurrences_of_in unique_place s in
+       if List.length(temp1)<>1
+       then raise(Nonunique_substring)
+       else 
+       let i1=List.hd(temp1) in
+       let i=i1+(String.length left_complement) in
+       let j=i+(String.length a)-1 in
+       (String.sub s 0 (i-1))^b^(String.sub s j ((String.length s)-j))
+
+(*
+
+unique_replace (("2","foo"),"bar") "  1foo 2foo 3foo ";;
+
+*)
+
+ 
+ 
+ 
    
