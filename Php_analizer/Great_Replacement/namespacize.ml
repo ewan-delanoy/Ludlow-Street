@@ -82,7 +82,20 @@ let after_nspc_name s i=
     not(List.mem (Strung.get s j) nspc_list)
     )(Ennig.ennig i n);;  
 
-  
+(*
+
+The namespace_computation function below returns 
+an uple (nspc_name,nspc_idx,left_idx,right_idx,is_standard)
+such that :
+1) The interval between left_idx and right_idx is a right place
+to insert in a new namespace keyword
+2) nspc_idx is the location of the namespace keyword if it is
+present, 0 otherwise
+3) Whenever there already is a namespace keyword, left_idx coincides
+with npsc_idx.
+
+
+*)  
 
 let namespace_computation s k=
   let opt1=after_whites s k in
@@ -96,7 +109,7 @@ let namespace_computation s k=
   let i3=Option.unpack opt3 in
   let opt4=after_whites s i3 in
   let i4=Option.unpack opt4 in
-  (Cull_string.interval s i2 (i3-1),i1,i4-1,i4,(String.get s (i4-1))='{') 
+  (Cull_string.interval s i2 (i3-1),i1,i1,i4,(String.get s (i4-1))='{') 
   ;;
 
 (*
@@ -127,7 +140,7 @@ let decompose s=
   then first_try
   else 
   if not(Substring.is_a_substring_located_at "declare" s i1)
-  then ("",0,i1,i1+1,false)
+  then ("",0,i1-1,i1,false)
   else 
   let opt2=after_whites s (i1+7) in
   if opt2=None then raise(Incomplete_declaration) else
@@ -136,10 +149,11 @@ let decompose s=
   let opt4=after_whites s (i3+1) in 
   let i4=Option.unpack opt4 in
   let second_try=namespace_computation s i4 in 
-  let (nspc_name2,nspc_idx2,sep_idx2,is_standard2)=second_try in
+  let (* (nspc_name2,nspc_idx2,left_idx2,right_idx2,is_standard2) *)
+  (_,nspc_idx2,_,_,_)=second_try in
   if nspc_idx2<>0
   then second_try
-  else ("",0,i4,i4+1,false);;
+  else ("",0,i4-1,i4,false);;
 
 (*
 
@@ -148,6 +162,9 @@ decompose "<?php  declare(678); namespace 2345{ 890 }";;
 
 decompose "<?php  declare(678){ namespace 2345; 890   }";;
 decompose "<?php  declare(678){ namespace 2345{ 890 } }";;
+
+decompose "<?php  declare(678);  x ";;
+decompose "<?php  8=0=2+4;";;
 
 *)
 
@@ -168,7 +185,7 @@ standardize "<?php  declare(678); namespace 2345{ 890 }";;
 
 standardize "<?php  declare(678){ namespace 2345; 890   }";;
 standardize "<?php  declare(678){ namespace 2345{ 890 } }";;
-standardize "<?php  x=y=z+t;";;
+standardize "<?php  8=0=2+4;";;
 
 *)
 
@@ -176,10 +193,10 @@ let name_and_end s j=
   (* the s argument is assumed to be already standardized *) 
   let j1=Substring.leftmost_index_of_in_from "namespace" s j in
   if j1<1 then ("",(String.length s)+1) else
-  let (nspc_name,nspc_idx,sep_idx,_)=namespace_computation s j1 in
+  let (nspc_name,nspc_idx,_,right_idx,_)=namespace_computation s j1 in
   if nspc_idx=0
   then ("",(String.length s)+1)
-  else (nspc_name,after_closing_character ('{','}') s (sep_idx,0) );;
+  else (nspc_name,after_closing_character ('{','}') s (right_idx,0) );;
 
 (*
 
