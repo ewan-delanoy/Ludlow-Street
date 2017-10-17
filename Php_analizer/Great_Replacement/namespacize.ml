@@ -155,7 +155,7 @@ let standardize s=
     let  (nspc_name,nspc_idx,sep_idx,is_standard)=decompose s in
     if is_standard   then s else 
     let n=String.length s in
-    let i=(if nspc_idx=0 then sep_idx else nspc_idx-1) in
+    let i=(if nspc_idx=0 then 5 else nspc_idx-1) in
     (Cull_string.interval s 1 i)^
     "\nnamespace "^nspc_name^
     " {\n"^
@@ -169,6 +169,7 @@ standardize "<?php  declare(678); namespace 2345{ 890 }";;
 
 standardize "<?php  declare(678){ namespace 2345; 890   }";;
 standardize "<?php  declare(678){ namespace 2345{ 890 } }";;
+standardize "<?php  x=y=z+t;";;
 
 *)
 
