@@ -296,11 +296,11 @@ let rexpand_inclusion
       l_rep=
       let pre_content=
          Replace_inside.replace_several_inside_string l_rep
-      (Io.read_whole_file container_file) in
+      (Io.read_whole_file inserted_file) in
          let new_content=Private.insert_at_unique_place_in_string 
-                           (Io.read_whole_file inserted_file)
+                           pre_content
                             (left_complement,place)
-                           pre_content in
+                            (Io.read_whole_file container_file) in
          Io.erase_file_and_fill_it_with_string 
             container_file new_content;;
 
