@@ -165,6 +165,7 @@ decompose "<?php  declare(678){ namespace 2345{ 890 } }";;
 
 decompose "<?php  declare(678);  x ";;
 decompose "<?php  8=0=2+4;";;
+decompose "<?php\n/*\n012*/\n\nnamespace 78\\0\\2;\n\n678 01;";;
 
 *)
 
@@ -172,7 +173,7 @@ let standardize s=
     let  (nspc_name,nspc_idx,left_idx,right_idx,is_standard)=decompose s in
     if is_standard   then s else 
     let n=String.length s in
-    (Cull_string.interval s 1 left_idx)^
+    (Cull_string.interval s 1 (left_idx-1))^
     "\nnamespace "^nspc_name^
     " {\n"^
     (Cull_string.interval s right_idx  n)^
@@ -186,6 +187,7 @@ standardize "<?php  declare(678); namespace 2345{ 890 }";;
 standardize "<?php  declare(678){ namespace 2345; 890   }";;
 standardize "<?php  declare(678){ namespace 2345{ 890 } }";;
 standardize "<?php  8=0=2+4;";;
+standardize "<?php\n/*\n012*/\n\nnamespace 78\\0\\2;\n\n678 01;";;
 
 *)
 
