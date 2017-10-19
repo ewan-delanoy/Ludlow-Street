@@ -176,7 +176,7 @@ let standardize s=
     (Cull_string.interval s 1 (left_idx-1))^
     "\nnamespace "^nspc_name^
     " {\n"^
-    (Cull_string.interval s right_idx  n)^
+    (Cull_string.interval s (right_idx+1)  n)^
     "\n}\n\n\n";;
 
 (*
