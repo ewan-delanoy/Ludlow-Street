@@ -246,7 +246,7 @@ let insert_at_interval inserted_text (i,j) container_text=
     " {\n"^
     (Cull_string.interval container_text (j+1) n);;
 
-exception Nonunique_place;;
+exception Nonunique_place of string;;
 
 let insert_at_unique_place_in_string 
      inserted_text
@@ -255,7 +255,7 @@ let insert_at_unique_place_in_string
        let unique_place=left_complement^place in
        let temp1=Substring.occurrences_of_in unique_place container_text in
        if List.length(temp1)<>1
-       then raise(Nonunique_place)
+       then raise(Nonunique_place(unique_place))
        else 
        let i1=List.hd(temp1) in
        let i=i1+(String.length left_complement) in
