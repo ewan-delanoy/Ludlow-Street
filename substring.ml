@@ -101,7 +101,10 @@ let unique_replace ((left_complement,a),b) s=
 
 (*
 
-unique_replace (("2","foo"),"bar") "  1foo 2foo 3foo ";;
+unique_replace (("2","foo"),"bar") "AB1fooC2foo3fooDEF";;
+unique_replace (("2","\n"),"bar") "AB1fooC2\n3fooDEF";;
+
+
 
 *)
 

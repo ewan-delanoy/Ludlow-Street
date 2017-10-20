@@ -140,7 +140,7 @@ let decompose s=
   then first_try
   else 
   if not(Substring.is_a_substring_located_at "declare" s i1)
-  then ("",0,i1-1,i1,false)
+  then ("",0,i1-1,i1-1,false)
   else 
   let opt2=after_whites s (i1+7) in
   if opt2=None then raise(Incomplete_declaration) else
@@ -166,6 +166,7 @@ decompose "<?php  declare(678){ namespace 2345{ 890 } }";;
 decompose "<?php  declare(678);  x ";;
 decompose "<?php  8=0=2+4;";;
 decompose "<?php\n/*\n012*/\n\nnamespace 78\\0\\2;\n\n678 01;";;
+decompose "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";; 
 
 *)
 
@@ -188,6 +189,7 @@ standardize "<?php  declare(678){ namespace 2345; 890   }";;
 standardize "<?php  declare(678){ namespace 2345{ 890 } }";;
 standardize "<?php  8=0=2+4;";;
 standardize "<?php\n/*\n012*/\n\nnamespace 78\\0\\2;\n\n678 01;";;
+standardize "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";; 
 
 *)
 
