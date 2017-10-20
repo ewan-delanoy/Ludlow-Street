@@ -193,6 +193,8 @@ standardize "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";;
 
 *)
 
+exception Name_and_end_exn of int;;
+
 let name_and_end s j=
   (* the s argument is assumed to be already standardized *) 
   let j1=Substring.leftmost_index_of_in_from "namespace" s j in
@@ -200,7 +202,9 @@ let name_and_end s j=
   let (nspc_name,nspc_idx,_,right_idx,_)=namespace_computation s j1 in
   if nspc_idx=0
   then ("",(String.length s)+1)
-  else (nspc_name,after_closing_character ('{','}') s (right_idx,0) );;
+  else try (nspc_name,after_closing_character ('{','}') s (right_idx,0) )
+       with
+       _->raise(Name_and_end_exn(j));;
 
 (*
 
