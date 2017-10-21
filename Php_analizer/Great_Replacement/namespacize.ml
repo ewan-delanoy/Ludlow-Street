@@ -49,7 +49,7 @@ after_closing_character ('{','}') "{2{4}6{8{0}2}4}67" (1,0);;
 *)
 
 
-let after_first_whites_and_comments s=
+let after_whites_and_comments s=
     let n=String.length s in
     let rec tempf=(
       fun j->
@@ -67,7 +67,7 @@ let after_first_whites_and_comments s=
     tempf;;
 
 (*    
-after_first_whites_and_comments "\n/* 567 */\t\r\n\n/* 89 ** // 78*/123";;    
+after_whites_and_comments "\n/* 567 */\t\r\n\n/* 89 ** // 78*/123";;    
 *)
 
 let nspc_list=
@@ -85,7 +85,7 @@ let after_nspc_name s i=
 (*
 
 The namespace_computation function below returns 
-an uple (nspc_name,nspc_idx,left_idx,right_idx,is_standard)
+an uple (nspc_name,nspc_idx,left_idx,right_idx,is_standard,dec_content)
 such that :
 1) The interval between left_idx and right_idx is a right place
 to insert in a new namespace keyword
@@ -93,6 +93,7 @@ to insert in a new namespace keyword
 present, 0 otherwise
 3) Whenever there already is a namespace keyword, left_idx coincides
 with npsc_idx.
+4) dec_content is the content of a declare directive, if it exists.
 
 
 *)  
@@ -101,7 +102,7 @@ let namespace_computation s k=
   let opt1=after_whites s k in
   let i1=Option.unpack opt1 in
   if not(Substring.is_a_substring_located_at "namespace" s i1)
-  then ("",0,i1-1,i1,false)
+  then ("",0,i1-1,i1,false,"")
   else 
   let opt2=after_whites s (i1+9) in
   let i2=Option.unpack opt2 in
@@ -109,7 +110,7 @@ let namespace_computation s k=
   let i3=Option.unpack opt3 in
   let opt4=after_whites s i3 in
   let i4=Option.unpack opt4 in
-  (Cull_string.interval s i2 (i3-1),i1,i1,i4,(String.get s (i4-1))='{') 
+  (Cull_string.interval s i2 (i3-1),i1,i1,i4,(String.get s (i4-1))='{',"") 
   ;;
 
 (*
@@ -127,33 +128,37 @@ exception Absent_php_open_tag;;
 exception Incomplete_declaration;;  
 exception Badly_ended_declaration;; 
 
-let decompose s=
-  if not(Substring.begins_with s "<?php") 
-  then raise(Absent_php_open_tag)
-  else
-  let opt1=after_first_whites_and_comments s 6 in
-  if opt1=None then ("",0,1,2,false) else
-  let i1=Option.unpack opt1 in
+let decompose_from s i1=
   let first_try=namespace_computation s i1 in 
-  let (nspc_name,nspc_idx,left_idx,right_idx,is_standard)=first_try in
+  let (_,nspc_idx,_,_,_,_)=first_try in
   if nspc_idx<>0
   then first_try
   else 
   if not(Substring.is_a_substring_located_at "declare" s i1)
-  then ("",0,i1-1,i1-1,false)
+  then ("",0,i1-1,i1-1,false,"")
   else 
   let opt2=after_whites s (i1+7) in
   if opt2=None then raise(Incomplete_declaration) else
   let i2=Option.unpack opt2 in
   let i3=after_closing_character ('(',')') s (i2,0) in
-  let opt4=after_whites s (i3+1) in 
+  let opt4=after_whites_and_comments s (i3+1) in 
   let i4=Option.unpack opt4 in
   let second_try=namespace_computation s i4 in 
-  let (* (nspc_name2,nspc_idx2,left_idx2,right_idx2,is_standard2) *)
-  (_,nspc_idx2,_,_,_)=second_try in
+  let 
+  (nspc_name2,nspc_idx2,left_idx2,right_idx2,is_standard2,_)=second_try in
+  let dec_content = Cull_string.interval s (i2+1) (i3-2) in
   if nspc_idx2<>0
-  then second_try
-  else ("",0,i4-1,i4,false);;
+  then (nspc_name2,nspc_idx2,left_idx2,right_idx2,is_standard2,dec_content)
+  else ("",0,i4-1,i4,false,dec_content);;
+
+let decompose s=
+  if not(Substring.begins_with s "<?php") 
+  then raise(Absent_php_open_tag)
+  else
+  let opt1=after_whites_and_comments s 6 in
+  if opt1=None then ("",0,1,2,false,"") else
+  let i1=Option.unpack opt1 in
+  decompose_from s i1;;
 
 (*
 
@@ -168,10 +173,12 @@ decompose "<?php  8=0=2+4;";;
 decompose "<?php\n/*\n012*/\n\nnamespace 78\\0\\2;\n\n678 01;";;
 decompose "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";; 
 
+decompose_from "<?php  declare(abc); namespace def {gh}" 7;;
+
 *)
 
 let standardize s=
-    let  (nspc_name,nspc_idx,left_idx,right_idx,is_standard)=decompose s in
+    let  (nspc_name,nspc_idx,left_idx,right_idx,is_standard,_)=decompose s in
     if is_standard   then s else 
     let n=String.length s in
     (Cull_string.interval s 1 (left_idx-1))^
@@ -195,17 +202,20 @@ standardize "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";;
 
 exception Name_and_end_exn of int;;
 
-let name_and_end s j=
+let weak_name_and_end s j1=
   (* the s argument is assumed to be already standardized *) 
-  let j1=Substring.leftmost_index_of_in_from "namespace" s j in
-  if j1<1 then ("",(String.length s)+1) else
-  let (nspc_name,nspc_idx,_,right_idx,_)=namespace_computation s j1 in
+  let (nspc_name,nspc_idx,_,right_idx,_,_)=namespace_computation s j1 in
   if nspc_idx=0
   then ("",(String.length s)+1)
   else try (nspc_name,after_closing_character ('{','}') s (right_idx,0) )
        with
-       _->raise(Name_and_end_exn(j));;
+       _->raise(Name_and_end_exn(j1));;
 
+let name_and_end s j=
+  (* the s argument is assumed to be already standardized *) 
+  let j1=Substring.leftmost_index_of_in_from "namespace" s j in
+  if j1<1 then ("",(String.length s)+1) else
+  weak_name_and_end s j1;;
 (*
 
 name_and_end "<?php   namespace{90}23namespace 45 {8901}namespace{34}67" 7;;
@@ -235,6 +245,8 @@ namespace_at_index
  "<?php   namespace{90}23namespace 45 {8901}namespace{34}67" 38;;
 
 *)
+
+
 
 let cull_php_enclosers old_s=
     let s=Cull_string.trim_spaces old_s in
