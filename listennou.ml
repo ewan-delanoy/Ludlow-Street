@@ -210,6 +210,15 @@ let glued_slices c l=
   ) in   
   tempf ([],[],[],[],l);;
 
+exception Not_encountered;;
+
+let rec seek_and_remember f (graet,da_ober)=
+   match da_ober with
+   []->raise(Not_encountered)
+   |a::peurrest->if f a 
+                 then (graet,da_ober)
+                 else seek_and_remember f (a::graet,da_ober);;
+
 let hi=List.length;;
 let rev=List.rev;;
 
