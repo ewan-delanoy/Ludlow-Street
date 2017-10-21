@@ -217,7 +217,7 @@ let rec seek_and_remember f (graet,da_ober)=
    []->raise(Not_encountered)
    |a::peurrest->if f a 
                  then (graet,da_ober)
-                 else seek_and_remember f (a::graet,da_ober);;
+                 else seek_and_remember f (a::graet,peurrest);;
 
 let hi=List.length;;
 let rev=List.rev;;
