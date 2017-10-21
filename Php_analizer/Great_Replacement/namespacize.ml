@@ -4,6 +4,28 @@
 
 *)
 
+let after_whites_and_comments s=
+  let n=String.length s in
+  let rec tempf=(
+    fun j->
+      if j>n then None else
+      if List.mem (String.get s (j-1)) list_of_whites
+      then tempf(j+1)
+      else 
+      if Substring.is_a_substring_located_at "/*" s j
+      then let k=Substring.leftmost_index_of_in_from "*/" s (j+2) in
+           if k<0
+           then None
+           else tempf(k+2)
+      else Some(j)
+  ) in
+  tempf;;
+
+(*    
+after_whites_and_comments "\n/* 567 */\t\r\n\n/* 89 ** // 78*/123";;    
+*)
+
+
 module Private=struct
 
 let list_of_whites=[' ';'\n';'\r';'\t'];;
@@ -49,26 +71,6 @@ after_closing_character ('{','}') "{2{4}6{8{0}2}4}67" (1,0);;
 *)
 
 
-let after_whites_and_comments s=
-    let n=String.length s in
-    let rec tempf=(
-      fun j->
-        if j>n then None else
-        if List.mem (String.get s (j-1)) list_of_whites
-        then tempf(j+1)
-        else 
-        if Substring.is_a_substring_located_at "/*" s j
-        then let k=Substring.leftmost_index_of_in_from "*/" s (j+2) in
-             if k<0
-             then None
-             else tempf(k+2)
-        else Some(j)
-    ) in
-    tempf;;
-
-(*    
-after_whites_and_comments "\n/* 567 */\t\r\n\n/* 89 ** // 78*/123";;    
-*)
 
 let nspc_list=
   (Ennig.doyle char_of_int 65 90)@
