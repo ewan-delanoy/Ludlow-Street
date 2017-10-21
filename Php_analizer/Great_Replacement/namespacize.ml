@@ -286,18 +286,8 @@ let standardize ap=
 Io.erase_file_and_fill_it_with_string 
 ap new_content;;
 
-let expand_inclusion
-inserted_file
-(left_complement,place)
-container_file=
-   let new_content=Private.insert_at_unique_place_in_string 
-                     (Io.read_whole_file inserted_file)
-                      (left_complement,place)
-                     (Io.read_whole_file container_file) in
-   Io.erase_file_and_fill_it_with_string 
-      container_file new_content;;
 
-let rexpand_inclusion
+let expand_inclusion
       inserted_file
       (left_complement,place)
       container_file
