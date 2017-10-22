@@ -226,7 +226,7 @@ let weak_name_and_end s j1=
 let name_and_end s j=
   (* the s argument is assumed to be already standardized *) 
   match Option.seek(fun j->test_for_namespace_at_index s j)
-            (Ennig.ennig 1 (String.length s))
+            (Ennig.ennig j (String.length s))
   with
   None-> ("",(String.length s)+1) 
   |Some(j1)-> weak_name_and_end s j1;;
