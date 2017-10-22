@@ -108,7 +108,7 @@ let test_for_namespace_at_index s i=
   else
   not( List.exists(fun t->
   Substring.is_a_substring_located_at t s (i-String.length(t))
-  ) ["\"\n;"* ";"s ";"'";"$"] );;
+  ) ["\"\n";"* ";"s ";"'";"$"] );;
 
 let namespace_computation s k=
   let opt1=after_whites s k in
