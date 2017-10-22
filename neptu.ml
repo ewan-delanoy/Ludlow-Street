@@ -4,8 +4,1226 @@
 
 *)
 
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
+
+let main_text=Io.read_whole_file main_file;;
+
+Private.cnspc_decompose main_text;;
+  
+(*
+
+(*
+let bad1=expand_inclusion ("","include('"^fmi^"');") fmi;;  
+*)
+
+let fn=fmi;;
+let ap1=Absolute_path.of_string (s_rachel^fn);;
+let (left_complement,place)=("","include('"^fmi^"');");;
+let l_rep=["__DIR__","'"^(Father_and_son.father fn '/')^"'"];;
+(*
+let bad2=Namespacize.rexpand_inclusion
+     ap1 (left_complement,place) main_file l_rep;;
+*)
+
+let inserted_file=ap1;;
+let container_file=main_file;;
+let pre_content=
+        Replace_inside.replace_several_inside_string l_rep
+     (Io.read_whole_file inserted_file);;
+(*     
+let bad3=Namespacize.Private.insert_at_unique_place_in_string 
+                          pre_content
+                           (left_complement,place)
+                           (Io.read_whole_file container_file);;
+*)                           
+let inserted_text=pre_content;;
+let container_text=Io.read_whole_file container_file;;
+let unique_place=left_complement^place;;
+let temp1=Substring.occurrences_of_in unique_place container_text;;
+let i1=List.hd(temp1);;
+let i=i1+(String.length left_complement);;
+let j=i+(String.length place)-1;;
+(*
+let bad4=Namespacize.Private.insert_at_interval inserted_text (i,j) container_text;;
+*)
+
+let n=String.length container_text;;
+(*
+let bad5=Namespacize.Private.namespace_at_index container_text i;;
+*)
+let s=container_text and j=261322;;
+let j1=Substring.leftmost_index_of_in_from "namespace" s j;;
+
+let (nspc_name,nspc_idx,_,right_idx,_)=namespace_computation s j1 in
+if nspc_idx=0
+then ("",(String.length s)+1)
+else try (nspc_name,after_closing_character ('{','}') s (right_idx,0) )
+     with
+     _->raise(Name_and_end_exn(j));;
 
 
+(*
+special_replace ("",  "marker_here(,);\n")
+                ("marker_here(0,0);\ninclude('"^fmi^"');\nmarker_here(0,0);\n");;
+*)      
+
+
+*)
+
+
+(*
+let s_stone_file ="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/stone.txt";; 
+let stone_file=Absolute_path.of_string s_stone_file;;
+
+let u1=Io.read_whole_file stone_file;;
+let u2=Str.split (Str.regexp_string "\n") u1;;
+let u3=image (Cull_string.cobeginning 29)  u2;;
+let u4=List.rev u3;;
+*)
+
+(*
+let s_my_file =
+  ("/Users/ewandelanoy/Documents/Sites/Rachel/public_html/"^
+  "vendor/zendframework/zend-code/src/Reflection/ParameterReflection.php");;
+  
+let my_file=Absolute_path.of_string s_my_file;;
+let t1=Io.read_whole_file my_file;;
+let t2=Namespacize.Private.standardize t1;;
+let bad=Namespacize.Private.name_and_end t2 261322;;
+
+let t2=
+  "<?php\n/*\nabc*/\n\nnamespace PM\\G\\U;\n\nuse 01;";;
+
+open Namespacize.Private;;
+open Namespacize;;
+
+*)
+
+(*
+let expand_inclusion
+inserted_file
+(left_complement,place)
+container_file=
+   let new_content=Private.insert_at_unique_place_in_string 
+                     (Io.read_whole_file inserted_file)
+                      (left_complement,place)
+                     (Io.read_whole_file container_file) in
+   Io.erase_file_and_fill_it_with_string 
+      container_file new_content;;
+
+*)
+
+
+(*
+
+
+*)
+
+
+(*
+let dir1=Directory_name.of_string
+"/Users/ewandelanoy/Documents/Web_Projects/Falchun_all/Control_Tower";;
+
+let u1=More_unix.complete_ls dir1;;
+let u2=image (
+  fun ap->(ap,Absolute_path.to_string ap)
+) u1;;
+let u3=List.filter (
+fun (ap,s_ap)->(Substring.ends_with s_ap ".txt")
+&&
+(not(Substring.ends_with s_ap "history.txt"))
+) u2;;
+let act1=Explicit.image(
+   fun (ap,s_ap)->
+     Replace_inside.replace_several_inside_file
+     [
+       "Falchun","OC";
+       "falchun","oc";
+     ]
+     ap
+) u3;;
+*)
+
+(*
+
+let (left_complement,place)=
+("","require($phpbb_root_path . 'vendor/autoload.php');");;
+let fn="vendor/autoload.php";;  
+let inserted_file=(Absolute_path.of_string (s_rachel^fn));;
+let container_file=main_file;;
+let l_rep=
+  [
+    "__DIR__","'"^(Father_and_son.father fn '/')^"'"
+  ]
+  ;;
+
+
+let pre_content=
+   Replace_inside.replace_several_inside_string l_rep
+(Io.read_whole_file inserted_file);;
+
+
+   let new_content=Private.insert_at_unique_place_in_string 
+                     (Io.read_whole_file inserted_file)
+                      (left_complement,place)
+                     pre_content in
+   Io.erase_file_and_fill_it_with_string 
+      container_file new_content;;
+
+*)
+
+
+(*
+
+let s_unveiler="/Users/ewandelanoy/Documents/Bash_scripts/unveil.bash_script";;
+
+let unveiler=Absolute_path.of_string s_unveiler;;
+
+let z1=Io.read_whole_file unveiler;;
+
+Replace_inside.replace_inside_file ("\r","") unveiler;;
+
+*)
+
+(*
+exception Bad_exn;;
+
+
+
+let past_constant x y=
+   if Substring.begins_with y x
+   then Cull_string.cobeginning (String.length x) y
+   else y;;
+
+let past_whites y=
+  let n=String.length y in
+  let opt1=Option.seek(fun j->
+  not(List.mem (Strung.get y j) [' ';'\n';'\t'])
+  )(ennig 1 n) in  
+  if opt1=None then y else
+  let i1=Option.unpack opt1 in 
+  Cull_string.cobeginning (i1-1) y;;
+
+let nspc_list=
+    (doyle char_of_int 65 90)@
+    (doyle char_of_int 97 122)@
+    (doyle char_of_int 48 57)@
+    ['\\'];;
+
+let past_nspc y=
+      let n=String.length y in
+      let opt1=Option.seek(fun j->
+      not(List.mem (Strung.get y j) nspc_list)
+      )(ennig 1 n) in  
+      if opt1=None then y else
+      let i1=Option.unpack opt1 in 
+      Cull_string.cobeginning (i1-1) y;;
+
+let past_comment y=
+  if not(Substring.begins_with y "/*")
+  then y
+  else 
+  let i1=Substring.leftmost_index_of_in_from "*/" y 3 in
+  Cull_string.cobeginning (i1+1) y;;
+
+let past_wc y=past_whites(past_comment y);; 
+
+let left_complement x y=Cull_string.beginning 
+ ((String.length y)-(String.length x)) y;;
+
+let small_push s=
+  let t1=past_constant "<?php" s in
+  let t2=past_whites t1 in
+  let t3=past_wc t2 in
+  past_wc t3;;
+
+let v1=image (fun (a,b)->small_push b) u3;;
+
+let enuum=["abstract class ";"class ";"if (";"interface "];;
+
+let check1=List.filter (
+  fun x->List.for_all (fun b->
+    not(Substring.begins_with x b)
+  ) ("namespace"::enuum)
+) v1;;
+
+
+
+let push s=
+  let t4=small_push s in
+  if List.exists (fun t->
+    Substring.begins_with t4 t
+  ) enuum
+  then (left_complement t4 s,"",t4)
+  else 
+  let t5=past_constant "namespace " t4 in
+  let t6=past_nspc t5 in
+  let t7=past_whites t6 in
+  (left_complement t5 s,left_complement t6 t5,t7)
+  ;;
+
+let u4=image (fun (a,b)->
+  let (before_nspc,nspc,after_nspc)=push b in
+  (a,b,before_nspc,nspc,after_nspc)
+) u3;;
+
+
+let (u5,u6)=List.partition(
+   fun (a,b,before_nspc,nspc,after_nspc)->
+     nspc=""
+) u4;;
+
+let check2=Tidel.diforchan(image (
+  fun (_,_,_,_,after_nspc)->Strung.get after_nspc 1
+) u6);;    
+
+let rewrite1 (a,b,before_nspc,nspc,after_nspc)=
+   if nspc=""
+   then before_nspc^"namespace{\n\n\n"^after_nspc^"}"
+   else if Strung.get after_nspc 1='{'
+        then b
+        else before_nspc^nspc^" {\n\n\n"^
+             (Cull_string.cobeginning 1 after_nspc)^"}";;
+
+
+
+let precaution=image
+  (fun (a,_)->
+   Sys.command(
+     "cp ~/Documents/Sites/Rachel/public_html/"^a^" ~/Documents/Sites/Mara/public_html/"^a
+   ))
+u3;;
+
+let external_content a=
+  let ap=Absolute_path.of_string("~/Documents/Sites/Mara/public_html/"^a) in
+  Io.read_whole_file ap;;
+
+let reinitialize()=List.iter (
+    fun (a,b,_,_,_)->
+    let ap=Absolute_path.of_string("~/Documents/Sites/Rachel/public_html/"^a) in 
+    Io.erase_file_and_fill_it_with_string ap (external_content a)
+) u4;;   
+
+let abba=;;
+
+let baba=abba;;
+
+let check3=List.filter (fun (a,b)->b<>external_content a) u3;;
+
+let cc ()=Sys.command "rm -rf ~/Documents/Sites/Rachel/public_html/cache/*";;
+
+let act1 j=
+  let _=cc () in
+  List.iter (
+        fun w->
+        let (a,b,_,_,_)=w in
+        let ap=Absolute_path.of_string("~/Documents/Sites/Rachel/public_html/"^a) in 
+        Io.erase_file_and_fill_it_with_string ap (rewrite1 w)
+  ) (Listennou.big_head j u4);;   
+
+
+let act2 j=
+    let temp1=Listennou.big_head j u4 in
+    List.iter (
+      fun w->
+      let (a,b,_,_,_)=w in
+      let ap=Absolute_path.of_string("~/Documents/Sites/Rachel/public_html/"^a) in 
+      Io.erase_file_and_fill_it_with_string ap (rewrite1 w)
+   ) temp1;;   
+
+let u7=List.rev u4;;
+
+
+
+let aggregate j=
+  let temp1=Listennou.big_head j u7 in
+  let temp2=image (fun s->past_constant "<?php" (rewrite1 s)) temp1 in
+  String.concat "\n\n\n" temp2;;   
+
+let main_ap=Absolute_path.of_string "~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+
+let act3 j=
+  let _=cc() in
+  let _=Io.erase_file_and_fill_it_with_string 
+  (Absolute_path.of_string "~/Documents/Sites/Rachel/public_html/temp.txt")
+  "" in
+    Replace_inside.overwrite_between_markers_inside_file
+   (Overwriter.of_string (aggregate j)) 
+   (
+     "/* Heterogeneous block starts here */",
+     "/* Heterogeneous block ends here */"
+   )  
+   main_ap
+ ;; 
+
+let (a1,_,_,_,_)=List.nth u7 14;;
+*)
+
+
+(*
+
+let w1=Explicit.image (fun (a,b)->
+  let n=String.length b in 
+  Option.filter_and_unpack(fun j->
+     if Cull_string.interval b j (j+1)="__"
+     then let m=min n (j+42) in
+          Some(a,Cull_string.interval b (j+2) m)
+     else None)
+  (ennig 1 (n-2)) )
+ u3;;
+let w2=List.flatten w1;;
+let w3=List.filter (
+  fun (a,z)->let c=Strung.get z 1 in
+  let ic=(int_of_char c) in (65<=ic)&&(ic<=90)
+) w2;;
+let w4=List.filter(
+   fun (a,z)->List.for_all(
+     fun b->not(Substring.begins_with z b)
+   ) ["CLASS__";"METHOD__";"PM__";"NAMESPACE__";"FUNCTION__";"TRAIT__"]
+) w3;;
+let w5=ofo(Tidel.diforchan(image fst w4));;
+let w6=image (fun a->
+("open -a /Applications/TextWrangler.app ~/Documents/Sites/Rachel/public_html/"^a)
+) w5;;
+let w7=Explicit.image Sys.command w6;;
+
+*)
+
+(*
+
+let h1=image(
+  fun (a,b,before_nspc,nspc,after_nspc)->
+    nspc
+) u4;;
+
+let (v1,v2,v3,v4,v5)=List.hd u4;;
+let v6=Cull_string.beginning 500 v2;;
+let (before_nspc1,nspc1,after_nspc1)= push v6;;
+
+let bush s=
+  let t1=past_constant "<?php" s in
+  let t2=past_whites t1 in
+  let t3=past_wc t2 in
+  let t4=past_wc t3 in
+  let t5=past_constant "namespace " t4 in
+  let t6=past_nspc t5 in
+  let t7=past_whites t6 in
+  (t1,t2,t3,t4,t5,t6,t7)
+  ;;
+
+let (g1,g2,g3,g4,g5,g6,g7) = bush v6;;  
+
+let u5=List.filter(
+  fun (a,b)->
+    List.for_all (
+      function c->not(Substring.begins_with b c)
+    ) ["abstract class ";"class ";"if (";"interface ";"namespace "]
+) u4;;
+
+
+
+let u6=snd(List.hd u5);;
+let u7=Cull_string.beginning 50 u6;;
+
+let (_,_,u7,u8)=dec1 u6;;
+
+*)
+
+(*
+let ap1=Absolute_path.of_string(
+  "~/Documents/Sites/Rachel/public_html/temp.txt");;
+let text1=Io.read_whole_file ap1;;
+
+let u1=Str.split (Str.regexp_string "\n") text1;;
+let u2=Image.image(
+    fun s->
+      let l=Str.split (Str.regexp_string " => ") s in
+      (List.nth l 0,List.nth l 1)
+) u1;;
+let u3=image (fun (_,q)->
+   let path="~/Documents/Sites/Rachel/public_html/"^q in
+   let ap=Absolute_path.of_string path in
+   (q,Io.read_whole_file ap)
+   )u2;;
+*)
+
+(*
+
+*)
+
+(*
+let ap1=Absolute_path.of_string(
+  "Remembered/aztec.ml");;
+  let text1=Io.read_whole_file ap1;;
+
+let n1=String.length text1;;  
+
+let u1=Substring.occurrences_of_in "sql_query" text1;;
+let u2=Substring.occurrences_of_in "->sql_query" text1;;
+let u4=Substring.occurrences_of_in "// sql_query" text1;;
+let u5=Substring.occurrences_of_in "$sql_query" text1;;
+
+let test i=
+  (List.mem (i-2) u2)
+  ||
+  (List.mem (i-3) u4)
+  ||
+  (List.mem (i-1) u5)
+  ;;
+let u3=List.filter (fun i->not(test i)) u1;;  
+
+let i1=List.nth u3 1;;
+let a1=max(1)(i1-50);;
+let b1=min(n1)(i1+500);;
+let text2=Cull_string.interval text1 a1 b1;;
+
+  let act1=Replace_inside.replace_inside_file
+  ("tribunem@a2ss23.a2hosting.com","myusername@amywebhost.com")
+  ap1;;
+  
+  let act2=Replace_inside.replace_inside_file
+  ("sauvegarde.micael@gmx.com","destmail@gmx.com")
+  ap1;;
+  
+  let act3=Replace_inside.replace_inside_file
+  ("@amywebhost","@mywebhost")
+  ap1;;
+
+  let act4=Replace_inside.replace_inside_file
+  ("a2hosting|x-authuser|tribunem","mywebhost|x-authuser|myusername")
+  ap1;; 
+   
+  let act5=Replace_inside.replace_inside_file
+  ("sauvegarde@tribunemicael.net","sourcemail@mydomain.net")
+  ap1;;  
+  
+  let act6=Replace_inside.replace_inside_file
+  ("a2hosting","mywebhost")
+  ap1;;  
+
+  let act7=Replace_inside.replace_inside_file
+  ("tribunem","myusername")
+  ap1;;  
+*)
+
+
+(*
+
+let big_m=power 10 7;;    
+let u1=Ennig.doyle (power 3) 0 14;;
+let u2=Ennig.doyle (power 4) 0 11;;
+let u3=Cartesian.product u1 u2;;
+let u4=Option.filter_and_unpack (fun (x,y)->let z=x*y in
+ if z<=big_m then Some(z) else None) u3;;
+let o_u4=Tidel.diforchan u4;;
+let level1=ofo(o_u4);;
+
+let dec2=Memoized.make(fun x->
+    let temp1=Prepared.filter (fun y->y<x) level1 in
+    Option.filter_and_unpack(
+       fun a->let b=x-a in
+       if (Tidel.elfenn b o_u4)&&(a<=b)
+       then Some(a,b)
+       else None
+    ) temp1);;
+
+let dec3=Memoized.make(fun x->
+    let temp1=Prepared.filter (fun y->y<x) level1 in
+    let temp2=Image.image(
+       fun a->Image.image (fun (b,c)->(a,b,c)) (dec2(x-a)) 
+    ) temp1 in
+    let temp3=List.flatten temp2 in
+    List.filter (fun (a,b,c)->a<=b) temp3
+    );;
+
+let dec4=Memoized.make(fun x->
+    let temp1=Prepared.filter (fun y->y<x) level1 in
+    let temp2=Image.image(
+       fun a->Image.image (fun (b,c,d)->(a,b,c,d)) (dec3(x-a)) 
+    ) temp1 in
+    let temp3=List.flatten temp2 in
+    List.filter (fun (a,b,c,d)->a<=b) temp3
+    );;    
+
+let dec5=Memoized.make(fun x->
+    let temp1=Prepared.filter (fun y->y<x) level1 in
+    let temp2=Image.image(
+       fun a->Image.image (fun (b,c,d,e)->(a,b,c,d,e)) (dec4(x-a)) 
+    ) temp1 in
+    let temp3=List.flatten temp2 in
+    List.filter (fun (a,b,c,d,e)->a<=b) temp3
+    );;    
+
+let ff n=
+    let temp1=dec4(power 3 n) in
+    List.filter (fun (a,b,c,d)->Gcd.gcd_for_many [a;b;c;d]=1) temp1;;
+
+let gg n=
+      let temp1=dec5(power 3 n) in
+      List.filter (fun (a,b,c,d,e)->Gcd.gcd_for_many [a;b;c;d;e]=1) temp1;;
+
+
+
+
+let u5=Cartesian.product level1 level1;;
+let u6=List.filter (fun (u,v)->u<=v) u5;;
+let u7=Explicit.image (fun (x,y)->(x+y,(x,y))) u6;;
+let u8=ofo(Tidel2.diforchan u7);;
+let u9=ofo(Tidel.diforchan (image fst u8));;
+let level2=Explicit.image (
+   fun i->(i,Option.filter_and_unpack (
+      fun (j,p)->if j=i then Some(p) else None
+   ) u8)
+) u9;;
+
+
+let u10=Cartesian.product level1 level2;;
+let u11=Explicit.image (
+   fun (u,(v,lv))->
+     let temp=Option.filter_and_unpack 
+     (fun (b,a)->if u<=b then Some(u,b,a) else None) lv in
+     if temp=[]
+     then None
+     else Some(u+v,Tidel.diforchan temp)
+) u10;;
+let u12=Option.filter_and_unpack (fun t->t) u11;;
+let u13=ofo(Tidel2.diforchan u12);;
+let u14=ofo(Tidel.diforchan (image fst u13));;
+let level3=Explicit.image (
+   fun i->
+     let temp=Option.filter_and_unpack (
+      fun (j,p)->if j=i then Some(p) else None
+     ) u13 in
+   (i,ofo(Tidel.big_teuzin temp))
+) u14;;
+
+*)
+
+
+
+(*
+let u1=ennig (-5) (5);;
+
+let three=Rational.of_int 3;;
+let four=Rational.of_int 4;;
+
+let u2=image (Rational.pow three) u1;;
+
+
+let ap1=Absolute_path.of_string(
+"Remembered/aztec.ml");;
+let text1=Io.read_whole_file ap1;;
+
+let act1=Replace_inside.replace_inside_file
+("\204\129","\195\169")
+ap1;;
+
+let act2=Replace_inside.replace_inside_file
+("e\195\169","\195\169")
+ap1;;
+
+let act3=Replace_inside.replace_inside_file
+("e\204\128","\195\168")
+ap1;;
+
+let passwd="oxGgHgYrjyVBxsGZ12@";;
+
+
+
+let fan s=
+    let ap=Absolute_path.of_string
+    ("/Users/ewandelanoy/Documents/Web_Projects/Online/"^
+    "Prepare_online/"^s) in
+    Localized_html.enforce_localized_file ap;;
+
+fan "Persistent_example/localized_indexview.php";;
+fan "Persistent_example/localized_createview.php";;
+fan "Persistent_example/localized_deleteview.php";;
+fan "Persistent_example/localized_editview.php";;
+
+let s1="Persistent_example/localized_createview.php";;
+let ap1=Absolute_path.of_string("/Users/ewandelanoy/Documents/Web_Projects/Online/"^
+"Prepare_online/"^s1);;
+let text1=Io.read_whole_file ap1;;
+let (tag1,tag2)=Localized_html.parse_localized_text text1;;
+
+let z1=['A'; 'B'; 'C'; 'D'; 'E'; 'F'; 'G'; 'H'; 'I'; 'J'; 'K'; 'L'; 'M'; 'N'; 'O';                                        'P'; 'Q'; 'R'; 'S'; 'T'; 'U'; 'V'; 'W'; 'X'; 'Y'; 'Z'; 'a'; 'b'; 'c'; 'd';                                       
+'e'; 'f'; 'g'; 'h'; 'i'; 'j'; 'k'; 'l'; 'm'; 'n'; 'o'; 'p'; 'q'; 'r'; 's';
+'t'; 'u'; 'v'; 'w'; 'x'; 'y'; 'z'];;
+
+let n1=List.length z1;;
+
+let random_char ()=List.nth z1 (Random.int n1);;
+
+let z2=Ennig.doyle (fun _->random_char ()) 1 16;;
+
+let z3=Strung.implode z2;;
+
+let rpd=Php_named_recognizer.replace_dependencies;;
+let rp=rpd "statement";;
+let ei=Php_named_recognizer.erase_item;;
+let si=Php_spider.see_item;;
+let ai=Php_named_recognizer.analize_item;;
+let aai=Php_named_recognizer.analize_all;;
+let st ()=si "statement";;
+
+let u1= Manage_lexed_data.get_data ["symblog";"phpbb"];;
+
+let walker=ref(u1);;
+let walk ()=(walker:=Php_named_recognizer.clean_lily "statement" (!walker));;
+let see()=Php_molecularize.molecularize(List.hd(!walker));;
+
+
+walk();see();;
+
+*)
+
+(*
+
+rpd "statement" []
+[
+ "if () {} vvar = id () ;"
+];;
+
+echo 'mail content' | mailx -s 'email subject' -A 27_09_2017.sql.zip ewan.delanoy@gmx.fr
+
+echo "ghijkl" | mailx -s "Test attachement" -a peggy.txt -S from="sauvegarde@tribunemicael.net" ewan.delanoy@zoho.com
+
+
+Php_named_recognizer.eat "include_like _l_ stringy _r*_ ;" "include_once id . sqs ;";;
+
+
+let h1=List.hd (see());;
+let (_,(h2,_))=h1;;
+let s_ap1=h2.Lexing.pos_fname;;
+let ap1=Absolute_path.of_string s_ap1;;
+
+let text1=Php_lexer.parse_file ap1;;
+let short_text1=Php_molecularize.molecularize text1;;
+
+let text2=Listennou.big_tail 72 text1;;
+let tag1=image fst text2;;
+let tag2=Ennig.index_everything tag1;;
+let tag3=List.nth tag1 24;;
+let (`Token(tag4,_))=tag3;;
+
+let w1=Php_lexer.parse_string "<?php endif ?>";;
+let w2=Php_lexer.parse_string "<?php endif?>";;
+
+
+let ff x=
+    let (_,_,y)=
+       Option.unpack(Php_named_recognizer.basic_parser "statement" x) in
+    y;;
+let gg=Memoized.small ff text1;;
+
+
+
+let h2=Php_named_recognizer.basic_parser "statement" text1;;
+
+rpd "statement" []
+[
+  "vvar assign id . sqs ;";
+];;
+
+
+let z1=aai();;
+let z2=List.hd z1;;
+
+rpd "beheaded_ivy" []
+[
+  "vvar = new id () ;";
+];;
+
+rpd "statement" [36]
+[
+  
+];;
+
+*)
+
+(*
+
+Sys.command
+("ssh -p 7822 tribunem@tribunemicael.net "^
+"\"rm -f ~/webexamples.tribunemicael.net/file_one.txt\"");;
+
+
+let dir1=Directory_name.of_string "Remembered/Tests";;   
+let g1=Directory_summary.compute dir1;;
+let g2=Directory_summary.ocaml_description g1;;
+print_string ("\n\n\n let g3="^g2^";;\n\n\n");;
+
+let data1=(7822,
+"tribunem@tribunemicael.net",
+"~/webexamples.tribunemicael.net");;
+
+let dir1=Directory_name.of_string
+"/Users/ewandelanoy/Documents/Web_Projects/Online/";;
+
+let state1=Directory_summary.compute dir1;;
+let state2=Directory_summary.compute dir1;;
+let res1=
+  Directory_summary.Private.commands_for_remote_update
+    data1 (state1,state2);;
+let res2=
+  Directory_summary.do_remote_update
+    data1 (state1,state2);;
+let state3=Directory_summary.compute dir1;;
+let res3=
+  Directory_summary.Private.commands_for_remote_update
+    data1 (state2,state3);;
+let res4=
+  Directory_summary.do_remote_update
+    data1 (state2,state3);;
+
+
+
+let rpd=Php_named_recognizer.replace_dependencies;;
+let rp=rpd "statement";;
+let ei=Php_named_recognizer.erase_item;;
+let si=Php_spider.see_item;;
+let aai=Php_named_recognizer.analize_all_items;;
+let st ()=si "statement";;
+
+let u1= Manage_lexed_data.get_data ["symblog";"phpbb"];;
+
+let walker=ref(u1);;
+let walk ()=(walker:=Php_named_recognizer.clean_lily "statement" (!walker));;
+let see()=Php_molecularize.molecularize(List.hd(!walker));;
+
+
+walk();;
+
+Php_named_recognizer.eat "include_like _l_ stringy _r*_ ;" "include_once id . sqs ;";;
+
+rpd "statement" []
+[
+  "end_of_file";
+];;
+
+rpd "beheaded_ivy" []
+[
+  "vvar = new id () ;";
+];;
+
+rpd "statement" [36]
+[
+  
+];;
+
+*)
+
+(*
+
+let update()= image Unix_command.hardcore_uc
+[
+  (
+  "scp -P 7822 "^
+  "tribunem@tribunemicael.net:webexamples.tribunemicael.net/Bootstrap_again/index.html "^
+  "/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Online/"
+  );
+  (
+    "scp -P 7822 "^
+    "tribunem@tribunemicael.net:webexamples.tribunemicael.net/Bootstrap_again/old_index.html "^
+    "/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Online/"
+  );
+];;
+
+let rf x=Io.read_whole_file(Absolute_path.of_string x);;
+
+let g1=rf "/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Online/index.html";;
+let g2=rf "/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Online/old_index.html";;
+
+let m=min(String.length g1)(String.length g2);;
+let d=Option.find(fun j->(String.get g1 (j-1))<>(String.get g2 (j-1))) (ennig 1 m);;
+let a=max(1)(d-10);;
+let b=min(m)(d+10);;
+let see=(itv g1 a b,itv g2 a b);;
+
+rpd "after_var_in_assignable" []
+[
+  "-> id ()";
+];;
+
+rpd "statement" [34]
+[
+  "vvar assign vvar _l_ after_var_in_assignable _r?_ ;";
+];;
+
+*)
+
+(*
+rpd "beheaded2_iwy" [-1]
+[
+  "if () : _l_ no_ivies _r*_ beheaded3_iwy";
+];;
+
+rpd "beheaded3_iwy" []
+[
+  "else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+  "endif ; _l_ no_ivies _r*_";
+];;
+
+
+
+rpd "beheaded_iwy" [1;2;3]
+[
+  "no_ivies _l_ no_ivies _r*_ beheaded2_iwy";
+];;
+
+rpd "beheaded2_iwy" []
+[
+  "if () : _l_ no_ivies _r*_ else : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+  "if () : _l_ no_ivies _r*_ endif ; _l_ no_ivies _r*_";
+];;
+
+
+rpd "assignable" []
+[
+  "vvar _l_ after_var_in_assignable _r?_";
+];;
+
+rpd "after_var_in_assignable" []
+[
+  ". sqs";
+  "= sqs";
+  "[ sqs ]"
+];;
+
+rpd "assignable" [12;13;14]
+[
+  "sqs _l_ after_sqs_in_assignable _r?_";
+];;
+
+rpd "after_sqs_in_assignable" []
+[
+  ". vvar . dqs . vvar -> id () . dqs . vvar -> id () . dqs";
+  ". vvar . sqs";
+];;
+
+
+rpd "assignable" [4;5;6]
+[
+  "id () _l_ after_id_paren_in_assignable _r?_";
+];;
+
+rpd "after_id_paren_in_assignable" []
+[
+  "?: no_semicolon";
+  ". sqs";
+];;
+
+
+rpd "beheaded_ivwy" [2;3]
+[
+  "{} else {}";
+  "{} else if () {} _l_ else if () {} _r*_ else {}";
+  "{} if () {} include_like id () . sqs ;";
+];;
+
+rpd "beheaded_ivy" []
+[
+  "else {}";
+  "else if () {} _l_ else if () {} _r*_ else {}";
+  "if () {} include_like id () . sqs ;";
+];;
+
+rpd "beheaded_ivwy" [2;3;4]
+[
+  "{} beheaded_ivy"
+];;
+*)
+
+
+(*
+open Php_molecularize.Private;;
+
+let v0=([],u2);;
+let ff=Memoized.small pusher_for_molecularization v0;;
+*)
+
+(*
+
+let z1=Php_constructible_recognizer.chain [];;
+let z2=Php_constructible_recognizer.head_tail_decomposition z1;;
+
+let rpd=Php_named_recognizer.replace_dependencies;;
+let rp=rpd "statement";;
+let ei=Php_named_recognizer.erase_item;;
+let si=Php_spider.see_item;;
+let ay ()=List.hd(Php_named_recognizer.analize_item "statement");;
+let st ()=si "statement";;
+
+rp [30] ["vvar [ int_or_string_or_var ] = & assignable ;"];;
+rp [31] ["vvar [ int_or_string_or_var ] = no_ampersand assignable ;"];;
+rp [34] ["vvar assign no_ampersand assignable ;"];;
+
+let g1=Php_projected_token_set.Private.setminus
+   Php_projected_token_set.Private.whole 
+    (Php_projected_token_set.Private.from_list [
+       Php_projected_token.constant (`T_AMPERSAND)
+    ]);;
+
+rp [30;31] ["vvar -> id_or_var () beheaded_varan"];;
+rpd "beheaded_varan" []
+ [";";
+  "-> id_or_var optional_pblock  _l_ -> id_or_var optional_pblock  _r*_ ;"];;
+
+                      rp [17] ["namespace  id {}";"namespace  nmspc {}"];;
+
+rp [17] ["namespace id {}"];;
+rp [17] ["namespace nmspc {}"];;
+rp [17] ["namespace {}"];;
+rp [33] ["vvar -> id_or_var _l_ -> id_or_var optional_pblock  _r*_ ;";
+         "vvar -> id_or_var () _l_ -> id_or_var optional_pblock  _r*_ ;"];;
+rp [31] ["vvar -> id_or_var _l_ ;";
+         "vvar -> id_or_var  id_or_var optional_pblock -> id_or_var optional_pblock  _r*_ ;"];;
+
+rpd "beheaded_ivwy" []
+ [
+   ": beheaded_iwy endif ;";
+   "{} _l_ else if () {} _r*_ else {}"
+ ];;
+rp [14;15] ["if () beheaded_ivwy"];;
+
+rpd "beheaded_ivwy" [1;4] [];;
+
+rp [12;13] [];;
+
+rpd "beheaded_ivyw" [] [];;
+
+Php_spider.erase_item "beheaded_ivyw";;
+*)
+
+(*
+Php_named_recognizer.replace_dependencies
+"statement"
+[12]
+[
+ "id :: id () -> id () _l_ -> id () _r*_  ;";
+]
+;;
+
+Php_named_recognizer.replace_dependencies
+"beheaded_droid"
+[1]
+[
+ "-> id () _l_ -> id () _r*_  ;";
+]
+;;
+
+Php_named_recognizer.replace_dependencies
+"statement"
+[]
+[
+ "id :: id () -> id () _l_ -> id () _r+_  ;";
+ "id :: id =  assignable ;"]
+;;
+
+Php_named_recognizer.add_dependencies
+("beheaded_droid",
+  ["-> id () _l_ -> id () _r+_  ;";";"]
+);;
+
+Php_named_recognizer.add_dependencies
+("statement",
+  ["id :: id () beheaded_droid"]
+);;
+
+
+Php_named_recognizer.Private.remove_idependencies
+("statement",[12]);;  
+
+open Php_named_recognizer.Private;;
+
+let (x,l)=("statement",[12]);;  
+let nr1=of_name x;;
+let l1=nr1.elements;;
+let l2=Image.image (fun j->
+  let nr2=List.nth l1 (j-1) in nr2.definition) l;;
+
+remove_dependencies (x,l2);;  
+
+Php_named_recognizer.replace_dependencies
+  "statement"
+  [13;14]
+  [
+   "id :: id () -> id () _l_ -> id () _r+_  ;";
+   "id :: id =  assignable ;"]
+  ;;
+
+Php_named_recognizer.Private.remove_idependencies
+ ("statement",[14;16]);;  
+
+ Php_named_recognizer.Private.remove_dependencies
+ ("statement",[
+  "id :: id () _l_ -> id () _r+_  ;";
+  "id :: id_or_var =  assignable ;"
+ ]);;   
+
+
+Php_named_recognizer.add_dependencies
+ ("beheaded_foreach",
+   [":  _l_ no_breach _r*_  endforeach ;";"{}"]
+ );;
+
+Php_named_recognizer.add_dependencies
+ ("statement",
+   ["foreach () beheaded_foreach"]
+ );;
+
+Php_named_recognizer.remove_dependencies
+ ("statement",
+   ["foreach () :  _l_ no_breach _r*_  endforeach ;";
+    "foreach () {}"]
+ );; 
+*)
+
+
+(*
+
+let u1=Php_named_recognizer.Private.of_definition (Some"uvwwyz",None) "ext";;
+let u2=u1.Php_named_recognizer.names;;
+
+open Php_named_recognizer.Private;;
+
+let name_options=(Some"uvwwyz",None) and rough_s="ext";;
+
+let s=Cull_string.trim_spaces rough_s;;
+  
+let temp1=Parenthesed_block.decompose_without_taking_blanks_into_account 
+     Php_symbols_for_recognizer_description.all_pairs s;;
+let temp2=Image.image (fun (opt,t)->(opt,Cull_string.trim_spaces t) ) temp1;;
+let temp3=List.filter (fun (opt,t)->t<>"") temp2;;
+let temp4=List.hd temp3;;
+let bad1=helper_for_definition_reading name_options temp4;;
+         
+
+let tag1=Php_named_recognizer.of_definition None "@ id () ;";;
+let tag2=Php_named_recognizer.of_definition None "id :: id () _l_ -> id () _r+_  ;";;
+
+let tag3=tag1.Php_named_recognizer.unnamed_content;;
+let tag4=tag2.Php_named_recognizer.unnamed_content;;
+
+let (tag5,tag6)=Php_constructible_recognizer.big_head_tail_decomposition tag3;;
+let (tag7,tag8)=Php_constructible_recognizer.big_head_tail_decomposition tag4;;
+
+open Php_named_recognizer.Private;;
+
+
+let g1=Php_named_recognizer.of_name "statement";;
+let g2=g1.Php_named_recognizer.elements;;
+let g3=image (fun x->x.Php_named_recognizer.names) g2;;
+
+Php_spider.see_item "statement";;
+
+Php_spider.add_dependencies 
+("statement",["echo no_var no_semicolon _r*_ ;"]);;
+
+Php_spider.remove_dependencies 
+("statement",["echo _l_ no_semicolon _r*_ ;"]);;
+
+Php_spider.erase_item "beheaded_ivy";;
+
+
+let z1=Php_named_recognizer.analize_item "statement";;
+let z2=List.hd(z1);;
+
+*)
+
+(*
+Php_projected_token_set.Private.complement_from_list;;
+
+let g1=Php_named_recognizer.data_in_apparition_order ();;
+let g2=List.filter (fun x->x.Php_named_recognizer.is_a_disjunction) g1;;
+let g3=List.nth g2 1;;
+let g4=g3.Php_named_recognizer.unnamed_content;;
+let g5=Option.unpack(Php_constructible_recognizer.disjunction_content g4);;
+
+let g6=Php_disjointness_check.check g5;;
+
+let g7=Php_disjointness_check.Private.start g5;;
+let g8=Php_disjointness_check.Private.pusher g7;;
+let g9=Php_disjointness_check.Private.pusher g8;;
+*)
+
+(*
+
+let g1=Absolute_path.of_string "~/Downloads/comp_num.txt";;
+let g2=Io.read_whole_file g1;;
+let g3="400  86\\\n3808  87\\\n3809  88\\\n3810  89\\\n4782  90\\\n4779  91\\\n4781  92\\\n4785  93\\\n3816  94\\\n3815  95\\\n3812  96\\\n4786  97\\\n5852  98\\\n3821  99\\\n3805  100\\\n4980  101\\\n432  102\\\n3806  103\\\n434  104\\\n433  105\\\n5940  106\\\n5934  107\\\n5901  108\\\n431  109\\\n4985  110\\\n5559  111\\\n4986  112\\\n3804  113\\\n3803  114\\\n5855  115\\\n4979  116\\\n4745  117\\\n231  118\\\n4982  119\\\n4987  120\\\n3807  121\\\n4918  122\\\n3889  123\\\n3775  124\\\n636  125\\\n192  126\\\n3782  127\\\n3799  128\\\n4968  129\\\n4964  130\\\n430   131\\\n4974  132\\\n4982  133\\\n4965  134\\\n4967  135\\\n4971  136\\\n5912  137\\\n5904  138\\\n3796  139\\\n4969  140\\\n429  141\\\n4880  142\\\n176  143\\\n3794  144\\\n3800  145\\\n5931  146\\\n3801  147\\\n3797  148\\\n425  149\\\n4958  150\\\n426  151\\\n422  152\\\n424  153\\\n4957  154\\\n4959  155\\\n3802  156\\\n5684  157\\\n5685  158\\\n194  159\\\n380  160\\\n5550  161\\\n5937  162\\\n411  163\\\n401  164\\\n414  165\\\n5548  166\\\n4922  167\\\n4923  168\\\n4926  169\\\n4915  170\\\n4928  171\\\n4931  172\\\n3783  173\\\n3830  174\\\n3788  175\\\n3791  176\\\n3786  177\\\n5732  178\\\n3787  179\\\n3795  180\\\n5713  181\\\n5724  182\\\n4945  183\\\n3785   184\\\n3784  185\\\n4937  186\\\n4948  187\\\n4935  188\\\n4936  189\\\n5727  190\\\n5728  191\\\n307  192\\\n1927  193\\\n5729  194\\\n575  195\\\n760  196\\\n5581  197\\\n1386  198\\\n746  199\\\n191   200\\\n394   201\\\n399  202\\\n397  203\\\n404   204\\\n405   205\\\n1396   206\\\n1459  207\\\n81   208\\\n643  209\\\n1931  210\\\n3762  211\\\n622   212\\\n589  213\\\n617  215\\\n803  221\\\n1273  222\\\n3934  223\\\n3141  224\\\n4878  225\\\n2022  226\\\n3983  227\\\n5273  228\\\n1967  229\\\n3834  230\\\n4862  231\\\n4681  232\\\n4737  234\\\n1043  235\\\n1244  236 \\\n1460  237\\\n1389  238\\\n1407   239\\\n1283   240\\\n1301   241\\\n768    242\\\n848    243\\\n859    244\\\n725    245\\\n818    246\\\n1880  247\\\n727    248\\\n713    249\\\n628    250\\\n595    251\\\n627    252\\\n605   253\\\n3840  254\\\n3776   256\\\n4758   257\\\n4650   258\\\n198   259\\\n178   260\\\n4106  261\\\n4800  262\\\n4792   263\\\n228   264\\\n4793   265\\\n199   266\\\n203   267\\\n208   268\\\n367   269\\\n370   270\\\n3833  271\\\n221   272\\\n4804  273\\\n237   274\\\n226   275\\\n2798   276\\\n229   277\\\n232   278\\\n236   279\\\n4821   280\\\n4819  281\\\n4822  282\\\n4824  283\\\n4863  284\\\n4867  285\\\n4865  286\\\n4864  287\\\n239  288\\\n240  289\\\n322  290\\\n323  291\\\n4884  292\\\n4885  293\\\n345   294\\\n347  295\\\n349  296\\\n350  297\\\n352  298\\\n4877  299\\\n4883  300\\\n325   301\\\n326   302\\\n4875  303\\\n4873  304\\\n334   305\\\n257  306\\\n4847  307\\\n4845   308\\\n4851  309\\\n4853  310\\\n4854  311\\\n4855  312\\\n4856  313\\\n378  314\\\n4901  315\\\n4903  316\\\n4836  317\\\n4840  318\\\n4841  319\\\n4837  320\\\n246  321\\\n245  322\\\n4857  323\\\n4858  324\\\n4859  325\\\n4860  326\\\n4861  327\\\n263  328\\\n264  329\\\n265  330\\\n266  331\\\n401  332\\\n300  333\\\n302  334\\\n3750  335\\\n4888  336\\\n4889  337\\\n3822  338\\\n308  339\\\n309  340\\\n256  341\\\n250  342\\\n3779  343\\\n5702  344\\\n3764  345\\\n3777  346\\\n600  348\\\n4771  349\\\n2001  350\\\n2016  351\\\n238  352\\\n4938  353\\\n5597  354\\\n4870  355\\\n4871  356\\\n4872  357\\\n4924  358\\\n1077  359\\\n1885  360\\\n624  361\\\n5939  362\\\n258  363\\\n2015  364\\\n181   365\\\n653   366\\\n497   367\\\n508   368\\\n4834  369\\\n4839  370\\\n4842  371\\\n4834  372\\\n4483  373\\\n327   374\\\n328   375\\\n809  376\\\n4846  377\\\n330  378\\\n338  379\\\n3745  380\\\n3746  381\\\n5741  382\\\n5714  383\\\n4808  384\\\n4816  385\\\n4821  386\\\n4886  387\\\n4905  388\\\n299  389\\\n5518  390\\\n5919 391\\\n5522  393\\\n3778  394\\\n3921  395";;
+let g4=Str.split (Str.regexp_string "\\\n") g3;;
+let g5=image (fun s->Str.split (Str.regexp "\( \)+") s) g4;;
+let g6=image(
+    fun l->let tf=(fun i->int_of_string(List.nth l (i-1))) in
+    (tf(1),tf(2))
+) g5;;
+let g7=Ordered.forget_order(Tidel2.diforchan g6);;
+let g8=Image.image(
+    fun (i,j)->
+       let si=string_of_int i
+       and sj=string_of_int j in
+       let d=10-(String.length si)-(String.length sj) in
+       si^(String.make d ' ')^sj
+) g7;;
+let g9="\n\n\n"^(String.concat "\n" g8)^"\n\n\n";;
+
+*)
+
+(*
+
+let agatha()=
+  let uu1= Manage_lexed_data.get_data ["symblog";"phpbb"] in
+  let uu2=Explicit.image (fun l->Php_named_recognizer.star_parser 
+      (Php_named_recognizer.of_name "statement") l ) uu1 in
+  let uu3=Php_named_recognizer.data_in_apparition_order () in
+  let uu4=List.rev_map (fun x->x.Php_named_recognizer.unnamed_content) uu3 in
+  let uu5=Explicit.image Php_constructible_recognizer.head_tail_decomposition uu4 in
+  let uu6=Option.filter_and_unpack 
+  Php_constructible_recognizer.disjunction_content uu4 in
+  (uu1,uu2,uu3,uu4,uu5,uu6);;
+
+ 
+
+let (u1,u2,u3,u4,u5,u6)=Chronometer.it agatha ();;
+let see_time = Chronometer.duration_of_last_computation ();;
+
+*)
+
+
+(*
+let h1=Image.image Recreating_tools.encode_cons_rcgzr   g5;;
+let rg5=Image.image Recreating_tools.decode_cons_rcgzr   h1;;
+*)
+
+
+(*
+
+#use"php_spider.ml";;
+open Private;;
+let z1=(!php_ref);;
+let z2=Sp(                                    
+[("optional_pblock", ["_l_ () _r?_"]);                                                               
+("namespace_name", ["_l_ id _u_ nmspc _rd_"])]);;
+change_and_remember z2;;
+change_and_remember z1;;
+
+*)
+
+
+(*
+let z1=helper_for_rememberance (!(php_ref));;
+let z2=print_string z1;;
+
+
+let z1=Php_spider.Private.helper_for_rememberance (!(Php_spider.Private.php_ref));;
+let z2=print_string z1;;
+*)
+
+(*
 exception Bad_one of string*Php_positioned_token_list.t;;
 let prison=ref(None);;
 let prison2=ref(None);;
@@ -21,13 +1239,61 @@ let prsr l=
       let _=(prison2:=Some(dt)) in
       raise(Bad_one(dt.Beaver_for_statement.name,l));;
 
+let agatha()=
+      let uu1= Manage_lexed_data.get_data ["symblog";"phpbb"] in
+      let uu2=Explicit.image (fun l->Php_parser_homomorphism.star
+      prsr l ) uu1 in
+      let uu3=Php_named_recognizer.data_in_apparition_order () in
+      let uu4=List.rev_map (fun x->x.Php_named_recognizer.unnamed_content) uu3 in
+      let uu5=Explicit.image Php_constructible_recognizer.head_tail_decomposition uu4 in
+      let uu6=Option.filter_and_unpack 
+      Php_constructible_recognizer.disjunction_content uu4 in
+      (uu1,uu2,uu3,uu4,uu5,uu6);;
+
+     
+
+let (u1,u2,u3,u4,u5,u6)=Chronometer.it agatha ();;
+let see_time = Chronometer.duration_of_last_computation ();;
+
+let v1=List.rev (!(Php_projected_token_set.Private.ref_for_new_names));;  
+
+let g1=Php_named_recognizer.data_in_apparition_order ();;
+let g2=List.filter (fun x->x.Php_named_recognizer.is_a_disjunction) g1;;
+let g3=List.nth g2 1;;
+let g4=g3.Php_named_recognizer.unnamed_content;;
+let g5=Option.unpack(Php_constructible_recognizer.disjunction_content g4);;
+
+let h1=Image.image Recreating_tools.encode_cons_rcgzr   g5;;
+let rg5=Image.image Recreating_tools.decode_cons_rcgzr   h1;;
+
+let g6=Php_disjointness_check.check g5;;
+
+let w1=Php_named_recognizer.Private.absorb_spider Php_spider.php;;
+
+*)
+
+
+(*
 
 let u1= Manage_lexed_data.get_data ["symblog";"phpbb"];;
 
 let u2=Explicit.image (fun l->Php_parser_homomorphism.star
 prsr l ) u1;;
 
+let u3=Php_named_recognizer.data_in_apparition_order();;
+let u4=List.rev_map (fun x->x.Php_named_recognizer.unnamed_content) u3;;
+let u5=Explicit.image Php_constructible_recognizer.head_tail_decomposition u4;;
 
+
+
+
+
+let z1=(!(Beaver_for_statement.current_data_list));;
+let z2=image (fun x->
+(x.Beaver_for_statement.name,x.Beaver_for_statement.content)) z1;;
+*)
+
+(*
 let u3=Option.unpack(!prison);;
 let elt1=Option.unpack(!prison2);;
 
@@ -51,7 +1317,7 @@ let g1=vfm "Php_constructible_recognizer";;
 let g2=List.filter(
    fun (s,l)->String.capitalize_ascii s=s
 ) g1;;
-
+*)
 
 (*
 
@@ -2378,6 +3644,114 @@ let rec ld =function
   |Php_constructible_recognizer.End_already_reached->[];;
 
 
+
+
+*)
+
+(*
+
+<div class="container">
+<button class="btn btn-primary btn-lg"
+data-toggle="modal" data-target="#myModal">
+Click me
+</button>
+<div class="modal fade" id="myModal">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type"button" class="close"
+                   data-dismiss="modal"></button>
+                   <h4 class="modal-title" id="myModalLabel">Modal Title</h4>    
+               </div>    
+               <div class="modal-body">
+                   This is the modal body. 
+               </div>  
+               <div class="modal-footer">
+                       <button type"button" 
+                       class="btn btn-default"
+                       data-dismiss="modal">Close </button>
+                       <button type"button" 
+                       class="btn btn-primary"
+                       data-dismiss="modal">Save changes </button>
+               </div>                 
+           </div>    
+       </div>
+</div>=
+
+
+*)
+
+(*
+
+let analize_item s=
+       let temp1=List.assoc s (Php_spider.php()) in
+       if List.length (temp1)<2
+       then []
+       else 
+       let temp2=Ennig.index_everything temp1 in
+       let temp3=Image.image(
+           fun (j,t)->
+              let sj=s^"_"^(string_of_int j) in
+              let named_rcgzr=of_name sj in
+              let rcgzr=named_rcgzr.unnamed_content in
+              (t,fst(Php_constructible_recognizer.big_head_tail_decomposition rcgzr))
+       ) temp2 in
+       let temp4=Uple.list_of_pairs temp3 in
+       let temp5=List.filter (
+          fun ((_,l1),(_,l2))->Listennou.comparable_for_prefix_order l1 l2
+       ) temp4 in
+       temp5;;
+    
+    let analize_all_items ()=
+        let temp1=Php_spider.php() in
+        let temp2=List.filter (fun (s,l)->List.length(l)>1) temp1 in
+        Option.filter_and_unpack(
+             fun (s,_)->
+               let l=analize_item s in 
+               if l=[] 
+               then None
+               else Some(s,analize_item s)
+        ) temp2;;
+
+
+*)
+
+
+(*
+
+let rec helper_for_bhtd (graet,da_ober)=
+  let (aew,l)=head_tail_decomposition da_ober in
+  if aew||(List.length(l)<>1)
+  then (List.rev graet,da_ober)
+  else let (a,peurrest)=List.hd(l) in
+       helper_for_bhtd (a::graet,peurrest);; 
+
+let big_head_tail_decomposition x=helper_for_bhtd ([],x);;         
+
+let rec iterator_for_exhaustion (j,graet,da_ober)=
+  match da_ober with
+  []->(j,graet)
+  |a::peurrest->
+    let tempf=(
+        fun (idx,rcgzr)->
+          let (_,ttemp1)=head_tail_decomposition rcgzr in
+          let ttemp2=Option.filter_and_unpack (
+             fun (tokset,rcgzr2)->
+               if Php_projected_token_set.test tokset (Php_token.form(fst a))
+               then Some(rcgzr2)
+               else None
+          ) ttemp1 in
+          if ttemp2=[]
+          then None
+          else Some(idx,disjunction ttemp2)
+    ) in
+    let temp3=Option.filter_and_unpack tempf graet in
+    if temp3=[]
+    then (j,graet)
+    else iterator_for_exhaustion (j+1,temp3,peurrest);;
+
+let exhaust l (arg:Php_positioned_token_list.t)=
+  iterator_for_exhaustion (0,Ennig.index_everything l,arg);;
 
 
 *)
