@@ -86,13 +86,13 @@ let begins_with x y=
         let k0=tempf(i) in
         String.sub s (k0-1) (i-k0);;
 
-exception Nonunique_substring;;
+exception Nonunique_substring of string;;
 
 let unique_replace ((left_complement,a),b) s=
        let unique_place=left_complement^a in
        let temp1=occurrences_of_in unique_place s in
        if List.length(temp1)<>1
-       then raise(Nonunique_substring)
+       then raise(Nonunique_substring(unique_place))
        else 
        let i1=List.hd(temp1) in
        let i=i1+(String.length left_complement) in

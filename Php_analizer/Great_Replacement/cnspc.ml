@@ -9,7 +9,7 @@ cnspc stands for : commented namespace
 Arguments to cnspc functions are assumed to be already standardized
 *)
 
-exception Individual_cut_exn of int;;
+exception Individual_cut_exn of int*int;;
 
 let individual_cut s j=
    if (j>(String.length s)) then None else
@@ -19,7 +19,7 @@ let individual_cut s j=
    let (nspc_name,nspc_idx,left_idx,right_idx,_,dec_content)=
       Namespacize.decompose_from s j1 in
    if nspc_idx=0
-   then raise(Individual_cut_exn(j1)) 
+   then raise(Individual_cut_exn(j,j1)) 
    else let j2=Namespacize.after_closing_character ('{','}') s (right_idx,0) in
         Some((dec_content,nspc_name,Cull_string.interval s (right_idx+1) (j2-2)),j2+1);; 
 
