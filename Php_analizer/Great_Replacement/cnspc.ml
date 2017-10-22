@@ -32,12 +32,26 @@ individual_cut "<?php  declare(abc); namespace def {gh}" 8;;
 
 *)
 
-
 let rec decomposition_helper s (graet,j)=
-     match individual_cut s j with
+   match individual_cut s j with
      None->List.rev(graet)
      |Some(result,new_j)->
        decomposition_helper s (result::graet,new_j);;
+
+let reference_for_dh_debugging=ref((0,0,[]));;
+
+exception Dh_debug_exn;;
+
+let rec dh_debug s (graet,j)=
+  try
+  (match individual_cut s j with
+    None->raise(Dh_debug_exn)
+    |Some(result,new_j)->
+      dh_debug s ((j,result)::graet,new_j)
+  ) with
+  Individual_cut_exn(x,y)->
+     (x,y,graet)
+  ;;
 
 let decompose_from s j=
   decomposition_helper s ([],j);; 
