@@ -103,11 +103,11 @@ with npsc_idx.
 *)  
 
 let test_for_namespace_at_index s i=
-  if not(Substring.is_a_substring_located_at "namespace" s i1)
+  if not(Substring.is_a_substring_located_at "namespace" s i)
   then false
   else
   not( List.exists(fun t->
-  Substring.is_a_substring_located_at t s (i1-String.length(t))
+  Substring.is_a_substring_located_at t s (i-String.length(t))
   ) ["* ";"s ";"'";"$"] );;
 
 let namespace_computation s k=
