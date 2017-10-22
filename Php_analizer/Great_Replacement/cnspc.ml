@@ -37,9 +37,7 @@ let rec decomposition_helper s (graet,j)=
      None->List.rev(graet)
      |Some(result,new_j)->
        decomposition_helper s (result::graet,new_j);;
-
-let reference_for_dh_debugging=ref((0,0,[]));;
-
+       
 exception Dh_debug_exn;;
 
 let rec dh_debug s (graet,j)=
