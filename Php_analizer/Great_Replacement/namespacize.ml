@@ -102,10 +102,18 @@ with npsc_idx.
 
 *)  
 
+let test_for_namespace_at_index s i=
+  if not(Substring.is_a_substring_located_at "namespace" s i1)
+  then false
+  else
+  not( List.exists(fun t->
+  Substring.is_a_substring_located_at t s (i1-String.length(t))
+  ) ["* ";"s ";"'";"$"] );;
+
 let namespace_computation s k=
   let opt1=after_whites s k in
   let i1=Option.unpack opt1 in
-  if not(Substring.is_a_substring_located_at "namespace" s i1)
+  if not(test_for_namespace_at_index s i1)
   then ("",0,i1-1,i1,false,"")
   else 
   let opt2=after_whites s (i1+9) in
@@ -217,9 +225,11 @@ let weak_name_and_end s j1=
 
 let name_and_end s j=
   (* the s argument is assumed to be already standardized *) 
-  let j1=Substring.leftmost_index_of_in_from "namespace" s j in
-  if j1<1 then ("",(String.length s)+1) else
-  weak_name_and_end s j1;;
+  match Option.seek(fun j->test_for_namespace_at_index s j)
+            (Ennig.ennig 1 (String.length s))
+  with
+  None-> ("",(String.length s)+1) 
+  |Some(j1)-> weak_name_and_end s j1;;
 (*
 
 name_and_end "<?php   namespace{90}23namespace 45 {8901}namespace{34}67" 7;;
