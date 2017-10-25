@@ -13,7 +13,7 @@ exception Individual_cut_exn of int*int;;
 
 let individual_cut s j=
    if (j>(String.length s)) then None else
-   let opt1=Namespacize.after_whites_and_comments s j in
+   let opt1=After.after_whites_and_comments s j in
    if opt1=None then None else
    let j1=Option.unpack opt1 in
    let (nspc_name,nspc_idx,left_idx,right_idx,_,dec_content)=
