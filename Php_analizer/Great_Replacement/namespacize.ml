@@ -8,70 +8,6 @@
 
 module Private=struct
 
-let list_of_whites=[' ';'\n';'\r';'\t'];;
-
-let after_whites s =
-  let n=String.length s in
-  let rec tempf=(
-    fun j->
-      if j>n then None else
-      if  List.mem (String.get s (j-1)) list_of_whites
-      then tempf(j+1)
-      else Some(j)
-  ) in
-  tempf;;
-
-  let after_whites_and_comments s=
-    let n=String.length s in
-    let rec tempf=(
-      fun j->
-        if j>n then None else
-        if List.mem (String.get s (j-1)) list_of_whites
-        then tempf(j+1)
-        else 
-        if Substring.is_a_substring_located_at "/*" s j
-        then let k=Substring.leftmost_index_of_in_from "*/" s (j+2) in
-             if k<0
-             then None
-             else tempf(k+2)
-        else Some(j)
-    ) in
-    tempf;;
-  
-  (*    
-  after_whites_and_comments "\n/* 567 */\t\r\n\n/* 89 ** // 78*/123";;    
-  *)
-  
-
-exception Unbalanced_expression of char*char;;
-
-let after_closing_character (lchar,rchar) s=
-  let n=String.length s in
-  let rec tempf=(
-    fun (k,count)->
-      if k>n
-      then raise(Unbalanced_expression(lchar,rchar))
-      else 
-      let c=String.get s (k-1) in
-      if c=lchar
-      then tempf(k+1,count+1)
-      else 
-      if c<>rchar
-      then tempf(k+1,count)
-      else 
-        if count=1
-        then k+1
-        else tempf(k+1,count-1)
-  ) in
-  tempf;;
-
-(*
-
-after_closing_character ('{','}') "{ 345 }89" (1,0);;
-after_closing_character ('{','}') "{2{4}6{8{0}2}4}67" (1,0);;
-
-*)
-
 
 
 let nspc_list=
@@ -111,16 +47,16 @@ let test_for_namespace_at_index s i=
   ) ["\"\\n";"\"\n";"* ";"s ";"'";"$"] );;
 
 let namespace_computation s k=
-  let opt1=after_whites s k in
+  let opt1=After.after_whites s k in
   let i1=Option.unpack opt1 in
   if not(test_for_namespace_at_index s i1)
   then ("",0,i1-1,i1,false,"")
   else 
-  let opt2=after_whites s (i1+9) in
+  let opt2=After.after_whites s (i1+9) in
   let i2=Option.unpack opt2 in
-  let opt3=after_nspc_name s i2 in
+  let opt3=After.after_nspc_name s i2 in
   let i3=Option.unpack opt3 in
-  let opt4=after_whites s i3 in
+  let opt4=After.after_whites s i3 in
   let i4=Option.unpack opt4 in
   (Cull_string.interval s i2 (i3-1),i1,i1,i4,(String.get s (i4-1))='{',"") 
   ;;
@@ -149,11 +85,11 @@ let decompose_from s i1=
   if not(Substring.is_a_substring_located_at "declare" s i1)
   then ("",0,i1-1,i1-1,false,"")
   else 
-  let opt2=after_whites s (i1+7) in
+  let opt2=After.after_whites s (i1+7) in
   if opt2=None then raise(Incomplete_declaration) else
   let i2=Option.unpack opt2 in
-  let i3=after_closing_character ('(',')') s (i2,0) in
-  let opt4=after_whites_and_comments s (i3+1) in 
+  let i3=After.after_closing_character ('(',')') s (i2,0) in
+  let opt4=After.after_whites_and_comments s (i3+1) in 
   let i4=Option.unpack opt4 in
   let second_try=namespace_computation s i4 in 
   let 
@@ -167,7 +103,7 @@ let decompose s=
   if not(Substring.begins_with s "<?php") 
   then raise(Absent_php_open_tag)
   else
-  let opt1=after_whites_and_comments s 6 in
+  let opt1=After.after_whites_and_comments s 6 in
   if opt1=None then ("",0,1,2,false,"") else
   let i1=Option.unpack opt1 in
   decompose_from s i1;;
@@ -219,7 +155,7 @@ let weak_name_and_end s j1=
   let (nspc_name,nspc_idx,_,right_idx,_,_)=namespace_computation s j1 in
   if nspc_idx=0
   then ("",(String.length s)+1)
-  else try (nspc_name,after_closing_character ('{','}') s (right_idx,0) )
+  else try (nspc_name,After.after_closing_character ('{','}') s (right_idx,0) )
        with
        _->raise(Name_and_end_exn(j1));;
 
@@ -317,8 +253,6 @@ let standardize ap=
 Io.erase_file_and_fill_it_with_string 
 ap new_content;;
 
-let after_whites_and_comments=Private.after_whites_and_comments;;
-let after_closing_character=Private.after_closing_character;;
 let decompose_from=Private.decompose_from;;
 
 let expand_inclusion

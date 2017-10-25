@@ -4,10 +4,6 @@
 
 *)
 
-
-
-
-
 let list_of_whites=[' ';'\n';'\r';'\t'];;
 
 let after_whites s =

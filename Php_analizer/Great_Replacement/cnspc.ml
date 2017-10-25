@@ -20,7 +20,7 @@ let individual_cut s j=
       Namespacize.decompose_from s j1 in
    if nspc_idx=0
    then raise(Individual_cut_exn(j,j1)) 
-   else let j2=Namespacize.after_closing_character ('{','}') s (right_idx,0) in
+   else let j2=After.after_closing_character ('{','}') s (right_idx,0) in
         Some((dec_content,nspc_name,Cull_string.interval s (right_idx+1) (j2-2)),j2+1);; 
 
 (*
@@ -37,7 +37,7 @@ let rec decomposition_helper s (graet,j)=
      None->List.rev(graet)
      |Some(result,new_j)->
        decomposition_helper s (result::graet,new_j);;
-       
+
 exception Dh_debug_exn;;
 
 let rec dh_debug s (graet,j)=
@@ -61,7 +61,7 @@ let decompose s=
     if not(Substring.begins_with s "<?php") 
     then raise(Absent_php_open_tag)
     else
-    let opt1=Namespacize.after_whites_and_comments s 6 in
+    let opt1=After.after_whites_and_comments s 6 in
     if opt1=None 
     then raise(Empty_text) 
     else let i1=Option.unpack opt1 in
@@ -73,7 +73,7 @@ let test_for_lonely_marker s=
     else (Substring.leftmost_index_of_in ";" s)=(String.length s);;
 
 let test_for_first_marker s=
-      let opt1=Namespacize.after_whites_and_comments s 1 in
+      let opt1=After.after_whites_and_comments s 1 in
       if opt1=None then false else
       let i1=Option.unpack opt1 in
       Substring.is_a_substring_located_at "marker_here(" s i1;;    
