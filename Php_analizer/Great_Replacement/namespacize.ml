@@ -269,13 +269,16 @@ let cull_php_enclosers old_s=
     and j1=(if Substring.ends_with s "?>" then (n-2) else n) in
     Cull_string.interval s i1 j1;;
 
-let insert_at_interval inserted_text (i,j) container_text=
+let insert_at_interval inserted_text (i,j) container_text
+    (comment_before,comment_after)=
     (* container_text is assumed to be already standardized *)
     let n=String.length container_text in
     let nspc_name=namespace_at_index container_text i in
     (Cull_string.interval container_text 1 (i-1))^
     "\n}\n\n\n"^
+    comment_before^"\n"^
     (cull_php_enclosers(standardize inserted_text))^
+    comment_after^"\n"^
     "\nnamespace "^nspc_name^
     " {\n"^
     (Cull_string.interval container_text (j+1) n);;
@@ -285,7 +288,8 @@ exception Nonunique_place of string;;
 let insert_at_unique_place_in_string 
      inserted_text
      (left_complement,place)
-     container_text=
+     container_text
+     (comment_before,comment_after)=
        let unique_place=left_complement^place in
        let temp1=Substring.occurrences_of_in unique_place container_text in
        if List.length(temp1)<>1
@@ -294,7 +298,8 @@ let insert_at_unique_place_in_string
        let i1=List.hd(temp1) in
        let i=i1+(String.length left_complement) in
        let j=i+(String.length place)-1 in
-       insert_at_interval inserted_text (i,j) container_text;;
+       insert_at_interval inserted_text (i,j) container_text
+                          (comment_before,comment_after);;
 
 end;;
 
@@ -317,17 +322,20 @@ let after_closing_character=Private.after_closing_character;;
 let decompose_from=Private.decompose_from;;
 
 let expand_inclusion
-      inserted_file
+      (fn,inserted_file)
       (left_complement,place)
       container_file
       l_rep=
       let pre_content=
          Replace_inside.replace_several_inside_string l_rep
       (Io.read_whole_file inserted_file) in
+      let comment_before="/* Inclusion of "^fn^" starts here */"
+      and comment_after="/* Inclusion of "^fn^" ends here */" in   
          let new_content=Private.insert_at_unique_place_in_string 
                            pre_content
                             (left_complement,place)
-                            (Io.read_whole_file container_file) in
+                            (Io.read_whole_file container_file) 
+                            (comment_before,comment_after) in
          Io.erase_file_and_fill_it_with_string 
             container_file new_content;;
 
