@@ -41,3 +41,10 @@ let color_all_markers filename=
 let put_marker_at_line k filename=
   (put_blind_marker_at_line_before_coloring k filename;
    color_all_markers filename);;   
+
+let remove_all_markers filename=
+   let temp1=Str.split (Str.regexp_string "\n") (Io.read_whole_file filename) in
+   let temp2=List.filter (fun s->
+    not(Substring.begins_with s "marker_here") ) temp1  in
+   let new_text=String.concat "\n" temp2 in
+   Io.erase_file_and_fill_it_with_string filename new_text;; 
