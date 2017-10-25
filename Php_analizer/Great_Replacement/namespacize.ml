@@ -54,7 +54,7 @@ let namespace_computation s k=
   else 
   let opt2=After.after_whites s (i1+9) in
   let i2=Option.unpack opt2 in
-  let opt3=After.after_nspc_name s i2 in
+  let opt3=after_nspc_name s i2 in
   let i3=Option.unpack opt3 in
   let opt4=After.after_whites s i3 in
   let i4=Option.unpack opt4 in
