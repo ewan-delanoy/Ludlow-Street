@@ -46,7 +46,10 @@ let rec high_level_helper (graet,da_ober)=
   ;;    
 
 
-let in_string=in_namespace;; 
+let in_string s=
+   let temp1=Cnspc.decompose s in
+   let temp2=high_level_helper ([],temp1) in
+   Marker.adjust_all_markers temp2;; 
 
 let in_file ap=
     let old_text=Io.read_whole_file ap in
