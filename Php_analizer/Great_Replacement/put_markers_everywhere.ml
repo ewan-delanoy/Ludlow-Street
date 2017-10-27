@@ -10,7 +10,7 @@ See the standardize function in the namespacize module.
 let rec low_level_helper
   (mark_count,line_count,idx_start,idx,s,n,accu)=
     if idx>n
-    then (String.concat "" (List.rev accu),(mark_count,line_count))
+    then String.concat "" (List.rev accu)
     else 
     let c=Strung.get s idx in
     if c='\n'
@@ -33,14 +33,21 @@ let rec low_level_helper
           low_level_helper(mark_count,line_count+d,idx_start,j,s,n,accu)
     else  low_level_helper(mark_count,line_count,idx_start,idx+1,s,n,accu);;
 
-(*    
-let rec high_level_helper (graet,mark_count,line_count,da_ober)=
-  match da_ober with
-  []->String.concat 
-      (Cnspc.linebreaks Cnspc.padding_between_namespaces) graet;;    
-*)
+let in_namespace s=low_level_helper(0,0,1,1,s,String.length s,[]);;  
 
-let in_string s=fst(low_level_helper(0,0,1,1,s,String.length s,[]));;   
+let rec high_level_helper (graet,da_ober)=
+  match da_ober with
+  []->Cnspc.reconstruct_string (List.rev graet)
+  |(dec_content,nspc_name,nspc_content)::peurrest->
+      let marked_content=in_namespace nspc_content in
+      let opt1=Cnspc.rewrite_item (dec_content,nspc_name,marked_content) in
+      let graet2=(match opt1 with None->graet |Some(t)->t::graet) in
+      high_level_helper (graet2,peurrest)
+  ;;    
+
+
+let in_string=in_namespace;; 
+
 let in_file ap=
     let old_text=Io.read_whole_file ap in
     let new_text=in_string old_text in
