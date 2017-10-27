@@ -104,14 +104,17 @@ let rewrite_item
        (linebreaks padding_after_namespace)
     );;
     
+let reconstruct_string l=
+  "<?php"^
+  (linebreaks padding_after_php_open_tag)
+  ^(String.concat 
+   (linebreaks padding_between_namespaces)
+  l);;    
+
 let rewrite_string s=
     let temp1=decompose s in
     let temp2=Option.filter_and_unpack rewrite_item temp1 in
-    "<?php"^
-    (linebreaks padding_after_php_open_tag)
-    ^(String.concat 
-     (linebreaks padding_between_namespaces)
-    temp2);;
+    reconstruct_string temp2;;
 
 let rewrite_file ap=
     let old_text=Io.read_whole_file ap in
