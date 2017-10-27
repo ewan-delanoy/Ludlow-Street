@@ -265,8 +265,8 @@ let expand_inclusion
       let pre_content=
          Replace_inside.replace_several_inside_string l_rep
       (Io.read_whole_file inserted_file) in
-      let comment_before="/* Inclusion of "^fn^" starts here */"
-      and comment_after="/* Inclusion of "^fn^" ends here */" in   
+      let comment_before="\n\n/* Inclusion of "^fn^" starts here */\n\n"
+      and comment_after="\n\n/* Inclusion of "^fn^" ends here */\n\n" in   
          let new_content=Private.insert_at_unique_place_in_string 
                            pre_content
                             (left_complement,place)
