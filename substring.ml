@@ -24,9 +24,6 @@ let begins_with x y=
       else (String.sub x ((String.length x)-ly) ly)=y;;  
    
  let is_the_ending_of y x=ends_with x y;;  
- 
- 
- exception Substring_located_at_exn of string*int;;
 
  let is_a_substring_located_at y x old_j =
     let j=old_j-1 in

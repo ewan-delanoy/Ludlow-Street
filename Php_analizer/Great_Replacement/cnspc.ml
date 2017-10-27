@@ -57,6 +57,11 @@ let decompose_from s j=
 exception Absent_php_open_tag;;
 exception Empty_text;;  
 
+let test_for_lonely_marker s=
+  if (not(Substring.begins_with s "marker_here("))
+  then false
+  else (Substring.leftmost_index_of_in ";" s)=(String.length s);;  
+
 let decompose s=
     if not(Substring.begins_with s "<?php") 
     then raise(Absent_php_open_tag)
@@ -65,12 +70,14 @@ let decompose s=
     if opt1=None 
     then raise(Empty_text) 
     else let i1=Option.unpack opt1 in
-         decompose_from s i1;;
+         let temp1=decompose_from s i1 in
+         List.filter (
+           fun (dec_content,nspc_name,nspc_content)->
+              not(test_for_lonely_marker 
+              (Cull_string.trim_spaces nspc_content))
+         ) temp1;;
 
-let test_for_lonely_marker s=
-    if (not(Substring.begins_with s "marker_here("))
-    then false
-    else (Substring.leftmost_index_of_in ";" s)=(String.length s);;  
+
 
 let padding_before_declaration=2;;
 let padding_after_declaration=2;;
@@ -92,17 +99,13 @@ let rewrite_item
            (linebreaks padding_after_declaration)
     ) in
     let trimmed_content=Cull_string.trim_spaces nspc_content in
-    if test_for_lonely_marker trimmed_content
-    then None
-    else 
-    Some(
        dec_component^"namespace "^nspc_name^" {"^
        (linebreaks padding_at_start_of_namespace)^
        trimmed_content^
        (linebreaks padding_at_end_of_namespace)
        ^"}"^
        (linebreaks padding_after_namespace)
-    );;
+    ;;
     
 let reconstruct_string l=
   "<?php"^
@@ -113,7 +116,7 @@ let reconstruct_string l=
 
 let rewrite_string s=
     let temp1=decompose s in
-    let temp2=Option.filter_and_unpack rewrite_item temp1 in
+    let temp2=Image.image rewrite_item temp1 in
     reconstruct_string temp2;;
 
 let rewrite_file ap=

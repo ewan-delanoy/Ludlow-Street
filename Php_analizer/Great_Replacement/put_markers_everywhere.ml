@@ -2,7 +2,7 @@
 
 #use"Php_analizer/Great_Replacement/put_markers_everywhere.ml";;
 
-Works only on a previously standardize PHP text.
+Works only on a previously standardized PHP text.
 See the standardize function in the namespacize module.
 
 *)
