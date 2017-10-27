@@ -26,11 +26,12 @@ let begins_with x y=
  let is_the_ending_of y x=ends_with x y;;  
  
  
- 
+ exception Substring_located_at_exn of string*int;;
+
  let is_a_substring_located_at y x old_j =
     let j=old_j-1 in
     let ly=String.length(y) in
-      if (String.length(x)<j+ly)||(ly<0)
+      if (String.length(x)<j+ly)||(j<0)
       then false
       else (String.sub x j ly)=y;;
  
