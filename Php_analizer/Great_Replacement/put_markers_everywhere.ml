@@ -40,9 +40,8 @@ let rec high_level_helper (graet,da_ober)=
   []->Cnspc.reconstruct_string (List.rev graet)
   |(dec_content,nspc_name,nspc_content)::peurrest->
       let marked_content=in_namespace nspc_content in
-      let opt1=Cnspc.rewrite_item (dec_content,nspc_name,marked_content) in
-      let graet2=(match opt1 with None->graet |Some(t)->t::graet) in
-      high_level_helper (graet2,peurrest)
+      let temp1=Cnspc.rewrite_item (dec_content,nspc_name,marked_content) in
+      high_level_helper (temp1::graet,peurrest)
   ;;    
 
 
