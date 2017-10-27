@@ -70,42 +70,50 @@ let decompose s=
 let test_for_lonely_marker s=
     if (not(Substring.begins_with s "marker_here("))
     then false
-    else (Substring.leftmost_index_of_in ";" s)=(String.length s);;
+    else (Substring.leftmost_index_of_in ";" s)=(String.length s);;  
 
-let test_for_first_marker s=
-      let opt1=After.after_whites_and_comments s 1 in
-      if opt1=None then false else
-      let i1=Option.unpack opt1 in
-      Substring.is_a_substring_located_at "marker_here(" s i1;;    
+let padding_before_declaration=2;;
+let padding_after_declaration=2;;
+let padding_at_start_of_namespace=3;;
+let padding_at_end_of_namespace=3;;
+let padding_after_namespace=2;;
+let padding_after_php_open_tag=2;;
+let padding_between_namespaces=1;;
+
+let linebreaks j=String.make j '\n';;
 
 let rewrite_item
   (dec_content,nspc_name,nspc_content)=
     let dec_component=(
       if dec_content=""
       then ""
-      else "\n\ndeclare("^dec_content^");\n\n"
+      else (linebreaks padding_before_declaration)^
+           "declare("^dec_content^");"^
+           (linebreaks padding_after_declaration)
     ) in
     let trimmed_content=Cull_string.trim_spaces nspc_content in
     if test_for_lonely_marker trimmed_content
     then None
     else 
-    let new_nspc_content=(
-      if test_for_first_marker trimmed_content
-      then trimmed_content
-      else "marker_here(0,0);\n"^trimmed_content
-    )  in
     Some(
-       dec_component^"namespace "^nspc_name^" {\n\n\n"^
-       new_nspc_content^"\n\n\n}\n\n"
+       dec_component^"namespace "^nspc_name^" {"^
+       (linebreaks padding_at_start_of_namespace)^
+       trimmed_content^
+       (linebreaks padding_at_end_of_namespace)
+       ^"}"^
+       (linebreaks padding_after_namespace)
     );;
     
 let rewrite_string s=
     let temp1=decompose s in
     let temp2=Option.filter_and_unpack rewrite_item temp1 in
-    "<?php\n\n"^(String.concat "\n" temp2);;
+    "<?php"^
+    (linebreaks padding_after_php_open_tag)
+    ^(String.concat 
+     (linebreaks padding_between_namespaces)
+    temp2);;
 
 let rewrite_file ap=
     let old_text=Io.read_whole_file ap in
     let new_text=rewrite_string old_text in
-    (Io.erase_file_and_fill_it_with_string ap new_text;
-     Marker.color_all_markers ap);;
+    Io.erase_file_and_fill_it_with_string ap new_text;;
