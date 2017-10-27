@@ -248,7 +248,9 @@ insert_at_unique_place_in_string
 
 *)
 
-let standardize ap=
+let standardize_string=Private.standardize;;
+
+let standardize_file ap=
   let new_content=Private.standardize(Io.read_whole_file ap) in
 Io.erase_file_and_fill_it_with_string 
 ap new_content;;
