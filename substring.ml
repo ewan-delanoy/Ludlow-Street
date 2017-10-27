@@ -30,7 +30,7 @@ let begins_with x y=
  let is_a_substring_located_at y x old_j =
     let j=old_j-1 in
     let ly=String.length(y) in
-      if String.length(x)<j+ly
+      if (String.length(x)<j+ly)||(ly<0)
       then false
       else (String.sub x j ly)=y;;
  
