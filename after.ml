@@ -95,6 +95,10 @@ let after_closing_character (lchar,rchar) s=
       then let j=Substring.leftmost_index_of_in_from "*/" s (k+2) in
            tempf(j+2,count)
       else 
+      if Substring.is_a_substring_located_at "//" s k
+      then let j=Substring.leftmost_index_of_in_from "\n" s (k+2) in
+           tempf(j+1,count)
+      else 
       if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
          ||
          (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
