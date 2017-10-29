@@ -9,6 +9,11 @@
 
 let interval s a b=String.sub s (a-1) (b-a+1);;
 
+let neighborhood_with_center_and_size s i d=
+   let a=max(1)(i-d)
+   and b=min(String.length s)(i+d) in
+   interval s a b;;
+
 exception Beginning_failure;;
 
 let beginning k s=
