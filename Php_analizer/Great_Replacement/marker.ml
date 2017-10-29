@@ -4,6 +4,16 @@
 
 *)
 
+let from_numbers i j=
+    "marker_here("^(string_of_int(i))^","^(string_of_int j)^");" ;;
+
+let extract_numbers s=
+    let i1=Substring.leftmost_index_of_in " at" s in
+    (
+      int_of_string(Cull_string.interval s 13 (i1-1)),
+      int_of_string(Cull_string.interval s (i1+9) (String.length s))
+    );;
+
 exception Blind_marker_exn;;
 
 let rec helper_for_blind_marker (k,inserted_item,graet,da_ober)=match da_ober with
@@ -16,15 +26,14 @@ let rec helper_for_blind_marker (k,inserted_item,graet,da_ober)=match da_ober wi
 let put_blind_marker_at_line k text=
         let temp1=Str.split (Str.regexp_string "\n") text in
         let temp2=Ennig.index_everything temp1 in
-        let temp3=helper_for_blind_marker (k,"marker_here('Mark');",[],temp2) in
+        let temp3=helper_for_blind_marker (k,from_numbers 0 0,[],temp2) in
         String.concat "\n" temp3;;       
 
 let rec helper_for_adjusted_marker (mark_count,graet,da_ober)=match da_ober with
    []->List.rev graet
    |(j,s)::peurrest->
        if Substring.begins_with s "marker_here("
-       then let corrected_line=
-              "marker_here("^(string_of_int(mark_count+1))^","^(string_of_int j)^");" in
+       then let corrected_line=from_numbers (mark_count+1) j in
             helper_for_adjusted_marker (mark_count+1,corrected_line::graet,peurrest)
        else helper_for_adjusted_marker (mark_count  ,s::graet,peurrest);;
 
