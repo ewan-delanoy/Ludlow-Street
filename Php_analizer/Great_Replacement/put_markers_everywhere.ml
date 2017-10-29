@@ -12,22 +12,22 @@ let rec low_level_helper
     if idx>n
     then String.concat "" (List.rev accu)
     else 
-    (*
     if Substring.is_a_substring_located_at "/*" s idx
     then let j=Substring.leftmost_index_of_in_from "*/" s (idx+2) in
-         tempf(j+2,count)
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
+         low_level_helper(mark_count,line_count+d,idx_start,j+2,s,n,accu)
     else 
     if Substring.is_a_substring_located_at "//" s k
     then let j=Substring.leftmost_index_of_in_from "\n" s (k+2) in
-         tempf(j+1,count)
+         low_level_helper(mark_count,line_count+1,idx_start,j+1,s,n,accu)
     else 
     if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
        ||
        (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
     then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
-         tempf(j+6,count)
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
+         low_level_helper(mark_count,line_count+d,idx_start,j+6,s,n,accu)
     else
-    *) 
     let c=Strung.get s idx in
     if c='\n'
     then (
@@ -43,9 +43,7 @@ let rec low_level_helper
     else
     if c='{'
     then let j=After.after_closing_character ('{','}') s (idx,0) in
-         let d=
-          List.length(List.filter (fun t->Strung.get s t='\n') 
-          (Ennig.ennig idx j)) in
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
           low_level_helper(mark_count,line_count+d,idx_start,j,s,n,accu)
     else  low_level_helper(mark_count,line_count,idx_start,idx+1,s,n,accu);;
 
@@ -71,40 +69,6 @@ let in_file ap=
     let new_text=in_string old_text in
     Io.overwrite_with ap new_text;;
 
-(*
-
-let rewrite_item
-  (dec_content,nspc_name,nspc_content)=
-    let dec_component=(
-      if dec_content=""
-      then ""
-      else (linebreaks padding_before_declaration)^
-           "declare("^dec_content^");"^
-           (linebreaks padding_after_declaration)
-    ) in
-    let trimmed_content=Cull_string.trim_spaces nspc_content in
-    if test_for_lonely_marker trimmed_content
-    then None
-    else 
-    Some(
-       dec_component^"namespace "^nspc_name^" {"^
-       (linebreaks padding_at_start_of_namespace)^
-       trimmed_content^
-       (linebreaks padding_at_end_of_namespace)
-       ^"}"^
-       (linebreaks padding_after_namespace)
-    );;
-    
-let rewrite_string s=
-    let temp1=decompose s in
-    let temp2=Option.filter_and_unpack rewrite_item temp1 in
-    "<?php"^
-    (linebreaks padding_after_php_open_tag)
-    ^(String.concat 
-     (linebreaks padding_between_namespaces)
-    temp2);;
-
-*)
 
 (*
 let s="ab\ncde;\nfg\n\n{hi\njkl;\nmn\n\n}op\nqr;\nst;\n\n";;
