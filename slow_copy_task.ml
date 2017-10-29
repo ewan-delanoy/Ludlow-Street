@@ -71,7 +71,7 @@ let initialize_from_data
 
 let save x=
    let ap=Absolute_path.of_string(x.keeper_name) in
-   Io.erase_file_and_fill_it_with_string ap (archive x);;
+   Io.overwrite_with ap (archive x);;
    
 let ask_permission_to_execute x=
    Sys.file_exists(watcher_file(x.keeper_name));;   

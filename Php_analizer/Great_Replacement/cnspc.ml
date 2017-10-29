@@ -122,4 +122,4 @@ let rewrite_string s=
 let rewrite_file ap=
     let old_text=Io.read_whole_file ap in
     let new_text=rewrite_string old_text in
-    Io.erase_file_and_fill_it_with_string ap new_text;;
+    Io.overwrite_with ap new_text;;

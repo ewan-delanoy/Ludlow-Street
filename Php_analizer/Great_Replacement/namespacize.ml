@@ -252,7 +252,7 @@ let standardize_string=Private.standardize;;
 
 let standardize_file ap=
   let new_content=Private.standardize(Io.read_whole_file ap) in
-Io.erase_file_and_fill_it_with_string 
+Io.overwrite_with 
 ap new_content;;
 
 let decompose_from=Private.decompose_from;;
@@ -272,7 +272,7 @@ let expand_inclusion
                             (left_complement,place)
                             (Io.read_whole_file container_file) 
                             (comment_before,comment_after) in
-         Io.erase_file_and_fill_it_with_string 
+         Io.overwrite_with 
             container_file new_content;;
 
 

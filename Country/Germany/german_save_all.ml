@@ -26,13 +26,13 @@ let save_makefile mdata=
   "# the write_makefile function in the ml_manager module. \n\n"^
   (German_write_makefile.write_makefile mdata) in
   let lm=absolute_location_for_makefile in
-  Io.erase_file_and_fill_it_with_string (Absolute_path.of_string lm) s1;;
+  Io.overwrite_with (Absolute_path.of_string lm) s1;;
 
 let save_loadingsfile (dirs,tgts)=
    let s=German_up_to_date_targets.loadings 
     (dirs,tgts)
    and lm=absolute_location_for_loadingsfile in
-   Io.erase_file_and_fill_it_with_string (Absolute_path.of_string lm) s;;
+   Io.overwrite_with (Absolute_path.of_string lm) s;;
 
 let save_printersfile printer_equipped_types=
    let s=Alaskan_printer_equipped_types.instructions printer_equipped_types
@@ -78,7 +78,7 @@ let archive
 let save_targetfile uple=
   let s1=archive uple in
   let lt=absolute_location_for_targetfile in
-  Io.erase_file_and_fill_it_with_string (Absolute_path.of_string lt) s1;;
+  Io.overwrite_with (Absolute_path.of_string lt) s1;;
 
 end;;
 

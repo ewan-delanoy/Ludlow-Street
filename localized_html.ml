@@ -58,7 +58,7 @@ let decompose_localized_text s=
 let enforce_localized_text s=
   List.iter (
       fun (fn,txt)->
-        Io.erase_file_and_fill_it_with_string
+        Io.overwrite_with
         (Absolute_path.of_string fn) txt
   ) (decompose_localized_text s);;
 

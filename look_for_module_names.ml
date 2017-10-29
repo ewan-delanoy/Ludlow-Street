@@ -4,6 +4,7 @@
 
 *)
 
+
 let indices_in_string s=
   let temp1=Outside_comments_and_strings.good_substrings s in
   let temp2=Image.image (fun (a,b,t)->
@@ -19,17 +20,20 @@ let names_in_string z=
   let temp2=Image.image (fun (_,(a,b))->String.sub z (a-1) (b-a+1) ) temp1 in
   let temp3=Three_parts.generic temp2 in
   let temp4=List.filter (fun (x,y,z)->not(List.mem y x)) temp3 in
-  let temp5=Image.image (fun (x,y,z)->Naked_module.of_string (String.uncapitalize_ascii  y)) temp4 in
+  let temp5=Image.image (fun (x,y,z)->Naked_module.of_string 
+      (String.uncapitalize_ascii  y)) temp4 in
   temp5;;
 
 let indices_in_file file=indices_in_string(Io.read_whole_file file);;  
 let names_in_file file=names_in_string(Io.read_whole_file file);;
 
-type module_name=string;;
+
 
 let change_module_name_in_string
-   (old_name:module_name)
-   (new_name:module_name) s=
+   old_naked_name
+   new_naked_name s=
+   let old_name=String.capitalize_ascii(Naked_module.to_string(old_naked_name))
+   and new_name=String.capitalize_ascii(Naked_module.to_string(new_naked_name)) in
    let itv=(fun a b->String.sub s (a-1) (b-a+1)) in
    let temp1=indices_in_string s in
    let temp2=List.filter (fun (j,(a,b))->(itv a b)=old_name ) temp1 in
@@ -50,8 +54,17 @@ let change_module_name_in_string
  let change_module_name_in_file old_name new_name file=
    let s=Io.read_whole_file file in
    let new_s=change_module_name_in_string old_name new_name s in
-   Io.erase_file_and_fill_it_with_string file new_s;;  
-   
+   Io.overwrite_with file new_s;;  
+
+let change_several_module_names_in_string l_changes s=
+    List.fold_left(fun t (u,v)->change_module_name_in_string u v t) s l_changes;;
+
+let change_several_module_names_in_file l_changes file=
+   let s=Io.read_whole_file file in
+   let new_s=change_several_module_names_in_string l_changes s in
+   Io.overwrite_with file new_s;;  
+
+
 (*   
    
 indices_in_string "123 Haag.012 open Garfield;8";;

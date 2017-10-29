@@ -46,12 +46,12 @@ let remove_all_markers text=
 let put_marker_at_line_in_file k filename=
     let old_text=Io.read_whole_file filename in
     let new_text=put_marker_at_line k old_text in
-    Io.erase_file_and_fill_it_with_string filename new_text;;
+    Io.overwrite_with filename new_text;;
 
 let remove_all_markers_in_file filename=
       let old_text=Io.read_whole_file filename in
       let new_text=remove_all_markers old_text in
-      Io.erase_file_and_fill_it_with_string filename new_text;;    
+      Io.overwrite_with filename new_text;;    
 
 
 

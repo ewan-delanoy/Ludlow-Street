@@ -16,13 +16,13 @@ let replace_inside_file (a,b) fn=
     let la=String.length(a) in
     if List.exists (fun j->(String.sub s1 j la)=a) (Ennig.ennig 0 ((String.length s1)-la))
     then let s2=replace_inside_string (a,b) s1 in
-         Io.erase_file_and_fill_it_with_string fn s2
+         Io.overwrite_with fn s2
     else ();; 
     
 let replace_several_inside_file l fn=
     let s1=Io.read_whole_file fn in
     let s2=replace_several_inside_string l s1  in
-    Io.erase_file_and_fill_it_with_string fn s2;; 
+    Io.overwrite_with fn s2;; 
 
 exception Absent_beginning_marker of string;;
 exception Absent_ending_marker of string;; 
@@ -53,7 +53,7 @@ let overwrite_between_markers_inside_file
    fn =
     let s1=Io.read_whole_file fn in
     let s2=overwrite_between_markers_inside_string ovw_b (bm,em) s1 in
-    Io.erase_file_and_fill_it_with_string fn s2;;      
+    Io.overwrite_with fn s2;;      
 
 
 let overwrite_and_dump_markers_inside_string ovw_b (bm,em)
@@ -83,7 +83,7 @@ let overwrite_and_dump_markers_inside_file
    fn =
     let s1=Io.read_whole_file fn in
     let s2=overwrite_and_dump_markers_inside_string ovw_b (bm,em) s1 in
-    Io.erase_file_and_fill_it_with_string fn s2;;      
+    Io.overwrite_with fn s2;;      
 
 let show ()=Unix_command.uc "ocamlc -i replace_inside.ml";;  
  

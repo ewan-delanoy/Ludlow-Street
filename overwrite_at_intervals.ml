@@ -39,7 +39,7 @@ inside_string
 let inside_file replacings fn=
   let old_t=Io.read_whole_file fn in
   let new_t=inside_string replacings old_t in
-  Io.erase_file_and_fill_it_with_string fn new_t;;  
+  Io.overwrite_with fn new_t;;  
   
 
 
