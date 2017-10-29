@@ -211,12 +211,10 @@ let insert_at_interval inserted_text (i,j) container_text
     let n=String.length container_text in
     let nspc_name=namespace_at_index container_text i in
     (Cull_string.interval container_text 1 (i-1))^
-    "\n}\n\n\n"^
-    comment_before^"\n"^
+    comment_before^"\n}\n\n\n"^
     (cull_php_enclosers(standardize inserted_text))^
-    comment_after^"\n"^
     "\nnamespace "^nspc_name^
-    " {\n"^
+    " {\n"^comment_after^"\n"^
     (Cull_string.interval container_text (j+1) n);;
 
 exception Nonunique_place of string;;
