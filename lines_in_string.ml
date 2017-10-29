@@ -16,6 +16,11 @@ let interval s i j=
 
 let line_at_index s i=List.assoc i (core s);;
 
+let number_of_lines_in_char_interval s (i,j)=
+   List.length(List.filter (fun k->
+       String.get s k='\n'
+   ) (Ennig.ennig i j));; 
+
 let remove_interval s i j=
   let temp1=core s in
   let temp2=List.filter (fun (k,_)->(i>k)||(k>j)) temp1  in

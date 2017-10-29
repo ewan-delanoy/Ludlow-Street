@@ -12,6 +12,22 @@ let rec low_level_helper
     if idx>n
     then String.concat "" (List.rev accu)
     else 
+    (*
+    if Substring.is_a_substring_located_at "/*" s idx
+    then let j=Substring.leftmost_index_of_in_from "*/" s (idx+2) in
+         tempf(j+2,count)
+    else 
+    if Substring.is_a_substring_located_at "//" s k
+    then let j=Substring.leftmost_index_of_in_from "\n" s (k+2) in
+         tempf(j+1,count)
+    else 
+    if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+       ||
+       (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+    then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+         tempf(j+6,count)
+    else
+    *) 
     let c=Strung.get s idx in
     if c='\n'
     then (
