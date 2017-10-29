@@ -148,7 +148,7 @@ standardize "<?php\n/**\n* @ignore\n*/\ndefine('IN_PHPBB', true);";;
 
 *)
 
-exception Name_and_end_exn of int;;
+exception Name_and_end_exn of int*int;;
 
 let weak_name_and_end s j1=
   (* the s argument is assumed to be already standardized *) 
@@ -157,7 +157,7 @@ let weak_name_and_end s j1=
   then ("",(String.length s)+1)
   else try (nspc_name,After.after_closing_character ('{','}') s (right_idx,0) )
        with
-       _->raise(Name_and_end_exn(j1));;
+       _->raise(Name_and_end_exn(j1,right_idx));;
 
 let name_and_end s j=
   (* the s argument is assumed to be already standardized *) 
