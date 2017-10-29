@@ -17,14 +17,14 @@ let rec low_level_helper
          let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
          low_level_helper(mark_count,line_count+d,idx_start,j+2,s,n,accu)
     else 
-    if Substring.is_a_substring_located_at "//" s k
-    then let j=Substring.leftmost_index_of_in_from "\n" s (k+2) in
+    if Substring.is_a_substring_located_at "//" s idx
+    then let j=Substring.leftmost_index_of_in_from "\n" s (idx+2) in
          low_level_helper(mark_count,line_count+1,idx_start,j+1,s,n,accu)
     else 
-    if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+    if (Substring.is_a_substring_located_at "<<<EOF\n" s idx)
        ||
-       (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
-    then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+       (Substring.is_a_substring_located_at "<<<'EOF'\n" s idx) 
+    then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (idx+7) in
          let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
          low_level_helper(mark_count,line_count+d,idx_start,j+6,s,n,accu)
     else
