@@ -58,9 +58,28 @@ exception Absent_php_open_tag;;
 exception Empty_text;;  
 
 let test_for_lonely_marker s=
+  if s="" then true else
   if (not(Substring.begins_with s "marker_here("))
   then false
   else (Substring.leftmost_index_of_in ";" s)=(String.length s);;  
+
+let rec helper_for_aggregation 
+  (graet,current_dec_content,current_nspc_name,current_list,da_ober)=
+   match da_ober with
+    []->let content=String.concat "" (List.rev current_list) in
+        List.rev((current_dec_content,current_nspc_name,content)::graet)
+   |(dec_content,nspc_name,nspc_content)::peurrest->
+        if (current_dec_content<>"")||(dec_content<>"")||(nspc_name<>current_nspc_name)
+        then let content=String.concat "" (List.rev current_list) in
+             let graet2=((current_dec_content,current_nspc_name,content)::graet) in
+             helper_for_aggregation(graet2,dec_content,nspc_name,[nspc_content],peurrest)       
+        else 
+        helper_for_aggregation(graet,"",nspc_name,nspc_content::current_list,peurrest);;
+
+let aggregate=function
+[]->[]
+|(dec_content,nspc_name,nspc_content)::peurrest->
+helper_for_aggregation([],dec_content,nspc_name,[nspc_content],peurrest);;
 
 let decompose s=
     if not(Substring.begins_with s "<?php") 
@@ -71,11 +90,12 @@ let decompose s=
     then raise(Empty_text) 
     else let i1=Option.unpack opt1 in
          let temp1=decompose_from s i1 in
+         let temp2=aggregate temp1 in
          List.filter (
            fun (dec_content,nspc_name,nspc_content)->
               not(test_for_lonely_marker 
               (Cull_string.trim_spaces nspc_content))
-         ) temp1;;
+         ) temp2;;
 
 
 
