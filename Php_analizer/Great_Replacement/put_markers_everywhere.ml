@@ -10,7 +10,8 @@ See the standardize function in the namespacize module.
 let rec low_level_helper
   (mark_count,line_count,idx_start,idx,s,n,accu)=
     if idx>n
-    then String.concat "" (List.rev accu)
+    then let elt=(Cull_string.interval s idx_start n) in
+         String.concat "" (List.rev (elt::accu))
     else 
     if Substring.is_a_substring_located_at "/*" s idx
     then let j=Substring.leftmost_index_of_in_from "*/" s (idx+2) in
