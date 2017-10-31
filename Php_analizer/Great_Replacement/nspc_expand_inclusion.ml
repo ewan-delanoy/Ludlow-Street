@@ -53,18 +53,16 @@ let string_in_string
       (comment_before,comment_after)
       (name_outside,name_inside)
       temp5 in
-    let final_inserted_text=(
-       if name_outside=name_inside
-       then Clean_duplicate_uses.in_string preparatory_inserted_text
-       else preparatory_inserted_text
-    )  in
     let temp4=Image.image(
       fun (j,line)->
         if  j=j1
-        then final_inserted_text
+        then preparatory_inserted_text
         else line
     ) temp1 in
-    String.concat "\n" temp4;;
+    let temp6=String.concat "\n" temp4 in
+    if name_outside=name_inside
+    then Clean_duplicate_uses.in_string temp6
+    else temp6;;
 
 
 
