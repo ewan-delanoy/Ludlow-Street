@@ -48,11 +48,16 @@ let string_in_string
     let name_outside=Option.unpack opt1 in
     let (temp5,name_inside)=Nspc_standardize.string_and_remember_name 
     (Replace_inside.replace_several_inside_string l_rep inserted_text) in
-    let final_inserted_text=
+    let preparatory_inserted_text=
       prepare_inserted_text
       (comment_before,comment_after)
       (name_outside,name_inside)
       temp5 in
+    let final_inserted_text=(
+       if name_outside=name_inside
+       then Clean_duplicate_uses.in_string preparatory_inserted_text
+       else preparatory_inserted_text
+    )  in
     let temp4=Image.image(
       fun (j,line)->
         if  j=j1
