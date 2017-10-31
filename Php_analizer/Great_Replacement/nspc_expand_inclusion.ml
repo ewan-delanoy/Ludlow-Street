@@ -13,7 +13,20 @@ let cull_php_enclosers old_s=
 
 exception Absent_inclusion_line of string;;
 exception Double_inclusion of string;;
-exception Absent_namespace;;
+exception No_namespace_in_container;;
+
+let prepare_inserted_text
+    (comment_before,comment_after)
+    (name_outside,name_inside)
+    inserted_text=
+     if name_outside<>name_inside
+     then "}\n"^comment_before^"\n"^
+          (cull_php_enclosers(inserted_text))^
+           "\n"^comment_after^"\nnamespace "^name_outside^" {\n"
+     else "\n"^comment_before^"\n"^
+          (cull_php_enclosers(Nspc_remove.r(inserted_text)))^ 
+          "\n"^comment_after^"\n";;
+
 
 let string_in_string
   (comment_before,comment_after)
@@ -31,17 +44,19 @@ let string_in_string
         match Nspc_detect.extract_namespace_name line with
         None->None |Some(nahme,_)->Some(nahme)
     ) temp3 in
-    if opt1=None then raise(Absent_namespace) else
-    let nahme=Option.unpack opt1 in
-    let cleaned_inserted_text= 
-      "}\n"^comment_before^"\n"^
-      (cull_php_enclosers(Nspc_standardize.string 
-      (Replace_inside.replace_several_inside_string l_rep inserted_text)))^
-      "\n"^comment_after^"\nnamespace "^nahme^" {\n" in
+    if opt1=None then raise(No_namespace_in_container) else
+    let name_outside=Option.unpack opt1 in
+    let (temp5,name_inside)=Nspc_standardize.string_and_remember_name 
+    (Replace_inside.replace_several_inside_string l_rep inserted_text) in
+    let final_inserted_text=
+      prepare_inserted_text
+      (comment_before,comment_after)
+      (name_outside,name_inside)
+      temp5 in
     let temp4=Image.image(
       fun (j,line)->
         if  j=j1
-        then cleaned_inserted_text
+        then final_inserted_text
         else line
     ) temp1 in
     String.concat "\n" temp4;;
@@ -52,6 +67,12 @@ let string_in_string
 
 string_in_string ("above","below") []
 "<?php \nnamespace A {\n bcd}"
+"inc;"
+("<?php \nnamespace E {\n fg} \nnamespace H {\npq;\ninc;\njk} "^
+"\nnamespace L {\nmn} ");;
+
+string_in_string ("above","below") []
+"<?php \nnamespace H {\n bcd}"
 "inc;"
 ("<?php \nnamespace E {\n fg} \nnamespace H {\npq;\ninc;\njk} "^
 "\nnamespace L {\nmn} ");;
