@@ -50,19 +50,14 @@ let rec low_level_helper
 
 let in_namespace s=low_level_helper(0,0,1,1,s,String.length s,[]);;  
 
-let rec high_level_helper (graet,da_ober)=
-  match da_ober with
-  []->Cnspc.reconstruct_string (List.rev graet)
-  |(dec_content,nspc_name,nspc_content)::peurrest->
-      let marked_content=in_namespace nspc_content in
-      let temp1=Cnspc.rewrite_item (dec_content,nspc_name,marked_content) in
-      high_level_helper (temp1::graet,peurrest)
-  ;;    
 
 
 let in_string s=
-   let temp1=Cnspc.decompose s in
-   let temp2=high_level_helper ([],temp1) in
+   let (before_namespaces,items)=Nspc_split.decompose s in
+   let new_items=Image.image(
+      fun (a,b,c)->(a,in_namespace b,c)
+   ) items in
+   let temp2=Nspc_split.recompose (before_namespaces,new_items) in
    Marker.adjust_all_markers temp2;; 
 
 let in_file ap=
