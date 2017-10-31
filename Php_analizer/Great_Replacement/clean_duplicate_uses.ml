@@ -66,8 +66,7 @@ let in_string s=
    let new_items=Image.image(
       fun (a,b,c)->(a,in_namespace b,c)
    ) items in
-   let temp2=Nspc_split.recompose (before_namespaces,new_items) in
-   Marker.adjust_all_markers temp2;; 
+   Nspc_split.recompose (before_namespaces,new_items);; 
 
 let in_file ap=
     let old_text=Io.read_whole_file ap in
