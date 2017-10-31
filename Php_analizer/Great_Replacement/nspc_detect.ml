@@ -4,13 +4,6 @@
 
 *)
 
-module Private=struct
-let characters_in_namespace_name=
-  (Ennig.doyle char_of_int 65 90)@
-  (Ennig.doyle char_of_int 97 122)@
-  (Ennig.doyle char_of_int 48 57)@
-  ['\\'];;
-end;;  
 
 let extract_namespace_name old_s=
     let s=Cull_string.trim_spaces old_s in
@@ -24,7 +17,7 @@ let extract_namespace_name old_s=
     if opt1=None then None else
     let i1=Option.unpack opt1 in
     let opt2=Option.seek(fun j->
-        not(List.mem (Strung.get s j) Private.characters_in_namespace_name )
+        not(List.mem (Strung.get s j) Characters_in_namespace_name.chars )
     )(Ennig.ennig i1 n) in
     if opt2=None then None else
     let i2=Option.unpack opt2 in
