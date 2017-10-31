@@ -13,29 +13,50 @@ let cull_php_enclosers old_s=
 
 exception Absent_inclusion_line of string;;
 exception Double_inclusion of string;;
+exception Absent_namespace;;
 
 let string_in_string
   (comment_before,comment_after)
   l_rep
   inserted_text inclusion_line container_text=
-    let cleaned_inserted_text= 
-      "\n"^comment_before^"\n"^
-      (cull_php_enclosers(Nspc_standardize.string 
-      (Replace_inside.replace_several_inside_string l_rep inserted_text)))^
-      "\n"^comment_after^"\n" in
     let temp1=Lines_in_string.core container_text in
     let temp2=List.filter (fun (j,line)->line=inclusion_line) temp1 in
     let d=List.length temp2 in
     if d<1 then raise(Absent_inclusion_line(inclusion_line)) else
     if d>1 then raise(Double_inclusion(inclusion_line)) else
     let j1=fst(List.hd temp2) in
-    let temp2=Image.image(
+    let (temp3,_,_)=Three_parts.select_center_element_and_reverse_left
+            (fun (j,_)->j=j1) temp1 in
+    let opt1=Option.find_and_stop(fun (j,line)->
+        match Nspc_detect.extract_namespace_name line with
+        None->None |Some(nahme,_)->Some(nahme)
+    ) temp3 in
+    if opt1=None then raise(Absent_namespace) else
+    let nahme=Option.unpack opt1 in
+    let cleaned_inserted_text= 
+      "}\n"^comment_before^"\n"^
+      (cull_php_enclosers(Nspc_standardize.string 
+      (Replace_inside.replace_several_inside_string l_rep inserted_text)))^
+      "\n"^comment_after^"\nnamespace "^nahme^" {\n" in
+    let temp4=Image.image(
       fun (j,line)->
         if  j=j1
         then cleaned_inserted_text
         else line
     ) temp1 in
-    String.concat "\n" temp2;;
+    String.concat "\n" temp4;;
+
+
+
+(*
+
+string_in_string ("above","below") []
+"<?php \nnamespace A {\n bcd}"
+"inc;"
+("<?php \nnamespace E {\n fg} \nnamespace H {\npq;\ninc;\njk} "^
+"\nnamespace L {\nmn} ");;
+
+*)
 
 let file_in_file 
   (comment_before,comment_after)
