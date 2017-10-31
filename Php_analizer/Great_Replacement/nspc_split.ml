@@ -4,6 +4,10 @@
 
 *)
 
+let reference_for_decomposition_problems=ref "";;
+
+
+exception Decompose_exn;;
 
 let decompose s=
      let temp1=Lines_in_string.core s in
@@ -11,6 +15,10 @@ let decompose s=
        fun (line_idx,line)->
           Nspc_detect.test_for_namespace_line line
      ) temp1 in
+     if temp2=[] 
+     then let _=(reference_for_decomposition_problems:=s) in
+          raise Decompose_exn
+     else
      let m=List.length(temp1)+1 in
      let temp3=temp2@[(m,"")] in
      let temp4=Listennou.universal_delta_list temp3 in
