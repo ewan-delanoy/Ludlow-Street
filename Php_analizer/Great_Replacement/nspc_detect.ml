@@ -76,9 +76,3 @@ let test_for_declaration_line old_s=
 (*  
 test_for_declaration_line " declare( obla-di-obla-da ) ;   " ;; 
 *)
-
-let global_namespace_name s=
-     let temp1=Str.split (Str.regexp_string "\n") s in
-     match Option.find_and_stop extract_namespace_name temp1 with
-     None->""
-     |Some(nahme,_)->nahme;;
