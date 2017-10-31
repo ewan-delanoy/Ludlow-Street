@@ -25,11 +25,11 @@ let decompose s=
           let ttemp7=String.concat "\n" ttemp6 in
           let k3=After.after_closing_character 
                   ('{','}') ttemp7 (1,1) in
-          let ttemp8=Cull_string.cobeginning (k3-1) ttemp7 in
+          let ttemp8=Cull_string.cobeginning (k3-2) ttemp7 in
           let ttemp9=(if (k2=m)&&(Substring.ends_with s "\n") 
                       then ttemp8^"\n"
                       else ttemp8 ) in       
-          (nspc_line1,Cull_string.beginning (k3-1) ttemp7 ,ttemp9)
+          (nspc_line1,Cull_string.beginning (k3-2) ttemp7 ,ttemp9)
      ) temp4 in
      let i1=fst(List.hd temp2) in
      let temp8=List.filter (fun (line_idx,line)->line_idx<i1) temp1 in
