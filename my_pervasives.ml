@@ -103,6 +103,7 @@ let scp t s=Termite.parse (Termite.of_string t)
 (Php_lexer.parse_string s);;   
 
 let itv=Cull_string.interval;;
+let nei=Cull_string.neighborhood_with_center_and_size;;
 
 (* Module management code starts here *)
 

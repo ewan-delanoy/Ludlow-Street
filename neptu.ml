@@ -4,6 +4,879 @@
 
 *)
 
+let s_micael="/Users/ewandelanoy/Documents/Sites/Mikeal/public_html/";;
+let micael_dir=Directory_name.of_string s_micael;;
+
+let u1=More_unix.complete_ls_with_nondirectories_only
+  micael_dir;;
+let u2=List.filter (
+   fun ap->Substring.ends_with (Absolute_path.to_string ap) ".php"
+) u1;; 
+let check1=List.filter(
+   fun ap->let text=Io.read_whole_file ap in
+   not(Substring.begins_with text "<?php")
+) u2;;
+
+
+let viz s=
+    let temp1=image snd (Lines_in_string.core s) in
+    let n=List.length(temp1) in
+    let temp2=Listennou.big_head 2 temp1
+    and temp3=Listennou.big_head 2 (List.rev temp1) in
+    (temp2,List.rev temp3);;
+let u3=image (fun ap->(ap,viz(Io.read_whole_file ap))) u2;;
+
+let (u5,u6)=List.partition(
+  fun (ap,(l1,l2))->((List.length l1)<2)||((List.length l2)<2)
+) u3;;
+
+let u4=image(
+   fun (ap,(l1,l2))->
+    (ap,List.nth l1 0,List.nth l1 1,List.nth l2 0,List.nth l2 1)
+) u3;;
+
+(*
+
+expand_inclusion
+   ("","include($phpbb_root_path . 'common.' . $phpEx);")
+   "common.php";;
+
+expand_inclusion
+   ("","require($phpbb_root_path . 'includes/startup.' . $phpEx);")
+   "includes/startup.php";;   
+
+special_replace   
+("","if (getenv('PHPBB_NO_COMPOSER_AUTOLOAD'))\n{\n\tif (getenv"^
+"('PHPBB_AUTOLOAD'))\n\t{\n\t\trequire(getenv('PHPBB_AUTOLOAD'));"^
+"\n\t}\n}\nelse\n{\n\tif (!file_exists($phpbb_root_path . "^
+"'vendor/autoload.php'))\n\t{\n\t\ttrigger_error(\n\t\t\t'Composer "^
+"dependencies have not been set up yet, run ' .\n\t\t\t\"'php "^
+"../composer.phar install' from the phpBB directory to do so.\",\n\t"^
+"\t\tE_USER_ERROR\n\t\t);\n\t}\n\trequire($phpbb_root_path"^
+" . 'vendor/autoload.php');\n}") 
+"require($phpbb_root_path . 'vendor/autoload.php');\n";;
+
+expand_inclusion
+("","require($phpbb_root_path . 'vendor/autoload.php');")
+"vendor/autoload.php";;  
+
+special_replace 
+("","\nreturn ComposerAutoloaderInit4bd4e7054c34cf3fee5cb753339be372::getLoader();")
+"\n$loader = ComposerAutoloaderInit4bd4e7054c34cf3fee5cb753339be372::getLoader();";;
+
+expand_inclusion
+("","require_once 'vendor' . '/composer' . '/autoload_real.php';")
+"vendor/composer/autoload_real.php";;  
+
+let partial1=
+"spl_autoload_register(array('ComposerAutoloaderInit4bd4e7054c34cf3fee5cb7"^
+"53339be372', 'loadClassLoader'), true, true);\n        self::$loader = "^
+"$loader = new \\Composer\\Autoload\\ClassLoader();\n        spl_"^
+"autoload_unregister(array('ComposerAutoloaderInit4bd4e7054c34cf3fee5cb7"^
+"53339be372', 'loadClassLoader'));\n\n        $map = require 'vendor/"^
+"composer' . '/autoload_namespaces.php';\n        foreach ($map "^
+"as $namespace => $path) {\n            $loader->set($namespace, "^
+"$path);\n        }\n\n        $map = require 'vendor/composer' . '/au"^
+"toload_psr4.php';\n        foreach ($map as $namespace => $path) {\n"^
+"            $loader->setPsr4($namespace, $path);\n        }\n\n        "^
+"$classMap = require 'vendor/composer' . '/autoload_classmap.php';\n        "^
+"if ($classMap) {\n            $loader->addClassMap($classMap);\n        }\n"^
+"\n        $loader->register(true);\n\n        $includeFiles = require 'ven"^
+"dor/composer' . '/autoload_files.php';\n        foreach ($includeFiles as "^
+"$fileIdentifier => $file) {\n            composerRequire4bd4e7054c34cf3fee5cb7"^
+"53339be372($fileIdentifier, $file);\n        }\n";;
+
+let partial2=
+  "public static function getLoader()\n    {\n        if (null !== se"^
+  "lf::$loader) {\n            return self::$loader;\n        }\n\n        "^
+  partial1^
+  "\n        return $loader;\n    }\n";;
+
+special_replace 
+  ("","$loader = ComposerAutoloaderInit4bd4e7054c34cf3fee5cb753339be372::getLoader();")
+  partial1;;  
+
+special_replace
+  (
+    "",
+    (
+    "\nspl_autoload_register(array('ComposerAutoloaderInit4bd4e7054c34cf3fee5cb75"^
+    "3339be372', 'loadClassLoader'), true, true);\n        self::$loader = $loader ="
+    )
+  )
+  (
+    "\n        spl_autoload_register(array('ComposerAutoloaderInit4bd4e7054c34cf3fee5cb75"^
+    "3339be372', 'loadClassLoader'), true, true);\n        $loader ="
+    );;
+
+special_replace ("",partial2) "";;
+
+
+special_replace 
+ ("",
+   (
+    "\n        spl_autoload_register(array('ComposerAutoloaderInit4bd4e705"^
+    "4c34cf3fee5cb753339be372', 'loadClassLoader'), true, true);\n        $lo"^
+    "ader = new \\Composer\\Autoload\\ClassLoader();\n        spl_autoload_un"^
+    "register(array('ComposerAutoloaderInit4bd4e7054c34cf3fee5cb753339be3"^
+    "72', 'loadClassLoader'));"
+   )
+ )
+ (
+   "\n        include('vendor/composer/ClassLoader.php');\n"^
+   "\n        $loader = new \\Composer\\Autoload\\ClassLoader();\n"
+ )
+;;
+
+special_replace 
+("",
+("class ComposerAutoloaderInit4bd4e7054c34cf3fee5cb753339be372\n{\n    pri"^
+"vate static $loader;\n\n    public static function loadClassLoader($cla"^
+"ss)\n    {\n        if ('Composer\\Autoload\\ClassLoader' === $cla"^
+"ss) {\n            require 'vendor/composer' . '/ClassLoader.ph"^
+"p';\n        }\n    }\n\n    }")
+)
+"";;
+
+let autoload_files=
+  [
+  "0e6d7bf4a5811bfa5cf40c5ccd6fae6a" , "symfony/polyfill-mbstring/bootstrap.php";
+  "e40631d46120a9c38ea139981f8dab26" , "ircmaxell/password-compat/lib/password.php";
+  "edc6464955a37aa4d5fbf39d40fb6ee7" , "symfony/polyfill-php55/bootstrap.php";
+  "3e2471375464aac821502deb0ac64275" , "symfony/polyfill-php54/bootstrap.php";
+  "ad155f8f1cf0d418fe49e248db8c661b" , "react/promise/src/functions_include.php";
+  "5255c38a0faeba867671b61dfda6d864" , "paragonie/random_compat/lib/random.php";
+  ];;
+
+let command_for_autoload_file (fileIdentifier,fn)=
+"require 'vendor/"^fn^"';\n\n"^
+"$GLOBALS['__composer_autoload_files']['"^fileIdentifier^"'] = true;\n"  ;;
+
+
+let commands_for_autoload_files =
+    let temp1=Image.image command_for_autoload_file autoload_files in
+    String.concat "\n" temp1;;
+
+special_replace 
+    ("",
+    ("        $includeFiles = require 'vendor/composer' . '/autoload_fil"^
+    "es.php';\n        foreach ($includeFiles as $fileIdentifier => $fil"^
+    "e) {\n            composerRequire4bd4e7054c34cf3fee5cb753339be372($fi"^
+    "leIdentifier, $file);\n        }\n")
+    )
+    commands_for_autoload_files;;    
+
+special_replace 
+    ("",
+    ("function composerRequire4bd4e7054c34cf3fee5cb753339be372($fileIdentifi"^
+    "er, $file)\n{\n    if (empty($GLOBALS['__composer_autoload_files'][$file"^
+    "Identifier])) {\n        require $file;\n\n        $GLOBALS['__composer_a"^
+    "utoload_files'][$fileIdentifier] = true;\n    }\n}")
+    )
+    "";;      
+
+expand_inclusion
+    ("","        include('vendor/composer/ClassLoader.php');")
+    "vendor/composer/ClassLoader.php";;  
+
+special_replace 
+    (
+    "function includeFile($file)\n{\n    ",
+    "include $file;"
+    )
+    "enbarzan(1,$file);";;   
+
+expand_inclusion
+    ("","require($phpbb_root_path . 'includes/utf/utf_tools.' . $phpEx);")
+    "includes/utf/utf_tools.php";;  
+
+
+*)
+
+(*
+
+let text1=(mf ());;
+let tag1="private $prefixLengthsPsr4 = array();";;
+let i1=(List.hd(oc tag1))+(String.length tag1);;
+
+let text2=(Cull_string.beginning i1 text1)^"\n\n}\n}\n\n\n";;
+
+let bad1=Put_markers_everywhere.in_string text2;;
+let temp1=Cnspc.decompose text2;;
+let bad2=Put_markers_everywhere.high_level_helper ([],temp1);;
+
+let (graet1,da_ober1)=([],temp1);;
+let (dec_content1,nspc_name1,nspc_content1)::peurrest1=da_ober1;;
+let marked_content1=Put_markers_everywhere.in_namespace nspc_content1;;
+let temp11=Cnspc.rewrite_item (dec_content1,nspc_name1,marked_content1);;
+
+
+let (graet2,da_ober2)=(temp11::graet1,peurrest1);;
+let (dec_content2,nspc_name2,nspc_content2)::peurrest2=da_ober2;;
+let bad3=Put_markers_everywhere.in_namespace nspc_content2;;
+
+
+
+let ff (mark_count,line_count,idx_start,idx,s,n,accu)=
+  if idx>n
+  then failwith("Brigandes")
+  else 
+  if Substring.is_a_substring_located_at "/*" s idx
+  then let j=Substring.leftmost_index_of_in_from "*/" s (idx+2) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
+       (mark_count,line_count+d,idx_start,j+2,s,n,accu)
+  else 
+  if Substring.is_a_substring_located_at "//" s idx
+  then let j=Substring.leftmost_index_of_in_from "\n" s (idx+2) in
+       (mark_count,line_count+1,idx_start,j+1,s,n,accu)
+  else 
+  if (Substring.is_a_substring_located_at "<<<EOF\n" s idx)
+     ||
+     (Substring.is_a_substring_located_at "<<<'EOF'\n" s idx) 
+  then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (idx+7) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
+       (mark_count,line_count+d,idx_start,j+6,s,n,accu)
+  else
+  let c=Strung.get s idx in
+  if c='\n'
+  then (
+         if Substring.is_a_substring_located_at ";" s (idx-1)
+         then let marker_line=
+               "marker_here("^(string_of_int(mark_count+1))^
+               ","^(string_of_int (line_count+2))^");\n" in
+              let elt=
+               (Cull_string.interval s idx_start idx)^marker_line in
+               (mark_count+1,line_count+2,idx+1,idx+1,s,n,elt::accu)
+         else  (mark_count,line_count+1,idx_start,idx+1,s,n,accu)     
+       )
+  else
+  if c='{'
+  then let j=After.after_closing_character ('{','}') s (idx,0) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
+        (mark_count,line_count+d,idx_start,j,s,n,accu)
+  else  (mark_count,line_count,idx_start,idx+1,s,n,accu);;
+
+
+let v0=
+(0,0,1,1,nspc_content2,String.length nspc_content2,[]);;
+
+let gg=Memoized.small ff v0;;
+
+
+*)
+
+(*
+let (lchar,rchar)=('{','}');;
+let s=mf();;
+let part1=itv s 5708 89547;;
+let act1=Replace_inside.replace_inside_file (part1,"") main_file;;
+
+let s=mf();;
+let n=String.length s;;
+
+
+let tempf=(
+    fun (k,count)->
+      if k>n
+      then raise(After.Unbalanced_expression(lchar,rchar))
+      else 
+      if Substring.is_a_substring_located_at "/*" s k
+      then let j=Substring.leftmost_index_of_in_from "*/" s (k+2) in
+           (j+2,count)
+      else 
+      if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+         ||
+         (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+      then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+           (j+6,count)
+      else 
+      let c=String.get s (k-1) in
+      if c=lchar
+      then (k+1,count+1)
+      else 
+      if c='\''
+      then let j=After.after_simple_quoted_string s k in
+           (j,count)
+      else
+      if c='"'
+      then let j=After.after_double_quoted_string s k in
+           (j,count)
+      else     
+      if c<>rchar
+      then (k+1,count)
+      else 
+        if count=1
+        then failwith("no bug")
+        else (k+1,count-1)
+  );;
+
+
+
+let ff=Memoized.small tempf (308,0);;
+let gg k=try (Some(ff k)) with _->None;;
+let m1=(Option.find (fun k->gg k=None)(ennig 1 (String.length s)))-1;;
+
+let v1=Ennig.doyle(fun k->fst(ff k)) 1 (m1-1);;
+let v2=List.filter (fun j->Strung.get s j='{') v1;;
+
+let v3=List.filter (fun j->Strung.get s j='{') 
+  (ennig 1 (String.length s));;
+let v4=List.filter (
+   fun j->not(List.mem j v2)
+) v3;;
+*)
+
+
+(*
+let u1=Ennig.doyle(fun k->fst(ff k)) 1 m1;;
+let u2=Listennou.universal_delta_list u1;;
+let u3=Explicit.image (fun (i,j)->itv s i (j-1)) u2;;
+let u4=List.filter (fun t->(String.length t)>1) u3;;
+let u5=String.concat "\n\n\n" u4;;
+let temp_ap=Absolute_path.of_string 
+"/Users/ewandelanoy/Documents/Sites/Rachel/public_html/temp.php";;
+let act1=Io.erase_file_and_fill_it_with_string temp_ap u5;;
+
+let u6=List.filter (fun k->snd(ff k)=1) (ennig 1 41192);;
+*)
+
+
+
+
+(*
+
+let (left_complement,place)=(
+  "",
+  "include($phpbb_root_path . 'common.' . $phpEx);"
+);;
+let fn="common.php";;
+let ap=Absolute_path.of_string (s_rachel^fn);;
+let l_rep=
+  (
+    [
+       "'__DIR__'","'__D' . 'I' . 'R__'";
+       "__DIR__","'"^(Father_and_son.father fn '/')^"'"
+    ]@
+    balancings
+    );;
+
+let bad1=
+  Namespacize.expand_inclusion
+  (fn,Absolute_path.of_string (s_rachel^fn))
+  (left_complement,place)
+  main_file
+  l_rep
+  ;;
+
+let inserted_file=ap;;
+let container_file=main_file;;  
+let pre_content=
+    Replace_inside.replace_several_inside_string l_rep
+ (Io.read_whole_file inserted_file);;
+let comment_before="\n\n/* Inclusion of "^fn^" starts here */\n\n"
+ and comment_after="\n\n/* Inclusion of "^fn^" ends here */\n\n";;
+let bad2=Namespacize.Private.insert_at_unique_place_in_string 
+                      pre_content
+                       (left_complement,place)
+                       (Io.read_whole_file container_file) 
+                       (comment_before,comment_after);;
+let inserted_text=pre_content;;
+let container_text=Io.read_whole_file container_file;;
+let unique_place=left_complement^place;;
+let temp1=Substring.occurrences_of_in unique_place container_text;;
+let i1=List.hd(temp1);;
+let i=i1+(String.length left_complement);;
+let j=i+(String.length place)-1;;
+let bad3=Namespacize.Private.insert_at_interval 
+        inserted_text (i,j) container_text
+        (comment_before,comment_after);;
+let n=String.length container_text;;
+let bad3=Namespacize.Private.namespace_at_index container_text i;;  
+let bad4=After.after_closing_character ('{','}') container_text (308,0);;
+
+
+let tag1=Namespacize.Private.namespace_computation container_text 297;;
+*)
+
+
+(*
+
+let (lchar,rchar)=('{','}');;
+let s="{\"3}5\"}89";;
+let n=String.length s;;
+
+let (k,count)=(1,0);;
+let bowl1=Substring.is_a_substring_located_at "/*" s k;;
+let bowl2=(Substring.is_a_substring_located_at "<<<EOF\n" s k)
+||
+(Substring.is_a_substring_located_at "<<<'EOF'\n" s k) ;;
+let c=String.get s (k-1);;
+let bowl3=(c=lchar);;
+
+let (k,count)=(k+1,count+1);;
+let bowl1=Substring.is_a_substring_located_at "/*" s k;;
+let bowl2=(Substring.is_a_substring_located_at "<<<EOF\n" s k)
+||
+(Substring.is_a_substring_located_at "<<<'EOF'\n" s k) ;;
+let c=String.get s (k-1);;
+let bowl3=(c=lchar);;
+let bowl4=(c='\'');;
+let bowl5=(c='"');;
+let j=after_double_quoted_string s k;;
+
+
+let after_closing_character (lchar,rchar) s=
+  let n=String.length s in
+  let rec tempf=(
+    fun (k,count)->
+      if k>n
+      then raise(Unbalanced_expression(lchar,rchar))
+      else 
+      if Substring.is_a_substring_located_at "/*" s k
+      then let j=Substring.leftmost_index_of_in_from "*/" s (k+2) in
+           tempf(j+2,count)
+      else 
+      if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+         ||
+         (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+      then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+           tempf(j+6,count)
+      else 
+      let c=String.get s (k-1) in
+      if c=lchar
+      then tempf(k+1,count+1)
+      else 
+      if c='\''
+      then let j=after_simple_quoted_string s k in
+           tempf(j,count)
+      else
+      if c='"'
+      then let j=after_double_quoted_string s k in
+           tempf(j,count)
+      else     
+      if c<>rchar
+      then tempf(k+1,count)
+      else 
+        if count=1
+        then k+1
+        else tempf(k+1,count-1)
+  ) in
+  tempf;;
+
+*)  
+
+
+(*
+
+let ap1=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/bible_vigouroux/bible_vigouroux_thessaloniciens.html";;
+let text1=Io.read_whole_file ap1;;
+
+let s1="<FONT FACE=\"Times New Roman, serif\"><FONT SIZE=6><B>Les &eacute;p&icirc;tres";;
+let u1=Substring.occurrences_of_in s1 text1;;
+
+let part1=itv text1 72121 72306;;
+
+let s2="Thessalonique &eacute;tait devenue la";;
+let u2=Substring.occurrences_of_in s2 text1;;
+let part2=itv text1 216483 216498;;
+
+let text2=itv text1 72122 216482;;
+Replace_inside.replace_inside_file (text2,"") ap1;;
+
+let quoted_text=Strung.enclose(String.escaped(mf()));;
+
+let some_text=" let w="^quoted_text^";;\n\n\n"^
+"let bad=Put_markers_everywhere.in_string w;;";;
+
+let dbg_file=Absolute_path.of_string "debugged.ml";;
+
+Io.append_string_to_file some_text dbg_file;;
+
+let temp_ap=Absolute_path.of_string (s_rachel^"temp.php");;
+
+let act1=Replace_inside.replace_several_inside_file
+    balancings temp_ap;;
+let act2=Namespacize.standardize temp_ap;;
+
+let bad=Cnspc.rewrite_file temp_ap;;
+  
+
+let text1=Io.read_whole_file temp_ap;;
+let line=Lines_in_string.line_at_index text1 430;;
+
+let g1=mf();;
+let (i1,i2,g2)=Cnspc.dh_debug g1 ([],8);;
+let g3=List.hd g2;;
+
+let i3=fst g3;;
+let g3="<?php "^(Cull_string.cobeginning  (i3-1) g1);;
+let opt4=Option.seek (Namespacize.Private.test_for_namespace_at_index g3) 
+(ennig 1 (String.length g3));;
+let i4=Option.unpack opt4;;
+
+let opt5=Option.seek (Namespacize.Private.test_for_namespace_at_index g3) 
+(ennig (i4+1) (String.length g3));;
+let i5=Option.unpack opt5;;
+
+
+
+let g4=Cull_string.beginning (i5-1) g3;;
+
+let ap2=Absolute_path.of_string(s_rachel^"temp.php");;
+Io.erase_file_and_fill_it_with_string ap2 g4;;
+
+let text1=g4;;
+
+
+let individual_compression s=
+  let j=Substring.leftmost_index_of_in "}" s in
+  if j<1
+  then None
+  else 
+  let temp1=List.rev(ennig 1 (j-1)) in
+  let opt=Option.seek (fun k->Strung.get s k='{') temp1 in
+  if opt=None
+  then None 
+  else
+  let i=Option.unpack opt in
+  Some(
+  (Cull_string.interval s 1 (i-1))^" abba "^
+  (Cull_string.interval s (j+1) (String.length s)));;
+
+individual_compression "uvw { {xyz} {ab} } cde";;
+
+let rec compress (d,s)=
+  match individual_compression s with
+  None->(d,s)
+  |Some(t)->compress(d+1,t);;
+
+let (d1,see1)=compress (0,text1);;
+
+let see2=Memoized.small (fun s->
+Option.unpack (individual_compression s)) text1 98;; 
+
+Io.erase_file_and_fill_it_with_string ap2 see2;;
+
+let gg=Io.read_whole_file ap2;;
+let g4=Str.split (Str.regexp_string "\n") gg;;
+let g5=Ennig.index_everything g4;;
+let peggy (i,j)=
+  let temp1=List.filter (fun (k,s)->(i<=k)&&(k<=j)) g5 in
+  String.concat "\n" (Image.image snd temp1);;
+
+let g6=Image.image peggy
+[(773,782);(856,878);(891,900);(911,914);(928,935);(960,963);(1178,1181)];;
+let ff k=
+  let temp=List.nth g6 (k-1) in
+  let _=print_string("\n\n\n"^temp^"\n\n\n") in
+  temp;;
+
+let test_for_first_marker s=
+    let opt1=After.after_whites_and_comments s 1 in
+    if opt1=None then false else
+    let i1=Option.unpack opt1 in
+    Substring.is_a_substring_located_at "marker_here(" s i1;;  
+
+*)    
+
+(*
+
+let peggy d=
+  let _=Sys.command("cp "^s_rachel^"temp.php "^s_rachel^"iewtopic.php ") in
+  let _=Explicit.image(
+    fun fn->rrrr_expand_inclusion ("","include('"^fn^"');") fn
+ ) (Listennou.big_head d chunk) in
+  mt();; 
+
+let generic_final_chunk d=
+  let temp1=Image.image(
+     fun fn->"\ninclude('"^fn^"');\n"
+  ) (Listennou.big_head d (chunk)) in
+  String.concat "\n" temp1;;
+
+let peggy d=  
+  let mark="marker_here(106,12876);\n" in
+  let _=
+  Replace_inside.overwrite_between_markers_inside_file
+    (Overwriter.of_string "\n\n\n")
+  (mark,"$phpbb")
+  main_file in
+  let _=(
+  special_replace 
+  (
+  "",  
+  mark
+  )
+  ("marker_here(0,0);\n"^(generic_final_chunk d)^"\n\n")) in
+  mt();;  
+
+
+*)
+
+(*
+let mark="marker_here(106,12876);\n";;
+let command=String.concat "\n" (Image.image
+   (fun fn->"\ninclude('"^fn^"');\n") chunk
+);;
+let act1=rrrr_special_replace ("",mark) (mark^command);;
+
+
+Explicit.image(
+  fun fn->rrrr_expand_inclusion ("","include('"^fn^"');") fn
+) (Listennou.big_head 5 chunk);;
+
+
+let fm=List.nth chunk 4;;
+rrrr_expand_inclusion ("","include('"^fm^"');") fm;;
+*)
+(*
+let temp_ap=Absolute_path.of_string (s_rachel^"temp.php");;
+
+let fm=List.nth chunk 4;;
+Replace_inside.replace_inside_file
+ ("include('"^fm^"');","include('temp.php');") main_file;;
+
+let old_text=Io.read_whole_file temp_ap;; 
+Replace_inside.replace_several_inside_file
+   balancings temp_ap;;
+let new_text=Io.read_whole_file temp_ap;; 
+
+let v1=Str.split (Str.regexp_string "\n") old_text;;
+let v2=Str.split (Str.regexp_string "\n") new_text;;
+let v3=List.combine v1 v2;;
+let v4=Ennig.index_everything v3;;
+let v5=List.filter (fun (i,(u,v))->u<>v )v4;;
+
+let w1=Substring.occurrences_of_in "EOF;" old_text;;
+
+let w2=image (fun k->itv old_text k (k+15)) w1;;
+*)
+
+(*
+
+short_one
+(106, 12876)
+chunk;;
+
+let chunk=[
+  
+];;
+
+
+short_one
+(106, 12876)
+chunk;;
+*)
+
+
+
+(*
+let g4=Cull_string.beginning (i1-1) g1;;
+*)
+
+(*
+let g4="<?php "^(itv g1 349772 (i1-1))^" } }";;
+
+let g5=Cnspc.decompose g4;;
+let g6=List.rev g5;;
+let ff k=List.nth g6 (k-1);;
+
+let g7=Str.split (Str.regexp_string "\n") gg;;
+let g8=Ennig.index_everything g7;;
+let g9=List.filter (fun (i,s)->(365<=i)&&(i<=365)) g8;;
+let g10=String.concat "\n" (image snd g9);;
+
+let j1=Substring.leftmost_index_of_in "NON_FIRST_CHARS" g1;;
+let g11=itv g1 (j1-2000) (j1+000);;
+let g12="<?php "^(Cull_string.cobeginning (j1-38) g1);;
+let g13=Cnspc.rewrite_string g12;;
+
+let ap2=Absolute_path.of_string(s_rachel^"temp.php");;
+Io.erase_file_and_fill_it_with_string ap2 g4;;
+*)
+
+(*
+let u1=Directory_name.of_string
+"/Users/ewandelanoy/Documents/Sites/Mikeal/public_html";;
+let u2=More_unix.complete_ls_with_nondirectories_only u1;;
+let u3=image (fun ap->
+  let s_ap=Absolute_path.to_string ap in
+  let stad=Unix.stat s_ap in
+  (stad.Unix.st_ctime,Cull_string.cobeginning 54 s_ap)
+)u2;;
+let u4=ofo(Tidel2.diforchan u3);;
+let u5=List.rev u4;;
+
+let u6=List.filter (fun (x,y)->not(Substring.begins_with y "Cache/")
+) u5;;
+
+
+let u4=Max.maximize_it_with_care snd u3;;
+let ex1=List.hd(snd u4);;
+
+let shorter_u3=List.filter (fun t->t<>ex1) u3;;
+let u5=Max.maximize_it_with_care snd shorter_u3;;
+*)
+
+
+(*
+
+
+let u1=Int_uple.list_of_pairs 1000;;
+let u2=List.filter (fun (x,y)->Gcd.gcd x y=1) u1;;
+let u3=Option.filter_and_unpack (fun (x,y)->
+    let m=x*x+y*y in    
+    let i=isqrt(m) in
+    if i*i=m
+    then Some((i,(x,y)))
+    else None
+) u2;;
+
+let u4=[ 3; 7; 11; 13; 17; 19; 23; 29; 31; 37; 41; 43; 47; 53; 59; 61; 67; 71;     73; 79; 83; 89; 97; 101; 103; 107; 109; 113; 127; 131; 137; 139; 149; 151;     
+157; 163; 167; 173; 179; 181; 191; 193; 197; 199; 211; 223; 227; 229; 233;
+239; 241; 251; 257; 263; 269; 271; 277; 281; 283; 293; 307; 311; 313; 317;
+331; 337; 347; 349; 353; 359; 367; 373; 379; 383; 389; 397; 401; 409; 419;
+421; 431; 433; 439; 443; 449; 457; 461; 463; 467; 479; 487; 491; 499; 503;
+509; 521; 523; 541; 547; 557; 563; 569; 571; 577; 587; 593; 599; 601; 607;
+613; 617; 619; 631; 641; 643; 647; 653; 659; 661; 673; 677; 683; 691; 701;
+709; 719; 727; 733; 739; 743; 751; 757; 761; 769; 773; 787; 797; 809; 811;
+821; 823; 827; 829; 839; 853; 857; 859; 863; 877; 881; 883; 887; 907; 911;
+919; 929; 937; 941; 947; 953; 967; 971; 977; 983; 991; 997;
+1009; 1013; 1019;
+1021; 1031; 1033; 1039; 1049; 1051; 1061; 1063; 1069;1087; 1091; 1093; 1097;   1103; 1109; 1117; 1123; 1129; 1151; 1153; 1163; 1171; 1181; 1187; 1193; 1201;   
+1213; 1217; 1223; 1229; 1231; 1237; 1249; 1259; 1277;];;
+
+let is_good x=List.for_all (fun p->(x mod p)>0) u4;;
+let u5=List.filter (fun (a,_)->is_good a) u3;;
+
+*)
+
+
+(*
+
+let (i,j)=(113, 12800) and l=["vendor/ocramius/proxy-manager/src/ProxyManager/GeneratorStrategy/GeneratorStrategyInterface.php"];;
+
+let mark="marker_here("^(string_of_int i)^","^(string_of_int j)^");\n";;
+let command=String.concat "\n" (Image.image
+   (fun fn->"\ninclude('"^fn^"');\n") l
+);;
+let act1=rrrr_special_replace ("",mark) (mark^command);;
+
+let bad1=Explicit.image(
+    fun fn->rrrr_expand_inclusion ("","include('"^fn^"');") fn
+) l;;
+
+
+let fn=List.hd l;;
+let inserted_file=(Absolute_path.of_string (s_rachel^fn));;
+let (left_complement,place)=("","include('"^fn^"');");;
+let container_file=main_file;;
+let l_rep=[
+  "'__DIR__'","'__D' . 'I' . 'R__'";
+  "__DIR__","'"^(Father_and_son.father fn '/')^"'"
+]@
+balancings;;
+
+
+let bad2=Namespacize.expand_inclusion
+inserted_file
+(left_complement,place)
+container_file
+l_rep;;
+
+
+let container_text=Io.read_whole_file container_file;;
+let pre_content=
+  Replace_inside.replace_several_inside_string l_rep
+(Io.read_whole_file inserted_file);;
+(*
+let bad3=Namespacize.Private.insert_at_unique_place_in_string 
+                    pre_content
+                     (left_complement,place)
+                     container_text;;
+*)
+
+let unique_place=left_complement^place;;
+let temp1=Substring.occurrences_of_in unique_place container_text;;
+let i1=List.hd(temp1);;
+let i=i1+(String.length left_complement);;
+let j=i+(String.length place)-1;;
+(*
+let bad4=Namespacize.Private.insert_at_interval pre_content (i,j) container_text;;
+*)
+
+let inserted_text=pre_content;;
+let n=String.length container_text;;
+let bad5=Namespacize.Private.namespace_at_index container_text i;;
+
+
+*)
+
+
+(*
+let g1=Replace_inside.replace_several_inside_string 
+[
+  "'__DIR__'","'__D' . 'I' . 'R__'";
+  "__DIR__","ladada"
+] 
+  "abc __DIR__ def '__DIR__' ghi ";;
+
+let ap1=Absolute_path.of_string (s_rachel^"vendor/symfony/yaml/Parser.php");;
+let text1=Io.read_whole_file ap1;;
+let u1=Str.split (Str.regexp_string "\n") text1;; 
+let u2=image (List.nth u1) [144;161;535];;
+*)
+
+(*
+
+let individual_compression s=
+    let j=Substring.leftmost_index_of_in "}" s in
+    if j<1
+    then None
+    else 
+    let temp1=List.rev(ennig 1 (j-1)) in
+    let opt=Option.seek (fun k->Strung.get s k='{') temp1 in
+    if opt=None
+    then None 
+    else
+    let i=Option.unpack opt in
+    Some(
+    (Cull_string.interval s 1 (i-1))^" abba "^
+    (Cull_string.interval s (j+1) (String.length s)));;
+
+individual_compression "uvw { {xyz} {ab} } cde";;
+
+let rec compress (d,s)=
+    match individual_compression s with
+    None->(d,s)
+    |Some(t)->compress(d+1,t);;
+
+let ap1=Absolute_path.of_string(s_rachel^
+"vendor/twig/twig/lib/Twig/Lexer.php");;
+let text1=Io.read_whole_file ap1;;
+
+let (i1,see1)=compress (0,text1);;
+
+let see2=Memoized.small (fun s->
+Option.unpack (individual_compression s)) text1 74;; 
+
+let ap2=Absolute_path.of_string(s_rachel^"temp.php");;
+Io.erase_file_and_fill_it_with_string ap2 see2;;
+
+let u1=Substring.leftmost_index_of_in "const REGEX_DQ_STRING_PART =" see2;;
+let u2=Substring.leftmost_index_of_in_from ";" see2 u1;;
+let u3=itv see2 u1 u2;;
+let u4=String.escaped u3;;
+let u5="const REGEX_DQ_STRING_PART = '/[^#\\\"\\\\\\\\\\\\\\\\]*(?:(?:\\\\\\\\\\\\\\\\.|#(?!\\\\{))[^#\\\"\\\\\\\\\\\\\\\\]* )*/As';";;
+let u6="const REGEX_DQ_STRING_PART = '/[^#\"\\\\\\\\]*(?:(?:\\\\\\\\.|#(?!\\{))[^#\"\\\\\\\\]* )*/As';";;
+
+*)
+
+
+
+(*
+
 let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
 
 let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
@@ -11,6 +884,29 @@ let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
 let main_text=Io.read_whole_file main_file;;
 
 Private.cnspc_decompose main_text;;
+
+*)
+
+(*
+
+let commands_for_one_more t (i,j) l=
+   let chunk="chunk"^(string_of_int t) 
+   and mark="marker_here("^(string_of_int i)^","^(string_of_int j)^")" in
+   "let "^chunk^"=\n"^
+   "[\n"^(String.concat "\n"(Image.image(
+     fun s->"     \""^s^"\";"
+   ) l))^
+   "\n];;\n\n\n"^
+   " let command_for_"^chunk^" =\n"^
+   "\tString.concat \"\\n\"\n (Image.image \n"^
+   "\t(fun fn->\"\\ninclude('\"^fn^\"');\\n\") "^chunk^"\n"
+   "\t);;\n\n\n"^
+  "special_replace (\"\",\""^mark^";\\n\")\n"^
+  "("^mark^
+  ("marker_here(0,0);\n"^(command_for_sixth_chunk)^"\n");; 
+
+*)
+
   
 (*
 
