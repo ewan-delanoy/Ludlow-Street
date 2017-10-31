@@ -238,7 +238,6 @@
 #load"put_markers_everywhere.cmo";;
 #load"nspc_standardize.cmo";;
 #load"nspc_expand_inclusion.cmo";;
-#load"namespacize.cmo";;
 #load"overwrite_at_intervals.cmo";;
 #load"tidel2.cmo";;
 #load"ordered_integer.cmo";;

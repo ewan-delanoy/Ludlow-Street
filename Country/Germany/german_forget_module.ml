@@ -9,7 +9,7 @@ exception ModuleWithDependencies of
 	Half_dressed_module.t*(Half_dressed_module.t list);;
 exception Non_registered_module of Half_dressed_module.t;;
 
-let ralph=ref([]);;
+
 
 let on_targets (mdata,dirs,tgts) hm=
   match Alaskan_data.find_module_registration mdata hm with
@@ -17,13 +17,11 @@ let on_targets (mdata,dirs,tgts) hm=
   |Some(dt)->
    let bel=German_data.below mdata hm in
     if bel=[]
-    then let s_hm=Half_dressed_module.to_string hm in
-         let (answer,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
+    then let (answer,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
          let sfn=Half_dressed_module.to_shortened_string hm in
          let _=Image.image
          (fun edg->
           let cmd="rm -f _build/"^sfn^edg in
-          let _=(ralph:=(!ralph)@[cmd]) in 
           Unix_command.uc(cmd))
          [".cm*";".d.cm*";".caml_debuggable"] in
          let temp1=Image.image (fun t->
