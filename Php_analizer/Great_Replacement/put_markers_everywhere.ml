@@ -3,7 +3,8 @@
 #use"Php_analizer/Great_Replacement/put_markers_everywhere.ml";;
 
 Works only on a previously standardized PHP text.
-See the standardize function in the namespacize module.
+Creates a new text identical to the initial one except for
+some markers inserted on single lines.
 
 *)
 
