@@ -16,10 +16,13 @@ let interval s i j=
 
 let line_at_index s i=List.assoc i (core s);;
 
+exception Lines_in_char_range_exn of int*int;;
+
 let number_of_lines_in_char_interval s  i j=
-   List.length(List.filter (fun k->
+   try (List.length(List.filter (fun k->
        String.get s (k-1)='\n'
-   ) (Ennig.ennig i j));; 
+   ) (Ennig.ennig i j))) with
+   _->raise(Lines_in_char_range_exn(i,j));; 
 
 let remove_interval s i j=
   let temp1=core s in
