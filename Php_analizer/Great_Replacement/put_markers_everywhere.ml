@@ -45,7 +45,7 @@ let rec low_level_helper
     else
     if c='{'
     then let j=After.after_closing_character ('{','}') s (idx,0) in
-         let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx (j-1) in
           low_level_helper(mark_count,line_count+d,idx_start,j,s,n,accu)
     else  low_level_helper(mark_count,line_count,idx_start,idx+1,s,n,accu);;
 
