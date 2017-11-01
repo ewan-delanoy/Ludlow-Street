@@ -7,10 +7,10 @@
 
 type t=
     Usual of (Html_atom.t list)*bool
-   |Tag_opener of string
-   |Tag_closer of string;;
+   |Opener of Html_tag.t
+   |Closer of Html_tag.t;;
   
 let is_pushable =function
    Usual(_,pushable)->pushable
-   |Tag_opener(_)->true
-   |Tag_closer(_)->true;;
+   |Opener(_)->true
+   |Closer(_)->true;;
