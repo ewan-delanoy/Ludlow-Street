@@ -18,14 +18,20 @@ exception No_namespace_in_container;;
 let prepare_inserted_text
     (comment_before,comment_after)
     (name_outside,name_inside)
-    inserted_text=
-     if name_outside<>name_inside
-     then "}\n"^comment_before^"\n"^
-          (cull_php_enclosers(inserted_text))^
-           "\n"^comment_after^"\nnamespace "^name_outside^" {\n"
-     else "\n"^comment_before^"\n"^
+    inserted_text paragraph_containing_uses=
+     if name_outside=name_inside
+     then "\n"^comment_before^"\n"^
           (cull_php_enclosers(Nspc_remove.r(inserted_text)))^ 
-          "\n"^comment_after^"\n";;
+          "\n"^comment_after^"\n"
+     else let uses=List.filter (
+              fun line->
+              (Clean_duplicate_uses.extract_used_item line)<>None
+          ) paragraph_containing_uses in
+          let all_uses=String.concat "\n" uses in
+          "}\n"^comment_before^"\n\n"^
+          (cull_php_enclosers(inserted_text))^
+          "\n"^comment_after^"\nnamespace "^name_outside^" {\n"^
+          all_uses^"\n\n";;
 
 
 let string_in_string
@@ -40,19 +46,22 @@ let string_in_string
     let j1=fst(List.hd temp2) in
     let (temp3,_,_)=Three_parts.select_center_element_and_reverse_left
             (fun (j,_)->j=j1) temp1 in
-    let opt1=Option.find_and_stop(fun (j,line)->
-        match Nspc_detect.extract_namespace_name line with
-        None->None |Some(nahme,_)->Some(nahme)
+    let opt2=Option.seek(fun (j,line)->
+        Nspc_detect.test_for_namespace_line line
     ) temp3 in
-    if opt1=None then raise(No_namespace_in_container) else
-    let name_outside=Option.unpack opt1 in
+    if opt2=None then raise(No_namespace_in_container) else
+    let (j2,line2)=Option.unpack opt2 in
+    let (name_outside,_)=Option.unpack(Nspc_detect.extract_namespace_name line2) in
+    let (temp7,_,_)=Three_parts.select_center_element_and_reverse_left
+        (fun (j,_)->j=j2) temp3 in
+    let paragraph_containing_uses=Image.image snd temp7 in    
     let (temp5,name_inside)=Nspc_standardize.string_and_remember_name 
     (Replace_inside.replace_several_inside_string l_rep inserted_text) in
     let preparatory_inserted_text=
       prepare_inserted_text
       (comment_before,comment_after)
       (name_outside,name_inside)
-      temp5 in
+      temp5 paragraph_containing_uses in
     let temp4=Image.image(
       fun (j,line)->
         if  j=j1
@@ -78,6 +87,12 @@ string_in_string ("above","below") []
 "<?php \nnamespace H {\n bcd}"
 "inc;"
 ("<?php \nnamespace E {\n fg} \nnamespace H {\npq;\ninc;\njk} "^
+"\nnamespace L {\nmn} ");;
+
+string_in_string ("above","below") []
+"<?php \nnamespace A {\n bcd}"
+"inc;"
+("<?php \nnamespace H {\nuse U;\n use V;\nxyz;\nuse W;\n\npq;\ninc;\njk} "^
 "\nnamespace L {\nmn} ");;
 
 *)
