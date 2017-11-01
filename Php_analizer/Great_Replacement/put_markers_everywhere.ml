@@ -51,8 +51,6 @@ let rec low_level_helper
 
 let in_namespace s=low_level_helper(0,0,1,1,s,String.length s,[]);;  
 
-
-
 let in_string s=
    let (before_namespaces,items)=Nspc_split.decompose s in
    let new_items=Image.image(
