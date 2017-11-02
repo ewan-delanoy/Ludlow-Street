@@ -26,13 +26,36 @@ let extract_used_item old_s=
   let opt3=Option.seek(fun j->
   not(List.mem (Strung.get s j) [' ';'\t';'\r'] )
   )(Ennig.ennig i2 n) in
-  if opt3<>Some(n) then None else
-  if (Strung.get s n)<>';' then None else 
-  Some(Cull_string.interval s i1 (i2-1));;
+  let used_item=(Cull_string.interval s i1 (i2-1)) in
+  if (opt3=Some(n))&&((Strung.get s n)=';') 
+  then Some(used_item,None) 
+  else
+  let i3=Option.unpack opt3 in
+  if not(Substring.is_a_substring_located_at "as " s i3)
+  then None
+  else 
+  let opt4=Option.seek(fun j->
+  not(List.mem (Strung.get s j) [' ';'\t';'\r'] )
+  )(Ennig.ennig (i3+3) n) in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  let opt5=Option.seek(fun j->
+  not(List.mem (Strung.get s j) Characters_in_namespace_name.chars )  
+  )(Ennig.ennig i4 n) in
+  if opt5=None then None else
+  let i5=Option.unpack opt5 in
+  let opt6=Option.seek(fun j->
+  not(List.mem (Strung.get s j) [' ';'\t';'\r'] )
+  )(Ennig.ennig i5 n) in
+  let synonym=(Cull_string.interval s i4 (i5-1)) in
+  if (opt6=Some(n))&&((Strung.get s n)=';') 
+  then Some(used_item,Some(synonym)) 
+  else None;;
 
 (*
 
 extract_used_item "   use \\So\\Laid\\Back ;   ";;
+extract_used_item "   use \\So\\Laid\\Back    as Peaceful  ;   ";;
 
 *)  
   
@@ -42,7 +65,7 @@ let rec main_helper (graet,uses,da_ober)=
      |line::peurrest->
         (match extract_used_item line with
          None->main_helper(line::graet,uses,peurrest)
-         |Some(item)->
+         |Some(item,_)->
             if Ordered_string.elfenn item uses
             then main_helper(("// Duplicate : "^line)::graet,uses,peurrest)
             else

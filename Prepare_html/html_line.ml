@@ -9,7 +9,12 @@ type t=
     Usual of (Html_atom.t list)*bool
    |Opener of Html_tag.t
    |Closer of Html_tag.t;;
-  
+
+let to_string params =function
+   Usual(_,pushable)->0
+   |Opener(tag)->Html_tag.weight tag
+   |Closer(tag)->Html_tag.weight tag;;   
+
 let weight =function
 Usual(_,pushable)->0
 |Opener(tag)->Html_tag.weight tag
