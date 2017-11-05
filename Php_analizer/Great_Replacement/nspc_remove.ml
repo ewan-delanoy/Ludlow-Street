@@ -14,7 +14,7 @@ exception Marking_on_nonstandard_text;;
 
 let r s=
 
-    let dec_form=Nspc_full_split.decompose s in 
+    let dec_form=Nspc_split.decompose s in 
     if Nspc_decomposed_form.namespacable dec_form<>None
     then raise(Marking_on_nonstandard_text)
     else 

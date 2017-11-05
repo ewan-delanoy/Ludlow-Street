@@ -84,7 +84,7 @@ in_namespace "ab\n use Peggy ; \n use Bertrand ; \nuse Peggy;\n use Phoebe; ";;
 
 
 let in_string s=
-   let dec_form=Nspc_full_split.decompose s in
+   let dec_form=Nspc_split.decompose s in
    let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form in
    match  Nspc_decomposed_form.namespacable dec_form with
    Some(text)->before_namespaces^"\n"^(in_namespace text)
@@ -95,7 +95,7 @@ let in_string s=
     ) items in
     let new_dec_form=Nspc_decomposed_form.make 
         before_namespaces None new_items in
-    Nspc_full_split.recompose new_dec_form;; 
+    Nspc_split.recompose new_dec_form;; 
 
 let in_file ap=
     let old_text=Io.read_whole_file ap in
