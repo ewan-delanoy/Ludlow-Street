@@ -30,7 +30,7 @@ let before_namespaces x=x.before_namespaces;;
 let namespacable x=x.namespacable;;
 let namespaced_parts x=x.namespaced_parts;;
 
-let make a b c d={
+let make a b c={
       before_namespaces =a;
       namespacable =b;
       namespaced_parts =c;
