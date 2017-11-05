@@ -18,8 +18,9 @@ exception No_namespace_in_container;;
 let prepare_inserted_text
     (comment_before,comment_after)
     (name_outside,name_inside)
-    inserted_text paragraph_containing_uses=
-     if name_outside=name_inside
+    inserted_text paragraph_containing_uses
+    nspc_is_unique=
+     if name_outside=name_inside && nspc_is_unique
      then "\n"^comment_before^"\n"^
           (cull_php_enclosers(Nspc_remove.r(inserted_text)))^ 
           "\n"^comment_after^"\n"
@@ -59,13 +60,16 @@ let string_in_string
     let dec_form_inside=Nspc_split.decompose replaced_text in
     let new_dec_form_inside=Nspc_standardize.decomposed_form dec_form_inside in
     let temp5=Nspc_split.recompose new_dec_form_inside in
-    let (first_nspc_line,_,_,_)=List.hd(Nspc_decomposed_form.namespaced_parts new_dec_form_inside) in
+    let nspc_parts_inside=Nspc_decomposed_form.namespaced_parts new_dec_form_inside in
+    let (first_nspc_line,_,_,_)=List.hd(nspc_parts_inside) in
     let (name_inside,_)=Option.unpack(Nspc_detect.extract_namespace_name first_nspc_line) in
+    let nspc_is_unique=((List.length nspc_parts_inside)=1) in
     let preparatory_inserted_text=
       prepare_inserted_text
       (comment_before,comment_after)
       (name_outside,name_inside)
-      temp5 paragraph_containing_uses in
+      temp5 paragraph_containing_uses 
+      nspc_is_unique in
     let temp4=Image.image(
       fun (j,line)->
         if  j=j1
@@ -73,9 +77,14 @@ let string_in_string
         else line
     ) temp1 in
     let temp6=String.concat "\n" temp4 in
-    if name_outside=name_inside
-    then Clean_duplicate_uses.in_string temp6
-    else temp6;;
+    let temp7=(
+                if name_outside=name_inside
+                then Clean_duplicate_uses.in_string temp6
+                else temp6
+    ) in
+    if nspc_is_unique
+    then temp7
+    else Nspc_reaggregate.string temp7;;
 
 
 
