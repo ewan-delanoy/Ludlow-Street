@@ -51,12 +51,21 @@ let rec low_level_helper
 
 let in_namespace s=low_level_helper(0,0,1,1,s,String.length s,[]);;  
 
+exception Marking_on_nonstandard_text;;
+
 let in_string s=
-   let (before_namespaces,items)=Nspc_split.decompose s in
-   let new_items=Image.image(
-      fun (a,b,c)->(a,in_namespace b,c)
+  let dec_form=Nspc_full_split.decompose s in 
+  if Nspc_decomposed_form.namespacable dec_form<>None
+  then raise(Marking_on_nonstandard_text)
+  else 
+  let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form
+  and items=Nspc_decomposed_form.namespaced_parts dec_form in
+  let new_items=Image.image(
+      fun (a,b,c,d)->(a,in_namespace b,c,d)
    ) items in
-   let temp2=Nspc_split.recompose (before_namespaces,new_items) in
+   let new_dec_form=Nspc_decomposed_form.make 
+      before_namespaces None new_items in
+   let temp2=Nspc_full_split.recompose new_dec_form in
    Marker.adjust_all_markers temp2;; 
 
 let in_file ap=
