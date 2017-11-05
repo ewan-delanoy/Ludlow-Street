@@ -4,80 +4,28 @@
 
 *)
 
-exception Unusual;;
+let namespaced_item item=
+    let (nspc_line,nspc_content,offset,after_nspc)=item in
+     if offset=""
+     then let new_nspc_line=Replace_inside.replace_inside_string
+               (";","{") nspc_line in
+          (new_nspc_line,nspc_content,"}",after_nspc) 
+     else item;;    
 
-let string_and_remember_name s=
-    if not(Substring.begins_with s "<?php")
-    then raise(Unusual)
-    else
-    let temp1=Lines_in_string.core s in
-    let opt1=Option.find_and_stop(fun (j,line)->
-          Nspc_detect.extract_namespace_name line) temp1 in
-    if opt1<>None           
-    then let nahme=fst(Option.unpack opt1) in
-         let (_,is_already_standard)=Option.unpack opt1 in
-         if is_already_standard
-         then (s,nahme)
-         else 
-         let temp2=Image.image(
-           fun (j,line)->
-             if  Nspc_detect.test_for_namespace_line line
-             then Replace_inside.replace_inside_string
-                   (";","{") line
-             else line
-         ) temp1 in
-         (*in PHP syntax, there can be at most one semicoloned
-           namespace, so we only need add one right brace. *)
-         ((String.concat "\n" temp2)^"}",nahme)
-    else
-    match Option.seek (fun (j,line)->
-    Nspc_detect.test_for_declaration_line line
-    ) temp1  with
-     None->("<?php\n\nnamespace {\n"^(Cull_string.cobeginning 5 s)^"}","")
-    |Some(j1,_)->
-        let temp3=Image.image(
-            fun (j,line)->
-                if  j=j1
-                then line^"\n\nnamespace {\n"
-                else line
-        ) temp1 in
-        ((String.concat "\n" temp3)^"}","");;
+let decomposed_form dec_form=
+    let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form in
+    match  Nspc_decomposed_form.namespacable dec_form with
+    Some(text)->Nspc_decomposed_form.make before_namespaces
+                   None ["namespace {",text,"}",""]
+    |None->
+    let items=Nspc_decomposed_form.namespaced_parts dec_form in
+    let new_items=Image.image namespaced_item items in
+     Nspc_decomposed_form.make before_namespaces None new_items;; 
 
 let string s=
-            if not(Substring.begins_with s "<?php")
-            then raise(Unusual)
-            else
-            let temp1=Lines_in_string.core s in
-            let opt1=Option.find_and_stop(fun (j,line)->
-                  Nspc_detect.extract_namespace_name line) temp1 in
-            if opt1<>None           
-            then let (_,is_already_standard)=Option.unpack opt1 in
-                 if is_already_standard
-                 then s
-                 else 
-                 let temp2=Image.image(
-                   fun (j,line)->
-                     if  Nspc_detect.test_for_namespace_line line
-                     then Replace_inside.replace_inside_string
-                           (";","{") line
-                     else line
-                 ) temp1 in
-                 (*in PHP syntax, there can be at most one semicoloned
-                   namespace, so we only need add one right brace. *)
-                 (String.concat "\n" temp2)^"}"
-            else
-            match Option.seek (fun (j,line)->
-            Nspc_detect.test_for_declaration_line line
-            ) temp1  with
-             None->"<?php\n\nnamespace {\n"^(Cull_string.cobeginning 5 s)^"}"
-            |Some(j1,_)->
-                let temp3=Image.image(
-                    fun (j,line)->
-                        if  j=j1
-                        then line^"\n\nnamespace {\n"
-                        else line
-                ) temp1 in
-                (String.concat "\n" temp3)^"}";;        
+    let dec_form=Nspc_split.decompose s in
+    let new_dec_form=decomposed_form dec_form in
+    Nspc_split.recompose new_dec_form;;
 
 let file fn=
      let old_text=Io.read_whole_file fn in

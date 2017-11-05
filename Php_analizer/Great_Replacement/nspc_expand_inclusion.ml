@@ -54,9 +54,14 @@ let string_in_string
     let (name_outside,_)=Option.unpack(Nspc_detect.extract_namespace_name line2) in
     let (temp7,_,_)=Three_parts.select_center_element_and_reverse_left
         (fun (j,_)->j=j2) temp3 in
-    let paragraph_containing_uses=Image.image snd temp7 in    
-    let (temp5,name_inside)=Nspc_standardize.string_and_remember_name 
-    (Replace_inside.replace_several_inside_string l_rep inserted_text) in
+    let paragraph_containing_uses=Image.image snd temp7 in 
+    let replaced_text=Replace_inside.replace_several_inside_string l_rep inserted_text in   
+    let dec_form_inside=Nspc_split.decompose replaced_text in
+    let new_dec_form_inside=decomposed_form dec_form_inside in
+    let temp5=Nspc_split.recompose new_dec_form in
+    let (first_nspc_line,_,_,_)=List.hd(Nspc_decomposed_form.namespaced_parts new_dec_form_inside) in
+    let (name_inside,_)=Option.unpack(Nspc_detect.extract_namespace_name first_nspc_line) in
+    in
     let preparatory_inserted_text=
       prepare_inserted_text
       (comment_before,comment_after)
