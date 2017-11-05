@@ -78,13 +78,13 @@ let string_in_string
     ) temp1 in
     let temp6=String.concat "\n" temp4 in
     let temp7=(
-                if name_outside=name_inside
-                then Clean_duplicate_uses.in_string temp6
-                else temp6
+      if nspc_is_unique
+      then temp6
+      else Nspc_reaggregate.string temp6
     ) in
-    if nspc_is_unique
-    then temp7
-    else Nspc_reaggregate.string temp7;;
+    if (name_outside=name_inside)||(not(nspc_is_unique))
+    then Clean_duplicate_uses.in_string temp7
+    else temp7;;
 
 
 
@@ -104,6 +104,12 @@ string_in_string ("above","below") []
 
 string_in_string ("above","below") []
 "<?php \nnamespace A {\n bcd}"
+"inc;"
+("<?php \nnamespace H {\nuse U;\n use V;\nxyz;\nuse W;\n\npq;\ninc;\njk} "^
+"\nnamespace L {\nmn} ");;
+
+string_in_string ("above","below") []
+"<?php \nnamespace A ;\n bcd \nnamespace B ;\n efg"
 "inc;"
 ("<?php \nnamespace H {\nuse U;\n use V;\nxyz;\nuse W;\n\npq;\ninc;\njk} "^
 "\nnamespace L {\nmn} ");;
