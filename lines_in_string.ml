@@ -4,9 +4,20 @@
 
 *)
 
-let core s=
+let core old_s=
+   let left_offset=(if Substring.begins_with old_s "\n" then "\n" else "")
+   and right_offset=(if Substring.ends_with old_s "\n" then "\n" else "") in
+   let s=left_offset^old_s^right_offset in
    let temp1=Str.split (Str.regexp_string "\n") s in
    Ennig.index_everything temp1;;
+
+(*
+
+core "a\nb";;
+core "\na\nb";;
+core "a\nb\n";;
+
+*)
 
 let interval s i j=
     let temp1=core s in
