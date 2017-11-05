@@ -2,9 +2,6 @@
 
 #use"Php_analizer/Great_Replacement/clean_duplicate_uses.ml";;
 
-Works only on a previously standardized PHP text.
-
-
 *)
 
 let extract_used_item old_s=
@@ -84,12 +81,21 @@ in_namespace "ab\n use Peggy ; \n use Bertrand ; \nuse Peggy;\n use Phoebe; ";;
 
 *)
 
+
+
 let in_string s=
-   let (before_namespaces,items)=Nspc_split.decompose s in
+   let dec_form=Nspc_full_split.decompose s in
+   let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form in
+   match  Nspc_decomposed_form.namespacable dec_form with
+   Some(text)->before_namespaces^"\n"^(in_namespace text)
+   |None->
+   let items=Nspc_decomposed_form.namespaced_parts dec_form in
    let new_items=Image.image(
-      fun (a,b,c)->(a,in_namespace b,c)
-   ) items in
-   Nspc_split.recompose (before_namespaces,new_items);; 
+       fun (a,b,c,d)->(a,in_namespace b,c,d)
+    ) items in
+    let new_dec_form=Nspc_decomposed_form.make 
+        before_namespaces None new_items in
+    Nspc_full_split.recompose new_dec_form;; 
 
 let in_file ap=
     let old_text=Io.read_whole_file ap in
