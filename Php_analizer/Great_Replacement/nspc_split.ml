@@ -1,8 +1,10 @@
 (*
 
-#use"Php_analizer/Great_Replacement/nspc_full_split.ml";;
+#use"Php_analizer/Great_Replacement/nspc_split.ml";;
 
 *)
+
+module Private=struct
 
 exception Missing_php_open_tag;;
 
@@ -43,6 +45,7 @@ let rewrite_namespaced_item
        Cull_string.cobeginning (idx-1) text_between )
    else (nspc_line1,text_between,"","");;
 
+end;;   
 
 let decompose s=
      let all_lines=Lines_in_string.core s in
@@ -51,12 +54,12 @@ let decompose s=
           Nspc_detect.test_for_namespace_line line
      ) all_lines in
      if nspc_lines=[] 
-     then treat_non_namespaced_case s all_lines
+     then Private.treat_non_namespaced_case s all_lines
      else
      let m=List.length(all_lines)+1 in
      let temp3=nspc_lines@[(m,"")] in
      let adjacent_lines=Listennou.universal_delta_list temp3 in
-     let items=Image.image (rewrite_namespaced_item all_lines) adjacent_lines in
+     let items=Image.image (Private.rewrite_namespaced_item all_lines) adjacent_lines in
      let i1=fst(List.hd nspc_lines) in
      let temp8=List.filter (fun (line_idx,line)->line_idx<i1) all_lines in
      let before_namespaces=String.concat "\n" (Image.image snd temp8) in
