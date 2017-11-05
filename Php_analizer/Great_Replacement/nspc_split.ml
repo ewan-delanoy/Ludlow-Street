@@ -4,7 +4,7 @@
 
 *)
 
-let reference_for_decomposition_problems=ref "";;
+
 
 
 exception Decompose_exn;;
@@ -16,8 +16,7 @@ let decompose s=
           Nspc_detect.test_for_namespace_line line
      ) temp1 in
      if temp2=[] 
-     then let _=(reference_for_decomposition_problems:=s) in
-          raise Decompose_exn
+     then raise Decompose_exn
      else
      let m=List.length(temp1)+1 in
      let temp3=temp2@[(m,"")] in

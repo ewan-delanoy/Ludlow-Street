@@ -43,7 +43,7 @@ let string_and_remember_name s=
         ) temp1 in
         ((String.concat "\n" temp3)^"}","");;
 
-        let string s=
+let string s=
             if not(Substring.begins_with s "<?php")
             then raise(Unusual)
             else
