@@ -9,16 +9,25 @@ expanding an inclusion.
 *)
 
 exception Nonunique_namespace;;
+exception Marking_on_nonstandard_text;;
+
 
 let r s=
-    let (before_namespaces,items)=Nspc_split.decompose s in
+
+    let dec_form=Nspc_full_split.decompose s in 
+    if Nspc_decomposed_form.namespacable dec_form<>None
+    then raise(Marking_on_nonstandard_text)
+    else 
+    let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form
+    and items=Nspc_decomposed_form.namespaced_parts dec_form in
     if List.length(items)<>1
     then raise(Nonunique_namespace)   
     else 
-    let (nspc_line,nspc_content,after_nspc)=List.hd items in
-    before_namespaces^" \n"^nspc_content^(Cull_string.cobeginning 1 after_nspc);;
+    let (nspc_line,nspc_content,_,after_nspc)=List.hd items in
+    before_namespaces^" \n"^nspc_content^after_nspc;;
 
 (*  
 
 r "<?php12\nnamespace A{\n34\n56}78\n";;    
+r "<?php12\nnamespace A;\n34\n56978\n";;   
 *)
