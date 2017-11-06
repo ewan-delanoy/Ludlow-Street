@@ -4,6 +4,58 @@
 
 *)
 
+let dbg_file=Absolute_path.of_string "debugged.ml";;
+
+let u1=
+  "let old_text =\n "^
+  (Strung.enclose(String.escaped old_text))^ "\n ;;\n\n";;
+
+Io.append_string_to_file u1 dbg_file;;
+
+(*
+
+let dbg_file=Absolute_path.of_string "debugged.ml";;
+
+let u1=
+  "let container_text =\n "^
+  (Strung.enclose(String.escaped container_text))^ "\n ;;\n\n"^
+  "let inserted_text =\n "^
+  (Strung.enclose(String.escaped inserted_text))^ "\n ;;\n\n"
+  ;;
+
+Io.append_string_to_file u1 dbg_file;;
+
+let global_namespace_name s=
+  let temp1=Str.split (Str.regexp_string "\n") s in
+  match Option.find_and_stop extract_namespace_name temp1 with
+  None->""
+  |Some(nahme,_)->nahme;;
+
+let inclusion_line="include($phpbb_root_path . 'common.' . $phpEx);";;
+let fn="common.php";;
+
+
+let comment_before="\n\n/* Inclusion of "^fn^" starts here */\n\n"
+and comment_after="\n\n/* Inclusion of "^fn^" ends here */\n\n" 
+and l_rep=[
+      "'__DIR__'","'__D' . 'I' . 'R__'";
+      "__DIR__","'"^(Father_and_son.father fn '/')^"'"
+    ]@
+    balancings;;
+
+let inserted_text=Io.read_whole_file (Absolute_path.of_string (s_rachel^fn))
+and container_text=Io.read_whole_file main_file;;   
+
+let bad1=Nspc_expand_inclusion.string_in_string
+(comment_before,comment_after)
+[]
+inserted_text inclusion_line container_text ;;
+
+let g1=(!( Nspc_split.reference_for_decomposition_problems ));;
+
+
+
+
 let s_micael="/Users/ewandelanoy/Documents/Sites/Mikeal/public_html/";;
 let micael_dir=Directory_name.of_string s_micael;;
 
@@ -34,6 +86,9 @@ let u4=image(
    fun (ap,(l1,l2))->
     (ap,List.nth l1 0,List.nth l1 1,List.nth l2 0,List.nth l2 1)
 ) u3;;
+
+*)
+
 
 (*
 
