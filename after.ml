@@ -139,11 +139,101 @@ after_closing_character ('{','}') "{<<<'EOF'\n}\nEOF;\n}90" (1,0);;
 *)
 
 
+let after_abstract_class s i0=
+  if not(Substring.is_a_substring_located_at "abstract" s i0)
+  then None
+  else
+  let opt1=after_whites s (i0+8) in
+  if opt1=None then None else
+  let i1=Option.unpack opt1 in
+  if not(Substring.is_a_substring_located_at "class" s i1)
+  then None
+  else 
+  let i2=Substring.leftmost_index_of_in_from "{" s (i1+5) in
+  if i2<0
+  then None
+  else 
+  Some(after_closing_character ('{','}') s (i2+1,1));;
+
+(*
+
+after_abstract_class "abstract  class {u\nv}234" 1;;
+
+*)
+
+let after_final_class s i0=
+  if not(Substring.is_a_substring_located_at "final" s i0)
+  then None
+  else
+  let opt1=after_whites s (i0+5) in
+  if opt1=None then None else
+  let i1=Option.unpack opt1 in
+  if not(Substring.is_a_substring_located_at "class" s i1)
+  then None
+  else 
+  let i2=Substring.leftmost_index_of_in_from "{" s (i1+5) in
+  if i2<0
+  then None
+  else 
+  Some(after_closing_character ('{','}') s (i2+1,1));;     
+
+(*
+
+after_final_class "final  class {u\nv}901" 1;;
+
+*)
+
+let after_usual_class s i0=
+  if not(Substring.is_a_substring_located_at "class" s i0)
+  then None
+  else 
+  let i1=Substring.leftmost_index_of_in_from "{" s (i0+5) in
+  if i1<0
+  then None
+  else 
+  Some(after_closing_character ('{','}') s (i1+1,1));;     
+
+(*
+
+after_usual_class "class {u\nv}234" 1;;
+
+*)
+
+let after_interface s i0=
+  if not(Substring.is_a_substring_located_at "interface" s i0)
+  then None
+  else 
+  let i1=Substring.leftmost_index_of_in_from "{" s (i0+9) in
+  if i1<0
+  then None
+  else 
+  Some(after_closing_character ('{','}') s (i1+1,1));;  
+
+(*
+
+after_interface "interface {u\nv}678" 1;;
+
+*)
+
+let after_classlike_block s i=
+   Option.find_and_stop(
+     fun f->f s i
+   )[
+       after_abstract_class;
+       after_final_class;
+       after_usual_class;
+       after_interface;
+    ];;
+
+(*
+
+after_classlike_block "abstract  class {u\nv}234" 1;;
+after_classlike_block "final  class {u\nv}901" 1;;
+after_classlike_block "class {u\nv}234" 1;;
+after_classlike_block "interface {u\nv}678" 1;;
+
+*)    
 
 
-     
 
 
-
-
-     
