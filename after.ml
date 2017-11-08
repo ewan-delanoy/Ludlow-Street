@@ -138,6 +138,15 @@ after_closing_character ('{','}') "{<<<'EOF'\n}\nEOF;\n}90" (1,0);;
 
 *)
 
+let classlike_declaration_chars=list_of_whites@Characters_in_namespace_name.chars;;
+
+let after_classlike_declaration s i=
+    Option.seek(
+     fun j->not(List.mem 
+         (String.get s (j-1)) classlike_declaration_chars
+     )
+    )(Ennig.ennig i (String.length s));;
+
 
 let after_abstract_class s i0=
   if not(Substring.is_a_substring_located_at "abstract" s i0)
@@ -149,10 +158,10 @@ let after_abstract_class s i0=
   if not(Substring.is_a_substring_located_at "class" s i1)
   then None
   else 
-  let i2=Substring.leftmost_index_of_in_from "{" s (i1+5) in
-  if i2<0
-  then None
-  else 
+  let opt2=after_classlike_declaration s (i1+5) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if (Strung.get s i2)<>'{' then None else 
   Some(after_closing_character ('{','}') s (i2+1,1));;
 
 (*
@@ -171,10 +180,10 @@ let after_final_class s i0=
   if not(Substring.is_a_substring_located_at "class" s i1)
   then None
   else 
-  let i2=Substring.leftmost_index_of_in_from "{" s (i1+5) in
-  if i2<0
-  then None
-  else 
+  let opt2=after_classlike_declaration s (i1+5) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if (Strung.get s i2)<>'{' then None else 
   Some(after_closing_character ('{','}') s (i2+1,1));;     
 
 (*
@@ -187,15 +196,16 @@ let after_usual_class s i0=
   if not(Substring.is_a_substring_located_at "class" s i0)
   then None
   else 
-  let i1=Substring.leftmost_index_of_in_from "{" s (i0+5) in
-  if i1<0
-  then None
-  else 
-  Some(after_closing_character ('{','}') s (i1+1,1));;     
+  let opt2=after_classlike_declaration s (i0+5) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if (Strung.get s i2)<>'{' then None else 
+  Some(after_closing_character ('{','}') s (i2+1,1));;     
 
 (*
 
 after_usual_class "class {u\nv}234" 1;;
+after_usual_class "class_loader { }" 1;;
 
 *)
 
@@ -203,11 +213,11 @@ let after_interface s i0=
   if not(Substring.is_a_substring_located_at "interface" s i0)
   then None
   else 
-  let i1=Substring.leftmost_index_of_in_from "{" s (i0+9) in
-  if i1<0
-  then None
-  else 
-  Some(after_closing_character ('{','}') s (i1+1,1));;  
+  let opt2=after_classlike_declaration s (i0+5) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if (Strung.get s i2)<>'{' then None else 
+  Some(after_closing_character ('{','}') s (i2+1,1));;  
 
 (*
 
