@@ -33,7 +33,7 @@ let rec low_level_helper
     let opt=After.after_classlike_block s idx in
     if opt<>None
     then let jdx=Option.unpack opt in
-         let d=Lines_in_string.number_of_lines_in_char_interval s idx jdx in
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx (jdx-1) in
          let marker_line=
           "\nmarker_here("^(string_of_int(mark_count+1))^
           ","^(string_of_int (line_count+d+1))^");\n" in
