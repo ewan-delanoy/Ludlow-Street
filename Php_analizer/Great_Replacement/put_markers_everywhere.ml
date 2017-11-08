@@ -30,13 +30,24 @@ let rec low_level_helper
          let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
          low_level_helper(mark_count,line_count+d,idx_start,j+6,s,n,accu)
     else
+    let opt=After.after_classlike_block s idx in
+    if opt<>None
+    then let jdx=Option.unpack opt in
+         let d=Lines_in_string.number_of_lines_in_char_interval s idx jdx in
+         let marker_line=
+          "\nmarker_here("^(string_of_int(mark_count+1))^
+          ","^(string_of_int (line_count+d+1))^");\n" in
+          let elt=
+            (Cull_string.interval s idx_start (jdx-1))^marker_line in
+            low_level_helper(mark_count+1,line_count+d+2,jdx,jdx,s,n,elt::accu)
+    else
     let c=Strung.get s idx in
     if c='\n'
     then (
            if Substring.is_a_substring_located_at ";" s (idx-1)
            then let marker_line=
                  "marker_here("^(string_of_int(mark_count+1))^
-                 ","^(string_of_int (line_count+2))^");\n" in
+                 ","^(string_of_int (line_count+1))^");\n" in
                 let elt=
                  (Cull_string.interval s idx_start idx)^marker_line in
                  low_level_helper(mark_count+1,line_count+2,idx+1,idx+1,s,n,elt::accu)
@@ -49,7 +60,13 @@ let rec low_level_helper
           low_level_helper(mark_count,line_count+d,idx_start,j,s,n,accu)
     else  low_level_helper(mark_count,line_count,idx_start,idx+1,s,n,accu);;
 
-let in_namespace s=low_level_helper(0,0,1,1,s,String.length s,[]);;  
+let in_namespace s=low_level_helper(0,1,1,1,s,String.length s,[]);;  
+
+(*
+
+in_namespace "\nhaag;\nclass {u\nv\nw}diamond;\nxy";;
+
+*)
 
 exception Marking_on_nonstandard_text;;
 
