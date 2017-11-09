@@ -78,16 +78,11 @@ let string_in_string
     ) temp1 in
     let temp6=String.concat "\n" temp4 in
     let temp7=(
-      if nspc_is_unique
-      then temp6
-      else Nspc_reaggregate.string temp6
-    ) in
-    let temp8=(
     if (name_outside=name_inside)||(not(nspc_is_unique))
-    then Clean_duplicate_uses.in_string temp7
-    else temp7
+    then Clean_duplicate_uses.in_string temp6
+    else temp6
     ) in
-    Clean_empty_namespaces.in_string temp8;;
+    Nspc_reaggregate.string(Clean_empty_namespaces.in_string temp7);;
 
 
 
