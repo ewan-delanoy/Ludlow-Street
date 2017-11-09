@@ -235,12 +235,36 @@ let after_classlike_block s i=
        after_interface;
     ];;
 
+
 (*
 
 after_classlike_block "abstract  class {u\nv}234" 1;;
 after_classlike_block "final  class {u\nv}901" 1;;
 after_classlike_block "class {u\nv}234" 1;;
 after_classlike_block "interface {u\nv}678" 1;;
+
+*)    
+
+let after_classlike_block_with_linebreak s i=
+  let n=String.length s in
+  let opt1=after_classlike_block s i in
+  if opt1=None then None else
+  let i1=Option.unpack opt1 in
+  let opt2=Option.seek(fun j->
+     not(List.mem (Strung.get s j) [' ';'\r';'\t']) )
+  (Ennig.ennig i1 n) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if Strung.get s i2='\n'
+  then Some(i2+1)
+  else None;;
+    
+(*
+
+after_classlike_block_with_linebreak "abstract  class {u\nv}  \t \n7" 1;;
+after_classlike_block_with_linebreak "final  class {u\nv} \t\t\n3" 1;;
+after_classlike_block_with_linebreak "class {u\nv}\n3" 1;;
+after_classlike_block_with_linebreak "interface {u\nv} \t\n9" 1;;
 
 *)    
 
