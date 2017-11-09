@@ -21,6 +21,25 @@ let test_for_text text=
     let temp1=Str.split (Str.regexp_string "\n") text in
     List.for_all test_for_line temp1;;
 
+let rec main_helper 
+  (graet,nspc_line,nspc_content,offset,after_nspc,da_ober)=
+  match da_ober with
+  []->List.rev((nspc_line,nspc_content,offset,after_nspc)::graet)
+  |(nspc_line2,nspc_content2,offset2,after_nspc2)::peurrest->
+    if test_for_text nspc_content2
+    then main_helper 
+         (graet,nspc_line,nspc_content,offset,after_nspc^"\n"ŝafter_nspc2,peurrest) 
+    else let graet2=(nspc_line,nspc_content,offset,after_nspc)::graet in
+         main_helper
+         (graet2,nspc_line2,nspc_content2,offset2,after_nspc2,peurrest)
+    ;;    
+
+let in_list=function
+   []->[]
+   |(nspc_line,nspc_content,offset,after_nspc)::peurrest->
+   main_helper 
+   ([],nspc_line,nspc_content,offset,after_nspc,peurrest);;
+
 exception On_nonstandard_text;;
 
 let in_decomposed_form dec_form=
@@ -29,10 +48,7 @@ let in_decomposed_form dec_form=
     Some(text)->raise(On_nonstandard_text)
     |None->
     let items=Nspc_decomposed_form.namespaced_parts dec_form in
-    let good_items=List.filter (
-        fun (nspc_line,nspc_content,offset,after_nspc)->
-          not(test_for_text nspc_content)
-    ) items in
+    let good_items=in_list items in
     Nspc_decomposed_form.make before_namespaces None good_items;; 
 
  
@@ -40,6 +56,12 @@ let in_string s=
         let dec_form=Nspc_split.decompose s in
         let new_dec_form=in_decomposed_form dec_form in
         Nspc_split.recompose new_dec_form;;
+
+(*
+
+in_string "<?php \nnamespace A{\nB}C\nnamespace D{\n}E\nnamespace F{\nG}\nH";;
+
+*)
 
 let in_file ap=
     let old_text=Io.read_whole_file ap in
