@@ -30,26 +30,22 @@ let rec low_level_helper
          let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
          low_level_helper(mark_count,line_count+d,idx_start,j+6,s,n,accu)
     else
-    let opt=After.after_classlike_block s idx in
+    let opt=After.after_classlike_block_with_linebreak s idx in
     if opt<>None
     then let jdx=Option.unpack opt in
          let d=Lines_in_string.number_of_lines_in_char_interval s idx (jdx-1) in
-         let marker_line=
-          "\nmarker_here("^(string_of_int(mark_count+1))^
-          ","^(string_of_int (line_count+d))^");\n" in
+         let marker_line=Marker.from_numbers(mark_count+1)(line_count+d) in
           let elt=
-            (Cull_string.interval s idx_start (jdx-1))^marker_line in
+            (Cull_string.interval s idx_start (jdx-1))^marker_line^"\n" in
             low_level_helper(mark_count+1,line_count+d+1,jdx,jdx,s,n,elt::accu)
     else
     let c=Strung.get s idx in
     if c='\n'
     then (
            if Substring.is_a_substring_located_at ";" s (idx-1)
-           then let marker_line=
-                 "\nmarker_here("^(string_of_int(mark_count+1))^
-                 ","^(string_of_int (line_count+1))^");\n" in
+           then let marker_line=Marker.from_numbers(mark_count+1)(line_count+1) in
                 let elt=
-                 (Cull_string.interval s idx_start idx)^marker_line in
+                 (Cull_string.interval s idx_start idx)^marker_line^"\n" in
                  low_level_helper(mark_count+1,line_count+2,idx+1,idx+1,s,n,elt::accu)
            else  low_level_helper(mark_count,line_count+1,idx_start,idx+1,s,n,accu)     
          )
