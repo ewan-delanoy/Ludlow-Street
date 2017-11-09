@@ -36,17 +36,17 @@ let rec low_level_helper
          let d=Lines_in_string.number_of_lines_in_char_interval s idx (jdx-1) in
          let marker_line=
           "\nmarker_here("^(string_of_int(mark_count+1))^
-          ","^(string_of_int (line_count+d+1))^");\n" in
+          ","^(string_of_int (line_count+d))^");\n" in
           let elt=
             (Cull_string.interval s idx_start (jdx-1))^marker_line in
-            low_level_helper(mark_count+1,line_count+d+2,jdx,jdx,s,n,elt::accu)
+            low_level_helper(mark_count+1,line_count+d+1,jdx,jdx,s,n,elt::accu)
     else
     let c=Strung.get s idx in
     if c='\n'
     then (
            if Substring.is_a_substring_located_at ";" s (idx-1)
            then let marker_line=
-                 "marker_here("^(string_of_int(mark_count+1))^
+                 "\nmarker_here("^(string_of_int(mark_count+1))^
                  ","^(string_of_int (line_count+1))^");\n" in
                 let elt=
                  (Cull_string.interval s idx_start idx)^marker_line in
