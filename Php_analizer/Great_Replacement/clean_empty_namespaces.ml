@@ -28,7 +28,7 @@ let rec main_helper
   |(nspc_line2,nspc_content2,offset2,after_nspc2)::peurrest->
     if test_for_text nspc_content2
     then main_helper 
-         (graet,nspc_line,nspc_content,offset,after_nspc^"\n"ŝafter_nspc2,peurrest) 
+         (graet,nspc_line,nspc_content,offset,after_nspc^"\n"^after_nspc2,peurrest) 
     else let graet2=(nspc_line,nspc_content,offset,after_nspc)::graet in
          main_helper
          (graet2,nspc_line2,nspc_content2,offset2,after_nspc2,peurrest)
