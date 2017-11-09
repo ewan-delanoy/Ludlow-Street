@@ -82,9 +82,12 @@ let string_in_string
       then temp6
       else Nspc_reaggregate.string temp6
     ) in
+    let temp8=(
     if (name_outside=name_inside)||(not(nspc_is_unique))
     then Clean_duplicate_uses.in_string temp7
-    else temp7;;
+    else temp7
+    ) in
+    Clean_empty_namespaces.in_string temp8;;
 
 
 
