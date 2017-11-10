@@ -30,23 +30,28 @@ let rewrite_float x=
    and s_sec=rewrite_seconds(v_sec) in
    s_day^s_hour^s_min^s_sec;;
   
+let rewrite_duration x=
+   if x=0. 
+   then "Computation was quick.\n"
+   else "Computation lasted "^(rewrite_float x)^"\n";;
+
  let timer=ref(0.000);;  
  
  let duration_of_computation f x=
    let t0=Unix.time() in
    let _=f(x) in
    let _=(timer:=Unix.time()-.t0) in
-   (print_string("Computation lasted "^(rewrite_float (!timer))^"\n");flush stdout);;
+   (print_string(rewrite_duration (!timer));flush stdout);;
  
  let duration_of_last_computation ()=
-  (print_string("Computation lasted "^(rewrite_float (!timer))^"\n");flush stdout);;
+  (print_string(rewrite_duration (!timer));flush stdout);;
    
    
  let  it f x=
   let t0=Unix.time() in
    let y=f(x) in
    let _=(timer:=Unix.time()-.t0) in
-   let _=(print_string("Computation lasted "^(rewrite_float (!timer))^"\n");flush stdout) in
+   let _=(print_string(rewrite_duration (!timer));flush stdout) in
    y;;
  
    
