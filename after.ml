@@ -268,6 +268,28 @@ after_classlike_block_with_linebreak "interface {u\nv} \t\n9" 1;;
 
 *)    
 
+exception End_of_div_not_found;;
 
+let rec main_helper_for_div (s,n,div_count,idx)=
+    if idx>n
+    then raise(End_of_div_not_found)
+    else
+    if Substring.is_a_substring_located_at "</div>" s idx
+    then if div_count=1
+         then idx+6
+         else main_helper_for_div(s,n,div_count-1,idx+6)
+    else 
+    if not(Substring.is_a_substring_located_at "<div " s idx)
+    then main_helper_for_div(s,n,div_count,idx+1)
+    else  
+    let jdx=Substring.leftmost_index_of_in_from ">" s (idx+5) in
+    main_helper_for_div(s,n,div_count+1,jdx);;
 
+let after_div s idx=main_helper_for_div(s,String.length s,0,idx);;
+
+(*
+
+after_div "<div val=\"abc\"> xyz </div>789" 1;;
+
+*)
 
