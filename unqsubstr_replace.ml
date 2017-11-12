@@ -10,7 +10,7 @@ Operation on substring finding, with indexes starting from 1.
  
 exception Beginning_of_string_appears_twice;;   
    
-let left_helper_for_unique_occurrence s i j=
+let left_helper s i j=
    let tester=(
      fun k->List.length(
        Substring.occurrences_of_in(String.sub s (k-1) (j-k+1)) s)=1
