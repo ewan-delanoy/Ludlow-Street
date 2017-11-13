@@ -19,6 +19,7 @@ core "a\nb\n";;
 
 *)
 
+
 let interval s i j=
     let temp1=core s in
     let temp2=List.filter (fun (k,_)->(i<=k)&&(k<=j)) temp1  in
