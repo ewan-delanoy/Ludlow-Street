@@ -12,6 +12,10 @@ type t=
 
 exception Missing_parameter;;
 
+let simple l=Simple(l);;
+let constant s=Constant(s);;
+let uncategorized f=Uncatgeorized(f);;
+
 let eval l_param =function
   Simple(l_assoc)->
        ( match Option.seek(fun (key,vval)->List.mem key l_param) l_assoc  with
