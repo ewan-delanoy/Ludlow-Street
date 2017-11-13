@@ -14,7 +14,7 @@ exception Missing_parameter;;
 
 let simple l=Simple(l);;
 let constant s=Constant(s);;
-let uncategorized f=Uncatgeorized(f);;
+let uncategorized f=Uncategorized(f);;
 
 let eval l_param =function
   Simple(l_assoc)->
