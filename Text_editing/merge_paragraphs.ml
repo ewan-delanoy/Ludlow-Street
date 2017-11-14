@@ -15,7 +15,7 @@ let main_transform
       then Cull_string.trim_spaces text1
       else 
       if next_par_is_suspicious
-      then ""
+      then " "
       else "\n\n\n";;
 
 let in_string s=
