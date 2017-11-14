@@ -22,6 +22,7 @@
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Prepare_html/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Preprinters/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Test_directory6/Test_directory7/Test_directory2/";;
+#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Text_editing/";;
 
 #load"nums.cma";;
 #load"str.cma";;
@@ -67,23 +68,28 @@
 #load"van_der_waerden_basics.cmo";;
 #load"uutf.cmo";;
 #load"utf_eight.cmo";;
-#load"no_slashes.cmo";;
-#load"father_and_son.cmo";;
+#load"unqsubstr_helper.cmo";;
+#load"substring.cmo";;
+#load"overwriter.cmo";;
 #load"unix_command.cmo";;
 #load"capitalize_directory_names.cmo";;
 #load"tools_for_absolute_path.cmo";;
-#load"directory_name.cmo";;
 #load"absolute_path.cmo";;
+#load"io.cmo";;
+#load"unqsubstr_replace.cmo";;
+#load"no_slashes.cmo";;
+#load"father_and_son.cmo";;
+#load"directory_name.cmo";;
 #load"unjoin_path.cmo";;
 #load"unix_compliant_filename.cmo";;
-#load"please_test_me.cmo";;
-#load"substring.cmo";;
+#load"strung.cmo";;
 #load"prepared.cmo";;
 #load"cull_string.cmo";;
 #load"decimal_number.cmo";;
 #load"parenthesed_block.cmo";;
+#load"decompose_into_paragraphs.cmo";;
+#load"please_test_me.cmo";;
 #load"subdirectory.cmo";;
-#load"strung.cmo";;
 #load"stabilize.cmo";;
 #load"charset.cmo";;
 #load"single_copy_task.cmo";;
@@ -91,7 +97,6 @@
 #load"chronometer.cmo";;
 #load"explicit.cmo";;
 #load"more_unix.cmo";;
-#load"io.cmo";;
 #load"industrial_separator.cmo";;
 #load"slow_copy_task.cmo";;
 #load"separator.cmo";;
@@ -154,7 +159,6 @@
 #load"german_modify_modulesystem.cmo";;
 #load"alaskan_remove_debuggables.cmo";;
 #load"german_start_debugging.cmo";;
-#load"overwriter.cmo";;
 #load"my_global_replace.cmo";;
 #load"replace_inside.cmo";;
 #load"german_write_makefile.cmo";;
@@ -206,6 +210,8 @@
 #load"preprinter_constructor.cmo";;
 #load"gather_preprinter_result.cmo";;
 #load"html_parameter.cmo";;
+#load"html_bracable.cmo";;
+#load"html_decompose_into_bracables.cmo";;
 #load"php_parser.cmo";;
 #load"copyable_printing.cmo";;
 #load"php_spider.cmo";;
@@ -237,6 +243,7 @@
 #load"nspc_remove.cmo";;
 #load"nspc_reaggregate.cmo";;
 #load"clean_duplicate_uses.cmo";;
+#load"clean_empty_namespaces.cmo";;
 #load"nspc_expand_inclusion.cmo";;
 #load"overwrite_at_intervals.cmo";;
 #load"tidel2.cmo";;

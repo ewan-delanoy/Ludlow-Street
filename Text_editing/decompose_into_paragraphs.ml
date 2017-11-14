@@ -1,7 +1,7 @@
 (*
 
 
-#use"decompose_into_paragraphs.ml";;
+#use"Text_editing/decompose_into_paragraphs.ml";;
 
 *)
 

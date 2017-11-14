@@ -4,6 +4,652 @@
 
 *)
 
+let trim_footnote old_s=
+  let s=Cull_string.trim_spaces old_s in
+  let i=Substring.leftmost_index_of_in ")" s in
+  String.capitalize_ascii 
+  (Cull_string.trim_spaces(Cull_string.cobeginning i s));;
+
+let parse_footnote_list old_s=
+  let s=Cull_string.trim_spaces old_s in
+  let temp1=Str.split (Str.regexp_string "\226\128\148") s in
+  let temp2=Image.image trim_footnote temp1 in
+   temp2;;
+
+let is_a_footnote_line line=
+  Substring.begins_with (Cull_string.trim_spaces line) "(1)";;
+
+let rec df1_helper (graet,current,current_is_footnote,da_ober)=
+  let next_block=(String.concat "\n" (List.rev current)) in
+  match da_ober with
+  []->List.rev( next_block ::graet)
+  |(j,line)::peurrest->
+     if is_a_footnote_line line
+     then df1_helper (next_block ::graet,[line],true,peurrest)
+     else 
+     if current_is_footnote
+     then df1_helper (next_block ::graet,[line],false,peurrest)
+     else 
+     df1_helper (graet,line::current,false,peurrest);;
+
+let df1 s=
+ if s="" then [] else
+ match Lines_in_string.core s 
+ with 
+ []->[]
+ |(_,line1)::b->df1_helper([],[line1],is_a_footnote_line line1,b);;       
+
+let df2 s=
+  match df1 s with
+  []->[]
+  |a::peurrest->
+    let temp1=Image.image (fun x->["\n";x]) peurrest in
+    let temp2=a::(List.flatten temp1) in
+    List.filter (fun x->x<>"") temp2;;
+
+let rec df3_helper (graet,char_count,da_ober)=
+   match da_ober with
+    []->List.rev(graet)
+   |a::peurrest->
+     let d=String.length(a) in
+     let new_count=char_count+d in
+     df3_helper (((char_count+1,new_count),a)::graet,new_count,peurrest);;
+
+let naive_df3 s= df3_helper ([],0,df2 s);;
+let df3=naive_df3;;
+
+exception Bc1_exn;;
+exception Bc2_exn;;
+
+let back_check s l=
+  if List.exists (fun ((i,j),t)->t<>(Cull_string.interval s i j)) l
+  then raise(Bc1_exn)
+  else
+  if (String.concat "" (image snd l))<>s 
+  then raise(Bc2_exn)
+  else true;;
+
+let df4 x=
+let (bowl,((i,j),s))=x in
+ if bowl
+ then Image.image (fun ((a,b),t)->(true,((i-1+a,i-1+b),t)) ) (df3 s)
+ else [x];;
+
+let df5 l=List.flatten(Image.image df4 l);;
+
+let is_a_num_char c=
+let i=int_of_char c in (48<=i)&&(i<=57);;
+
+let is_a_num_string s=
+(s<>"")&&(List.for_all is_a_num_char (Strung.explode s));;
+
+let is_a_num_line line =
+let t=Cull_string.trim_spaces line in
+(is_a_num_string(t));;
+
+let test_for_orange_at_index s idx=
+  if idx>(String.length s) then None else
+  if (Strung.get s idx)<>'('
+  then None
+  else 
+  let jdx=Substring.leftmost_index_of_in_from ")" s (idx+1) in
+  if jdx<0 then None else
+  let temp1=Cull_string.interval s (idx+1) (jdx-1) in
+  if not(is_a_num_string temp1)
+  then None
+  else Some(jdx,int_of_string temp1);;
+
+(*    
+test_for_orange_at_index "(123)567" 1;;
+test_for_orange_at_index "(1234567" 1;;
+*)         
+
+
+let rec orange_helper (graet,s,n,idx_start,idx)=
+  if idx>n
+  then let graet2=(
+            if idx=idx_start
+            then graet
+            else (Cull_string.interval s idx_start n,None)::graet ) in
+       List.rev(graet2)
+  else
+  match test_for_orange_at_index s idx with
+   None->orange_helper (graet,s,n,idx_start,idx+1)
+  |Some(idx_end,written_int)->
+      let elt2=(Cull_string.interval s idx idx_end,Some(written_int)) in
+      let graet2=(
+         if idx=idx_start
+         then elt2::graet
+         else let elt1=(Cull_string.interval s idx_start (idx-1),None) in
+              elt2::elt1::graet
+      ) in
+      orange_helper (graet2,s,n,idx_end+1,idx_end+1);;
+
+let orange_decomposition s=
+orange_helper ([],s,String.length s,1,1);;
+
+(*  
+orange_decomposition "(12)abc(3)de(4)ghi(5)uv";;
+orange_decomposition "xy(12)abc(3)de(4)ghi(5)uv";;
+orange_decomposition "xy(12)abc(3)de(4)ghi(5)uv(6)";;
+*)
+
+let tf6_transform (text,opt)=
+  if opt=None then [text] else
+  let footnotes=Option.unpack opt in
+  let d=List.length footnotes in
+  let temp1=orange_decomposition text in
+  let temp2=Image.image(
+     fun (part,opt2)->match opt2 with
+      None->[part]
+     |Some(i)->
+         if (i<1)||(i>d)
+         then []
+         else ["("^(List.nth footnotes (i-1))^")"]
+  )  temp1 in
+  List.flatten temp2;;
+
+let ex1="ab\ncd\n\nefg\n\n\nhi\n(1)uv\n89\n(1)xy\n88\n67\n(1)op\n";;
+let res1=df3 ex1;;
+let check1=(back_check ex1 res1);;
+
+let ag_file=
+    Absolute_path.of_string
+    "/Users/ewandelanoy/Documents/html_files/Printable/agreda.txt";;
+
+let u1=Io.read_whole_file ag_file;;
+let u2=Decompose_into_paragraphs.dec u1;;
+let u3=df5 u2;;
+let u4=image snd u3;;
+let check2=back_check u1 u4;;
+let u5=Ennig.index_everything (image snd u4);;
+let footnotes_in_u5=Option.filter_and_unpack (
+ fun (j,line)->
+   if is_a_footnote_line line
+   then Some(j,parse_footnote_list line)
+   else None
+) u5;;
+
+let find_victim=Memoized.make(fun j1->
+  let temp1=List.rev(List.filter(fun (j,_)->j<j1) u5) in
+  fst(Option.find (fun (j,line)->(Cull_string.trim_spaces line)<>"") temp1));;
+
+let comp1=Explicit.image (fun (j,_)->find_victim j) footnotes_in_u5;;
+let u6=image (fun (k,line)->(line,None)) u4;;
+let arr_u6=Array.of_list u6;;
+let comp2=Explicit.image(fun
+  (j,footnotes)->
+  let k=find_victim j in
+  let (text,_)=Array.get arr_u6 (k-1) in
+  Array.set arr_u6 (k-1) (text,Some(footnotes))
+) footnotes_in_u5;;
+let changed_u6=Array.to_list arr_u6;;
+
+
+let (m1,sols1)=Max.maximize_it_with_care(
+fun (text,opt)->match opt with
+None->0
+|Some(l)->List.length(l)
+) changed_u6;;
+
+let u10=Image.image tf6_transform changed_u6;;
+let u11=String.concat "" (List.flatten u10);;
+
+Io.overwrite_with ag_file u11;;
+
+let u12=image snd (Lines_in_string.core u11);;
+let u13=List.filter (fun line->
+not(is_a_footnote_line line)
+) u12;;
+let u14=String.concat "\n" u13;;
+
+Io.overwrite_with ag_file u14;;
+
+let u15=Io.read_whole_file ag_file;;
+let u16=orange_decomposition u15;;
+
+
+
+
+(*
+let u7=Option.filter_and_unpack(
+ fun (text,opt)->match opt with
+ None->None
+ |Some(footnotes)->Some(orange_decomposition text,footnotes)
+) changed_u6;;
+
+
+let u8=List.filter (
+ fun (oranges,footnotes)->
+   let d=List.length(footnotes) in
+   List.exists(
+     fun (part,opt)->if opt=None then false else
+     let i=Option.unpack opt in
+     if (i>10) then false else
+     (i<1)||(i>d)
+   ) oranges
+) u7;;
+
+
+let u9=image (
+fun (_,footnotes0)->
+  Option.find (fun (x,y)->y=footnotes0 ) u7
+) u8;;
+
+let (g1,g2)=List.nth u9 0;;
+let g3=List.hd g1;;
+let g4=List.hd(List.rev g1);;
+*)
+
+
+
+
+(*
+let is_a_num_char c=
+     let i=int_of_char c in (48<=i)&&(i<=57);;
+
+let is_a_num_string s=
+    List.for_all is_a_num_char (Strung.explode s);;
+
+let is_a_num_line line =
+    let t=Cull_string.trim_spaces line in
+    (is_a_num_string(t))&&(t<>"");;
+
+let ag_file=
+  Absolute_path.of_string
+  "/Users/ewandelanoy/Documents/html_files/Printable/agreda.txt";;
+
+Replace_inside.replace_inside_file
+   ("\226\128\168\194\160","")
+   ag_file;;
+
+let u1=Io.read_whole_file ag_file;;
+let v1=Lines_in_string.core u1;;
+let u2=Str.split (Str.regexp_string "\n") u1;;
+let u3=List.filter (fun line->not(is_a_num_line line) ) u2;;
+let u4=String.concat "\n" u3;;
+Io.overwrite_with ag_file u4;;
+*)
+
+
+(*
+
+let old_text=Io.read_whole_file main_file;;
+let _=Put_markers_everywhere.in_file main_file;;
+let res1=main_test();;
+let ((mark_count1,line_count1),fn1,_)=res1;;
+if mark_count1=0 then raise(Bad_marker) else
+let new_text=Io.read_whole_file main_file;;
+let needed_line=Marker.from_numbers mark_count1 line_count1;;
+let needed_idx=Substring.leftmost_index_of_in needed_line new_text;;
+let new_prelude=Cull_string.beginning (needed_idx-1) new_text;; 
+let old_prelude=Marker.remove_all_markers new_prelude;;
+let m1=(String.length old_prelude)+1;;
+let check1=(Substring.begins_with old_text old_prelude);;
+if not check1 then raise(Bad_namespace_split) else
+let c=Strung.get old_text m1;;
+if (c<>'\n') then raise(Bad_line_split(c)) else
+let _=inform "Computation with markers finished.";;
+let _=Io.overwrite_with main_file old_text;;
+let hlpr=Unqsubstr_replace.left_helper old_text m1 m1;;
+let helper=Unqsubstr_helper.to_string hlpr;;
+let inclusion_order="include '"^fn1^"';";;    
+let _=special_replace (helper,"\n") ("\n"^inclusion_order^"\n");;
+if (not(smt())) then raise(Bad_inclusion_insertion) else
+let _=write_latest ();;
+let _=inform "Replacement before inclusion finished.";;
+let _=expand_inclusion inclusion_order fn1;;
+if (not(smt())) then raise(Bad_inclusion_expansion) else
+let _=write_latest ();;
+(!reference_for_main_test);;
+
+*)
+
+(*
+let tt j=(j+1)*(j+1)*(j+1)-2*j*j*j;;
+
+let modd (a,b)=
+    let r =a mod b in
+    if (r>=0)&&(r<b) then r else
+    b+r;;
+
+let ff p=
+  doyle(fun j->
+     (j,modd(tt j,p))
+  ) 0 (p-1);;
+
+let ff p=
+    let tempf1=Memoized.make(fun j->
+       modd(tt j,p)
+    ) in
+    let q=((p-1)/2) in
+    let tempf2=(fun old_k->
+      let k=(if old_k<0 then old_k+p else old_k) in
+      let ttemp3=List.filter (fun j->tempf1 j=k) (ennig (-q) q) in
+      if List.length(ttemp3)<2
+      then None
+      else Some(k,ttemp3)
+    ) in
+    Option.filter_and_unpack tempf2 (ennig (-q) q);;  
+*)
+
+(*
+
+let peggy1 i=if (i>5)||(i<0) then "end" else
+             if i=0 then "index" else (string_of_int i);;
+
+let peggy2 i=Absolute_path.of_string(
+  "/Users/ewandelanoy/Documents/html_files/Trower/trower_"^(peggy1 i)^".html"
+) ;;            
+
+let peggy3 i=if (i>5)||(i<1) then failwith("peggy3 error") else
+   if i=3 then 579 else 573;;
+
+let peggy4 x=List.assoc x
+  [
+    1,864;2,1005;3,801;4,1072;5,1057;5,838
+  ];;
+
+let peggy5 i=Absolute_path.of_string(
+  "/Users/ewandelanoy/Documents/html_files/Trower/"^
+  "trower_"^(peggy1 i)^"_files/master.css"
+) ;;   
+
+let u1=doyle peggy5 0 6;;
+
+let v1=Io.read_whole_file (peggy2 6);;
+let v2=Lines_in_string.interval v1 92 98;;
+let act1=Explicit.image(
+   fun ap->Replace_inside.replace_inside_file
+      (v2,"") ap
+) u1;;
+let v1=Io.read_whole_file (peggy2 6);;
+let v2=Cull_string.cobeginning 9 (Lines_in_string.interval v1 573 573);;
+let act2=Explicit.image(
+  fun ap->Replace_inside.replace_inside_file
+     (v2,"") ap
+) u1;;
+
+let act3=Explicit.image(
+  fun i->
+  let ap=peggy2 i and j=peggy3 i in
+  let old_text=Io.read_whole_file ap in
+  let new_text=Lines_in_string.remove_interval old_text j j in
+  Io.overwrite_with ap new_text
+) (ennig 1 5);;
+
+
+let act4=Explicit.image(
+  fun i->
+  let ap=peggy2 i in
+  let old_text=Io.read_whole_file ap in
+  let new_text=Lines_in_string.remove_interval old_text 252 468 in
+  Io.overwrite_with ap new_text
+) (ennig 0 6);;
+
+let act5=Explicit.image(
+  fun i->
+  let ap=peggy2 i and j=peggy4 i in
+  let old_text=Io.read_whole_file ap in
+  let new_text=Lines_in_string.remove_interval old_text j (j+5) in
+  Io.overwrite_with ap new_text
+) (ennig 1 5);;
+
+let v3=doyle (fun i->
+    let ap=peggy2 i in
+    let old_text=Io.read_whole_file ap in
+    let u="<img src=\"trower_"^(peggy1 i)^"_files/search.png\" id=\"searchButton\">" in
+    (i,ap,Substring.occurrences_of_in u old_text)
+) 0 6;;
+
+let act6=Explicit.image(
+  fun i->
+  let ap=peggy2 i in
+  let u="<img src=\"trower_"^(peggy1 i)^"_files/search.png\" id=\"searchButton\">" in
+   Replace_inside.replace_inside_file (u,"") ap
+  ) (ennig 0 6);;
+
+let v1=Io.read_whole_file (peggy2 6);;
+let v2=Lines_in_string.interval v1 384 393;;
+
+let v4=doyle (fun i->
+let ap=peggy2 i in
+let old_text=Io.read_whole_file ap in
+(i,ap,Substring.occurrences_of_in v2 old_text)
+) 0 6;;
+
+let act7=Explicit.image(
+  fun i->
+  let ap=peggy2 i in
+   Replace_inside.replace_inside_file (v2,"") ap
+  ) (ennig 0 6);;
+
+let v5=doyle (fun i->
+  let ap=peggy2 i in
+  let old_text=Io.read_whole_file ap in
+  let i1=Substring.leftmost_index_of_in 
+      "<div class=\"sidebar_right\">" old_text in
+  let j1=After.after_div old_text i1 in    
+  let sub_text=Cull_string.interval old_text i1 (j1-1) in
+  Replace_inside.replace_inside_file (sub_text,"") ap
+) 0 6;;
+
+let tag="<div class=\"ad\" id=\"adspot_horizontal_mobile\">";;
+
+let v6=doyle (fun i->
+let ap=peggy2 i in
+let old_text=Io.read_whole_file ap in
+let i1=Substring.leftmost_index_of_in 
+    tag old_text in
+i1
+) 0 6;;
+
+let v7=doyle (fun i->
+let ap=peggy2 i in
+let old_text=Io.read_whole_file ap in
+let i1=Substring.leftmost_index_of_in 
+    tag old_text in
+let j1=After.after_div old_text i1 in    
+let sub_text=Cull_string.interval old_text i1 (j1-1) in
+Replace_inside.replace_inside_file (sub_text,"") ap
+) 0 6;;
+
+let a1=105 and b1=110;;
+
+let v8=doyle (fun i->
+let ap=peggy5 i in
+let old_text=Io.read_whole_file ap in
+let sub_text=Lines_in_string.interval old_text a1 b1 in
+ (i,sub_text)
+) 0 6;;
+
+let correct_version=snd(List.nth v8 6);;
+
+let v8=doyle (fun i->
+let ap=peggy5 i in
+let old_text=Io.read_whole_file ap in
+let sub_text=Lines_in_string.interval old_text a1 b1 in
+Replace_inside.replace_inside_file (sub_text,correct_version) ap
+) 0 6;;
+
+*)
+
+(*
+
+let old_text=mf();;
+let act1=Put_markers_everywhere.in_file main_file;;
+let res1=main_test();;
+let ((mark_count1,line_count1),fn1,_)=res1;;
+let new_text=Io.read_whole_file main_file;;
+let needed_line=Marker.from_numbers mark_count1 line_count1;;
+let needed_idx=Substring.leftmost_index_of_in needed_line new_text;;
+let new_prelude=Cull_string.beginning (needed_idx-1) new_text;; 
+let old_prelude=Marker.remove_all_markers new_prelude;;
+let m1=(String.length old_prelude)+1;;
+let check1=(Substring.begins_with old_text old_prelude);;
+
+let c=Strung.get old_text m1;;
+let act2=Io.overwrite_with main_file old_text;;
+let helper=Substring.left_helper_for_unique_occurrence
+        old_text m1 m1;;
+let inclusion_order="include '"^fn1^"';";;    
+let act3=special_replace (helper,"\n") ("\n"^inclusion_order^"\n");;
+let act4=expand_inclusion inclusion_order fn1;;
+
+*)
+
+(*
+let inclusion_line="include 'vendor/marc1706/fast-image-size/lib/Type/TypeBase.php';"
+and fn="vendor/marc1706/fast-image-size/lib/Type/TypeBase.php";;
+
+let comment_before="\n\n/* Inclusion of "^fn^" starts here */\n\n"
+and comment_after="\n\n/* Inclusion of "^fn^" ends here */\n\n" 
+and l_rep=[
+        "'__DIR__'","'__D' . 'I' . 'R__'";
+        "__DIR__","'"^(Father_and_son.father fn '/')^"'"
+      ]@
+      balancings;;
+
+
+Nspc_expand_inclusion.file_in_file
+  (comment_before,comment_after)
+  l_rep
+  (Absolute_path.of_string (s_rachel^fn)) inclusion_line main_file ;;
+*)
+
+(*
+let old_text=mf();;
+let act1=Put_markers_everywhere.in_file main_file;;
+let res1=main_test();;
+let ((mark_count1,line_count1),fn1,_)=res1;;
+let new_text=Io.read_whole_file main_file;;
+let needed_line=Marker.from_numbers mark_count1 line_count1;;
+let needed_idx=Substring.leftmost_index_of_in needed_line new_text;;
+let new_prelude=Cull_string.beginning (needed_idx-1) new_text;; 
+let old_prelude=Marker.remove_all_markers new_prelude;;
+let m1=(String.length old_prelude)+1;;
+let check1=(Substring.begins_with old_text old_prelude);;
+let opt1=Option.seek(fun j->
+   (Strung.get old_text j)<>(Strung.get old_prelude j)
+) (ennig 1 (String.length old_prelude));;
+
+let check1=
+  ((Io.read_whole_file(
+    Absolute_path.of_string(s_rachel^"iewtopic1.php")))
+    =mf());;
+*)
+
+(*
+let old_text=mf();;
+let bad1=Put_markers_everywhere.in_string old_text;;
+
+let dec_form=Nspc_split.decompose old_text;;
+let before_namespaces=Nspc_decomposed_form.before_namespaces dec_form
+and items=Nspc_decomposed_form.namespaced_parts dec_form ;;
+
+let u1=Ennig.index_everything items;;
+let opt1=Option.seek(
+    fun (j,(a,b,c,d))->
+    try (fun _->false)(Put_markers_everywhere.in_namespace b) with
+    _->true
+ ) u1;;
+let  (j1,(a1,b1,c1,d1))=Option.unpack opt1;; 
+*)
+
+(*
+
+let rec nh
+(mark_count,line_count,idx_start,idx,s,n,accu)=
+  if idx>n
+  then failwith("e1")
+  else 
+  if Substring.is_a_substring_located_at "/*" s idx
+  then let j=Substring.leftmost_index_of_in_from "*/" s (idx+2) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx j in
+       (mark_count,line_count+d,idx_start,j+2,s,n,accu)
+  else 
+  if Substring.is_a_substring_located_at "//" s idx
+  then let j=Substring.leftmost_index_of_in_from "\n" s (idx+2) in
+       (mark_count,line_count+1,idx_start,j+1,s,n,accu)
+  else 
+  if (Substring.is_a_substring_located_at "<<<EOF\n" s idx)
+     ||
+     (Substring.is_a_substring_located_at "<<<'EOF'\n" s idx) 
+  then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (idx+7) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx (j+5) in
+       (mark_count,line_count+d,idx_start,j+6,s,n,accu)
+  else
+  let opt=After.after_classlike_block s idx in
+  if opt<>None
+  then let jdx=Option.unpack opt in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx jdx in
+       let marker_line=
+        "\nmarker_here("^(string_of_int(mark_count+1))^
+        ","^(string_of_int (line_count+d+1))^");\n" in
+        let elt=
+          (Cull_string.interval s idx_start (jdx-1))^marker_line in
+          (mark_count+1,line_count+d+2,jdx,jdx,s,n,elt::accu)
+  else
+  let c=Strung.get s idx in
+  if c='\n'
+  then (
+         if Substring.is_a_substring_located_at ";" s (idx-1)
+         then let marker_line=
+               "marker_here("^(string_of_int(mark_count+1))^
+               ","^(string_of_int (line_count+1))^");\n" in
+              let elt=
+               (Cull_string.interval s idx_start idx)^marker_line in
+               (mark_count+1,line_count+2,idx+1,idx+1,s,n,elt::accu)
+         else  (mark_count,line_count+1,idx_start,idx+1,s,n,accu)     
+       )
+  else
+  if c='{'
+  then let j=After.after_closing_character ('{','}') s (idx,0) in
+       let d=Lines_in_string.number_of_lines_in_char_interval s idx (j-1) in
+        (mark_count,line_count+d,idx_start,j,s,n,accu)
+  else  (mark_count,line_count,idx_start,idx+1,s,n,accu);;
+
+let z1="\n2345;\nclass3{5\n7\n9}12345;\n89";;
+let v0=(0,1,1,1,z1,String.length z1,[]);;
+let ff=Memoized.small nh v0;;
+
+let (mark_count2,line_count2,idx_start2,idx2,_,_,accu2)=ff 76;;
+let opt=After.after_classlike_block z1 idx2;;
+
+*)
+
+
+(*
+
+let old_text=mf();;
+let act1=Put_markers_everywhere.in_file main_file;;
+let res1=main_test();;
+let ((mark_count1,line_count1),fn1,_)=res1;;
+let new_text=Io.read_whole_file main_file;;
+let needed_line=Marker.from_numbers mark_count1 line_count1;;
+let needed_idx=Substring.leftmost_index_of_in needed_line new_text;;
+let new_prelude=Cull_string.beginning (needed_idx-1) new_text;; 
+let old_prelude=Marker.remove_all_markers new_prelude;;
+let m1=(String.length old_prelude)+1;;
+let check1=(Substring.begins_with old_text old_prelude);;
+let c=Strung.get old_text m1;;
+let _=Io.overwrite_with main_file old_text;;
+let helper=Substring.left_helper_for_unique_occurrence
+        old_text m1 m1;;
+let inclusion_order="include '"^fn1^"';";;    
+let _=special_replace (helper,"\n") ("\n"^inclusion_order^"\n");;
+
+*)
+
+(*
+
+let old_try_chunk d=
+  let _=Io.overwrite_with main_file initial_content in
+  let temp1=List.rev(!reference_for_changes) in
+  let temp2=(if d<1 then temp1 else Listennou.big_head d temp1) in
+  let _=Explicit.image fulfill_announcement temp2 in
+  smt();;
+
 let dbg_file=Absolute_path.of_string "debugged.ml";;
 
 let u1=
@@ -11,6 +657,8 @@ let u1=
   (Strung.enclose(String.escaped old_text))^ "\n ;;\n\n";;
 
 Io.append_string_to_file u1 dbg_file;;
+
+*)
 
 (*
 
