@@ -61,6 +61,22 @@ let before_and_after w x=
    Some(  beginning (j-1) x,
     cobeginning (j+String.length(w)-1) x);;
 
+let trim_spaces_on_the_left s=
+      let n=String.length s in
+      match Option.seek(fun j->
+          not(List.mem (String.get s (j-1)) [' ';'\t';'\r';'\n'])
+      )(Ennig.ennig 1 n) with
+      None->""
+      |Some(d)->cobeginning (d-1) s;;
+
+let trim_spaces_on_the_right s=
+      let n=String.length s in
+      match Option.seek(fun j->
+          not(List.mem (String.get s (n-j)) [' ';'\t';'\r';'\n'])
+      )(Ennig.ennig 1 n) with
+      None->""
+      |Some(d)->coending (d-1) s;;
+              
 
  let trim_spaces s=
    let n=String.length s in
