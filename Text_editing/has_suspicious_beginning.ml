@@ -4,7 +4,7 @@
 
 *)
 
-let has_suspicious_beginning paragraph=
+let hsb paragraph=
       let temp=Cull_string.trim_spaces_on_the_left paragraph in
       if List.exists(
         fun beg->Substring.begins_with temp beg
