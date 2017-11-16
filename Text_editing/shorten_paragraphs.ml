@@ -1,6 +1,6 @@
 (*
 
-#use"Text_editing/shorten_paragraph.ml";;
+#use"Text_editing/shorten_paragraphs.ml";;
 
 *)
 
