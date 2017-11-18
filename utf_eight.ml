@@ -68,12 +68,26 @@ let pusher_for_decoding (stream,j) =
   else raise(Bad_starter(b0,l));;
 
 let decode l=
+    let n=List.length l in
+    if n=0 then [] else
+    let rec tempf=(fun (accu,j)->
+      if j>=n
+      then List.rev(accu)
+      else let (c,new_j)=pusher_for_decoding (l,j) in
+           tempf(c::accu,new_j)
+    ) in
+    tempf([],0);;  
+
+let decode_with_chronometer l=
    let n=List.length l in
    if n=0 then [] else
    let rec tempf=(fun (accu,j)->
      if j>=n
      then List.rev(accu)
      else let (c,new_j)=pusher_for_decoding (l,j) in
+          let msg=(string_of_int (n-new_j))^" of "^
+                  (string_of_int n)^"remaining ... \n" in
+          let _=(print_string msg; flush stdout)  in      
           tempf(c::accu,new_j)
    ) in
    tempf([],0);;
