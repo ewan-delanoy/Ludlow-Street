@@ -86,7 +86,7 @@ let decode_with_chronometer l=
      then List.rev(accu)
      else let (c,new_j)=pusher_for_decoding (l,j) in
           let msg=(string_of_int (n-new_j))^" of "^
-                  (string_of_int n)^"remaining ... \n" in
+                  (string_of_int n)^" remaining ... \n" in
           let _=(print_string msg; flush stdout)  in      
           tempf(c::accu,new_j)
    ) in

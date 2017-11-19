@@ -219,6 +219,20 @@ let rec seek_and_remember f (graet,da_ober)=
                  then (graet,da_ober)
                  else seek_and_remember f (a::graet,peurrest);;
 
+let rec nice_cut small_one large_one=
+    match small_one with
+     []->Some(large_one)
+    |a1::peurrest1->
+      (
+         match large_one with
+         []->None
+         |a2::peurrest2->
+             if a2=a1
+             then nice_cut peurrest1 peurrest2
+             else None
+      );;
+
+
 let hi=List.length;;
 let rev=List.rev;;
 
