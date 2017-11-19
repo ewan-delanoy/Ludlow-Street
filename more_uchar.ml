@@ -28,5 +28,5 @@ let utf8_decode s=
 let locate s=
     let temp1=utf8_decode s in
     Image.image (fun u->
-      (unicode_point u,utf8_coordinates u)
+      (Uchar.to_int u,unicode_point u,utf8_coordinates u)
     ) temp1;;   
