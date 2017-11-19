@@ -24,3 +24,9 @@ let utf8_decode s=
    let temp2=Image.image int_of_char temp1 in
    let temp3=Utf_eight.decode_with_chronometer temp2 in
    Image.image Uchar.of_int temp3;;   
+
+let locate s=
+    let temp1=utf8_decode s in
+    Image.image (fun u->
+      (unicode_point u,utf8_coordinates u)
+    ) temp1;;   
