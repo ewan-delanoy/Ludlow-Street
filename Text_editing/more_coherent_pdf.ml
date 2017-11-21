@@ -79,6 +79,21 @@ let merge ~rootdir ~pdfname ~interval=
    
 (*
 
+let example=chunk
+ ~rootdir:"/Users/ewandelanoy/Documents/html_files/Printable"
+ ~pdfname:"newman"
+ ~interval:(21,36)
+ ~chunksize:None;;
+
+let example=chunk
+ ~rootdir:"/Users/ewandelanoy/Documents/html_files/Printable"
+ ~pdfname:"agreda"
+ ~interval:(1,20)
+ ~chunksize:None;;
+
+let res1=chunk example;; 
+
+
 let example=merge 
  ~rootdir:"/Users/ewandelanoy/Documents/Firpo"
  ~pdfname:"charinq"
@@ -104,6 +119,15 @@ let example=initialize
      ,
      None
    );;
+
+let example=initialize
+   (
+     "/Users/ewandelanoy/Documents/html_files/Printable/",
+     "agreda.pdf",
+     (1,431)
+     ,
+     None
+   );;   
 
 let result1=list_of_commands example;;   
 let result2=Explicit.image Unix_command.uc result1;;
