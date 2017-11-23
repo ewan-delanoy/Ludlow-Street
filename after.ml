@@ -4,18 +4,20 @@
 
 *)
 
-let list_of_whites=[' ';'\n';'\r';'\t'];;
-
-let after_whites s =
+let after_star l s =
   let n=String.length s in
   let rec tempf=(
     fun j->
       if j>n then None else
-      if  List.mem (String.get s (j-1)) list_of_whites
+      if  List.mem (String.get s (j-1)) l
       then tempf(j+1)
       else Some(j)
   ) in
   tempf;;
+
+let list_of_whites=[' ';'\n';'\r';'\t'];;
+
+let after_whites s =after_star list_of_whites s;;
 
   let after_whites_and_comments s=
     let n=String.length s in
@@ -293,11 +295,45 @@ after_div "<div val=\"abc\"> xyz </div>789" 1;;
 
 *)
 
-(*
-let after_one_among_several
+let after_one pattern s idx=
+  if Substring.is_a_substring_located_at pattern s idx
+  then Some(idx+String.length pattern)
+  else None;;
 
+let after_one_among_several l_patterns s idx=
+   Option.find_and_stop (
+     fun pattern->after_one pattern s idx
+   ) l_patterns;;
+
+(*   
+let after_upper
 
 let after_fnctn s idx=
-   let opt1=after_whites s idx in
-   if opt1=None then None else
+    let opt1=after_whites s idx in
+    if opt1=None then None else 
+    let i1=Option.unpack opt1 in
+    let opt2=after_one_among_several ["private";"protected";"public"] s i1 in
+    let i2=(match opt2 with Some(i)->i |None->i1) in
+    let opt3=after_whites s i2 in
+    if opt3=None then None else 
+    let i3=Option.unpack opt3 in
+    if not(Substring.is_a_substring_located_at "function" s i3)
+    then None
+    else
+    let opt4=after_whites s (i3+8) in
+    if opt4=None then None else 
+    let i4=Option.unpack opt4 in
+*)     
+    
+
+
+
+
+
+
+
+(*
+
+
+
 *)
