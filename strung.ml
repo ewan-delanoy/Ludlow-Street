@@ -106,5 +106,6 @@ longest_match_parsing
 
 *)     
      
- 
+let reverse s=
+   implode(List.rev(explode s));; 
    
