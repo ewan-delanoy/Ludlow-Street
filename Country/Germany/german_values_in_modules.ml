@@ -44,9 +44,10 @@ let list_values_from_module_in_file module_name file=
      (Cull_string.interval s i j=(String.capitalize_ascii module_name))
    ) temp1 in
    let temp3=Image.image(fun (t,(i,j))->
-    Charset.starry_from
+    let k=After.after_star 
      Charset.strictly_alphanumeric_characters
-     s (j+2)
+     s (j+2) in
+     Cull_string.interval s (j+2) (k-1)
    ) temp2 in
    Ordered_string.diforchan temp3;;
 
