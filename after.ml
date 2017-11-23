@@ -293,3 +293,11 @@ after_div "<div val=\"abc\"> xyz </div>789" 1;;
 
 *)
 
+(*
+let after_one_among_several
+
+
+let after_fnctn s idx=
+   let opt1=after_whites s idx in
+   if opt1=None then None else
+*)
