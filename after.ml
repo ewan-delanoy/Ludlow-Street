@@ -305,10 +305,15 @@ let after_one_among_several l_patterns s idx=
      fun pattern->after_one pattern s idx
    ) l_patterns;;
 
+let after_php_label s idx=
+   if not(List.mem (Strung.get s idx) Charset.php_label_first_letters)
+   then None
+   else
+   after_star 
+     Charset.strictly_alphanumeric_characters s (idx+1);;
+     
 
 
-(*   
-let after_upper
 
 let after_fnctn s idx=
     let opt1=after_whites s idx in
@@ -325,17 +330,27 @@ let after_fnctn s idx=
     let opt4=after_whites s (i3+8) in
     if opt4=None then None else 
     let i4=Option.unpack opt4 in
-*)     
+    let opt5=after_php_label s i4 in
+    if opt5=None then None else 
+    let i5=Option.unpack opt5 in   
+    let opt6=after_whites s i5 in
+    if opt6=None then None else 
+    let i6=Option.unpack opt6 in
+    if not(Substring.is_a_substring_located_at "(" s i6)
+    then None
+    else
+    let i7=after_closing_character ('(',')')  s (i6+1,1) in
+    let opt8=after_whites s i7 in
+    if opt8=None then None else 
+    let i8=Option.unpack opt8 in
+    if not(Substring.is_a_substring_located_at "{" s i8)
+    then None
+    else
+    let i9=after_closing_character ('{','}')  s (i8+1,1) in
+    Some(i9,[i1;i2;i3;i4;i5;i6;i7;i8]);;
     
-
-
-
-
-
-
-
 (*
 
-
+after_fnctn "private function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
 
 *)
