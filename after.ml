@@ -305,7 +305,7 @@ let after_one_among_several l_patterns s idx=
      fun pattern->after_one pattern s idx
    ) l_patterns;;
 
-let after_
+
 
 (*   
 let after_upper
