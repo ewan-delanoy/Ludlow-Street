@@ -36,7 +36,7 @@ let execute x=
   let cmd2="scp -P "^(string_of_int x.port)^" \""^
   (x.local_root)^(x.filename)^"\" "^
   (x.webhost)^":"^
-  (Charset.make_unix_compliant((x.remote_root)^x.filename)) in
+  (Unix_compliant.make_unix_compliant((x.remote_root)^x.filename)) in
   let i2=Unix_command.uc cmd2  in
   if i2<>0 then 2 else
   0;;
