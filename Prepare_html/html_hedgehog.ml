@@ -11,7 +11,7 @@ keeps a list of the not yet closed opening tags encountered so far.
 type t=
     {
         unfinished : (int*int*string) list;
-        finished   : int*int*Html_text_with_tags.t;
+        finished   : (int*int*Html_text_with_tags.t) option;
     };;
 
 let unfinished_part x=x.unfinished;;
