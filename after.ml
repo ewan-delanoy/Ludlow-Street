@@ -347,7 +347,7 @@ let after_fnctn s idx=
     then None
     else
     let i9=after_closing_character ('{','}')  s (i8+1,1) in
-    Some(i9,[i1;i2;i3;i4;i5;i6;i7;i8]);;
+    Some(i9,(i1,i2,i3,i4,i5,i6,i7,i8));;
     
 (*
 
