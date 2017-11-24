@@ -17,6 +17,11 @@ type t=
 let unfinished_part x=x.unfinished;;
 let finished_part x=x.finished;;
 
+let from_constant (i,j,text)=
+    {
+        unfinished = [];
+        finished = Some(i,j,Html_text_with_tags.leaf text )
+    };;
 
 
 

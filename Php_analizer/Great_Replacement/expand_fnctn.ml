@@ -59,7 +59,9 @@ parse_fnctn "function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 
 
 *)
 
-(*
+
 let decompose_fnctn_call s=
-*)
+    let reversed_s=Strung.reverse s in
+    let i1=Substring.leftmost_index_of_in ")" s in
+    
 
