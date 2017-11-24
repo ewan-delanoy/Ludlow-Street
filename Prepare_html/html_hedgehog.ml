@@ -23,6 +23,20 @@ let from_constant (i,j,text)=
         finished = Some(i,j,Html_text_with_tags.leaf text )
     };;
 
-
+let add_constant (i,j,text) hedgehog=
+     let unfinished1=hedgehog.unfinished
+     and finished1=hedgehog.finished in
+     if finished1=None
+     then {
+            unfinished = unfinished1;
+            finished = Some(i,j,Html_text_with_tags.leaf text )
+          }
+     else let (old_i,_,old_constant)=Option.unpack finished1 in
+          {
+            unfinished = unfinished1;
+            finished = Some(old_i,j,Html_text_with_tags.concat
+                                    [old_constant;
+                                     Html_text_with_tags.leaf text])
+          };;      
 
 
