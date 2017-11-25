@@ -30,6 +30,7 @@ type parsed_fnctn={
     name : string;
     args : (string*(string option)) list;
     content : string;
+    returned_part: string; 
 };;
 
 let parse_fnctn s idx=
@@ -41,12 +42,21 @@ let parse_fnctn s idx=
     let fnctn_quality=(if i1<i2 then Cull_string.interval s i1 (i2-1) else "")
     and fnctn_name=Cull_string.interval s i4 (i5-1)
     and fnctn_args=Cull_string.interval s (i6+1) (i7-2)
-    and fnctn_content=Cull_string.interval s (i8+1) (i9-2) in
+    and first_content=Cull_string.interval s (i8+1) (i9-2) in
+    let (s1,old_s2)=Father_and_son.father_and_son first_content '\n' in
+    let s2=Cull_string.trim_spaces old_s2 in
+    let (final_content,returned_content)=(
+         if s1="" then (s2,"") else
+         if Substring.begins_with s2 "return"
+         then (s1,Cull_string.trim_spaces (Cull_string.cobeginning 6 s2) )
+         else (first_content,"")
+    ) in
     {
         quality=fnctn_quality;
         name =fnctn_name;
         args =parse_args fnctn_args;
-        content =fnctn_content;
+        content =final_content;
+        returned_part=returned_content;
     };;
 
 
@@ -55,13 +65,13 @@ let parse_fnctn s idx=
 
 parse_fnctn "private function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
 parse_fnctn "function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
-
+parse_fnctn "function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();\n return $b+$x;} unt; " 1;; 
 
 *)
 
-let analyse_terms_before_method s idx=
+let analyse_terms_between_method_and_assignment s idx=
     let opt1=After.after_whites s idx in
-    if opt1=None then None else 
+    if opt1=None then Some("","") else 
     let i1=Option.unpack opt1 in
     let opt2=After.after_one_among_several [">-";"::"] s i1 in
     if opt2=None then None else 
@@ -75,14 +85,35 @@ let analyse_terms_before_method s idx=
      Cull_string.interval rev_s (n-i1) (n+1-i1)
     );;
 
+let analyse_terms_before_method s idx=
+    let n=String.length s in
+    let opt=Option.seek(fun j->(Strung.get s j)='=')(Ennig.ennig idx n) in
+    let (computed_s,receiver)=
+        (
+            match opt with
+            None->(s,"")
+            |Some(j0)->
+               let temp1=Cull_string.cobeginning j0 s in
+               let temp2=Cull_string.trim_spaces temp1 in 
+               (Cull_string.beginning (j0-1) s,
+                Strung.reverse temp2)
+        ) in
+    match analyse_terms_between_method_and_assignment computed_s idx with
+    None->None
+    |Some(caller,methkind)->Some(receiver,caller,methkind);;
+          
+
 (*
 
 analyse_terms_before_method "  >- mud :: mad >- muh" 1;;
 analyse_terms_before_method "::mud>-madmuh" 1;;
+analyse_terms_before_method "  >- mud :: mad >- muh = yggep$ " 1;;
+
 
 *)
 
 type decomposed_call={
+    receiver : string;
     caller : string;
     method_kind : string;
     method_name : string;
@@ -100,13 +131,13 @@ let decompose_fnctn_call unreversed_s=
     let i3=Option.unpack opt3 in
     let opt4=After.after_star 
     Charset.strictly_alphanumeric_characters s i3 in
-    let (long_caller,meth,i4)=(
+    let (recipient,long_caller,meth,i4)=(
         match opt4 with
          Some(i)->(match analyse_terms_before_method s i with
-                   None->("","",i)
-                   |Some(x,y)->(x,y,i)
+                   None->("","","",i)
+                   |Some(receiver,caller,methkind)->(receiver,caller,methkind,i)
                    )
-        |None->("","",n+1)
+        |None->("","","",n+1)
     ) in
     let temp1=Cull_string.interval unreversed_s (n+1-(i2-2)) (n+1-(i1+1)) in
     let temp2=Str.split (Str.regexp_string ",") temp1 in
@@ -114,6 +145,7 @@ let decompose_fnctn_call unreversed_s=
 
     Some(
         {
+            receiver = recipient;
             caller = Cull_string.trim_spaces long_caller;
             method_kind = meth;
             method_name = Cull_string.interval unreversed_s (n+1-(i4-1)) (n+1-i3);
@@ -128,6 +160,8 @@ let decompose_fnctn_call unreversed_s=
 decompose_fnctn_call "   betty ( $u , $v+3 , 'abcde' )  ; ";;
 
 decompose_fnctn_call "  amy -> und :: seine -> betty ( $u , $v+3 , 'abcde' )  ; ";;
+
+decompose_fnctn_call " $admiral =  betty ( $u , $v+3 , 'abcde' )  ; ";;
 
 *)
 
@@ -155,11 +189,11 @@ let reexpand_from_predecomposed_data
   let temp4=Image.image (fun (arg,arg_val)->
     arg^" = "^arg_val^" ;") temp3 in
   let old_text=dec_fnctn.content in
+  let caller_name=dec_call.caller in
   let new_text=(
       if not(Substring.is_a_substring_of "$this" old_text)
       then old_text
       else 
-      let caller_name=dec_call.caller in
       if caller_name="" 
       then raise(Missing_caller_name)
       else Replace_inside.replace_inside_string
@@ -170,18 +204,23 @@ let reexpand_from_predecomposed_data
   let temp7=List.filter (
     fun line->not(Substring.begins_with line "global ")
   )   temp6 in
-  String.concat "\n" (temp4@temp7);;
+  let receiver=dec_call.receiver in
+  let temp8=(
+    if receiver="" then [] else
+    [receiver^" = "^(
+        Replace_inside.replace_inside_string
+        ("$this",caller_name) dec_fnctn.returned_part
+    )]
+  ) in
+  String.concat "\n" (temp4@temp7@temp8);;
 
 (*  
-  let tempp=Str.split (Str.regexp_string "\n") dec_fnctn.content
-
-
 
 let dec_fnctn=parse_fnctn 
-("function amy($u,$v,$w=47) {global $z;\nd+$u-$v;\n$this->leeds(7,8);}") 1;;
+("function amy($u,$v,$w=47) {global $z;\nd+$u-$v;\nreturn $this->leeds(7,8);}") 1;;
 
 let dec_call=Option.unpack(decompose_fnctn_call
-"peggy->lee()->amy(45,$v) ; ");;
+" $regina =peggy->lee()->amy(45,$v) ; ");;
 
 let see=reexpand_from_predecomposed_data
   dec_fnctn dec_call;;
