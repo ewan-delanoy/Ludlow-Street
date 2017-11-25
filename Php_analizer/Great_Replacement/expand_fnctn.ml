@@ -43,8 +43,11 @@ let parse_fnctn s idx=
     and fnctn_name=Cull_string.interval s i4 (i5-1)
     and fnctn_args=Cull_string.interval s (i6+1) (i7-2)
     and first_content=Cull_string.interval s (i8+1) (i9-2) in
-    let (s1,old_s2)=Father_and_son.father_and_son first_content '\n' in
-    let s2=Cull_string.trim_spaces old_s2 in
+    let lines=Str.split (Str.regexp_string "\n") first_content in
+    let lines2=Image.image Cull_string.trim_spaces lines in
+    let lines3=List.filter (fun line->line<>"") lines2 in
+    let second_content=String.concat "\n" lines3 in
+    let (s1,s2)=Father_and_son.father_and_son second_content '\n' in
     let (final_content,returned_content)=(
          if s1="" then (s2,"") else
          if Substring.begins_with s2 "return"
@@ -66,6 +69,7 @@ let parse_fnctn s idx=
 parse_fnctn "private function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
 parse_fnctn "function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
 parse_fnctn "function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();\n return $b+$x;} unt; " 1;; 
+parse_fnctn "\tpublic function get_all()\n\t{\n\t\t$this->load_config_file();\n\n\t\treturn $this->config_data;\n\t}" 1;;
 
 *)
 
