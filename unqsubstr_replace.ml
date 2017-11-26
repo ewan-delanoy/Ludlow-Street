@@ -8,23 +8,21 @@ Operation on substring finding, with indexes starting from 1.
 
 
  
-exception Beginning_of_string_appears_twice;;   
+exception Beginning_of_string_appears_twice of int*int;;   
    
 let left_helper s i j=
-   let hard1=Substring.occurrences_of_in(String.sub s 0 j) s in
-   if List.length(hard1)<>1
-   then raise(Beginning_of_string_appears_twice)
-   else
-   let hard2=Substring.occurrences_of_in (String.sub s (i-1) (j-i+1)) s in
-   if List.length(hard2)=1
+   let temp=Substring.occurrences_of_in (String.sub s (i-1) (j-i+1)) s in
+   if List.length(temp)=1
    then Unqsubstr_helper.of_string ""
    else 
-   let bad_ones=List.filter (fun t->t<>i) hard2 in
+   let bad_ones=List.filter (fun t->t<>i) temp in
    let bounds=Ennig.ennig 1 (i-1) in
    let measure=(
-       fun t->Option.find(
+       fun t->match Option.seek(
          fun d->(String.get s (i-d-1))<>(String.get s (t-d-1))
-       ) bounds
+       ) bounds with
+       None->raise(Beginning_of_string_appears_twice(i,t))
+       |Some(d0)->d0
    ) in
    let (_,m)=Max.maximize_it measure bad_ones in
    Unqsubstr_helper.of_string(String.sub s (i-m-1) m);;
