@@ -11,19 +11,23 @@ Operation on substring finding, with indexes starting from 1.
 exception Beginning_of_string_appears_twice;;   
    
 let left_helper s i j=
-   let tester=(
-     fun k->List.length(
-       Substring.occurrences_of_in(String.sub s (k-1) (j-k+1)) s)=1
-   ) in  
-   if (not(tester 1))
+   let hard1=Substring.occurrences_of_in(String.sub s 0 j) s in
+   if List.length(hard1)<>1
    then raise(Beginning_of_string_appears_twice)
-   else let rec tempf=(fun k->
-           if tester k
-           then k
-           else tempf(k-1)
-        ) in
-        let k0=tempf(i) in
-        Unqsubstr_helper.of_string(String.sub s (k0-1) (i-k0));;
+   else
+   let hard2=Substring.occurrences_of_in (String.sub s (i-1) (j-i+1)) s in
+   if List.length(hard2)=1
+   then Unqsubstr_helper.of_string ""
+   else 
+   let bad_ones=List.filter (fun t->t<>i) hard2 in
+   let bounds=Ennig.ennig 1 (i-1) in
+   let measure=(
+       fun t->Option.find(
+         fun d->(String.get s (i-d-1))<>(String.get s (t-d-1))
+       ) bounds
+   ) in
+   let (_,m)=Max.maximize_it measure bad_ones in
+   Unqsubstr_helper.of_string(String.sub s (i-m-1) m);;
 
 exception Nonunique_substring of string;;
 
