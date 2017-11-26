@@ -9,6 +9,8 @@
 exception Nonunique_block_beginning of string;;
 exception Bad_end_for_block_beginning of string;;
 
+let rememberer=ref"";;
+
 let in_string beginning_of_block s=
     if not(Substring.ends_with beginning_of_block "{")
     then raise(Bad_end_for_block_beginning(beginning_of_block))
@@ -25,6 +27,7 @@ let in_string beginning_of_block s=
          "protected","public   ";
          "private","public "
        ] old_block in
+    let _=(rememberer:=new_block) in   
     (Cull_string.beginning (i-1) s)^
     new_block^
     (Cull_string.cobeginning j s) 
