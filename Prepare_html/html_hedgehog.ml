@@ -23,6 +23,12 @@ let from_constant (i,j,text)=
         finished = Some(i,j,Html_text_with_tags.leaf text )
     };;
 
+let from_opening_tag (i,j,tag_name)=
+        {
+            unfinished = [i,j,tag_name];
+            finished = None
+        };;    
+
 let add_constant (i,j,text) hedgehog=
      let unfinished1=hedgehog.unfinished
      and finished1=hedgehog.finished in

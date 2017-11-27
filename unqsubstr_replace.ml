@@ -8,7 +8,7 @@ Operation on substring finding, with indexes starting from 1.
 
 
  
-exception Beginning_of_string_appears_twice of int*int;;   
+exception Beginning_of_string_appears_twice of int*int*int;;   
    
 let left_helper s i j=
    let temp=Substring.occurrences_of_in (String.sub s (i-1) (j-i+1)) s in
@@ -21,7 +21,7 @@ let left_helper s i j=
        fun t->match Option.seek(
          fun d->(String.get s (i-d-1))<>(String.get s (t-d-1))
        ) bounds with
-       None->raise(Beginning_of_string_appears_twice(i,t))
+       None->raise(Beginning_of_string_appears_twice(i,j,t))
        |Some(d0)->d0
    ) in
    let (_,m)=Max.maximize_it measure bad_ones in
