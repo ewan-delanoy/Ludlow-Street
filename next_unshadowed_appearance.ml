@@ -31,7 +31,11 @@ let nua s l_kwds=
    else 
    if Substring.is_a_substring_located_at "/*" s k
    then let m=Substring.leftmost_index_of_in_from "*/" s (k+2) in
-        tempf m
+        tempf (m+2)
+   else
+   if Substring.is_a_substring_located_at "//" s k
+   then let m=Substring.leftmost_index_of_in_from "\n" s (k+2) in
+        tempf (m+1)
    else
    let c=Strung.get s k in
    if c='\''
