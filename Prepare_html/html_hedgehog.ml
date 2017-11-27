@@ -45,4 +45,12 @@ let add_constant (i,j,text) hedgehog=
                                      Html_text_with_tags.leaf text])
           };;      
 
+exception Forbidden_opening_tag_addition of string;;
 
+let add_opening_tag (i,j,tag_name) hedgehog=
+    if hedgehog.finished<>None
+    then raise(Forbidden_opening_tag_addition(tag_name))
+    else {
+            unfinished = (i,j,tag_name)::hedgehog.unfinished;
+            finished = None
+          };;   
