@@ -109,3 +109,26 @@ longest_match_parsing
 let reverse s=
    implode(List.rev(explode s));; 
    
+let insert_prefixes_at_indices l s=
+    if l=[] then s else
+    let n=String.length s in
+    let temp1=Image.image (fun (pref,idx)->(idx,pref)) l in
+    let temp2=Image.image fst temp1 in
+    let temp3=Ordered.forget_order(Tidel.diforchan((n+1)::temp2)) in
+    let temp4=Listennou.universal_delta_list temp3 in
+    let temp5=Image.image(fun (i,j)->
+       (List.assoc i temp1)^(String.sub s (i-1) (j-i)) ) temp4 in
+    let i1=List.hd temp3 in
+    let temp6=(
+       if i1=1 then temp5 else (String.sub s 0 (i1-1))::temp5
+    )  in 
+    String.concat "" temp6;;
+
+(*
+
+insert_prefixes_at_indices ["hap",4;"na",12] "123py678901tion6";;
+
+*)
+
+
+    
