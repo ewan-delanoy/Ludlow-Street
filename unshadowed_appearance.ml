@@ -1,6 +1,6 @@
 (*
 
-#use"next_unshadowed_appearance.ml";;
+#use"unshadowed_appearance.ml";;
 
 *)
 
@@ -29,6 +29,12 @@ let next s l_kwds=
    if List.exists (test_for_perfect_match s k) l_kwds
    then Some(k)         
    else 
+   if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+      ||
+      (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+   then let m=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+         tempf(m+6)
+   else 
    if Substring.is_a_substring_located_at "/*" s k
    then let m=Substring.leftmost_index_of_in_from "*/" s (k+2) in
         tempf (m+2)
@@ -54,6 +60,12 @@ let all s l_kwds=
      match Option.seek (test_for_perfect_match s k) l_kwds with
      Some(kwd)->tempf(k::graet,k+String.length kwd)
      |None->
+     if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+     ||
+     (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+     then let m=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+          tempf(graet,m+6)
+     else 
      if Substring.is_a_substring_located_at "/*" s k
      then let m=Substring.leftmost_index_of_in_from "*/" s (k+2) in
           tempf (graet,m+2)
