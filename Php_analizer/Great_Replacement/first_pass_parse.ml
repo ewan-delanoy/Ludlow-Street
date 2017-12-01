@@ -37,15 +37,11 @@ let qualified_class qualification nspc_name s idx=
   in
   Some answer;;
   
-  type t={
-    kind : Classlike_kind.t;
-    namespace : string;
-    class_name : string;
-    class_qualifiers : string;
-    before_content : string;
-    content : string;
-    after_content : string;
-};;
+(*
+
+qualified_class "abstract" "NPK" "  abstract class 456{789}01" 1;;
+
+*)
 
 let fnctn s idx=
       let opt1=After.after_whites s idx in
