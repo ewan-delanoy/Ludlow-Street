@@ -15,7 +15,7 @@ type t=
 let abstract_class=Abstract_class;;
 let final_class=Final_class;;
 let usual_class=Usual_class;;
-let itface=Interface;;
+let intrface=Interface;;
 let plain_text=Plain_text;;
 
 exception Unknown_class_qualification of string;;

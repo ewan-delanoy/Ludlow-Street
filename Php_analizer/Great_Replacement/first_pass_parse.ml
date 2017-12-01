@@ -17,7 +17,7 @@ let qualified_class qualification nspc_name s idx=
   if not(Substring.is_a_substring_located_at "class" s i2)
   then None
   else 
-  let opt3=After.after_whites s (i2+8) in
+  let opt3=After.after_whites s (i2+5) in
   if opt3=None then None else 
   let i3=Option.unpack opt3 in
   let opt4=After.after_php_label s i3 in 
@@ -36,10 +36,40 @@ let qualified_class qualification nspc_name s idx=
     (Cull_string.interval s (i6-1) (i6-1))
   in
   Some answer;;
+
+let intrface qualification nspc_name s idx=
+    let opt1=After.after_whites s idx in
+    if opt1=None then None else 
+    let i1=Option.unpack opt1 in
+    if not(Substring.is_a_substring_located_at "interface" s i1)
+    then None
+    else 
+    let opt3=After.after_whites s (i1+9) in
+    if opt3=None then None else 
+    let i3=Option.unpack opt3 in
+    let opt4=After.after_php_label s i3 in 
+    if opt4=None then None else 
+    let i4=Option.unpack opt4 in
+    let i5=Substring.leftmost_index_of_in_from "{" s i4 in
+    if i5<1 then None else
+    let i6=After.after_closing_character ('{','}')  s (i5+1,1) in
+    let answer=Classlike_item.make 
+      Classlike_kind.intrface
+      nspc_name
+      (Cull_string.interval s i3 (i4-1))
+      (Cull_string.trim_spaces(Cull_string.interval s i4 (i5-1)))
+      (Cull_string.interval s idx i5)
+      (Cull_string.interval s (i5+1) (i6-2))
+      (Cull_string.interval s (i6-1) (i6-1))
+    in
+    Some answer;;
   
+  
+
+
 (*
 
-qualified_class "abstract" "NPK" "  abstract class 456{789}01" 1;;
+qualified_class "abstract" "NPK" "  abstract class Lane extends John {789}01" 1;;
 
 *)
 
