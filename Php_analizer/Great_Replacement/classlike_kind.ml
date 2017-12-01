@@ -18,3 +18,11 @@ let usual_class=Usual_class;;
 let itface=Interface;;
 let plain_text=Plain_text;;
 
+exception Unknown_class_qualification of string;;
+
+let from_class_qualification qualification=
+  if qualification="" then Usual_class else
+  if qualification="abstract" then Abstract_class else
+  if qualification="final" then Final_class else
+  raise(Unknown_class_qualification(qualification));;
+       
