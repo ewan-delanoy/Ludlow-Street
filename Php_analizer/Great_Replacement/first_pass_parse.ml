@@ -37,7 +37,7 @@ let qualified_class qualification nspc_name s idx=
   in
   Some answer;;
 
-let intrface qualification nspc_name s idx=
+let intrface nspc_name s idx=
     let opt1=After.after_whites s idx in
     if opt1=None then None else 
     let i1=Option.unpack opt1 in
@@ -64,12 +64,21 @@ let intrface qualification nspc_name s idx=
     in
     Some answer;;
   
-  
+let classlike_item nspc_name s idx=
+    Option.find_and_stop (fun f->f nspc_name s idx)
+    [
+      intrface;
+      qualified_class "abstract";
+      qualified_class "final";
+      qualified_class "";
+    ];;
 
 
 (*
 
+qualified_class "" "NPK" " class Lane extends John {789}01" 1;;
 qualified_class "abstract" "NPK" "  abstract class Lane extends John {789}01" 1;;
+intrface "NPK" "  interface Lane extends John {789}01" 1;;
 
 *)
 
