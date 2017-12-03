@@ -11,7 +11,7 @@ let test_for_perfect_match s k kwd=
    let constraint1=(
        if k<2 then true else
        not(List.mem (Strung.get s (k-1)) 
-       Charset.strictly_alphanumeric_characters )
+       ('$'::Charset.strictly_alphanumeric_characters ))
    )   in
    if not(constraint1)
    then false
