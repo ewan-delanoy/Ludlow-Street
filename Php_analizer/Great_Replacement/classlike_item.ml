@@ -24,6 +24,12 @@ let before_content x=x.before_content;;
 let content x=x.content;;
 let after_content x=x.after_content;;
 
+let length x=
+   String.length(x.before_content)+
+   String.length(x.content)+
+   String.length(x.after_content);; 
+
+
 let non_class nspc_name text={
     kind = Classlike_kind.plain_text;
     namespace =nspc_name;
