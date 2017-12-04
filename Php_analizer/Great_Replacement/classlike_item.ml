@@ -24,6 +24,11 @@ let before_content x=x.before_content;;
 let content x=x.content;;
 let after_content x=x.after_content;;
 
+let full_content x=
+    (x.before_content)^
+    (x.content)^
+    (x.after_content);;  
+
 let length x=
    String.length(x.before_content)+
    String.length(x.content)+
