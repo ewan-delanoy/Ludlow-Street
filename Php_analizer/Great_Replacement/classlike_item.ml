@@ -34,6 +34,15 @@ let length x=
    String.length(x.content)+
    String.length(x.after_content);; 
 
+let namespace_line nspc_name text={
+    kind = Classlike_kind.namespace_line;
+    namespace =nspc_name;
+    class_name ="";
+    class_qualifiers ="";
+    before_content="";
+    content =text;
+    after_content="";
+};;
 
 let non_class nspc_name text={
     kind = Classlike_kind.plain_text;
@@ -44,6 +53,17 @@ let non_class nspc_name text={
     content =text;
     after_content="";
 };;
+
+let after_namespace_comments nspc_name text={
+    kind = Classlike_kind.after_namespace_comments;
+    namespace =nspc_name;
+    class_name ="";
+    class_qualifiers ="";
+    before_content="";
+    content =text;
+    after_content="";
+};;
+
 
 let make a b c d e f g={
     kind =a;
