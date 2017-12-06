@@ -12,7 +12,7 @@ type t=
      |Interface
      |Plain_text
      |Namespace_line
-     |Namespace_after_comments;;
+     |After_namespace_comments;;
 
 let abstract_class=Abstract_class;;
 let final_class=Final_class;;
@@ -20,7 +20,7 @@ let usual_class=Usual_class;;
 let intrface=Interface;;
 let plain_text=Plain_text;;
 let namespace_line=Namespace_line;;
-let namespace_after_comments=Namespace_after_comments;;
+let after_namespace_comments=After_namespace_comments;;
 
 exception Unknown_class_qualification of string;;
 
