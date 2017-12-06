@@ -49,9 +49,9 @@ on_namespaced_text "NKP" "class abc xyz {uvw}";;
 let on_namespaced_part
 (nspc_line,nspc_content,nspc_offset,after_nspc)=
   let (nspc_name,_)=Option.unpack(Nspc_detect.extract_namespace_name nspc_line) in
-  let elt1=Classlike_item.non_class nspc_name nspc_line
+  let elt1=Classlike_item.namespace_line nspc_line
   and temp2=on_namespaced_text nspc_name nspc_content
-  and elt3=Classlike_item.non_class "" (nspc_offset^after_nspc) in
+  and elt3=Classlike_item.after_namespace_comments (nspc_offset^after_nspc) in
   Merge_nonclasses.mn (elt1::temp2@[elt3]);;
   
 (* The decomposed form is assumed to be standardized already. *)
