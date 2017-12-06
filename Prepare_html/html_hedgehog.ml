@@ -54,3 +54,21 @@ let add_opening_tag (i,j,tag_name) hedgehog=
             unfinished = (i,j,tag_name)::hedgehog.unfinished;
             finished = None
           };;   
+
+exception No_open_tag;;
+
+let close_latest_tag (i1,j1) hedgehog= 
+    match hedgehog.unfinished with
+     []->raise(No_open_tag)
+    |(i,j,tag_name)::peurrest->
+       let center_part=(
+        match  hedgehog.finished with
+        None->Html_text_with_tags.leaf ""
+        |Some(_,_,txt)->txt
+       ) in          
+       let new_achievement=
+      Html_text_with_tags.tagged tag_name center_part in
+      {
+          unfinished = peurrest;
+          finished = Some(i,j1,new_achievement);
+      };;
