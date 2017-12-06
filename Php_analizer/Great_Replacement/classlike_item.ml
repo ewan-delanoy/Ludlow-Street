@@ -42,9 +42,9 @@ let namespace_line nspc_line=
     namespace =nspc_name;
     class_name ="";
     class_qualifiers ="";
-    before_content="";
+    before_content="\n";
     content =nspc_line;
-    after_content="";
+    after_content="\n";
 };;
 
 let non_class nspc_name text={
