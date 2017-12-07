@@ -11,6 +11,7 @@ type t={
     namespace : string;
     containing_class : string;
     method_qualifier : string;
+    function_name : string;
     before_content : string;
     content : string;
     after_content : string;
@@ -20,6 +21,7 @@ let kind x=x.kind;;
 let namespace x=x.namespace;;
 let containing_class x=x.containing_class;;
 let method_qualifier x=x.method_qualifier;;
+let function_name x=x.function_name;;
 let before_content x=x.before_content;;
 let content x=x.content;;
 let after_content x=x.after_content;;
@@ -42,6 +44,7 @@ let namespace_line nspc_line=
     namespace =nspc_name;
     containing_class ="";
     method_qualifier ="";
+    function_name="";
     before_content="\n";
     content =nspc_line;
     after_content="\n";
@@ -52,6 +55,7 @@ let non_function nspc_name class_name text={
     namespace =nspc_name;
     containing_class =nspc_name;
     method_qualifier =class_name;
+    function_name="";
     before_content="";
     content =text;
     after_content="";
@@ -62,18 +66,20 @@ let after_namespace_comments text={
     namespace ="";
     containing_class ="";
     method_qualifier ="";
+    function_name="";
     before_content="";
     content =text;
     after_content="";
 };;
 
 
-let make a b c d e f g={
+let make a b c d e f g h={
     kind =a;
     namespace =b;
     containing_class =c;
     method_qualifier =d;
-    before_content=e;
-    content =f;
-    after_content=g;
+    function_name=e;
+    before_content=f;
+    content =g;
+    after_content=h;
 };;
