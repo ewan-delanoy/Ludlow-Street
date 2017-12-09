@@ -54,7 +54,7 @@ let intrface nspc_name s idx=
     if i5<1 then None else
     let i6=After.after_closing_character ('{','}')  s (i5+1,1) in
     let answer=Classlike_item.make 
-      Classlike_kind.intrface
+      Classlike_kind.interface
       nspc_name
       (Cull_string.interval s i3 (i4-1))
       (Cull_string.trim_spaces(Cull_string.interval s i4 (i5-1)))
