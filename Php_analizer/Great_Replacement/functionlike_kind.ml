@@ -14,7 +14,9 @@ type t=
  |Namespace_line
  |After_namespace_comments
  |Abstract_class
- |Interface;;
+ |Interface
+ |Class_opening
+ |Class_closing;;
 
 let non_function = Non_function;;
 let usual_function = Usual_function;;
@@ -25,3 +27,5 @@ let namespace_line =  Namespace_line;;
 let after_namespace_comments = After_namespace_comments;;
 let abstract_class=Abstract_class;;
 let interface=Interface;;
+let class_opening=Class_opening;;
+let class_closing=Class_closing;;
