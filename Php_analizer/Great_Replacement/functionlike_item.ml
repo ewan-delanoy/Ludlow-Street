@@ -69,8 +69,8 @@ let after_namespace_comments text={
 
 let abstract_class ci={
     kind = Functionlike_kind.abstract_class;
-    namespace ="";
-    containing_class ="";
+    namespace =Classlike_item.namespace ci;
+    containing_class =Classlike_item.class_name ci;
     function_name="";
     before_content=Classlike_item.before_content ci;
     content =Classlike_item.before_content ci;
@@ -79,13 +79,37 @@ let abstract_class ci={
 
 let interface ci={
     kind = Functionlike_kind.interface;
-    namespace ="";
-    containing_class ="";
+    namespace =Classlike_item.namespace ci;
+    containing_class =Classlike_item.class_name ci;
     function_name="";
     before_content=Classlike_item.before_content ci;
     content =Classlike_item.before_content ci;
     after_content=Classlike_item.after_content ci;
 };;
+
+let class_opening ci=
+{
+    kind = Functionlike_kind.class_opening;
+    namespace =Classlike_item.namespace ci;
+    containing_class =Classlike_item.class_name ci;
+    function_name="";
+    before_content="";
+    content =Classlike_item.before_content ci;
+    after_content="";
+};;
+
+let class_closing ci=
+{
+    kind = Functionlike_kind.class_closing;
+    namespace =Classlike_item.namespace ci;
+    containing_class =Classlike_item.class_name ci;
+    function_name="";
+    before_content="";
+    content =Classlike_item.after_content ci;
+    after_content="";
+};;
+
+
 
 
 
