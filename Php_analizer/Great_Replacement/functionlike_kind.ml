@@ -29,3 +29,11 @@ let abstract_class=Abstract_class;;
 let interface=Interface;;
 let class_opening=Class_opening;;
 let class_closing=Class_closing;;
+
+let is_a_method x=
+  List.mem x
+  [
+    Private_method;
+    Protected_method;
+    Public_method; 
+  ];;
