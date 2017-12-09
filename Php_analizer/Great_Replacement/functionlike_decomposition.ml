@@ -59,7 +59,7 @@ let on_class_contained_text nspc_name class_name s=
             let kind=(
                 if class_name="" then Functionlike_kind.usual_function else
                 let s_qualifier=Cull_string.interval s i1 (i2-1) in
-                if s_qualifier="" then Functionlike_kind.protected_method else
+                if List.mem s_qualifier ["";"protected"] then Functionlike_kind.protected_method else
                 if s_qualifier="private" then Functionlike_kind.private_method else
                 if s_qualifier="public" then Functionlike_kind.public_method else
                 raise(Unknown_qualifier(s_qualifier))
