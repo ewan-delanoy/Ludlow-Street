@@ -31,7 +31,7 @@ determine_exact_beginning "123          function" 14;;
 
 *)    
 
-let reference_for_subtle_case=ref("",0);;
+let reference_for_subtle_case=ref("",0,0);;
 exception Subtle_case;;
 exception Unknown_qualifier of string;;
 
@@ -53,7 +53,7 @@ let on_class_contained_text nspc_name class_name s=
             let jdx=determine_exact_beginning s old_jdx in
             let opt=First_pass_parse.fnctn s jdx in
             if opt=None
-            then (reference_for_subtle_case:=(s,jdx);raise(Subtle_case))
+            then (reference_for_subtle_case:=(s,jdx,old_jdx);raise(Subtle_case))
             else
             let (i9,(i1,i2,i3,i4,i5,i6,i7,i8))=Option.unpack opt in
             let kind=(
