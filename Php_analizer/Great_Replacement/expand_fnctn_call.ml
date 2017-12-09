@@ -1,6 +1,6 @@
 (*
 
-#use"Php_analizer/Great_Replacement/expand_fnctn.ml";;
+#use"Php_analizer/Great_Replacement/expand_fnctn_call.ml";;
 
 *)
 
@@ -34,15 +34,15 @@ type parsed_fnctn={
 };;
 
 let parse_fnctn s idx=
-    let opt=After.after_fnctn s idx in
+    let opt=First_pass_parse.fnctn s idx in
     if opt=None
     then raise(No_function_there)
     else
-    let (i9,(i1,i2,i3,i4,i5,i6,i7,i8))=Option.unpack opt in
+    let (i10,(i1,i2,i3,i4,i5,i6,i7,i8,i9))=Option.unpack opt in
     let fnctn_quality=(if i1<i2 then Cull_string.interval s i1 (i2-1) else "")
-    and fnctn_name=Cull_string.interval s i4 (i5-1)
-    and fnctn_args=Cull_string.interval s (i6+1) (i7-2)
-    and first_content=Cull_string.interval s (i8+1) (i9-2) in
+    and fnctn_name=Cull_string.interval s i5 (i6-1)
+    and fnctn_args=Cull_string.interval s (i7+1) (i8-2)
+    and first_content=Cull_string.interval s (i9+1) (i10-2) in
     let lines=Str.split (Str.regexp_string "\n") first_content in
     let lines2=Image.image Cull_string.trim_spaces lines in
     let lines3=List.filter (fun line->line<>"") lines2 in

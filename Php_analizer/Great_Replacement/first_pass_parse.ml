@@ -97,28 +97,34 @@ let fnctn s idx=
       let opt4=After.after_whites s (i3+8) in
       if opt4=None then None else 
       let i4=Option.unpack opt4 in
-      let opt5=After.after_php_label s i4 in
-      if opt5=None then None else 
-      let i5=Option.unpack opt5 in   
-      let opt6=After.after_whites s i5 in
+      let i5=(
+         if Strung.get s i4='&'
+         then i4+1
+         else i4
+      ) in
+      let opt6=After.after_php_label s i5 in
       if opt6=None then None else 
-      let i6=Option.unpack opt6 in
-      if not(Substring.is_a_substring_located_at "(" s i6)
+      let i6=Option.unpack opt6 in   
+      let opt7=After.after_whites s i6 in
+      if opt7=None then None else 
+      let i7=Option.unpack opt7 in
+      if not(Substring.is_a_substring_located_at "(" s i7)
       then None
       else
-      let i7=After.after_closing_character ('(',')')  s (i6+1,1) in
-      let opt8=After.after_whites s i7 in
-      if opt8=None then None else 
-      let i8=Option.unpack opt8 in
-      if not(Substring.is_a_substring_located_at "{" s i8)
+      let i8=After.after_closing_character ('(',')')  s (i7+1,1) in
+      let opt9=After.after_whites s i8 in
+      if opt9=None then None else 
+      let i9=Option.unpack opt9 in
+      if not(Substring.is_a_substring_located_at "{" s i9)
       then None
       else
-      let i9=After.after_closing_character ('{','}')  s (i8+1,1) in
-      Some(i9,(i1,i2,i3,i4,i5,i6,i7,i8));;
+      let i10=After.after_closing_character ('{','}')  s (i9+1,1) in
+      Some(i10,(i1,i2,i3,i4,i5,i6,i7,i8,i9));;
       
   (*
   
   fnctn "private function amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
+  fnctn "private function &amy($u,$v,$w=83) \n {for($x=7;x++) {a=b;} dann();} unt; " 1;; 
   
   *)
                 
