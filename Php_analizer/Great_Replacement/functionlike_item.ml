@@ -10,7 +10,6 @@ type t={
     kind : Functionlike_kind.t;
     namespace : string;
     containing_class : string;
-    method_qualifier : string;
     function_name : string;
     before_content : string;
     content : string;
@@ -20,7 +19,6 @@ type t={
 let kind x=x.kind;;
 let namespace x=x.namespace;;
 let containing_class x=x.containing_class;;
-let method_qualifier x=x.method_qualifier;;
 let function_name x=x.function_name;;
 let before_content x=x.before_content;;
 let content x=x.content;;
@@ -43,7 +41,6 @@ let namespace_line nspc_line=
     kind = Functionlike_kind.namespace_line;
     namespace =nspc_name;
     containing_class ="";
-    method_qualifier ="";
     function_name="";
     before_content="\n";
     content =nspc_line;
@@ -54,7 +51,6 @@ let non_function nspc_name class_name text={
     kind = Functionlike_kind.non_function;
     namespace =nspc_name;
     containing_class =nspc_name;
-    method_qualifier =class_name;
     function_name="";
     before_content="";
     content =text;
@@ -65,7 +61,6 @@ let after_namespace_comments text={
     kind = Functionlike_kind.after_namespace_comments;
     namespace ="";
     containing_class ="";
-    method_qualifier ="";
     function_name="";
     before_content="";
     content =text;
@@ -73,13 +68,12 @@ let after_namespace_comments text={
 };;
 
 
-let make a b c d e f g h={
+let make a b c d e f g={
     kind =a;
     namespace =b;
     containing_class =c;
-    method_qualifier =d;
-    function_name=e;
-    before_content=f;
-    content =g;
-    after_content=h;
+    function_name=d;
+    before_content=e;
+    content =f;
+    after_content=g;
 };;
