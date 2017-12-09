@@ -67,6 +67,27 @@ let after_namespace_comments text={
     after_content="";
 };;
 
+let abstract_class ci={
+    kind = Functionlike_kind.abstract_class;
+    namespace ="";
+    containing_class ="";
+    function_name="";
+    before_content=Classlike_item.before_content ci;
+    content =Classlike_item.before_content ci;
+    after_content=Classlike_item.after_content ci;
+};;
+
+let interface ci={
+    kind = Functionlike_kind.interface;
+    namespace ="";
+    containing_class ="";
+    function_name="";
+    before_content=Classlike_item.before_content ci;
+    content =Classlike_item.before_content ci;
+    after_content=Classlike_item.after_content ci;
+};;
+
+
 
 let make a b c d e f g={
     kind =a;
