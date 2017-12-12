@@ -6,14 +6,21 @@
 
 exception No_function_there;;
 
+let remove_initial_ampersand s=
+    if Substring.is_a_substring_located_at "&" s 1
+    then Cull_string.cobeginning 1 s
+    else s;;
+
+let simplify s=remove_initial_ampersand(Cull_string.trim_spaces s);;    
+
 let parse_args s_args=
     let temp1=Str.split (Str.regexp_string ",") s_args in
     Image.image(
        fun t->
         let i=Substring.leftmost_index_of_in "=" t in
         if i<1
-        then (Cull_string.trim_spaces t,None)
-        else (Cull_string.trim_spaces(Cull_string.beginning (i-1) t),
+        then (simplify t,None)
+        else (simplify(Cull_string.beginning (i-1) t),
               Some(
                 Cull_string.trim_spaces(Cull_string.cobeginning i t)
               ))
@@ -21,7 +28,7 @@ let parse_args s_args=
     ) temp1;;
 (*
 
-parse_args "$u,$v,$w=83";;
+parse_args "$u,$v,&$x,$w=83";;
 
 *)
 
@@ -221,10 +228,10 @@ let reexpand_from_predecomposed_data
 (*  
 
 let dec_fnctn=parse_fnctn 
-("function amy($u,$v,$w=47) {global $z;\nd+$u-$v;\nreturn $this->leeds(7,8);}") 1;;
+("function amy($u,$v,&$x,$w=47) {global $z;\nd+$u-$v;\nreturn $this->leeds(7,8);}") 1;;
 
 let dec_call=Option.unpack(decompose_fnctn_call
-" $regina =peggy->lee()->amy(45,$v) ; ");;
+" $regina =peggy->lee()->amy(45,$v,$x) ; ");;
 
 let see=reexpand_from_predecomposed_data
   dec_fnctn dec_call;;
