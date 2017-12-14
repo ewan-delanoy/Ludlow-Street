@@ -35,15 +35,17 @@ let add_constant (i,j,text) hedgehog=
      if finished1=None
      then {
             unfinished = unfinished1;
-            finished = Some(i,j,Html_text_with_tags.leaf text )
+            finished = Some(i,j,text )
           }
      else let (old_i,_,old_constant)=Option.unpack finished1 in
           {
             unfinished = unfinished1;
             finished = Some(old_i,j,Html_text_with_tags.concat
-                                    [old_constant;
-                                     Html_text_with_tags.leaf text])
+                                    [old_constant;text])
           };;      
+
+let add_string_constant (i,j,s) hedgehog=
+    add_constant (i,j,Html_text_with_tags.leaf s) hedgehog;;
 
 exception Forbidden_opening_tag_addition of string;;
 
