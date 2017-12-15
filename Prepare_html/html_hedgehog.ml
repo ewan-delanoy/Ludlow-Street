@@ -18,10 +18,13 @@ let unfinished_part x=x.unfinished;;
 let finished_part x=x.finished;;
 
 let from_constant (i,j,text)=
-    {
-        unfinished = [];
-        finished = Some(i,j,Html_text_with_tags.leaf text )
-    };;
+        {
+            unfinished = [];
+            finished = Some(i,j,text)
+        };;
+
+let from_string_constant (i,j,s_text)=
+     from_constant (i,j,Html_text_with_tags.leaf s_text);;
 
 let from_opening_tag (i,j,tag_name)=
         {
