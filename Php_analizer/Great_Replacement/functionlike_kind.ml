@@ -11,6 +11,9 @@ type t=
  |Private_method
  |Protected_method
  |Public_method 
+ |Abstract_private_method
+ |Abstract_protected_method
+ |Abstract_public_method 
  |Namespace_line
  |After_namespace_comments
  |Abstract_class
@@ -23,6 +26,11 @@ let usual_function = Usual_function;;
 let private_method = Private_method;;
 let protected_method = Protected_method;;
 let public_method = Public_method;;
+
+let abstract_private_method = Abstract_private_method;;
+let abstract_protected_method = Abstract_protected_method;;
+let abstract_public_method = Abstract_public_method;;
+
 let namespace_line =  Namespace_line;;
 let after_namespace_comments = After_namespace_comments;;
 let abstract_class=Abstract_class;;
