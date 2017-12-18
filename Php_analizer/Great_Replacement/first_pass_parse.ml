@@ -177,4 +177,7 @@ let fnctn s idx=
   abstract_fnctn 
   "\tabstract protected function getOptimizationPasses();" 1;; 
   
+  abstract_fnctn 
+  "\tabstract  function getOptimizationPasses();" 1;; 
+
   *)    
