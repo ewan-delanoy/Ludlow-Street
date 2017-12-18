@@ -126,7 +126,7 @@ let on_class_contained_text nspc_name class_name s=
             let pair=(
               let opt=First_pass_parse.fnctn s jdx in
               if opt=None
-              then let opt2=First_pass_parse.fnctn s jdx in
+              then let opt2=First_pass_parse.abstract_fnctn s jdx in
                    if opt2=None
                    then (reference_for_subtle_case:=(s,jdx,old_jdx);raise(Subtle_case))
                    else abstract_case s idx jdx opt2 class_name nspc_name graet
