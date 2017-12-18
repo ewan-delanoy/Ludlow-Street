@@ -67,15 +67,6 @@ let after_namespace_comments text={
     after_content="";
 };;
 
-let abstract_class ci={
-    kind = Functionlike_kind.abstract_class;
-    namespace =Classlike_item.namespace ci;
-    containing_class =Classlike_item.class_name ci;
-    function_name="";
-    before_content=Classlike_item.before_content ci;
-    content =Classlike_item.content ci;
-    after_content=Classlike_item.after_content ci;
-};;
 
 let interface ci={
     kind = Functionlike_kind.interface;
