@@ -128,3 +128,53 @@ let fnctn s idx=
   
   *)
                 
+  let abstract_fnctn s idx=
+    let opt0=After.after_whites s idx in
+    if opt0=None then None else 
+    let i0=Option.unpack opt0 in
+    if not(Substring.is_a_substring_located_at "abstract" s i0)
+    then None
+    else 
+    let opt1=After.after_whites s (i0+8) in
+    if opt1=None then None else 
+    let i1=Option.unpack opt1 in
+    let opt2=After.after_one_among_several ["private";"protected";"public"] s i1 in
+    let i2=(match opt2 with Some(i)->i |None->i1) in
+    let opt3=After.after_whites s i2 in
+    if opt3=None then None else 
+    let i3=Option.unpack opt3 in
+    if not(Substring.is_a_substring_located_at "function" s i3)
+    then None
+    else
+    let opt4=After.after_whites s (i3+8) in
+    if opt4=None then None else 
+    let i4=Option.unpack opt4 in
+    let i5=(
+       if Strung.get s i4='&'
+       then i4+1
+       else i4
+    ) in
+    let opt6=After.after_php_label s i5 in
+    if opt6=None then None else 
+    let i6=Option.unpack opt6 in   
+    let opt7=After.after_whites s i6 in
+    if opt7=None then None else 
+    let i7=Option.unpack opt7 in
+    if not(Substring.is_a_substring_located_at "(" s i7)
+    then None
+    else
+    let i8=After.after_closing_character ('(',')')  s (i7+1,1) in
+    let opt9=After.after_whites s i8 in
+    if opt9=None then None else 
+    let i9=Option.unpack opt9 in
+    if not(Substring.is_a_substring_located_at ";" s i9)
+    then None
+    else
+    Some(i9,(i0,i1,i2,i3,i4,i5,i6,i7,i8));;
+
+(*
+  
+  abstract_fnctn 
+  "\tabstract protected function getOptimizationPasses();" 1;; 
+  
+  *)    
