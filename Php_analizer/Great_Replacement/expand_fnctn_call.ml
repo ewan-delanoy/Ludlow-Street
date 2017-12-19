@@ -6,12 +6,18 @@
 
 exception No_function_there;;
 
+let ignore_type_hints s=
+    let j=Substring.leftmost_index_of_in " " s in
+    if j<1
+    then s
+    else Cull_string.trim_spaces(Cull_string.cobeginning j s);;
+
 let remove_initial_ampersand s=
     if Substring.is_a_substring_located_at "&" s 1
     then Cull_string.cobeginning 1 s
     else s;;
 
-let simplify s=remove_initial_ampersand(Cull_string.trim_spaces s);;    
+let simplify s=remove_initial_ampersand(ignore_type_hints(Cull_string.trim_spaces s));;    
 
 let parse_args s_args=
     let temp1=Str.split (Str.regexp_string ",") s_args in
@@ -28,7 +34,7 @@ let parse_args s_args=
     ) temp1;;
 (*
 
-parse_args "$u,$v,&$x,$w=83";;
+parse_args "$u,$v,&$x,$w=83, array $amy = array()";;
 
 *)
 
