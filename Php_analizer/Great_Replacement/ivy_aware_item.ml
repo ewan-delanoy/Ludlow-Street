@@ -28,7 +28,12 @@ let length x=
    String.length(x.content)+
    String.length(x.after_content);; 
 
-
+let non_ivy text={
+    kind =Ivy_aware_kind.non_ivy;
+    before_content="";
+    content =text;
+    after_content="";
+};;
 
 let make a b c d={
     kind =a;

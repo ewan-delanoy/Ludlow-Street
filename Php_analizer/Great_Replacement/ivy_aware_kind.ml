@@ -15,3 +15,9 @@ let non_ivy=Non_ivy;;
 let ivy=Ivy;;
 let elsie=Elsie;;
 let elseif=ElseIf;;
+
+let of_string s=
+  if s="if" then Ivy else
+  if s="else" then Elsie else
+  if s="elseif" then ElseIf else
+  Non_ivy;;
