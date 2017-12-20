@@ -4,12 +4,16 @@
 
 *)
 
+
+
 let salt_before = "\n\nmark_on_stone('LIFMANPOHJALA";;
 let salt_after = ");\n\n";;
 let dimension = 6;;
 
 let inflator_of_int i=
     salt_before^(Strung.left_completed_string_of_int dimension i)^salt_after;;
+
+let length=(String.length salt_before) +dimension +(String.length salt_after);;
 
 let int_of_inflator s=
     let i=(String.length salt_before) +1 in
