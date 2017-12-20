@@ -29,6 +29,11 @@ let string s=
     Ivy_aware_item.full_content(item x)) temp1 in
    String.concat "" temp2;;  
 
+let file fn=
+      let old_text=Io.read_whole_file fn in
+      Io.overwrite_with fn (string old_text);;
+      
+
 (*
 
 string "123 if(uvw)  {xyz} else {ikj} 456";;

@@ -21,6 +21,10 @@ let string l s=
    let temp2=Image.image (item l) temp1 in
    String.concat "" temp2;;  
 
+let file l fn=
+    let old_text=Io.read_whole_file fn in
+    Io.overwrite_with fn (string l old_text);;
+
 (*
 
 string "123 if(uvw)  {xyz} else {ikj} 456";;
