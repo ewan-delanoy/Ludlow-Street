@@ -7,7 +7,7 @@
 
 
 let salt_before = "\n\nmark_on_stone('LIFMANPOHJALA";;
-let salt_after = ");\n\n";;
+let salt_after = "');\n\n";;
 let dimension = 6;;
 
 let inflator_of_int i=
