@@ -4,20 +4,21 @@
 
 *)
 
-let salt = "\n\nLIFMANPOHJALA";;
+let salt_before = "\n\nmark_on_stone('LIFMANPOHJALA";;
+let salt_after = ");\n\n";;
 let dimension = 6;;
 
 let inflator_of_int i=
-    salt^(Strung.left_completed_string_of_int dimension i);;
+    salt_before^(Strung.left_completed_string_of_int dimension i)^salt_after;;
 
 let int_of_inflator s=
-    let i=(String.length salt) +1 in
+    let i=(String.length salt_before) +1 in
     let j=i+(dimension-1) in
     int_of_string(Cull_string.interval s i j);;
 
 (*
 
-let example = 1;;
+let example = 37;;
 let s=inflator_of_int example;;
 let t=int_of_inflator s;;
 let check=(t=example);;
