@@ -5,10 +5,14 @@
 *)
 
 
+let central_salt="LIFMANPOHJALA";;
 
-let salt_before = "\n\nmark_on_stone('LIFMANPOHJALA";;
+let salt_before = "\n\nmark_on_stone('"^central_salt;;
 let salt_after = "');\n\n";;
 let dimension = 6;;
+
+let small_inflator_of_int i=
+    central_salt^(Strung.left_completed_string_of_int dimension i);;
 
 let inflator_of_int i=
     salt_before^(Strung.left_completed_string_of_int dimension i)^salt_after;;
