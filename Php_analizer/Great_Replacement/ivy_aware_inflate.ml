@@ -24,6 +24,7 @@ let item x=
            (Ivy_aware_item.after_content x);;
 
 let string s=
+   let _=(counter:=0) in 
    let temp1=Ivy_aware_decomposition.on_string s in
    let temp2=Image.image (fun x->
     Ivy_aware_item.full_content(item x)) temp1 in
