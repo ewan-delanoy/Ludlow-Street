@@ -13,6 +13,9 @@ let add_constant (i,j,text) (P l_hedgehog)=
         P((Html_hedgehog.add_constant (i,j,text) hedgehog1 )
            ::peurrest);;
       
+let add_string_constant (i,j,s) pack=
+    add_constant (i,j,Html_text_with_tags.leaf s) pack;;
+
 let add_opening_tag (i,j,tag_name)  (P l_hedgehog)=
     match l_hedgehog with
     []->P([Html_hedgehog.from_opening_tag (i,j,tag_name)])
