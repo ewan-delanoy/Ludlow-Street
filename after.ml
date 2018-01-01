@@ -140,6 +140,43 @@ after_closing_character ('{','}') "{<<<'EOF'\n}\nEOF;\n}90" (1,0);;
 
 *)
 
+let next_in_list l s=
+  let n=String.length s in
+  let rec tempf=(
+    fun k->
+      if k>n
+      then None
+      else 
+      if Substring.is_a_substring_located_at "/*" s k
+      then let j=Substring.leftmost_index_of_in_from "*/" s (k+2) in
+           tempf(j+2)
+      else 
+      if Substring.is_a_substring_located_at "//" s k
+      then let j=Substring.leftmost_index_of_in_from "\n" s (k+2) in
+           tempf(j+1)
+      else 
+      if (Substring.is_a_substring_located_at "<<<EOF\n" s k)
+         ||
+         (Substring.is_a_substring_located_at "<<<'EOF'\n" s k) 
+      then let j=Substring.leftmost_index_of_in_from "\nEOF;\n" s (k+7) in
+           tempf(j+6)
+      else 
+      let c=String.get s (k-1) in
+      if c='\''
+      then let j=after_simple_quoted_string s k in
+           tempf(j)
+      else
+      if c='"'
+      then let j=after_double_quoted_string s k in
+           tempf(j)
+      else     
+      if List.mem c l
+      then Some(k)
+      else tempf(k+1)
+  ) in
+  tempf;;
+
+
 let classlike_declaration_chars=list_of_whites@Characters_in_namespace_name.chars;;
 
 let after_classlike_declaration s i=
