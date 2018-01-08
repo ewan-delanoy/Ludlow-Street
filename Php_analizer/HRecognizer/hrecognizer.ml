@@ -286,6 +286,72 @@ let fnctn_call_recognizer s i=
 
 add_recognizer (label_for_fnctn_call,fnctn_call_recognizer);; 
 
+let label_for_assign_to_fnctn_call="assign_to_fnctn_call";;
+add_label label_for_assign_to_fnctn_call;;
+
+let assign_to_fnctn_call_recognizer s i=
+  if not(Substring.is_a_substring_located_at "$" s i)
+  then None
+  else 
+  let opt2=After.after_php_label  s (i+1) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  let opt3=After.after_whites s i2 in
+  if opt3=None then None else
+  let i3=Option.unpack opt3 in 
+  if not(Substring.is_a_substring_located_at "=" s i3)
+  then None
+  else 
+  let opt4=After.after_whites s (i3+1) in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  let opt5=After.after_php_label  s i4 in
+  if opt5=None then None else
+  let i5=Option.unpack opt5 in
+  let opt6=After.after_whites s i5 in
+  if opt6=None then None else
+  let i6=Option.unpack opt6 in 
+  if not(Substring.is_a_substring_located_at "(" s i6)
+  then None
+  else 
+  let i7=After.after_closing_character ('(',')') s (i6+1,1) in
+  let opt8=After.after_whites s i7 in
+  if opt8=None then None else   
+  let i8=Option.unpack opt8 in
+  if not(Substring.is_a_substring_located_at ";" s i8)
+  then None
+  else Some(label_for_assign_to_fnctn_call,[i;i2;i3;i4;i5;i6;i7;i8],i8+1);;
+
+add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
+
+let label_for_phoreech="phoreech";;
+add_label label_for_phoreech;;
+
+let phoreech_recognizer s i=
+  if not(Substring.is_a_substring_located_at "foreach" s i)
+  then None
+  else 
+  let opt2=After.after_whites s (i+7) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if not(Substring.is_a_substring_located_at "(" s i2)
+  then None
+  else 
+  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
+  let opt4=After.after_whites s i3 in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  if not(Substring.is_a_substring_located_at "{" s i4)
+  then None
+  else 
+  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
+  let opt6=After.after_whites s i5 in
+  if opt6=None then None else   
+  let i6=Option.unpack opt6 in
+  Some(label_for_phoreech,[i;i2;i3;i4;i5;i6],i6);;
+
+add_recognizer (label_for_phoreech,phoreech_recognizer);; 
+
 let main_recognizer s i=
   Option.find_and_stop (
      fun (lbl,f)->f s i
