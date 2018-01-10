@@ -77,3 +77,21 @@ let close_latest_tag (i1,j1) hedgehog=
           unfinished = peurrest;
           finished = Some(i,j1,new_achievement);
       };;
+
+exception Cannot_simplify_unfinished_hedgehog of (int*int*string) list;;
+exception Nothing_to_simplify;;
+
+let simplify_to_text hedgehog=
+    let l=hedgehog.unfinished in
+    if l<>[]
+    then raise(Cannot_simplify_unfinished_hedgehog(l))
+    else
+    let opt=hedgehog.finished in
+    if opt=None
+    then raise(Nothing_to_simplify)
+    else
+    let (_,_,answer)=Option.unpack opt in
+    answer;;
+
+    
+    
