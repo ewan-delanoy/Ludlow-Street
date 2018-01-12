@@ -4,6 +4,1165 @@
 
 *)
 
+let sd1=Subdirectory.of_string 
+"Prepare_html/Tag_related";;
+  
+relo "html_hedgehog" sd1;;
+relo "html_hedgehog_pack" sd1;;
+relo "html_text_with_tags" sd1;;
+
+
+
+
+(*
+German_backup_target_system.github_after_backup:=false;;
+
+More_coherent_pdf.initialize;;
+
+let z1=
+"t=$topic_id\" . (($start == 0) ? '' : \"&amp;start=$start\") . ((strlen($u_sort_param)) ? \"&amp;$u_sort_param\" : '') . (($highlight_match) ? \"&amp;hilit=$highlight\" : ''));\n\n// Are we watching this topic?"
+;;
+*)
+
+
+
+(*
+let label_for_one_liner_with_variable="one_liner_with_variable";;
+add_label label_for_one_liner_with_variable;;
+
+let one_liner_with_variable_recognizer s i=
+  if not(Substring.is_a_substring_located_at "/*" s i)
+  then None
+  else 
+  let j=Substring.leftmost_index_of_in_from "*/" s (i+2) in
+  if j<1 
+  then None
+  else Some(label_for_one_liner_with_variable,[i;j+2],j+2);;
+
+add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
+
+*)
+
+(*
+let s="define('IN_PHPBB', true);\n$phpbb_root_path = (defin";;
+let i=1;;
+
+let difyne_constant_recognizer s i=
+  if not(Substring.is_a_substring_located_at "define" s i)
+  then None
+  else 
+  let opt=After.after_whites  s i in
+  if opt=None then None else
+  let i2=Option.unpack opt in
+  if not(Substring.is_a_substring_located_at "(" s i2)
+  then None
+  else 
+  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
+  let opt4=After.after_whites  s i3 in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  if not(Substring.is_a_substring_located_at ";" s i4)
+  then None
+  else Some(label_for_difyne_constant,[i;i2;i3;i4],i4+1);;
+*)
+
+(*  
+let s_ap=
+  "~/Downloads/arno2.rtfd/TXT.rtf";;
+let ap=Absolute_path.of_string s_ap;;  
+let text=Io.read_whole_file ap;;
+*)
+
+(*
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_classmap.ml";;
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_tools.ml";;
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_prepare_actions.ml";;
+
+let initialization=Io.overwrite_with main_file initial_content;;
+
+try_chunk 0;;
+
+let c=
+  cm ("intermDoDisplay",
+  "__TwigTemplate_a26f7dafef087abe6048b68fa3a99980d85524ca"^
+  "a6c2f78affd678055afc071d","");;  
+
+exception Nonunique_introduction of string;;
+exception Bad_introduction_ending of string;;
+exception First_ivy_simplification_failed;;
+exception Second_ivy_simplification_failed;;
+
+let intro=Functionlike_item.before_content c;;
+
+let main_text=Io.read_whole_file main_file;;
+let temp1=Substring.occurrences_of_in intro main_text;;
+if List.length(temp1)<>1
+then raise(Nonunique_introduction(intro))
+else
+let i1=List.hd temp1;;
+if (not(Substring.ends_with intro "{"))
+then raise(Bad_introduction_ending(intro))
+else 
+let i2=i1+(String.length intro)-1;;
+let i3=After.after_closing_character ('{','}') main_text (i2+1,1);;
+let i4=String.length main_text;;
+let before_body=Cull_string.interval main_text 1 i2;;
+let body=Cull_string.interval main_text (i2+1) (i3-2);;
+let after_body=Cull_string.interval main_text (i3-1) i4;;
+let _=(
+  zoom_text body;
+  Ivy_aware_inflate.file small_file
+  );;
+let m1=(!(Ivy_aware_inflate.counter));;
+let body2 = zoom_return();;
+let _=(Io.overwrite_with main_file (before_body^body2^after_body));;
+if (not(shortened_main_test()))
+then (Io.overwrite_with main_file main_text;raise(First_ivy_simplification_failed))
+else
+let tl1=stone_survivors ();;
+let _=(Ivy_aware_deflate.file tl1 small_file);;
+let body3 = zoom_return();;
+let _=Io.overwrite_with main_file (before_body^body3^after_body);;
+if (not(shortened_main_test()))
+then (Io.overwrite_with main_file main_text;raise(Second_ivy_simplification_failed))
+else
+
+
+Ivy_aware_inflate.counter:=0;;
+Ivy_aware_inflate.file small_file;;
+let m1=(!(Ivy_aware_inflate.counter));;
+
+let ctr_fun4=zoom_return();;
+Io.overwrite_with main_file (before_ctr^ctr_fun4^after_ctr);;
+shortened_main_test();;
+
+let tl1=stone_survivors();;
+
+Ivy_aware_deflate.file tl1 small_file;;
+let ctr_fun5=zoom_return();;
+Io.overwrite_with main_file (before_ctr^ctr_fun5^after_ctr);;
+shortened_main_test();;
+
+Ivy_aware_inflate.counter:=0;;
+Ivy_aware_inflate.file small_file;;
+let m1=(!(Ivy_aware_inflate.counter));;
+
+let ctr_fun6=zoom_return();;
+Io.overwrite_with main_file (before_ctr^ctr_fun6^after_ctr);;
+shortened_main_test();;
+
+let tl1=stone_survivors();;
+
+Ivy_aware_deflate.file tl1 small_file;;
+let ctr_fun7=zoom_return();;
+Io.overwrite_with main_file (before_ctr^ctr_fun7^after_ctr);;
+shortened_main_test();;
+
+add_overloaded_change_description
+(false,
+[
+
+"special_replace";
+"";
+"\n\n    protected function loadTemplate($template, $templateName = null, $line = null, $index = null)\n    {";
+"\n\n    public function loadTemplate($template, $templateName = null, $line = null, $index = null)\n    {";
+
+]);;
+*)
+
+
+(*
+
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let small_file=Absolute_path.of_string (s_rachel^"small.php");;
+
+let small_text= Io.read_whole_file small_file;;
+
+let s=small_text;;
+let l=Ivy_aware_decomposition.on_string s;;
+let s1=String.concat "" 
+(image Ivy_aware_item.full_content l);;
+let check=(s1=s);;
+
+*)
+
+(*
+let u1=am();;
+let u2=List.filter (
+  fun x->Substring.begins_with x "html_"
+)u1;;
+*)
+
+
+(*
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
+
+let main_text= Io.read_whole_file main_file;;
+
+let u1=Functionlike_decomposition.on_string main_text;;
+let u2=image Functionlike_item.full_content u1;;
+let u3=String.concat "" u2;;
+let check=(u3=main_text);;
+*)
+
+
+
+(*
+
+let s="123private   function" and i_fnctn=14;;
+let opt=Option.seek(
+  fun t->not(List.mem 
+    (Strung.get s (i_fnctn-t))
+    [' ';'\n';'\r';'\t']
+  )
+) (Ennig.ennig 1 (i_fnctn-1));;
+if opt=None then i_fnctn else
+let j=i_fnctn-(Option.unpack opt);;
+let awpt= Option.seek(fun
+  kwd->
+   Substring.is_a_substring_located_at kwd s (j-(String.length kwd)+1)
+) ["public";"private";"protected"];;
+None->i_fnctn
+let kwd0=Option.unpack awpt;;
+let i2_fnctn=j-(String.length kwd0)+1;;
+let opt2=Option.seek(
+ fun t->not(List.mem 
+   (Strung.get s (i2_fnctn-t))
+   [' ';'\n';'\r';'\t']
+ )
+) (Ennig.ennig 1 (i2_fnctn-1));;
+if opt2=None then i2_fnctn else
+let j2=i2_fnctn-(Option.unpack opt2);;
+if Substring.is_a_substring_located_at "abstract" s (j2-7)
+then j2-7
+else j2+1;;
+
+*)
+
+(*
+
+let t1=Io.read_whole_file(
+   Absolute_path.of_string (s_rachel^"first_sample.php")
+);;
+let t2=Io.read_whole_file(
+  Absolute_path.of_string (s_rachel^"second_sample.php")
+);;
+let check=(t1=t2);;
+
+let y1=all_kali_items ();;
+let y2=List.filter(
+   fun x->
+    (Classlike_item.kind x)=Classlike_kind.abstract_class
+) y1;;
+let y3=Option.find(
+  fun x->
+   (Classlike_item.class_name x)="AbstractConstantFolding"
+) y2;;
+let y4=Classlike_item.full_content y3;;
+let y5="\n\n\n"^y4^"\n\n\n";;
+
+*)
+
+(*
+
+let cl_full=Classlike_item.full_content cl;;
+let i_cl_full=loc cl_full;;
+
+let z1=Cull_string.beginning 2000 cl_full;;
+let jz1=oc z1;;
+let m1=String.length cl_full;;
+let text1=mf();;
+Option.seek(fun k->
+   (Strung.get cl_full k)
+   <>(Strung.get text1 (k+2010561))
+)(Ennig.ennig 1 m1);;
+
+
+let z2=Unqsubstr_replace.left_helper (mf())
+2010562 (2010562+13);;
+
+
+let u1=Io.read_whole_file small_file;;
+let u2=Lines_in_string.interval u1 3 120;;
+let u3=Cull_string.coending 1 u2;;
+let u4=Str.split (Str.regexp_string ",\n") u3;;
+
+exception Arrower_exn of string;; 
+
+let arrower s=
+   let temp1=Substring.occurrences_of_in "=>" s in
+    let i=List.hd temp1 in
+   (Cull_string.beginning (i+1) s,
+    Cull_string.cobeginning (i+1) s);;
+
+let u5=image arrower u4;;    
+let u6=Ennig.index_everything u5;;
+let u7=image(
+  fun (j,(before_arrow,after_arrow))->
+  "$dutronc"^(string_of_int j)^" = "^after_arrow^";"
+) u6;;
+let part_one = String.concat "\n" u7;;
+let u8=image(
+  fun (j,(before_arrow,after_arrow))->
+  before_arrow^"$dutronc"^(string_of_int j)^","
+) u6;;
+let u9 = String.concat "\n" u8;;
+let part_two = 
+  "$template->assign_vars(array(\n"^ u9 ^ "\n));";;
+let whole = part_one ^ "\n\n\n" ^ part_two;;
+*)
+
+
+
+(*
+
+let j1=get_function_text_from_prelude "public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)\n    {";;
+
+let j2=fst j1;;
+
+
+let j3=Replace_inside.replace_inside_string 
+("ContainerInterface","\\Symfony\\Component\\DependencyInjection\\ContainerInterface")
+j2;;
+
+let j4=Replace_inside.replace_inside_string 
+("InactiveScopeException","\\Symfony\\Component\\DependencyInjection\\Exception\\InactiveScopeException")
+j3;;
+
+*)
+
+(*
+
+
+ion
+(false,
+[
+
+"special_replace";
+"extract($phpbb_dispatcher->trigger_event('core.modify_text_for_display_before', compact($vars)));\n";
+"$renderer = $phpbb_container->get('text_formatter.renderer');";
+"mark_on_stone('Claire');\n$renderer = $phpbb_container->get('text_formatter.renderer');\nmark_on_stone('Severac');";
+
+]);;
+
+let text=mf();;
+
+let u1=Chronometer.it Functionlike_decomposition.on_string text;;
+
+let counter=ref(0);;
+
+let u2=image(
+     fun x->
+       if (Functionlike_kind.is_a_method (Functionlike_item.kind x))&&
+          (Functionlike_item.function_name x="get")
+       then let k=(!counter)+1 in
+            let _=(counter:=k) in
+            let added_one="\nmark_on_stone('Caluire"^(string_of_int k)^"');\n" in
+            (Functionlike_item.before_content x)^added_one^
+            (Functionlike_item.content x)^ 
+            (Functionlike_item.after_content x)
+       else Functionlike_item.full_content x
+) u1;;
+
+let u3=String.concat "" u2;;
+Io.overwrite_with main_file u3;;
+
+*)
+
+
+
+
+(*
+let prelude="function setup($lang_set = false, $style_id = false)\n\t{";;
+let temp1=oc prelude;;
+let i1=List.hd temp1;;
+let m=String.length(prelude);;
+let opt1=Option.seek(
+    fun t->List.exists(
+     fun keyword->Substring.is_a_substring_located_at   
+       keyword prelude t        
+    ) ["function";"private";"protected";"public"]
+) (Ennig.ennig 1 m);;
+if opt1=None
+then raise(Bad_prelude(prelude))
+else
+let i2=i1+(Option.unpack opt1)-1;;
+let opt2=First_pass_parse.fnctn (mf()) i2;;
+if opt2=None
+then raise(Wrong_location_for_prelude)
+else 
+let i3=fst(Option.unpack opt2)-1;;
+Cull_string.interval (mf()) i2 i3;;
+*)
+
+
+(*
+let text=mf();;
+
+let u1=Chronometer.it Functionlike_decomposition.on_string text;;
+
+let u2=List.filter(
+  fun x->
+    Functionlike_kind.is_a_method (Functionlike_item.kind x)
+) u1;;
+
+let u3=List.filter(
+  fun x->
+     (Functionlike_item.function_name x)="set_default_language"
+) u2;;
+
+let u4=List.filter(
+  fun x->
+     (Functionlike_item.function_name x)="language"
+) u2;;
+
+*)
+
+(*
+let text=mf();;
+
+let u1=Chronometer.it Functionlike_decomposition.on_string text;;
+
+let u2=List.filter(
+   fun x->
+     (Functionlike_item.kind=)
+);;
+
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let small_file=Absolute_path.of_string (s_rachel^"small.php");;
+
+Io.overwrite_with small_file w1;;
+
+Replace_inside.replace_inside_file ("\r","") small_file;;
+
+let w2=Lines_in_string.interval 
+  (Io.read_whole_file small_file) 362 367;;
+
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
+
+let text=Io.read_whole_file main_file;;
+
+let u1=Chronometer.it Functionlike_decomposition.on_string text;;
+let u2=image Functionlike_item.full_content u1;;
+let u3=String.concat "" u2;;
+let check1=(u3=text);;
+
+let m=min (String.length text) (String.length u3);;
+let opt1=Option.seek(
+    fun j->(Strung.get text j)<>(Strung.get u3 j)
+) (ennig 1 m);;
+let j1=Option.unpack opt1;;
+
+
+let z1="<?php\nnamespace{\n"^
+(Lines_in_string.interval text 11049 11070)^"\n}";;
+let z2=Classlike_decomposition.on_string z1;;
+let should_be_z1=String.concat "" (image Classlike_item.full_content z2);;
+let check_1=(z1=should_be_z1);;
+let z3=Functionlike_decomposition.on_string z1;;
+let z4=image Functionlike_item.kind z3;;
+*)
+
+
+
+(*
+let s=("private function peggy ($u,$v) {567;} "^
+"public function arthur ($a,$b) {765;}"^
+"function betty($g,$h) {678;} 098");;
+
+let u1=on_class_contained_text "NPX" "myclass" s;;
+let u2=String.concat "" (image Functionlike_item.full_content u1);;
+let check=(u2=s);;
+*)
+
+
+(*
+
+{                                                                
+  kind : Functionlike_kind.t;
+  namespace : string;
+  containing_class : string;
+  method_qualifier : string;
+  function_name : string;
+  before_content : string;
+  content : string;
+  after_content : string;
+}
+
+let s="private  \t function amy   ($u,$v,$w=83) \n"^
+" {for($x=7;x++) {a=b;} dann();} unt; ";;
+
+let s=" \t function amy  ($u,$v,$w=83)      \n"^
+" {for($x=7;x++) {a=b;} dann();} unt; ";;
+
+First_pass_parse.fnctn s 1;;
+
+(*
+
+on_namespaced_text "NKP" "123 class abc xyz {uvw}";;
+on_namespaced_text "NKP" "class abc xyz {uvw}";;
+
+*)
+
+let on_namespaced_part
+(nspc_line,nspc_content,nspc_offset,after_nspc)=
+  let (nspc_name,_)=Option.unpack(Nspc_detect.extract_namespace_name nspc_line) in
+  let elt1=Classlike_item.namespace_line nspc_line
+  and temp2=on_namespaced_text nspc_name nspc_content
+  and elt3=Classlike_item.after_namespace_comments (nspc_offset^after_nspc) in
+  Merge_nonclasses.mn (elt1::temp2@[elt3]);;
+  
+(* The decomposed form is assumed to be standardized already. *)
+
+let on_decomposed_form df=
+    let elt1=Classlike_item.non_class "" 
+      (Nspc_decomposed_form.before_namespaces df)  
+    and temp2=Image.image on_namespaced_part 
+    (Nspc_decomposed_form.namespaced_parts df) in
+    Merge_nonclasses.mn (List.flatten([elt1]::temp2));;  
+  
+let on_string s=on_decomposed_form(
+  Nspc_split.decompose s
+);;
+
+*)
+
+
+
+(*)
+let determine_exact_beginning s i_fnctn=
+  let opt=Option.seek(
+     fun t->not(List.mem 
+       (Strung.get s (i_fnctn-t))
+       [' ';'\n';'\r';'\t']
+     )
+  ) (Ennig.ennig 1 (i_fnctn-1)) in
+  if opt=None then ("1",i_fnctn,None,-1,None) else
+  let j=i_fnctn-(Option.unpack opt) in
+  match Option.seek(fun
+     kwd->
+      Substring.is_a_substring_located_at kwd s (j-(String.length kwd)+1)
+  ) ["private";"protected"] with
+   None->("2",i_fnctn,opt,j,None)
+  |Some(kwd0)->("3",j-(String.length kwd0)+1,opt,j,Some kwd0);;
+*)
+  
+
+(*
+
+determine_exact_beginning "123private function" 12;;
+
+*)    
+
+
+(*
+let text="<?php\n"^
+"\nnamespace Peggy{\n class Arnold { blacken(); } whiten(); \n\n}\n /* Always there */ "^
+"\nnamespace Amy{\n cold(); class Dorian { hot(); } \n\n}\n /* There again */ ";;
+
+let haag1=Nspc_split.decompose text;;
+
+let bad1=Classlike_decomposition.on_decomposed_form haag1;;
+
+let df=haag1;;
+let elt1=Classlike_item.non_class "" 
+(Nspc_decomposed_form.before_namespaces df)  ;;
+let haag2=Nspc_decomposed_form.namespaced_parts df;;
+
+let temp2=Image.image Classlike_decomposition.on_namespaced_part 
+haag2;;
+let haag3=List.flatten([elt1]::temp2);;
+
+let see=String.concat "" (image Classlike_item.full_content haag3);;
+let haag4=List.hd haag2;;
+let bad2=Classlike_decomposition.on_namespaced_part haag4;;
+
+let (nspc_line,nspc_content,nspc_offset,after_nspc)=haag4;;
+
+
+let (nspc_name,_)=Option.unpack
+(Nspc_detect.extract_namespace_name nspc_line);;
+let elt1=Classlike_item.namespace_line nspc_line
+and temp2=Classlike_decomposition.on_namespaced_text nspc_name nspc_content
+and elt3=Classlike_item.after_namespace_comments 
+(nspc_offset^after_nspc);;
+
+let haag5=elt1::temp2@[elt3];;
+let haag6=image (fun x->x.Classlike_item.kind) haag5;;
+
+
+Merge_nonclasses.mn (elt1::temp2@[elt3]);;
+
+
+let bad3=Classlike_decomposition.on_namespaced_text nspc_name nspc_content;;
+
+let s=nspc_content;;
+let n=String.length s;;
+let rec push=(
+  fun (graet,idx)->
+    if idx>n
+    then failwith("Ice cream")
+    else 
+    match Unshadowed_appearance.next 
+     s ["abstract";"final";"class";"interface"] idx with
+    None->
+        failwith("Pieces of me") 
+    |Some(jdx)->
+         let opt=First_pass_parse.classlike_item nspc_name s jdx in
+         if opt=None
+         then failwith("Dangling")
+         else
+         let item2=Option.unpack opt in
+         let new_idx=jdx+(Classlike_item.length item2) in
+         if jdx=idx
+         then (item2::graet, new_idx) 
+         else let item1=
+               Classlike_item.non_class nspc_name 
+                (Cull_string.interval s idx (jdx-1)) in
+              (item2::item1::graet, new_idx)
+);;
+let v0=([],1);;
+let ff=Memoized.small push v0;;
+let (graet,idx)=v0;;
+let upt=Unshadowed_appearance.next 
+s ["abstract";"final";"class";"interface"] idx;;
+let jdx=Option.unpack upt;;
+let opt=First_pass_parse.classlike_item nspc_name s jdx ;;
+let item2=Option.unpack opt;;
+let new_idx=jdx+(Classlike_item.length item2);;
+let item1=
+  Classlike_item.non_class nspc_name 
+   (Cull_string.interval s idx (jdx-1));;
+
+let (graet,idx)=ff 1;;
+let last_item=
+    Classlike_item.non_class nspc_name 
+      (Cull_string.interval s idx n);;
+*)
+
+(*
+
+let s_rachel="/Users/ewandelanoy/Documents/Sites/Rachel/public_html/";;
+
+let main_file=Absolute_path.of_string (s_rachel^"iewtopic.php");;
+
+let text=Io.read_whole_file main_file;;
+
+let u1=Classlike_decomposition.on_string text;;
+let u2=image Classlike_item.full_content u1;;
+let u3=String.concat "" u2;;
+let check1=(u3=text);;
+
+
+*)
+
+
+
+(*
+
+let qualification="abstract"
+and nspc_name="NPK" 
+and s="  abstract class 456{789}01" 
+and idx=1;;
+
+
+
+let opt1=After.after_whites s idx;;
+if opt1=None then None else 
+let i1=Option.unpack opt1;;
+if not(Substring.is_a_substring_located_at qualification s i1)
+then None
+else
+let opt2=After.after_whites s (i1+(String.length qualification));;
+if opt2=None then None else 
+let i2=Option.unpack opt2;;
+if not(Substring.is_a_substring_located_at "class" s i2)
+then None
+else 
+let opt3=After.after_whites s (i2+5);;
+if opt3=None then None else 
+let i3=Option.unpack opt3;;
+let opt4=After.after_php_label s i3;; 
+if opt4=None then None else 
+let i4=Option.unpack opt4;;
+let i5=Substring.leftmost_index_of_in_from "{" s i4;;
+if i5<1 then None else
+let i6=After.after_closing_character ('{','}')  s (i5+1,1);;
+let answer=Classlike_item.make 
+  (Classlike_kind.from_class_qualification qualification)
+  nspc_name
+  (Cull_string.interval s i3 (i4-1))
+  (Cull_string.trim_spaces(Cull_string.interval s i4 (i5-1)))
+  (Cull_string.interval s idx i5)
+  (Cull_string.interval s (i5+1) (i6-2))
+  (Cull_string.interval s (i6-1) (i6-1))
+
+*)
+
+(*
+let text=mf();;
+let z1=Unshadowed_appearance.all 
+text ["include_once";"require_once";"include";"require"] ([],1);;
+*)
+
+
+(*
+let classes_inside text=
+   let temp1=Unshadowed_appearance.all text ["class"] ([],1) in
+   let temp2=List.filter(
+    fun i->if i=1 then true else
+           let c=Strung.get text (i-1) in
+     not(List.mem c ['$';'>'])
+    ) temp1 in
+   let temp3=image(
+      fun i->let j=Substring.leftmost_index_of_in_from "{" text (i+6) in
+        (i,itv text (i+6) (j-1))
+   ) temp2 in
+   let temp4=image (fun (i,t)->
+   let m=String.length t in
+   let ttemp5=image (fun wd->
+   Substring.leftmost_index_of_in_from wd t 1 ) ["implements";"extends"] in
+   let ttemp6=List.filter(fun j->j>0) ttemp5 in
+   let p=Min.list ((m+1)::ttemp6) in
+   let ttemp7=itv t 1 (p-1) in
+   (i,Cull_string.trim_spaces ttemp7) 
+ ) temp3 in
+   temp4;;
+
+
+
+let text=mf();;
+let dec_form=Nspc_split.decompose text;;
+let u1=Nspc_decomposed_form.namespaced_parts dec_form;;
+let nana x=fst(Option.unpack(Nspc_detect.extract_namespace_name x));;
+let u2=Explicit.image (fun (a,b,c,d)->
+  let nspc_name=nana(a) in
+  let ttemp1=classes_inside b in
+  (nspc_name,Image.image snd ttemp1)
+) u1;;
+let u3=List.flatten(Image.image snd  u2);;
+let u4=ofo(Ordered.diforchan Total_ordering.lex_for_strings u3);;
+let u5=Explicit.image(
+   fun cn->
+    (cn,Option.filter_and_unpack(fun 
+       (nn,l)->if List.mem cn l
+               then Some(nn)
+               else None
+    ) u2)
+) u4;;
+let rw_string s=Strung.enclose(String.escaped s);;
+let rw_string_list l=
+    let temp1=Image.image rw_string l in
+    let temp2=String.concat ";" temp1 in
+    "["^temp2^"]";;
+let rw_pair (s,l)=
+  "("^(rw_string s)^",\n"^(rw_string_list l)^")";;
+let rw_pair_list ll=
+  let temp1=Image.image rw_pair ll in
+  let temp2=String.concat ";\n" temp1 in
+  "[\n"^temp2^"\n]";;
+let u6=rw_pair_list u5;;
+let u7="let classmap=\n"^u6^";;\n\n\n";;
+
+let ap=Absolute_path.of_string
+"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_classmap.ml";;
+
+Io.append_string_to_file u7 ap;;
+
+*)
+
+(*
+let v1=List.filter (fun (a,b,c,d)->
+let nspc_name=nana(a) in
+nspc_name="Symfony\\Component\\DependencyInjection\\Dumper"
+) u1;;
+let (_,v2,_,_)=List.hd v1;;
+let v3=classes_inside v2;;
+
+*)
+
+(*
+
+let (_,text,_,_)=List.nth u1 5;;
+let temp1=Unshadowed_appearance.all text ["class"] ([],1);;
+let temp2=List.filter(
+  fun i->let c=Strung.get text (i-1) in
+   not(List.mem c ['$';'>'])
+  ) temp1;;
+ let temp3=image(
+    fun i->let j=Substring.leftmost_index_of_in_from "{" text (i+6);;
+      (i,itv text (i+6) (j-1))
+ ) temp2;;
+ let temp4=image (fun (i,t)->
+ let m=String.length t;;
+ let ttemp5=image (fun wd->
+ Substring.leftmost_index_of_in_from wd t 1 ) ["implements";"extends"];;
+ let ttemp6=List.filter(fun j->j>0) ttemp5;;
+ let p=Min.list ((m+1)::ttemp6);;
+ let ttemp7=itv t 1 (p-1);;
+ (i,Cull_string.trim_spaces ttemp7) 
+) temp3;;
+ temp4;;
+
+*)
+
+
+
+(*
+let vv edg=List.filter (
+fun (i,t)->Substring.ends_with t edg
+) v2;;
+
+
+let iv x=itv (mf()) (x-1200) (x+20);;
+*)
+
+
+(*
+
+let s=mf();;
+let (i,j)=(303176, 303244);;
+
+let hard1=Substring.occurrences_of_in(String.sub s 0 j) s;;
+
+  let hard2=Substring.occurrences_of_in (String.sub s (i-1) (j-i+1)) s in
+  if List.length(hard2)=1
+  then Unqsubstr_helper.of_string ""
+  else 
+  let bad_ones=List.filter (fun t->t<>i) hard2;;
+  let bounds=Ennig.ennig 1 (i-1);;
+  let measure=
+      fun t->Option.find(
+        fun d->(String.get s (i-d-1))<>(String.get s (t-d-1))
+      ) bounds
+  ;;
+  let (_,m)=Max.maximize_it measure bad_ones;;
+  Unqsubstr_helper.of_string(String.sub s (i-m-1) m);;
+
+*)  
+
+(*
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/old_gr_tools.ml";;
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/old_gr_prepare_actions.ml";;
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_tools.ml";;
+
+#use"Remembered/Attempts_at_Php_Handling/Fourth_Attempt_at_Php_handling/gr_prepare_actions.ml";;
+
+
+let z1=(!reference_for_changes);;
+let z2=Tidel.diforchan(image(
+   fun (t0,_,_,_,_,_,_)->t0
+) z1);;
+
+let usual_list (t0,t1,t2,t3,t4,t5,opt)=
+  if t0="Comment"
+  then [label_for_add_comment;t1]
+  else
+  if t0="Expand function"
+  then [label_for_expand_fnctn;t1;t2]
+  else
+  if (t0="Expand inclusion")||(t0="Expand inclusion with memo")
+  then [label_for_expand_inclusion;t1;t2]
+  else
+  if t0="Replace"
+  then [label_for_special_replace;t1;t2;t3]
+  else 
+  if t0="Retract"
+  then [label_for_retract;t1;t2;t3;t4;t5]
+  else failwith("pro");;
+
+let rewrite (t0,t1,t2,t3,t4,t5,opt)=
+    let l=usual_list (t0,t1,t2,t3,t4,t5,opt) in
+    match opt with
+    None->(false,l)
+    |Some(memo)->(true,l@[memo]);;
+
+let z3=Explicit.image rewrite z1;;
+
+reference_for_change_descriptions:=z3;;    
+
+wwrite_flash_back ();;
+
+*)
+
+(*
+let unreversed_s= " $admiral =  betty ( $u , $v+3 , 'abcde' )  ; ";;
+let s=Strung.reverse unreversed_s;;
+let n=String.length s;;
+let i1=Substring.leftmost_index_of_in ")" s;;
+let i2=After.after_closing_character (')','(') s (i1+1,1);;
+let opt3=After.after_whites s i2;;
+let i3=Option.unpack opt3;;
+let opt4=After.after_star 
+Charset.strictly_alphanumeric_characters s i3;;
+let i4=Option.unpack opt4;;
+let opt5=analyse_terms_between_method_and_assignment computed_s i4;;
+
+let idx=i4;;
+let opt=Option.seek(fun j->(Strung.get s j)='=')(Ennig.ennig idx n);;
+let j0=Option.unpack opt;;
+let temp1=Cull_string.cobeginning j0 s;;
+let temp2=Cull_string.trim_spaces temp1;; 
+let (computed_s,receiver)=
+         (Cull_string.beginning (j0-1) s,
+          Strung.reverse temp2);;
+
+
+let (computed_s,receiver)=
+    (
+        match opt with
+        None->(s,"")
+        |Some(j0)->
+           let temp1=Cull_string.cobeginning j0 s in
+           let temp2=Cull_string.trim_spaces temp1 in 
+           (Cull_string.beginning (j0-1) s,
+            Strung.reverse temp2)
+    ) in
+match analyse_terms_between_method_and_assignment computed_s idx with
+None->None
+|Some(caller,methkind)->Some(receiver,caller,methkind);;
+*)
+
+
+(*)
+let z1=am();;
+let z2=List.filter (
+  Substring.is_a_substring_of "char"
+) z1;;
+*)
+
+(*
+let agreda=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/agreda.txt";;
+
+let ur_agreda=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/unreplaced_agreda.txt";;
+
+let short_file=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/short.txt";;
+
+let latinized_short_file=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/latinized_short.txt";;
+
+let short_text=Io.read_whole_file short_file;;
+
+
+let ag ()=
+  Cull_string.beginning 500 (Io.read_whole_file agreda);;
+
+Cull_string.beginning 500 (Io.read_whole_file ur_agreda);;
+
+let ur_ag=Io.read_whole_file ur_agreda;;
+Io.overwrite_with agreda ur_ag;;
+
+let replacements=
+  [
+  "\197\147","oe"; 
+  "\226\128\147","--"; 
+  "\226\128\148","--"; 
+  "\226\128\153","'"; 
+   "\226\128\158","\""; 
+   "\226\128\162","\248"; 
+   "\226\128\166","..."; 
+   "\226\128\168","\n"
+   ] ;;
+  
+Replace_inside.replace_several_inside_file 
+  replacements agreda;;
+
+let u1=Lines_in_string.core (Io.read_whole_file agreda);;
+let u2=List.assoc 10098 u1;;
+let u3=Cull_string.cobeginning 1690 u2;;
+
+Io.overwrite_with short_file 
+*)
+
+
+(*
+
+let peggy_list=[
+  ['\194'; '\160'];
+  ['\194'; '\161'];
+  ['\194'; '\162'];
+  ['\194'; '\167'];
+  ['\194'; '\171'];
+  ['\194'; '\176'];
+  ['\194'; '\187'];
+  ['\195'; '\128'];
+  ['\195'; '\130'];
+  ['\195'; '\135'];
+  ['\195'; '\136'];
+  ['\195'; '\137'];
+  ['\195'; '\138'];
+  ['\195'; '\153'];
+  ['\195'; '\160'];
+  ['\195'; '\162'];
+  ['\195'; '\167'];
+  ['\195'; '\168'];
+  ['\195'; '\169'];
+  ['\195'; '\170'];
+  ['\195'; '\171'];
+  ['\195'; '\174'];
+  ['\195'; '\175'];
+  ['\195'; '\177'];
+  ['\195'; '\180'];
+  ['\195'; '\185'];
+  ['\195'; '\187'];
+  ['\195'; '\188'];
+  ['\197'; '\147'];
+  ['\226'; '\128';'\147'];
+  ['\226'; '\128';'\148'];
+  ['\226'; '\128';'\153'];
+  ['\226'; '\128';'\158'];
+  ['\226'; '\128';'\162'];
+  ['\226'; '\128';'\166'];
+  ['\226'; '\128';'\168'];
+];;
+
+let v1=image Strung.implode peggy_list;;
+let v2=String.concat "a" v1;;
+
+let short_file=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/short.txt";;
+
+let latinized_short_file=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/latinized_short.txt";;
+
+let command= 
+  "/opt/local/bin/iconv -f UTF-8 -t latin1 "^
+  "/Users/ewandelanoy/Documents/html_files/Printable/short.txt "^
+  "> "^
+  "/Users/ewandelanoy/Documents/html_files/Printable/latinized_short.txt";;
+  
+
+let clara s=
+    let _=Io.overwrite_with short_file s in
+    let j=Sys.command command in
+    if j<>0 then None else
+    let translation=Io.read_whole_file latinized_short_file in
+    Some(translation);;
+
+let res1=image (fun s->(s,clara s)) v1;;
+let v3=List.filter (fun (s,opt)->opt=None ) res1;;
+let v4=image fst v3;;
+let pp k=print_string(List.nth v4 (k-1));;
+
+let viz s=
+   let temp1=More_uchar.utf8_decode s in
+   Image.image (fun u->
+     (More_uchar.unicode_point u,More_uchar.utf8_coordinates u)
+   ) temp1;;
+let vv k=viz(List.nth v4 (k-1));;
+
+let replacements=
+[
+"\197\147","oe"; 
+"\226\128\147","--"; 
+"\226\128\148","--"; 
+"\226\128\153","'"; 
+ "\226\128\158","\""; 
+ "\226\128\162","\248"; 
+ "\226\128\166","..."; 
+ "\226\128\168","\n"
+ ] ;;
+
+let agreda=Absolute_path.of_string
+ "/Users/ewandelanoy/Documents/html_files/Printable/agreda.txt";;
+
+Replace_inside.replace_several_inside_file 
+replacements agreda;;
+
+Replace_inside.replace_several_inside_file 
+["\r",""] agreda;;
+
+let agreda_text=
+  Cull_string.beginning 500 (Io.read_whole_file agreda);;
+
+let g1="\nV\142n\142rable Marie d'Agreda\nLa Cit\142 Mystique de Dieu\n\n\nLIVRE 1/30 \r\nINTRODUCTION A LA VIE DE LA REINE DU CIEL. Des raisons qu'on a eues de l'\142crire, et de plusieurs autres avis sur ce sujet.\nLA CIT\131 MYSTIQUE DE DIEU\nPREMI\233RE PARTIE. DE LA VIE ET DES MYST\233RES DE LA SAINTS VIERGE, REINE DU CIEL. \209 CE QUE LE TR\233S-SAUT OP\131RA EN CETTE PURE CR\131ATURE DEPUIS SON IMMACUL\131E CONCEPTION JUSQU'\203 CE QUE LE VERBE PRIT CHAIR HUMAINE DANS SON SEIN VIRGINAL. \209 LES FAVEURS QU'IL LUI FIT PENDANT LES QUINZE PREMI\233RES ";;
+
+
+
+Sys.command command;;
+
+*)
+
+(*
+
+let ag_file=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Printable/old_agreda.txt";;
+let ag_text=Io.read_whole_file ag_file;;   
+
+let u1=Strung.explode ag_text;;
+
+
+let u2=List.filter (
+   fun c->(int_of_char c)>126
+) u1;;
+
+let peggy_list=[
+  ['\195'; '\128'];
+  ['\195'; '\136'];
+  ['\195'; '\137'];
+  ['\195'; '\160'];
+  ['\195'; '\162'];
+  ['\195'; '\167'];
+  ['\195'; '\168'];
+  ['\195'; '\169'];
+  ['\195'; '\170'];
+  ['\195'; '\174'];
+  ['\195'; '\185'];
+  ['\195'; '\187'];
+  ['\226'; '\128';'\148'];
+  ['\226'; '\128';'\153'];
+  ['\226'; '\128';'\168'];
+];;
+
+let rec expurge l=
+    if l=[] then [] else
+    match Option.find_and_stop (
+        fun blade -> Listennou.nice_cut blade l
+    ) peggy_list with
+    Some(new_l)->expurge new_l
+    |None->
+    let m=min(List.length l)(20) in
+    Listennou.big_head m l;;
+
+let u3=expurge u2;;
+
+let short_file=
+  Absolute_path.of_string
+  "/Users/ewandelanoy/Documents/html_files/Printable/latinized_short.txt";;
+
+let short_text=Io.read_whole_file short_file;;  
+
+*)
+
+(*
+
+let short_file=
+  Absolute_path.of_string
+  "/Users/ewandelanoy/Documents/html_files/Printable/short.txt";;
+
+*)
+
+
+(*
+
+let ag_file=
+  Absolute_path.of_string
+  "/Users/ewandelanoy/Documents/html_files/Printable/agreda.txt";;
+
 let trim_footnote old_s=
   let s=Cull_string.trim_spaces old_s in
   let i=Substring.leftmost_index_of_in ")" s in
@@ -208,7 +1367,7 @@ Io.overwrite_with ag_file u14;;
 let u15=Io.read_whole_file ag_file;;
 let u16=orange_decomposition u15;;
 
-
+*)
 
 
 (*
