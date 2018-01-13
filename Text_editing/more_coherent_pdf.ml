@@ -88,7 +88,7 @@ let example=chunk
 let example=More_coherent_pdf.chunk
  ~rootdir:"/Users/ewandelanoy/Documents/html_files/Printable"
  ~pdfname:"agreda"
- ~interval:(61,80)
+ ~interval:(81,100)
  ~chunksize:None;;
 
 let res1=chunk example;; 
