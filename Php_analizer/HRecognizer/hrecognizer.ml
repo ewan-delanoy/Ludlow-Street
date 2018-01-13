@@ -389,7 +389,7 @@ let rec snake_iterator_partial_recognizer (graet,s,i)=
 
 
 let snake_recognizer s i=
-  if not(Substring.is_a_substring_located_at "$" s (i+1)
+  if not(Substring.is_a_substring_located_at "$" s (i+1))
   then None
   else 
   let opt2=After.after_php_label  s (i+1) in
