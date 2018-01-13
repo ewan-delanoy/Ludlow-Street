@@ -198,7 +198,6 @@ let label_for_ive_or_ivy="ive_or_ivy";;
 add_label label_for_ive_or_ivy;;
 
 
-
 let rec ivy_iterator_partial_recognizer (graet,s,i)=
    let opt1=elsie_partial_recognizer s i in
    if opt1<>None
@@ -352,6 +351,58 @@ let phoreech_recognizer s i=
 
 add_recognizer (label_for_phoreech,phoreech_recognizer);; 
 
+
+let label_for_snake="snake";;
+add_label label_for_snake;;
+
+let snake_pusher_partial_recognizer s i=
+  if not(Substring.is_a_substring_located_at "->" s i)
+  then None
+  else 
+  let opt2=After.after_whites s (i+2) in
+  if opt2=None
+  then None
+  else
+  let i2=Option.unpack opt2 in
+  let opt3=After.after_php_label  s i2 in
+  if opt3=None then None else
+  let i3=Option.unpack opt3 in
+  if not(Substring.is_a_substring_located_at "(" s i3)
+  then None
+  else 
+  let i4=After.after_closing_character ('(',')') s (i3+1,1) in
+  let opt5=After.after_whites s i4 in
+  if opt5=None then None else   
+  let i5=Option.unpack opt5 in
+  Some([i;i+2;i3;i4],i5);;
+
+
+let rec snake_iterator_partial_recognizer (graet,s,i)=
+  let opt1=snake_pusher_partial_recognizer s i in
+  if opt1<>None
+  then let (interm_results,next_i)=Option.unpack opt1 in
+      snake_iterator_partial_recognizer(graet@interm_results,s,next_i)
+  else 
+  if not(Substring.is_a_substring_located_at ";" s i)
+  then None
+  else Some(label_for_snake,graet@[i],i+1);;
+
+
+let snake_recognizer s i=
+  if not(Substring.is_a_substring_located_at "$" s (i+1)
+  then None
+  else 
+  let opt2=After.after_php_label  s (i+1) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  let opt3=After.after_whites s i2 in
+  if opt3=None then None else   
+  let i3=Option.unpack opt3 in
+  snake_iterator_partial_recognizer ([i;i2],s,i3);;
+
+add_recognizer (label_for_snake,snake_recognizer);; 
+
+
 let main_recognizer s i=
   Option.find_and_stop (
      fun (lbl,f)->f s i
@@ -383,6 +434,8 @@ let (i1,_)=main_exhauster text 1;;
 let m1=min (String.length text) (i1+400);; 
 reference_for_loaf:=Cull_string.interval text i1 m1;;
 let see=(!reference_for_loaf);;
+
+
 
 
 *)
