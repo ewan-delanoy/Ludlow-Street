@@ -1,6 +1,6 @@
 (*
 
-#use"Prepare_html/html_hedgehog.ml";;
+#use"Prepare_html/Tag_related/html_hedgehog.ml";;
 
 The fundamental object used in parsing tags inside a HTML string.
 It has two parts, unfinished and finished. The unfinished part

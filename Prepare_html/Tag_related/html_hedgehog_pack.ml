@@ -1,6 +1,6 @@
 (*
 
-#use"Prepare_html/html_hedgehog_pack.ml";;
+#use"Prepare_html/Tag_related/html_hedgehog_pack.ml";;
 
 *)
 
@@ -60,3 +60,13 @@ let add_closing_tag ((i:int),j,tag_name) (P l_hedgehog)=
         else P(new_hedgehog1::peurrest)
     );;
 
+exception Cannot_simplify_multipack of Html_hedgehog.t list;;
+
+let simplify_to_text (P l)=
+        if (List.length l)<>1
+        then raise(Cannot_simplify_multipack(l))
+        else
+        let hedgehog=List.hd l in
+        Html_hedgehog.simplify_to_text hedgehog;;
+    
+        

@@ -19,11 +19,13 @@ let tag_width s=
     then 0
     else String.length s;;    
 
-    (*
+(*
+
 let rec main_iterator (graet,s,n,idx)=
     if idx>n
-    *)
+    then 
     
+*)    
         
 
 

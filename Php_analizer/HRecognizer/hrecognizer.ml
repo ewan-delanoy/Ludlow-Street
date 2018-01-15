@@ -14,8 +14,6 @@ let add_label lbl =
    else 
    list_of_labels:=lbl::temp1;;
 
-
-
 let list_of_recognizers=ref[];;
 let add_recognizer (lbl,f)=
    (
@@ -323,11 +321,11 @@ let assign_to_fnctn_call_recognizer s i=
 
 add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
 
-let label_for_phoreech="phoreech";;
-add_label label_for_phoreech;;
+let label_for_wiley="wiley";;
+add_label label_for_wiley;;
 
-let phoreech_recognizer s i=
-  if not(Substring.is_a_substring_located_at "foreach" s i)
+let wiley_recognizer s i=
+  if not(Substring.is_a_substring_located_at "while" s i)
   then None
   else 
   let opt2=After.after_whites s (i+7) in
@@ -347,9 +345,9 @@ let phoreech_recognizer s i=
   let opt6=After.after_whites s i5 in
   if opt6=None then None else   
   let i6=Option.unpack opt6 in
-  Some(label_for_phoreech,[i;i2;i3;i4;i5;i6],i6);;
+  Some(label_for_wiley,[i;i2;i3;i4;i5;i6],i6);;
 
-add_recognizer (label_for_phoreech,phoreech_recognizer);; 
+add_recognizer (label_for_wiley,wiley_recognizer);; 
 
 
 let label_for_snake="snake";;
@@ -367,14 +365,19 @@ let snake_pusher_partial_recognizer s i=
   let opt3=After.after_php_label  s i2 in
   if opt3=None then None else
   let i3=Option.unpack opt3 in
-  if not(Substring.is_a_substring_located_at "(" s i3)
+  let opt4=After.after_whites s i3 in
+  if opt4=None
   then None
   else 
-  let i4=After.after_closing_character ('(',')') s (i3+1,1) in
-  let opt5=After.after_whites s i4 in
-  if opt5=None then None else   
-  let i5=Option.unpack opt5 in
-  Some([i;i+2;i3;i4],i5);;
+  let i4=Option.unpack opt4 in
+  if not(Substring.is_a_substring_located_at "(" s i4)
+  then None
+  else 
+  let i5=After.after_closing_character ('(',')') s (i4+1,1) in
+  let opt6=After.after_whites s i5 in
+  if opt6=None then None else   
+  let i6=Option.unpack opt6 in
+  Some([i;i+2;i3;i4;i5],i6);;
 
 
 let rec snake_iterator_partial_recognizer (graet,s,i)=
@@ -402,6 +405,33 @@ let snake_recognizer s i=
 
 add_recognizer (label_for_snake,snake_recognizer);; 
 
+let label_for_phoreech="phoreech";;
+add_label label_for_phoreech;;
+
+let phoreech_recognizer s i=
+  if not(Substring.is_a_substring_located_at "foreach" s i)
+  then None
+  else 
+  let opt2=After.after_whites s (i+7) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if not(Substring.is_a_substring_located_at "(" s i2)
+  then None
+  else 
+  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
+  let opt4=After.after_whites s i3 in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  if not(Substring.is_a_substring_located_at "{" s i4)
+  then None
+  else 
+  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
+  let opt6=After.after_whites s i5 in
+  if opt6=None then None else   
+  let i6=Option.unpack opt6 in
+  Some(label_for_phoreech,[i;i2;i3;i4;i5;i6],i6);;
+
+add_recognizer (label_for_phoreech,phoreech_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
