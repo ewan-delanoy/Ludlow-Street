@@ -4,20 +4,6 @@
 
 *)
 
-let special_tags=
-    [
-      "br"  
-    ];;
-
-let zero_width_tags=
-    [
-        "html"
-    ]    
-
-let tag_width s=
-    if List.mem s zero_width_tags
-    then 0
-    else String.length s;;    
 
 exception Unmatched_tag_opener of int;;
 
