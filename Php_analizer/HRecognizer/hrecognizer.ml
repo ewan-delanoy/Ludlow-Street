@@ -173,18 +173,21 @@ ivy_start_partial_recognizer "elseif" "elseif (abc) {def} ghi" 1;;
 
 *)
 
+
+let tag_for_elsie_partial_recognizer_jmp=1;;
+
 let elsie_partial_recognizer s i=
   if not(Substring.is_a_substring_located_at "else" s i)
-  then None
+  then (None,0)
   else 
   let opt2=After.after_whites s (i+4) in
-  if opt2=None then None else
+  if opt2=None then (None,0) else
   let i2=Option.unpack opt2 in
   if not(Substring.is_a_substring_located_at "{" s i2)
-  then None
+  then (None,tag_for_elsie_partial_recognizer_jmp)
   else 
   let i3=After.after_closing_character ('{','}') s (i2+1,1) in
-  Some(i,i2,i3);;
+  (Some(i,i2,i3),0);;
 
 let label_for_ive="ive";;
 add_label label_for_ive;;
@@ -197,7 +200,10 @@ add_label label_for_ive_or_ivy;;
 
 
 let rec ivy_iterator_partial_recognizer (graet,s,i)=
-   let opt1=elsie_partial_recognizer s i in
+   let (opt1,tag)=elsie_partial_recognizer s i in
+   if tag=tag_for_elsie_partial_recognizer_jmp
+   then None
+   else
    if opt1<>None
    then let (j,j2,j3)=Option.unpack opt1 in
         Some(label_for_ive,graet@[j2;j3],j3)
@@ -328,7 +334,7 @@ let wiley_recognizer s i=
   if not(Substring.is_a_substring_located_at "while" s i)
   then None
   else 
-  let opt2=After.after_whites s (i+7) in
+  let opt2=After.after_whites s (i+5) in
   if opt2=None then None else
   let i2=Option.unpack opt2 in
   if not(Substring.is_a_substring_located_at "(" s i2)
@@ -405,8 +411,38 @@ let snake_recognizer s i=
 
 add_recognizer (label_for_snake,snake_recognizer);; 
 
+let label_for_phor="phor";;
+add_label label_for_phor;;
+
+let phor_recognizer s i=
+  if not(Substring.is_a_substring_located_at "for" s i)
+  then None
+  else 
+  let opt2=After.after_whites s (i+3) in
+  if opt2=None then None else
+  let i2=Option.unpack opt2 in
+  if not(Substring.is_a_substring_located_at "(" s i2)
+  then None
+  else 
+  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
+  let opt4=After.after_whites s i3 in
+  if opt4=None then None else
+  let i4=Option.unpack opt4 in
+  if not(Substring.is_a_substring_located_at "{" s i4)
+  then None
+  else 
+  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
+  let opt6=After.after_whites s i5 in
+  if opt6=None then None else   
+  let i6=Option.unpack opt6 in
+  Some(label_for_phor,[i;i2;i3;i4;i5;i6],i6);;
+
+add_recognizer (label_for_phor,phor_recognizer);; 
+
+
 let label_for_phoreech="phoreech";;
 add_label label_for_phoreech;;
+
 
 let phoreech_recognizer s i=
   if not(Substring.is_a_substring_located_at "foreach" s i)
@@ -432,6 +468,8 @@ let phoreech_recognizer s i=
   Some(label_for_phoreech,[i;i2;i3;i4;i5;i6],i6);;
 
 add_recognizer (label_for_phoreech,phoreech_recognizer);; 
+
+
 
 let main_recognizer s i=
   Option.find_and_stop (
