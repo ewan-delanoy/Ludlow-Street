@@ -33,7 +33,8 @@ let rec main_iterator (graet,s,n,idx)=
     (i1,i2,Cull_string.interval s i1 i2) temp1 in
     main_iterator (temp2,s,n,i2+1) ;;   
 
-
+let parse s=main_iterator 
+  (Html_hedgehog_pack.empty,s,String.length s,1);;
     
 
 

@@ -6,6 +6,8 @@
 
 type t=P of Html_hedgehog.t list;;
 
+let empty = P [];;
+
 let add_constant (i,j,text) (P l_hedgehog)=
     match l_hedgehog with
     []->P([Html_hedgehog.from_constant (i,j,text)])
