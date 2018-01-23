@@ -20,7 +20,6 @@
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Great_Replacement/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/HRecognizer/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/Php_syntax_types/";;
-#directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Prepare_html/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Prepare_html/Tag_related/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Preprinters/";;
 #directory"/Users/Ewandelanoy/Documents/OCaml/Ordinary/Sudoku/";;
@@ -224,11 +223,7 @@
 #load"html_text_with_tags.cmo";;
 #load"html_hedgehog.cmo";;
 #load"html_hedgehog_pack.cmo";;
-#load"html_parameter.cmo";;
-#load"html_indent_tags.cmo";;
-#load"html_bracable.cmo";;
-#load"html_decompose_into_bracables.cmo";;
-#load"html_evaluate.cmo";;
+#load"html_parse_text_with_tags.cmo";;
 #load"php_parser.cmo";;
 #load"copyable_printing.cmo";;
 #load"php_spider.cmo";;
@@ -249,6 +244,8 @@
 #load"beaver_for_statement.cmo";;
 #load"level_one.cmo";;
 #load"hrecognizer.cmo";;
+#load"atomic_hrecognizer.cmo";;
+#load"atomic_hrecognize.cmo";;
 #load"nspc_detect.cmo";;
 #load"nspc_decomposed_form.cmo";;
 #load"lines_in_string.cmo";;

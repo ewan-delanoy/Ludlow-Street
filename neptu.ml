@@ -2,7 +2,83 @@
 
 #use"neptu.ml";;
 
+#use"Php_analizer/HRecognizer/hrecognizer.ml";;
+
+
 *)
+
+let s_ap="/Users/ewandelanoy/Documents/Burev/Downloads/webmic/Html_template/en/index.html";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+
+let tag1=Html_parse_text_with_tags.parse s1;;
+
+let u1=am();;
+let u2=List.filter (
+  fun t->Substring.begins_with t "html"
+) u1;;
+
+
+(*
+let s_ap="/Users/ewandelanoy/Documents/Arno/instr.pages";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+let n1=String.length s1;;
+let s2=Io.read_whole_file ap;;
+let n2=String.length s2;;
+
+
+
+let s="while(abc){def}hum";;
+let i=1;;
+let bad1= wiley_recognizer s i;;
+*)
+
+(*
+
+let s="$abc->def(u,v)->ghi(7,8);hum";;
+  
+let s="$abc->def (u,v)->ghi (7,8) ;hum";;
+
+let bad1=snake_recognizer s 1;;
+
+let (_,_,t1)=(Option.unpack bad1);;
+itv s t1 (t1+2);;
+
+let i=1;;
+let check1=(Substring.is_a_substring_located_at "$" s i);;
+let opt2=After.after_php_label  s (i+1);;
+let i2=Option.unpack opt2;;
+let opt3=After.after_whites s i2;;
+let i3=Option.unpack opt3;;
+let bad2=snake_iterator_partial_recognizer ([i;i2],s,i3);;
+
+let (graet,i)=([i;i2],i3);;
+
+let bad2=snake_pusher_partial_recognizer s i;;
+
+
+let check2=(Substring.is_a_substring_located_at "->" s i);;
+let opt2=After.after_whites s (i+2);;
+let i2=Option.unpack opt2;;
+let opt3=After.after_php_label  s i2;;
+let i3=Option.unpack opt3;;
+let check3=(Substring.is_a_substring_located_at "(" s i3);;
+
+
+  then None
+  else 
+  let i4=After.after_closing_character ('(',')') s (i3+1,1) in
+  let opt5=After.after_whites s i4 in
+  if opt5=None then None else   
+  let i5=Option.unpack opt5 in
+  Some([i;i+2;i3;i4],i5);;
+
+More_coherent_pdf.chunk;;
+
+*)
+
+(*
 
 let sd1=Subdirectory.of_string 
 "Prepare_html/Tag_related";;
@@ -11,7 +87,7 @@ relo "html_hedgehog" sd1;;
 relo "html_hedgehog_pack" sd1;;
 relo "html_text_with_tags" sd1;;
 
-
+*)
 
 
 (*
