@@ -4,7 +4,6 @@
 
 *)
 
-module Private=struct
 
 let recgnz_constant text s i=
   if not(Substring.is_a_substring_located_at text s i)
@@ -65,17 +64,5 @@ let recgnz x=
   |Atomic_hrecognizer.Star(l_chr)->recgnz_star l_chr
   |Atomic_hrecognizer.Enclosed(opener,closer)->recgnz_enclosed (opener,closer);;
 
-end;;
 
-let rec chain_in_detail (s,i_start,current_i,graet,da_ober)=
-  match da_ober with
-  []->(Some(current_i),None)
-  |atom::peurrest->
-    match Private.recgnz atom s current_i with
-    None->(None,Some(List.rev graet,atom,peurrest)) 
-    |Some(j)->chain_in_detail (s,i_start,j,current_i::graet,peurrest);;
-
-let chain l_atoms s i=
-  chain_in_detail (s,i,i,[],l_atoms);;    
-
- 
+  
