@@ -27,8 +27,12 @@ let rec main_iterator (graet,s,n,idx)=
     then raise(Unmatched_tag_opener(i1))
     else
     let i2=Option.unpack opt2 in
-    let temp1=Html_hedgehog_pack.add_string_constant 
-    (idx,i1-1,Cull_string.interval s idx (i1-1)) graet in
+    let temp1=(
+      if i1>idx
+      then Html_hedgehog_pack.add_string_constant 
+            (idx,i1-1,Cull_string.interval s idx (i1-1)) graet
+      else graet      
+     ) in
     let temp2=Html_hedgehog_pack.add_tag 
     (i1,i2,Cull_string.interval s i1 i2) temp1 in
     main_iterator (temp2,s,n,i2+1) ;;   
