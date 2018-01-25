@@ -342,7 +342,7 @@ let after_one_among_several l_patterns s idx=
      fun pattern->after_one pattern s idx
    ) l_patterns;;
 
-let after_php_label s idx=
+let  after_php_label s idx=
    if not(List.mem (Strung.get s idx) Charset.php_label_first_letters)
    then None
    else

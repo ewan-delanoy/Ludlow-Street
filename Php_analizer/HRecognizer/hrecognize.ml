@@ -1,8 +1,10 @@
 (*
 
-#use"Php_analizer/HRecognizer/hrecognizer.ml";;
+#use"Php_analizer/HRecognizer/hrecognize.ml";;
 
 *)
+
+(* Label related generic definitions *)
 
 let list_of_labels=ref [];;
 exception Duplicate_label of string;;
@@ -20,65 +22,73 @@ let add_recognizer (lbl,f)=
     list_of_recognizers:=(lbl,f)::(!list_of_recognizers)
    );;
 
+(* end of label related generic definitions *)
+
+let c=Atomic_hrecognizer.constant;;
+let cli=Atomic_hrecognizer.constant_list;;
+let lc=Atomic_hrecognizer.later_constant;;
+let st=Atomic_hrecognizer.star;;
+
+
+
+let whites= st [' '; '\n'; '\r'; '\t'];;
+let paren_block=Atomic_hrecognizer.enclosed ('(',')');;
+let brace_block=Atomic_hrecognizer.enclosed ('{','}');;
+let first_letter=Atomic_hrecognizer.exactly_one 
+                   Charset.php_label_first_letters;;
+
 let label_for_php_open_tag="php_open_tag";;
 add_label label_for_php_open_tag;;
 
-let php_open_tag_recognizer s i=
-  if List.exists (fun kwd->
-     Substring.is_a_substring_located_at kwd s i
-  ) ["<?php\n";"<?php "]
-  then Some(label_for_php_open_tag,[i;i+6],i+6)
-  else None;;
+let php_open_tag_recognizer=
+  Parametric_hrecognize.chain 
+  label_for_php_open_tag 
+  [
+    cli ["<?php\n";"<?php "]
+  ];;
 
 add_recognizer (label_for_php_open_tag,php_open_tag_recognizer);;  
 
 let label_for_comment="comment";;
 add_label label_for_comment;;
 
-let comment_recognizer s i=
-  if not(Substring.is_a_substring_located_at "/*" s i)
-  then None
-  else 
-  let j=Substring.leftmost_index_of_in_from "*/" s (i+2) in
-  if j<1 
-  then None
-  else Some(label_for_comment,[i;j+2],j+2);;
+let comment_recognizer=
+  Parametric_hrecognize.chain 
+  label_for_comment
+  [
+    c "/*";
+    lc "*/"
+  ];;
 
 add_recognizer (label_for_comment,comment_recognizer);; 
 
 let label_for_white_spot="white_spot";;
 add_label label_for_white_spot;;
 
-let white_spot_recognizer s i=
-  if not(List.mem (Strung.get s i) After.list_of_whites)
-  then None
-  else 
-  match After.after_whites  s i with
-  None->None
-  |Some(j)->Some(label_for_white_spot,[i;j],j);;
+
+
+let white_spot_recognizer=
+  Parametric_hrecognize.chain 
+  label_for_white_spot
+  [
+    whites
+  ];;
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
 
 let label_for_difyne_constant="difyne_constant";;
 add_label label_for_difyne_constant;;
 
-let difyne_constant_recognizer s i=
-  if not(Substring.is_a_substring_located_at "define" s i)
-  then None
-  else 
-  let opt=After.after_whites  s (i+6) in
-  if opt=None then None else
-  let i2=Option.unpack opt in
-  if not(Substring.is_a_substring_located_at "(" s i2)
-  then None
-  else 
-  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
-  let opt4=After.after_whites  s i3 in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at ";" s i4)
-  then None
-  else Some(label_for_difyne_constant,[i;i2;i3;i4],i4+1);;
+let difyne_constant_recognizer=
+  Parametric_hrecognize.chain 
+  label_for_difyne_constant
+  [
+     c "define";
+     whites;
+     paren_block;
+     whites;
+     c ";"
+  ];;
 
 add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
 
@@ -86,6 +96,18 @@ let label_for_one_liner_with_variable="one_liner_with_variable";;
 add_label label_for_one_liner_with_variable;;
 
 let one_liner_with_variable_recognizer s i=
+  Parametric_hrecognize.chain 
+  label_for_one_liner_with_variable
+  [
+     c "$";
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     paren_block;
+     whites;
+     c ";"
+  ];;
+
   if not(Substring.is_a_substring_located_at "$" s i)
   then None
   else 
