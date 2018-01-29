@@ -108,6 +108,7 @@ let one_liner_with_variable_recognizer s i=
      c ";"
   ];;
 
+(*  
   if not(Substring.is_a_substring_located_at "$" s i)
   then None
   else 
@@ -120,6 +121,8 @@ let one_liner_with_variable_recognizer s i=
   if Strung.get s i3=';'
   then Some(label_for_one_liner_with_variable,[i;i2;i3],i3+1)
   else None;;
+*)
+
 
 add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
 

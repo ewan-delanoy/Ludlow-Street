@@ -16,6 +16,7 @@ type t=
  |Later_constant_list of string list
  |Exactly_one of char list
  |Star of char list
+ |Star_outside of char list
  |Enclosed of char*char;;
 
 let constant s=Constant(s);;
@@ -24,4 +25,5 @@ let constant_list l= Constant_list(l);;
 let later_constant_list l=Later_constant_list(l);;
 let exactly_one l=Exactly_one(l);;
 let star l=Star(l);;
+let star_outside l=Star(l);;
 let enclosed (opener,closer)=Enclosed (opener,closer);;
