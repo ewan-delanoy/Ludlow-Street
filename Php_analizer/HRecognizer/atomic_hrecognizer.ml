@@ -25,5 +25,5 @@ let constant_list l= Constant_list(l);;
 let later_constant_list l=Later_constant_list(l);;
 let exactly_one l=Exactly_one(l);;
 let star l=Star(l);;
-let star_outside l=Star(l);;
+let star_outside l=Star_outside(l);;
 let enclosed (opener,closer)=Enclosed (opener,closer);;
