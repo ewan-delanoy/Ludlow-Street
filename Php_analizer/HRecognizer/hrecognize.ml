@@ -127,14 +127,14 @@ add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_
 let label_for_double_slash_comment="double_slash_comment";;
 add_label label_for_double_slash_comment;;
 
-let double_slash_comment_recognizer s i=
-  if not(Substring.is_a_substring_located_at "//" s i)
-  then None
-  else 
-  let j=Substring.leftmost_index_of_in_from "\n" s (i+2) in
-  if j<1 
-  then None
-  else Some(label_for_double_slash_comment,[i;j],j+1);;
+let double_slash_comment_recognizer=
+  Parametric_hrecognize.chain
+  label_for_double_slash_comment
+  [
+    c "//";
+    sto ['\n'];
+    c "\n"
+  ];;
 
 add_recognizer (label_for_double_slash_comment,double_slash_comment_recognizer);; 
 
