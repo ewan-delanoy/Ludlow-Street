@@ -107,47 +107,20 @@ let one_liner_with_variable_recognizer=
      c ";"
   ];;
 
-(*  
-  if not(Substring.is_a_substring_located_at "$" s i)
-  then None
-  else 
-  let opt2=After.after_php_label  s (i+1) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  let opt3=After.next_in_list ['\n';'\r';';'] s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in 
-  if Strung.get s i3=';'
-  then Some(label_for_one_liner_with_variable,[i;i2;i3],i3+1)
-  else None;;
-*)
-
-
 add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
 
 let label_for_inclusion_with_parenthesis="inclusion_with_parenthesis";;
 add_label label_for_inclusion_with_parenthesis;;
 
-let inclusion_with_parenthesis_recognizer s i=
-  let opt1=Option.seek(
-     fun kwd->Substring.is_a_substring_located_at kwd s i
-  ) ["include_once";"require_once";"include";"require"] in
-  if opt1=None then None else
-  let kwd1=Option.unpack opt1 in
-  let i2=i+(String.length kwd1) in
-  let opt3=After.after_whites s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in
-  if not(Substring.is_a_substring_located_at "(" s i3)
-  then None
-  else 
-  let i4=After.after_closing_character ('(',')') s (i3+1,1) in
-  let opt5=After.after_whites s i4 in
-  if opt5=None then None else
-  let i5=Option.unpack opt5 in
-  if not(Substring.is_a_substring_located_at ";" s i5)
-  then None
-  else Some(label_for_inclusion_with_parenthesis,[i;i2;i3;i4;i5],i5+1);;
+let inclusion_with_parenthesis_recognizer=
+  Parametric_hrecognize.chain
+  label_for_inclusion_with_parenthesis
+  [
+    cli ["include_once";"require_once";"include";"require"];
+    whites;
+    paren_block;
+    c ";"
+  ];;
 
 add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_recognizer);; 
 
