@@ -28,6 +28,7 @@ let c=Atomic_hrecognizer.constant;;
 let cli=Atomic_hrecognizer.constant_list;;
 let lc=Atomic_hrecognizer.later_constant;;
 let st=Atomic_hrecognizer.star;;
+let sto=Atomic_hrecognizer.star_outside;;
 
 
 
@@ -95,16 +96,14 @@ add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);;
 let label_for_one_liner_with_variable="one_liner_with_variable";;
 add_label label_for_one_liner_with_variable;;
 
-let one_liner_with_variable_recognizer s i=
+let one_liner_with_variable_recognizer=
   Parametric_hrecognize.chain 
   label_for_one_liner_with_variable
   [
      c "$";
      first_letter;
      st Charset.strictly_alphanumeric_characters;
-     whites;
-     paren_block;
-     whites;
+     sto ['\n';'\r';';'];
      c ";"
   ];;
 
