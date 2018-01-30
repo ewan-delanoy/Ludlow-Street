@@ -158,7 +158,7 @@ let ivy_start_partial_recognizer fst_kwd=
 
 (*
 
-ivy_start_partial_recognizer "if" "if (abc) {def} ghi" 1;;
+ivy_start_partial_recognizer "if" "if (567) {123} 678" 1;;
 ivy_start_partial_recognizer "elseif" "elseif (abc) {def} ghi" 1;;
 
 *)
@@ -207,8 +207,8 @@ let label_for_ive_or_ivy="ive_or_ivy";;
 let ive_or_ivy_recognizer s i=
     let opt1=ivy_start_partial_recognizer "if" s i in
     if opt1=None then None else
-    let (_,_,i6)=Option.unpack opt1 in
-    ivy_iterator_partial_recognizer ([i ],s,i6);;
+    let (_,l0,i6)=Option.unpack opt1 in
+    ivy_iterator_partial_recognizer (l0,s,i6);;
 
 add_recognizer (label_for_ive_or_ivy,ive_or_ivy_recognizer);; 
 
@@ -224,161 +224,119 @@ ive_or_ivy_recognizer "if (!$topic_id && !$post_id)\n{\n\ttrigger_error('NO_TOPI
 let label_for_assign_to_array="assign_to_array";;
 add_label label_for_assign_to_array;;
 
-let assign_to_array_recognizer s i=
-  if not(Substring.is_a_substring_located_at "$" s i)
-  then None
-  else 
-  let opt2=After.after_php_label  s (i+1) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  let opt3=After.after_whites s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in 
-  if not(Substring.is_a_substring_located_at "=" s i3)
-  then None
-  else 
-  let opt4=After.after_whites s (i3+1) in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "array(" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('(',')') s (i4+6,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  if not(Substring.is_a_substring_located_at ";" s i6)
-  then None
-  else 
-   Some(label_for_assign_to_array,[i;i2;i3;i4;i5;i6],i6+1);;
+let assign_to_array_recognizer=
+  Parametric_hrecognize.chain
+  label_for_assign_to_array
+  [
+     c "$";
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     c "=";
+     whites;
+     c "array";
+     paren_block;
+     whites;
+     c ";"
+  ];;
 
 add_recognizer (label_for_assign_to_array,assign_to_array_recognizer);; 
 
 let label_for_fnctn_call="fnctn_call";;
 add_label label_for_fnctn_call;;
 
-let fnctn_call_recognizer s i= 
-  let opt2=After.after_php_label  s (i+1) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  let opt3=After.after_whites s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in 
-  if not(Substring.is_a_substring_located_at "(" s i3)
-  then None
-  else 
-  let i4=After.after_closing_character ('(',')') s (i3+1,1) in
-  let opt5=After.after_whites s i4 in
-  if opt5=None then None else   
-  let i5=Option.unpack opt5 in
-  if not(Substring.is_a_substring_located_at ";" s i5)
-  then None
-  else 
-  Some(label_for_fnctn_call,[i;i2;i3;i4;i5],i5+1);;
+let fnctn_call_recognizer= 
+  Parametric_hrecognize.chain
+  label_for_fnctn_call
+  [
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     paren_block;
+     whites;
+     c ";"
+  ];;
 
 add_recognizer (label_for_fnctn_call,fnctn_call_recognizer);; 
 
 let label_for_assign_to_fnctn_call="assign_to_fnctn_call";;
 add_label label_for_assign_to_fnctn_call;;
 
-let assign_to_fnctn_call_recognizer s i=
-  if not(Substring.is_a_substring_located_at "$" s i)
-  then None
-  else 
-  let opt2=After.after_php_label  s (i+1) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  let opt3=After.after_whites s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in 
-  if not(Substring.is_a_substring_located_at "=" s i3)
-  then None
-  else 
-  let opt4=After.after_whites s (i3+1) in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  let opt5=After.after_php_label  s i4 in
-  if opt5=None then None else
-  let i5=Option.unpack opt5 in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else
-  let i6=Option.unpack opt6 in 
-  if not(Substring.is_a_substring_located_at "(" s i6)
-  then None
-  else 
-  let i7=After.after_closing_character ('(',')') s (i6+1,1) in
-  let opt8=After.after_whites s i7 in
-  if opt8=None then None else   
-  let i8=Option.unpack opt8 in
-  if not(Substring.is_a_substring_located_at ";" s i8)
-  then None
-  else Some(label_for_assign_to_fnctn_call,[i;i2;i3;i4;i5;i6;i7;i8],i8+1);;
+let assign_to_fnctn_call_recognizer= 
+  Parametric_hrecognize.chain
+  label_for_assign_to_fnctn_call
+  [
+     c "$"; 
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     c "=";
+     whites;
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     paren_block;
+     whites;
+     c ";"
+  ];;
 
 add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
 
 let label_for_wiley="wiley";;
 add_label label_for_wiley;;
 
-let wiley_recognizer s i=
-  if not(Substring.is_a_substring_located_at "while" s i)
-  then None
-  else 
-  let opt2=After.after_whites s (i+5) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  if not(Substring.is_a_substring_located_at "(" s i2)
-  then None
-  else 
-  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
-  let opt4=After.after_whites s i3 in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "{" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  Some(label_for_wiley,[i;i2;i3;i4;i5;i6],i6);;
+
+let wiley_recognizer= 
+  Parametric_hrecognize.chain
+  label_for_wiley
+  [
+     c "while";
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
 
 add_recognizer (label_for_wiley,wiley_recognizer);; 
 
 
+let label_for_snippet_in_snake_partial="snippet_in_snake_partial";;
+add_label label_for_snippet_in_snake_partial;;
+
+let snippet_in_snake_partial_recognizer=
+  Parametric_hrecognize.chain
+  label_for_snippet_in_snake_partial
+  [
+     c "->";
+     whites;
+     first_letter;
+     st Charset.strictly_alphanumeric_characters;
+     whites;
+     paren_block;
+     whites;
+  ];;
+
+let label_for_snake_start_partial="snake_start_partial";;
+add_label label_for_snake_start_partial;;
+  
+let snake_start_partial_recognizer=
+    Parametric_hrecognize.chain
+    label_for_snake_start_partial
+    [
+       c "$";
+       first_letter;
+       st Charset.strictly_alphanumeric_characters;
+       whites;
+    ];;
+
+
 let label_for_snake="snake";;
-add_label label_for_snake;;
-
-let snake_pusher_partial_recognizer s i=
-  if not(Substring.is_a_substring_located_at "->" s i)
-  then None
-  else 
-  let opt2=After.after_whites s (i+2) in
-  if opt2=None
-  then None
-  else
-  let i2=Option.unpack opt2 in
-  let opt3=After.after_php_label  s i2 in
-  if opt3=None then None else
-  let i3=Option.unpack opt3 in
-  let opt4=After.after_whites s i3 in
-  if opt4=None
-  then None
-  else 
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "(" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('(',')') s (i4+1,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  Some([i;i+2;i3;i4;i5],i6);;
-
+add_label label_for_snake;;  
 
 let rec snake_iterator_partial_recognizer (graet,s,i)=
-  let opt1=snake_pusher_partial_recognizer s i in
+  let opt1=snippet_in_snake_partial_recognizer s i in
   if opt1<>None
-  then let (interm_results,next_i)=Option.unpack opt1 in
+  then let (_,interm_results,next_i)=Option.unpack opt1 in
       snake_iterator_partial_recognizer(graet@interm_results,s,next_i)
   else 
   if not(Substring.is_a_substring_located_at ";" s i)
@@ -387,44 +345,29 @@ let rec snake_iterator_partial_recognizer (graet,s,i)=
 
 
 let snake_recognizer s i=
-  if not(Substring.is_a_substring_located_at "$" s i)
+  let opt1=snake_start_partial_recognizer s i in
+  if opt1=None
   then None
   else 
-  let opt2=After.after_php_label  s (i+1) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  let opt3=After.after_whites s i2 in
-  if opt3=None then None else   
-  let i3=Option.unpack opt3 in
-  snake_iterator_partial_recognizer ([i;i2],s,i3);;
+  let (_,first_results,next_i)=Option.unpack opt1 in
+  snake_iterator_partial_recognizer (first_results,s,next_i);;
 
 add_recognizer (label_for_snake,snake_recognizer);; 
 
 let label_for_phor="phor";;
 add_label label_for_phor;;
 
-let phor_recognizer s i=
-  if not(Substring.is_a_substring_located_at "for" s i)
-  then None
-  else 
-  let opt2=After.after_whites s (i+3) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  if not(Substring.is_a_substring_located_at "(" s i2)
-  then None
-  else 
-  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
-  let opt4=After.after_whites s i3 in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "{" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  Some(label_for_phor,[i;i2;i3;i4;i5;i6],i6);;
+let phor_recognizer=
+  Parametric_hrecognize.chain
+  label_for_phor
+  [
+     c "for";
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
+
 
 add_recognizer (label_for_phor,phor_recognizer);; 
 
@@ -433,28 +376,16 @@ let label_for_phoreech="phoreech";;
 add_label label_for_phoreech;;
 
 
-let phoreech_recognizer s i=
-  if not(Substring.is_a_substring_located_at "foreach" s i)
-  then None
-  else 
-  let opt2=After.after_whites s (i+7) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  if not(Substring.is_a_substring_located_at "(" s i2)
-  then None
-  else 
-  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
-  let opt4=After.after_whites s i3 in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "{" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  Some(label_for_phoreech,[i;i2;i3;i4;i5;i6],i6);;
+let phoreech_recognizer=
+  Parametric_hrecognize.chain
+  label_for_phor
+  [
+     c "foreach";
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
 
 add_recognizer (label_for_phoreech,phoreech_recognizer);; 
 
