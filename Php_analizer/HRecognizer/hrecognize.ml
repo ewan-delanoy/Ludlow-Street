@@ -27,8 +27,8 @@ let add_recognizer (lbl,f)=
 let c=Atomic_hrecognizer.constant;;
 let cli=Atomic_hrecognizer.constant_list;;
 let lc=Atomic_hrecognizer.later_constant;;
-let st=Atomic_hrecognizer.star;;
-let sto=Atomic_hrecognizer.star_outside;;
+let st=Atomic_hrecognizer.nonempty_star;;
+let sto=Atomic_hrecognizer.nonempty_star_outside;;
 
 
 
