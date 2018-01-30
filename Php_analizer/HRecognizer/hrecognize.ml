@@ -138,30 +138,23 @@ let double_slash_comment_recognizer=
 
 add_recognizer (label_for_double_slash_comment,double_slash_comment_recognizer);; 
 
-(* the fst_kwd parameter is either if or elseif *)
 
-let ivy_start_partial_recognizer fst_kwd s i=
-  if not(Substring.is_a_substring_located_at fst_kwd s i)
-  then None
-  else 
-  let opt2=After.after_whites s (i+String.length fst_kwd) in
-  if opt2=None then None else
-  let i2=Option.unpack opt2 in
-  if not(Substring.is_a_substring_located_at "(" s i2)
-  then None
-  else 
-  let i3=After.after_closing_character ('(',')') s (i2+1,1) in
-  let opt4=After.after_whites s i3 in
-  if opt4=None then None else
-  let i4=Option.unpack opt4 in
-  if not(Substring.is_a_substring_located_at "{" s i4)
-  then None
-  else 
-  let i5=After.after_closing_character ('{','}') s (i4+1,1) in
-  let opt6=After.after_whites s i5 in
-  if opt6=None then None else   
-  let i6=Option.unpack opt6 in
-  Some(i,i2,i3,i4,i5,i6);;
+
+let label_for_ivy_start_partial="ivy_start_partial";;
+add_label label_for_ivy_start_partial;;
+
+(* the fst_kwd parameter is either if or elseif or else+if *)
+
+let ivy_start_partial_recognizer fst_kwd=
+  Parametric_hrecognize.chain
+  label_for_ivy_start_partial
+  [
+    c fst_kwd;
+    whites;
+    paren_block;
+    whites;
+    brace_block
+  ];;
 
 (*
 
@@ -170,21 +163,17 @@ ivy_start_partial_recognizer "elseif" "elseif (abc) {def} ghi" 1;;
 
 *)
 
+let label_for_elsie_partial="elsie_partial";;
+add_label label_for_elsie_partial;;
 
-let tag_for_elsie_partial_recognizer_jmp=1;;
-
-let elsie_partial_recognizer s i=
-  if not(Substring.is_a_substring_located_at "else" s i)
-  then (None,0)
-  else 
-  let opt2=After.after_whites s (i+4) in
-  if opt2=None then (None,0) else
-  let i2=Option.unpack opt2 in
-  if not(Substring.is_a_substring_located_at "{" s i2)
-  then (None,tag_for_elsie_partial_recognizer_jmp)
-  else 
-  let i3=After.after_closing_character ('{','}') s (i2+1,1) in
-  (Some(i,i2,i3),0);;
+let elsie_partial_recognizer=
+  Parametric_hrecognize.chain
+  label_for_ivy_start_partial
+  [
+    c "else";
+    whites;
+    brace_block
+  ];;
 
 let label_for_ive="ive";;
 add_label label_for_ive;;
@@ -192,31 +181,34 @@ add_label label_for_ive;;
 let label_for_ivy="ivy";;
 add_label label_for_ivy;;
 
-let label_for_ive_or_ivy="ive_or_ivy";;
-add_label label_for_ive_or_ivy;;
 
 
 let rec ivy_iterator_partial_recognizer (graet,s,i)=
-   let (opt1,tag)=elsie_partial_recognizer s i in
-   if tag=tag_for_elsie_partial_recognizer_jmp
-   then None
-   else
+   let opt1=elsie_partial_recognizer s i in
    if opt1<>None
-   then let (j,j2,j3)=Option.unpack opt1 in
-        Some(label_for_ive,graet@[j2;j3],j3)
+   then let (_,l,next_i)=Option.unpack opt1 in
+        Some(label_for_ive,graet@l,next_i)
    else 
    let opt2=ivy_start_partial_recognizer "elseif" s i in
-   if opt2=None
+   let opt3=(
+      if opt2=None
+      then ivy_start_partial_recognizer "else if" s i
+      else opt2
+   ) in
+   if opt3=None
    then Some(label_for_ivy,graet,i)
    else 
-   let (_,j2,j3,j4,j5,j6)=Option.unpack opt2 in
-   ivy_iterator_partial_recognizer (graet@[j2;j3;j4;j5;j6],s,j6);;
+   let (_,l2,j6)=Option.unpack opt3 in
+   ivy_iterator_partial_recognizer (graet@l2,s,j6);;
 
+let label_for_ive_or_ivy="ive_or_ivy";;
+   add_label label_for_ive_or_ivy;;
+  
 let ive_or_ivy_recognizer s i=
     let opt1=ivy_start_partial_recognizer "if" s i in
     if opt1=None then None else
-    let (_,i2,i3,i4,i5,i6)=Option.unpack opt1 in
-    ivy_iterator_partial_recognizer ([i;i2;i3;i4;i5;i6],s,i6);;
+    let (_,_,i6)=Option.unpack opt1 in
+    ivy_iterator_partial_recognizer ([i ],s,i6);;
 
 add_recognizer (label_for_ive_or_ivy,ive_or_ivy_recognizer);; 
 

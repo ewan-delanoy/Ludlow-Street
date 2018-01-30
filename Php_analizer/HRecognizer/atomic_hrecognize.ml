@@ -63,7 +63,7 @@ let recgnz_enclosed (opener,closer) s i=
   if (String.get s (i-1))<>opener
   then None
   else 
-  Some(After.after_closing_character ('(',')') s (i+1,1));;
+  Some(After.after_closing_character (opener,closer) s (i+1,1));;
  
 let recgnz x=
   match x with
