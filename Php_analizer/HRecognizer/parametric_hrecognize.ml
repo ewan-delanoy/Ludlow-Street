@@ -2,6 +2,9 @@
 
 #use"Php_analizer/HRecognizer/parametric_hrecognize.ml";;
 
+The returned list of indexes starts with the initial index
+and stops just before the "last_i" index.
+
 *)
 
 
@@ -20,4 +23,3 @@ let chain label l_atoms s i=
   Some(last_i,indexes)->Some(label,indexes,last_i)
   |None->None;;    
 
-  
