@@ -154,7 +154,8 @@ let ivy_start_partial_recognizer fst_kwd=
     whites;
     paren_block;
     whites;
-    brace_block
+    brace_block;
+    whites
   ];;
 
 (*
@@ -173,7 +174,8 @@ let elsie_partial_recognizer=
   [
     c "else";
     whites;
-    brace_block
+    brace_block;
+    whites
   ];;
 
 let label_for_ive="ive";;
@@ -219,6 +221,13 @@ ive_or_ivy_recognizer "if (ab) {c} elseif (de) {fg} elseif(h){ij} else{kl} m" 1;
 ive_or_ivy_recognizer "if (ab) {c} elseif (de) {fg} elseif(h){ij}m" 1;;
 
 ive_or_ivy_recognizer "if (!$topic_id && !$post_id)\n{\n\ttrigger_error('NO_TOPIC');\n}m" 1;;
+
+let example=
+  "if (!$post_id)\n{\n\t$sql_array['WHERE'] = \"t.topic_id = "^
+  "$topic_id\";\n}\nelse\n{\n\t$sql_array['WHERE'] = \"p.post_id "^
+  "= $post_id AND t.topic_id = p.topic_id\";\n}\n\n";;
+
+
 
 *)
 
