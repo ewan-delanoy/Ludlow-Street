@@ -34,6 +34,17 @@ let recgnz_exactly_one l_chr s i=
      then Some(i+1)
      else None;;  
 
+let recgnz_star l_chr s i=
+      let n=String.length s in
+      let rec tempf=(
+        fun j->
+          if j>n then None else
+          if  List.mem (String.get s (j-1)) l_chr
+          then tempf(j+1)
+          else Some(j)
+      ) in
+tempf i;;
+
 let recgnz_nonempty_star l_chr s i=
   let n=String.length s in
   if n=0 then None else
@@ -76,6 +87,7 @@ let recgnz x=
   |Atomic_hrecognizer.Constant_list(l)->recgnz_constant_list l
   |Atomic_hrecognizer.Later_constant_list(l)->recgnz_later_constant_list l
   |Atomic_hrecognizer.Exactly_one(l_chr)->recgnz_exactly_one l_chr
+  |Atomic_hrecognizer.Star(l_chr)->recgnz_star l_chr
   |Atomic_hrecognizer.Nonempty_Star(l_chr)->recgnz_nonempty_star l_chr
   |Atomic_hrecognizer.Nonempty_Star_outside(l_chr)->recgnz_nonempty_star_outside l_chr
   |Atomic_hrecognizer.Enclosed(opener,closer)->recgnz_enclosed (opener,closer);;
