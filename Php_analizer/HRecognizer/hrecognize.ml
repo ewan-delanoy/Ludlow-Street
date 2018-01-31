@@ -28,6 +28,7 @@ let c=Atomic_hrecognizer.constant;;
 let cli=Atomic_hrecognizer.constant_list;;
 let lc=Atomic_hrecognizer.later_constant;;
 let st=Atomic_hrecognizer.nonempty_star;;
+let ne_st=Atomic_hrecognizer.nonempty_star;;
 let sto=Atomic_hrecognizer.nonempty_star_outside;;
 
 
@@ -72,7 +73,7 @@ let white_spot_recognizer=
   Parametric_hrecognize.chain 
   label_for_white_spot
   [
-    whites
+    ne_st [' '; '\n'; '\r'; '\t']
   ];;
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
