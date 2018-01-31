@@ -14,7 +14,7 @@ let rec chain_in_detail (s,i_start,current_i,graet,da_ober)=
   []->(Some(current_i,List.rev graet),None)
   |atom::peurrest->
     match Atomic_hrecognize.recgnz atom s current_i with
-    None->(None,Some(List.rev graet,atom,peurrest)) 
+    None->(None,Some(List.rev graet,atom,current_i,peurrest)) 
     |Some(j)->chain_in_detail (s,i_start,j,current_i::graet,peurrest);;
 
 let chain label l_atoms s i=
