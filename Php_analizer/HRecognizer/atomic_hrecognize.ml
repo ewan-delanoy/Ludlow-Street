@@ -61,11 +61,11 @@ let recgnz_nonempty_star l_chr s i=
 let recgnz_nonempty_star_outside l_chr s i=
     let n=String.length s in
     if n=0 then None else
-    if (not(List.mem (String.get s (i-1)) l_chr)) then None else
+    if List.mem (String.get s (i-1)) l_chr then None else
     let rec tempf=(
       fun j->
         if j>n then None else
-        if  (not(List.mem (String.get s (j-1)) l_chr))
+        if  not(List.mem (String.get s (j-1)) l_chr)
         then tempf(j+1)
         else Some(j)
     ) in
