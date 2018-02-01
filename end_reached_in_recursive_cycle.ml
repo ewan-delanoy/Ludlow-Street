@@ -5,5 +5,5 @@
 *)
 
 type t=
-   Reached
+   Reached of int (* there may be several exit doors *)
   |Not_reached;;
