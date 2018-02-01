@@ -1,23 +1,29 @@
 (*
 
-#use"Prepare_html/html_parse_text_with_tags.ml";;
+#use"Prepare_html/Tag_related/html_parse_text_with_tags.ml";;
 
 *)
 
 
 exception Unmatched_tag_opener of int;;
 
-let rec main_iterator (graet,s,n,idx)=
+let rec main_pusher (ndr,walker)=
+    let (graet,s,n,idx)=walker in
     if idx>n
-    then Html_hedgehog_pack.simplify_to_text graet
+    then (End_reached_in_recursive_cycle.Reached(1),walker)
+         (* Html_hedgehog_pack.simplify_to_text graet *)
     else
+    
     let opt1=Option.seek (fun j->
         (Strung.get s j)='<'
     )(Ennig.ennig idx n) in
     if opt1=None
-    then let last_one=Html_hedgehog_pack.add_string_constant 
+    then (End_reached_in_recursive_cycle.Reached(2),walker)
+        (* 
+        let last_one=Html_hedgehog_pack.add_string_constant 
               (idx,n,Cull_string.interval s idx n) graet in
          Html_hedgehog_pack.simplify_to_text last_one     
+        *) 
     else 
     let i1=Option.unpack opt1 in
     let opt2=Option.seek (fun j->
@@ -35,10 +41,27 @@ let rec main_iterator (graet,s,n,idx)=
      ) in
     let temp2=Html_hedgehog_pack.add_tag 
     (i1,i2,Cull_string.interval s i1 i2) temp1 in
-    main_iterator (temp2,s,n,i2+1) ;;   
+    (End_reached_in_recursive_cycle.Not_reached,(temp2,s,n,i2+1)) ;;   
 
-let parse s=main_iterator 
-  (Html_hedgehog_pack.empty,s,String.length s,1);;
+exception Bad_exit_index;;
+
+let rec main_iterator wrapped_walker=match fst(wrapped_walker) with
+End_reached_in_recursive_cycle.Reached(i)-> 
+              let (graet,s,n,idx)=snd(wrapped_walker) in
+              if i=1
+              then Html_hedgehog_pack.simplify_to_text graet
+              else 
+              if i=2
+              then let last_one=Html_hedgehog_pack.add_string_constant 
+                   (idx,n,Cull_string.interval s idx n) graet in
+                   Html_hedgehog_pack.simplify_to_text last_one 
+              else raise(Bad_exit_index)     
+| End_reached_in_recursive_cycle.Not_reached->main_iterator(main_pusher wrapped_walker);;
+
+let main_initializer s=
+    (End_reached_in_recursive_cycle.Not_reached,(Html_hedgehog_pack.empty,s,String.length s,1));;
+
+let parse s=main_iterator (main_initializer s);;
     
 
 
