@@ -7,8 +7,9 @@
 
 exception Unmatched_tag_opener of int;;
 
-let rec main_pusher (ndr,walker)=
-    let (graet,s,n,idx)=walker in
+let main_pusher (s,n)=
+    let rec tempf=(function (ndr,walker)->
+    let (graet,idx)=walker in
     if idx>n
     then (End_reached_in_recursive_cycle.Reached(1),walker)
          (* Html_hedgehog_pack.simplify_to_text graet *)
@@ -41,13 +42,17 @@ let rec main_pusher (ndr,walker)=
      ) in
     let temp2=Html_hedgehog_pack.add_tag 
     (i1,i2,Cull_string.interval s i1 i2) temp1 in
-    (End_reached_in_recursive_cycle.Not_reached,(temp2,s,n,i2+1)) ;;   
+    (End_reached_in_recursive_cycle.Not_reached,(temp2,i2+1)) 
+    ) in
+    tempf;;   
+
+
 
 exception Bad_exit_index;;
 
-let rec main_iterator wrapped_walker=match fst(wrapped_walker) with
+let rec main_iterator (s,n) wrapped_walker=match fst(wrapped_walker) with
 End_reached_in_recursive_cycle.Reached(i)-> 
-              let (graet,s,n,idx)=snd(wrapped_walker) in
+              let (graet,idx)=snd(wrapped_walker) in
               if i=1
               then Html_hedgehog_pack.simplify_to_text graet
               else 
@@ -56,12 +61,14 @@ End_reached_in_recursive_cycle.Reached(i)->
                    (idx,n,Cull_string.interval s idx n) graet in
                    Html_hedgehog_pack.simplify_to_text last_one 
               else raise(Bad_exit_index)     
-| End_reached_in_recursive_cycle.Not_reached->main_iterator(main_pusher wrapped_walker);;
+| End_reached_in_recursive_cycle.Not_reached->
+    main_iterator (s,n) (main_pusher (s,n) wrapped_walker);;
 
 let main_initializer s=
-    (End_reached_in_recursive_cycle.Not_reached,(Html_hedgehog_pack.empty,s,String.length s,1));;
+    (End_reached_in_recursive_cycle.Not_reached,
+    (Html_hedgehog_pack.empty,1));;
 
-let parse s=main_iterator (main_initializer s);;
+let parse s=main_iterator (s,String.length s) (main_initializer s);;
     
 
 
