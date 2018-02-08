@@ -11,3 +11,5 @@ let star_announcer="5";;
 let chain_separator="0";;
 let disjunction_separator="1";;
 
+let opener="6";;
+let closer="9";;
