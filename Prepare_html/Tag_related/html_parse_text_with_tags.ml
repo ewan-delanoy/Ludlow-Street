@@ -70,7 +70,11 @@ let main_initializer s=
 
 let parse s=main_iterator (s,String.length s) (main_initializer s);;
     
+(*
 
+parse "<!DOCTYPE html>\n<html>\n        <head>abc </head></html>";;
+
+*)
 
 
 

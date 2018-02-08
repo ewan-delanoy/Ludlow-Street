@@ -6,6 +6,7 @@ The fundamental object used in parsing tags inside a HTML string.
 It has two parts, unfinished and finished. The unfinished part
 keeps a list of the not yet closed opening tags encountered so far.
 
+
 *)
 
 type t=
