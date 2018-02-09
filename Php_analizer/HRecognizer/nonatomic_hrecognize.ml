@@ -40,6 +40,11 @@ let rec recgz natm s i=
   |Nonatomic_hrecognizer.Star(_,natm2)->
       recgz_star recgz natm2 s i;;
 
+let recgz_and_add_label lbl natm s i=
+   match recgz natm s i with
+   None->None
+   |Some(next_i)->Some(lbl,(i,next_i-1),next_i);;
+
 exception Debug_chain_exn;;
 
 let debug_chain old_f l s i=
