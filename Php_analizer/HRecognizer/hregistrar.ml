@@ -69,3 +69,9 @@ let star opt x=
         |Some(name1)->name1
     ) in
     Private.register name (Nonatomic_hrecognizer.star name x);;
+
+exception Unused_name of string;;
+
+let recognizer_with_name name=
+   try  List.assoc  name (!Private.the_list) with
+   _->raise(Unused_name(name));; 
