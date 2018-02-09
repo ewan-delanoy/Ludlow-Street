@@ -77,7 +77,7 @@ let add_tag (i,j,tag_descr) hpack=
         then add_string_constant 
             (i,j,tag_descr) hpack
         else 
-        add_opening_tag 
+        add_closing_tag 
         (i,j,Cull_string.interval tag_descr 2 (j-i)) hpack ;;
 
 exception Cannot_simplify_multipack of Html_hedgehog.t list;;
