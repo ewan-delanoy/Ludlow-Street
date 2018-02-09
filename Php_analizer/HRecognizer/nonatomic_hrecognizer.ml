@@ -18,3 +18,8 @@ let leaf s x=Leaf(s,x);;
 let chain s l=Chain(s,l);;
 let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
+
+let print (x:t)="rn \""^(name x)^"\"";;
+
+let print_out (fmt:Format.formatter) (x:t)=
+   Format.fprintf fmt "@[%s@]" (print x);;
