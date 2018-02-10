@@ -49,6 +49,8 @@ let concat l=
     ) l in
     let temp2=List.flatten temp1 in
     let temp3=merge_leaves([],temp2) in
-    Concat temp3;;
+    if List.length temp3=1
+    then List.hd temp3
+    else Concat temp3;;
 
 
