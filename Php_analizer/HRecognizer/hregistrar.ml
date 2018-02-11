@@ -35,6 +35,14 @@ let ds=Special_chars_for_hrecognizer_name.disjunction_separator;;
 let op=Special_chars_for_hrecognizer_name.opener;;
 let cl=Special_chars_for_hrecognizer_name.closer;;         
 
+let anonymous_counter=ref(0);;
+
+let default_name_for_atom ()=
+    let j=(!anonymous_counter)+1 in
+    let _=(anonymous_counter:=j) in
+    "anon_"^(string_of_int j);;
+   
+
 let default_name_for_chain l=
    let temp1=Image.image Nonatomic_hrecognizer.name l in
    ca^op^(String.concat cs temp1)^cl;;
@@ -48,25 +56,35 @@ let default_name_for_star x=
 
 end;;
 
-let leaf s x=Private.register s (Nonatomic_hrecognizer.leaf s x);;
-let chain opt l=
-    let name=(match opt with
-       None->Private.default_name_for_chain l
-       |Some(name1)->name1
+let leaf s_opt x=
+  let name=(
+    if s_opt="" 
+    then Private.default_name_for_atom ()
+    else s_opt
+   ) in
+   Private.register name (Nonatomic_hrecognizer.leaf name x);;
+
+let chain s_opt l=
+    let name=(
+       if s_opt="" 
+       then Private.default_name_for_chain l
+       else s_opt
     ) in
     Private.register name (Nonatomic_hrecognizer.chain name l);;
 
-let ordered_disjunction opt l=
-      let name=(match opt with
-         None->Private.default_name_for_disjunction l
-         |Some(name1)->name1
+let ordered_disjunction s_opt l=
+      let name=(
+        if s_opt="" 
+        then Private.default_name_for_disjunction l
+        else s_opt
       ) in
       Private.register name (Nonatomic_hrecognizer.ordered_disjunction name l);;
 
-let star opt x=
-    let name=(match opt with
-        None->Private.default_name_for_star x
-        |Some(name1)->name1
+let star s_opt x=
+    let name=(
+      if s_opt="" 
+      then Private.default_name_for_star x
+      else s_opt    
     ) in
     Private.register name (Nonatomic_hrecognizer.star name x);;
 
