@@ -4,9 +4,9 @@
 
 *)
 
-let chain_announcer="2";;
-let disjunction_announcer="8";;
-let star_announcer="5";;
+let chain_announcer="z2";;
+let disjunction_announcer="z8";;
+let star_announcer="z5";;
 
 let chain_separator="0";;
 let disjunction_separator="1";;
