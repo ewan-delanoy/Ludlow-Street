@@ -24,42 +24,60 @@ let add_recognizer (lbl,f)=
 
 (* end of label related generic definitions *)
 
-let c=Atomic_hrecognizer.constant;;
-let cli=Atomic_hrecognizer.constant_list;;
-let lc=Atomic_hrecognizer.later_constant;;
-let st=Atomic_hrecognizer.star;;
-let ne_st=Atomic_hrecognizer.nonempty_star;;
-let sto=Atomic_hrecognizer.nonempty_star_outside;;
+let c x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.constant y);;
+let cli x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.constant_list y);;
+let lc x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.later_constant y);;
+let st x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.star y);;
+let ne_st x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.nonempty_star y);;
+let sto x y=
+  Hregistrar.leaf x (Atomic_hrecognizer.nonempty_star_outside y);;
+let enc x y=
+    Hregistrar.leaf x (Atomic_hrecognizer.enclosed y);;  
+let eo x y=
+      Hregistrar.leaf x (Atomic_hrecognizer.exactly_one y);;      
+let ch x l=Hregistrar.chain x l;;   
+
+
+let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
+let rlabch lbl l=rlab lbl
+  (ch lbl l);; 
 
 
 
-let whites= st [' '; '\n'; '\r'; '\t'];;
-let paren_block=Atomic_hrecognizer.enclosed ('(',')');;
-let brace_block=Atomic_hrecognizer.enclosed ('{','}');;
-let first_letter=Atomic_hrecognizer.exactly_one 
-                   Charset.php_label_first_letters;;
+let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
+let paren_block=enc  "paren_block" ('(',')') ;;
+let brace_block=enc  "brace_block" ('{','}') ;;
+
+let first_letter=eo "first_letter" Charset.php_label_first_letters;;
+let php_name=ch "php_name"
+    [
+     first_letter;
+     st "" Charset.strictly_alphanumeric_characters;
+    ];;
 
 let label_for_php_open_tag="php_open_tag";;
 add_label label_for_php_open_tag;;
 
-let php_open_tag_recognizer=
-  Parametric_hrecognize.chain 
+let php_open_tag_recognizer=rlab
   label_for_php_open_tag 
-  [
-    cli ["<?php\n";"<?php "]
-  ];;
+  (cli "php_open_tag"
+  ["<?php\n";"<?php "]);;
 
 add_recognizer (label_for_php_open_tag,php_open_tag_recognizer);;  
 
 let label_for_comment="comment";;
 add_label label_for_comment;;
 
-let comment_recognizer=
-  Parametric_hrecognize.chain 
+let comment_recognizer=rlabch
   label_for_comment
   [
-    c "/*";
-    lc "*/"
+    c "" "/*";
+    lc "" "*/"
   ];;
 
 add_recognizer (label_for_comment,comment_recognizer);; 
@@ -67,29 +85,25 @@ add_recognizer (label_for_comment,comment_recognizer);;
 let label_for_white_spot="white_spot";;
 add_label label_for_white_spot;;
 
-
-
-let white_spot_recognizer=
-  Parametric_hrecognize.chain 
+let white_spot_recognizer=rlab 
   label_for_white_spot
-  [
-    ne_st [' '; '\n'; '\r'; '\t']
-  ];;
+  (
+    ne_st "" [' '; '\n'; '\r'; '\t']
+  );;
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
 
 let label_for_difyne_constant="difyne_constant";;
 add_label label_for_difyne_constant;;
 
-let difyne_constant_recognizer=
-  Parametric_hrecognize.chain 
+let difyne_constant_recognizer=rlabch
   label_for_difyne_constant
   [
-     c "define";
+     c "" "define";
      whites;
      paren_block;
      whites;
-     c ";"
+     c "" ";"
   ];;
 
 add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
@@ -97,15 +111,14 @@ add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);;
 let label_for_one_liner_with_variable="one_liner_with_variable";;
 add_label label_for_one_liner_with_variable;;
 
-let one_liner_with_variable_recognizer=
-  Parametric_hrecognize.chain 
+let one_liner_with_variable_recognizer=rlabch
   label_for_one_liner_with_variable
   [
-     c "$";
+     c "" "$";
      first_letter;
-     st Charset.strictly_alphanumeric_characters;
-     sto ['\n';'\r';';'];
-     c ";"
+     st "" Charset.strictly_alphanumeric_characters;
+     sto "" ['\n';'\r';';'];
+     c "" ";"
   ];;
 
 add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
@@ -113,14 +126,13 @@ add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recogn
 let label_for_inclusion_with_parenthesis="inclusion_with_parenthesis";;
 add_label label_for_inclusion_with_parenthesis;;
 
-let inclusion_with_parenthesis_recognizer=
-  Parametric_hrecognize.chain
+let inclusion_with_parenthesis_recognizer=rlabch
   label_for_inclusion_with_parenthesis
   [
-    cli ["include_once";"require_once";"include";"require"];
+    cli "" ["include_once";"require_once";"include";"require"];
     whites;
     paren_block;
-    c ";"
+    c "" ";"
   ];;
 
 add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_recognizer);; 
@@ -128,35 +140,30 @@ add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_
 let label_for_double_slash_comment="double_slash_comment";;
 add_label label_for_double_slash_comment;;
 
-let double_slash_comment_recognizer=
-  Parametric_hrecognize.chain
+let double_slash_comment_recognizer=rlabch
   label_for_double_slash_comment
   [
-    c "//";
-    sto ['\n'];
-    c "\n"
+    c "" "//";
+    sto "" ['\n'];
+    c "" "\n"
   ];;
 
 add_recognizer (label_for_double_slash_comment,double_slash_comment_recognizer);; 
 
 
-
-let label_for_ivy_start_partial="ivy_start_partial";;
-add_label label_for_ivy_start_partial;;
-
 (* the fst_kwd parameter is either if or elseif or else+if *)
 
 let ivy_start_partial_recognizer fst_kwd=
-  Parametric_hrecognize.chain
-  label_for_ivy_start_partial
+  Nonatomic_hrecognize.recgz
+  (ch ""
   [
-    c fst_kwd;
+    c "" fst_kwd;
     whites;
     paren_block;
     whites;
     brace_block;
     whites
-  ];;
+  ]);;
 
 (*
 
@@ -165,18 +172,15 @@ ivy_start_partial_recognizer "elseif" "elseif (abc) {def} ghi" 1;;
 
 *)
 
-let label_for_elsie_partial="elsie_partial";;
-add_label label_for_elsie_partial;;
-
 let elsie_partial_recognizer=
-  Parametric_hrecognize.chain
-  label_for_ivy_start_partial
+  Nonatomic_hrecognize.recgz
+  (ch ""
   [
-    c "else";
+    c "" "else";
     whites;
     brace_block;
     whites
-  ];;
+  ]);;
 
 let label_for_ive="ive";;
 add_label label_for_ive;;
@@ -186,11 +190,11 @@ add_label label_for_ivy;;
 
 
 
-let rec ivy_iterator_partial_recognizer (graet,s,i)=
+let rec ivy_iterator_partial_recognizer (s,i0,i)=
    let opt1=elsie_partial_recognizer s i in
    if opt1<>None
-   then let (_,l,next_i)=Option.unpack opt1 in
-        Some(label_for_ive,graet@l,next_i)
+   then let next_i=Option.unpack opt1 in
+        Some(label_for_ive,(i0,next_i-1),next_i)
    else 
    let opt2=ivy_start_partial_recognizer "elseif" s i in
    let opt3=(
@@ -199,10 +203,10 @@ let rec ivy_iterator_partial_recognizer (graet,s,i)=
       else opt2
    ) in
    if opt3=None
-   then Some(label_for_ivy,graet,i)
+   then Some(label_for_ivy,(i0,i-1),i)
    else 
-   let (_,l2,j6)=Option.unpack opt3 in
-   ivy_iterator_partial_recognizer (graet@l2,s,j6);;
+   let j6=Option.unpack opt3 in
+   ivy_iterator_partial_recognizer (s,i0,j6);;
 
 let label_for_ive_or_ivy="ive_or_ivy";;
    add_label label_for_ive_or_ivy;;
@@ -210,8 +214,8 @@ let label_for_ive_or_ivy="ive_or_ivy";;
 let ive_or_ivy_recognizer s i=
     let opt1=ivy_start_partial_recognizer "if" s i in
     if opt1=None then None else
-    let (_,l0,i6)=Option.unpack opt1 in
-    ivy_iterator_partial_recognizer (l0,s,i6);;
+    let i6=Option.unpack opt1 in
+    ivy_iterator_partial_recognizer (s,i,i6);;
 
 add_recognizer (label_for_ive_or_ivy,ive_or_ivy_recognizer);; 
 
@@ -234,20 +238,19 @@ let example=
 let label_for_assign_to_array="assign_to_array";;
 add_label label_for_assign_to_array;;
 
-let assign_to_array_recognizer=
-  Parametric_hrecognize.chain
+
+let assign_to_array_recognizer=rlabch
   label_for_assign_to_array
   [
-     c "$";
+     c "" "$";
      first_letter;
-     st Charset.strictly_alphanumeric_characters;
+     php_name;
+     c "" "=";
      whites;
-     c "=";
-     whites;
-     c "array";
+     c "" "array";
      paren_block;
      whites;
-     c ";"
+     c "" ";"
   ];;
 
 add_recognizer (label_for_assign_to_array,assign_to_array_recognizer);; 
@@ -255,16 +258,14 @@ add_recognizer (label_for_assign_to_array,assign_to_array_recognizer);;
 let label_for_fnctn_call="fnctn_call";;
 add_label label_for_fnctn_call;;
 
-let fnctn_call_recognizer= 
-  Parametric_hrecognize.chain
+let fnctn_call_recognizer=rlabch 
   label_for_fnctn_call
   [
-     first_letter;
-     st Charset.strictly_alphanumeric_characters;
+     php_name;
      whites;
      paren_block;
      whites;
-     c ";"
+     c "" ";"
   ];;
 
 add_recognizer (label_for_fnctn_call,fnctn_call_recognizer);; 
@@ -272,22 +273,19 @@ add_recognizer (label_for_fnctn_call,fnctn_call_recognizer);;
 let label_for_assign_to_fnctn_call="assign_to_fnctn_call";;
 add_label label_for_assign_to_fnctn_call;;
 
-let assign_to_fnctn_call_recognizer= 
-  Parametric_hrecognize.chain
+let assign_to_fnctn_call_recognizer=rlabch 
   label_for_assign_to_fnctn_call
   [
-     c "$"; 
-     first_letter;
-     st Charset.strictly_alphanumeric_characters;
+     c "" "$"; 
+     php_name;
      whites;
-     c "=";
+     c "" "=";
      whites;
-     first_letter;
-     st Charset.strictly_alphanumeric_characters;
+     php_name;
      whites;
      paren_block;
      whites;
-     c ";"
+     c "" ";"
   ];;
 
 add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
@@ -296,11 +294,10 @@ let label_for_wiley="wiley";;
 add_label label_for_wiley;;
 
 
-let wiley_recognizer= 
-  Parametric_hrecognize.chain
+let wiley_recognizer=rlabch 
   label_for_wiley
   [
-     c "while";
+     c "" "while";
      whites;
      paren_block;
      whites;
@@ -309,69 +306,61 @@ let wiley_recognizer=
 
 add_recognizer (label_for_wiley,wiley_recognizer);; 
 
-
-let label_for_snippet_in_snake_partial="snippet_in_snake_partial";;
-add_label label_for_snippet_in_snake_partial;;
-
 let snippet_in_snake_partial_recognizer=
-  Parametric_hrecognize.chain
-  label_for_snippet_in_snake_partial
+  Nonatomic_hrecognize.recgz
+  (ch "snippet_in_snake"
   [
-     c "->";
+     c "" "->";
      whites;
-     first_letter;
-     st Charset.strictly_alphanumeric_characters;
+     php_name;
      whites;
      paren_block;
      whites;
-  ];;
+  ]
+  );;
 
-let label_for_snake_start_partial="snake_start_partial";;
-add_label label_for_snake_start_partial;;
   
 let snake_start_partial_recognizer=
-    Parametric_hrecognize.chain
-    label_for_snake_start_partial
+    Nonatomic_hrecognize.recgz
+    (ch "snake_start"
     [
-       c "$";
-       first_letter;
-       st Charset.strictly_alphanumeric_characters;
+       c "" "$";
+       php_name;
        whites;
-    ];;
+    ]);;
 
 
 let label_for_snake="snake";;
 add_label label_for_snake;;  
 
-let rec snake_iterator_partial_recognizer (graet,s,i)=
+let rec snake_iterator_partial_recognizer (s,i0,i)=
   let opt1=snippet_in_snake_partial_recognizer s i in
   if opt1<>None
-  then let (_,interm_results,next_i)=Option.unpack opt1 in
-      snake_iterator_partial_recognizer(graet@interm_results,s,next_i)
+  then let next_i=Option.unpack opt1 in
+      snake_iterator_partial_recognizer(s,i0,next_i)
   else 
   if not(Substring.is_a_substring_located_at ";" s i)
   then None
-  else Some(label_for_snake,graet@[i],i+1);;
+  else Some(label_for_snake,(i0,i),i+1);;
 
 
-let snake_recognizer s i=
-  let opt1=snake_start_partial_recognizer s i in
+let snake_recognizer s i0=
+  let opt1=snake_start_partial_recognizer s i0 in
   if opt1=None
   then None
   else 
-  let (_,first_results,next_i)=Option.unpack opt1 in
-  snake_iterator_partial_recognizer (first_results,s,next_i);;
+  let i1=Option.unpack opt1 in
+  snake_iterator_partial_recognizer (s,i0,i1);;
 
 add_recognizer (label_for_snake,snake_recognizer);; 
 
 let label_for_phor="phor";;
 add_label label_for_phor;;
 
-let phor_recognizer=
-  Parametric_hrecognize.chain
+let phor_recognizer=rlabch
   label_for_phor
   [
-     c "for";
+     c "" "for";
      whites;
      paren_block;
      whites;
@@ -386,11 +375,10 @@ let label_for_phoreech="phoreech";;
 add_label label_for_phoreech;;
 
 
-let phoreech_recognizer=
-  Parametric_hrecognize.chain
-  label_for_phor
+let phoreech_recognizer=rlabch
+  label_for_phoreech
   [
-     c "foreach";
+     c "" "foreach";
      whites;
      paren_block;
      whites;
