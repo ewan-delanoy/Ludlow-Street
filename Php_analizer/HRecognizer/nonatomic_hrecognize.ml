@@ -26,7 +26,7 @@ let recgz_star old_f atm s i=
      let rec tempf=(fun idx->
        match old_f atm s idx with
        None->Some(idx)
-       |Some(new_idx)->tempf idx
+       |Some(new_idx)->tempf new_idx
      )  in
      tempf i;;   
 

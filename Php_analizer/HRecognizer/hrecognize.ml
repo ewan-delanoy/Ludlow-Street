@@ -415,7 +415,7 @@ let see=(!reference_for_loaf);;
 
 let i1=Substring.leftmost_index_of_in see text;;
 let li1=Strung.number_of_lines_before text i1;;
-let s2=Lines_in_string.interval text1 1140 1146;;
+let s2=Lines_in_string.interval text 1140 1146;;
 
 let ioi x=Substring.leftmost_index_of_in x s2;;
 let ioj x=(ioi x,(ioi x)+(String.length x)-1);;
