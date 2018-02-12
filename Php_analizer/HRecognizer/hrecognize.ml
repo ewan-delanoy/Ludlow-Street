@@ -42,6 +42,7 @@ let eo x y=
       Hregistrar.leaf x (Atomic_hrecognizer.exactly_one y);;      
 let ch x l=Hregistrar.chain x l;;   
 
+let star=Hregistrar.star;;
 
 let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
 let rlabch lbl l=rlab lbl
@@ -306,9 +307,16 @@ let wiley_recognizer=rlabch
 
 add_recognizer (label_for_wiley,wiley_recognizer);; 
 
-let snippet_in_snake_partial_recognizer=
-  Nonatomic_hrecognize.recgz
-  (ch "snippet_in_snake"
+let snake_start=
+  ch "snake_start"
+  [
+     c "" "$";
+     php_name;
+     whites;
+  ];;
+
+let snippet_in_snake=
+  ch "snippet_in_snake"
   [
      c "" "->";
      whites;
@@ -316,41 +324,24 @@ let snippet_in_snake_partial_recognizer=
      whites;
      paren_block;
      whites;
-  ]
-  );;
+  ];;
 
-  
-let snake_start_partial_recognizer=
-    Nonatomic_hrecognize.recgz
-    (ch "snake_start"
-    [
-       c "" "$";
-       php_name;
-       whites;
-    ]);;
+let snake=
+  ch "snake"
+   [
+     snake_start;
+     star "" snippet_in_snake;
+     c "" ";"
+   ];;
 
 
 let label_for_snake="snake";;
 add_label label_for_snake;;  
 
-let rec snake_iterator_partial_recognizer (s,i0,i)=
-  let opt1=snippet_in_snake_partial_recognizer s i in
-  if opt1<>None
-  then let next_i=Option.unpack opt1 in
-      snake_iterator_partial_recognizer(s,i0,next_i)
-  else 
-  if not(Substring.is_a_substring_located_at ";" s i)
-  then None
-  else Some(label_for_snake,(i0,i),i+1);;
 
-
-let snake_recognizer s i0=
-  let opt1=snake_start_partial_recognizer s i0 in
-  if opt1=None
-  then None
-  else 
-  let i1=Option.unpack opt1 in
-  snake_iterator_partial_recognizer (s,i0,i1);;
+let snake_recognizer=rlab 
+ label_for_snake 
+  snake;;
 
 add_recognizer (label_for_snake,snake_recognizer);; 
 
@@ -405,6 +396,7 @@ let main_exhauster s i=
 
 (*
 
+open Hrecognize;;
 
 let reference_for_loaf = ref "";;
 let viz f=
@@ -420,6 +412,33 @@ let (i1,_)=main_exhauster text 1;;
 let m1=min (String.length text) (i1+400);; 
 reference_for_loaf:=Cull_string.interval text i1 m1;;
 let see=(!reference_for_loaf);;
+
+let i1=Substring.leftmost_index_of_in see text;;
+let li1=Strung.number_of_lines_before text i1;;
+let s2=Lines_in_string.interval text1 1140 1146;;
+
+let ioi x=Substring.leftmost_index_of_in x s2;;
+let ioj x=(ioi x,(ioi x)+(String.length x)-1);;
+
+let w1=itv s2 8 32;;
+let w2=itv s2 36 46;;
+let w3=itv s2 50 53;;
+let w4=itv s2 57 117;;
+let w5=itv s2 121 159;;
+let w6=itv s2 163 232;;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
