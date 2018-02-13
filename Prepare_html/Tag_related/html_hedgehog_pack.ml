@@ -69,7 +69,7 @@ let is_not_a_closable_tag t=
 
 
 let add_tag (i,j,tag_descr) hpack=
-   if Substring.is_a_substring_located_at "/" tag_descr 2
+   if not(Substring.is_a_substring_located_at "/" tag_descr 2)
    then add_opening_tag 
         (i,j,Cull_string.interval tag_descr 3 (j-i)) hpack
    else let t=Cull_string.interval tag_descr 2 (j-i) in
