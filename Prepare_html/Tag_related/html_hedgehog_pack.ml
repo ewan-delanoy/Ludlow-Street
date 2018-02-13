@@ -70,15 +70,12 @@ let is_not_a_closable_tag t=
 
 let add_tag (i,j,tag_descr) hpack=
    if not(Substring.is_a_substring_located_at "/" tag_descr 2)
-   then add_opening_tag 
-        (i,j,Cull_string.interval tag_descr 3 (j-i)) hpack
-   else let t=Cull_string.interval tag_descr 2 (j-i) in
+   then let t=Cull_string.interval tag_descr 2 (j-i) in
         if is_not_a_closable_tag t
-        then add_string_constant 
-            (i,j,tag_descr) hpack
-        else 
-        add_closing_tag 
-        (i,j,Cull_string.interval tag_descr 2 (j-i)) hpack ;;
+        then add_string_constant (i,j,tag_descr) hpack
+        else add_opening_tag (i,j,t) hpack
+   else let t=Cull_string.interval tag_descr 3 (j-i) in
+        add_closing_tag (i,j,t) hpack ;;
 
 exception Cannot_simplify_multipack of Html_hedgehog.t list;;
 
