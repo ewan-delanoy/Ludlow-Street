@@ -63,7 +63,11 @@ let add_closing_tag ((i:int),j,tag_name) (P l_hedgehog)=
     );;
 
 let is_not_a_closable_tag t=
-  (Substring.begins_with t "!DOCTYPE")
+  (
+      List.exists(
+        Substring.begins_with t
+      ) ["!DOCTYPE";"link"]
+  )  
   ||
   (List.mem t ["br"]);;
 
