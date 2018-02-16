@@ -10,7 +10,10 @@ type t=
     |Concat of t list;;
     
 let leaf text =Leaf text;;
-let tagged tag_name full_tag text =Tagged(tag_name,full_tag,text);;
+let tagged full_tag text =
+    let j=Substring.leftmost_index_of_in " " full_tag in
+    let tag_name=Cull_string.beginning (j-1) full_tag in
+    Tagged(tag_name,full_tag,text);;
    
 let leaf_content=function
     Leaf(x)->Some(x)
