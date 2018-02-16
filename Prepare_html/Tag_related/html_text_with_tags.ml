@@ -9,11 +9,16 @@ type t=
     |Tagged of string*string*t
     |Concat of t list;;
     
-let leaf text =Leaf text;;
-let tagged full_tag text =
+let compute_tag_name full_tag =
     let j=Substring.leftmost_index_of_in " " full_tag in
-    let tag_name=Cull_string.beginning (j-1) full_tag in
-    Tagged(tag_name,full_tag,text);;
+    if j<0
+    then full_tag
+    else Cull_string.beginning (j-1) full_tag;;
+
+let leaf text =Leaf text;;
+
+let tagged full_tag text =
+    Tagged(compute_tag_name full_tag,full_tag,text);;
    
 let leaf_content=function
     Leaf(x)->Some(x)
