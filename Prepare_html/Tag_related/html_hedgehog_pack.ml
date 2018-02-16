@@ -66,7 +66,7 @@ let is_not_a_closable_tag t=
   (
       List.exists(
         Substring.begins_with t
-      ) ["!DOCTYPE";"link"]
+      ) ["!DOCTYPE";"link "]
   )  
   ||
   (List.mem t ["br"]);;

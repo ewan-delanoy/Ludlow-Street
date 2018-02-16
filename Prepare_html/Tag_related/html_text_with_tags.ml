@@ -6,11 +6,11 @@
 
 type t=
      Leaf of string
-    |Tagged of string*t
+    |Tagged of string*string*t
     |Concat of t list;;
     
 let leaf text =Leaf text;;
-let tagged tag_name text =Tagged(tag_name,text);;
+let tagged tag_name full_tag text =Tagged(tag_name,full_tag,text);;
    
 let leaf_content=function
     Leaf(x)->Some(x)
