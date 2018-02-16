@@ -11,7 +11,7 @@ keeps a list of the not yet closed opening tags encountered so far.
 
 type t=
     {
-        unfinished : (int*int*string) list;
+        unfinished : (int*int*string*string) list;
         finished   : (int*int*Html_text_with_tags.t) option;
     };;
 
@@ -27,9 +27,9 @@ let from_constant (i,j,text)=
 let from_string_constant (i,j,s_text)=
      from_constant (i,j,Html_text_with_tags.leaf s_text);;
 
-let from_opening_tag (i,j,tag_name)=
+let from_opening_tag (i,j,full_tag)=
         {
-            unfinished = [i,j,tag_name];
+            unfinished = [i,j,Html_text_with_tags.compute_tag_name full_tag, full_tag];
             finished = None
         };;    
 
@@ -53,11 +53,12 @@ let add_string_constant (i,j,s) hedgehog=
 
 exception Forbidden_opening_tag_addition of string;;
 
-let add_opening_tag (i,j,tag_name) hedgehog=
+let add_opening_tag (i,j,full_tag) hedgehog=
+    let tag_name=Html_text_with_tags.compute_tag_name full_tag in
     if hedgehog.finished<>None
     then raise(Forbidden_opening_tag_addition(tag_name))
     else {
-            unfinished = (i,j,tag_name)::hedgehog.unfinished;
+            unfinished = (i,j,tag_name,full_tag)::hedgehog.unfinished;
             finished = None
           };;   
 
@@ -66,20 +67,20 @@ exception No_open_tag;;
 let close_latest_tag (i1,j1) hedgehog= 
     match hedgehog.unfinished with
      []->raise(No_open_tag)
-    |(i,j,tag_name)::peurrest->
+    |(i,j,tag_name,full_tag)::peurrest->
        let center_part=(
         match  hedgehog.finished with
         None->Html_text_with_tags.leaf ""
         |Some(_,_,txt)->txt
        ) in          
        let new_achievement=
-      Html_text_with_tags.tagged tag_name center_part in
+      Html_text_with_tags.tagged full_tag center_part in
       {
           unfinished = peurrest;
           finished = Some(i,j1,new_achievement);
       };;
 
-exception Cannot_simplify_unfinished_hedgehog of (int*int*string) list;;
+exception Cannot_simplify_unfinished_hedgehog of (int*int*string*string) list;;
 exception Nothing_to_simplify;;
 
 let simplify_to_text hedgehog=
