@@ -94,6 +94,3 @@ let simplify_to_text hedgehog=
     else
     let (_,_,answer)=Option.unpack opt in
     answer;;
-
-    
-    
