@@ -51,7 +51,7 @@ let add_closing_tag ((i:int),j,tag_name) (P l_hedgehog)=
     (
       match Html_hedgehog.unfinished_part hedgehog1 with
       []->raise(Cold_reception(tag_name))
-      |(i2,j2,tag_name2)::peurrest2->
+      |(i2,j2,tag_name2,full_tag2)::peurrest2->
          if tag_name2<>tag_name 
          then raise(Tag_mismatch(tag_name,tag_name2))
          else 
