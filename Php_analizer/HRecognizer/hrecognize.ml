@@ -62,7 +62,9 @@ let php_name=ch "php_name"
      first_letter;
      st "" Charset.strictly_alphanumeric_characters;
     ];;
-let semicolon=c "" ";";;    
+let semicolon=c "semicolon" ";";;    
+let question_mark=c "question_mark" "?";;
+let colon=c "colon" ":";;
 
 let snake_start=
   ch "snake_start"
@@ -89,8 +91,22 @@ let snake=
      snake_start;
      star "" snippet_in_snake;
    ];;
+(*
+let ternary_returning_squote=
+  ch "ternary_returning_squote"
+    [
+      paren_block;
+      whites;
+      question_mark;
+      whites;
+      sq;
+      whites;
+      colon;
+      whites;
+      sq;
+    ] ;; 
+*)
 
-  
 let myriam_element=Hregistrar.ordered_disjunction
     "myriam_element"
     [
@@ -98,6 +114,7 @@ let myriam_element=Hregistrar.ordered_disjunction
       dq;
       php_name;
       paren_block;
+      snake;
     ]
 
 
@@ -420,7 +437,7 @@ let main_exhauster s i=
 
 open Hrecognize;;
 
-let reference_for_loaf = ref "";;
+let reference_for_loaf = ref "hum";;
 let viz f=
    let see=(!reference_for_loaf) in
    let opt1=f see 1 in
