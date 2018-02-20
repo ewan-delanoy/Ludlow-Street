@@ -134,6 +134,18 @@ let myriam=
       star "" myriam_snippet;
    ];;    
 
+let assign_to_myriam=
+   ch "assign_to_myriam"
+   [
+      c "" "$";
+      php_name;
+      c "" "=";
+      whites;
+      myriam;
+      whites;
+      semicolon
+   ];;
+
 (* End of particular parser elements *)
 
 let label_for_php_open_tag="php_open_tag";;
@@ -435,17 +447,9 @@ let label_for_assign_to_myriam="assign_to_myriam";;
 add_label label_for_assign_to_myriam;;
 
 
-let assign_to_myriam_recognizer=rlabch
+let assign_to_myriam_recognizer=rlab
   label_for_assign_to_myriam
-  [
-     c "" "$";
-     php_name;
-     c "" "=";
-     whites;
-     myriam;
-     whites;
-     semicolon
-  ];;
+  assign_to_myriam;;
 
 add_recognizer (label_for_assign_to_myriam,assign_to_myriam_recognizer);; 
 
