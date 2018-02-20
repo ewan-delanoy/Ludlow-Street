@@ -66,11 +66,13 @@ let semicolon=c "semicolon" ";";;
 let question_mark=c "question_mark" "?";;
 let colon=c "colon" ":";;
 let point=c "point" ".";;
+let dollar=c "dollar" "$";;
+let equals=c "equals" "=";;
 
 let snake_start=
   ch "snake_start"
   [
-     c "" "$";
+     dollar;
      php_name;
      whites;
   ];;
@@ -137,10 +139,10 @@ let myriam=
 let assign_to_myriam=
    ch "assign_to_myriam"
    [
-      c "" "$";
+      dollar;
       php_name;
       whites;
-      c "" "=";
+      equals;
       whites;
       myriam;
       whites;
@@ -192,7 +194,7 @@ let difyne_constant_recognizer=rlabch
      whites;
      paren_block;
      whites;
-     c "" ";"
+     semicolon;
   ];;
 
 add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
@@ -203,7 +205,7 @@ add_label label_for_one_liner_with_variable;;
 let one_liner_with_variable_recognizer=rlabch
   label_for_one_liner_with_variable
   [
-     c "" "$";
+     dollar;
      php_name;
      sto "" ['\n';'\r';';'];
      semicolon
@@ -330,10 +332,10 @@ add_label label_for_assign_to_array;;
 let assign_to_array_recognizer=rlabch
   label_for_assign_to_array
   [
-     c "" "$";
+     dollar;
      php_name;
      whites;
-     c "" "=";
+     equals;
      whites;
      c "" "array";
      paren_block;
@@ -364,10 +366,10 @@ add_label label_for_assign_to_fnctn_call;;
 let assign_to_fnctn_call_recognizer=rlabch 
   label_for_assign_to_fnctn_call
   [
-     c "" "$"; 
+     dollar; 
      php_name;
      whites;
-     c "" "=";
+     equals;
      whites;
      php_name;
      whites;

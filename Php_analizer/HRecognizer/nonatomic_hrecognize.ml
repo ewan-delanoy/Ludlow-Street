@@ -80,7 +80,7 @@ let extra_debug_chain  l s i=
               None->List.rev graet
              |Some(new_idx)->
                let t=Cull_string.interval s idx (new_idx-1) in
-               tempf(new_idx,(atm,t)::graet,peurrest)
+               tempf(new_idx,(atm,t,(idx,new_idx-1))::graet,peurrest)
            )
         ) in
         tempf (i,[],l);;     
