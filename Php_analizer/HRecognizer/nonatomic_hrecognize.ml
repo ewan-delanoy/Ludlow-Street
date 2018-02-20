@@ -85,7 +85,12 @@ let extra_debug_chain  l s i=
         ) in
         tempf (i,[],l);;     
      
-     
+exception Extra_debug_not_implemented_yet;;
+        
+let  extra_debug natm s i=
+          match natm with
+           Nonatomic_hrecognizer.Chain(_,l)->extra_debug_chain  l s i      
+          |_->raise(Extra_debug_not_implemented_yet);;     
            
      
       
