@@ -60,6 +60,7 @@ let php_name=ch "php_name"
      first_letter;
      st "" Charset.strictly_alphanumeric_characters;
     ];;
+let semicolon=c "" ";";;    
 
 let label_for_php_open_tag="php_open_tag";;
 add_label label_for_php_open_tag;;
@@ -119,7 +120,7 @@ let one_liner_with_variable_recognizer=rlabch
      first_letter;
      st "" Charset.strictly_alphanumeric_characters;
      sto "" ['\n';'\r';';'];
-     c "" ";"
+     semicolon
   ];;
 
 add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
@@ -133,7 +134,7 @@ let inclusion_with_parenthesis_recognizer=rlabch
     cli "" ["include_once";"require_once";"include";"require"];
     whites;
     paren_block;
-    c "" ";"
+    semicolon
   ];;
 
 add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_recognizer);; 
@@ -251,7 +252,7 @@ let assign_to_array_recognizer=rlabch
      c "" "array";
      paren_block;
      whites;
-     c "" ";"
+     semicolon
   ];;
 
 add_recognizer (label_for_assign_to_array,assign_to_array_recognizer);; 
@@ -331,7 +332,7 @@ let snake=
    [
      snake_start;
      star "" snippet_in_snake;
-     c "" ";"
+     semicolon
    ];;
 
 
