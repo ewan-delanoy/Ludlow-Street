@@ -65,6 +65,7 @@ let php_name=ch "php_name"
 let semicolon=c "semicolon" ";";;    
 let question_mark=c "question_mark" "?";;
 let colon=c "colon" ":";;
+let point=c "point" ".";;
 
 let snake_start=
   ch "snake_start"
@@ -115,9 +116,23 @@ let myriam_element=Hregistrar.ordered_disjunction
       php_name;
       paren_block;
       snake;
-    ]
+    ];;
 
+let myriam_snippet=
+    ch "myriam_snippet"
+    [
+       whites;
+       point;
+       whites;
+       myriam_element;
+    ];;
 
+let myriam=
+   ch "myriam"
+   [
+      myriam_element ;
+      star "" myriam_snippet;
+   ];;    
 
 (* End of particular parser elements *)
 
@@ -304,7 +319,6 @@ let assign_to_array_recognizer=rlabch
   label_for_assign_to_array
   [
      c "" "$";
-     first_letter;
      php_name;
      c "" "=";
      whites;
@@ -326,7 +340,7 @@ let fnctn_call_recognizer=rlabch
      whites;
      paren_block;
      whites;
-     c "" ";"
+     semicolon
   ];;
 
 add_recognizer (label_for_fnctn_call,fnctn_call_recognizer);; 
@@ -346,7 +360,7 @@ let assign_to_fnctn_call_recognizer=rlabch
      whites;
      paren_block;
      whites;
-     c "" ";"
+     semicolon
   ];;
 
 add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
@@ -417,7 +431,23 @@ let phoreech_recognizer=rlabch
 
 add_recognizer (label_for_phoreech,phoreech_recognizer);; 
 
+let label_for_assign_to_myriam="assign_to_myriam";;
+add_label label_for_assign_to_myriam;;
 
+
+let assign_to_myriam_recognizer=rlabch
+  label_for_assign_to_myriam
+  [
+     c "" "$";
+     php_name;
+     c "" "=";
+     whites;
+     myriam;
+     whites;
+     semicolon
+  ];;
+
+add_recognizer (label_for_assign_to_myriam,assign_to_myriam_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
