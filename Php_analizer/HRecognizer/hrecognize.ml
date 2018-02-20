@@ -139,6 +139,7 @@ let assign_to_myriam=
    [
       c "" "$";
       php_name;
+      whites;
       c "" "=";
       whites;
       myriam;
@@ -203,8 +204,7 @@ let one_liner_with_variable_recognizer=rlabch
   label_for_one_liner_with_variable
   [
      c "" "$";
-     first_letter;
-     st "" Charset.strictly_alphanumeric_characters;
+     php_name;
      sto "" ['\n';'\r';';'];
      semicolon
   ];;
@@ -332,6 +332,7 @@ let assign_to_array_recognizer=rlabch
   [
      c "" "$";
      php_name;
+     whites;
      c "" "=";
      whites;
      c "" "array";
