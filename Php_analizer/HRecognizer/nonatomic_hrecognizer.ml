@@ -19,6 +19,13 @@ let chain s l=Chain(s,l);;
 let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
 
+let unveil =function
+  Leaf(s,atm)->("leaf",[],Some atm)
+ |Chain(_,l)->("chain",l,None)
+ |Ordered_disjunction(_,l)->("ordered_disjunction",l,None)
+ |Star(_,x)->("star",[x],None);;
+
+
 let print (x:t)="rn \""^(name x)^"\"";;
 
 let print_out (fmt:Format.formatter) (x:t)=
