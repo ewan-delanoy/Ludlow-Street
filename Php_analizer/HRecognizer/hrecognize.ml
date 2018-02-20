@@ -39,7 +39,9 @@ let sto x y=
 let enc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.enclosed y);;  
 let eo x y=
-      Hregistrar.leaf x (Atomic_hrecognizer.exactly_one y);;      
+      Hregistrar.leaf x (Atomic_hrecognizer.exactly_one y);; 
+let sq=Hregistrar.leaf "squote" Atomic_hrecognizer.simple_quoted;;
+let dq=Hregistrar.leaf "dquote" Atomic_hrecognizer.double_quoted;;           
 let ch x l=Hregistrar.chain x l;;   
 
 let star=Hregistrar.star;;
