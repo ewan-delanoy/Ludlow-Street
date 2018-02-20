@@ -50,7 +50,7 @@ let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
 let rlabch lbl l=rlab lbl
   (ch lbl l);; 
 
-
+(* Particular parser elements *)
 
 let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
 let paren_block=enc  "paren_block" ('(',')') ;;
@@ -63,6 +63,46 @@ let php_name=ch "php_name"
      st "" Charset.strictly_alphanumeric_characters;
     ];;
 let semicolon=c "" ";";;    
+
+let snake_start=
+  ch "snake_start"
+  [
+     c "" "$";
+     php_name;
+     whites;
+  ];;
+
+let snippet_in_snake=
+  ch "snippet_in_snake"
+  [
+     c "" "->";
+     whites;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+  ];;
+
+let snake=
+  ch "snake"
+   [
+     snake_start;
+     star "" snippet_in_snake;
+   ];;
+
+  
+let myriam_element=Hregistrar.ordered_disjunction
+    "myriam_element"
+    [
+      sq;
+      dq;
+      php_name;
+      paren_block;
+    ]
+
+
+
+(* End of particular parser elements *)
 
 let label_for_php_open_tag="php_open_tag";;
 add_label label_for_php_open_tag;;
@@ -310,43 +350,22 @@ let wiley_recognizer=rlabch
 
 add_recognizer (label_for_wiley,wiley_recognizer);; 
 
-let snake_start=
-  ch "snake_start"
-  [
-     c "" "$";
-     php_name;
-     whites;
-  ];;
-
-let snippet_in_snake=
-  ch "snippet_in_snake"
-  [
-     c "" "->";
-     whites;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-  ];;
-
-let snake=
-  ch "snake"
+let snake_with_semicolon=
+  ch "snake_with_semicolon"
    [
-     snake_start;
-     star "" snippet_in_snake;
+     snake;
      semicolon
    ];;
 
+let label_for_snake_with_semicolon="snake_with_semicolon";;
+add_label label_for_snake_with_semicolon;;  
 
-let label_for_snake="snake";;
-add_label label_for_snake;;  
 
+let snake__with_semicolon_recognizer=rlab 
+ label_for_snake_with_semicolon 
+  snake_with_semicolon;;
 
-let snake_recognizer=rlab 
- label_for_snake 
-  snake;;
-
-add_recognizer (label_for_snake,snake_recognizer);; 
+add_recognizer (label_for_snake_with_semicolon,snake__with_semicolon_recognizer);; 
 
 let label_for_phor="phor";;
 add_label label_for_phor;;
