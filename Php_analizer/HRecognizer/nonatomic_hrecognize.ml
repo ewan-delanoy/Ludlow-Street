@@ -70,7 +70,20 @@ let rec debug natm s i=
        |Nonatomic_hrecognizer.Star(_,natm2)->
            raise(Debug_star_exn);;
      
-     
+let extra_debug_chain  l s i=
+        let rec tempf=(fun (idx,graet,da_ober)->
+         match da_ober with
+         []->List.rev graet
+         |atm::peurrest->
+           (
+             match recgz atm s idx with
+              None->List.rev graet
+             |Some(new_idx)->
+               let t=Cull_string.interval s idx (new_idx-1) in
+               tempf(new_idx,(atm,t)::graet,peurrest)
+           )
+        ) in
+        tempf (i,[],l);;     
      
      
            
