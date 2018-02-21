@@ -42,7 +42,7 @@ tempf i;;
 
 let recgnz_nonempty_star l_chr s i=
   let n=String.length s in
-  if n=0 then None else
+  if (n=0)||(i>n) then None else
   if (not(List.mem (String.get s (i-1)) l_chr)) then None else 
   let rec tempf=(
     fun j->
@@ -55,7 +55,7 @@ let recgnz_nonempty_star l_chr s i=
 
 let recgnz_nonempty_star_outside l_chr s i=
     let n=String.length s in
-    if n=0 then None else
+    if (n=0)||(i>n) then None else
     if List.mem (String.get s (i-1)) l_chr then None else
     let rec tempf=(
       fun j->
