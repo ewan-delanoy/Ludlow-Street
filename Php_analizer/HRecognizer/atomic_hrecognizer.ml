@@ -16,7 +16,7 @@ type t=
  |Exactly_one of char list
  |Star of char list
  |Nonempty_Star of char list
- |Nonempty_Star_outside of char list
+ |Star_outside of char list
  |Enclosed of char*char
  |Simple_quoted
  |Double_quoted;;
@@ -27,7 +27,7 @@ let constant_list l= Constant_list(l);;
 let exactly_one l=Exactly_one(l);;
 let star l=Star(l);;
 let nonempty_star l=Nonempty_Star(l);;
-let nonempty_star_outside l=Nonempty_Star_outside(l);;
+let star_outside l=Star_outside(l);;
 let enclosed (opener,closer)=Enclosed (opener,closer);;
 let simple_quoted=Simple_quoted;;
 let double_quoted=Double_quoted;;

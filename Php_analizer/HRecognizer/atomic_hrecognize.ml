@@ -53,7 +53,7 @@ let recgnz_nonempty_star l_chr s i=
   ) in
   tempf i;;
 
-let recgnz_nonempty_star_outside l_chr s i=
+let recgnz_star_outside l_chr s i=
     let n=String.length s in
     if (n=0)||(i>n) then None else
     if List.mem (String.get s (i-1)) l_chr then None else
@@ -97,7 +97,7 @@ let recgnz x=
   |Atomic_hrecognizer.Exactly_one(l_chr)->recgnz_exactly_one l_chr
   |Atomic_hrecognizer.Star(l_chr)->recgnz_star l_chr
   |Atomic_hrecognizer.Nonempty_Star(l_chr)->recgnz_nonempty_star l_chr
-  |Atomic_hrecognizer.Nonempty_Star_outside(l_chr)->recgnz_nonempty_star_outside l_chr
+  |Atomic_hrecognizer.Star_outside(l_chr)->recgnz_star_outside l_chr
   |Atomic_hrecognizer.Enclosed(opener,closer)->recgnz_enclosed (opener,closer)
   |Atomic_hrecognizer.Simple_quoted->recgnz_simple_quoted
   |Atomic_hrecognizer.Double_quoted->recgnz_double_quoted
