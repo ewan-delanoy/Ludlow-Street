@@ -76,10 +76,16 @@ let recgnz_enclosed (opener,closer) s i=
   Some(After.after_closing_character (opener,closer) s (i+1,1));;
  
 let recgnz_simple_quoted s i=
+   let n=String.length s in
+   if (i<1)||(i>n) then None else
+   if (String.get s (i-1)<>'\'') then None else
   try (Some(After.after_simple_quoted_string s i)) with
   _->None;;
 
 let recgnz_double_quoted s i=
+  let n=String.length s in
+  if (i<1)||(i>n) then None else
+  if (String.get s (i-1)<>'\'') then None else
     try (Some(After.after_simple_quoted_string s i)) with
     _->None;;
 
