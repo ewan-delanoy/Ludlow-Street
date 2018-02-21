@@ -56,7 +56,6 @@ let recgnz_nonempty_star l_chr s i=
 let recgnz_star_outside l_chr s i=
     let n=String.length s in
     if (n=0)||(i>n) then None else
-    if List.mem (String.get s (i-1)) l_chr then None else
     let rec tempf=(
       fun j->
         if j>n then Some(n+1) else
@@ -102,6 +101,7 @@ let recgnz x=
   |Atomic_hrecognizer.Simple_quoted->recgnz_simple_quoted
   |Atomic_hrecognizer.Double_quoted->recgnz_double_quoted
   ;;
+
 
 
 
