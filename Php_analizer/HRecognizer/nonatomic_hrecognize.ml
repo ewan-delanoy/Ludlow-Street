@@ -84,12 +84,26 @@ let extra_debug_chain  l s i=
            )
         ) in
         tempf (i,[],l);;     
+
+exception Extra_debug_disjunction_exn;;        
+
+let extra_debug_disjunction  l s i=
+  match Option.find_and_stop (
+    fun atm->match recgz atm s i with
+    None->None
+    |Some(res)->Some(atm,res)
+  ) l with
+  None->raise(Extra_debug_disjunction_exn)
+  |Some(atm0,res0)->[atm0,"",(0,0)];;     
+            
      
+        
 exception Extra_debug_not_implemented_yet;;
         
 let  extra_debug natm s i=
           match natm with
-           Nonatomic_hrecognizer.Chain(_,l)->extra_debug_chain  l s i      
+           Nonatomic_hrecognizer.Chain(_,l)->extra_debug_chain  l s i 
+          |Nonatomic_hrecognizer.Ordered_disjunction (_,l)->extra_debug_disjunction  l s i       
           |_->raise(Extra_debug_not_implemented_yet);;     
            
      
