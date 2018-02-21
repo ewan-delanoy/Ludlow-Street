@@ -30,6 +30,7 @@ let recgz_star old_f atm s i=
      )  in
      tempf i;;   
 
+
 let rec recgz natm s i=
   match natm with
   Nonatomic_hrecognizer.Leaf(_,atm)->Atomic_hrecognize.recgnz atm s i
@@ -39,6 +40,9 @@ let rec recgz natm s i=
       recgz_ordered_disjunction recgz l s i         
   |Nonatomic_hrecognizer.Star(_,natm2)->
       recgz_star recgz natm2 s i;;
+
+
+
 
 let recgz_and_add_label lbl natm s i=
    match recgz natm s i with

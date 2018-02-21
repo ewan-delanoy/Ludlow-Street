@@ -68,6 +68,7 @@ let colon=c "colon" ":";;
 let point=c "point" ".";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
+let define_kwd=c "define_kwd" "define";;
 
 let snake_start=
   ch "snake_start"
@@ -94,21 +95,6 @@ let snake=
      snake_start;
      star "" snippet_in_snake;
    ];;
-(*
-let ternary_returning_squote=
-  ch "ternary_returning_squote"
-    [
-      paren_block;
-      whites;
-      question_mark;
-      whites;
-      sq;
-      whites;
-      colon;
-      whites;
-      sq;
-    ] ;; 
-*)
 
 let myriam_element=Hregistrar.ordered_disjunction
     "myriam_element"
@@ -167,8 +153,8 @@ add_label label_for_comment;;
 let comment_recognizer=rlabch
   label_for_comment
   [
-    c "" "/*";
-    lc "" "*/"
+    c "beginning_of_starred_comment" "/*";
+    lc "end_of_starred_comment" "*/"
   ];;
 
 add_recognizer (label_for_comment,comment_recognizer);; 
@@ -179,7 +165,7 @@ add_label label_for_white_spot;;
 let white_spot_recognizer=rlab 
   label_for_white_spot
   (
-    ne_st "" [' '; '\n'; '\r'; '\t']
+    ne_st "white_spot" [' '; '\n'; '\r'; '\t']
   );;
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
@@ -190,7 +176,7 @@ add_label label_for_difyne_constant;;
 let difyne_constant_recognizer=rlabch
   label_for_difyne_constant
   [
-     c "" "define";
+     define_kwd;
      whites;
      paren_block;
      whites;
