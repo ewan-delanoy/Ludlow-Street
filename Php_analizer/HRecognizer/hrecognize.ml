@@ -69,6 +69,7 @@ let point=c "point" ".";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
 let define_kwd=c "define_kwd" "define";;
+let nspc_kwd=c "nspc_kwd" "namespace";;
 
 let snake_start=
   ch "snake_start"
@@ -415,7 +416,6 @@ let phor_recognizer=rlabch
 
 add_recognizer (label_for_phor,phor_recognizer);; 
 
-
 let label_for_phoreech="phoreech";;
 add_label label_for_phoreech;;
 
@@ -442,6 +442,40 @@ let assign_to_myriam_recognizer=rlab
 
 add_recognizer (label_for_assign_to_myriam,assign_to_myriam_recognizer);; 
 
+
+let label_for_semicoloned_nspc="semicoloned_nspc";;
+add_label label_for_semicoloned_nspc;;
+
+
+
+let semicoloned_nspc_recognizer=rlabch
+  label_for_semicoloned_nspc
+  [
+     nspc_kwd;
+     sto "no_semicolon_or_lbrace" [';';'{'];
+     semicolon;
+  ];;
+
+add_recognizer (label_for_semicoloned_nspc,semicoloned_nspc_recognizer);; 
+
+
+let label_for_braced_nspc="braced_nspc";;
+add_label label_for_braced_nspc;;
+
+
+let braced_nspc_recognizer=rlabch
+  label_for_braced_nspc
+  [
+     nspc_kwd;
+     sto "no_lbrace" ['{'];
+     brace_block;
+  ];;
+
+add_recognizer (label_for_braced_nspc,braced_nspc_recognizer);; 
+
+
+
+
 let main_recognizer s i=
   Option.find_and_stop (
      fun (lbl,f)->f s i
@@ -467,7 +501,7 @@ let viz f=
    let (_,_,j)=Option.unpack opt1 in
    Cull_string.cobeginning (j-1) see;;
 
-let s_ap="~/Documents/Sites/Rachel/public_html/viewtopic.php";;
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
 let ap=Absolute_path.of_string s_ap;;
 let text=Io.read_whole_file ap;;
 let (i1,_)=main_exhauster text 1;;
@@ -478,16 +512,6 @@ let see=(!reference_for_loaf);;
 let i1=Substring.leftmost_index_of_in see text;;
 let li1=Strung.number_of_lines_before text i1;;
 let s2=Lines_in_string.interval text 1140 1146;;
-
-let ioi x=Substring.leftmost_index_of_in x s2;;
-let ioj x=(ioi x,(ioi x)+(String.length x)-1);;
-
-let w1=itv s2 8 32;;
-let w2=itv s2 36 46;;
-let w3=itv s2 50 53;;
-let w4=itv s2 57 117;;
-let w5=itv s2 121 159;;
-let w6=itv s2 163 232;;
 
 
 
