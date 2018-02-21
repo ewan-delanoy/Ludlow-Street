@@ -35,7 +35,7 @@ let st x y=
 let ne_st x y=
     Hregistrar.leaf x (Atomic_hrecognizer.nonempty_star y);;
 let sto x y=
-  Hregistrar.leaf x (Atomic_hrecognizer.nonempty_star_outside y);;
+  Hregistrar.leaf x (Atomic_hrecognizer.star_outside y);;
 let enc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.enclosed y);;  
 let eo x y=
