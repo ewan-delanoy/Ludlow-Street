@@ -11,7 +11,7 @@ let rec compute_lines j text=match text with
     let temp1=Str.split (Str.regexp_string "\n") s in
     let indent=String.make j ' ' in
     Image.image (fun t->indent^t) temp1 
-|Html_text_with_tags.Tagged(tag_name,_,x)->
+|Html_text_with_tags.Tagged(tag_name,full_tag,x)->
     let indent=String.make j ' ' in
     let first_line=indent^"<"^full_tag^">"
     and last_line= indent^"</"^tag_name^">" in
