@@ -24,7 +24,7 @@ let rec compute_lines j text=match text with
 let print x=
     String.concat "\n" (compute_lines 0 x);;  
 
-
+let rewrite s=print(Html_parse_text_with_tags.parse s);;
 
   
         
