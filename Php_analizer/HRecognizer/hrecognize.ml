@@ -25,11 +25,11 @@ let add_recognizer (lbl,f)=
 (* end of label related generic definitions *)
 
 let c x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.constant y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.carelessly y);;
 let cli x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.constant_list y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.carelessly_list y);;
 let lc x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.later_constant y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.later_carelessly y);;
 let st x y=
     Hregistrar.leaf x (Atomic_hrecognizer.star y);;
 let ne_st x y=
@@ -69,8 +69,17 @@ let colon=c "colon" ":";;
 let point=c "point" ".";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
+let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let define_kwd=c "define_kwd" "define";;
 let nspc_kwd=c "nspc_kwd" "namespace";;
+let yuze_kwd=c "yuze_kwd" "use";;
+let abstract_kwd=c "abstract_kwd" "abstract";;
+let final_kwd=c "final_kwd" "final";;
+let glass_kwd=c "glass_kwd" "class";;
+let fnctn_kwd=c "fnctn_kwd" "function";;
+let itrfc_kwd=c "itrfc_kwd" "interface";;
+
+
 let no_semicolon=sto "no_semicolon" [';'];;
 let no_lbrace=sto "no_lbrace" ['{'];;
 
@@ -173,11 +182,11 @@ let white_spot_recognizer=rlab
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
 
-let label_for_difyne_constant="difyne_constant";;
-add_label label_for_difyne_constant;;
+let label_for_difyne_carelessly="difyne_carelessly";;
+add_label label_for_difyne_carelessly;;
 
-let difyne_constant_recognizer=rlabch
-  label_for_difyne_constant
+let difyne_carelessly_recognizer=rlabch
+  label_for_difyne_carelessly
   [
      define_kwd;
      whites;
@@ -186,7 +195,7 @@ let difyne_constant_recognizer=rlabch
      semicolon;
   ];;
 
-add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
+add_recognizer (label_for_difyne_carelessly,difyne_carelessly_recognizer);; 
 
 let label_for_one_liner_with_variable="one_liner_with_variable";;
 add_label label_for_one_liner_with_variable;;
@@ -496,7 +505,7 @@ add_label label_for_glass;;
 let glass_recognizer=rlabch
   label_for_glass
   [
-     c "" "class";
+     glass_kwd;
      white_spot;
      no_lbrace;
      brace_block;
@@ -511,7 +520,7 @@ add_label label_for_fnctn;;
 let fnctn_recognizer=rlabch
   label_for_fnctn
   [
-     c "" "function";
+     fnctn_kwd;
      white_spot;
      no_lbrace;
      brace_block;
@@ -520,7 +529,53 @@ let fnctn_recognizer=rlabch
 
 add_recognizer (label_for_fnctn,fnctn_recognizer);; 
 
+let label_for_itrfc="itrfc";;
+add_label label_for_itrfc;;
 
+let itrfc_recognizer=rlabch
+  label_for_itrfc
+  [
+     itrfc_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_itrfc,itrfc_recognizer);; 
+
+let label_for_abstract_glass="abstract_glass";;
+add_label label_for_abstract_glass;;
+
+let abstract_glass_recognizer=rlabch
+  label_for_abstract_glass
+  [
+     abstract_kwd;
+     white_spot;
+     glass_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_abstract_glass,abstract_glass_recognizer);; 
+
+let label_for_difyne_carelessly="difyne_carelessly";;
+add_label label_for_difyne_carelessly;;
+
+let difyne_carelessly_recognizer=rlabch
+  label_for_difyne_carelessly
+  [
+     rounded_at_symbol;
+     define_kwd;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+add_recognizer (label_for_difyne_carelessly,difyne_carelessly_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
