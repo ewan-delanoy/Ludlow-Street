@@ -55,6 +55,7 @@ let rlabch lbl l=rlab lbl
 let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
 let paren_block=enc  "paren_block" ('(',')') ;;
 let brace_block=enc  "brace_block" ('{','}') ;;
+let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t']
 
 let first_letter=eo "first_letter" Charset.php_label_first_letters;;
 let php_name=ch "php_name"
@@ -70,6 +71,9 @@ let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
 let define_kwd=c "define_kwd" "define";;
 let nspc_kwd=c "nspc_kwd" "namespace";;
+let no_semicolon=sto "no_semicolon" [';'];;
+let no_lbrace=sto "no_lbrace" ['{'];;
+
 
 let snake_start=
   ch "snake_start"
@@ -165,9 +169,7 @@ add_label label_for_white_spot;;
 
 let white_spot_recognizer=rlab 
   label_for_white_spot
-  (
-    ne_st "white_spot" [' '; '\n'; '\r'; '\t']
-  );;
+  white_spot;;
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
 
@@ -467,12 +469,56 @@ let braced_nspc_recognizer=rlabch
   label_for_braced_nspc
   [
      nspc_kwd;
-     sto "no_lbrace" ['{'];
+     no_lbrace;
      brace_block;
   ];;
 
 add_recognizer (label_for_braced_nspc,braced_nspc_recognizer);; 
 
+let label_for_yuze="yuze";;
+add_label label_for_yuze;;
+
+let yuze_recognizer=rlabch
+  label_for_yuze
+  [
+     c "" "use";
+     white_spot;
+     no_semicolon;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_yuze,yuze_recognizer);; 
+
+let label_for_glass="glass";;
+add_label label_for_glass;;
+
+let glass_recognizer=rlabch
+  label_for_glass
+  [
+     c "" "class";
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_glass,glass_recognizer);; 
+
+let label_for_fnctn="fnctn";;
+add_label label_for_fnctn;;
+
+let fnctn_recognizer=rlabch
+  label_for_fnctn
+  [
+     c "" "function";
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_fnctn,fnctn_recognizer);; 
 
 
 
@@ -490,43 +536,3 @@ let rec main_helper (graet,s,i)=
 let main_exhauster s i=
    main_helper ([],s,i);;         
 
-(*
-
-open Hrecognize;;
-
-let reference_for_loaf = ref "hum";;
-let viz f=
-   let see=(!reference_for_loaf) in
-   let opt1=f see 1 in
-   let (_,_,j)=Option.unpack opt1 in
-   Cull_string.cobeginning (j-1) see;;
-
-let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
-let ap=Absolute_path.of_string s_ap;;
-let text=Io.read_whole_file ap;;
-let (i1,_)=main_exhauster text 1;;
-let m1=min (String.length text) (i1+400);; 
-reference_for_loaf:=Cull_string.interval text i1 m1;;
-let see=(!reference_for_loaf);;
-
-let i1=Substring.leftmost_index_of_in see text;;
-let li1=Strung.number_of_lines_before text i1;;
-let s2=Lines_in_string.interval text 1140 1146;;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*)
