@@ -25,11 +25,11 @@ let add_recognizer (lbl,f)=
 (* end of label related generic definitions *)
 
 let c x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.carelessly y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.constant y);;
 let cli x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.carelessly_list y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.constant_list y);;
 let lc x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.later_carelessly y);;
+    Hregistrar.leaf x (Atomic_hrecognizer.later_constant y);;
 let st x y=
     Hregistrar.leaf x (Atomic_hrecognizer.star y);;
 let ne_st x y=
@@ -182,11 +182,11 @@ let white_spot_recognizer=rlab
 
 add_recognizer (label_for_white_spot,white_spot_recognizer);; 
 
-let label_for_difyne_carelessly="difyne_carelessly";;
-add_label label_for_difyne_carelessly;;
+let label_for_difyne_constant="difyne_constant";;
+add_label label_for_difyne_constant;;
 
-let difyne_carelessly_recognizer=rlabch
-  label_for_difyne_carelessly
+let difyne_constant_recognizer=rlabch
+  label_for_difyne_constant
   [
      define_kwd;
      whites;
@@ -195,7 +195,7 @@ let difyne_carelessly_recognizer=rlabch
      semicolon;
   ];;
 
-add_recognizer (label_for_difyne_carelessly,difyne_carelessly_recognizer);; 
+add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
 
 let label_for_one_liner_with_variable="one_liner_with_variable";;
 add_label label_for_one_liner_with_variable;;
