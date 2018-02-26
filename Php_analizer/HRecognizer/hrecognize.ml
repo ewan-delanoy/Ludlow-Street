@@ -194,6 +194,22 @@ let namespaced_name=
       namespaced_name_two;
     ];;        
 
+let assign_to_new_fnctn_call=
+   ch "assign_to_new_fnctn_call"    
+    [
+      dollar; 
+      php_name;
+      whites;
+      equals;
+      new_kwd;
+      white_spot;
+      namespaced_name;
+      whites;
+      paren_block;
+      whites;
+      semicolon
+   ];;
+
 
 (* End of particular parser elements *)
 
@@ -764,21 +780,9 @@ add_recognizer (label_for_backslashed_fnctn_call,backslashed_fnctn_call_recogniz
 let label_for_assign_to_new_fnctn_call="assign_to_new_fnctn_call";;
 add_label label_for_assign_to_new_fnctn_call;;
 
-let assign_to_new_fnctn_call_recognizer=rlabch 
+let assign_to_new_fnctn_call_recognizer=rlab
   label_for_assign_to_new_fnctn_call
-  [
-     dollar; 
-     php_name;
-     whites;
-     equals;
-     new_kwd;
-     white_spot;
-     namespaced_name;
-     whites;
-     paren_block;
-     whites;
-     semicolon
-  ];;
+  assign_to_new_fnctn_call;;
 
 add_recognizer (label_for_assign_to_new_fnctn_call,assign_to_new_fnctn_call_recognizer);; 
 
