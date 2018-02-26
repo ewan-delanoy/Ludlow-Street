@@ -64,6 +64,7 @@ let php_name=ch "php_name"
      st "" Charset.strictly_alphanumeric_characters;
     ];;
 
+let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
@@ -117,7 +118,7 @@ let snake=
   ch "snake"
    [
      snake_start;
-     star "" snippet_in_snake;
+     star "starred_snippet_in_snake" snippet_in_snake;
    ];;
 
 let myriam_element=Hregistrar.ordered_disjunction
@@ -158,6 +159,22 @@ let assign_to_myriam=
       whites;
       semicolon
    ];;
+
+let snippet_in_namespaced_name=
+    ch "snippet_in_namespaced_name"
+    [
+      backslash;
+      php_name;
+    ];;
+
+let namespaced_name=
+  ch "namespaced_name"
+  [
+     myriam_element ;
+     star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;
+  ];;    
+
+
 
 (* End of particular parser elements *)
 
@@ -571,6 +588,24 @@ let abstract_glass_recognizer=rlabch
 
 add_recognizer (label_for_abstract_glass,abstract_glass_recognizer);; 
 
+let label_for_final_glass="final_glass";;
+add_label label_for_final_glass;;
+
+let final_glass_recognizer=rlabch
+  label_for_final_glass
+  [
+     final_kwd;
+     white_spot;
+     glass_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_final_glass,final_glass_recognizer);; 
+
+
 let label_for_difyne_carelessly="difyne_carelessly";;
 add_label label_for_difyne_carelessly;;
 
@@ -672,6 +707,25 @@ let trycatch_recognizer=rlabch
 
 
 add_recognizer (label_for_trycatch,trycatch_recognizer);; 
+
+let label_for_paamayim_call="paamayim_call";;
+add_label label_for_paamayim_call;;
+
+let paamayim_call_recognizer=rlabch 
+  label_for_paamayim_call
+  [
+     namespaced_name;
+     colon;
+     colon;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+     semicolon
+  ];;
+
+add_recognizer (label_for_paamayim_call,paamayim_call_recognizer);; 
+
 
 let main_recognizer s i=
   Option.find_and_stop (
