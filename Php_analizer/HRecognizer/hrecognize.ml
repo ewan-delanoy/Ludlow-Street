@@ -43,6 +43,7 @@ let eo x y=
 let sq=Hregistrar.leaf "squote" Atomic_hrecognizer.simple_quoted;;
 let dq=Hregistrar.leaf "dquote" Atomic_hrecognizer.double_quoted;;           
 let ch x l=Hregistrar.chain x l;;   
+let dis x l=Hregistrar.ordered_disjunction x l;;   
 
 let star=Hregistrar.star;;
 
@@ -86,6 +87,7 @@ let fnctn_kwd=c "fnctn_kwd" "function";;
 let global_kwd=c "global_kwd" "global";;
 let glass_kwd=c "glass_kwd" "class";;
 let itrfc_kwd=c "itrfc_kwd" "interface";;
+let new_kwd=c "new_kwd" "namespace";;
 let nspc_kwd=c "nspc_kwd" "namespace";;
 let static_kwd=c "static_kwd" "static";;
 let try_kwd=c "try_kwd" "try";;
@@ -167,13 +169,30 @@ let snippet_in_namespaced_name=
       php_name;
     ];;
 
-let namespaced_name=
-  ch "namespaced_name"
+let starred_snippet_in_namespaced_name=
+  star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;;
+
+let namespaced_name_one=
+  ch "namespaced_name_one"
   [
-     myriam_element ;
-     star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;
+     php_name ;
+     starred_snippet_in_namespaced_name;
   ];;    
 
+let namespaced_name_two=
+    ch "namespaced_name_two"
+    [
+       backslash;
+       php_name ;
+       starred_snippet_in_namespaced_name;
+    ];;   
+
+let namespaced_name=
+    dis "namespaced_name"
+    [
+      namespaced_name_one;
+      namespaced_name_two;
+    ];;        
 
 
 (* End of particular parser elements *)
@@ -376,7 +395,7 @@ add_label label_for_fnctn_call;;
 let fnctn_call_recognizer=rlabch 
   label_for_fnctn_call
   [
-     php_name;
+     namespaced_name;
      whites;
      paren_block;
      whites;
@@ -396,7 +415,7 @@ let assign_to_fnctn_call_recognizer=rlabch
      whites;
      equals;
      whites;
-     php_name;
+     namespaced_name;
      whites;
      paren_block;
      whites;
@@ -725,6 +744,44 @@ let paamayim_call_recognizer=rlabch
   ];;
 
 add_recognizer (label_for_paamayim_call,paamayim_call_recognizer);; 
+
+let label_for_backslashed_fnctn_call="backslashed_fnctn_call";;
+add_label label_for_backslashed_fnctn_call;;
+
+let backslashed_fnctn_call_recognizer=rlabch 
+  label_for_backslashed_fnctn_call
+  [
+     backslash;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+     semicolon
+  ];;
+
+add_recognizer (label_for_backslashed_fnctn_call,backslashed_fnctn_call_recognizer);; 
+
+let label_for_assign_to_new_fnctn_call="assign_to_new_fnctn_call";;
+add_label label_for_assign_to_new_fnctn_call;;
+
+let assign_to_new_fnctn_call_recognizer=rlabch 
+  label_for_assign_to_new_fnctn_call
+  [
+     dollar; 
+     php_name;
+     whites;
+     equals;
+     new_kwd;
+     white_spot;
+     namespaced_name;
+     whites;
+     paren_block;
+     whites;
+     semicolon
+  ];;
+
+add_recognizer (label_for_assign_to_new_fnctn_call,assign_to_new_fnctn_call_recognizer);; 
+
 
 
 let main_recognizer s i=
