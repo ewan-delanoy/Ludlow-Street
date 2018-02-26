@@ -57,6 +57,16 @@ let begins_with x y=
          None->(-1)
         |Some(k)->k+1;;
   
+let leftmost_linedex_of_in x y=
+    let j=leftmost_index_of_in x y in
+    if j<0 then (-1) else
+    Strung.number_of_lines_before y j;;
+
+let leftmost_linedex_of_in_from x y i=
+        let j=leftmost_index_of_in_from x y i in
+        if j<0 then (-1) else
+        Strung.number_of_lines_before y j;;    
+
  let occurrences_of_in x y=
    let lx=String.length x 
    and n=String.length y in
