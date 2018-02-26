@@ -124,18 +124,13 @@ let ornament=
      white_spot;
    ];;
 
-let echoable=
-   dis "echoable"
-   [
-     dq;
-     sq;
-   ] 
+
 
 let possible_ornaments=
    star "possible_ornaments" ornament;;
 
-let possible_brace_block=
-   maybe "possible_brace_block" brace_block;;   
+let possible_paren_block=
+   maybe "possible_paren_block" paren_block;;   
 
 let snake_start=
   ch "snake_start"
@@ -152,7 +147,7 @@ let snippet_in_snake=
      whites;
      php_name;
      whites;
-     paren_block;
+     possible_paren_block;
      whites;
   ];;
 
@@ -163,7 +158,15 @@ let snake=
      star "starred_snippet_in_snake" snippet_in_snake;
    ];;
 
-let myriam_element=Hregistrar.ordered_disjunction
+let echoable=
+    dis "echoable"
+    [
+      dq;
+      sq;
+      snake
+    ] ;;
+
+let myriam_element=dis
     "myriam_element"
     [
       sq;
