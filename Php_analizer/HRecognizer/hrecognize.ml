@@ -69,11 +69,13 @@ let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
+let linebreak=c "linebreak" "\n";;
 let plus=c "plus" "+";;
 let point=c "point" ".";;
 let question_mark=c "question_mark" "?";;
 let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
+let slash=c "slash" "/";;
 
 
 
@@ -96,6 +98,33 @@ let yuze_kwd=c "yuze_kwd" "use";;
 let no_semicolon=sto "no_semicolon" [';'];;
 let no_lbrace=sto "no_lbrace" ['{'];;
 
+let double_slash_comment=
+  ch "double_slash_comment"
+  [
+    slash;
+    slash;
+    sto "" ['\n'];
+    linebreak
+  ];;
+
+let starred_comment=
+  ch "starred_comment"
+  [
+    c "beginning_of_starred_comment" "/*";
+    lc "end_of_starred_comment" "*/"
+  ];;
+
+
+let ornament=
+  dis "ornament"
+   [
+     starred_comment;
+     double_slash_comment;
+     white_spot;
+   ];;
+
+let possible_ornaments=
+   star "possible_ornaments" ornament;;
 
 let snake_start=
   ch "snake_start"
@@ -224,17 +253,14 @@ let php_open_tag_recognizer=rlab
 
 add_recognizer (label_for_php_open_tag,php_open_tag_recognizer);;  
 
-let label_for_comment="comment";;
-add_label label_for_comment;;
+let label_for_starred_comment="starred_comment";;
+add_label label_for_starred_comment;;
 
-let comment_recognizer=rlabch
-  label_for_comment
-  [
-    c "beginning_of_starred_comment" "/*";
-    lc "end_of_starred_comment" "*/"
-  ];;
+let starred_comment_recognizer=rlab
+  label_for_starred_comment
+  starred_comment;;
 
-add_recognizer (label_for_comment,comment_recognizer);; 
+add_recognizer (label_for_starred_comment,starred_comment_recognizer);; 
 
 let label_for_white_spot="white_spot";;
 add_label label_for_white_spot;;
@@ -291,13 +317,9 @@ add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_
 let label_for_double_slash_comment="double_slash_comment";;
 add_label label_for_double_slash_comment;;
 
-let double_slash_comment_recognizer=rlabch
+let double_slash_comment_recognizer=rlab
   label_for_double_slash_comment
-  [
-    c "" "//";
-    sto "" ['\n'];
-    c "" "\n"
-  ];;
+  double_slash_comment;;
 
 add_recognizer (label_for_double_slash_comment,double_slash_comment_recognizer);; 
 
@@ -313,7 +335,7 @@ let ivy_start_partial_recognizer fst_kwd=
     paren_block;
     whites;
     brace_block;
-    whites
+    possible_ornaments
   ]);;
 
 (*
