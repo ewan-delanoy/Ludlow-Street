@@ -123,6 +123,13 @@ let ornament=
      white_spot;
    ];;
 
+let echoable=
+   dis "echoable"
+   [
+     dq;
+     sq;
+   ] 
+
 let possible_ornaments=
    star "possible_ornaments" ornament;;
 
@@ -718,7 +725,7 @@ let echo_recognizer=rlabch
   [
      echo_kwd;
      white_spot;
-     no_semicolon;
+     echoable;
      semicolon;
   ];;
 
