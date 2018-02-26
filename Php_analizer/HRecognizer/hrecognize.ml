@@ -135,7 +135,7 @@ let possible_ornaments=
    star "possible_ornaments" ornament;;
 
 let possible_brace_block=
-      
+   maybe "possible_brace_block" brace_block;;   
 
 let snake_start=
   ch "snake_start"
