@@ -28,6 +28,7 @@ let register name registered_one=
 let ca=Special_chars_for_hrecognizer_name.chain_announcer;;
 let da=Special_chars_for_hrecognizer_name.disjunction_announcer;;
 let sa=Special_chars_for_hrecognizer_name.star_announcer;;
+let ma=Special_chars_for_hrecognizer_name.maybee_announcer;;
          
 let cs=Special_chars_for_hrecognizer_name.chain_separator;;
 let ds=Special_chars_for_hrecognizer_name.disjunction_separator;;
@@ -52,7 +53,10 @@ let default_name_for_disjunction l=
     da^op^(String.concat ds temp1)^cl;;   
 
 let default_name_for_star x=
-    sa^op^(Nonatomic_hrecognizer.name x)^cl;;     
+    sa^op^(Nonatomic_hrecognizer.name x)^cl;;  
+
+let default_name_for_maybee x=
+    ma^op^(Nonatomic_hrecognizer.name x)^cl;;      
 
 end;;
 
@@ -87,6 +91,14 @@ let star s_opt x=
       else s_opt    
     ) in
     Private.register name (Nonatomic_hrecognizer.star name x);;
+
+let maybe s_opt x=
+      let name=(
+        if s_opt="" 
+        then Private.default_name_for_maybee x
+        else s_opt    
+      ) in
+      Private.register name (Nonatomic_hrecognizer.maybe name x);;    
 
 exception Unused_name of string;;
 

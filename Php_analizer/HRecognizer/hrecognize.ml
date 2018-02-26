@@ -46,6 +46,7 @@ let ch x l=Hregistrar.chain x l;;
 let dis x l=Hregistrar.ordered_disjunction x l;;   
 
 let star=Hregistrar.star;;
+let maybe=Hregistrar.maybe;;
 
 let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
 let rlabch lbl l=rlab lbl
@@ -133,6 +134,8 @@ let echoable=
 let possible_ornaments=
    star "possible_ornaments" ornament;;
 
+let possible_brace_block=
+      
 
 let snake_start=
   ch "snake_start"
