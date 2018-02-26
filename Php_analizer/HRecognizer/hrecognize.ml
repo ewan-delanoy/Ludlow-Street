@@ -63,22 +63,32 @@ let php_name=ch "php_name"
      first_letter;
      st "" Charset.strictly_alphanumeric_characters;
     ];;
-let semicolon=c "semicolon" ";";;    
-let question_mark=c "question_mark" "?";;
+
 let colon=c "colon" ":";;
-let point=c "point" ".";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
+let plus=c "plus" "+";;
+let point=c "point" ".";;
+let question_mark=c "question_mark" "?";;
 let rounded_at_symbol=c "rounded_at_symbol" "@";;
-let define_kwd=c "define_kwd" "define";;
-let nspc_kwd=c "nspc_kwd" "namespace";;
-let yuze_kwd=c "yuze_kwd" "use";;
-let abstract_kwd=c "abstract_kwd" "abstract";;
-let final_kwd=c "final_kwd" "final";;
-let glass_kwd=c "glass_kwd" "class";;
-let fnctn_kwd=c "fnctn_kwd" "function";;
-let itrfc_kwd=c "itrfc_kwd" "interface";;
+let semicolon=c "semicolon" ";";;    
 
+
+
+let abstract_kwd=c "abstract_kwd" "abstract";;
+let array_kwd=c "array_kwd" "array";;
+let catch_kwd=c "catch_kwd" "catch";;
+let define_kwd=c "define_kwd" "define";;
+let echo_kwd=c "echo_kwd" "echo";;
+let final_kwd=c "final_kwd" "final";;
+let fnctn_kwd=c "fnctn_kwd" "function";;
+let global_kwd=c "global_kwd" "global";;
+let glass_kwd=c "glass_kwd" "class";;
+let itrfc_kwd=c "itrfc_kwd" "interface";;
+let nspc_kwd=c "nspc_kwd" "namespace";;
+let static_kwd=c "static_kwd" "static";;
+let try_kwd=c "try_kwd" "try";;
+let yuze_kwd=c "yuze_kwd" "use";;
 
 let no_semicolon=sto "no_semicolon" [';'];;
 let no_lbrace=sto "no_lbrace" ['{'];;
@@ -490,7 +500,7 @@ add_label label_for_yuze;;
 let yuze_recognizer=rlabch
   label_for_yuze
   [
-     c "" "use";
+     yuze_kwd;
      white_spot;
      no_semicolon;
      semicolon;
@@ -576,6 +586,92 @@ let difyne_carelessly_recognizer=rlabch
   ];;
 
 add_recognizer (label_for_difyne_carelessly,difyne_carelessly_recognizer);; 
+
+let label_for_global_decl="global_decl";;
+add_label label_for_global_decl;;
+
+let global_decl_recognizer=rlabch
+  label_for_global_decl
+  [
+     global_kwd;
+     white_spot;
+     no_semicolon;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_global_decl,global_decl_recognizer);; 
+
+let label_for_static_decl="static_decl";;
+add_label label_for_static_decl;;
+
+let static_decl_recognizer=rlabch
+  label_for_static_decl
+  [
+     static_kwd;
+     white_spot;
+     no_semicolon;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_static_decl,static_decl_recognizer);; 
+
+let label_for_echo="echo";;
+add_label label_for_echo;;
+
+let echo_recognizer=rlabch
+  label_for_echo
+  [
+     echo_kwd;
+     white_spot;
+     no_semicolon;
+     semicolon;
+  ];;
+
+add_recognizer (label_for_echo,echo_recognizer);; 
+
+let label_for_add_array="add_array";;
+add_label label_for_add_array;;
+
+let add_array_recognizer=rlabch
+  label_for_add_array
+  [
+     dollar;
+     php_name;
+     whites;
+     plus;
+     equals;
+     whites;
+     array_kwd;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_add_array,add_array_recognizer);; 
+
+let label_for_trycatch="trycatch";;
+add_label label_for_trycatch;;
+
+let trycatch_recognizer=rlabch
+  label_for_trycatch
+  [
+     try_kwd;
+     whites;
+     brace_block;
+     whites;
+     catch_kwd;
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_trycatch,trycatch_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
