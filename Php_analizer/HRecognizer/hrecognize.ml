@@ -201,6 +201,7 @@ let assign_to_new_fnctn_call=
       php_name;
       whites;
       equals;
+      whites;
       new_kwd;
       white_spot;
       namespaced_name;
