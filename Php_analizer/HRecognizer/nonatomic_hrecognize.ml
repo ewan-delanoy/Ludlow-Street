@@ -78,6 +78,7 @@ let rec debug natm s i=
        |Nonatomic_hrecognizer.Ordered_disjunction(_,_)->(natm,i)  
        |Nonatomic_hrecognizer.Chain(_,l)->debug_chain debug l s i      
        |Nonatomic_hrecognizer.Star(_,natm2)->
+       |Nonatomic_hrecognizer.Maybe(_,natm2)->
            raise(Debug_star_exn);;
      
 let extra_debug_chain  l s i=
