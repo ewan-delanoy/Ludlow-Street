@@ -30,6 +30,10 @@ let recgz_star old_f atm s i=
      )  in
      tempf i;;   
 
+let recgz_maybee old_f atm s i=
+        match old_f atm s i with
+        None->Some(i)
+        |Some(new_idx)->Some(new_idx);;        
 
 let rec recgz natm s i=
   match natm with
@@ -39,7 +43,9 @@ let rec recgz natm s i=
   |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
       recgz_ordered_disjunction recgz l s i         
   |Nonatomic_hrecognizer.Star(_,natm2)->
-      recgz_star recgz natm2 s i;;
+      recgz_star recgz natm2 s i
+  |Nonatomic_hrecognizer.Maybe(_,natm2)->
+      recgz_maybee recgz natm2 s i    ;;
 
 
 
