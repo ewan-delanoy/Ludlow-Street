@@ -839,3 +839,16 @@ let rec main_helper (graet,s,i)=
 let main_exhauster s i=
    main_helper ([],s,i);;         
 
+exception Parse_failure of string;;
+
+let parse_all s=
+   let (j,l)=main_exhauster s 1 in
+   let n=String.length s in
+   if j<=n
+   then let m=min(j+1000)(n) in
+        let t=Cull_string.interval s j m in
+        raise(Parse_failure(t))
+   else l;; 
+
+
+   
