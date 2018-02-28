@@ -26,7 +26,7 @@ let explode s=
     Ennig.doyle (String.get s) 0 (n-1);;
     
  
- let finder f s w0=
+let finder f s w0=
    let n=(String.length s) in
    let rec tempf=(fun j->
      if j>=n then 0 else
@@ -34,6 +34,14 @@ let explode s=
      tempf(j+1)
    ) in
    tempf(w0-1);;
+
+let backwards_finder f s w0=
+    let rec tempf=(fun j->
+      if j<0 then 0 else
+      if f(String.get s  j) then j+1 else
+      tempf(j-1)
+    ) in
+    tempf(w0-1);;   
  
 let show_indices s=
   let n=String.length s in
