@@ -6,15 +6,15 @@
 
 (* Label related generic definitions *)
 
-let list_of_labels=ref [];;
+let old_list_of_labels=ref [];;
 exception Duplicate_label of string;;
 
 let add_label lbl =
-   let temp1=(!list_of_labels) in
+   let temp1=(!old_list_of_labels) in
    if List.mem lbl temp1
    then raise(Duplicate_label(lbl))
    else 
-   list_of_labels:=lbl::temp1;;
+   old_list_of_labels:=lbl::temp1;;
 
 let list_of_recognizers=ref[];;
 let add_recognizer (lbl,f)=
@@ -851,4 +851,3 @@ let parse_all s=
    else l;; 
 
 
-   
