@@ -7,6 +7,11 @@
 (* Label related generic definitions *)
 
 let old_list_of_labels=ref [];;
+(*
+A newer list of labels is to be found in the h pacify_namespaces module
+
+*)
+
 exception Duplicate_label of string;;
 
 let add_label lbl =
