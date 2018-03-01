@@ -84,11 +84,11 @@ let rec debug natm s i=
 let extra_debug_chain  l s i=
         let rec tempf=(fun (idx,graet,da_ober)->
          match da_ober with
-         []->List.rev graet
+         []->(List.rev graet,None,(String.length s)+1)
          |atm::peurrest->
            (
              match recgz atm s idx with
-              None->List.rev graet
+              None->(List.rev graet,Some(atm),idx)
              |Some(new_idx)->
                let t=Cull_string.interval s idx (new_idx-1) in
                tempf(new_idx,(atm,t,(idx,new_idx-1))::graet,peurrest)
@@ -105,7 +105,7 @@ let extra_debug_disjunction  l s i=
     |Some(res)->Some(atm,res)
   ) l with
   None->raise(Extra_debug_disjunction_exn)
-  |Some(atm0,res0)->[atm0,"",(0,0)];;     
+  |Some(atm0,res0)->([atm0,"",(0,0)],None,-1);;     
             
      
         
