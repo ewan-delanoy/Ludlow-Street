@@ -890,6 +890,8 @@ let assignment_recognizer=rlabch
      whites;
      equals;
      assignable;
+     whites;
+     semicolon;
   ];;
 
 add_recognizer (label_for_assignment,assignment_recognizer);; 
