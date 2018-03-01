@@ -9,6 +9,9 @@ let get_nspc_name s (i,j)=
     let k1=Strung.finder (fun c->
       not(List.mem c [' ';'\t';'\n';'\r'])
     ) s (i+9) in
+    if Strung.get s k1='{'
+    then ""
+    else
     let k2=Strung.finder (fun c->
       List.mem c [' ';'\t';'\n';'\r';';';'{']
     ) s (k1+1) in
@@ -22,6 +25,9 @@ tt "namespace Butterfly\\Over\\The\\Sea   ; ";;
 tt "namespace Butterfly\\Over\\The\\Sea; ";;
 tt "namespace Butterfly\\Over\\The\\Sea {}";;
 tt "namespace Butterfly\\Over\\The\\Sea{}";;
+tt "namespace {}";;
+
+
 
 *)
 
