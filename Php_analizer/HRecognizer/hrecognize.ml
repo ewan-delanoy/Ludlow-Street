@@ -198,18 +198,6 @@ let myriam=
       star "" myriam_snippet;
    ];;    
 
-let assign_to_myriam=
-   ch "assign_to_myriam"
-   [
-      dollar;
-      php_name;
-      whites;
-      equals;
-      whites;
-      myriam;
-      whites;
-      semicolon
-   ];;
 
 let snippet_in_namespaced_name=
     ch "snippet_in_namespaced_name"
@@ -243,22 +231,6 @@ let namespaced_name=
       namespaced_name_two;
     ];;        
 
-let assign_to_new_fnctn_call=
-   ch "assign_to_new_fnctn_call"    
-    [
-      dollar; 
-      php_name;
-      whites;
-      equals;
-      whites;
-      new_kwd;
-      white_spot;
-      namespaced_name;
-      whites;
-      paren_block;
-      whites;
-      semicolon
-   ];;
 
 let fnctn_call=
     ch "fnctn_call"    
@@ -488,25 +460,7 @@ let example=
 
 *)
 
-let label_for_assign_to_array="assign_to_array";;
-add_label label_for_assign_to_array;;
 
-
-let assign_to_array_recognizer=rlabch
-  label_for_assign_to_array
-  [
-     dollar;
-     php_name;
-     whites;
-     equals;
-     whites;
-     array_kwd;
-     paren_block;
-     whites;
-     semicolon
-  ];;
-
-add_recognizer (label_for_assign_to_array,assign_to_array_recognizer);; 
 
 let label_for_semicoloned_fnctn_call="semicoloned_fnctn_call";;
 add_label label_for_semicoloned_fnctn_call;;
@@ -523,25 +477,6 @@ let semicoloned_fnctn_call_recognizer=rlabch
 
 add_recognizer (label_for_semicoloned_fnctn_call,semicoloned_fnctn_call_recognizer);; 
 
-let label_for_assign_to_fnctn_call="assign_to_fnctn_call";;
-add_label label_for_assign_to_fnctn_call;;
-
-let assign_to_fnctn_call_recognizer=rlabch 
-  label_for_assign_to_fnctn_call
-  [
-     dollar; 
-     php_name;
-     whites;
-     equals;
-     whites;
-     namespaced_name;
-     whites;
-     paren_block;
-     whites;
-     semicolon
-  ];;
-
-add_recognizer (label_for_assign_to_fnctn_call,assign_to_fnctn_call_recognizer);; 
 
 let label_for_wiley="wiley";;
 add_label label_for_wiley;;
@@ -607,17 +542,6 @@ let phoreech_recognizer=rlabch
   ];;
 
 add_recognizer (label_for_phoreech,phoreech_recognizer);; 
-
-let label_for_assign_to_myriam="assign_to_myriam";;
-add_label label_for_assign_to_myriam;;
-
-
-let assign_to_myriam_recognizer=rlab
-  label_for_assign_to_myriam
-  assign_to_myriam;;
-
-add_recognizer (label_for_assign_to_myriam,assign_to_myriam_recognizer);; 
-
 
 let label_for_semicoloned_nspc="semicoloned_nspc";;
 add_label label_for_semicoloned_nspc;;
@@ -880,14 +804,6 @@ let backslashed_fnctn_call_recognizer=rlabch
 
 add_recognizer (label_for_backslashed_fnctn_call,backslashed_fnctn_call_recognizer);; 
 
-let label_for_assign_to_new_fnctn_call="assign_to_new_fnctn_call";;
-add_label label_for_assign_to_new_fnctn_call;;
-
-let assign_to_new_fnctn_call_recognizer=rlab
-  label_for_assign_to_new_fnctn_call
-  assign_to_new_fnctn_call;;
-
-add_recognizer (label_for_assign_to_new_fnctn_call,assign_to_new_fnctn_call_recognizer);; 
 
 let label_for_semicoloned_assignment="semicoloned_assignment";;
 add_label label_for_semicoloned_assignment;;
