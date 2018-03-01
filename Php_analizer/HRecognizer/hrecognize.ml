@@ -296,13 +296,11 @@ let floater=ch "floater"
 
 let assignable=
    dis "assignable"
-    [
-      myriam;
+    [    
       fnctn_call;
       new_fnctn_call;
-      sq;
-      dq;
       floater;
+      myriam;
     ] ;;   
 
 let semicoloned_assignment=
