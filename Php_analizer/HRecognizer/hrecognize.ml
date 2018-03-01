@@ -75,6 +75,7 @@ let colon=c "colon" ":";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
 let linebreak=c "linebreak" "\n";;
+let minus=c "minus" "-";;
 let plus=c "plus" "+";;
 let point=c "point" ".";;
 let question_mark=c "question_mark" "?";;
@@ -258,6 +259,52 @@ let assign_to_new_fnctn_call=
       whites;
       semicolon
    ];;
+
+let fnctn_call=
+    ch "fnctn_call"    
+     [
+       namespaced_name;
+       whites;
+       paren_block;
+    ];;   
+
+
+let new_fnctn_call=
+    ch "new_fnctn_call"    
+     [
+       new_kwd;
+       white_spot;
+       fnctn_call;
+    ];;   
+
+let positive_integer=
+     ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
+
+let negative_integer=
+    ch "negative_integer" [minus;positive_integer];;
+    
+let integer=dis "integer" [positive_integer;negative_integer];;    
+  
+let after_point_in_floater=ch "after_point_in_floater" [point;positive_integer];;
+
+let floater=ch "floater"
+ [
+    integer;
+    maybe "possible_after_point_in_floater" after_point_in_floater
+  ];;
+
+
+let assignable=
+   dis "assignable"
+    [
+      myriam;
+      fnctn_call;
+      new_fnctn_call;
+      sq;
+      dq;
+      floater;
+    ] ;;   
+      
 
 
 (* End of particular parser elements *)
