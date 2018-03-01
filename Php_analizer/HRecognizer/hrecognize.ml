@@ -83,11 +83,10 @@ let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
 
-
-
 let abstract_kwd=c "abstract_kwd" "abstract";;
 let array_kwd=c "array_kwd" "array";;
 let catch_kwd=c "catch_kwd" "catch";;
+let const_kwd=c "const_kwd" "const";;
 let define_kwd=c "define_kwd" "define";;
 let echo_kwd=c "echo_kwd" "echo";;
 let final_kwd=c "final_kwd" "final";;
@@ -97,6 +96,8 @@ let glass_kwd=c "glass_kwd" "class";;
 let itrfc_kwd=c "itrfc_kwd" "interface";;
 let new_kwd=c "new_kwd" "new";;
 let nspc_kwd=c "nspc_kwd" "namespace";;
+let private_kwd=c "private_kwd" "private";;
+let protected_kwd=c "protected_kwd" "protected";;
 let static_kwd=c "static_kwd" "static";;
 let try_kwd=c "try_kwd" "try";;
 let yuze_kwd=c "yuze_kwd" "use";;
