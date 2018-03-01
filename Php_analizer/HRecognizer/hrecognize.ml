@@ -312,6 +312,7 @@ let semicoloned_assignment=
        php_name;
        whites;
        equals;
+       whites;
        assignable;
        whites;
        semicolon;
