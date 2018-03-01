@@ -61,7 +61,11 @@ let rlabch lbl l=rlab lbl
 let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
 let paren_block=enc  "paren_block" ('(',')') ;;
 let brace_block=enc  "brace_block" ('{','}') ;;
-let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t']
+let bracket_block=enc  "bracket_block" ('[',']') ;;
+let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t'];;
+
+let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
+
 
 let first_letter=eo "first_letter" Charset.php_label_first_letters;;
 let php_name=ch "php_name"
@@ -70,6 +74,7 @@ let php_name=ch "php_name"
      st "" Charset.strictly_alphanumeric_characters;
     ];;
 
+let arrow=c "backslash" "->";;
 let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
 let dollar=c "dollar" "$";;
@@ -149,7 +154,7 @@ let snake_start=
 let snippet_in_snake=
   ch "snippet_in_snake"
   [
-     c "" "->";
+     arrow;
      whites;
      php_name;
      whites;
@@ -275,13 +280,16 @@ let assignable=
       myriam;
     ] ;;   
 
-
+let arrowing=ch "arrowing" [arrow;php_name];;
+let possible_arrowing=maybe "possible_arrowing" arrowing;;
       
 let handler=
   ch "handler"
   [
     dollar;
     php_name;
+    possible_arrowing;
+    possible_bracket_block;
     whites;
     equals;
     whites;
