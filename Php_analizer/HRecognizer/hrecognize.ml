@@ -304,6 +304,18 @@ let assignable=
       dq;
       floater;
     ] ;;   
+
+let semicoloned_assignment=
+    ch "semicoloned_assignment"
+    [
+       dollar;
+       php_name;
+       whites;
+       equals;
+       assignable;
+       whites;
+       semicolon;
+    ];;
       
 
 
@@ -878,23 +890,15 @@ let assign_to_new_fnctn_call_recognizer=rlab
 
 add_recognizer (label_for_assign_to_new_fnctn_call,assign_to_new_fnctn_call_recognizer);; 
 
-let label_for_assignment="assignment";;
-add_label label_for_assignment;;
+let label_for_semicoloned_assignment="semicoloned_assignment";;
+add_label label_for_semicoloned_assignment;;
 
 
-let assignment_recognizer=rlabch
-  label_for_assignment
-  [
-     dollar;
-     php_name;
-     whites;
-     equals;
-     assignable;
-     whites;
-     semicolon;
-  ];;
+let semicoloned_assignment_recognizer=rlab
+  label_for_semicoloned_assignment
+  semicoloned_assignment;;
 
-add_recognizer (label_for_assignment,assignment_recognizer);; 
+add_recognizer (label_for_semicoloned_assignment,semicoloned_assignment_recognizer);; 
 
 
 let main_recognizer s i=
