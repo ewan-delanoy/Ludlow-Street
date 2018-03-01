@@ -9,7 +9,6 @@
 let old_list_of_labels=ref [];;
 (*
 A newer list of labels is to be found in the h pacify_namespaces module
-
 *)
 
 exception Duplicate_label of string;;
@@ -263,6 +262,21 @@ let assign_to_new_fnctn_call=
 
 (* End of particular parser elements *)
 
+let label_for_one_liner_with_variable="one_liner_with_variable";;
+add_label label_for_one_liner_with_variable;;
+
+let one_liner_with_variable_recognizer=rlabch
+  label_for_one_liner_with_variable
+  [
+     dollar;
+     php_name;
+     sto "" ['\n';'\r';';'];
+     semicolon
+  ];;
+
+add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
+
+
 let label_for_php_open_tag="php_open_tag";;
 add_label label_for_php_open_tag;;
 
@@ -306,19 +320,7 @@ let difyne_constant_recognizer=rlabch
 
 add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
 
-let label_for_one_liner_with_variable="one_liner_with_variable";;
-add_label label_for_one_liner_with_variable;;
 
-let one_liner_with_variable_recognizer=rlabch
-  label_for_one_liner_with_variable
-  [
-     dollar;
-     php_name;
-     sto "" ['\n';'\r';';'];
-     semicolon
-  ];;
-
-add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
 
 let label_for_inclusion_with_parenthesis="inclusion_with_parenthesis";;
 add_label label_for_inclusion_with_parenthesis;;
