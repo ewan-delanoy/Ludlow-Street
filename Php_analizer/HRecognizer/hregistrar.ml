@@ -6,7 +6,7 @@
 
 
 
-exception Name_already_used of string;;
+exception Name_already_used of string*(string * Nonatomic_hrecognizer.t list * Atomic_hrecognizer.t option);;
 exception Illegal_name of string;;
 
 module Private=struct
@@ -21,7 +21,7 @@ let register name registered_one=
     then raise(Illegal_name(name))
     else 
     if List.exists (fun (name1,_)->name1=name) (!the_list)
-    then raise(Name_already_used(name))
+    then raise(Name_already_used(name,Nonatomic_hrecognizer.unveil registered_one))
     else let _=(the_list:=(name,registered_one)::(!the_list)) in
          registered_one;;         
 
