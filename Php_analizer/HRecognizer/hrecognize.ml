@@ -74,7 +74,7 @@ let php_name=ch "php_name"
      st "" Charset.strictly_alphanumeric_characters;
     ];;
 
-let arrow=c "backslash" "->";;
+let arrow=c "arrow" "->";;
 let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
 let dollar=c "dollar" "$";;
