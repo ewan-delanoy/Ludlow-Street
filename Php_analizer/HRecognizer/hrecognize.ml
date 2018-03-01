@@ -275,20 +275,30 @@ let assignable=
       myriam;
     ] ;;   
 
+
+      
+let handler=
+  ch "handler"
+  [
+    dollar;
+    php_name;
+    whites;
+    equals;
+    whites;
+  ];;
+
+let several_handlers =
+   star "several_handlers" handler;;
+  
 let semicoloned_assignment=
     ch "semicoloned_assignment"
     [
-       dollar;
-       php_name;
-       whites;
-       equals;
-       whites;
+       handler;
+       several_handlers;
        assignable;
        whites;
        semicolon;
     ];;
-      
-
 
 (* End of particular parser elements *)
 
