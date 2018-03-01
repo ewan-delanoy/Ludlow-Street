@@ -878,6 +878,21 @@ let assign_to_new_fnctn_call_recognizer=rlab
 
 add_recognizer (label_for_assign_to_new_fnctn_call,assign_to_new_fnctn_call_recognizer);; 
 
+let label_for_assignment="assignment";;
+add_label label_for_assignment;;
+
+
+let assignment_recognizer=rlabch
+  label_for_assignment
+  [
+     dollar;
+     php_name;
+     whites;
+     equals;
+     assignable;
+  ];;
+
+add_recognizer (label_for_assignment,assignment_recognizer);; 
 
 
 let main_recognizer s i=
