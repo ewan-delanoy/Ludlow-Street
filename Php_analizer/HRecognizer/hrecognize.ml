@@ -236,10 +236,12 @@ let namespaced_name=
       namespaced_name_two;
     ];;        
 
+let possible_dollar=maybe "possible_dollar" dollar;;
 
 let fnctn_call=
     ch "fnctn_call"    
      [
+       possible_dollar;
        namespaced_name;
        whites;
        paren_block;
