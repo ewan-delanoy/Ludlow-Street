@@ -274,7 +274,7 @@ let floater=ch "floater"
   ];;
 
 let plussed_fnctn_call=
-    dis "plussed_fnctn_call"
+    ch "plussed_fnctn_call"
      [    
        fnctn_call;
        whites ;
@@ -285,7 +285,7 @@ let plussed_fnctn_call=
      ] ;;     
 
 let index_call=
-      dis "plussed_fnctn_call"
+      ch "index_call"
        [    
          dollar;
          php_name;
