@@ -51,6 +51,8 @@ let dis x l=Hregistrar.ordered_disjunction x l;;
 
 let star=Hregistrar.star;;
 let maybe=Hregistrar.maybe;;
+let keyword_avoider=Hregistrar.keyword_avoider;;
+
 
 let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
 let rlabch lbl l=rlab lbl
@@ -67,12 +69,7 @@ let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t'];;
 let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
 
 
-let first_letter=eo "first_letter" Charset.php_label_first_letters;;
-let php_name=ch "php_name"
-    [
-     first_letter;
-     st "" Charset.strictly_alphanumeric_characters;
-    ];;
+
 
 let arrow=c "arrow" "->";;
 let backslash=c "backslash" "\\";;
@@ -88,24 +85,39 @@ let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
 
-let abstract_kwd=c "abstract_kwd" "abstract";;
-let array_kwd=c "array_kwd" "array";;
-let catch_kwd=c "catch_kwd" "catch";;
-let const_kwd=c "const_kwd" "const";;
-let define_kwd=c "define_kwd" "define";;
-let echo_kwd=c "echo_kwd" "echo";;
-let final_kwd=c "final_kwd" "final";;
-let fnctn_kwd=c "fnctn_kwd" "function";;
-let global_kwd=c "global_kwd" "global";;
-let glass_kwd=c "glass_kwd" "class";;
-let itrfc_kwd=c "itrfc_kwd" "interface";;
-let new_kwd=c "new_kwd" "new";;
-let nspc_kwd=c "nspc_kwd" "namespace";;
-let private_kwd=c "private_kwd" "private";;
-let protected_kwd=c "protected_kwd" "protected";;
-let static_kwd=c "static_kwd" "static";;
-let try_kwd=c "try_kwd" "try";;
-let yuze_kwd=c "yuze_kwd" "use";;
+let list_of_keywords =ref [];;
+let kc x y=
+   let _=(list_of_keywords:=y::(!list_of_keywords)) in
+   c x y;;
+
+let abstract_kwd=kc "abstract_kwd" "abstract";;
+let array_kwd=kc "array_kwd" "array";;
+let catch_kwd=kc "catch_kwd" "catch";;
+let const_kwd=kc "const_kwd" "const";;
+let define_kwd=kc "define_kwd" "define";;
+let echo_kwd=kc "echo_kwd" "echo";;
+let final_kwd=kc "final_kwd" "final";;
+let fnctn_kwd=kc "fnctn_kwd" "function";;
+let global_kwd=kc "global_kwd" "global";;
+let glass_kwd=kc "glass_kwd" "class";;
+let itrfc_kwd=kc "itrfc_kwd" "interface";;
+let new_kwd=kc "new_kwd" "new";;
+let nspc_kwd=kc "nspc_kwd" "namespace";;
+let private_kwd=kc "private_kwd" "private";;
+let protected_kwd=kc "protected_kwd" "protected";;
+let static_kwd=kc "static_kwd" "static";;
+let try_kwd=kc "try_kwd" "try";;
+let yuze_kwd=kc "yuze_kwd" "use";;
+
+let first_letter=eo "first_letter" Charset.php_label_first_letters;;
+let naive_php_name=ch "naive_php_name"
+    [
+     first_letter;
+     st "" Charset.strictly_alphanumeric_characters;
+    ];;
+
+let php_name=keyword_avoider 
+    "php_name" (naive_php_name,!list_of_keywords);;
 
 let no_semicolon=sto "no_semicolon" [';'];;
 let no_lbrace=sto "no_lbrace" ['{'];;
@@ -147,7 +159,7 @@ let snake_start=
   ch "snake_start"
   [
      dollar;
-     php_name;
+     naive_php_name;
      possible_bracket_block;
      whites;
   ];;
@@ -163,11 +175,13 @@ let snippet_in_snake=
      whites;
   ];;
 
+let starred_snippet_in_snake=star "starred_snippet_in_snake" snippet_in_snake;;
+
 let snake=
   ch "snake"
    [
      snake_start;
-     star "starred_snippet_in_snake" snippet_in_snake;
+     starred_snippet_in_snake;
    ];;
 
 let echoable=
@@ -175,7 +189,8 @@ let echoable=
     [
       dq;
       sq;
-      snake
+      snake;
+      paren_block
     ] ;;
 
 let myriam_element=dis
@@ -273,36 +288,46 @@ let floater=ch "floater"
     maybe "possible_after_point_in_floater" after_point_in_floater
   ];;
 
-let plussed_fnctn_call=
-    ch "plussed_fnctn_call"
+let fnctn_call_followed_by_plus=
+    ch "fnctn_call_followed_by_plus"
      [    
        fnctn_call;
        whites ;
        plus;
        whites;
        dollar;
-       php_name;
+       naive_php_name;
      ] ;;     
 
 let index_call=
       ch "index_call"
        [    
          dollar;
-         php_name;
+         naive_php_name;
          whites;
          bracket_block;
        ] ;;     
-  
+
+let array_of_something=
+    ch "array_of_something"    
+     [
+        array_kwd;
+        whites;
+        paren_block;
+     ] ;;  
+
 
 let assignable=
    dis "assignable"
     [    
       floater;
       fnctn_call;
+      fnctn_call_followed_by_plus;
       index_call;
-      myriam;
+      (ch "assignable1" [dollar;php_name;whites;arrow;paren_block;starred_snippet_in_snake]);
+      (* myriam; *)
       new_fnctn_call;
-      plussed_fnctn_call;
+      array_of_something;
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
@@ -312,7 +337,7 @@ let handler=
   ch "handler"
   [
     dollar;
-    php_name;
+    naive_php_name;
     possible_arrowing;
     possible_bracket_block;
     whites;
@@ -342,7 +367,7 @@ let one_liner_with_variable_recognizer=rlabch
   label_for_one_liner_with_variable
   [
      dollar;
-     php_name;
+     naive_php_name;
      sto "" ['\n';'\r';';'];
      semicolon
   ];;
@@ -778,7 +803,7 @@ let add_array_recognizer=rlabch
   label_for_add_array
   [
      dollar;
-     php_name;
+     naive_php_name;
      whites;
      plus;
      equals;
