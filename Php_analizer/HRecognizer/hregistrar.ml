@@ -6,7 +6,8 @@
 
 
 
-exception Name_already_used of string*(string * Nonatomic_hrecognizer.t list * Atomic_hrecognizer.t option);;
+exception Name_already_used of string*
+(string * Nonatomic_hrecognizer.t list * Atomic_hrecognizer.t option* (string list) option);;
 exception Illegal_name of string;;
 
 module Private=struct
@@ -29,7 +30,9 @@ let ca=Special_chars_for_hrecognizer_name.chain_announcer;;
 let da=Special_chars_for_hrecognizer_name.disjunction_announcer;;
 let sa=Special_chars_for_hrecognizer_name.star_announcer;;
 let ma=Special_chars_for_hrecognizer_name.maybee_announcer;;
-         
+let ka=Special_chars_for_hrecognizer_name.keyword_avoider_announcer;;
+
+
 let cs=Special_chars_for_hrecognizer_name.chain_separator;;
 let ds=Special_chars_for_hrecognizer_name.disjunction_separator;;
          
@@ -56,7 +59,10 @@ let default_name_for_star x=
     sa^op^(Nonatomic_hrecognizer.name x)^cl;;  
 
 let default_name_for_maybee x=
-    ma^op^(Nonatomic_hrecognizer.name x)^cl;;      
+    ma^op^(Nonatomic_hrecognizer.name x)^cl;;    
+
+let default_name_for_keyword_avoider x=
+        ma^op^(Nonatomic_hrecognizer.name x)^cl;;        
 
 end;;
 
@@ -98,7 +104,15 @@ let maybe s_opt x=
         then Private.default_name_for_maybee x
         else s_opt    
       ) in
-      Private.register name (Nonatomic_hrecognizer.maybe name x);;    
+      Private.register name (Nonatomic_hrecognizer.maybe name x);;   
+
+let keyword_avoider s_opt x=
+        let name=(
+          if s_opt="" 
+          then Private.default_name_for_keyword_avoider x
+          else s_opt    
+        ) in
+        Private.register name (Nonatomic_hrecognizer.keyword_avoider name x);;         
 
 exception Unused_name of string;;
 

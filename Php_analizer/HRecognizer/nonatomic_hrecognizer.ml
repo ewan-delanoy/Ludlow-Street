@@ -8,7 +8,7 @@ type t=
  |Ordered_disjunction of string*(t list)
  |Star of string*t
  |Maybe of string*t
- |Check of string*(t*(t list));;
+ |Keyword_avoider of string*(t*(string list));;
 
 let name=function
   Leaf(s,_)->s
@@ -16,22 +16,22 @@ let name=function
   |Ordered_disjunction(s,_)->s
   |Star(s,_)->s
   |Maybe(s,_)->s
-  |Check(s,_)->s;;
+  |Keyword_avoider(s,_)->s;;
 
 let leaf s x=Leaf(s,x);;
 let chain s l=Chain(s,l);;
 let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
 let maybe s l=Maybe(s,l);; 
-let check s (atm,l)=Check(s,(atm,l));; 
+let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
 
 let unveil =function
-  Leaf(s,atm)->("leaf",[],Some atm)
- |Chain(_,l)->("chain",l,None)
- |Ordered_disjunction(_,l)->("ordered_disjunction",l,None)
- |Star(_,x)->("star",[x],None)
- |Maybe(_,x)->("maybe",[x],None)
- |Check(_,(x,l))->("check",x::l,None);;
+  Leaf(s,atm)->("leaf",[],Some atm,None)
+ |Chain(_,l)->("chain",l,None,None)
+ |Ordered_disjunction(_,l)->("ordered_disjunction",l,None,None)
+ |Star(_,x)->("star",[x],None,None)
+ |Maybe(_,x)->("maybe",[x],None,None)
+ |Keyword_avoider(_,(x,l))->("avoid_keywords",[x],None,Some(l));;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
