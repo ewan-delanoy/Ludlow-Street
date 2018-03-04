@@ -148,6 +148,7 @@ let snake_start=
   [
      dollar;
      php_name;
+     possible_bracket_block;
      whites;
   ];;
 
@@ -272,14 +273,36 @@ let floater=ch "floater"
     maybe "possible_after_point_in_floater" after_point_in_floater
   ];;
 
+let plussed_fnctn_call=
+    dis "plussed_fnctn_call"
+     [    
+       fnctn_call;
+       whites ;
+       plus;
+       whites;
+       dollar;
+       php_name;
+     ] ;;     
+
+let index_call=
+      dis "plussed_fnctn_call"
+       [    
+         dollar;
+         php_name;
+         whites;
+         bracket_block;
+       ] ;;     
+  
 
 let assignable=
    dis "assignable"
     [    
-      fnctn_call;
-      new_fnctn_call;
       floater;
+      fnctn_call;
+      index_call;
       myriam;
+      new_fnctn_call;
+      plussed_fnctn_call;
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
