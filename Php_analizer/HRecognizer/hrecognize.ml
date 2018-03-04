@@ -96,12 +96,14 @@ let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
 let echo_kwd=kc "echo_kwd" "echo";;
+let false_kwd=kc "false_kwd" "false";;
 let final_kwd=kc "final_kwd" "final";;
 let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
 let glass_kwd=kc "glass_kwd" "class";;
 let itrfc_kwd=kc "itrfc_kwd" "interface";;
 let new_kwd=kc "new_kwd" "new";;
+let null_kwd=kc "null_kwd" "null";;
 let nspc_kwd=kc "nspc_kwd" "namespace";;
 let private_kwd=kc "private_kwd" "private";;
 let protected_kwd=kc "protected_kwd" "protected";;
@@ -252,12 +254,9 @@ let namespaced_name=
       namespaced_name_two;
     ];;        
 
-let possible_dollar=maybe "possible_dollar" dollar;;
-
 let fnctn_call=
     ch "fnctn_call"    
      [
-       possible_dollar;
        namespaced_name;
        whites;
        paren_block;
@@ -286,51 +285,25 @@ let floater=ch "floater"
  [
     integer;
     maybe "possible_after_point_in_floater" after_point_in_floater
-  ];;
-
-let fnctn_call_followed_by_plus=
-    ch "fnctn_call_followed_by_plus"
-     [    
-       fnctn_call;
-       whites ;
-       plus;
-       whites;
-       dollar;
-       naive_php_name;
-     ] ;;     
-
-let index_call=
-      ch "index_call"
-       [    
-         dollar;
-         naive_php_name;
-         whites;
-         bracket_block;
-       ] ;;     
-
-let array_of_something=
-    ch "array_of_something"    
-     [
-        array_kwd;
-        whites;
-        paren_block;
-     ] ;;  
+  ];;     
 
 
 let assignable=
    dis "assignable"
     [    
       floater;
+      (ch "assignable1" [fnctn_call;whites;plus;whites;dollar;naive_php_name;]);
       fnctn_call;
-      fnctn_call_followed_by_plus;
-      index_call;
-      (ch "assignable1" [dollar;naive_php_name;whites;arrow;php_name;paren_block;whites;starred_snippet_in_snake]);
-      (* myriam; *)
+      (ch "assignable2" [dollar;naive_php_name;whites;bracket_block]);
+      (ch "assignable3" [dollar;naive_php_name;whites;arrow;php_name;paren_block;whites;starred_snippet_in_snake]);
+      (ch "assignable4" [dollar;naive_php_name]); 
       new_fnctn_call;
-      array_of_something;
+      (ch "assignable5" [array_kwd;whites;paren_block]); 
+      (ch "assignable6" [sq;whites;point;whites;myriam]);
       sq;
-      (ch "assignable2" [sq;whites;point;whites;myriam]);
-      dq
+      dq;
+      null_kwd;
+      false_kwd;
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
