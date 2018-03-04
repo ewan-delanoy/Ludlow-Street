@@ -61,8 +61,9 @@ let default_name_for_star x=
 let default_name_for_maybee x=
     ma^op^(Nonatomic_hrecognizer.name x)^cl;;    
 
-let default_name_for_keyword_avoider x=
-        ma^op^(Nonatomic_hrecognizer.name x)^cl;;        
+let default_name_for_keyword_avoider (x,l)=
+        ma^op^(Nonatomic_hrecognizer.name x)^
+        (String.concat "#" l)^cl;;        
 
 end;;
 
@@ -119,3 +120,5 @@ exception Unused_name of string;;
 let recognizer_with_name name=
    try  List.assoc  name (!Private.the_list) with
    _->raise(Unused_name(name));; 
+
+   
