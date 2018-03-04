@@ -7,27 +7,31 @@ type t=
  |Chain of string*(t list)
  |Ordered_disjunction of string*(t list)
  |Star of string*t
- |Maybe of string*t;;
+ |Maybe of string*t
+ |Check of string*(t*(t list));;
 
 let name=function
   Leaf(s,_)->s
   |Chain(s,_)->s
   |Ordered_disjunction(s,_)->s
   |Star(s,_)->s
-  |Maybe(s,_)->s;;
+  |Maybe(s,_)->s
+  |Check(s,_)->s;;
 
 let leaf s x=Leaf(s,x);;
 let chain s l=Chain(s,l);;
 let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
 let maybe s l=Maybe(s,l);; 
+let check s (atm,l)=Check(s,(atm,l));; 
 
 let unveil =function
   Leaf(s,atm)->("leaf",[],Some atm)
  |Chain(_,l)->("chain",l,None)
  |Ordered_disjunction(_,l)->("ordered_disjunction",l,None)
  |Star(_,x)->("star",[x],None)
- |Maybe(_,x)->("maybe",[x],None);;
+ |Maybe(_,x)->("maybe",[x],None)
+ |Check(_,(x,l))->("check",x::l,None);;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
