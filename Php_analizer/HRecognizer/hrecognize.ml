@@ -324,10 +324,13 @@ let assignable=
       fnctn_call;
       fnctn_call_followed_by_plus;
       index_call;
-      (ch "assignable1" [dollar;php_name;whites;arrow;paren_block;starred_snippet_in_snake]);
+      (ch "assignable1" [dollar;naive_php_name;whites;arrow;php_name;paren_block;whites;starred_snippet_in_snake]);
       (* myriam; *)
       new_fnctn_call;
       array_of_something;
+      sq;
+      (ch "assignable2" [sq;whites;point;whites;myriam]);
+      dq
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
