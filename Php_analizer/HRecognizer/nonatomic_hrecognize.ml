@@ -35,6 +35,14 @@ let recgz_maybee old_f atm s i=
         None->Some(i)
         |Some(new_idx)->Some(new_idx);;        
 
+let recgz_check old_f (x,l) s i=
+          match old_f x s i with
+          None->None
+          |Some(new_idx)->
+            if List.for_all (fun y->(old_f y s i)=None) l
+            then Some(new_idx)
+            else None;;         
+
 let rec recgz natm s i=
   match natm with
   Nonatomic_hrecognizer.Leaf(_,atm)->Atomic_hrecognize.recgnz atm s i
@@ -45,7 +53,9 @@ let rec recgz natm s i=
   |Nonatomic_hrecognizer.Star(_,natm2)->
       recgz_star recgz natm2 s i
   |Nonatomic_hrecognizer.Maybe(_,natm2)->
-      recgz_maybee recgz natm2 s i    ;;
+      recgz_maybee recgz natm2 s i  
+  |Nonatomic_hrecognizer.Check(_,(x,l))->
+      recgz_check recgz (x,l) s i        ;;
 
 
 
