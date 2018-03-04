@@ -35,13 +35,15 @@ let recgz_maybee old_f atm s i=
         None->Some(i)
         |Some(new_idx)->Some(new_idx);;        
 
-let recgz_check old_f (x,l) s i=
+let recgz_avoiding_keywords old_f (x,l) s i=
           match old_f x s i with
           None->None
           |Some(new_idx)->
-            if List.for_all (fun y->(old_f y s i)=None) l
-            then Some(new_idx)
-            else None;;         
+            if new_idx<=i then Some(new_idx) else
+            let t=Cull_string.interval s i (new_idx-1) in
+            if List.mem t l 
+            then None 
+            else Some(new_idx);;         
 
 let rec recgz natm s i=
   match natm with
@@ -54,8 +56,8 @@ let rec recgz natm s i=
       recgz_star recgz natm2 s i
   |Nonatomic_hrecognizer.Maybe(_,natm2)->
       recgz_maybee recgz natm2 s i  
-  |Nonatomic_hrecognizer.Check(_,(x,l))->
-      recgz_check recgz (x,l) s i        ;;
+  |Nonatomic_hrecognizer.Keyword_avoider(_,(x,l))->
+      recgz_avoiding_keywords recgz (x,l) s i        ;;
 
 
 
@@ -68,7 +70,7 @@ let recgz_and_add_label lbl natm s i=
 exception Debug_chain_exn;;
 
 
-let extra_debug_chain  l s i=
+let debug_chain  l s i=
         let rec tempf=(fun (idx,graet,da_ober)->
          match da_ober with
          []->(List.rev graet,None,(String.length s)+1)
@@ -83,26 +85,26 @@ let extra_debug_chain  l s i=
         ) in
         tempf (i,[],l);;     
 
-exception Extra_debug_disjunction_exn;;        
+exception Debug_disjunction_exn;;        
 
-let extra_debug_disjunction  l s i=
+let debug_disjunction  l s i=
   match Option.find_and_stop (
     fun atm->match recgz atm s i with
     None->None
     |Some(res)->Some(atm,res)
   ) l with
-  None->raise(Extra_debug_disjunction_exn)
+  None->raise(Debug_disjunction_exn)
   |Some(atm0,res0)->([atm0,"",(0,0)],None,-1);;     
             
      
         
-exception Extra_debug_not_implemented_yet;;
+exception Debug_not_implemented_yet;;
         
-let  extra_debug natm s i=
+let  debug natm s i=
           match natm with
-           Nonatomic_hrecognizer.Chain(_,l)->extra_debug_chain  l s i 
-          |Nonatomic_hrecognizer.Ordered_disjunction (_,l)->extra_debug_disjunction  l s i       
-          |_->raise(Extra_debug_not_implemented_yet);;     
+           Nonatomic_hrecognizer.Chain(_,l)->debug_chain  l s i 
+          |Nonatomic_hrecognizer.Ordered_disjunction (_,l)->debug_disjunction  l s i       
+          |_->raise(Debug_not_implemented_yet);;     
            
      
       
