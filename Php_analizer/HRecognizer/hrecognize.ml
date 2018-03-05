@@ -121,6 +121,9 @@ let naive_php_name=ch "naive_php_name"
 let php_name=keyword_avoider 
     "php_name" (naive_php_name,!list_of_keywords);;
 
+let php_vname=ch "php_vname"
+   [dollar;naive_php_name];;
+
 let no_semicolon=sto "no_semicolon" [';'];;
 let no_lbrace=sto "no_lbrace" ['{'];;
 
@@ -254,23 +257,6 @@ let namespaced_name=
       namespaced_name_two;
     ];;        
 
-let fnctn_call=
-    ch "fnctn_call"    
-     [
-       namespaced_name;
-       whites;
-       paren_block;
-    ];;   
-
-
-let new_fnctn_call=
-    ch "new_fnctn_call"    
-     [
-       new_kwd;
-       white_spot;
-       fnctn_call;
-    ];;   
-
 let positive_integer=
      ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
 
@@ -278,32 +264,28 @@ let negative_integer=
     ch "negative_integer" [minus;positive_integer];;
     
 let integer=dis "integer" [positive_integer;negative_integer];;    
-  
-let after_point_in_floater=ch "after_point_in_floater" [point;positive_integer];;
-
-let floater=ch "floater"
- [
-    integer;
-    maybe "possible_after_point_in_floater" after_point_in_floater
-  ];;     
 
 
 let assignable=
    dis "assignable"
     [    
-      floater;
-      (ch "assignable1" [fnctn_call;whites;plus;whites;dollar;naive_php_name;]);
-      fnctn_call;
-      (ch "assignable2" [dollar;naive_php_name;whites;bracket_block]);
-      (ch "assignable3" [dollar;naive_php_name;whites;arrow;php_name;paren_block;whites;starred_snippet_in_snake]);
-      (ch "assignable4" [dollar;naive_php_name]); 
-      new_fnctn_call;
-      (ch "assignable5" [array_kwd;whites;paren_block]); 
-      (ch "assignable6" [sq;whites;point;whites;myriam]);
-      sq;
-      dq;
-      null_kwd;
-      false_kwd;
+      (ch "floater"             [integer;point;positive_integer]);
+                                integer;
+      (ch "assignable1"         [php_vname;bracket_block]);
+      (ch "assignable2"         [php_vname;whites;arrow;php_name;paren_block;whites;arrow;whites;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
+      (ch "assignable3"         [php_vname;whites;arrow;php_name;paren_block]);
+      (ch "assignable4"         [php_vname;whites;arrow;php_name;arrow;php_name;paren_block]);
+                                 php_vname; 
+      (ch "fnctn_call_plus_sth" [namespaced_name;whites;paren_block;whites;plus;whites;dollar;naive_php_name;]);
+      (ch "fnctn_call"          [namespaced_name;whites;paren_block]);
+      (ch "new_fnctn_call"      [new_kwd;white_spot;namespaced_name;whites;paren_block]);
+      (ch "new_vfnctn_call"     [new_kwd;white_spot;php_vname;whites;paren_block]);
+      (ch "one_array"           [array_kwd;whites;paren_block]); 
+      (ch "dotted_line"         [sq;whites;point;whites;myriam]);
+                                 sq;
+                                 dq;
+                                 null_kwd;
+                                 false_kwd;
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
