@@ -444,6 +444,11 @@ let assignable=
                                   true_kwd;
     ] ;;   
 
+let declarable=dis "declarable"
+   [
+     php_vname;
+   ];;
+
 let arrowing=ch "arrowing" [arrow;php_name];;
 let possible_arrowing=maybe "possible_arrowing" arrowing;;
       
@@ -914,7 +919,8 @@ let global_decl_recognizer=rlabch
   [
      global_kwd;
      white_spot;
-     no_semicolon;
+     declarable;
+     whites;
      semicolon;
   ];;
 
@@ -929,7 +935,8 @@ let static_decl_recognizer=rlabch
   [
      static_kwd;
      white_spot;
-     no_semicolon;
+     declarable;
+     whites;
      semicolon;
   ];;
 
