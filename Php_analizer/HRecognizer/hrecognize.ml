@@ -395,7 +395,7 @@ let assignable=
       (ch "assignable3"          [coerce_to_int;whites;php_vname;bracket_block]); 
                                   dq; 
                                   false_kwd;
-                                  hexadecimal_range;
+                                  hexadecimal_number;
       (ch "floater"              [integer;point;positive_integer]);
                                   integer;
       (ch "paamayim_call"        [namespaced_name;colon;colon;php_name;paren_block]);
