@@ -98,7 +98,6 @@ let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
 let echo_kwd=kc "echo_kwd" "echo";;
-let false_kwd=kc "false_kwd" "false";;
 let final_kwd=kc "final_kwd" "final";;
 let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
