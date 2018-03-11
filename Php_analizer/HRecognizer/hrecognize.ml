@@ -94,6 +94,7 @@ let kc x y=
 let abstract_kwd=kc "abstract_kwd" "abstract";;
 let array_kwd=kc "array_kwd" "array";;
 let backslashed_false_kwd=kc "backslashed_false_kwd" "\\false";;
+let backslashed_true_kwd=kc "backslashed_true_kwd" "\\true";;
 let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
@@ -106,12 +107,12 @@ let itrfc_kwd=kc "itrfc_kwd" "interface";;
 let lowercase_null_kwd=kc "lowercase_null_kwd" "null";;
 let new_kwd=kc "new_kwd" "new";;
 let nonbackslashed_false_kwd=kc "nonbackslashed_false_kwd" "false";;
+let nonbackslashed_true_kwd=kc "nonbackslashed_true_kwd" "true";;
 let nspc_kwd=kc "nspc_kwd" "namespace";;
 let private_kwd=kc "private_kwd" "private";;
 let protected_kwd=kc "protected_kwd" "protected";;
 let public_kwd=kc "public_kwd" "public";;
 let static_kwd=kc "static_kwd" "static";;
-let true_kwd=kc "true_kwd" "true";;
 let try_kwd=kc "try_kwd" "try";;
 let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
 let var_kwd=kc "var_kwd" "var";;
@@ -119,6 +120,7 @@ let yuze_kwd=kc "yuze_kwd" "use";;
 
 let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
 let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
+let true_kwd=dis "true_kwd" [backslashed_true_kwd;nonbackslashed_true_kwd];;
 
 let naive_php_name=ch "naive_php_name"
     [
@@ -1072,7 +1074,7 @@ add_label label_for_var_declaration;;
 let var_declaration_recognizer=rlabch 
   label_for_var_declaration
   [
-     public_kwd;
+     var_kwd;
      white_spot;
      php_vname;
      whites;
@@ -1132,6 +1134,47 @@ let public_fnctn_recognizer=rlabch
 
 
 add_recognizer (label_for_public_fnctn,public_fnctn_recognizer);; 
+
+let label_for_apub_fnctn="apub_fnctn";;
+add_label label_for_apub_fnctn;;
+
+let apub_fnctn_recognizer=rlabch
+  label_for_apub_fnctn
+  [
+     abstract_kwd;
+     white_spot;
+     public_kwd;
+     white_spot;
+     fnctn_kwd;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_apub_fnctn,apub_fnctn_recognizer);; 
+
+
+
+let label_for_pusta_fnctn="pusta_fnctn";;
+add_label label_for_pusta_fnctn;;
+
+let pusta_fnctn_recognizer=rlabch
+  label_for_pusta_fnctn
+  [
+     public_kwd;
+     white_spot;
+     static_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_pusta_fnctn,pusta_fnctn_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
