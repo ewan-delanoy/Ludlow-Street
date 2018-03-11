@@ -99,6 +99,7 @@ let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
 let echo_kwd=kc "echo_kwd" "echo";;
+let extends_kwd=kc "extends_kwd" "extends";;
 let final_kwd=kc "final_kwd" "final";;
 let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
@@ -225,6 +226,7 @@ let echoable=
       paren_block
     ] ;;
 
+
 let snippet_in_namespaced_name=
       ch "snippet_in_namespaced_name"
       [
@@ -259,6 +261,17 @@ let namespaced_name=
 
 let possible_namespaced_name=
     maybe "possible_namespaced_name" namespaced_name;;      
+
+let extension_statement=
+  ch "extension_statement"
+  [
+    extends_kwd;
+    white_spot;
+    namespaced_name;
+  ];;
+
+let possible_extension_statement=
+    maybe "possible_extension_statement"  extension_statement;; 
 
 let myriam_element=dis
     "myriam_element"
@@ -819,6 +832,8 @@ let itrfc_recognizer=rlabch
      itrfc_kwd;
      white_spot;
      php_name;
+     whites;
+     possible_extension_statement;
      whites;
      brace_block;
   ];;
