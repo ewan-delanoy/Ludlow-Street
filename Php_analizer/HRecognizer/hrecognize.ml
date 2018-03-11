@@ -1179,6 +1179,26 @@ let prista_declaration_recognizer=rlabch
 
 add_recognizer (label_for_prista_declaration,prista_declaration_recognizer);; 
 
+let label_for_prosta_declaration="prosta_declaration";;
+add_label label_for_prosta_declaration;;
+
+let prosta_declaration_recognizer=rlabch 
+  label_for_prosta_declaration
+  [
+     protected_kwd;
+     white_spot;
+     static_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_prosta_declaration,prosta_declaration_recognizer);; 
+
+
+
 
 
 
