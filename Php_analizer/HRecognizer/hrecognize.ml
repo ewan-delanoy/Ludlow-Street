@@ -225,24 +225,24 @@ let echoable=
       paren_block
     ] ;;
 
-    let snippet_in_namespaced_name=
+let snippet_in_namespaced_name=
       ch "snippet_in_namespaced_name"
       [
         backslash;
         php_name;
       ];;
   
-  let starred_snippet_in_namespaced_name=
+let starred_snippet_in_namespaced_name=
     star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;;
   
-  let namespaced_name_one=
+let namespaced_name_one=
     ch "namespaced_name_one"
     [
        php_name ;
        starred_snippet_in_namespaced_name;
     ];;    
   
-  let namespaced_name_two=
+let namespaced_name_two=
       ch "namespaced_name_two"
       [
          backslash;
@@ -250,7 +250,7 @@ let echoable=
          starred_snippet_in_namespaced_name;
       ];;   
   
-  let namespaced_name=
+let namespaced_name=
       dis "namespaced_name"
       [
         namespaced_name_one;
@@ -296,6 +296,27 @@ let negative_integer=
     ch "negative_integer" [minus;positive_integer];;
     
 let integer=dis "integer" [positive_integer;negative_integer];;    
+
+let lowercase_x=c "lowercase_x" "x";;
+let uppercase_x=c "uppercase_x" "X";; 
+
+let caseless_x=dis "caseless_x" [lowercase_x;uppercase_x];;
+
+let hexadecimal_range=
+    st "hexadecimal_range" 
+    ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9';
+     'a'; 'b'; 'c'; 'd'; 'e'; 'f';
+     'A'; 'B'; 'C'; 'D'; 'E'; 'F';
+     ];;
+
+let hexadecimal_number=
+   ch "hexadecimal_number"
+   [
+     c "zero" "0";
+     caseless_x;
+     hexadecimal_range;
+   ];;
+
 
 let ampersandable=dis "ampersandable"
     [
@@ -359,6 +380,7 @@ let assignable=
       (ch "assignable3"          [coerce_to_int;whites;php_vname;bracket_block]); 
                                   dq; 
                                   false_kwd;
+                                  hexadecimal_range;
       (ch "floater"              [integer;point;positive_integer]);
                                   integer;
       (ch "paamayim_call"        [namespaced_name;colon;colon;php_name;paren_block]);
@@ -730,7 +752,9 @@ let braced_nspc_recognizer=rlabch
   label_for_braced_nspc
   [
      nspc_kwd;
-     no_lbrace;
+     white_spot;
+     namespaced_name;
+     whites;
      brace_block;
   ];;
 
@@ -774,7 +798,10 @@ let fnctn_recognizer=rlabch
   [
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -789,7 +816,8 @@ let itrfc_recognizer=rlabch
   [
      itrfc_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
      brace_block;
   ];;
 
@@ -1133,7 +1161,10 @@ let private_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -1150,7 +1181,10 @@ let protected_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -1167,7 +1201,10 @@ let public_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -1231,7 +1268,10 @@ let fipub_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -1244,13 +1284,16 @@ add_label label_for_fipro_fnctn;;
 let fipro_fnctn_recognizer=rlabch
   label_for_fipro_fnctn
   [
-     abstract_kwd;
+     final_kwd;
      white_spot;
      public_kwd;
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
@@ -1270,12 +1313,38 @@ let pusta_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
-     no_lbrace;
+     php_name;
+     whites;
+     paren_block;
+     whites;
      brace_block;
   ];;
 
 
 add_recognizer (label_for_pusta_fnctn,pusta_fnctn_recognizer);; 
+
+let label_for_prista_fnctn="prista_fnctn";;
+add_label label_for_prista_fnctn;;
+
+let prista_fnctn_recognizer=rlabch
+  label_for_prista_fnctn
+  [
+     private_kwd;
+     white_spot;
+     static_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_prista_fnctn,prista_fnctn_recognizer);; 
+
 
 let main_recognizer s i=
   Option.find_and_stop (
