@@ -1102,6 +1102,25 @@ let pusta_declaration_recognizer=rlabch
 
 add_recognizer (label_for_pusta_declaration,pusta_declaration_recognizer);; 
 
+let label_for_prista_declaration="prista_declaration";;
+add_label label_for_prista_declaration;;
+
+let prista_declaration_recognizer=rlabch 
+  label_for_prista_declaration
+  [
+     private_kwd;
+     white_spot;
+     static_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_prista_declaration,prista_declaration_recognizer);; 
+
+
 
 
 let label_for_private_fnctn="private_fnctn";;
@@ -1177,6 +1196,29 @@ let apub_fnctn_recognizer=rlabch
 
 add_recognizer (label_for_apub_fnctn,apub_fnctn_recognizer);; 
 
+let label_for_apro_fnctn="apro_fnctn";;
+add_label label_for_apro_fnctn;;
+
+let apro_fnctn_recognizer=rlabch
+  label_for_apro_fnctn
+  [
+     abstract_kwd;
+     white_spot;
+     protected_kwd;
+     white_spot;
+     fnctn_kwd;
+     whites;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_apro_fnctn,apro_fnctn_recognizer);; 
+
+
 let label_for_fipub_fnctn="fipub_fnctn";;
 add_label label_for_fipub_fnctn;;
 
@@ -1188,10 +1230,9 @@ let fipub_fnctn_recognizer=rlabch
      public_kwd;
      white_spot;
      fnctn_kwd;
-     whites;
-     paren_block;
-     whites;
-     semicolon;
+     white_spot;
+     no_lbrace;
+     brace_block;
   ];;
 
 
