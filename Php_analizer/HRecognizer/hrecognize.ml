@@ -1317,7 +1317,7 @@ let fipro_fnctn_recognizer=rlabch
   [
      final_kwd;
      white_spot;
-     public_kwd;
+     protected_kwd;
      white_spot;
      fnctn_kwd;
      white_spot;
