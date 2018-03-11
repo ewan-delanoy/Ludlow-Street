@@ -1084,6 +1084,26 @@ let var_declaration_recognizer=rlabch
 
 add_recognizer (label_for_var_declaration,var_declaration_recognizer);; 
 
+let label_for_pusta_declaration="pusta_declaration";;
+add_label label_for_pusta_declaration;;
+
+let pusta_declaration_recognizer=rlabch 
+  label_for_pusta_declaration
+  [
+     public_kwd;
+     white_spot;
+     static_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_pusta_declaration,pusta_declaration_recognizer);; 
+
+
+
 let label_for_private_fnctn="private_fnctn";;
 add_label label_for_private_fnctn;;
 
@@ -1147,6 +1167,8 @@ let apub_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      whites;
+     php_name;
+     whites;
      paren_block;
      whites;
      semicolon;
@@ -1155,6 +1177,44 @@ let apub_fnctn_recognizer=rlabch
 
 add_recognizer (label_for_apub_fnctn,apub_fnctn_recognizer);; 
 
+let label_for_fipub_fnctn="fipub_fnctn";;
+add_label label_for_fipub_fnctn;;
+
+let fipub_fnctn_recognizer=rlabch
+  label_for_fipub_fnctn
+  [
+     final_kwd;
+     white_spot;
+     public_kwd;
+     white_spot;
+     fnctn_kwd;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_fipub_fnctn,fipub_fnctn_recognizer);; 
+
+let label_for_fipro_fnctn="fipro_fnctn";;
+add_label label_for_fipro_fnctn;;
+
+let fipro_fnctn_recognizer=rlabch
+  label_for_fipro_fnctn
+  [
+     abstract_kwd;
+     white_spot;
+     public_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_fipro_fnctn,fipro_fnctn_recognizer);; 
 
 
 let label_for_pusta_fnctn="pusta_fnctn";;
