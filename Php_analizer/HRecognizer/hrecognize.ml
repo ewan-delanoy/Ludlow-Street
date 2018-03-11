@@ -754,7 +754,7 @@ let braced_nspc_recognizer=rlabch
   label_for_braced_nspc
   [
      nspc_kwd;
-     white_spot;
+     whites;
      possible_namespaced_name;
      whites;
      brace_block;
