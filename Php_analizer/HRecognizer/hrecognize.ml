@@ -346,6 +346,7 @@ let hexadecimal_number=
      hexadecimal_range;
    ];;
 
+let possible_ampersand=maybe "possible_ampersand" ampersand;;   
 
 let ampersandable=dis "ampersandable"
     [
@@ -1206,6 +1207,46 @@ add_recognizer (label_for_prosta_declaration,prosta_declaration_recognizer);;
 
 
 
+let label_for_stapro_declaration="stapro_declaration";;
+add_label label_for_stapro_declaration;;
+
+let stapro_declaration_recognizer=rlabch 
+  label_for_stapro_declaration
+  [
+     static_kwd;
+     white_spot;
+     protected_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_stapro_declaration,stapro_declaration_recognizer);; 
+
+let label_for_stapub_declaration="stapub_declaration";;
+add_label label_for_stapub_declaration;;
+
+let stapub_declaration_recognizer=rlabch 
+  label_for_stapub_declaration
+  [
+     static_kwd;
+     white_spot;
+     public_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_stapub_declaration,stapub_declaration_recognizer);; 
+
+
+
+
+
 
 
 
@@ -1259,6 +1300,7 @@ let public_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
+     possible_ampersand;
      php_name;
      whites;
      paren_block;
