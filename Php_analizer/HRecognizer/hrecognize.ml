@@ -74,6 +74,7 @@ let ampersand=c "ampersand" "&";;
 let arrow=c "arrow" "->";;
 let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
+let comma=c "comma" ",";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
 let linebreak=c "linebreak" "\n";;
@@ -262,12 +263,25 @@ let namespaced_name=
 let possible_namespaced_name=
     maybe "possible_namespaced_name" namespaced_name;;      
 
+let snippet_in_extension_list=
+    ch "snippet_in_extension_list"
+    [
+      whites;
+      comma;
+      whites;
+      namespaced_name;
+    ];;
+
+let extension_list=
+   star "extension_list" snippet_in_extension_list;;
+
 let extension_statement=
   ch "extension_statement"
   [
     extends_kwd;
     white_spot;
     namespaced_name;
+    extension_list;
   ];;
 
 let possible_extension_statement=
