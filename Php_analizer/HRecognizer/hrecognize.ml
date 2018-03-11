@@ -61,7 +61,7 @@ let rlabch lbl l=rlab lbl
 (* Particular parser elements *)
 
 let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
-let paren_block=enc  "paren_block" ('(',')') ;;
+let naive_paren_block=enc  "naive_paren_block" ('(',')') ;;
 let brace_block=enc  "brace_block" ('{','}') ;;
 let bracket_block=enc  "bracket_block" ('[',']') ;;
 let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t'];;
@@ -70,7 +70,7 @@ let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
 
 
 
-
+let ampersand=c "ampersand" "&";;
 let arrow=c "arrow" "->";;
 let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
@@ -84,6 +84,7 @@ let question_mark=c "question_mark" "?";;
 let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
+let tilda=c "tilda" "~";;
 
 let list_of_keywords =ref [];;
 let kc x y=
@@ -92,6 +93,7 @@ let kc x y=
 
 let abstract_kwd=kc "abstract_kwd" "abstract";;
 let array_kwd=kc "array_kwd" "array";;
+let backslashed_false_kwd=kc "backslashed_false_kwd" "\\false";;
 let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
@@ -102,24 +104,48 @@ let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
 let glass_kwd=kc "glass_kwd" "class";;
 let itrfc_kwd=kc "itrfc_kwd" "interface";;
+let lowercase_null_kwd=kc "lowercase_null_kwd" "null";;
 let new_kwd=kc "new_kwd" "new";;
-let null_kwd=kc "null_kwd" "null";;
+let nonbackslashed_false_kwd=kc "nonbackslashed_false_kwd" "false";;
 let nspc_kwd=kc "nspc_kwd" "namespace";;
 let private_kwd=kc "private_kwd" "private";;
 let protected_kwd=kc "protected_kwd" "protected";;
+let public_kwd=kc "public_kwd" "public";;
 let static_kwd=kc "static_kwd" "static";;
+let true_kwd=kc "true_kwd" "true";;
 let try_kwd=kc "try_kwd" "try";;
+let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
+let var_kwd=kc "var_kwd" "var";;
 let yuze_kwd=kc "yuze_kwd" "use";;
 
-let first_letter=eo "first_letter" Charset.php_label_first_letters;;
+let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
+let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
+
 let naive_php_name=ch "naive_php_name"
     [
-     first_letter;
+      eo "first_letter" Charset.php_label_first_letters;
      st "" Charset.strictly_alphanumeric_characters;
     ];;
-
 let php_name=keyword_avoider 
     "php_name" (naive_php_name,!list_of_keywords);;
+
+
+
+let list_of_coercers =ref [];;
+let cc x y=
+   let _=(list_of_coercers:=y::(!list_of_coercers)) in
+   c x y;;
+
+let coerce_to_array=cc "coerce_to_array" "(array)";;   
+let coerce_to_int=cc "coerce_to_int" "(int)";;   
+
+let paren_block=keyword_avoider 
+    "paren_block" (naive_paren_block,!list_of_coercers);;
+
+
+
+
+
 
 let php_vname=ch "php_vname"
    [dollar;naive_php_name];;
@@ -198,14 +224,49 @@ let echoable=
       paren_block
     ] ;;
 
+    let snippet_in_namespaced_name=
+      ch "snippet_in_namespaced_name"
+      [
+        backslash;
+        php_name;
+      ];;
+  
+  let starred_snippet_in_namespaced_name=
+    star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;;
+  
+  let namespaced_name_one=
+    ch "namespaced_name_one"
+    [
+       php_name ;
+       starred_snippet_in_namespaced_name;
+    ];;    
+  
+  let namespaced_name_two=
+      ch "namespaced_name_two"
+      [
+         backslash;
+         php_name ;
+         starred_snippet_in_namespaced_name;
+      ];;   
+  
+  let namespaced_name=
+      dis "namespaced_name"
+      [
+        namespaced_name_one;
+        namespaced_name_two;
+      ];;        
+
+
 let myriam_element=dis
     "myriam_element"
     [
-      sq;
+      ch "myriam_elt1" [backslash;php_name;paren_block];
       dq;
       php_name;
       paren_block;
+      sq;
       snake;
+
     ];;
 
 let myriam_snippet=
@@ -225,37 +286,7 @@ let myriam=
    ];;    
 
 
-let snippet_in_namespaced_name=
-    ch "snippet_in_namespaced_name"
-    [
-      backslash;
-      php_name;
-    ];;
 
-let starred_snippet_in_namespaced_name=
-  star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;;
-
-let namespaced_name_one=
-  ch "namespaced_name_one"
-  [
-     php_name ;
-     starred_snippet_in_namespaced_name;
-  ];;    
-
-let namespaced_name_two=
-    ch "namespaced_name_two"
-    [
-       backslash;
-       php_name ;
-       starred_snippet_in_namespaced_name;
-    ];;   
-
-let namespaced_name=
-    dis "namespaced_name"
-    [
-      namespaced_name_one;
-      namespaced_name_two;
-    ];;        
 
 let positive_integer=
      ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
@@ -265,27 +296,100 @@ let negative_integer=
     
 let integer=dis "integer" [positive_integer;negative_integer];;    
 
+let ampersandable=dis "ampersandable"
+    [
+      ch "ampersandable1" [tilda;php_name];
+                           php_name;
+    ];;
+
+let snippet_in_ampersanded=ch "snippet_in_ampersanded"
+    [
+       whites;
+       ampersand;
+       whites;
+       ampersandable; 
+       
+    ] ;;   
+
+let ampersanded=ch "ampersanded"
+    [
+      ampersandable;
+      star "starred_snippet_in_ampersanded" snippet_in_ampersanded;
+    ];;
+
+let center_of_tripod=dis "center_of_tripod"
+   [
+     (ch "center_of_tripod1") [array_kwd;paren_block];
+     (ch "center_of_tripod2") [php_name;paren_block];
+                               php_name;
+     (ch "center_of_tripod3") [php_vname;arrow;php_name;bracket_block];
+     (ch "center_of_tripod4") [php_vname;arrow;php_name;paren_block];
+     (ch "center_of_tripod5") [php_vname;arrow;php_name];
+     (ch "center_of_tripod6") [php_vname;white_spot;minus;whites;integer];
+                               php_vname;
+                               sq;
+                               true_kwd;
+   ];;
+
+let left_of_tripod=dis "left_of_tripod"
+   [
+                             false_kwd;
+                             integer;
+     
+     (ch "left_of_tripod1") [php_name;paren_block;whites;point;whites;sq];
+     (ch "left_of_tripod2") [php_name;paren_block];
+     (ch "left_of_tripod3") [php_vname;bracket_block;bracket_block];
+     (ch "left_of_tripod4") [php_vname;white_spot;point;whites;php_vname];
+                             php_vname; 
+                             null_kwd;
+                             sq;
+   ];;   
+
+
+let wap=ch "wap" [whites;arrow;php_name];;
+
 
 let assignable=
    dis "assignable"
-    [    
-      (ch "floater"             [integer;point;positive_integer]);
-                                integer;
-      (ch "assignable1"         [php_vname;bracket_block]);
-      (ch "assignable2"         [php_vname;whites;arrow;php_name;paren_block;whites;arrow;whites;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
-      (ch "assignable3"         [php_vname;whites;arrow;php_name;paren_block]);
-      (ch "assignable4"         [php_vname;whites;arrow;php_name;arrow;php_name;paren_block]);
-                                 php_vname; 
-      (ch "fnctn_call_plus_sth" [namespaced_name;whites;paren_block;whites;plus;whites;dollar;naive_php_name;]);
-      (ch "fnctn_call"          [namespaced_name;whites;paren_block]);
-      (ch "new_fnctn_call"      [new_kwd;white_spot;namespaced_name;whites;paren_block]);
-      (ch "new_vfnctn_call"     [new_kwd;white_spot;php_vname;whites;paren_block]);
-      (ch "one_array"           [array_kwd;whites;paren_block]); 
-      (ch "dotted_line"         [sq;whites;point;whites;myriam]);
-                                 sq;
-                                 dq;
-                                 null_kwd;
-                                 false_kwd;
+    [ 
+      (ch "one_array"            [array_kwd;whites;paren_block]);   
+      (ch "assignable1"          [coerce_to_array;whites;php_vname]);   
+      (ch "assignable2"          [coerce_to_int;whites;php_vname;arrow;php_name;paren_block]); 
+      (ch "assignable3"          [coerce_to_int;whites;php_vname;bracket_block]); 
+                                  dq; 
+                                  false_kwd;
+      (ch "floater"              [integer;point;positive_integer]);
+                                  integer;
+      (ch "paamayim_call"        [namespaced_name;colon;colon;php_name;paren_block]);
+      (ch "paamayim_simple_call" [namespaced_name;colon;colon;php_name]); 
+      (ch "tripod1"              [namespaced_name;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+      (ch "tripod2"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+      (ch "fnctn_call_minus_int" [namespaced_name;paren_block;whites;minus;whites;integer;]);
+      (ch "fnctn_call_dot_sq"    [namespaced_name;paren_block;whites;point;whites;sq;]);
+      (ch "fnctn_call_plus_sth"  [namespaced_name;paren_block;whites;plus;whites;php_vname;]);
+      (ch "fnctn_call"           [namespaced_name;paren_block]);
+      (ch "ampersanded_item"     [namespaced_name;white_spot;ampersand;whites;ampersanded]);
+      (ch "new_fnctn_call"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
+      (ch "new_vfnctn_call"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
+      (ch "new_meth_call"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
+                                  null_kwd;                              
+      (ch "tripod3"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+      (ch "assignable4"          [php_vname;bracket_block;white_spot;point;whites;myriam]); 
+      (ch "assignable5"          [php_vname;bracket_block]); 
+      (ch "assignable6"          [php_vname;wap;arrow;php_name;paren_block]);
+      (ch "assignable7"          [php_vname;wap;bracket_block]);
+      (ch "vnctn_call_minus_int" [php_vname;wap;paren_block;whites;minus;whites;integer;]);
+      (ch "assignable8"          [php_vname;wap;paren_block;wap;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
+      (ch "assignable9"          [php_vname;wap;paren_block;wap;paren_block;white_spot;point;whites;php_vname]);
+      (ch "assignable10"         [php_vname;wap;paren_block;wap;paren_block]);
+      (ch "assignable11"         [php_vname;wap;paren_block]);
+      (ch "assignable12"         [php_vname;wap;white_spot;point;whites;myriam]);
+      (ch "assignable13"         [php_vname;wap]);
+      (ch "assignable14"         [php_vname;whites;point;whites;myriam]);
+                                  php_vname; 
+      (ch "dotted_line"          [sq;whites;point;whites;myriam]);
+                                  sq;
+                                  true_kwd;
     ] ;;   
 
 let arrowing=ch "arrowing" [arrow;php_name];;
@@ -297,6 +401,7 @@ let handler=
     dollar;
     naive_php_name;
     possible_arrowing;
+    possible_bracket_block;
     possible_bracket_block;
     whites;
     equals;
@@ -315,6 +420,37 @@ let semicoloned_assignment=
        whites;
        semicolon;
     ];;
+
+let receiver=
+      dis "receiver"
+      [
+         ch "receiver1" [php_vname;bracket_block]
+      ] ;;   
+
+let append_assignment=
+    ch "append_assignment"    
+    [
+      
+      receiver;
+      whites;
+      point;
+      equals;
+      whites;
+      assignable;
+      whites;
+      semicolon
+   ];;
+
+let initialization=
+  ch "initialization"
+  [
+    equals;
+    whites;
+    assignable;
+    whites
+  ];;
+
+let possible_initialization = maybe "possible_initialization" initialization;;  
 
 (* End of particular parser elements *)
 
@@ -796,11 +932,11 @@ let trycatch_recognizer=rlabch
 
 add_recognizer (label_for_trycatch,trycatch_recognizer);; 
 
-let label_for_paamayim_call="paamayim_call";;
-add_label label_for_paamayim_call;;
+let label_for_semicoloned_paamayim_call="semicoloned_paamayim_call";;
+add_label label_for_semicoloned_paamayim_call;;
 
-let paamayim_call_recognizer=rlabch 
-  label_for_paamayim_call
+let semicoloned_paamayim_call_recognizer=rlabch 
+  label_for_semicoloned_paamayim_call
   [
      namespaced_name;
      colon;
@@ -812,7 +948,28 @@ let paamayim_call_recognizer=rlabch
      semicolon
   ];;
 
-add_recognizer (label_for_paamayim_call,paamayim_call_recognizer);; 
+add_recognizer (label_for_semicoloned_paamayim_call,semicoloned_paamayim_call_recognizer);; 
+
+let label_for_append_assignment="append_assignment";;
+
+add_label label_for_append_assignment;;
+
+let append_assignment_recognizer=rlab 
+  label_for_append_assignment
+  append_assignment;;
+
+add_recognizer (label_for_append_assignment,append_assignment_recognizer);; 
+
+let label_for_semicoloned_assignment="semicoloned_assignment";;
+add_label label_for_semicoloned_assignment;;
+
+
+let semicoloned_assignment_recognizer=rlab
+  label_for_semicoloned_assignment
+  semicoloned_assignment;;
+
+add_recognizer (label_for_semicoloned_assignment,semicoloned_assignment_recognizer);; 
+
 
 let label_for_backslashed_fnctn_call="backslashed_fnctn_call";;
 add_label label_for_backslashed_fnctn_call;;
@@ -830,17 +987,152 @@ let backslashed_fnctn_call_recognizer=rlabch
 
 add_recognizer (label_for_backslashed_fnctn_call,backslashed_fnctn_call_recognizer);; 
 
+let label_for_const_declaration="const_declaration";;
+add_label label_for_const_declaration;;
 
-let label_for_semicoloned_assignment="semicoloned_assignment";;
-add_label label_for_semicoloned_assignment;;
+let const_declaration_recognizer=rlabch 
+  label_for_const_declaration
+  [
+     const_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_const_declaration,const_declaration_recognizer);; 
+
+let label_for_big_const_declaration="big_const_declaration";;
+add_label label_for_big_const_declaration;;
+
+let big_const_declaration_recognizer=rlabch 
+  label_for_big_const_declaration
+  [
+     const_kwd;
+     white_spot;
+     php_name;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_big_const_declaration,big_const_declaration_recognizer);; 
+
+let label_for_private_declaration="private_declaration";;
+add_label label_for_private_declaration;;
+
+let private_declaration_recognizer=rlabch 
+  label_for_private_declaration
+  [
+     private_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_private_declaration,private_declaration_recognizer);; 
+
+let label_for_protected_declaration="protected_declaration";;
+add_label label_for_protected_declaration;;
+
+let protected_declaration_recognizer=rlabch 
+  label_for_protected_declaration
+  [
+     protected_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_protected_declaration,protected_declaration_recognizer);; 
+
+let label_for_public_declaration="public_declaration";;
+add_label label_for_public_declaration;;
+
+let public_declaration_recognizer=rlabch 
+  label_for_public_declaration
+  [
+     public_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_public_declaration,public_declaration_recognizer);; 
+
+let label_for_var_declaration="var_declaration";;
+add_label label_for_var_declaration;;
+
+let var_declaration_recognizer=rlabch 
+  label_for_var_declaration
+  [
+     public_kwd;
+     white_spot;
+     php_vname;
+     whites;
+     possible_initialization;
+     semicolon
+  ];;
+
+add_recognizer (label_for_var_declaration,var_declaration_recognizer);; 
+
+let label_for_private_fnctn="private_fnctn";;
+add_label label_for_private_fnctn;;
+
+let private_fnctn_recognizer=rlabch
+  label_for_private_fnctn
+  [
+     private_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
 
 
-let semicoloned_assignment_recognizer=rlab
-  label_for_semicoloned_assignment
-  semicoloned_assignment;;
+add_recognizer (label_for_private_fnctn,private_fnctn_recognizer);; 
 
-add_recognizer (label_for_semicoloned_assignment,semicoloned_assignment_recognizer);; 
+let label_for_protected_fnctn="protected_fnctn";;
+add_label label_for_protected_fnctn;;
 
+let protected_fnctn_recognizer=rlabch
+  label_for_protected_fnctn
+  [
+     protected_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_protected_fnctn,protected_fnctn_recognizer);; 
+
+let label_for_public_fnctn="public_fnctn";;
+add_label label_for_public_fnctn;;
+
+let public_fnctn_recognizer=rlabch
+  label_for_public_fnctn
+  [
+     public_kwd;
+     white_spot;
+     fnctn_kwd;
+     white_spot;
+     no_lbrace;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_public_fnctn,public_fnctn_recognizer);; 
 
 let main_recognizer s i=
   Option.find_and_stop (
