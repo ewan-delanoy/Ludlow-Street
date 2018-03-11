@@ -257,6 +257,8 @@ let namespaced_name=
         namespaced_name_two;
       ];;        
 
+let possible_namespaced_name=
+    maybe "possible_namespaced_name" namespaced_name;;      
 
 let myriam_element=dis
     "myriam_element"
@@ -753,7 +755,7 @@ let braced_nspc_recognizer=rlabch
   [
      nspc_kwd;
      white_spot;
-     namespaced_name;
+     possible_namespaced_name;
      whites;
      brace_block;
   ];;
