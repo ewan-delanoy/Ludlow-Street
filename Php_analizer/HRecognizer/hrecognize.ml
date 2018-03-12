@@ -226,8 +226,11 @@ let nonclass_qualifier=
       ch "final_public" [final_kwd;white_spot;public_kwd];
       global_kwd;
       ch "private_static" [private_kwd;white_spot;static_kwd];
+      private_kwd;
       ch "protected_static" [protected_kwd;white_spot;static_kwd];
+      protected_kwd;
       ch "public_static" [public_kwd;white_spot;static_kwd];
+      public_kwd;
       ch "static_protected" [static_kwd;white_spot;protected_kwd];
       ch "static_public" [static_kwd;white_spot;public_kwd];
       static_kwd;
@@ -422,6 +425,7 @@ let assignable=
    dis "assignable"
     [ 
       (ch "one_array"            [array_kwd;whites;paren_block]);   
+                                  bracket_block;
       (ch "assignable1"          [coerce_to_array;whites;php_vname]);   
       (ch "assignable2"          [coerce_to_int;whites;php_vname;arrow;php_name;paren_block]); 
       (ch "assignable3"          [coerce_to_int;whites;php_vname;bracket_block]); 
@@ -1084,6 +1088,7 @@ let qualified_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      white_spot;
+     possible_ampersand;
      php_name;
      whites;
      paren_block;
@@ -1106,6 +1111,7 @@ let abstract_qualified_fnctn_recognizer=rlabch
      white_spot;
      fnctn_kwd;
      whites;
+     possible_ampersand;
      php_name;
      whites;
      paren_block;
@@ -1115,6 +1121,30 @@ let abstract_qualified_fnctn_recognizer=rlabch
 
 
 add_recognizer (label_for_abstract_qualified_fnctn,abstract_qualified_fnctn_recognizer);; 
+
+
+let label_for_abstracted_qualified_fnctn="abstracted_qualified_fnctn";;
+add_label label_for_abstracted_qualified_fnctn;;
+
+let abstracted_qualified_fnctn_recognizer=rlabch
+  label_for_abstracted_qualified_fnctn
+  [
+     nonclass_qualifier;
+     white_spot;
+     fnctn_kwd;
+     whites;
+     possible_ampersand;
+     php_name;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_abstracted_qualified_fnctn,abstracted_qualified_fnctn_recognizer);; 
+
+
 
 
 
