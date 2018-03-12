@@ -218,6 +218,23 @@ let snake=
      starred_snippet_in_snake;
    ];;
 
+let nonclass_qualifier=
+   dis "nonclass_qualifier"
+   [
+      const_kwd;
+      ch "final_protected" [final_kwd;white_spot;protected_kwd];
+      ch "final_public" [final_kwd;white_spot;public_kwd];
+      global_kwd;
+      ch "private_static" [private_kwd;white_spot;static_kwd];
+      ch "protected_static" [protected_kwd;white_spot;static_kwd];
+      ch "public_static" [public_kwd;white_spot;static_kwd];
+      ch "static_protected" [static_kwd;white_spot;protected_kwd];
+      ch "static_public" [static_kwd;white_spot;public_kwd];
+      static_kwd;
+      var_kwd;
+   ];;
+
+
 let echoable=
     dis "echoable"
     [
@@ -912,37 +929,6 @@ let difyne_carelessly_recognizer=rlabch
 
 add_recognizer (label_for_difyne_carelessly,difyne_carelessly_recognizer);; 
 
-let label_for_global_decl="global_decl";;
-add_label label_for_global_decl;;
-
-let global_decl_recognizer=rlabch
-  label_for_global_decl
-  [
-     global_kwd;
-     white_spot;
-     declarable;
-     whites;
-     semicolon;
-  ];;
-
-
-add_recognizer (label_for_global_decl,global_decl_recognizer);; 
-
-let label_for_static_decl="static_decl";;
-add_label label_for_static_decl;;
-
-let static_decl_recognizer=rlabch
-  label_for_static_decl
-  [
-     static_kwd;
-     white_spot;
-     declarable;
-     whites;
-     semicolon;
-  ];;
-
-
-add_recognizer (label_for_static_decl,static_decl_recognizer);; 
 
 let label_for_echo="echo";;
 add_label label_for_echo;;
@@ -1055,13 +1041,13 @@ let backslashed_fnctn_call_recognizer=rlabch
 
 add_recognizer (label_for_backslashed_fnctn_call,backslashed_fnctn_call_recognizer);; 
 
-let label_for_const_declaration="const_declaration";;
-add_label label_for_const_declaration;;
+let label_for_qualified_declaration="qualified_declaration";;
+add_label label_for_qualified_declaration;;
 
-let const_declaration_recognizer=rlabch 
-  label_for_const_declaration
+let qualified_declaration_recognizer=rlabch 
+  label_for_qualified_declaration
   [
-     const_kwd;
+     nonclass_qualifier;
      white_spot;
      php_vname;
      whites;
@@ -1069,15 +1055,15 @@ let const_declaration_recognizer=rlabch
      semicolon
   ];;
 
-add_recognizer (label_for_const_declaration,const_declaration_recognizer);; 
+add_recognizer (label_for_qualified_declaration,qualified_declaration_recognizer);; 
 
-let label_for_big_const_declaration="big_const_declaration";;
-add_label label_for_big_const_declaration;;
+let label_for_big_qualified_declaration="big_qualified_declaration";;
+add_label label_for_big_qualified_declaration;;
 
-let big_const_declaration_recognizer=rlabch 
-  label_for_big_const_declaration
+let big_qualified_declaration_recognizer=rlabch 
+  label_for_big_qualified_declaration
   [
-     const_kwd;
+     nonclass_qualifier;
      white_spot;
      php_name;
      whites;
@@ -1085,178 +1071,16 @@ let big_const_declaration_recognizer=rlabch
      semicolon
   ];;
 
-add_recognizer (label_for_big_const_declaration,big_const_declaration_recognizer);; 
+add_recognizer (label_for_big_qualified_declaration,big_qualified_declaration_recognizer);; 
 
-let label_for_private_declaration="private_declaration";;
-add_label label_for_private_declaration;;
 
-let private_declaration_recognizer=rlabch 
-  label_for_private_declaration
+let label_for_qualified_fnctn="qualified_fnctn";;
+add_label label_for_qualified_fnctn;;
+
+let qualified_fnctn_recognizer=rlabch
+  label_for_qualified_fnctn
   [
-     private_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_private_declaration,private_declaration_recognizer);; 
-
-let label_for_protected_declaration="protected_declaration";;
-add_label label_for_protected_declaration;;
-
-let protected_declaration_recognizer=rlabch 
-  label_for_protected_declaration
-  [
-     protected_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_protected_declaration,protected_declaration_recognizer);; 
-
-let label_for_public_declaration="public_declaration";;
-add_label label_for_public_declaration;;
-
-let public_declaration_recognizer=rlabch 
-  label_for_public_declaration
-  [
-     public_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_public_declaration,public_declaration_recognizer);; 
-
-let label_for_var_declaration="var_declaration";;
-add_label label_for_var_declaration;;
-
-let var_declaration_recognizer=rlabch 
-  label_for_var_declaration
-  [
-     var_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_var_declaration,var_declaration_recognizer);; 
-
-let label_for_pusta_declaration="pusta_declaration";;
-add_label label_for_pusta_declaration;;
-
-let pusta_declaration_recognizer=rlabch 
-  label_for_pusta_declaration
-  [
-     public_kwd;
-     white_spot;
-     static_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_pusta_declaration,pusta_declaration_recognizer);; 
-
-let label_for_prista_declaration="prista_declaration";;
-add_label label_for_prista_declaration;;
-
-let prista_declaration_recognizer=rlabch 
-  label_for_prista_declaration
-  [
-     private_kwd;
-     white_spot;
-     static_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_prista_declaration,prista_declaration_recognizer);; 
-
-let label_for_prosta_declaration="prosta_declaration";;
-add_label label_for_prosta_declaration;;
-
-let prosta_declaration_recognizer=rlabch 
-  label_for_prosta_declaration
-  [
-     protected_kwd;
-     white_spot;
-     static_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_prosta_declaration,prosta_declaration_recognizer);; 
-
-
-
-let label_for_stapro_declaration="stapro_declaration";;
-add_label label_for_stapro_declaration;;
-
-let stapro_declaration_recognizer=rlabch 
-  label_for_stapro_declaration
-  [
-     static_kwd;
-     white_spot;
-     protected_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_stapro_declaration,stapro_declaration_recognizer);; 
-
-let label_for_stapub_declaration="stapub_declaration";;
-add_label label_for_stapub_declaration;;
-
-let stapub_declaration_recognizer=rlabch 
-  label_for_stapub_declaration
-  [
-     static_kwd;
-     white_spot;
-     public_kwd;
-     white_spot;
-     php_vname;
-     whites;
-     possible_initialization;
-     semicolon
-  ];;
-
-add_recognizer (label_for_stapub_declaration,stapub_declaration_recognizer);; 
-
-
-
-
-
-
-
-
-let label_for_private_fnctn="private_fnctn";;
-add_label label_for_private_fnctn;;
-
-let private_fnctn_recognizer=rlabch
-  label_for_private_fnctn
-  [
-     private_kwd;
+     nonclass_qualifier;
      white_spot;
      fnctn_kwd;
      white_spot;
@@ -1268,58 +1092,17 @@ let private_fnctn_recognizer=rlabch
   ];;
 
 
-add_recognizer (label_for_private_fnctn,private_fnctn_recognizer);; 
+add_recognizer (label_for_qualified_fnctn,qualified_fnctn_recognizer);; 
 
-let label_for_protected_fnctn="protected_fnctn";;
-add_label label_for_protected_fnctn;;
+let label_for_abstract_qualified_fnctn="abstract_qualified_fnctn";;
+add_label label_for_abstract_qualified_fnctn;;
 
-let protected_fnctn_recognizer=rlabch
-  label_for_protected_fnctn
-  [
-     protected_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_protected_fnctn,protected_fnctn_recognizer);; 
-
-let label_for_public_fnctn="public_fnctn";;
-add_label label_for_public_fnctn;;
-
-let public_fnctn_recognizer=rlabch
-  label_for_public_fnctn
-  [
-     public_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     possible_ampersand;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_public_fnctn,public_fnctn_recognizer);; 
-
-let label_for_apub_fnctn="apub_fnctn";;
-add_label label_for_apub_fnctn;;
-
-let apub_fnctn_recognizer=rlabch
-  label_for_apub_fnctn
+let abstract_qualified_fnctn_recognizer=rlabch
+  label_for_abstract_qualified_fnctn
   [
      abstract_kwd;
      white_spot;
-     public_kwd;
+     nonclass_qualifier;
      white_spot;
      fnctn_kwd;
      whites;
@@ -1331,119 +1114,8 @@ let apub_fnctn_recognizer=rlabch
   ];;
 
 
-add_recognizer (label_for_apub_fnctn,apub_fnctn_recognizer);; 
+add_recognizer (label_for_abstract_qualified_fnctn,abstract_qualified_fnctn_recognizer);; 
 
-let label_for_apro_fnctn="apro_fnctn";;
-add_label label_for_apro_fnctn;;
-
-let apro_fnctn_recognizer=rlabch
-  label_for_apro_fnctn
-  [
-     abstract_kwd;
-     white_spot;
-     protected_kwd;
-     white_spot;
-     fnctn_kwd;
-     whites;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     semicolon;
-  ];;
-
-
-add_recognizer (label_for_apro_fnctn,apro_fnctn_recognizer);; 
-
-
-let label_for_fipub_fnctn="fipub_fnctn";;
-add_label label_for_fipub_fnctn;;
-
-let fipub_fnctn_recognizer=rlabch
-  label_for_fipub_fnctn
-  [
-     final_kwd;
-     white_spot;
-     public_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_fipub_fnctn,fipub_fnctn_recognizer);; 
-
-let label_for_fipro_fnctn="fipro_fnctn";;
-add_label label_for_fipro_fnctn;;
-
-let fipro_fnctn_recognizer=rlabch
-  label_for_fipro_fnctn
-  [
-     final_kwd;
-     white_spot;
-     protected_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_fipro_fnctn,fipro_fnctn_recognizer);; 
-
-
-let label_for_pusta_fnctn="pusta_fnctn";;
-add_label label_for_pusta_fnctn;;
-
-let pusta_fnctn_recognizer=rlabch
-  label_for_pusta_fnctn
-  [
-     public_kwd;
-     white_spot;
-     static_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_pusta_fnctn,pusta_fnctn_recognizer);; 
-
-let label_for_prista_fnctn="prista_fnctn";;
-add_label label_for_prista_fnctn;;
-
-let prista_fnctn_recognizer=rlabch
-  label_for_prista_fnctn
-  [
-     private_kwd;
-     white_spot;
-     static_kwd;
-     white_spot;
-     fnctn_kwd;
-     white_spot;
-     php_name;
-     whites;
-     paren_block;
-     whites;
-     brace_block;
-  ];;
-
-
-add_recognizer (label_for_prista_fnctn,prista_fnctn_recognizer);; 
 
 
 let main_recognizer s i=
