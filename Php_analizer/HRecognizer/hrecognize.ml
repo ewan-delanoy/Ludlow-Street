@@ -536,6 +536,8 @@ let semicoloned_assignment=
        whites;
        several_handlers;
        whites;
+       assignable;
+       whites;
        semicolon;
     ];;
 
