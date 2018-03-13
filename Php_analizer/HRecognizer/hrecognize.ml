@@ -77,6 +77,7 @@ let colon=c "colon" ":";;
 let comma=c "comma" ",";;
 let dollar=c "dollar" "$";;
 let equals=c "equals" "=";;
+let exclaim=c "exclaim" "!";;
 let linebreak=c "linebreak" "\n";;
 let minus=c "minus" "-";;
 let plus=c "plus" "+";;
@@ -86,6 +87,7 @@ let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
 let tilda=c "tilda" "~";;
+let vline=c "vline" "|";;
 
 let list_of_keywords =ref [];;
 let kc x y=
@@ -363,8 +365,28 @@ let myriam=
       star "" myriam_snippet;
    ];;    
 
+let elisabeth_element=
+    dis "elisabeth_element"
+    [
+      ch "elisabeth_elt1" [null_kwd;whites;exclaim;equals;equals;whites;php_name;paren_block];
+                           paren_block;
+    ];;
 
-
+let elisabeth_snippet=
+      ch "elisabeth_snippet"
+      [
+         whites;
+         vline;vline;
+         whites;
+         elisabeth_element;
+      ];;
+  
+let elisabeth=
+     ch "elisabeth"
+     [
+        elisabeth_element ;
+        star "" elisabeth_snippet;
+     ];;        
 
 let positive_integer=
      ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
@@ -600,11 +622,12 @@ let returnable=
          (ch "paamayim_call1"        [namespaced_name;colon;colon;php_name;paren_block]);
          (ch "paamayim_simple_call1" [namespaced_name;colon;colon;php_name]); 
          (ch "rtripod2"              [namespaced_name;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
-         (ch "rtripod3"              [namespaced_name;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
-         (ch "rtripod4"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "fnctn_call_minus_int1" [namespaced_name;paren_block;whites;minus;whites;integer;]);
          (ch "fnctn_call_dot_sq1"    [namespaced_name;paren_block;whites;point;whites;sq;]);
          (ch "fnctn_call_plus_sth1"  [namespaced_name;paren_block;whites;plus;whites;php_vname;]);
+         (ch "rtripod3"              [namespaced_name;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
+         (ch "rtripod4"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "from_elisabeth"        [namespaced_name;paren_block;whites;vline;vline;whites;elisabeth]); 
          (ch "fnctn_call1"           [namespaced_name;paren_block]);
          (ch "ampersanded_item1"     [namespaced_name;white_spot;ampersand;whites;ampersanded]);
                                      namespaced_name;
@@ -1228,7 +1251,7 @@ add_label label_for_multi_declaration;;
 let multi_declaration_recognizer=rlabch 
   label_for_multi_declaration
   [
-     global_kwd;
+     nonclass_qualifier;
      white_spot;
      naked_vars_list;
      semicolon
