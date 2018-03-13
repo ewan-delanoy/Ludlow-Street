@@ -118,6 +118,7 @@ let public_kwd=kc "public_kwd" "public";;
 let return_kwd=kc "return_kwd" "return";;
 let static_kwd=kc "static_kwd" "static";;
 let switch_kwd=kc "switch_kwd" "switch";;
+let throw_kwd=kc "throw_kwd" "try";;
 let try_kwd=kc "try_kwd" "try";;
 let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
 let var_kwd=kc "var_kwd" "var";;
@@ -496,7 +497,6 @@ let assignable=
                                   true_kwd;
     ] ;;   
 
-let possible_assignable=maybe "possible_assignable" assignable;;
 
 let declarable=dis "declarable"
    [
@@ -571,6 +571,62 @@ let initialization=
   ];;
 
 let possible_initialization = maybe "possible_initialization" initialization;;  
+
+let throwable=
+    dis "throwable"
+    [
+      ch "throwable1" [new_kwd;whites;namespaced_name;paren_block]
+    ];;
+
+let returnable=
+      dis "returnable"
+       [ 
+         (ch "one_array"            [array_kwd;whites;paren_block]);   
+                                     bracket_block;
+         (ch "returnable1"          [coerce_to_array;whites;php_vname]);  
+         (ch "returnable2"          [coerce_to_bool;whites;php_vname]);   
+         (ch "returnable3"          [coerce_to_int;whites;php_vname;arrow;php_name;paren_block]); 
+         (ch "returnable4"          [coerce_to_int;whites;php_vname;bracket_block]); 
+         (ch "returnable5"          [coerce_to_string;whites;php_vname]);  
+                                     dq; 
+                                     false_kwd;
+                                     hexadecimal_number;
+         (ch "floater"              [integer;point;positive_integer]);
+                                     integer;
+         (ch "paamayim_call"        [namespaced_name;colon;colon;php_name;paren_block]);
+         (ch "paamayim_simple_call" [namespaced_name;colon;colon;php_name]); 
+         (ch "tripod1"              [namespaced_name;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "tripod2"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "fnctn_call_minus_int" [namespaced_name;paren_block;whites;minus;whites;integer;]);
+         (ch "fnctn_call_dot_sq"    [namespaced_name;paren_block;whites;point;whites;sq;]);
+         (ch "fnctn_call_plus_sth"  [namespaced_name;paren_block;whites;plus;whites;php_vname;]);
+         (ch "fnctn_call"           [namespaced_name;paren_block]);
+         (ch "ampersanded_item"     [namespaced_name;white_spot;ampersand;whites;ampersanded]);
+                                     namespaced_name;
+         (ch "new_fnctn_call"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
+         (ch "new_vfnctn_call"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
+         (ch "new_meth_call"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
+                                     null_kwd;                              
+         (ch "tripod3"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "returnable6"          [php_vname;bracket_block;white_spot;point;whites;myriam]); 
+         (ch "returnable7"          [php_vname;bracket_block]); 
+         (ch "returnable8"          [php_vname;wap;arrow;php_name;paren_block]);
+         (ch "returnable9"          [php_vname;wap;bracket_block]);
+         (ch "vnctn_call_minus_int" [php_vname;wap;paren_block;whites;minus;whites;integer;]);
+         (ch "returnable10"         [php_vname;wap;paren_block;wap;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
+         (ch "returnable11"         [php_vname;wap;paren_block;wap;paren_block;white_spot;point;whites;php_vname]);
+         (ch "returnable12"         [php_vname;wap;paren_block;wap;paren_block]);
+         (ch "returnable13"         [php_vname;wap;paren_block]);
+         (ch "returnable14"         [php_vname;wap;white_spot;point;whites;myriam]);
+         (ch "returnable15"         [php_vname;wap]);
+         (ch "returnable16"         [php_vname;whites;point;whites;myriam]);
+                                     php_vname; 
+         (ch "dotted_line"          [sq;whites;point;whites;myriam]);
+                                     sq;
+                                     true_kwd;
+       ] ;;   
+   
+let possible_returnable=maybe "possible_returnable" returnable;;
 
 (* End of particular parser elements *)
 
@@ -883,13 +939,30 @@ let comeback_recognizer=rlabch
   [
      return_kwd;
      white_spot;
-     possible_assignable;
+     possible_returnable;
      whites;
      semicolon;
   ];;
 
 
 add_recognizer (label_for_comeback,comeback_recognizer);; 
+
+let label_for_hurl_exception="hurl_exception";;
+add_label label_for_hurl_exception;;
+
+let hurl_exception_recognizer=rlabch
+  label_for_hurl_exception
+  [
+     throw_kwd;
+     white_spot;
+     throwable;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_hurl_exception,hurl_exception_recognizer);; 
+
 
 
 let label_for_fnctn="fnctn";;
