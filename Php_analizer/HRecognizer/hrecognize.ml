@@ -114,7 +114,9 @@ let nspc_kwd=kc "nspc_kwd" "namespace";;
 let private_kwd=kc "private_kwd" "private";;
 let protected_kwd=kc "protected_kwd" "protected";;
 let public_kwd=kc "public_kwd" "public";;
+let return_kwd=kc "return_kwd" "return";;
 let static_kwd=kc "static_kwd" "static";;
+let switch_kwd=kc "switch_kwd" "switch";;
 let try_kwd=kc "try_kwd" "try";;
 let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
 let var_kwd=kc "var_kwd" "var";;
@@ -487,6 +489,8 @@ let assignable=
                                   true_kwd;
     ] ;;   
 
+let possible_assignable=maybe "possible_assignable" assignable;;
+
 let declarable=dis "declarable"
    [
      php_vname;
@@ -554,19 +558,7 @@ let possible_initialization = maybe "possible_initialization" initialization;;
 
 (* End of particular parser elements *)
 
-let label_for_one_liner_with_variable="one_liner_with_variable";;
-add_label label_for_one_liner_with_variable;;
 
-let one_liner_with_variable_recognizer=rlabch
-  label_for_one_liner_with_variable
-  [
-     dollar;
-     naive_php_name;
-     sto "" ['\n';'\r';';'];
-     semicolon
-  ];;
-
-add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
 
 
 let label_for_php_open_tag="php_open_tag";;
@@ -867,6 +859,23 @@ let glass_recognizer=rlabch
 
 add_recognizer (label_for_glass,glass_recognizer);; 
 
+let label_for_comeback="comeback";;
+add_label label_for_comeback;;
+
+let comeback_recognizer=rlabch
+  label_for_comeback
+  [
+     return_kwd;
+     white_spot;
+     possible_assignable;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_comeback,comeback_recognizer);; 
+
+
 let label_for_fnctn="fnctn";;
 add_label label_for_fnctn;;
 
@@ -1011,6 +1020,23 @@ let trycatch_recognizer=rlabch
 
 add_recognizer (label_for_trycatch,trycatch_recognizer);; 
 
+let label_for_sweatch="sweatch";;
+add_label label_for_sweatch;;
+
+let sweatch_recognizer=rlabch
+  label_for_sweatch
+  [
+     switch_kwd;
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+  ];;
+
+
+add_recognizer (label_for_sweatch,sweatch_recognizer);; 
+
+
 let label_for_semicoloned_paamayim_call="semicoloned_paamayim_call";;
 add_label label_for_semicoloned_paamayim_call;;
 
@@ -1095,9 +1121,6 @@ let multi_declaration_recognizer=rlabch
   ];;
 
 add_recognizer (label_for_multi_declaration,multi_declaration_recognizer);; 
-
-
-
 
 
 
