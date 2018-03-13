@@ -109,7 +109,7 @@ let pacify s ((nspc_name,lbl),(i,j))=
       ((nspc_name,"",[],[],label_for_class_beginning ),(i,k1))::
   (
       temp2@
-      [((nspc_name,"",[],[],label_for_class_ending),(j-1,j))]
+      [((nspc_name,"",[],[],label_for_class_ending),(j,j))]
   )
   ;;
 
