@@ -99,6 +99,7 @@ let backslashed_true_kwd=kc "backslashed_true_kwd" "\\true";;
 let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
+let do_kwd=kc "do_kwd" "do";;
 let echo_kwd=kc "echo_kwd" "echo";;
 let extends_kwd=kc "extends_kwd" "extends";;
 let final_kwd=kc "final_kwd" "final";;
@@ -120,6 +121,7 @@ let switch_kwd=kc "switch_kwd" "switch";;
 let try_kwd=kc "try_kwd" "try";;
 let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
 let var_kwd=kc "var_kwd" "var";;
+let while_kwd=kc "while_kwd" "while";;
 let yuze_kwd=kc "yuze_kwd" "use";;
 
 let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
@@ -141,8 +143,10 @@ let cc x y=
    let _=(list_of_coercers:=y::(!list_of_coercers)) in
    c x y;;
 
-let coerce_to_array=cc "coerce_to_array" "(array)";;   
+let coerce_to_array=cc "coerce_to_array" "(array)";;  
+let coerce_to_bool=cc "coerce_to_bool" "(bool)";;   
 let coerce_to_int=cc "coerce_to_int" "(int)";;   
+let coerce_to_string=cc "coerce_to_string" "(string)";;   
 
 let paren_block=keyword_avoider 
     "paren_block" (naive_paren_block,!list_of_coercers);;
@@ -449,9 +453,11 @@ let assignable=
     [ 
       (ch "one_array"            [array_kwd;whites;paren_block]);   
                                   bracket_block;
-      (ch "assignable1"          [coerce_to_array;whites;php_vname]);   
-      (ch "assignable2"          [coerce_to_int;whites;php_vname;arrow;php_name;paren_block]); 
-      (ch "assignable3"          [coerce_to_int;whites;php_vname;bracket_block]); 
+      (ch "assignable1"          [coerce_to_array;whites;php_vname]);  
+      (ch "assignable2"          [coerce_to_bool;whites;php_vname]);   
+      (ch "assignable3"          [coerce_to_int;whites;php_vname;arrow;php_name;paren_block]); 
+      (ch "assignable4"          [coerce_to_int;whites;php_vname;bracket_block]); 
+      (ch "assignable5"          [coerce_to_string;whites;php_vname]);  
                                   dq; 
                                   false_kwd;
                                   hexadecimal_number;
@@ -466,23 +472,24 @@ let assignable=
       (ch "fnctn_call_plus_sth"  [namespaced_name;paren_block;whites;plus;whites;php_vname;]);
       (ch "fnctn_call"           [namespaced_name;paren_block]);
       (ch "ampersanded_item"     [namespaced_name;white_spot;ampersand;whites;ampersanded]);
+                                  namespaced_name;
       (ch "new_fnctn_call"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
       (ch "new_vfnctn_call"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
       (ch "new_meth_call"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
                                   null_kwd;                              
       (ch "tripod3"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
-      (ch "assignable4"          [php_vname;bracket_block;white_spot;point;whites;myriam]); 
-      (ch "assignable5"          [php_vname;bracket_block]); 
-      (ch "assignable6"          [php_vname;wap;arrow;php_name;paren_block]);
-      (ch "assignable7"          [php_vname;wap;bracket_block]);
+      (ch "assignable6"          [php_vname;bracket_block;white_spot;point;whites;myriam]); 
+      (ch "assignable7"          [php_vname;bracket_block]); 
+      (ch "assignable8"          [php_vname;wap;arrow;php_name;paren_block]);
+      (ch "assignable9"          [php_vname;wap;bracket_block]);
       (ch "vnctn_call_minus_int" [php_vname;wap;paren_block;whites;minus;whites;integer;]);
-      (ch "assignable8"          [php_vname;wap;paren_block;wap;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
-      (ch "assignable9"          [php_vname;wap;paren_block;wap;paren_block;white_spot;point;whites;php_vname]);
-      (ch "assignable10"         [php_vname;wap;paren_block;wap;paren_block]);
-      (ch "assignable11"         [php_vname;wap;paren_block]);
-      (ch "assignable12"         [php_vname;wap;white_spot;point;whites;myriam]);
-      (ch "assignable13"         [php_vname;wap]);
-      (ch "assignable14"         [php_vname;whites;point;whites;myriam]);
+      (ch "assignable10"         [php_vname;wap;paren_block;wap;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
+      (ch "assignable11"         [php_vname;wap;paren_block;wap;paren_block;white_spot;point;whites;php_vname]);
+      (ch "assignable12"         [php_vname;wap;paren_block;wap;paren_block]);
+      (ch "assignable13"         [php_vname;wap;paren_block]);
+      (ch "assignable14"         [php_vname;wap;white_spot;point;whites;myriam]);
+      (ch "assignable15"         [php_vname;wap]);
+      (ch "assignable16"         [php_vname;whites;point;whites;myriam]);
                                   php_vname; 
       (ch "dotted_line"          [sq;whites;point;whites;myriam]);
                                   sq;
@@ -496,31 +503,38 @@ let declarable=dis "declarable"
      php_vname;
    ];;
 
-let arrowing=ch "arrowing" [arrow;php_name];;
-let possible_arrowing=maybe "possible_arrowing" arrowing;;
-      
-let handler=
-  ch "handler"
-  [
-    dollar;
-    naive_php_name;
-    possible_arrowing;
-    possible_bracket_block;
-    possible_bracket_block;
-    whites;
-    equals;
-    whites;
-  ];;
+let assignee=
+  dis "assignee"
+   [
+      ch "assignee1" [php_vname;arrow;naive_php_name;bracket_block;bracket_block];
+      ch "assignee2" [php_vname;arrow;naive_php_name;bracket_block];
+      ch "assignee3" [php_vname;arrow;naive_php_name;];
+      ch "assignee4" [php_vname;bracket_block;bracket_block];
+      ch "assignee5" [php_vname;bracket_block];
+      ch "assignee6" [php_vname];
 
-let several_handlers =
-   star "several_handlers" handler;;
+   ];;
   
+let handler=
+    ch "handler"
+    [
+      assignee;
+      whites;
+      equals;
+      whites;
+    ];;
+  
+let several_handlers =
+  star "several_handlers" handler;;
+
 let semicoloned_assignment=
     ch "semicoloned_assignment"
     [
-       handler;
+       assignee;
+       whites;
+       equals;
+       whites;
        several_handlers;
-       assignable;
        whites;
        semicolon;
     ];;
@@ -739,7 +753,7 @@ add_label label_for_wiley;;
 let wiley_recognizer=rlabch 
   label_for_wiley
   [
-     c "" "while";
+     while_kwd;
      whites;
      paren_block;
      whites;
@@ -1019,6 +1033,26 @@ let trycatch_recognizer=rlabch
 
 
 add_recognizer (label_for_trycatch,trycatch_recognizer);; 
+
+let label_for_dowhile="dowhile";;
+add_label label_for_dowhile;;
+
+let dowhile_recognizer=rlabch
+  label_for_dowhile
+  [
+     do_kwd;
+     whites;
+     brace_block;
+     whites;
+     while_kwd;
+     whites;
+     paren_block;
+     whites;
+     semicolon;
+  ];;
+
+
+add_recognizer (label_for_dowhile,dowhile_recognizer);; 
 
 let label_for_sweatch="sweatch";;
 add_label label_for_sweatch;;
