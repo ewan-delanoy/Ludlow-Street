@@ -433,13 +433,15 @@ let center_of_tripod=dis "center_of_tripod"
 
 let left_of_tripod=dis "left_of_tripod"
    [
+     (ch "left_of_tripod1") [array_kwd;paren_block];
                              false_kwd;
                              integer;
-     
-     (ch "left_of_tripod1") [php_name;paren_block;whites;point;whites;sq];
-     (ch "left_of_tripod2") [php_name;paren_block];
-     (ch "left_of_tripod3") [php_vname;bracket_block;bracket_block];
-     (ch "left_of_tripod4") [php_vname;white_spot;point;whites;php_vname];
+                             paren_block;
+     (ch "left_of_tripod2") [php_name;paren_block;whites;point;whites;sq];
+     (ch "left_of_tripod3") [php_name;paren_block];
+     (ch "left_of_tripod4") [php_vname;bracket_block;bracket_block];
+     (ch "left_of_tripod5") [php_vname;bracket_block];
+     (ch "left_of_tripod6") [php_vname;white_spot;point;whites;php_vname];
                              php_vname; 
                              null_kwd;
                              sq;
@@ -593,12 +595,13 @@ let returnable=
                                      false_kwd;
                                      hexadecimal_number;
          (ch "floater1"              [integer;point;positive_integer]);
+         (ch "rtripod1"              [integer;whites;equals;equals;equals;whites;php_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
                                      integer;
          (ch "paamayim_call1"        [namespaced_name;colon;colon;php_name;paren_block]);
          (ch "paamayim_simple_call1" [namespaced_name;colon;colon;php_name]); 
-         (ch "rtripod1"              [namespaced_name;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
-         (ch "rtripod2"              [namespaced_name;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
-         (ch "rtripod3"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod2"              [namespaced_name;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod3"              [namespaced_name;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
+         (ch "rtripod4"              [namespaced_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "fnctn_call_minus_int1" [namespaced_name;paren_block;whites;minus;whites;integer;]);
          (ch "fnctn_call_dot_sq1"    [namespaced_name;paren_block;whites;point;whites;sq;]);
          (ch "fnctn_call_plus_sth1"  [namespaced_name;paren_block;whites;plus;whites;php_vname;]);
@@ -609,7 +612,7 @@ let returnable=
          (ch "new_vfnctn_call1"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
          (ch "new_meth_call1"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
                                      null_kwd;                              
-         (ch "rtripod4"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod5"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "returnable7"           [php_vname;bracket_block;white_spot;point;whites;myriam]); 
          (ch "returnable8"           [php_vname;bracket_block]); 
          (ch "returnable9"           [php_vname;wap;arrow;php_name;paren_block]);
