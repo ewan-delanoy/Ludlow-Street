@@ -257,7 +257,28 @@ let snippet_in_namespaced_name=
   
 let starred_snippet_in_namespaced_name=
     star "starred_snippet_in_namespaced_name" snippet_in_namespaced_name;;
-  
+
+let snippet_in_naked_vars_list=
+    ch "snippet_in_naked_vars_list"
+       [
+         comma;
+         whites;
+         php_vname;
+         whites
+       ] ;;   
+
+let starred_snippet_in_naked_vars_list=
+      star "starred_snippet_in_naked_vars_list" snippet_in_naked_vars_list;;
+           
+let naked_vars_list=
+     ch "naked_vars_list"
+     [
+         php_vname;
+         whites;
+         snippet_in_naked_vars_list;
+         starred_snippet_in_naked_vars_list;
+     ];;
+
 let namespaced_name_one=
     ch "namespaced_name_one"
     [
@@ -1060,6 +1081,25 @@ let qualified_declaration_recognizer=rlabch
   ];;
 
 add_recognizer (label_for_qualified_declaration,qualified_declaration_recognizer);; 
+
+let label_for_multi_declaration="multi_declaration";;
+add_label label_for_multi_declaration;;
+
+let multi_declaration_recognizer=rlabch 
+  label_for_multi_declaration
+  [
+     global_kwd;
+     white_spot;
+     naked_vars_list;
+     semicolon
+  ];;
+
+add_recognizer (label_for_multi_declaration,multi_declaration_recognizer);; 
+
+
+
+
+
 
 let label_for_big_qualified_declaration="big_qualified_declaration";;
 add_label label_for_big_qualified_declaration;;
