@@ -34,7 +34,11 @@ tt "namespace {}";;
 let label_for_namespace_beginning="namespace_beginning";;
 let label_for_namespace_ending="namespace_ending";;
 
-let list_of_labels=
+(*
+A newer list of labels is to be found in the h pacify_classes module
+*)
+
+let old_list_of_labels=
     label_for_namespace_ending::
     label_for_namespace_beginning::(!(Hrecognize.old_list_of_labels));;
 
