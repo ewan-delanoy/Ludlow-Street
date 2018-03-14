@@ -105,6 +105,7 @@ let do_kwd=kc "do_kwd" "do";;
 let echo_kwd=kc "echo_kwd" "echo";;
 let extends_kwd=kc "extends_kwd" "extends";;
 let final_kwd=kc "final_kwd" "final";;
+let finally_kwd=kc "finally_kwd" "finally";;
 let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
 let glass_kwd=kc "glass_kwd" "class";;
@@ -385,8 +386,34 @@ let elisabeth=
      ch "elisabeth"
      [
         elisabeth_element ;
-        star "" elisabeth_snippet;
+        star "starred_elisabeth_snippet" elisabeth_snippet;
      ];;        
+
+let catchlist_snippet=
+  ch "catchlist_snippet"
+  [
+     catch_kwd;
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+     whites;
+  ];;
+
+let catchlist=star "catchlist" catchlist_snippet;;
+
+let finally_block=
+  ch "finally_block"
+  [
+     finally_kwd;
+     whites;
+     paren_block;
+     whites;
+     brace_block;
+     whites;
+  ];; 
+
+let possible_finally_block=maybe "possible_finally_block" finally_block;;
 
 let positive_integer=
      ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
@@ -442,6 +469,7 @@ let ampersanded=ch "ampersanded"
 let center_of_tripod=dis "center_of_tripod"
    [
      (ch "center_of_tripod1") [array_kwd;paren_block];
+                               null_kwd;
      (ch "center_of_tripod2") [php_name;paren_block];
                                php_name;
      (ch "center_of_tripod3") [php_vname;arrow;php_name;bracket_block];
@@ -1127,11 +1155,9 @@ let trycatch_recognizer=rlabch
      whites;
      brace_block;
      whites;
-     catch_kwd;
+     catchlist;
      whites;
-     paren_block;
-     whites;
-     brace_block;
+     possible_finally_block;
   ];;
 
 
