@@ -199,7 +199,7 @@ let debug_list=ref [];;
 
 # 201 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 let __ocaml_lex_tables = {
-  Lexing.lex_base = 
+  Lexing.lex_base =
    "\000\000\252\255\253\255\000\000\000\000\000\000\001\000\000\000\
     \254\255\255\255\082\000\236\255\237\255\240\255\162\000\242\000\
     \242\255\000\000\000\000\001\000\003\000\004\000\006\000\007\000\
@@ -220,7 +220,7 @@ let __ocaml_lex_tables = {
     \003\000\255\255\254\255\111\000\254\255\255\255\020\004\253\255\
     \254\255\255\255\102\001\254\255\255\255\238\004\253\255\057\005\
     \255\255";
-  Lexing.lex_backtrk = 
+  Lexing.lex_backtrk =
    "\255\255\255\255\255\255\002\000\255\255\255\255\255\255\255\255\
     \255\255\255\255\255\255\255\255\255\255\255\255\017\000\017\000\
     \255\255\013\000\013\000\013\000\013\000\013\000\013\000\013\000\
@@ -241,7 +241,7 @@ let __ocaml_lex_tables = {
     \003\000\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
     \255\255\255\255\255\255\255\255\255\255\255\255\255\255\001\000\
     \255\255";
-  Lexing.lex_default = 
+  Lexing.lex_default =
    "\002\000\000\000\000\000\255\255\255\255\255\255\255\255\255\255\
     \000\000\000\000\012\000\000\000\000\000\000\000\255\255\255\255\
     \000\000\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
@@ -262,7 +262,7 @@ let __ocaml_lex_tables = {
     \255\255\000\000\000\000\140\000\000\000\000\000\143\000\000\000\
     \000\000\000\000\147\000\000\000\000\000\150\000\000\000\255\255\
     \000\000";
-  Lexing.lex_trans = 
+  Lexing.lex_trans =
    "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
     \000\000\000\000\008\000\016\000\138\000\137\000\000\000\000\000\
     \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -463,7 +463,7 @@ let __ocaml_lex_tables = {
     \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
     \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
     \000\000\000\000";
-  Lexing.lex_check = 
+  Lexing.lex_check =
    "\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
     \255\255\255\255\007\000\053\000\135\000\136\000\255\255\255\255\
     \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
@@ -664,22 +664,22 @@ let __ocaml_lex_tables = {
     \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
     \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
     \255\255\255\255";
-  Lexing.lex_base_code = 
+  Lexing.lex_base_code =
    "";
-  Lexing.lex_backtrk_code = 
+  Lexing.lex_backtrk_code =
    "";
-  Lexing.lex_default_code = 
+  Lexing.lex_default_code =
    "";
-  Lexing.lex_trans_code = 
+  Lexing.lex_trans_code =
    "";
-  Lexing.lex_check_code = 
+  Lexing.lex_check_code =
    "";
-  Lexing.lex_code = 
+  Lexing.lex_code =
    "";
 }
 
 let rec outside_php lexbuf =
-    __ocaml_lex_outside_php_rec lexbuf 0
+   __ocaml_lex_outside_php_rec lexbuf 0
 and __ocaml_lex_outside_php_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -707,11 +707,11 @@ let
        (finish_nonphp lexbuf;List.rev(!list_accu))
 # 709 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_outside_php_rec lexbuf __ocaml_lex_state
 
 and inside_php lexbuf =
-    __ocaml_lex_inside_php_rec lexbuf 10
+   __ocaml_lex_inside_php_rec lexbuf 10
 and __ocaml_lex_inside_php_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -886,11 +886,11 @@ let
    ( List.rev(!list_accu) )
 # 888 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_inside_php_rec lexbuf __ocaml_lex_state
 
 and starred_comment lexbuf =
-    __ocaml_lex_starred_comment_rec lexbuf 95
+   __ocaml_lex_starred_comment_rec lexbuf 95
 and __ocaml_lex_starred_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -913,11 +913,11 @@ let
        (List.rev(!list_accu))
 # 915 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_starred_comment_rec lexbuf __ocaml_lex_state
 
 and slashed_comment lexbuf =
-    __ocaml_lex_slashed_comment_rec lexbuf 100
+   __ocaml_lex_slashed_comment_rec lexbuf 100
 and __ocaml_lex_slashed_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -950,11 +950,11 @@ let
        (List.rev(!list_accu))
 # 952 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_slashed_comment_rec lexbuf __ocaml_lex_state
 
 and single_quoted_string lexbuf =
-    __ocaml_lex_single_quoted_string_rec lexbuf 110
+   __ocaml_lex_single_quoted_string_rec lexbuf 110
 and __ocaml_lex_single_quoted_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -987,11 +987,11 @@ let
        (List.rev(!list_accu))
 # 989 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_single_quoted_string_rec lexbuf __ocaml_lex_state
 
 and double_quoted_string lexbuf =
-    __ocaml_lex_double_quoted_string_rec lexbuf 117
+   __ocaml_lex_double_quoted_string_rec lexbuf 117
 and __ocaml_lex_double_quoted_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1027,11 +1027,11 @@ let
          (!list_accu)))
 # 1029 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_double_quoted_string_rec lexbuf __ocaml_lex_state
 
 and doc_string lexbuf =
-    __ocaml_lex_doc_string_rec lexbuf 124
+   __ocaml_lex_doc_string_rec lexbuf 124
 and __ocaml_lex_doc_string_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1066,11 +1066,11 @@ let
            (raise(Illegal_first_character_in_doc(c)))
 # 1068 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_doc_string_rec lexbuf __ocaml_lex_state
 
 and step_one_in_doc lexbuf =
-    __ocaml_lex_step_one_in_doc_rec lexbuf 129
+   __ocaml_lex_step_one_in_doc_rec lexbuf 129
 and __ocaml_lex_step_one_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1093,11 +1093,11 @@ let
            (raise(Illegal_character_in_doc(c)))
 # 1095 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_step_one_in_doc_rec lexbuf __ocaml_lex_state
 
 and step_two_in_doc lexbuf =
-    __ocaml_lex_step_two_in_doc_rec lexbuf 132
+   __ocaml_lex_step_two_in_doc_rec lexbuf 132
 and __ocaml_lex_step_two_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1126,11 +1126,11 @@ and __ocaml_lex_step_two_in_doc_rec lexbuf __ocaml_lex_state =
        (raise(Missing_newline_in_doc_beginning))
 # 1128 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_step_two_in_doc_rec lexbuf __ocaml_lex_state
 
 and step_three_in_doc lexbuf =
-    __ocaml_lex_step_three_in_doc_rec lexbuf 139
+   __ocaml_lex_step_three_in_doc_rec lexbuf 139
 and __ocaml_lex_step_three_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1164,11 +1164,11 @@ let
     )
 # 1166 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_step_three_in_doc_rec lexbuf __ocaml_lex_state
 
 and step_four_in_doc lexbuf =
-    __ocaml_lex_step_four_in_doc_rec lexbuf 142
+   __ocaml_lex_step_four_in_doc_rec lexbuf 142
 and __ocaml_lex_step_four_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1205,11 +1205,11 @@ let
         )
 # 1207 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_step_four_in_doc_rec lexbuf __ocaml_lex_state
 
 and step_five_in_doc lexbuf =
-    __ocaml_lex_step_five_in_doc_rec lexbuf 146
+   __ocaml_lex_step_five_in_doc_rec lexbuf 146
 and __ocaml_lex_step_five_in_doc_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1227,11 +1227,11 @@ and __ocaml_lex_step_five_in_doc_rec lexbuf __ocaml_lex_state =
          )
 # 1229 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_step_five_in_doc_rec lexbuf __ocaml_lex_state
 
 and namespace_mode lexbuf =
-    __ocaml_lex_namespace_mode_rec lexbuf 149
+   __ocaml_lex_namespace_mode_rec lexbuf 149
 and __ocaml_lex_namespace_mode_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
@@ -1270,7 +1270,7 @@ let
           (raise(Illegal_character_in_namespace(c)))
 # 1272 "/Users/Ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/php_lexer.ml"
 
-  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf; 
+  | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_namespace_mode_rec lexbuf __ocaml_lex_state
 
 ;;

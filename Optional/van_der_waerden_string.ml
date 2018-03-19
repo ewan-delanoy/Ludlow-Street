@@ -5,17 +5,17 @@
 
 type fundamental_parameter=int;;
 
-type vdw_string_size=int;;
+type vdw_bytes_size=int;;
 
-type t=S of fundamental_parameter*string;;
+type t=S of fundamental_parameter*bytes;;
 
 let unveil (S(r,s))=(r,s);;
 
 let content (S(r,s))=s;;
 
-let length (S(r,s))=String.length s;;
+let length (S(r,s))=Bytes.length s;;
 
-let pairs_to_be_checked (r:fundamental_parameter) (n: vdw_string_size) i=
+let pairs_to_be_checked (r:fundamental_parameter) (n: vdw_bytes_size) i=
    let mr=min r in
    let temp1=Ennig.doyle(fun t->(i-2*t,i-t))(1)(mr((i-1)/2))
    and temp2=Ennig.doyle(fun t->(i-t,i+t))(1)(mr(min(i-1)(n-i)))
@@ -27,12 +27,12 @@ let pairs_to_be_checked (r:fundamental_parameter) (n: vdw_string_size) i=
 
 let check_pair s (i,j)=
   (*we assume that s has been correctly constructed, so (si,sj)<>(1,1) *)
-  let s_copy=Bytes.of_string(s) in
-  if (String.get s (i-1)='1')&&((String.get s (j-1))<>'0')
+  let s_copy=(s) in
+  if (Bytes.get s (i-1)='1')&&((Bytes.get s (j-1))<>'0')
   then let _=Bytes.set s_copy (j-1) '0' in
        s_copy
   else 
-  if (String.get s (j-1)='1')&&((String.get s (i-1))<>'0')
+  if (Bytes.get s (j-1)='1')&&((Bytes.get s (i-1))<>'0')
   then let _=Bytes.set s_copy (i-1) '0' in
        s_copy
   else s_copy;;
@@ -40,14 +40,14 @@ let check_pair s (i,j)=
 
   
 let check_pairs s l=
- if l=[] then Bytes.of_string s else
+ if l=[] then  s else
  List.fold_left   check_pair s l;;
 
 
 let left_watchers (r:fundamental_parameter) s m=
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   let temp1=Ennig.doyle(fun t->(m+t,m+2*t))(max(1)(1-m))(min(r)((n-m)/2)) in
-  Image.image (fun (i,j)->(String.get s (i-1),String.get s (j-1)) ) temp1;; 
+  Image.image (fun (i,j)->(Bytes.get s (i-1),Bytes.get s (j-1)) ) temp1;; 
 
 let general_left_extensiblity_test(r:fundamental_parameter) s m=
    List.for_all (fun (si,sj)->
@@ -56,9 +56,9 @@ let general_left_extensiblity_test(r:fundamental_parameter) s m=
 
 
 let right_watchers (r:fundamental_parameter) s m=
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   let temp1=Ennig.doyle(fun t->(m-2*t,m-t))(max(1)(m-n))(min(r)((m-1)/2)) in
-  Image.image (fun (i,j)->(String.get s (i-1),String.get s (j-1)) ) temp1;; 
+  Image.image (fun (i,j)->(Bytes.get s (i-1),Bytes.get s (j-1)) ) temp1;; 
 
 let general_right_extensiblity_test(r:fundamental_parameter) s m=
    List.for_all (fun (si,sj)->
@@ -66,7 +66,7 @@ let general_right_extensiblity_test(r:fundamental_parameter) s m=
    ) (right_watchers r s m);;
 
 let is_extensible (r:fundamental_parameter) s=
-  general_right_extensiblity_test r s (String.length(s)+1);;
+  general_right_extensiblity_test r s (Bytes.length(s)+1);;
 
 let measure_extensibility (r:fundamental_parameter) s=
   let rec tempf=(fun (k,da_ober)->match da_ober with
@@ -77,29 +77,33 @@ let measure_extensibility (r:fundamental_parameter) s=
             ((a,b)=('F','1')) then tempf(2,peurrest) else
          tempf(k,peurrest)   
   ) in
-  tempf(3,right_watchers r s (String.length(s)+1));;
+  tempf(3,right_watchers r s (Bytes.length(s)+1));;
+ 
+let bos s=Bytes.of_string s;; 
+let adj b s=Bytes.cat b (Bytes.of_string s);; 
  
 let all_extensions (S(r,s))=
    match measure_extensibility r s with
-    1->[S(r,s^"0")]
-   |2->[S(r,s^"0");S(r,s^"F")]
-   |3->[S(r,s^"0");S(r,s^"1");S(r,s^"F")]
+    1->[S(r,adj s "0")]
+   |2->[S(r,adj s "0");S(r,adj s "F")]
+   |3->[S(r,adj s "0");S(r,adj s "1");S(r,adj s "F")]
    |arall->failwith("Im a backdoor man");;
   
-let create (r:fundamental_parameter) (n: vdw_string_size)=S(r,String.make n 'F');;
+let create (r:fundamental_parameter) (n: vdw_bytes_size)=S(r,Bytes.make n 'F');;
 
 let set_to_white vdw_s j=
   let (S(r,s))=vdw_s in
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   if (j<1)||(j>n) then vdw_s else
-  let old_c=String.get s (j-1) in
+  let zs=Bytes.to_string s in
+  let old_c=Bytes.get s (j-1) in
   if old_c='0' 
-  then let _=(print_string ("\nForbidden move : s["^(string_of_int j)^"]<-1 for s="^s^"\n");
+  then let _=(print_string ("\nForbidden move : s["^(string_of_int j)^"]<-1 for s="^zs^"\n");
         flush stdout) in
         vdw_s
   else 
   if old_c='1' 
-  then let _=(print_string ("\nRedundant move : s["^(string_of_int j)^"]<-1 for s="^s^"\n");
+  then let _=(print_string ("\nRedundant move : s["^(string_of_int j)^"]<-1 for s="^zs^"\n");
         flush stdout) in
         vdw_s
   else 
@@ -110,20 +114,21 @@ let set_to_white vdw_s j=
   
 let set_to_black vdw_s j=  
   let (S(r,s))=vdw_s in
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   if (j<1)||(j>n) then vdw_s else
-  let old_c=String.get s (j-1) in
+  let old_c=Bytes.get s (j-1) in
+  let zs=Bytes.to_string s in
   if old_c='1' 
-  then let _=(print_string ("\nForbidden move : s["^(string_of_int j)^"]<-0 for s="^s^"\n");
+  then let _=(print_string ("\nForbidden move : s["^(string_of_int j)^"]<-0 for s="^zs^"\n");
         flush stdout) in
         vdw_s
   else 
   if old_c='0' 
-  then let _=(print_string ("\nRedundant move : s["^(string_of_int j)^"]<-0 for s="^s^"\n");
+  then let _=(print_string ("\nRedundant move : s["^(string_of_int j)^"]<-0 for s="^zs^"\n");
         flush stdout) in
         vdw_s
   else 
-  let new_s=Bytes.of_string s in
+  let new_s= s in
   let _=Bytes.set new_s (j-1) '0' in
   S(r,new_s);;  
   
@@ -134,9 +139,9 @@ let make_move vdw_s (j,c)=
   
   
 let first_free_cell (S(r,s))= 
-   let n=String.length(s) in
+   let n=Bytes.length(s) in
    Option.seek 
-   (fun j->let c=String.get(s)(j-1) in (c<>'0')&&(c<>'1')) 
+   (fun j->let c=Bytes.get(s)(j-1) in (c<>'0')&&(c<>'1')) 
    (Ennig.ennig 1 n);;
 
 let rec fill_greedily vdw_s=
@@ -148,7 +153,7 @@ let rec fill_greedily vdw_s=
 
 let uncurried_sphere =
   Memoized.recursive(fun old_f ((r:fundamental_parameter),n)->
-   if n<1 then [S(r,"")] else
+   if n<1 then [S(r,bos "")] else
    let temp1=old_f(r,n-1) in
    let temp2=Image.image all_extensions temp1 in
    List.flatten temp2
@@ -166,22 +171,43 @@ let ball (r:fundamental_parameter) n=uncurried_ball(r,n);;
 
 
  let hard_measure (S(r,s))= 
-   let n=String.length(s) in
-   List.length(List.filter (fun j->String.get s (j-1)='1') (Ennig.ennig 1 n));;
+   let n=Bytes.length(s) in
+   List.length(List.filter (fun j->Bytes.get s (j-1)='1') (Ennig.ennig 1 n));;
+
+exception Beginning_failure;;
+
+let beginning k s=
+   if k<1 then bos "" else
+   let n=Bytes.length(s) in
+   if (k>n)
+   then raise(Beginning_failure)
+   else Bytes.sub s 0 k;;
+
+exception Ending_failure;;   
+   
+ let ending k s=
+   if k<1 then bos "" else
+   let n=Bytes.length(s) in
+   if (k>n)
+   then raise(Ending_failure)
+   else Bytes.sub s (n-k) k;;
+    
+
+let cobeginning k s=ending (Bytes.length(s)-k) s;; 
 
 let duracell_decomposition vdw_s=
  let (S(r,s))=vdw_s in
   match first_free_cell vdw_s with
-  None->(s,S(r,""))
-  |Some(j0)->(Cull_string.beginning (j0-1) s,S(r,Cull_string.cobeginning (j0-1) s) );;
+  None->(s,S(r,bos ""))
+  |Some(j0)->(beginning (j0-1) s,S(r,cobeginning (j0-1) s) );;
 
 let checks_in_generic_construction (r:fundamental_parameter) s ones accu=
-  let n=String.length s in
+  let n=Bytes.length s in
   let tempf1=(fun (i,j)->
      let t=j-i in
      let x=i-t in
      if (t>r)||(x<1) then () else
-     let c=String.get s (x-1) in
+     let c=Bytes.get s (x-1) in
      if c='1' 
      then let sx=string_of_int x
           and si=string_of_int i
@@ -196,7 +222,7 @@ let checks_in_generic_construction (r:fundamental_parameter) s ones accu=
      let t=j-i in
      let x=j+t in
      if (t>r)||(x>n) then () else
-     let c=String.get s (x-1) in
+     let c=Bytes.get s (x-1) in
      if c='1' 
      then let sx=string_of_int x
           and si=string_of_int i
@@ -213,7 +239,7 @@ let checks_in_generic_construction (r:fundamental_parameter) s ones accu=
      let t=d/2 in
      let x=i+t in
      if (t>r) then () else
-     let c=String.get s (x-1) in
+     let c=Bytes.get s (x-1) in
      if c='1' 
      then let sx=string_of_int x
           and si=string_of_int i
@@ -227,8 +253,8 @@ let checks_in_generic_construction (r:fundamental_parameter) s ones accu=
   (List.iter tempf1 ones;List.iter tempf2 ones;List.iter tempf3 ones);;
   
 let construct (r:fundamental_parameter) s=
-  let n=String.length(s) in
-  let temp0=List.filter(fun j->String.get s (j-1)='1')(Ennig.ennig 1 n)
+  let n=Bytes.length(s) in
+  let temp0=List.filter(fun j->Bytes.get s (j-1)='1')(Ennig.ennig 1 n)
   and accu=ref([]) in
   let ones=Uple.list_of_pairs temp0 in
   let _=checks_in_generic_construction r s ones accu in
@@ -246,14 +272,14 @@ let construct (r:fundamental_parameter) s=
   S(r,s);;
   
 let construct_discreetly0 (r:fundamental_parameter) s=
-  let n=String.length(s) in
-  let temp0=List.filter(fun j->String.get s (j-1)='1')(Ennig.ennig 1 n)
+  let n=Bytes.length(s) in
+  let temp0=List.filter(fun j->Bytes.get s (j-1)='1')(Ennig.ennig 1 n)
   and accu=ref([]) in
   let ones=Uple.list_of_pairs temp0 in
   let _=checks_in_generic_construction r s ones accu in
   let corrections=Ordered.forget_order(Tidel2.diforchan(!accu)) in
   if corrections=[] then Some(s) else 
-  let s_copy=Bytes.of_string s in
+  let s_copy= s in
   let _=List.iter(fun (x,(i,j))->Bytes.set s_copy (x-1) '0') corrections in
   Some s_copy;;
   
@@ -261,58 +287,62 @@ let construct_discreetly (r:fundamental_parameter) s=
   try construct_discreetly0 r s with _->
   None;;
    
-   
+let begins_with x y=
+      let ly=Bytes.length(y) in
+      if Bytes.length(x)<ly
+      then false
+      else (Bytes.sub x 0 ly)=y;;   
    
    
 let concat a (S(r,b))=
-  match construct_discreetly r (a^b) with
+  match construct_discreetly r (Bytes.cat a b) with
   None->None
-  |Some(w)->if Substring.begins_with w a
+  |Some(w)->if begins_with w a
                   then Some(S(r,w))
                   else None;;
  
 let add_blanks_on_the_right (S(r,s)) b=
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   let temp1=List.filter (fun j->not(general_right_extensiblity_test r s (n+j))) (Ennig.ennig 1 b) in
-  let rightmost_part=String.make b 'F' in
+  let rightmost_part=Bytes.make b 'F' in
   let _=List.iter (fun j->Bytes.set rightmost_part (j-1) '0') temp1 in
-  S(r,s^rightmost_part);;
+  S(r,Bytes.cat s rightmost_part);;
 
 
 
 let add_blanks_repeatedly_on_the_right (S(r,s)) b=
-  let n=String.length(s) in
+  let n=Bytes.length(s) in
   let temp1=List.filter (fun j->not(general_right_extensiblity_test r s (n+j))) (Ennig.ennig 1 b) in
-  let rightmost_part=String.make b 'F' in
+  let rightmost_part=Bytes.make b 'F' in
   let _=List.iter (fun j->Bytes.set rightmost_part (j-1) '0') temp1 in
-  Ennig.doyle (fun j->S(r,s^(Cull_string.beginning j rightmost_part))) 1 b;;
+  Ennig.doyle (fun j->S(r,Bytes.cat s (beginning j rightmost_part))) 1 b;;
 
 
 let add_blanks_on_the_left (S(r,s)) b=
   let temp1=List.filter (fun j->not(general_left_extensiblity_test r s (1-j))) (Ennig.ennig 1 b) in
-  let leftmost_part=String.make b 'F' in
-  let _=List.iter (fun j->Strung.set leftmost_part (b-j+1) '0') temp1 in
-  S(r,leftmost_part^s);;
+  let leftmost_part=Bytes.make b 'F' in
+  let _=List.iter (fun j->Bytes.set leftmost_part (b-j) '0') temp1 in
+  S(r,Bytes.cat leftmost_part s);;
 
 
 
 let add_blanks_repeatedly_on_the_left (S(r,s)) b=
   let temp1=List.filter (fun j->not(general_left_extensiblity_test r s (1-j))) (Ennig.ennig 1 b) in
-  let leftmost_part=String.make b 'F' in
-  let _=List.iter (fun j->Strung.set leftmost_part (b-j+1) '0') temp1 in
-  Ennig.doyle (fun j->S(r,(Cull_string.ending j leftmost_part)^s )) 1 b;;
+  let leftmost_part=Bytes.make b 'F' in
+  let _=List.iter (fun j->Bytes.set leftmost_part (b-j) '0') temp1 in
+  Ennig.doyle (fun j->S(r,Bytes.cat (ending j leftmost_part) s )) 1 b;;
 
 
 let resize_on_the_left (S(r,s))=
-  let n=String.length(s) and intended_n=2*r in
+  let n=Bytes.length(s) and intended_n=2*r in
   let d=intended_n-n in
-  if (d<0) then S(r,Cull_string.ending intended_n s) else
+  if (d<0) then S(r,ending intended_n s) else
   if (d=0) then S(r,s) else
   add_blanks_on_the_left (S(r,s)) d;;
 
 let is_weakly_admissible (r:fundamental_parameter) s=
-   let n=String.length(s) in
-   let temp1=List.filter (fun i->Strung.get s i='1') (Ennig.ennig 1 n) in
+   let n=Bytes.length(s) in
+   let temp1=List.filter (fun i->Bytes.get s (i-1)='1') (Ennig.ennig 1 n) in
    let temp2=Uple.list_of_triples temp1 in
    List.for_all 
    (fun (x,y,z)->
@@ -326,8 +356,8 @@ let is_strongly_admissible (r:fundamental_parameter) s=
    |Some(t)->t=s;;
    
 let strongly_admissible_extensions (r:fundamental_parameter) l=
-   let temp1=Cartesian.product l ["0";"1";"F"] in
-   let temp2=Image.image (fun (x,y)->x^y) temp1 in
+   let temp1=Cartesian.product l (Image.image bos ["0";"1";"F"]) in
+   let temp2=Image.image (fun (x,y)->Bytes.cat x y) temp1 in
    let temp3=List.filter (is_strongly_admissible r) temp2 in
    temp3;;
    
@@ -335,7 +365,7 @@ let strongly_admissible_extensions (r:fundamental_parameter) l=
 let pair_is_weakly_concatable (S(r1,s1)) (S(r2,s2))=
   if r1<>r2
   then failwith("No concat possible")
-  else is_weakly_admissible r1 (s1^s2);;
+  else is_weakly_admissible r1 (Bytes.cat s1 s2);;
 
 
 let solve_naively=Memoized.recursive(fun old_f vdw_s->
@@ -372,11 +402,11 @@ let graded_realization=Memoized.make(fun (vdw_s,j)->
 
 let direct_decompositions=Memoized.make(fun (S(r,s))->
    let h=(fun t->fst(solve_naively(S(r,t))) ) 
-   and n=String.length(s) in
+   and n=Bytes.length(s) in
    let c0=h(s) in
    let tester=(fun j->
-     let beg=Cull_string.beginning j s
-     and cobeg=Cull_string.cobeginning j s in
+     let beg=beginning j s
+     and cobeg=cobeginning j s in
      h(beg)+h(cobeg)=c0
    ) in
    List.filter tester (Ennig.ennig 1 (n-1))
@@ -384,31 +414,33 @@ let direct_decompositions=Memoized.make(fun (S(r,s))->
 
 
 let shadow_on_the_left (r:fundamental_parameter) p s=
-   if String.length(s)<p then failwith("string too short") else
+   if Bytes.length(s)<p then failwith("bytes too short") else
    let s1=Option.unpack(construct_discreetly(r)(s)) in
    let temp1=S(r,s1) in
    let temp2=snd(solve_naively(temp1)) in
-   let temp3=Image.image (fun vdw_s->Cull_string.beginning p (content vdw_s)) temp2 in
-   let temp4=Ordered_string.diforchan temp3 in
-   temp4;;
+   let temp3=Image.image (fun vdw_s->beginning p (content vdw_s)) temp2 in
+   let z_temp3=Image.image Bytes.to_string temp3 in
+   let z_temp4=Ordered.forget_order(Ordered_string.diforchan z_temp3) in
+   let temp4=Image.image Bytes.of_string z_temp4 in
+   Ordered.S(temp4);;
    
-type string_set_set=string Ordered_bare_set.set2;;   
+type bytes_set_set=bytes Ordered_bare_set.set2;;   
    
 let dances_for_spectator_on_the_right (r:fundamental_parameter) s l=
-   let srs=S(r,s) and p=String.length(s) in
+   let srs=S(r,s) and p=Bytes.length(s) in
    let tempf=(fun w->
      if pair_is_weakly_concatable srs (S(r,w))
-     then Some(shadow_on_the_left r p (s^w))
+     then Some(shadow_on_the_left r p (Bytes.cat s w))
      else None
    ) in
    let temp1=Option.filter_and_unpack tempf l in
    let temp2=Ordered_bare_set.diforchan temp1 in
-   (temp2:string_set_set);;
+   (temp2:bytes_set_set);;
 
 
  let print_out (dummy:Format.formatter) (S(n,x))=
    Format.open_box 0;
-   Format.print_string(x);
+   Format.print_string(Bytes.to_string x);
    Format.close_box();;
 
   

@@ -4,7 +4,7 @@
 
 *)
 
-
+(*
 let double_semicolon=";"^";";;
 
 let unparsed_template ()=
@@ -146,4 +146,4 @@ let write_all ()=
     write_ordered_constraint_list ()
   
   );;
- 
+*) 

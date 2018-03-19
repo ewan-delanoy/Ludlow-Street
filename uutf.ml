@@ -16,9 +16,9 @@ let invalid_bounds j l =
    the module. He won't be upset. *)
 
 let unsafe_chr = Char.unsafe_chr;;
-let unsafe_blit = String.unsafe_blit;;
+let unsafe_blit = Bytes.unsafe_blit;;
 let unsafe_array_get = Array.unsafe_get;;
-let unsafe_byte s j = Char.code (String.unsafe_get s j);;
+let unsafe_byte s j = Char.code (Bytes.unsafe_get s j);;
 let unsafe_set_byte s j byte = Bytes.unsafe_set s j (Char.unsafe_chr byte);;
 
 (* Unicode characters *)
@@ -42,7 +42,9 @@ let cp_to_string cp =                                    (* NOT thread safe. *)
 type encoding = [ `UTF_8 | `UTF_16 | `UTF_16BE | `UTF_16LE ] ;;
 type decoder_encoding = [ encoding | `US_ASCII | `ISO_8859_1 ] ;;
 
-let encoding_of_string s = match String.uppercase_ascii s with      (* IANA names. *)
+let encoding_of_string b = 
+let s=Bytes.to_string(Bytes.uppercase_ascii b) in
+match s with      (* IANA names. *)
 | "UTF-8" -> Some `UTF_8
 | "UTF-16" -> Some `UTF_16
 | "UTF-16LE" -> Some `UTF_16LE
@@ -55,29 +57,31 @@ let encoding_of_string s = match String.uppercase_ascii s with      (* IANA name
     Some `ISO_8859_1
 | _ -> None;;
 
-let encoding_to_string = function
+let encoding_to_immutable_string = function
 | `UTF_8 -> "UTF-8" | `UTF_16 -> "UTF-16" | `UTF_16BE -> "UTF-16BE"
 | `UTF_16LE -> "UTF-16LE" | `US_ASCII -> "US-ASCII"
 | `ISO_8859_1 -> "ISO-8859-1";;
 
+let encoding_to_string x=Bytes.of_string(encoding_to_immutable_string x);;
+
 (* Base character decoders. They assume enough data. *)
 
-let malformed s j l = `Malformed (String.sub s j l);;
+let malformed s j l = `Malformed (Bytes.sub s j l);;
 let malformed_pair be hi s j l =    (* missing or half low surrogate at eoi. *)
-  let bs1 = String.sub s j l in
+  let bs1 = Bytes.sub s j l in
   let bs0 = Bytes.create 2 in
   let j0, j1 = if be then (0, 1) else (1, 0) in
   unsafe_set_byte bs0 j0 (hi lsr 8);
   unsafe_set_byte bs0 j1 (hi land 0xFF);
-  `Malformed (bs0 ^ bs1);;
+  `Malformed (Bytes.cat bs0  bs1);;
 
 let r_us_ascii s j =
-  (* assert (0 <= j && j < String.length s); *)
+  (* assert (0 <= j && j < Bytes.length s); *)
   let b0 = unsafe_byte s j in
   if b0 <= 127 then `Uchar b0 else malformed s j 1;;
 
 let r_iso_8859_1 s j =
-  (* assert (0 <= j && j < String.length s); *)
+  (* assert (0 <= j && j < Bytes.length s); *)
   `Uchar (unsafe_byte s j);;
 
 let utf_8_len = [| (* uchar byte length according to first UTF-8 byte. *)
@@ -94,7 +98,7 @@ let utf_8_len = [| (* uchar byte length according to first UTF-8 byte. *)
   4; 4; 4; 4; 4; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0 |];;
 
 let r_utf_8 s j l =
-  (* assert (0 <= j && 0 <= l && j + l <= String.length s); *)
+  (* assert (0 <= j && 0 <= l && j + l <= Bytes.length s); *)
   match l with
   | 1 -> `Uchar (unsafe_byte s j)
   | 2 ->
@@ -131,14 +135,14 @@ let r_utf_8 s j l =
   | _ -> assert false;;
 
 let r_utf_16 s j0 j1 =                       (* May return a high surrogate. *)
-  (* assert (0 <= j0 && 0 <= j1 && max j0 j1 < String.length s); *)
+  (* assert (0 <= j0 && 0 <= j1 && max j0 j1 < Bytes.length s); *)
   let b0 = unsafe_byte s j0 in let b1 = unsafe_byte s j1 in
   let u = (b0 lsl 8) lor b1 in
   if u < 0xD800 || u > 0xDFFF then `Uchar u else
   if u > 0xDBFF then malformed s (min j0 j1) 2 else `Hi u;;
 
 let r_utf_16_lo hi s j0 j1 =          (* Combines [hi] with a low surrogate. *)
-  (* assert (0 <= j0 && 0 <= j1 && max j0 j1 < String.length s); *)
+  (* assert (0 <= j0 && 0 <= j1 && max j0 j1 < Bytes.length s); *)
   let b0 = unsafe_byte s j0 in
   let b1 = unsafe_byte s j1 in
   let lo = (b0 lsl 8) lor b1 in
@@ -147,7 +151,7 @@ let r_utf_16_lo hi s j0 j1 =          (* Combines [hi] with a low surrogate. *)
   else `Uchar ((((hi land 0x3FF) lsl 10) lor (lo land 0x3FF)) + 0x10000);;
 
 let r_encoding s j l =                  (* guess encoding with max. 3 bytes. *)
-  (* assert (0 <= j && 0 <= l && j + l <= String.length s) *)
+  (* assert (0 <= j && 0 <= l && j + l <= Bytes.length s) *)
   let some i = if i < l then Some (unsafe_byte s (j + i)) else None in
   match (some 0), (some 1), (some 2) with
   | Some 0xEF, Some 0xBB, Some 0xBF                 -> `UTF_8 `BOM
@@ -165,19 +169,21 @@ let r_encoding s j l =                  (* guess encoding with max. 3 bytes. *)
 
 (* Decode *)
 
-type src = [ `Channel of in_channel | `String of string | `Manual ];;
+type src = [ `Channel of in_channel | `String of bytes | `Manual ];;
 type nln = [ `ASCII of uchar | `NLF of uchar | `Readline of uchar ];;
-type decode = [ `Await | `End | `Malformed of string | `Uchar of uchar];;
+type decode = [ `Await | `End | `Malformed of bytes | `Uchar of uchar];;
+
+let bos=Bytes.of_string ;;
 
 let pp_decode ppf = function
 | `Uchar u -> pp ppf "@[`Uchar %a@]" pp_cp u
 | `End -> pp ppf "`End"
 | `Await -> pp ppf "`Await"
 | `Malformed bs ->
-    let l = String.length bs in
+    let l = Bytes.length bs in
     pp ppf "@[`Malformed (";
-    if l > 0 then pp ppf "%02X" (Char.code (bs.[0]));
-    for i = 1 to l - 1 do pp ppf " %02X" (Char.code (bs.[i])) done;
+    if l > 0 then pp ppf  "%02X" (Char.code (Bytes.get bs 0));
+    for i = 1 to l - 1 do pp ppf " %02X" (Char.code (Bytes.get bs i)) done;
     pp ppf ")@]";;
 
 type decoder =
@@ -185,10 +191,10 @@ type decoder =
     mutable encoding : decoder_encoding;                (* decoded encoding. *)
     nln : nln option;                     (* newline normalization (if any). *)
     nl : int;                            (* newline normalization character. *)
-    mutable i : string;                              (* current input chunk. *)
+    mutable i : bytes;                              (* current input chunk. *)
     mutable i_pos : int;                          (* input current position. *)
     mutable i_max : int;                          (* input maximal position. *)
-    t : string;        (* four bytes temporary buffer for overlapping reads. *)
+    t : bytes;        (* four bytes temporary buffer for overlapping reads. *)
     mutable t_len : int;                      (* current byte length of [t]. *)
     mutable t_need : int;                  (* number of bytes needed in [t]. *)
     mutable removed_bom : bool;     (* [true] if an initial BOM was removed. *)
@@ -198,7 +204,7 @@ type decoder =
     mutable byte_count : int;                                 (* byte count. *)
     mutable count : int;                                      (* char count. *)
     mutable pp :        (* decoder post-processor for BOM, position and nln. *)
-      decoder -> [ `Malformed of string | `Uchar of uchar ] -> decode;
+      decoder -> [ `Malformed of bytes | `Uchar of uchar ] -> decode;
     mutable k : decoder -> decode };;                 (* decoder continuation. *)
 
 (* On decodes that overlap two (or more) [d.i] buffers, we use [t_fill] to copy
@@ -209,9 +215,9 @@ type decoder =
    which implies that [i_rem d < 0] is [true]. *)
 
 let i_rem d = d.i_max - d.i_pos + 1 ;;    (* remaining bytes to read in [d.i]. *)
-let eoi d = d.i <- ""; d.i_pos <- 0; d.i_max <- min_int;;   (* set eoi in [d]. *)
+let eoi d = d.i <- (bos ""); d.i_pos <- 0; d.i_max <- min_int;;   (* set eoi in [d]. *)
 let src d s j l =                                       (* set [d.i] with [s]. *)
-  if (j < 0 || l < 0 || j + l > String.length s) then invalid_bounds j l else
+  if (j < 0 || l < 0 || j + l > Bytes.length s) then invalid_bounds j l else
   if (l = 0) then eoi d else
   (d.i <- s; d.i_pos <- j; d.i_max <- j + l - 1);;
 
@@ -219,13 +225,14 @@ let refill k d = match d.src with  (* get new input in [d.i] and [k]ontinue. *)
 | `Manual -> d.k <- k; `Await
 | `String _ -> eoi d; k d
 | `Channel ic ->
-    let rc = input ic d.i 0 (String.length d.i) in
+    let rc = input ic d.i 0 (Bytes.length d.i) in
     (src d d.i 0 rc; k d);;
 
 let t_need d need = d.t_len <- 0; d.t_need <- need;;
 let rec t_fill k d =      (* get [d.t_need] bytes (or less if eoi) in [i.t]. *)
   let blit d l =
-    unsafe_blit d.i d.i_pos d.t d.t_len (* write pos. *) l;
+    unsafe_blit 
+    d.i d.i_pos d.t d.t_len (* write pos. *) l;
     d.i_pos <- d.i_pos + l; d.t_len <- d.t_len + l;
   in
   let rem = i_rem d in
@@ -391,7 +398,7 @@ let guessed_utf_16 d be v =     (* start decoder after `UTF_16{BE,LE} guess. *)
       | `Malformed _ | `Uchar _ as v -> ret (b3 t_decode_utf_16) v 2 d
       | `Hi hi ->
         if d.t_len < 3
-        then ret decode_utf_16 (malformed_pair be hi "" 0 0) d.t_len d
+        then ret decode_utf_16 (malformed_pair be hi (bos "") 0 0) d.t_len d
         else (b3 (t_decode_utf_16_lo hi)) d;;
 
 let guess_encoding d =                  (* guess encoding and start decoder. *)
@@ -488,9 +495,9 @@ let decoder ?nln ?encoding src =
   | Some e -> (e :> decoder_encoding), decode_fun e
   in
   let i, i_pos, i_max = match src with
-  | `Manual -> "", 1, 0                            (* implies src_rem d = 0. *)
+  | `Manual -> (bos ""), 1, 0                            (* implies src_rem d = 0. *)
   | `Channel _ -> Bytes.create io_buffer_size, 1, 0                (* idem. *)
-  | `String s -> s, 0, String.length s - 1
+  | `String s -> s, 0, Bytes.length s - 1
   in
   { src = (src :> src); encoding; nln = (nln :> nln option); nl;
     i; i_pos; i_max; t = Bytes.create 4; t_len = 0; t_need = 0;
@@ -517,10 +524,10 @@ type encode = [ `Await | `End | `Uchar of uchar ];;
 type encoder =
   { dst : dst;                                        (* output destination. *)
     encoding : encoding;                                (* encoded encoding. *)
-    mutable o : string;                             (* current output chunk. *)
+    mutable o : bytes;                             (* current output chunk. *)
     mutable o_pos : int;                   (* next output position to write. *)
     mutable o_max : int;                (* maximal output position to write. *)
-    t : string;                 (* four bytes buffer for overlapping writes. *)
+    t : bytes;                 (* four bytes buffer for overlapping writes. *)
     mutable t_pos : int;                    (* next position to read in [t]. *)
     mutable t_max : int;                 (* maximal position to read in [t]. *)
     mutable k :                                     (* encoder continuation. *)
@@ -534,13 +541,13 @@ type encoder =
 
 let o_rem e = e.o_max - e.o_pos + 1;;    (* remaining bytes to write in [e.o]. *)
 let dst e s j l =                                       (* set [e.o] with [s]. *)
-  if (j < 0 || l < 0 || j + l > String.length s) then invalid_bounds j l;
+  if (j < 0 || l < 0 || j + l > Bytes.length s) then invalid_bounds j l;
   e.o <- s; e.o_pos <- j; e.o_max <- j + l - 1;;
 
 let partial k e = function `Await -> k e | `Uchar _ | `End -> invalid_encode ();;
 let flush k e = match e.dst with(* get free storage in [d.o] and [k]ontinue. *)
 | `Manual -> e.k <- partial k; `Partial
-| `Buffer b -> Buffer.add_substring b e.o 0 e.o_pos; e.o_pos <- 0; k e
+| `Buffer b -> Buffer.add_subbytes b e.o 0 e.o_pos; e.o_pos <- 0; k e
 | `Channel oc -> output oc e.o 0 e.o_pos; e.o_pos <- 0; k e;;
 
 let t_range e max = e.t_pos <- 0; e.t_max <- max;;
@@ -671,7 +678,7 @@ let encode_fun = function
 
 let encoder encoding dst =
   let o, o_pos, o_max = match dst with
-  | `Manual -> "", 1, 0                              (* implies o_rem e = 0. *)
+  | `Manual -> (bos ""), 1, 0                              (* implies o_rem e = 0. *)
   | `Buffer _
   | `Channel _ -> Bytes.create io_buffer_size, 0, io_buffer_size - 1
   in
@@ -693,13 +700,13 @@ end;;
 (* Strings folders and Buffer encoders *)
 
 module String = struct
-  let encoding_guess s = match r_encoding s 0 (max (String.length s) 3) with
+  let encoding_guess s = match r_encoding s 0 (max (Bytes.length s) 3) with
   | `UTF_8 d -> `UTF_8, (d = `BOM)
   | `UTF_16BE d -> `UTF_16BE, (d = `BOM)
   | `UTF_16LE d -> `UTF_16LE, (d = `BOM);;
 
   type 'a folder =
-    'a -> int -> [ `Uchar of uchar | `Malformed of string ] -> 'a;;
+    'a -> int -> [ `Uchar of uchar | `Malformed of bytes ] -> 'a;;
 
   let fold_utf_8 f acc s =
     let rec loop acc f s i l =
@@ -710,7 +717,7 @@ module String = struct
       if rem < need then f acc i (malformed s i rem) else
       loop (f acc i (r_utf_8 s i need)) f s (i + need) l
     in
-    loop acc f s 0 (String.length s);;
+    loop acc f s 0 (Bytes.length s);;
 
   let fold_utf_16be f acc s =
     let rec loop acc f s i l =
@@ -723,7 +730,7 @@ module String = struct
           if rem < 4 then f acc i (malformed s i rem)  else
           loop (f acc i (r_utf_16_lo hi s (i + 2) (i + 3))) f s (i + 4) l
     in
-    loop acc f s 0 (String.length s);;
+    loop acc f s 0 (Bytes.length s);;
 
   let fold_utf_16le f acc s =             (* [fold_utf_16be], bytes swapped. *)
     let rec loop acc f s i l =
@@ -736,7 +743,7 @@ module String = struct
           if rem < 4 then f acc i (malformed s i rem)  else
           loop (f acc i (r_utf_16_lo hi s (i + 3) (i + 2))) f s (i + 4) l
     in
-    loop acc f s 0 (String.length s);;
+    loop acc f s 0 (Bytes.length s);;
 end;;
 
 module Buffer = struct
