@@ -29,7 +29,7 @@ let save_makefile mdata=
   Io.overwrite_with (Absolute_path.of_string lm) s1;;
 
 let save_loadingsfile (dirs,tgts)=
-   let s=German_up_to_date_targets.loadings 
+   let s=Alaskan_up_to_date_targets.loadings (German_constant.root,location_for_loadingsfile)
     (dirs,tgts)
    and lm=absolute_location_for_loadingsfile in
    Io.overwrite_with (Absolute_path.of_string lm) s;;
