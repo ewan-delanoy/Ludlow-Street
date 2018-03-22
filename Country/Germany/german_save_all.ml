@@ -24,7 +24,9 @@ let absolute_location_for_printersfile =joiner location_for_printersfile;;
 let save_makefile mdata=
   let s1="# This makefile was automatocally written by\n"^
   "# the write_makefile function in the ml_manager module. \n\n"^
-  (German_write_makefile.write_makefile mdata) in
+  (Alaskan_write_makefile.write_makefile 
+    (German_constant.root,German_constant.main_toplevel_name)
+  mdata) in
   let lm=absolute_location_for_makefile in
   Io.overwrite_with (Absolute_path.of_string lm) s1;;
 
