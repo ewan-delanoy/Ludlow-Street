@@ -155,20 +155,7 @@ let outdated_interesting_modules mdata=
     ) Interesting_modules.list;;
   
 
-let industrial_separator=Industrial_separator.alaskan_or_german_data;;    
 
-
-let archive mdata=
-     Nonblank.make(String.concat industrial_separator 
-     (Image.image Modulesystem_data.archive mdata));;
-    
-
-let unarchive s=
-   let v1=Str.split (Str.regexp_string industrial_separator) (Nonblank.decode(s)) in
-   Image.image Modulesystem_data.unarchive v1;;
-     
-
-  
  
  
  

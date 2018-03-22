@@ -64,7 +64,7 @@ let archive
    and temp9=Image.image Half_dressed_module.archive printer_equipped_types in
    String.concat industrial_separator1
    [
-     German_data.archive mdata;
+     Alaskan_data.archive mdata;
      Nonblank.make(String.concat industrial_separator2 temp2);
      Nonblank.make(String.concat industrial_separator2 temp3);
      Nonblank.make(String.concat industrial_separator2 temp4);

@@ -28,3 +28,17 @@ let default_toplevel main_toplevel_name mdata=
  
 let find_module_registration mdata hm=
   Option.seek(fun a->Modulesystem_data.name a=hm) mdata;;   
+
+let industrial_separator=Industrial_separator.alaskan_or_german_data;;    
+
+let archive mdata=
+       Nonblank.make(String.concat industrial_separator 
+       (Image.image Modulesystem_data.archive mdata));;
+      
+  
+let unarchive s=
+     let v1=Str.split (Str.regexp_string industrial_separator) (Nonblank.decode(s)) in
+     Image.image Modulesystem_data.unarchive v1;;
+       
+  
+      
