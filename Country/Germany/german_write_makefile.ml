@@ -33,7 +33,7 @@ let write_makefile_element mdata tgt=
   
   
 let write_makefile mdata=
-  let temp1=German_data.default_targets mdata in
+  let temp1=Alaskan_data.default_targets German_constant.main_toplevel_name mdata in
   let temp2=Image.image (write_makefile_element mdata) temp1 in
   let temp5=slice_targets  temp1 in
   let temp6=String.concat " \\\n" temp5 in

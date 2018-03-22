@@ -113,14 +113,6 @@ let files_containing_string mdata some_string=
      some_string (Io.read_whole_file ap)) temp1;;
  
 
-let default_targets mdata=
-  let temp1=Image.image Ocaml_target.from_modulesystem_data mdata 
-  and temp2=Image.image Modulesystem_data.name mdata in
-  let temp3=List.flatten temp1 
-  and mtn=German_constant.main_toplevel_name in
-  temp3@[Ocaml_target.toplevel mtn temp2]
-  ;;
-
 
 let default_toplevel =Alaskan_data.default_toplevel 
    German_constant.main_toplevel_name;; 
