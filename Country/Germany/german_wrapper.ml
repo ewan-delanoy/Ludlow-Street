@@ -29,7 +29,14 @@ let whole ()=(
 	(!printer_equipped_types_ref)
 );;
 
-let save_all ()=German_save_all.write_all (whole());;
+let save_all ()=Alaskan_save_all.write_all 
+  (German_constant.root,German_constant.main_toplevel_name, 
+    German_constant.name_for_makefile,
+    German_constant.name_for_targetfile,
+    German_constant.name_for_loadingsfile,
+    German_constant.name_for_printersfile
+  )
+  (whole());;
 
 let recompile ()=
    match German_recompile.on_targets false (!data_ref,!up_to_date_targets_ref) with
