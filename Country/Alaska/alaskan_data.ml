@@ -25,7 +25,8 @@ let compute_subdirectories_list mdata=
        Subdirectory.without_trailing_slash(Half_dressed_module.subdirectory hm)
   ) mdata in
   let temp2=Ordered_string.diforchan temp1 in
-  Ordered_string.forget_order temp2;;
+  let temp3=Ordered_string.forget_order temp2 in
+  Image.image Subdirectory.of_string temp3;;
 
 
 let default_toplevel main_toplevel_name mdata=

@@ -49,7 +49,7 @@ let mscc destdir l=
   "mv "^s_dir^"Optional/* "^s_dir in
   let _=Unix_command.uc command_for_coming_out in  
   let bundle1=Alaskan_create_target_system.from_main_directory destdir None [] in
-   let (new_mdata2,new_targets,new_ofiles,new_pe_types)=bundle1 in
+   let (new_mdata,new_targets,new_ofiles,new_pe_types)=bundle1 in
    let _=Alaskan_save_all.write_all 
    (destdir,German_constant.main_toplevel_name, 
    German_constant.name_for_makefile,
@@ -66,10 +66,9 @@ let mscc destdir l=
       [],
       [],
       new_pe_types
-  )
-    ts in
+  ) in
     ();;
-   *) 
+   
 
 
   ();; 

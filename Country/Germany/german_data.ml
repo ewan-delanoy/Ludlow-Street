@@ -13,15 +13,7 @@ let filedata_selector mdata ending x=List.filter
   
 let inside_files mdata=Image.image Mlx_ended_absolute_path.to_path 
 (Alaskan_data.all_mlx_files mdata);;  
-  
-let local_directories mdata=
-  let temp1=Alaskan_data.all_mlx_files mdata in
-  let temp5=Image.image Mlx_ended_absolute_path.to_string temp1 in
-  let temp2=Image.image (fun s->Father_and_son.father s '/') temp5 in
-  let temp3=Ordered_string.diforchan temp2 in
-  let temp4=Ordered.forget_order temp3 in
-  temp4;;
-   
+
  let see_if_file_is_registered mdata mlx=
     let hm=Mlx_ended_absolute_path.half_dressed_core mlx
     and edg=Mlx_ended_absolute_path.ending mlx in  
