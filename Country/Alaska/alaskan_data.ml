@@ -17,6 +17,15 @@ let all_short_paths mdata=List.flatten(
   Image.image Modulesystem_data.short_paths mdata
 );;
 
+(*
+let compute_directories_list mdata=
+  let temp1=Alaskan_data.all_mlx_files mdata in
+  let temp5=Image.image Mlx_ended_absolute_path.to_string temp1 in
+  let temp2=Image.image (fun s->Father_and_son.father s '/') temp5 in
+  let temp3=Ordered_string.diforchan temp2 in
+  let temp4=Ordered.forget_order temp3 in
+*)
+
 let default_toplevel main_toplevel_name mdata=
   let temp2=List.filter Modulesystem_data.is_not_optional mdata in
   let temp3=Image.image Modulesystem_data.name temp2 in
