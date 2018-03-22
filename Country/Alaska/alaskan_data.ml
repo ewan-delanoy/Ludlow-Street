@@ -19,7 +19,11 @@ let all_short_paths mdata=List.flatten(
 
 (*
 let compute_directories_list mdata=
-  let temp1=Alaskan_data.all_mlx_files mdata in
+  let temp1=Image.image (
+      fun md->
+       let hm=Modulesystem_data.name md in
+       Half_dressed_module.full_module hm
+  ) mdata in
   let temp5=Image.image Mlx_ended_absolute_path.to_string temp1 in
   let temp2=Image.image (fun s->Father_and_son.father s '/') temp5 in
   let temp3=Ordered_string.diforchan temp2 in
