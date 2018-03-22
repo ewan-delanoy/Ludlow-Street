@@ -18,14 +18,14 @@ let all_short_paths mdata=List.flatten(
 );;
 
 
-let compute_directories_list mdata=
+let compute_subdirectories_list mdata=
   let temp1=Image.image (
       fun md->
        let hm=Modulesystem_data.name md in
-       Half_dressed_module.full_directory hm
+       Subdirectory.without_trailing_slash(Half_dressed_module.subdirectory hm)
   ) mdata in
-  let temp2=Tidel.diforchan temp1 in
-  Tidel.forget_order temp2;;
+  let temp2=Ordered_string.diforchan temp1 in
+  Ordered_string.forget_order temp2;;
 
 
 let default_toplevel main_toplevel_name mdata=

@@ -21,9 +21,6 @@ let bundle_main_dir x=Directory_name.of_string(x.bundle_main_dir);;
 let subdirectory x=Subdirectory.of_string(x.subdirectory);;
 let naked_module  x=Naked_module.of_string(x.naked_module);;
 
-let full_directory x=
-    Directory_name.join 
-       (Directory_name.of_string x.bundle_main_dir) x.subdirectory;;
 
 exception Inexistent_module of string;;
  

@@ -48,7 +48,6 @@ let mscc destdir l=
   let command_for_coming_out=
   "mv "^s_dir^"Optional/* "^s_dir in
   let _=Unix_command.uc command_for_coming_out in  
-  (*
   let bundle1=Alaskan_create_target_system.from_main_directory destdir None [] in
    let (new_mdata2,new_targets,new_ofiles,new_pe_types)=bundle1 in
    let _=Alaskan_save_all.write_all 
@@ -59,7 +58,7 @@ let mscc destdir l=
    German_constant.name_for_printersfile)
    (
       new_mdata,
-      new_directories,
+      Alaskan_data.compute_subdirectories_list(new_mdata),
       new_targets,
       [],
       [],
@@ -69,6 +68,7 @@ let mscc destdir l=
       new_pe_types
   )
     ts in
+    ();;
    *) 
 
 
