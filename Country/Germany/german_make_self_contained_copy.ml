@@ -62,9 +62,9 @@ let mscc destdir l=
       new_targets,
       [],
       [],
-      [],
-      [],
-      [],
+      (Recently_deleted.of_string_list []),
+      (Recently_changed.of_string_list []),
+      (Recently_created.of_string_list []),
       new_pe_types
   ) in
     ();;
