@@ -33,8 +33,8 @@ module Private=struct
      (beg_mark,end_mark)
      (Absolute_path.of_string lm);;
   
-  let industrial_separator1=Industrial_separator.german_save_all1;;  
-  let industrial_separator2=Industrial_separator.german_save_all2;;    
+  let industrial_separator1=Industrial_separator.alaskan_save_all1;;  
+  let industrial_separator2=Industrial_separator.alaskan_save_all2;;    
   
   
   let archive 
