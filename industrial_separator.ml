@@ -18,7 +18,7 @@ let ocaml_target1=key^"005";;
 let ocaml_target2=key^"006";;
 let modulesystem_data1=key^"007";;
 let modulesystem_data2=key^"008";;
-let german_data=key^"009";;
+let alaskan_or_german_data=key^"009";;
 let german_save_all1=key^"010";;
 let german_save_all2=key^"011";;
 
