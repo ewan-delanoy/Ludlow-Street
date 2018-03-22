@@ -36,7 +36,9 @@ let save_all ()=Alaskan_save_all.write_all
     German_constant.name_for_loadingsfile,
     German_constant.name_for_printersfile
   )
-  (whole());;
+  (
+	  whole()
+  );;
 
 let recompile ()=
    match German_recompile.on_targets false (!data_ref,!up_to_date_targets_ref) with
