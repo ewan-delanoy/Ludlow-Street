@@ -31,7 +31,7 @@ let ucc destdir=
   let _=Image.image (prepare_special_file destdir)
     ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml"]
    in 
-  let bundle1(mdata2,new_tgts2,new_outsiders,preqt)=Alaskan_create_target_system.from_main_directory destdir None [] in
+  let bundle1=Alaskan_create_target_system.from_main_directory destdir None [] in
   let (mdata2,new_tgts2,new_outsiders,preqt)=bundle1 in
   (*
   let _=Alaskan_save_all.write_all 
