@@ -29,6 +29,13 @@ let default_toplevel main_toplevel_name mdata=
 let find_module_registration mdata hm=
   Option.seek(fun a->Modulesystem_data.name a=hm) mdata;;   
 
+let default_targets main_toplevel_name mdata=
+    let temp1=Image.image Ocaml_target.from_modulesystem_data mdata 
+    and temp2=Image.image Modulesystem_data.name mdata in
+    let temp3=List.flatten temp1  in
+    temp3@[Ocaml_target.toplevel main_toplevel_name temp2]
+    ;;
+
 let industrial_separator=Industrial_separator.alaskan_or_german_data;;    
 
 let archive mdata=
