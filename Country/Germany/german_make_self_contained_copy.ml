@@ -43,8 +43,25 @@ let mscc destdir l=
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Image.image Unix_command.uc (prepare destdir l) in
   let _=Image.image (prepare_special_file destdir)
-    ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml"]
-   in 
+    [German_constant.name_for_printersfile;German_constant.name_for_loadingsfile]
+  in 
+  let command_for_coming_out=
+  "mv "^s_dir^"Optional/* "^s_dir in
+  let _=Unix_command.uc command_for_coming_out in  
+  (*
+  let bundle1=Alaskan_create_target_system.from_main_directory destdir None [] in
+   let (mdata2,new_tgts2,new_outsiders,preqt)=bundle1 in
+   let _=Alaskan_save_all.write_all 
+   (destdir,German_constant.main_toplevel_name, 
+   German_constant.name_for_makefile,
+   German_constant.name_for_targetfile,
+   German_constant.name_for_loadingsfile,
+   German_constant.name_for_printersfile)
+ 
+    ts in
+   *) 
+
+
   ();; 
 
        
