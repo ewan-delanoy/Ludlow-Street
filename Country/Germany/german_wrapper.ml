@@ -163,7 +163,7 @@ let forget_module ap=
     chfiles,
     crfiles,
     pe_types
-   )=German_save_all.read_all the_archive in
+   )=Alaskan_save_all.read_all the_archive in
    (
 	Private.data_ref:= mdata;
 	Private.directories_ref:= directories;
