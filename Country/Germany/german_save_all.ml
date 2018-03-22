@@ -94,7 +94,7 @@ let read_all s=
    and v8=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  7))   
    and v9=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  8))
    in
-   let new_mdata=German_data.unarchive v1 in
+   let new_mdata=Alaskan_data.unarchive v1 in
    let new_directories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v2 in
    let new_targets=Image.image Ocaml_target.unarchive v3 in
    let new_ofiles=Image.image Absolute_path.of_string v4 in
