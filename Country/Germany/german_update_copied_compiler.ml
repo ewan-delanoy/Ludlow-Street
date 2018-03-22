@@ -11,7 +11,8 @@ let prepare destdir=
       let s_ap=Absolute_path.to_string ap in
       Directory_name.cut_beginning German_constant.root s_ap
   ) (German_wrapper.outside_files()) in
-  let main_diff=Prepare_dircopy_update.compute_diff (German_constant.root,l1@l2) destdir in
+  let main_diff=Prepare_dircopy_update.compute_diff 
+        (German_constant.root,l1@l2) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
 
 let prepare_special_file destdir filename=
