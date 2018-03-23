@@ -81,7 +81,7 @@ let pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
                   (Ocaml_target.to_shortened_string tgtt) in
               let _=Unix_command.uc("rm -f "^s_ap) in
               ()
-       ) rejects in
+       ) ((tgt,is_an_ending_or_not)::rejects) in
        (successful_ones,remains,ts2);; 
 
 let rec  iterator_for_toplevel dir (successful_ones,to_be_treated,ts)=
