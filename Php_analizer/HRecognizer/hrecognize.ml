@@ -1,7 +1,5 @@
 (*
-
 #use"Php_analizer/HRecognizer/hrecognize.ml";;
-
 *)
 
 (* Label related generic definitions *)
@@ -773,10 +771,8 @@ let ivy_start_partial_recognizer fst_kwd=
   ]);;
 
 (*
-
 ivy_start_partial_recognizer "if" "if (567) {123} 678" 1;;
 ivy_start_partial_recognizer "elseif" "elseif (abc) {def} ghi" 1;;
-
 *)
 
 let elsie_partial_recognizer=
@@ -827,19 +823,13 @@ let ive_or_ivy_recognizer s i=
 add_recognizer (label_for_ive_or_ivy,ive_or_ivy_recognizer);; 
 
 (*
-
 ive_or_ivy_recognizer "if (ab) {c} elseif (de) {fg} elseif(h){ij} else{kl} m" 1;;
 ive_or_ivy_recognizer "if (ab) {c} elseif (de) {fg} elseif(h){ij}m" 1;;
-
 ive_or_ivy_recognizer "if (!$topic_id && !$post_id)\n{\n\ttrigger_error('NO_TOPIC');\n}m" 1;;
-
 let example=
   "if (!$post_id)\n{\n\t$sql_array['WHERE'] = \"t.topic_id = "^
   "$topic_id\";\n}\nelse\n{\n\t$sql_array['WHERE'] = \"p.post_id "^
   "= $post_id AND t.topic_id = p.topic_id\";\n}\n\n";;
-
-
-
 *)
 
 
@@ -1398,5 +1388,3 @@ let parse_all s=
         let t=Cull_string.interval s j m in
         raise(Parse_failure(t))
    else l;; 
-
-
