@@ -48,7 +48,7 @@ exception Ending_for_toplevel_pusher;;
 
 
 
-let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
+let pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
   match to_be_treated with
   []->raise(Ending_for_toplevel_pusher)
   |(tgt,is_an_ending_or_not)::others->
@@ -73,7 +73,7 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        (fun (tgtt,_)->
          Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
          (fst ts) [hm] tgtt
-       ) to_be_treated in
+       ) others in
        let _=Image.image (
          fun (tgtt,_)->
          if Ocaml_target.has_dependencies tgtt
@@ -84,7 +84,7 @@ let rec pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        ) rejects in
        (successful_ones,remains,ts2);; 
 
-let rec iterator_for_toplevel dir (successful_ones,to_be_treated,ts)=
+let rec  iterator_for_toplevel dir (successful_ones,to_be_treated,ts)=
   match to_be_treated with
   []->(List.rev successful_ones,ts)
   |_->iterator_for_toplevel dir (pusher_for_toplevel dir (successful_ones,to_be_treated,ts));;
