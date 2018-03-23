@@ -17,7 +17,7 @@ let recgz_chain old_f l s i=
    ) in
    tempf (i,l);;
 
-(* Evel *)
+(* E giz-se *)
 
 let recgz_ordered_disjunction old_f l s i=
     Option.find_and_stop (
