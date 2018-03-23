@@ -75,9 +75,8 @@ let vo s=
 let syz()=German_data.system_size (German_wrapper.data());;
 
 let init=German_wrapper.initialize;;
-let reco_ref=ref(0);;
+
 let reco_without_backup ()=
-  let _=(reco_ref:=(!reco_ref)+1) in
   German_wrapper.recompile();;
 
 
