@@ -83,7 +83,7 @@ let adhoc_test_for_renaming old_name=function
   NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)<>old_name
  |_->true;;
 
-let naive_main_module=function
+let main_module=function
   NO_DEPENDENCIES(mlx)->Some(Mlx_ended_absolute_path.half_dressed_core mlx)
  |ML_FROM_MLL(hm)-> Some(hm)
  |ML_FROM_MLY(hm)-> Some(hm) 
@@ -95,8 +95,6 @@ let naive_main_module=function
  |EXECUTABLE(hm)-> Some(hm)
  |DEBUGGABLE(hm)-> Some(hm)
  |TOPLEVEL(name,l)->None;;
-
-let main_module tgt=try naive_main_module tgt with _->None;;
 
 
 let to_shortened_string =function
