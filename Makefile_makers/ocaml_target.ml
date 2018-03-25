@@ -46,13 +46,13 @@ let uprooted_filename_for_realized_target tgt=
   NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
  |ML_FROM_MLL(hm)->(hm_to_na hm)^".ml"
  |ML_FROM_MLY(hm)->(hm_to_na hm)^".ml" 
- |CMI(hm)->(hm_to_na hm)^".cmi"
- |CMO(hm)->(hm_to_na hm)^".cmo"
- |DCMO(hm)->(hm_to_na hm)^".d.cmo"
- |CMA(hm)->(hm_to_na hm)^".cma"
- |CMX(hm)->(hm_to_na hm)^".cmx"
- |EXECUTABLE(hm)->(hm_to_na hm)^".caml_executable"
- |DEBUGGABLE(hm)->(hm_to_na hm)^".caml_debuggable"
+ |CMI(hm)->"_build/"^(hm_to_na hm)^".cmi"
+ |CMO(hm)->"_build/"^(hm_to_na hm)^".cmo"
+ |DCMO(hm)->"_build/"^(hm_to_na hm)^".d.cmo"
+ |CMA(hm)->"_build/"^(hm_to_na hm)^".cma"
+ |CMX(hm)->"_build/"^(hm_to_na hm)^".cmx"
+ |EXECUTABLE(hm)->"_build/"^(hm_to_na hm)^".caml_executable"
+ |DEBUGGABLE(hm)->"_build/"^(hm_to_na hm)^".caml_debuggable"
  |TOPLEVEL(name,l)->name;;
 
 let test_target_existence dir tgt=
