@@ -102,9 +102,7 @@ let on_targets tolerate_cycles (old_mdata,old_tgts)=
 	let new_dirs=German_directories.from_data new_mdata 
  	and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts in
  	let dir=German_constant.root in
- 	let checker=(fun tgt->
- 	  let s=(Directory_name.connectable_to_subpath dir)^(Ocaml_target.to_string tgt) in 
- 	  Sys.file_exists s ) in
+ 	let checker=Ocaml_target.test_target_existence dir in
  	let new_tgts=List.filter checker new_tgts1 in
  	let default_top=(German_data.default_toplevel new_mdata) in
  	let (new_mdata2,new_tgts2)=
