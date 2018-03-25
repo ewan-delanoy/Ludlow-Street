@@ -16,7 +16,7 @@ let is_up_to_date dir tgts tgt=
   if Ocaml_target.is_a_debuggable tgt
   then false
   else 
-  if Ocaml_target.test_path dir tgt
+  if Ocaml_target.test_path_existence dir tgt
   then List.mem tgt tgts
   else false;;
 

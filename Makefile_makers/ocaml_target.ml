@@ -41,7 +41,7 @@ let to_string =function
  |DEBUGGABLE(hm)->(Half_dressed_module.to_string hm)^".caml_debuggable"
  |TOPLEVEL(name,l)->name;;
 
-let test_path dir tgt=
+let test_path_existence dir tgt=
   let d=Directory_name.connectable_to_subpath dir in
   Sys.file_exists(d^(to_string tgt));; 
  
