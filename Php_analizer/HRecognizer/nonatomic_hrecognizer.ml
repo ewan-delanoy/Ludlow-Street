@@ -25,13 +25,20 @@ let star s l=Star(s,l);;
 let maybe s l=Maybe(s,l);; 
 let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
 
+let leaf_sconstructor="leaf";;
+let chain_sconstructor="chain";;
+let ordered_disjunction_sconstructor="ordered_disjunction";;
+let star_sconstructor="star";;
+let maybe_sconstructor="maybe";;
+let keyword_avoider_sconstructor="keyword_avoider";;
+
 let unveil =function
-  Leaf(s,atm)->("leaf",[],Some atm,None)
- |Chain(_,l)->("chain",l,None,None)
- |Ordered_disjunction(_,l)->("ordered_disjunction",l,None,None)
- |Star(_,x)->("star",[x],None,None)
- |Maybe(_,x)->("maybe",[x],None,None)
- |Keyword_avoider(_,(x,l))->("avoid_keywords",[x],None,Some(l));;
+  Leaf(s,atm)->(leaf_sconstructor,[],Some atm,None)
+ |Chain(_,l)->(chain_sconstructor,l,None,None)
+ |Ordered_disjunction(_,l)->(ordered_disjunction_sconstructor,l,None,None)
+ |Star(_,x)->(star_sconstructor,[x],None,None)
+ |Maybe(_,x)->(maybe_sconstructor,[x],None,None)
+ |Keyword_avoider(_,(x,l))->(keyword_avoider_sconstructor,[x],None,Some(l));;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
