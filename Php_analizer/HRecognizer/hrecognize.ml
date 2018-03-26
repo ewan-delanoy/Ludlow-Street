@@ -28,8 +28,6 @@ let add_recognizer (lbl,f)=
 
 let c x y=
     Hregistrar.leaf x (Atomic_hrecognizer.constant y);;
-let cli x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.constant_list y);;
 let lc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.later_constant y);;
 let st x y=
@@ -84,6 +82,7 @@ let question_mark=c "question_mark" "?";;
 let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
+let space=c "space" " ";;
 let tilda=c "tilda" "~";;
 let vline=c "vline" "|";;
 
@@ -682,6 +681,57 @@ let returnable=
    
 let possible_returnable=maybe "possible_returnable" returnable;;
 
+let end_of_php_open_tag=dis
+    "end_of_php_open_tag"
+    [
+      linebreak;
+      space
+    ];;
+
+let php_open_tag =  ch
+  "php_open_tag"
+    [
+      c "beginning_of_php_open_tag" "<?php";
+      end_of_php_open_tag;
+    ]   ;;
+
+let nonrepeatable_inclusion=ch
+    "nonrepeatable_inclusion"
+   [
+      c "include_once" "include_once";
+      whites;
+      paren_block;
+      semicolon
+   ];;
+
+let repeatable_inclusion=ch
+    "repeatable_inclusion"
+   [
+      c "include" "include";
+      whites;
+      paren_block;
+      semicolon
+   ];;
+
+let nonrepeatable_requirement=ch
+   "nonrepeatable_requirement"
+  [
+     c "require_once" "require_once";
+     whites;
+     paren_block;
+     semicolon
+  ];;
+
+let repeatable_requirement=ch
+   "repeatable_requirement"
+  [
+     c "require" "require";
+     whites;
+     paren_block;
+     semicolon
+  ];;   
+
+
 (* End of particular parser elements *)
 
 
@@ -692,8 +742,7 @@ add_label label_for_php_open_tag;;
 
 let php_open_tag_recognizer=rlab
   label_for_php_open_tag 
-  (cli "php_open_tag"
-  ["<?php\n";"<?php "]);;
+  php_open_tag;;
 
 add_recognizer (label_for_php_open_tag,php_open_tag_recognizer);;  
 
@@ -730,21 +779,53 @@ let difyne_constant_recognizer=rlabch
 
 add_recognizer (label_for_difyne_constant,difyne_constant_recognizer);; 
 
+let label_for_nonrepeatable_inclusion="nonrepeatable_inclusion";;
+add_label label_for_nonrepeatable_inclusion;;
+
+let nonrepeatable_inclusion_recognizer=rlab
+  label_for_nonrepeatable_inclusion
+  nonrepeatable_inclusion;;
+
+add_recognizer (label_for_nonrepeatable_inclusion,nonrepeatable_inclusion_recognizer);; 
+
+let label_for_repeatable_inclusion="repeatable_inclusion";;
+add_label label_for_repeatable_inclusion;;
+
+let repeatable_inclusion_recognizer=rlab
+  label_for_repeatable_inclusion
+  repeatable_inclusion;;
+
+add_recognizer (label_for_repeatable_inclusion,repeatable_inclusion_recognizer);; 
 
 
-let label_for_inclusion_with_parenthesis="inclusion_with_parenthesis";;
-add_label label_for_inclusion_with_parenthesis;;
+let label_for_nonrepeatable_requirement="nonrepeatable_requirement";;
+add_label label_for_nonrepeatable_requirement;;
 
-let inclusion_with_parenthesis_recognizer=rlabch
-  label_for_inclusion_with_parenthesis
-  [
-    cli "" ["include_once";"require_once";"include";"require"];
-    whites;
-    paren_block;
-    semicolon
-  ];;
+let nonrepeatable_requirement_recognizer=rlab
+  label_for_nonrepeatable_requirement
+  nonrepeatable_requirement;;
 
-add_recognizer (label_for_inclusion_with_parenthesis,inclusion_with_parenthesis_recognizer);; 
+add_recognizer (label_for_nonrepeatable_requirement,nonrepeatable_requirement_recognizer);; 
+
+let label_for_repeatable_requirement="repeatable_requirement";;
+add_label label_for_repeatable_requirement;;
+
+let repeatable_requirement_recognizer=rlab
+  label_for_repeatable_requirement
+  repeatable_requirement;;
+
+add_recognizer (label_for_repeatable_requirement,repeatable_requirement_recognizer);; 
+
+
+
+
+
+
+
+
+
+
+
 
 let label_for_double_slash_comment="double_slash_comment";;
 add_label label_for_double_slash_comment;;
