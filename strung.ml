@@ -138,5 +138,36 @@ insert_prefixes_at_indices ["hap",4;"na",12] "123py678901tion6";;
 
 *)
 
+exception Largest_common_prefix_exn;;
 
-    
+let largest_common_prefix l=
+   if l=[] then raise(Largest_common_prefix_exn) else
+   let lengths=Image.image String.length l in
+   let m=Min.list lengths in
+   let tester=(fun k->
+     let temp1=Image.image (fun s->String.get s k) l in
+     let v=List.hd temp1 in
+     List.for_all (fun x->x=v) temp1
+   ) in
+   let rec tempf=(fun j->
+     if j=m then j else 
+     if tester(j) then tempf(j+1) else j
+   ) in
+   let j0=tempf 0 in
+   String.sub (List.hd l) 0 j0;;
+
+(*
+
+largest_common_prefix ["abby";"abnormal"];;
+largest_common_prefix ["";"call"];;
+largest_common_prefix ["sad";"again"];;
+
+
+*)
+
+
+
+
+
+   
+  
