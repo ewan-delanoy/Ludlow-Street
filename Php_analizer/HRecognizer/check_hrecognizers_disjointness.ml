@@ -91,8 +91,8 @@ let main_problem_finder (name,l1,l2)=
    match compute_leftmost_difference (l1,l2) with
     None->None
    |Some(a1,a2)->if test_for_disjointness a1 a2
-                 then Some(name,a1,a2,l1,l2)
-                 else None;;
+                 then None
+                 else Some(name,a1,a2,l1,l2);;
 
 
 
