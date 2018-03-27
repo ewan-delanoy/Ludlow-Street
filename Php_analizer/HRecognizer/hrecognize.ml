@@ -38,8 +38,6 @@ let sto x y=
   Hregistrar.leaf x (Atomic_hrecognizer.star_outside y);;
 let enc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.enclosed y);;  
-let eo x y=
-      Hregistrar.leaf x (Atomic_hrecognizer.exactly_one y);; 
 let sq=Hregistrar.leaf "squote" Atomic_hrecognizer.simple_quoted;;
 let dq=Hregistrar.leaf "dquote" Atomic_hrecognizer.double_quoted;;           
 let ch x l=Hregistrar.chain x l;;   
@@ -129,10 +127,17 @@ let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
 let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
 let true_kwd=dis "true_kwd" [backslashed_true_kwd;nonbackslashed_true_kwd];;
 
+let first_letter_in_php_name=
+  dis "first_letter_in_php_name"
+  (Image.image(
+   fun cha->let s=String.make 1 cha in
+    c ("just_the_letter_"^s) s
+) Charset.php_label_first_letters);;
+
 let naive_php_name=ch "naive_php_name"
     [
-      eo "first_letter" Charset.php_label_first_letters;
-     st "" Charset.strictly_alphanumeric_characters;
+      first_letter_in_php_name;
+      st "" Charset.strictly_alphanumeric_characters;
     ];;
 let php_name=keyword_avoider 
     "php_name" (naive_php_name,!list_of_keywords);;
