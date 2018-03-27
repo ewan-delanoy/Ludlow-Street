@@ -32,8 +32,6 @@ let lc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.later_constant y);;
 let st x y=
     Hregistrar.leaf x (Atomic_hrecognizer.star y);;
-let ne_st x y=
-    Hregistrar.leaf x (Atomic_hrecognizer.nonempty_star y);;
 let sto x y=
   Hregistrar.leaf x (Atomic_hrecognizer.star_outside y);;
 let enc x y=
@@ -54,13 +52,6 @@ let rlabch lbl l=rlab lbl
 
 (* Particular parser elements *)
 
-let whites=st "whites"  [' '; '\n'; '\r'; '\t'];;
-let naive_paren_block=enc  "naive_paren_block" ('(',')') ;;
-let brace_block=enc  "brace_block" ('{','}') ;;
-let bracket_block=enc  "bracket_block" ('[',']') ;;
-let white_spot=ne_st "white_spot" [' '; '\n'; '\r'; '\t'];;
-
-let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
 
 
 
@@ -81,8 +72,10 @@ let rounded_at_symbol=c "rounded_at_symbol" "@";;
 let semicolon=c "semicolon" ";";;    
 let slash=c "slash" "/";;
 let space=c "space" " ";;
+let tab=c "tab" "\t";;
 let tilda=c "tilda" "~";;
 let vline=c "vline" "|";;
+let windows_linebreak=c "windows_linebreak" "\n";;
 
 let list_of_keywords =ref [];;
 let kc x y=
@@ -126,6 +119,16 @@ let yuze_kwd=kc "yuze_kwd" "use";;
 let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
 let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
 let true_kwd=dis "true_kwd" [backslashed_true_kwd;nonbackslashed_true_kwd];;
+
+let naive_paren_block=enc  "naive_paren_block" ('(',')') ;;
+let brace_block=enc  "brace_block" ('{','}') ;;
+let bracket_block=enc  "bracket_block" ('[',']') ;;
+let one_white=dis "one_white" [space;linebreak;windows_linebreak;tab];;
+let whites=star "whites" one_white;;
+let white_spot=ch "white_spot" [one_white;whites];;
+
+let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
+
 
 let first_letter_in_php_name=
   dis "first_letter_in_php_name"
@@ -417,8 +420,15 @@ let finally_block=
 
 let possible_finally_block=maybe "possible_finally_block" finally_block;;
 
+let digit=dis "digit"
+(Image.image (fun s->c ("just_the_digit_"^s) s)
+["0"; "1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"]
+);;
+
+let digits=star "digits" digit;;
+
 let positive_integer=
-     ne_st "positive_integer" ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9'];;
+     ch "positive_integer" [digit;digits];;
 
 let negative_integer=
     ch "negative_integer" [minus;positive_integer];;
