@@ -87,7 +87,6 @@ let recgnz x=
   match x with
    Atomic_hrecognizer.Constant(s)->recgnz_constant s
   |Atomic_hrecognizer.Later_constant(s)->recgnz_later_constant s
-  |Atomic_hrecognizer.Exactly_one(l_chr)->recgnz_exactly_one l_chr
   |Atomic_hrecognizer.Star(l_chr)->recgnz_star l_chr
   |Atomic_hrecognizer.Nonempty_Star(l_chr)->recgnz_nonempty_star l_chr
   |Atomic_hrecognizer.Star_outside(l_chr)->recgnz_star_outside l_chr
