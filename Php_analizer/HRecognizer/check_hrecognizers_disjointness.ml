@@ -25,15 +25,15 @@ let rec constant_aspect=function
       if List.length(l)>1 then None else constant_aspect(List.hd l)  
 |_->None;;
 
-let rec helper_for_left_shadow (graet,da_ober)=
+let rec extract_left_constants (graet,da_ober)=
     match da_ober with
      []->(graet,[])
     |a::peurrest->
        let opt=constant_aspect a in
        if opt=None then (graet,da_ober) else 
-       helper_for_left_shadow (graet^(Option.unpack opt),peurrest);;
+       extract_left_constants (graet^(Option.unpack opt),peurrest);;
 
-let left_shadow_for_atomic_hrecognizer =function
+let common_prefix_for_atomic_hrecognizer =function
  Atomic_hrecognizer.Constant(s)->s
 |Atomic_hrecognizer.Later_constant(s)->""
 |Atomic_hrecognizer.Star(l_chr)->""
@@ -43,17 +43,17 @@ let left_shadow_for_atomic_hrecognizer =function
 |Atomic_hrecognizer.Double_quoted->"\"";;
 
 
-let rec left_shadow=function
-        Nonatomic_hrecognizer.Leaf(_,atm)->left_shadow_for_atomic_hrecognizer atm
+let rec common_prefix=function
+        Nonatomic_hrecognizer.Leaf(_,atm)->common_prefix_for_atomic_hrecognizer atm
         |Nonatomic_hrecognizer.Chain(_,l)->
-            let (graet1,da_ober1)=helper_for_left_shadow ("",l) in
+            let (graet1,da_ober1)=extract_left_constants ("",l) in
             (match da_ober1 with
              []->graet1
-             |a::peurrest->(graet1)^(left_shadow a)
+             |a::peurrest->(graet1)^(common_prefix a)
             )
         |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-                  if List.length(l)=1 then left_shadow(List.hd l) else ""
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->left_shadow x          
+                  Strung.largest_common_prefix(Image.image common_prefix l)
+        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x          
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->"";;
 
@@ -69,18 +69,11 @@ let test_for_string_strict_disjointness s1 s2=
        (String.get s1 k)<>(String.get s2 k)
     )(Ennig.ennig 0 m);;
 
-
-exception Unknown_disjointness of 
-   Nonatomic_hrecognizer.t * Nonatomic_hrecognizer.t;;
-
-
 let test_for_disjointness x y=
-   let lsx=left_shadow x
-   and lsy=left_shadow y
+   let lsx=common_prefix x
+   and lsy=common_prefix y
    in
-   if test_for_string_strict_disjointness lsx lsy
-   then true
-   else raise(Unknown_disjointness(x,y))
+   test_for_string_strict_disjointness lsx lsy
    ;;
 
 
@@ -94,10 +87,12 @@ let rec compute_leftmost_difference (l1,l2)=
     else Some(a1,a2) 
    );;
 
-let main_problem_finder (l1,l2)=
+let main_problem_finder (name,l1,l2)=
    match compute_leftmost_difference (l1,l2) with
-    None->false
-   |Some(a1,a2)->not(test_for_disjointness a1 a2);;
+    None->None
+   |Some(a1,a2)->if test_for_disjointness a1 a2
+                 then Some(name,a1,a2,l1,l2)
+                 else None;;
 
 
 
