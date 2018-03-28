@@ -656,6 +656,7 @@ let returnable=
        [ 
          (ch "one_array1"            [array_kwd;whites;paren_block]);  
                                       backslashed_false_kwd; 
+                                      backslashed_true_kwd; 
                                      bracket_block;
          (ch "returnable1"           [coerce_to_array;whites;php_vname]);  
          (ch "returnable2"           [coerce_to_bool;whites;php_vname]);   
@@ -695,7 +696,8 @@ let returnable=
          (ch "new_fnctn_call1"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
          (ch "new_vfnctn_call1"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
          (ch "new_meth_call1"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
-                                       nonbackslashed_false_kwd; 
+                                       nonbackslashed_false_kwd;
+                                       nonbackslashed_true_kwd; 
                                      null_kwd;                              
          (ch "rtripod5"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "returnable7"           [php_vname;bracket_block;white_spot;point;whites;myriam]); 
@@ -713,7 +715,7 @@ let returnable=
                                       php_vname; 
          (ch "dotted_line1"          [sq;whites;point;whites;myriam]);
                                       sq;
-                                      true_kwd;
+                                      
        ] ;;   
    
 let possible_returnable=maybe "possible_returnable" returnable;;
