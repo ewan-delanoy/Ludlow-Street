@@ -429,15 +429,39 @@ let finally_block=
 
 let possible_finally_block=maybe "possible_finally_block" finally_block;;
 
+let just_the_digit_0=c "just_the_digit_0" "0";;
+let just_the_digit_1=c "just_the_digit_1" "1";;
+let just_the_digit_2=c "just_the_digit_2" "2";;
+let just_the_digit_3=c "just_the_digit_3" "3";;
+let just_the_digit_4=c "just_the_digit_4" "4";;
+let just_the_digit_5=c "just_the_digit_5" "5";;
+let just_the_digit_6=c "just_the_digit_6" "6";;
+let just_the_digit_7=c "just_the_digit_7" "7";;
+let just_the_digit_8=c "just_the_digit_8" "8";;
+let just_the_digit_9=c "just_the_digit_9" "9";;
+
+let nonzero_digit=dis "nonzero_digit"
+(
+[
+ just_the_digit_1;just_the_digit_2;just_the_digit_3;
+ just_the_digit_4;just_the_digit_5;just_the_digit_6;
+ just_the_digit_7;just_the_digit_8;just_the_digit_9;
+ ]
+);;
+
 let digit=dis "digit"
-(Image.image (fun s->c ("just_the_digit_"^s) s)
-["0"; "1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"]
+(
+[just_the_digit_0;
+ just_the_digit_1;just_the_digit_2;just_the_digit_3;
+ just_the_digit_4;just_the_digit_5;just_the_digit_6;
+ just_the_digit_7;just_the_digit_8;just_the_digit_9;
+ ]
 );;
 
 let digits=star "digits" digit;;
 
 let positive_integer=
-     ch "positive_integer" [digit;digits];;
+     ch "positive_integer" [nonzero_digit;digits];;
 
 let negative_integer=
     ch "negative_integer" [minus;positive_integer];;
