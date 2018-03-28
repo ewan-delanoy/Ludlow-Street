@@ -149,7 +149,7 @@ let first_letter_in_php_name=
 let naive_php_name=ch "naive_php_name"
     [
       first_letter_in_php_name;
-      st "" Charset.strictly_alphanumeric_characters;
+      st "alphanumeric_word" Charset.strictly_alphanumeric_characters;
     ];;
 let php_name=keyword_avoider 
     "php_name" (naive_php_name,!list_of_keywords);;
@@ -729,7 +729,8 @@ let returnable=
          (ch "rtripod5"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "returnable7"           [php_vname;bracket_block;white_spot;point;whites;myriam]); 
          (ch "returnable8"           [php_vname;bracket_block]); 
-         (ch "returnable9"           [php_vname;wap;arrow;php_name;paren_block]);
+         (ch "returnable9b"          [php_vname;arrow;php_name;arrow;php_name;paren_block]);
+         (ch "returnable9g"          [php_vname;white_spot;arrow;php_name;arrow;php_name;paren_block]);
          (ch "returnable10"          [php_vname;wap;bracket_block]);
          (ch "vnctn_call_minus_int1" [php_vname;wap;paren_block;whites;minus;whites;integer;]);
          (ch "returnable11"          [php_vname;wap;paren_block;wap;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
