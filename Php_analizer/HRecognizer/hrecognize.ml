@@ -733,8 +733,9 @@ let returnable=
          (ch "returnable8"            [php_vname;bracket_block]); 
          (ch "returnable9b"           [php_vname;arrow;php_name;arrow;php_name;paren_block]);
          (ch "returnable10b"          [php_vname;arrow;php_name;bracket_block]);
-         (ch "vnctn_call_minus_int1b" [php_vname;arrow;php_name;paren_block;whites;minus;whites;integer;]);
+         (ch "vnctn_call_minus_int1b" [php_vname;arrow;php_name;paren_block;whites;minus;integer;]);
          (ch "returnable11b"          [php_vname;arrow;php_name;paren_block;whites;minus;larger;arrow;php_name;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
+         (ch "vnctn_call_minus_int1B" [php_vname;arrow;php_name;paren_block;whites;minus;white_spot;integer;]);
          (ch "returnable12b"          [php_vname;arrow;php_name;paren_block;wap;paren_block;white_spot;point;whites;php_vname]);
          (ch "returnable13b"          [php_vname;arrow;php_name;paren_block;wap;paren_block]);
          (ch "returnable14b"          [php_vname;arrow;php_name;paren_block]);
