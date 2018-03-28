@@ -662,7 +662,6 @@ let returnable=
          (ch "returnable5"           [coerce_to_string;whites;php_vname;arrow;php_name]);  
          (ch "returnable6"           [coerce_to_string;whites;php_vname]);  
                                      dq; 
-                                     false_kwd;
                                      hexadecimal_number;
          (ch "floater1"              [integer;point;positive_integer]);
          (ch "rtripod1"              [integer;whites;equals;equals;equals;whites;php_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
