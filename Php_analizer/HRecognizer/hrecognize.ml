@@ -702,7 +702,8 @@ let returnable=
          (ch "fnctn_call_dot_sq1o"    [namespaced_name_one;paren_block;whites;point;whites;sq;]);
          (ch "fnctn_call_plus_sth1o"  [namespaced_name_one;paren_block;whites;plus;whites;php_vname;]);
          (ch "rtripod3o"              [namespaced_name_one;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
-         (ch "rtripod4o"              [namespaced_name_one;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod4o"              [namespaced_name_one;paren_block;whites;question_mark;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod4p"              [namespaced_name_one;paren_block;whites;question_mark;white_spot;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "from_elisabetho"        [namespaced_name_one;paren_block;whites;vline;vline;whites;elisabeth]); 
          (ch "fnctn_call1o"           [namespaced_name_one;paren_block]);
          (ch "ampersanded_item1o"     [namespaced_name_one;white_spot;ampersand;whites;ampersanded]);
@@ -714,7 +715,8 @@ let returnable=
          (ch "fnctn_call_dot_sq1t"    [namespaced_name_two;paren_block;whites;point;whites;sq;]);
          (ch "fnctn_call_plus_sth1t"  [namespaced_name_two;paren_block;whites;plus;whites;php_vname;]);
          (ch "rtripod3t"              [namespaced_name_two;paren_block;whites;question_mark;colon;whites;left_of_tripod]); 
-         (ch "rtripod4t"              [namespaced_name_two;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod4t"              [namespaced_name_two;paren_block;whites;question_mark;center_of_tripod;whites;colon;whites;left_of_tripod]); 
+         (ch "rtripod4u"              [namespaced_name_two;paren_block;whites;question_mark;white_spot;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "from_elisabetht"        [namespaced_name_two;paren_block;whites;vline;vline;whites;elisabeth]); 
          (ch "fnctn_call1t"           [namespaced_name_two;paren_block]);
          (ch "ampersanded_item1t"     [namespaced_name_two;white_spot;ampersand;whites;ampersanded]);
