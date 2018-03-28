@@ -97,6 +97,7 @@ let finally_kwd=kc "finally_kwd" "finally";;
 let fnctn_kwd=kc "fnctn_kwd" "function";;
 let global_kwd=kc "global_kwd" "global";;
 let glass_kwd=kc "glass_kwd" "class";;
+let include_kwd=kc "include_kwd" "include";;
 let itrfc_kwd=kc "itrfc_kwd" "interface";;
 let lowercase_null_kwd=kc "lowercase_null_kwd" "null";;
 let new_kwd=kc "new_kwd" "new";;
@@ -106,6 +107,7 @@ let nspc_kwd=kc "nspc_kwd" "namespace";;
 let private_kwd=kc "private_kwd" "private";;
 let protected_kwd=kc "protected_kwd" "protected";;
 let public_kwd=kc "public_kwd" "public";;
+let require_kwd=kc "return_kwd" "return";;
 let return_kwd=kc "return_kwd" "return";;
 let static_kwd=kc "static_kwd" "static";;
 let switch_kwd=kc "switch_kwd" "switch";;
@@ -119,6 +121,11 @@ let yuze_kwd=kc "yuze_kwd" "use";;
 let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
 let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
 let true_kwd=dis "true_kwd" [backslashed_true_kwd;nonbackslashed_true_kwd];;
+
+let once_completer=c "once_completer" "_once";;
+
+let include_once_kwd=ch "include_once_kwd" [include_kwd;once_completer];;
+let require_once_kwd=ch "require_once_kwd" [require_kwd;once_completer];;
 
 let naive_paren_block=enc  "naive_paren_block" ('(',')') ;;
 let brace_block=enc  "brace_block" ('{','}') ;;
@@ -713,7 +720,7 @@ let php_open_tag =  ch
 let nonrepeatable_inclusion=ch
     "nonrepeatable_inclusion"
    [
-      c "include_once" "include_once";
+      include_once_kwd;
       whites;
       paren_block;
       semicolon
@@ -722,7 +729,7 @@ let nonrepeatable_inclusion=ch
 let repeatable_inclusion=ch
     "repeatable_inclusion"
    [
-      c "include" "include";
+      include_kwd;
       whites;
       paren_block;
       semicolon
@@ -731,7 +738,7 @@ let repeatable_inclusion=ch
 let nonrepeatable_requirement=ch
    "nonrepeatable_requirement"
   [
-     c "require_once" "require_once";
+     require_once_kwd;
      whites;
      paren_block;
      semicolon
@@ -740,7 +747,7 @@ let nonrepeatable_requirement=ch
 let repeatable_requirement=ch
    "repeatable_requirement"
   [
-     c "require" "require";
+     require_kwd;
      whites;
      paren_block;
      semicolon
