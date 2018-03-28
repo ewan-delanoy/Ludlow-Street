@@ -743,10 +743,11 @@ let returnable=
          (ch "returnable16b"          [php_vname;arrow;php_name]);
          (ch "returnable9g"           [php_vname;white_spot;arrow;php_name;arrow;php_name;paren_block]);
          (ch "returnable10g"          [php_vname;white_spot;arrow;php_name;bracket_block]);
-         (ch "vnctn_call_minus_int1g" [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;whites;integer;]);
+         (ch "vnctn_call_minus_int1g" [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;integer;]);
          (ch "returnable11g"          [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;larger;paren_block;white_spot;arrow;php_name;whites;possible_paren_block;whites;starred_snippet_in_snake]);
          (ch "returnable12g"          [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;larger;paren_block;white_spot;point;whites;php_vname]);
          (ch "returnable13g"          [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;larger;paren_block]);
+         (ch "vnctn_call_minus_int1G" [php_vname;white_spot;arrow;php_name;paren_block;whites;minus;white_spot;integer;]);
          (ch "returnable14g"          [php_vname;white_spot;arrow;php_name;paren_block]);
          (ch "returnable15g"          [php_vname;white_spot;arrow;php_name;white_spot;point;whites;myriam]);
          (ch "returnable16g"          [php_vname;white_spot;arrow;php_name]);
