@@ -694,6 +694,7 @@ let returnable=
          (ch "rtripod1i"              [integer;equals;equals;equals;whites;php_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "rtripod1l"              [integer;white_spot;equals;equals;equals;whites;php_name;paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]);                               
                                       integer;
+                                      lowercase_null_kwd;  
          (ch "paamayim_call1o"        [namespaced_name_one;colon;colon;php_name;paren_block]);
          (ch "paamayim_simple_call1o" [namespaced_name_one;colon;colon;php_name]); 
          (ch "rtripod2o"              [namespaced_name_one;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
@@ -718,12 +719,11 @@ let returnable=
          (ch "fnctn_call1t"           [namespaced_name_two;paren_block]);
          (ch "ampersanded_item1t"     [namespaced_name_two;white_spot;ampersand;whites;ampersanded]);
                                        namespaced_name_two;                            
-         (ch "new_fnctn_call1"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
-         (ch "new_vfnctn_call1"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
-         (ch "new_meth_call1"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
+         (ch "new_fnctn_call1"        [new_kwd;white_spot;namespaced_name;whites;paren_block]);
+         (ch "new_vfnctn_call1"       [new_kwd;white_spot;php_vname;whites;paren_block]);   
+         (ch "new_meth_call1"         [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
                                        nonbackslashed_false_kwd;
-                                       nonbackslashed_true_kwd; 
-                                     null_kwd;                              
+                                       nonbackslashed_true_kwd;                             
          (ch "rtripod5"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "returnable7"           [php_vname;bracket_block;white_spot;point;whites;myriam]); 
          (ch "returnable8"           [php_vname;bracket_block]); 
@@ -740,6 +740,7 @@ let returnable=
                                       php_vname; 
          (ch "dotted_line1"          [sq;whites;point;whites;myriam]);
                                       sq;
+                                      uppercase_null_kwd;
                                       
        ] ;;   
    
