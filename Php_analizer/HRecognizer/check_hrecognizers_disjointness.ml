@@ -57,6 +57,33 @@ let rec common_prefix=function
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->"";;
 
+exception First_char_for_atomic of Atomic_hrecognizer.t;;
+
+let first_char_for_atomic_hrecognizer x=match x with
+        Atomic_hrecognizer.Constant(s)->Tidel.singleton(String.get s 0)
+       |Atomic_hrecognizer.Later_constant(s)->raise(First_char_for_atomic(x))
+       |Atomic_hrecognizer.Star(l_chr)->raise(First_char_for_atomic(x))
+       |Atomic_hrecognizer.Star_outside(l_chr)->raise(First_char_for_atomic(x))
+       |Atomic_hrecognizer.Enclosed(opener,closer)->Tidel.singleton opener
+       |Atomic_hrecognizer.Simple_quoted->Tidel.singleton('\'')
+       |Atomic_hrecognizer.Double_quoted->Tidel.singleton('"');;
+
+exception First_char_for_nonatomic of Nonatomic_hrecognizer.t;;       
+
+let rec naive_first_char_for_atomic_hrecognizer x=match x with
+        Nonatomic_hrecognizer.Leaf(_,atm)->first_char_for_atomic_hrecognizer atm
+        |Nonatomic_hrecognizer.Chain(_,l)->naive_first_char_for_atomic_hrecognizer (List.hd l)
+        |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
+                  Tidel.big_teuzin(Image.image naive_first_char_for_atomic_hrecognizer l)
+        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->naive_first_char_for_atomic_hrecognizer x          
+        |Nonatomic_hrecognizer.Star(_,_)->raise(First_char_for_nonatomic(x))
+        |Nonatomic_hrecognizer.Maybe(_,_)->raise(First_char_for_nonatomic(x));;
+
+let first_char_for_atomic_hrecognizer x =
+  try naive_first_char_for_atomic_hrecognizer x with
+  _->raise(First_char_for_nonatomic(x));;
+
+
 let test_for_string_strict_disjointness s1 s2=
     (*
       this test is applied to left shadows, so it must
@@ -69,13 +96,17 @@ let test_for_string_strict_disjointness s1 s2=
        (String.get s1 k)<>(String.get s2 k)
     )(Ennig.ennig 0 m);;
 
-let test_for_disjointness x y=
-   let lsx=common_prefix x
-   and lsy=common_prefix y
-   in
-   test_for_string_strict_disjointness lsx lsy
+let naive_test_for_disjointness x y=
+   if test_for_string_strict_disjointness (common_prefix x) (common_prefix y)
+   then true
+   else
+   Tidel.kengeij_goullo
+     (first_char_for_atomic_hrecognizer x)
+     (first_char_for_atomic_hrecognizer y)
    ;;
 
+let test_for_disjointness x y=
+   try  naive_test_for_disjointness x y with _->false;;  
 
 let rec compute_leftmost_difference (l1,l2)=
    match l1 with []->None |a1::b1->

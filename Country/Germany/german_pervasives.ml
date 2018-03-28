@@ -137,6 +137,7 @@ let rego x=(rego_without_backup x;reco());;
 let relo x y=(relo_without_backup x y;reco());;
 let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=(rsh_without_backup ();German_wrapper.backup None);;
+let rwc =reco_with_comment;;
 let rv x y=(rv_without_backup x y;reco());;
 let srv x y=(srv_without_backup x y;reco());;
 let ureg x=(ureg_without_backup x;reco());;
