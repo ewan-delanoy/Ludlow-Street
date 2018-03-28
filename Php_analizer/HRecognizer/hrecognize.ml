@@ -84,8 +84,6 @@ let kc x y=
 
 let abstract_kwd=kc "abstract_kwd" "abstract";;
 let array_kwd=kc "array_kwd" "array";;
-let backslashed_false_kwd=kc "backslashed_false_kwd" "\\false";;
-let backslashed_true_kwd=kc "backslashed_true_kwd" "\\true";;
 let catch_kwd=kc "catch_kwd" "catch";;
 let const_kwd=kc "const_kwd" "const";;
 let define_kwd=kc "define_kwd" "define";;
@@ -117,6 +115,10 @@ let uppercase_null_kwd=kc "uppercase_null_kwd" "NULL";;
 let var_kwd=kc "var_kwd" "var";;
 let while_kwd=kc "while_kwd" "while";;
 let yuze_kwd=kc "yuze_kwd" "use";;
+
+let backslashed_false_kwd=ch "backslashed_false_kwd" [backslash;nonbackslashed_false_kwd] ;;
+let backslashed_true_kwd=ch "backslashed_true_kwd" [backslash;nonbackslashed_true_kwd];;
+
 
 let false_kwd=dis "false_kwd" [backslashed_false_kwd;nonbackslashed_false_kwd];;
 let null_kwd=dis "null_kwd" [lowercase_null_kwd;uppercase_null_kwd];;
