@@ -652,7 +652,8 @@ let throwable=
 let returnable=
       dis "returnable"
        [ 
-         (ch "one_array1"            [array_kwd;whites;paren_block]);   
+         (ch "one_array1"            [array_kwd;whites;paren_block]);  
+                                      backslashed_false_kwd; 
                                      bracket_block;
          (ch "returnable1"           [coerce_to_array;whites;php_vname]);  
          (ch "returnable2"           [coerce_to_bool;whites;php_vname]);   
@@ -677,7 +678,7 @@ let returnable=
          (ch "from_elisabetho"        [namespaced_name_one;paren_block;whites;vline;vline;whites;elisabeth]); 
          (ch "fnctn_call1o"           [namespaced_name_one;paren_block]);
          (ch "ampersanded_item1o"     [namespaced_name_one;white_spot;ampersand;whites;ampersanded]);
-                                     namespaced_name_one;
+                                       namespaced_name_one;
          (ch "paamayim_call1t"        [namespaced_name_two;colon;colon;php_name;paren_block]);
          (ch "paamayim_simple_call1t" [namespaced_name_two;colon;colon;php_name]); 
          (ch "rtripod2t"              [namespaced_name_two;paren_block;whites;equals;equals;whites;sq;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
@@ -693,6 +694,7 @@ let returnable=
          (ch "new_fnctn_call1"       [new_kwd;white_spot;namespaced_name;whites;paren_block]);
          (ch "new_vfnctn_call1"      [new_kwd;white_spot;php_vname;whites;paren_block]);   
          (ch "new_meth_call1"        [new_kwd;white_spot;php_vname;whites;arrow;php_name]); 
+                                       nonbackslashed_false_kwd; 
                                      null_kwd;                              
          (ch "rtripod5"              [paren_block;whites;question_mark;whites;center_of_tripod;whites;colon;whites;left_of_tripod]); 
          (ch "returnable7"           [php_vname;bracket_block;white_spot;point;whites;myriam]); 
