@@ -83,6 +83,24 @@ let first_char_for_atomic_hrecognizer x =
   try naive_first_char_for_atomic_hrecognizer x with
   _->raise(First_char_for_nonatomic(x));;
 
+let keyword_avoider_aspect=function
+  Nonatomic_hrecognizer.Keyword_avoider(_,data)->Some(data)
+  |_->None;;
+
+let check_nonsymmetric_avoider_case x y=
+   let opt1=constant_aspect x
+   and opt2=keyword_avoider_aspect y in
+   if (opt1=None)||(opt2=None)
+   then false
+   else 
+   let word=Option.unpack opt1
+   and (_,l)=Option.unpack opt2 in
+   List.mem word l;;
+
+let check_avoider_case x y=
+    (check_nonsymmetric_avoider_case x y)
+    ||
+    (check_nonsymmetric_avoider_case y x);;
 
 let test_for_string_strict_disjointness s1 s2=
     (*
@@ -100,9 +118,12 @@ let naive_test_for_disjointness x y=
    if test_for_string_strict_disjointness (common_prefix x) (common_prefix y)
    then true
    else
-   Tidel.kengeij_goullo
+   if Tidel.kengeij_goullo
      (first_char_for_atomic_hrecognizer x)
      (first_char_for_atomic_hrecognizer y)
+   then true
+   else  
+   check_avoider_case x y
    ;;
 
 let test_for_disjointness x y=
