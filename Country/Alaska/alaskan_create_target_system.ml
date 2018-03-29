@@ -27,6 +27,9 @@ let select_good_files s_main_dir=
    let _=Io.overwrite_with 
         (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
         "\n#use\"my_loadings.ml\";;\n#use\"my_printers.ml\";;\n#use\"my_pervasives.ml\";;\n" in   
+   let _=Io.overwrite_with 
+        (Absolute_path.of_string (s_main_dir^"/my_printers.ml"))
+        "\n\n (*Registered printers start here *) \n\n (*Registered printers end here *) \n\n" in        
    let temp1=More_unix.complete_ls (Directory_name.of_string s_main_dir) in
    let s_ap1=Absolute_path.to_string ap1 in
    let n1=String.length(s_ap1) in
