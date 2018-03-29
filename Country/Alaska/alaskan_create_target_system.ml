@@ -20,7 +20,13 @@ let display_circular_dependencies printer l cycles=
 
 let select_good_files s_main_dir=
    let ap1=Absolute_path.of_string s_main_dir in
-   let _=Unix_command.uc ("touch "^s_main_dir^"/"^(Debugged_name.debugger_name)^".ml") in
+   let _=Image.image (fun s->
+     Unix_command.uc ("touch "^s_main_dir^"/"^s^".ml")
+      ) [Debugged_name.debugger_name^".ml";
+         "my_loadings.ml";"my_printers.ml";"my_pervasives.ml";".ocamlinit"]   in
+   let _=Io.overwrite_with 
+        (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
+        "\n#use\"my_loadings.ml\";;\n#use\"my_printers.ml\";;\n#use\"my_pervasives.ml\";;\n" in   
    let temp1=More_unix.complete_ls (Directory_name.of_string s_main_dir) in
    let s_ap1=Absolute_path.to_string ap1 in
    let n1=String.length(s_ap1) in
