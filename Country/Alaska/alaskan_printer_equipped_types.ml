@@ -1,7 +1,7 @@
 
 (* 
 
-#use"Country/Germany/german_printer_equipped_types.ml";;
+#use"Country/Alaska/alaskan_printer_equipped_types.ml";;
 
 
 *)

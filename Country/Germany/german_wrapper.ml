@@ -42,7 +42,7 @@ let save_all ()=Alaskan_save_all.write_all
 
 let recompile ()=
    match Alaskan_recompile.on_targets 
-          German_constant.root
+          (German_constant.root,German_constant.main_toplevel_name)
           false (!data_ref,!up_to_date_targets_ref) with
     None->false
    |Some((new_mdata,new_dirs,new_tgts),short_paths)->
