@@ -48,7 +48,7 @@ let default_targets main_toplevel_name mdata=
     temp3@[Ocaml_target.toplevel main_toplevel_name temp2]
     ;;
 
-let industrial_separator=Industrial_separator.alaskan_or_german_data;;    
+let industrial_separator=Industrial_separator.alaskan_data;;    
 
 let archive mdata=
        Nonblank.make(String.concat industrial_separator 
