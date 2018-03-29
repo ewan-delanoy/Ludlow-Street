@@ -2,21 +2,1359 @@
 
 #use"neptu.ml";;
 
-#use"Php_analizer/HRecognizer/hrecognizer.ml";;
+*)
+
+let s_idaho_ap="/Users/ewandelanoy/Documents/OCaml/Idaho";;
+let idaho_ap=Absolute_path.of_string s_idaho_ap;;
+let idaho_dir=Directory_name.of_string s_idaho_ap;;
+
+
+let act1=Sys.command ("rm -rf "^s_idaho_ap^"/*");;
+let act2=Sys.command ("mkdir -p "^s_idaho_ap^"/_build");;
+
+let aa_file=Absolute_path.create_file (s_idaho_ap^"/a.ml");;
+let bb_file=Absolute_path.create_file (s_idaho_ap^"/b.ml");;
+
+
+let act3=Io.overwrite_with aa_file "type t=U | V;;";;
+let act4=Io.overwrite_with bb_file "let f=function A.U->1 |A.V->2;;";;
+
+
+let (mdata,tgts,outsiders,preqt)=
+   Alaskan_create_target_system.from_main_directory idaho_dir None [];;
+
+let dirs=Alaskan_data.compute_subdirectories_list mdata;;
+
+let constants=(
+    idaho_dir,German_constant.main_toplevel_name,
+    German_constant.name_for_makefile,
+    German_constant.name_for_targetfile,
+    German_constant.name_for_loadingsfile,
+    German_constant.name_for_printersfile
+    );;   
+
+let uple=(mdata,dirs,tgts,
+      [],[],
+      Recently_deleted.of_string_list [],
+      Recently_changed.of_string_list [],
+      Recently_created.of_string_list [],
+      preqt);;
+
+Alaskan_save_all.write_all constants uple;;
+
+
+
+(*
+let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;
+
+
+let z1=(!(Hregistrar.Private.the_list));;
+
+let z2=Option.filter_and_unpack (
+   fun (name,r)->
+   let (sort,l,_,_)=Nonatomic_hrecognizer.unveil r in
+   if sort<>"ordered_disjunction"
+   then None
+   else Some(name,l)
+) z1;;
+
+let transformer (name,li)=
+  let temp1=Image.image 
+   (fun r->(r,Check_hrecognizers_disjointness.flatten_nonatomic_hrecognizer r)) li in
+  let temp2=Uple.list_of_pairs temp1 in
+  let temp3=Image.image (fun ((xn,xc),(yn,yc))->(name,xn,yn,xc,yc)) temp2 in
+  temp3;;
+
+let z3=List.flatten (Image.image transformer z2);;
+
+let z4=Option.filter_and_unpack
+Check_hrecognizers_disjointness.main_problem_finder
+z3;;
+
+let z5=List.hd z4;;
+*)
+
+
+(*
+Check_hrecognizers_disjointness.common_prefix (rn "linebreak");;
+Check_hrecognizers_disjointness.common_prefix (rn "space");;
+*)
+
+
+
+(*
+
+let ingr_for_top =Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel;;
+
+
+
+let extended_unit_make dir (bowl,(mdata,tgts)) tgt=
+    if (not bowl)
+    then (bowl,(mdata,tgts),1)
+    else
+    if Alaskan_make_ocaml_target.is_up_to_date dir tgts tgt
+    then (true,(mdata,tgts),2)
+    else 
+    let temp1=Image.image Unix_command.uc (Alaskan_command_for_ocaml_target.command_for_ocaml_target dir mdata tgt) in 
+    if List.for_all (fun i->i=0) temp1
+    then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt 
+                      then None 
+                      else (Some tgt)) in
+         let tgts2=Option.add_perhaps opt_tgt tgts in
+          match Ocaml_target.ml_from_lex_or_yacc_data tgt with
+         None->(true,(mdata,tgts2),3)
+         |Some(mlx)->
+                     let mdata2=Alaskan_force_modification_time.update dir mdata mlx in
+                     (true,(mdata2,tgts2),3)        
+    else (false,(mdata,tgts),3);;
+
+let prepare_recompilation ()=
+   let tolerate_cycles=false 
+   and (old_mdata,old_tgts)=(!German_wrapper.Private.data_ref,
+   !German_wrapper.Private.up_to_date_targets_ref) in
+   let ((new_mdata,hms_to_be_updated),short_paths)=
+    German_recompile.on_monitored_modules tolerate_cycles old_mdata in
+   if hms_to_be_updated=[] then failwith("nothing to compile") else
+   let new_dirs=German_directories.from_data new_mdata 
+   and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts in
+   let dir=German_constant.root in
+   let checker=(Ocaml_target.test_target_existence dir) in
+   let new_tgts=List.filter checker new_tgts1 in
+   let default_top=(German_data.default_toplevel new_mdata) in
+   let opt2=Ocaml_target.toplevel_data default_top in
+   if opt2=None then failwith("This is Zorglub") else
+   let (name,l)=Option.unpack opt2 in
+   let temp1=ingr_for_top new_mdata name l in
+   (dir,name,temp1,new_mdata,new_tgts,new_dirs,short_paths);;
+
+let finish_compilation
+   (dir,name,new_dirs,short_paths,successful_ones,ts2,_)
+  = 
+   let new_toplevel=Ocaml_target.toplevel name successful_ones in
+   let (_,(new_mdata,new_tgts),_)=
+    extended_unit_make dir (true,ts2) new_toplevel in
+   let changes=German_changed.update short_paths 
+      (!(German_wrapper.Private.recently_changed_ref)) in
+   let _=(
+         German_wrapper.Private.data_ref:=new_mdata;
+         German_wrapper.Private.directories_ref:=new_dirs;
+         German_wrapper.Private.up_to_date_targets_ref:=new_tgts;
+         German_wrapper.Private.recently_changed_ref:=changes;
+   ) in
+   let _=German_wrapper.Private.save_all() in
+   ();;
+
+let  extended_pusher dir (successful_ones,to_be_treated,ts,j,compilation_idx)=
+    match to_be_treated with
+    []->raise(Alaskan_make_ocaml_target.Ending_for_toplevel_pusher)
+    |(tgt,is_an_ending_or_not)::others->
+    let (bowl2,ts2,cidx2)=extended_unit_make dir (true,ts) tgt in
+    if bowl2
+    then let new_successful_ones=(
+           if is_an_ending_or_not=Is_an_ending_or_not.Yes
+           then let hm=Option.unpack(Ocaml_target.main_module tgt) in
+                (*
+                  Note that the cmi and cmo give the same hm
+                *)
+                if List.mem hm successful_ones
+                then successful_ones
+                else hm::successful_ones
+           else successful_ones
+         ) in
+         (new_successful_ones,others,ts2,j+1,cidx2)
+    else let hm=Option.unpack(Ocaml_target.main_module tgt) in
+         let root=Half_dressed_module.bundle_main_dir hm in
+         let s_root=Directory_name.connectable_to_subpath root in
+         let (rejects,remains)=List.partition
+         (fun (tgtt,_)->
+           Alaskan_ingredients_for_ocaml_target.module_dependency_for_ocaml_target 
+           (fst ts) [hm] tgtt
+         ) others in
+         let _=Image.image (
+           fun (tgtt,_)->
+           if Ocaml_target.has_dependencies tgtt
+           then let s_ap=s_root^"_build/"^
+                    (Ocaml_target.to_shortened_string tgtt) in
+                let _=Unix_command.uc("rm -f "^s_ap) in
+                ()
+         ) ((tgt,is_an_ending_or_not)::rejects) in
+         (successful_ones,remains,ts2,j+1,cidx2)
+         ;; 
+   
+let rec  iterator_for_toplevel dir (successful_ones,to_be_treated,ts,j,cidx)=
+    match to_be_treated with
+    []->(List.rev successful_ones,ts,j)
+    |_->iterator_for_toplevel dir (extended_pusher dir (successful_ones,to_be_treated,ts,j,cidx));;
+                 
+
+let hard_part_in_recompilation 
+(dir,name,temp1,new_mdata,new_tgts,new_dirs,short_paths)=
+let (successful_ones,ts2,k)=iterator_for_toplevel dir 
+([],temp1,(new_mdata,new_tgts),0,4) in
+(dir,name,new_dirs,short_paths,successful_ones,ts2,k);;
+
+
+
 
 
 *)
+
+(*
+
+let (dir,name,temp1,new_mdata,new_tgts,new_dirs,short_paths)=prepare_recompilation ();;
+
+let pusher=extended_pusher;;
+
+let v1=pusher dir ([],temp1,(new_mdata,new_tgts),0,4);;
+
+let (successful_ones,to_be_treated,ts,j,cidx)=v1;;
+
+let (tgt,is_an_ending_or_not)::others=to_be_treated;;
+
+let (bowl2,ts2,cidx2)=extended_unit_make dir (true,ts) tgt;;
+
+let (mdata,tgts)=ts;;
+
+let bad1=Alaskan_make_ocaml_target.is_up_to_date dir tgts tgt;;
+
+let check1=Ocaml_target.test_target_existence dir tgt;;
+let check2=List.mem tgt tgts;;
+
+let new_successful_ones=(
+           if is_an_ending_or_not=Is_an_ending_or_not.Yes
+           then let hm=Option.unpack(Ocaml_target.main_module tgt) in
+                (*
+                  Note that the cmi and cmo give the same hm
+                *)
+                if List.mem hm successful_ones
+                then successful_ones
+                else hm::successful_ones
+           else successful_ones
+         );;
+
+let v2=(new_successful_ones,others,ts2,j+1,cidx2);;
+
+
+let (successful_ones,ts2,k)=iterator_for_toplevel dir v2;;
+
+finish_compilation (dir,name,new_dirs,short_paths,successful_ones,ts2,k);;
+
+
+
+
+*)
+
+(*
+
+German_recompile.on_monitored_modules;;
+
+Ocaml_target.archive;;
+
+let z1=Option.filter_and_unpack(
+   function Ocaml_target.NO_DEPENDENCIES(mlx)->Some(mlx) |_->None
+) tgts;;
+
+let ml1= Mlx_ended_absolute_path.MLX (Ocaml_ending.Ml,
+"Makefile_makers/mlx_ended_absolute_path",
+Directory_name.D "/Users/Ewandelanoy/Documents/OCaml/Ordinary");;
+
+Mlx_ended_absolute_path.to_string ml1;;
+
+*)
+
+(*
+let z1=(!old_ones);;
+
+let z2=Option.filter_and_unpack 
+(fun (j,tgt)->match Ocaml_target.main_module tgt with
+  None->None |Some(hm)->Some(j,hm)
+) z1;;
+
+let z3=image (fun (x,y)->
+  Naked_module.to_string(Half_dressed_module.naked_module y)) z2;;
+
+let z4=List.filter (
+   fun (j,hm)->
+   Naked_module.to_string(Half_dressed_module.naked_module hm)="option"
+) z2;;
+*)
+
+(*
+
+
+
+let ap1=Absolute_path.of_string
+("/Users/ewandelanoy/Documents/OCaml/Ordinary/Php_analizer/HRecognizer/"^
+"nonatomic_hrecognize.ml");;
+open_file_for_writing_after_recompilation ap1;;
+
+*)
+
+
+(*
+
+let prepare_recompilation ()=
+   let current_state=Io.read_whole_file ap_for_current_text in
+   if current_state=(!last_saved_state)
+   then []
+   else
+   let ap=Absolute_path.of_string(!currently_modified_file) in
+   let _=Io.overwrite_with ap current_state in
+   let t1=Unix.time() in
+   let tolerate_cycles=false 
+   and (old_mdata,old_tgts)=(!German_wrapper.Private.data_ref,
+   !German_wrapper.Private.up_to_date_targets_ref) in
+   let ((new_mdata,hms_to_be_updated),short_paths)=
+    German_recompile.on_monitored_modules tolerate_cycles old_mdata in
+   let t2=Unix.time() in 
+   if hms_to_be_updated=[] then [dd t1 t2] else
+   let new_dirs=German_directories.from_data new_mdata 
+   and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts in
+   let t3=Unix.time() in 
+   let dir=German_constant.root in
+   let checker=(fun tgt->
+    let s=(Directory_name.connectable_to_subpath dir)^(Ocaml_target.to_string tgt) in 
+      Sys.file_exists s ) in
+   let new_tgts=List.filter checker new_tgts1 in
+   let default_top=(German_data.default_toplevel new_mdata) in
+   let t4=Unix.time() in 
+   let opt2=Ocaml_target.toplevel_data default_top in
+   let t5=Unix.time() in
+   if opt2=None then failwith("This is Zorglub") else
+   let (name,l)=Option.unpack opt2 in
+   let temp1=ingr_for_top new_mdata name l in
+   let t6=Unix.time() in
+   let (successful_ones,ts2)=Alaskan_make_ocaml_target.iterator_for_toplevel dir 
+        ([],temp1,(new_mdata,new_tgts)) in
+   let t7=Unix.time() in   
+   let new_toplevel=Ocaml_target.toplevel name successful_ones in
+   let t8=Unix.time() in 
+   let (_,(new_mdata,new_tgts))=
+    Alaskan_make_ocaml_target.unit_make dir (true,ts2) new_toplevel in
+   let t9=Unix.time() in
+   let changes=German_changed.update short_paths 
+      (!(German_wrapper.Private.recently_changed_ref)) in
+   let _=(
+         German_wrapper.Private.data_ref:=new_mdata;
+         German_wrapper.Private.directories_ref:=new_dirs;
+         German_wrapper.Private.up_to_date_targets_ref:=new_tgts;
+         German_wrapper.Private.recently_changed_ref:=changes;
+   ) in
+   let t10=Unix.time() in  
+   let _=German_wrapper.Private.save_all() in
+   let t11=Unix.time() in
+   [dd t1 t2;dd t2 t3;dd t3 t4;dd t4 t5;dd t5 t6;dd t6 t7;dd t7 t8;
+    dd t8 t9;dd t9 t10;dd t10 t11];;
+
+
+*)
+
+(*
+
+let save_and_recompile ()=
+   let current_state=Io.read_whole_file ap_for_current_text in
+   if current_state=(!last_saved_state)
+   then []
+   else
+   let ap=Absolute_path.of_string(!currently_modified_file) in
+   let _=Io.overwrite_with ap current_state in
+
+*)
+
+(*
+let ap_for_current_text=
+  Absolute_path.of_string 
+  (
+  "/Users/ewandelanoy/Documents/OCaml/Ordinary/Pasteboard_related/current_text.ml"
+  );;
+
+let currently_modified_file=ref "";;
+
+let last_saved_state=ref "";;
+
+let open_file_for_writing_after_recompilation ap=
+  let s_ap=Absolute_path.to_string ap in
+  if (!currently_modified_file=s_ap)
+  then ()
+  else 
+  let text=Io.read_whole_file ap in
+  (currently_modified_file:=s_ap;
+   last_saved_state:=text;
+   Io.overwrite_with ap_for_current_text text);;
+
+let dd t1 t2=Chronometer.rewrite_float (t2-.t1);;
+*)
+
+(*
+let z1=German_pervasives.abo "hrecognize";;
+let z2=German_wrapper.data();;
+
+
+
+let z3=Image.image (fun hm->
+   (hm,List.length (German_data.below z2 hm))
+) z1;;
+*)
+
+
+(*
+let optional_mds=
+  List.filter Modulesystem_data.is_optional
+  (German_wrapper.data()) ;;
+let optional_hms=Image.image
+  Modulesystem_data.name optional_mds;;
+let optional_nms=List.rev_map (fun hm->
+let (Naked_module.N s)=Half_dressed_module.naked_module(hm) 
+in s) optional_hms;;
+
+let anse1=Explicit.image German_pervasives.fg
+["caratheodory"; "large_int"; "matrix"; "minimal_transversal";
+   "ordered_list_creator"; "periodicity"; "permutation"; "quadratic_form";
+   "rational_creator"; "simplex_method"; "theodoracopulos";
+   "nontranslatable_interdiction"; "pretty_print_intervals_and_felines";
+   "tidel3"; "van_der_waerden_computer"; "logical_subdivision";
+   "van_der_waerden_explanation"; "van_der_waerden_greedy_computer";
+   "translatable_interdiction"; "van_der_waerden_simplex"; "constraint";
+   "van_der_waerden_string"; "van_der_waerden_value"; "window_boundary"];;
+*)
+
+
+(*
+let dir1=Directory_name.of_string
+"Remembered/Self_contained/Simplex_method_and_others";;
+
+let optional_mds=
+    List.filter Modulesystem_data.is_optional
+    (German_wrapper.data()) ;;
+let optional_hms=Image.image
+    Modulesystem_data.name optional_mds;;
+let optional_nms=Image.image (fun hm->
+  let (Naked_module.N s)=Half_dressed_module.naked_module(hm) 
+  in s) optional_hms;;
+
+let z1=German_make_self_contained_copy.mscc dir1 optional_nms;;
+*)
+
+
+(*
+let mdata=German_wrapper.data();;
+let z1=Alaskan_data.compute_subdirectories_list mdata;;
+let z2=German_data.local_directories mdata;;
+
+let gg1 md=let hm=Modulesystem_data.name md in
+Half_dressed_module.full_directory hm;;
+let gg2 md=try (fun _->false)(gg1 md) with _->true;;
+let u1=List.filter gg2 mdata;;
+
+let compute_directories_list mdata=
+  let temp1=Image.image (
+      fun md->
+       let hm=Modulesystem_data.name md in
+       Half_dressed_module.full_directory hm
+  ) mdata in
+  let temp2=Tidel.diforchan temp1 in
+  Tidel.forget_order temp2;;
+
+
+let see1=Half_dressed_module.naked_module;;
+let see2=Directory_name.of_string;;
+*)
+
+(*
+let z2=Alaskan_create_target_system.from_main_directory dir1 None [];;
+
+let see1=German_pervasives.ucc;;
+let see2=Alaskan_command_for_ocaml_target.cee;;
+let see3=German_wrapper.save_all;;
+let see4=Alaskan_data.all_mlx_files;;
+let see5=Alaskan_up_to_date_targets.loadings;;
+*)
+
+(*
+let z1=German_wrapper.data();;
+let z2=Image.image(
+   fun z->let zn=Modulesystem_data.name z in
+   let (Subdirectory.SD temp1)=Half_dressed_module.subdirectory zn
+   and (Naked_module.N temp2)=Half_dressed_module.naked_module zn in
+   (temp1,temp2,(fun ()->z))
+) z1;;
+let z3=List.filter (
+   fun (s,t,zf)->
+     Substring.begins_with s "Country/Alaska"
+) z2;;
+let unordered_z4=List.flatten (Image.image (
+   fun (s,t,zf)->Modulesystem_data.all_ancestors (zf())
+) z3 );;
+let z4=Tidel.diforchan unordered_z4;;
+let z5=List.filter(
+   fun (s,t,zf)->
+     let hm=Modulesystem_data.name (zf()) in
+     Tidel.elfenn hm z4
+) z2;;
+let z6=List.flatten (Image.image (
+   fun (s,t,zf)->Modulesystem_data.acolytes (zf())
+ ) z5);;
+let z7=Image.image (
+
+) ;;
+
+
+
+let ucc=German_pervasives.ucc;;
+*)
+
+
+(*
+let fg=German_pervasives.fg;;
+
+let z9=[ "visualization_tools" ;  "php_projected_token_set"; "php_projected_token";
+   "php_blocker"; "php_constant_token"; "php_keyword"; "php_operator";
+   "php_punctuator"];;
+
+let work1=(Explicit.image fg) z9;;
+*)
+
+(*
+
+let z1=German_wrapper.data();;
+let z2=Image.image(
+   fun z->let zn=Modulesystem_data.name z in
+   let (Subdirectory.SD temp1)=Half_dressed_module.subdirectory zn
+   and (Naked_module.N temp2)=Half_dressed_module.naked_module zn in
+   (temp1,temp2,(fun ()->z))
+) z1;;
+let z3=List.filter (
+   fun (s,t,zf)->
+     Substring.begins_with s "Php_analizer"
+) z2;;
+let (z4,z5)=List.partition (
+  fun (s,t,zf)->s="Php_analizer/Great_Replacement"
+) z3;;
+let (z6,z7)=List.partition (
+  fun (s,t,zf)->s="Php_analizer/HRecognizer"
+) z5;;
+let needed_ones=z4@z6;;
+
+let u1=image (fun (s,t,zf)->let l_hm=abo t in
+  Image.image(fun hm->
+  let (Naked_module.N temp)=Half_dressed_module.naked_module hm in
+  temp) l_hm
+) z7;;
+let u2=Ordered_string.diforchan(List.flatten u1);;
+
+let involved_ones=List.filter (
+  fun (s,t,zf)->Ordered_string.elfenn t u2
+) z2;;
+let involved_dirs=
+  Ordered_string.diforchan(image (fun (s,t,zf)->s) involved_ones);;
+
+let involved_files1=List.flatten(image (fun
+   (s,t,zf)->image (fun g->(s,g)) (Modulesystem_data.acolytes (zf()))
+) involved_ones);;
+let involved_files2=image
+   (fun (s,p)->(s,Mlx_ended_absolute_path.to_absolute_path p)) 
+   involved_files1;;
+let command_for_pair (s,ap)=
+   let s_ap=Absolute_path.to_string ap in
+   "cp "^s_ap^" "^
+   "/Users/Ewandelanoy/Documents/OCaml/Ordinary/"^
+   "Remembered//Attempts_at_Php_Handling/Fifth_Attempt_at_Php_handling/"^
+   s^"/";;
+let involved_cmds=image command_for_pair involved_files2;;
+let anse1=image Unix_command.hardcore_verbose_uc involved_cmds;;
+
+let z8=List.rev_map (fun (s,t,zf)->t) z7;;
+*)
+
+
+
+
+(*
+let test (k,s)=
+  let n=String.length s in 
+  let (j,_)=Hrecognize.main_exhauster s 1 in
+  if j>n
+  then None
+  else let m=min(n)(j+500) in
+       let t=Cull_string.interval s j m in
+       Some(k,j,t);;
+
+let chan=open_in "Remembered/Marshaled_data/data1.mshl";;
+let u2=((Marshal.from_channel chan):(string list) ) ;;
+close_in chan;;
+
+let u3=Ennig.index_everything u2;;
+let u4=Chronometer.it (Option.filter_and_unpack test) u3;;
+       
+       
+let (k1,j1,t1)=List.hd u4;;
+*)
+
+
+(*
+let s1="realpath($resource) ?: (file_exists($resource) ? $resource : false)";;
+let bad1=Nonatomic_hrecognize.recgz (rn "rtripod2") s1 1;;
+let see1=Nonatomic_hrecognize.debug (rn "rtripod2") s1 1;;
+*)
+
+(*
+
+let example=More_coherent_pdf.chunk
+ ~rootdir:"/Users/ewandelanoy/Documents/html_files/Printable"
+ ~pdfname:"agreda"
+ ~interval:(241,260)
+ ~chunksize:None;;
+
+ *)
+
+
+
+(*
+let s1="$fhandle = fopen('stone.txt','a');";;
+let bad1=Nonatomic_hrecognize.recgz (rn "semicoloned_assignment") s1 1;;
+let see1=Nonatomic_hrecognize.debug (rn "semicoloned_assignment") s1 1;;
+*)
+
+(*
+let u5=List.filter (
+   fun ((_,_,_,_,lbl),_)->lbl=Hrecognize.label_for_semicoloned_assignment
+) u1;;
+let u6=image (fun (_,(i,j))->
+    Cull_string.interval text1 i j
+) u5;;
+let u7=image(fun t->
+  let j=Substring.leftmost_index_of_in "=" t in
+  Cull_string.trim_spaces(itv t 1 (j-1))
+) u6;;
+let u8=Option.filter_and_unpack(
+   fun t->
+    let opt=Nonatomic_hrecognize.recgz (rn "php_vname") t 1 in
+    let j=Option.unpack opt and n=String.length t in
+    if j>n then None else Some(itv t j n)    
+) u7;;
+*)
+
+(*
+
+let s_ap="/Users/ewandelanoy/Documents/OCaml/Ordinary/Test_directory6/"^
+"Test_directory7/Test_directory2/please_test_me.ml";;
+let ap=Absolute_path.of_string s_ap;;
+
+let s1=Io.read_whole_file ap;;
+let s2=Replace_inside.replace_inside_string ("\r","") s1;;
+let s3=s2^"blue\n\n";;
+
+Io.overwrite_with ap s3;;
+
+
+*)
+
+(*
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Chronometer.it Hpacify_classes.pc text1;;
+
+let fnctn_related_labels=
+  [
+    Hrecognize.label_for_fnctn;
+    Hrecognize.label_for_qualified_fnctn;
+  ];;
+
+let u2=Option.filter_and_unpack (fun ((_,_,_,_,lbl),(i,j))->
+  if not (List.mem lbl fnctn_related_labels) then None else
+  let k=Substring.leftmost_index_of_in_from "{" text1 i in
+  Some(Cull_string.interval text1 (k+1) (j-1))
+) u1;;
+
+let test (k,s)=
+  let n=String.length s in 
+  let (j,_)=Hrecognize.main_exhauster s 1 in
+  if j>n
+  then None
+  else let m=min(n)(j+500) in
+       let t=Cull_string.interval s j m in
+       Some(k,j,t);;
+
+let u3=Ennig.index_everything u2;;
+let u4=Chronometer.it (Option.filter_and_unpack test) u3;;
+       
+       
+let (k1,j1,t1)=List.hd u4;;
+*)
+
+(*
+let chang=open_out  "Remembered/Marshaled_data/data1.mshl";;
+(Marshal.to_channel chang u2 [];close_out chang);;
+*)
+
+(*
+
+let label_for_one_liner_with_variable="one_liner_with_variable";;
+add_label label_for_one_liner_with_variable;;
+
+let one_liner_with_variable_recognizer=rlabch
+  label_for_one_liner_with_variable
+  [
+     dollar;
+     naive_php_name;
+     sto "" ['\n';'\r';';'];
+     semicolon
+  ];;
+
+add_recognizer (label_for_one_liner_with_variable,one_liner_with_variable_recognizer);; 
+
+*)
+
+
+(*
+
+let chang=open_out  "Marshaled_files/data1.mshl";;
+(Marshal.to_channel chang u2 [];close_out chang);;
+
+let chan=open_in "Marshaled_files/data1.mshl";;
+let u2_again=((Marshal.from_channel chan):(string list) ) ;;
+close_in chan;;
+
+*)
+
+(*
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Chronometer.it Hpacify_classes.pc text1;;
+
+let g1=image snd u1;;
+let g2=Listennou.universal_delta_list g1;;
+let check=List.filter (fun ((a,b),(x,y))->x<>b+1) g2;;
+
+
+
+*)
+
+(*
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Hpacify_namespaces.pn text1;;
+
+let class_related_labels=
+  [
+    Hrecognize.label_for_abstract_glass;
+    Hrecognize.label_for_glass;
+    Hrecognize.label_for_final_glass;
+    Hrecognize.label_for_itrfc
+  ];;
+
+let u2=Option.filter_and_unpack (fun ((_,lbl),(i,j))->
+  if not (List.mem lbl class_related_labels) then None else
+  let k=Substring.leftmost_index_of_in_from "{" text1 i in
+  Some(Cull_string.interval text1 i (k-1))
+) u1;;
+let u3=List.filter (
+  fun x->List.for_all(fun y->
+      Substring.is_a_substring_of y x 
+   ) ["extends";"implements"]
+) u2;;  
+
+let u4=List.filter (
+  fun x->Substring.begins_with x "interface"
+) u2;;  
+
+*)
+
+(*
+let test (k,s)=
+  let n=String.length s in 
+  let (j,_)=Hrecognize.main_exhauster s 1 in
+  if j>n
+  then None
+  else let m=min(n)(j+500) in
+       let t=Cull_string.interval s j m in
+       Some(k,j,t);;
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Hpacify_namespaces.pn text1;;
+
+let class_related_labels=
+  [
+    Hrecognize.label_for_abstract_glass;
+    Hrecognize.label_for_glass;
+    Hrecognize.label_for_final_glass;
+    Hrecognize.label_for_itrfc
+  ];;
+
+let u2=Option.filter_and_unpack (fun ((_,lbl),(i,j))->
+   if not (List.mem lbl class_related_labels) then None else
+   let k=Substring.leftmost_index_of_in_from "{" text1 i in
+   Some(Cull_string.interval text1 (k+1) (j-1))
+) u1;;
+let u3=Ennig.index_everything u2;;
+let u4=Option.filter_and_unpack test u3;;
+
+
+let (k1,j1,t1)=List.hd u4;;
+*)
+
+(*
+
+let class_related_labels=
+  [
+    Hrecognize.label_for_one_liner_with_variable
+  ];;
+
+let u2=Option.filter_and_unpack (fun ((_,lbl),(i,j))->
+   if not (List.mem lbl class_related_labels) then None else
+   let k=Substring.leftmost_index_of_in_from "{" text1 i in
+   Some(Cull_string.interval text1 (k+1) (j-1))
+) u1;;
+let u3=Ennig.index_everything u2;;
+
+*)
+
+
+(*
+let s1="protected $loaders = [];";;
+let r1=rn "qualified_declaration";;
+let bad1=Nonatomic_hrecognize.recgz r1 s1 1;;
+let see1=Nonatomic_hrecognize.debug r1 s1 1;;
+let bad2=Nonatomic_hrecognize.recgz (rn "assignable") "[]" 1;;
+*)
+
+
+(*
+let g1=List.nth u2 406;;
+let (j2,g2)=Hrecognize.main_exhauster g1 1;;
+let g3=List.rev g2;;
+
+Cull_string.interval g1 3987 4149;;
+Substring.leftmost_linedex_of_in 
+"public function set_name($name)\n\t{\n\t\t$this->name = $name;\n\t}"  text1;;
+*)
+
+(*
+let z1="$container_builder\n->without_extensions()\n->with_config($wc->config_php_file)\n->with_config_path($wc->get_config_path())\n->with_environment('production')\n->without_compiled_container()\n->get_container()";;
+let bad1=Nonatomic_hrecognize.recgz (rn "assignable") z1 1;;
+*)
+
+(*
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Hpacify_namespaces.pn text1;;
+
+let u2=Option.filter_and_unpack (
+  fun ((x,y),(i,j))->if y=
+    Hrecognize.label_for_one_liner_with_variable
+    then Some(Cull_string.interval text1 i j)
+    else None
+) u1;;
+
+*)
+
+(*
+let s1="(empty($can_receive_pm_list) || !isset($can_receive_pm_list[0]['u_readpm'])) ? array() : $can_receive_pm_list[0]['u_readpm']";;
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.assignable s1 1;;
+let bad2=Nonatomic_hrecognize.recgz (rn "tripod2") s1 1;;
+let see1=Nonatomic_hrecognize.debug (rn "tripod2") s1 1;;
+*)
+
+(*
+let s1="(int) $db->sql_fetchfield('forum_id')";;
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.assignable s1 1;;
+let bad2=Nonatomic_hrecognize.debug Hrecognize.assignable s1 1;;
+*)
+
+
+
+(*
+let s1="$sql = 'SELECT *\nFROM ' . STYLES_TABLE . \" s\nWHERE s.style_id = $style_id\";";;
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.semicoloned_assignment s1 1;;
+
+let bad2=Nonatomic_hrecognize.debug Hrecognize.semicoloned_assignment s1 1;;
+*)
+
+
+
+
+(*
+let s1="'SELECT *\nFROM ' . STYLES_TABLE . \" s\nWHERE s.style_id = $style_id\"";;
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.assignable s1 1;;
+*)
+
+
+(*
+let s1="$container_builder\n->without_extensions()\n->with_config($wc->config_php_file)\n->with_config_path($wc->get_config_path())\n->with_environment('production')\n->without_compiled_container()\n->get_container()\n;\n\n$ext_container->register('cache.driver', '\\\\phpbb\\\\cache\\\\driver\\\\dummy')";;
+
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.assignable "'Nina'" 1;; 
+*)
+
+(*
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.echoable 
+("(isset($context[\"S_CONTENT_DIRECTION\"]) ? "^
+"$context[\"S_CONTENT_DIRECTION\"] : null)")  1;;
+*)
+
+(*
+let bad1=Nonatomic_hrecognize.recgz Hrecognize.assignable 
+"false"  1;;
+
+
+*)
+
+(*
+let debug_chain old_f l s i=
+  let rec tempf=(fun (idx,da_ober)->
+   match da_ober with
+   []->raise(Debug_chain_exn)
+   |atm::peurrest->
+     (
+       match recgz atm s idx with
+        None->old_f atm s idx 
+       |Some(new_idx)->tempf(new_idx,peurrest)
+     )
+  ) in
+  tempf (i,l);;
+
+let rec debug natm s i=
+ match natm with
+ Nonatomic_hrecognizer.Leaf(_,_)
+ |Nonatomic_hrecognizer.Ordered_disjunction(_,_)->(natm,i)  
+ |Nonatomic_hrecognizer.Chain(_,l)->debug_chain debug l s i      
+ |Nonatomic_hrecognizer.Star(_,natm2)
+ |Nonatomic_hrecognizer.Maybe(_,natm2)
+ |Nonatomic_hrecognizer.Check(_,pair)->
+     raise(Debug_star_exn);;
+
+
+
+let s1="$yloader     = new \\Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader($wc->container,\n// Might be ProxyManager\\FileLocator\\FileLocator\nnew \\Symfony\\Component\\Config\\FileLocator($filesystem->realpath($wc->get_config_path())));";;
+let bad1=Hrecognize.parse_all s1;;
+let bad2=Nonatomic_hrecognize.recgz Hrecognize.new_fnctn_call s1 1;;
+let see1=Nonatomic_hrecognize.extra_debug Hrecognize.new_fnctn_call s1 1;;
+
+let s2="new \\Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader($wc->container,\n// Might be ProxyManager\\FileLocator\\FileLocator\nnew \\Symfony\\Component\\Config\\FileLocator($filesystem->realpath($wc->get_config_path())));";;
+let good1=Nonatomic_hrecognize.recgz Hrecognize.new_fnctn_call s2 1;;
+let good2=Nonatomic_hrecognize.recgz Hrecognize.assignable s2 1;;
+let see2=Nonatomic_hrecognize.extra_debug Hrecognize.assignable s2 1;;
+let bad3=Nonatomic_hrecognize.recgz Hrecognize.myriam "new" 1;;
+let see3=Nonatomic_hrecognize.extra_debug Hrecognize.myriam "new" 1;;
+let bad4=Nonatomic_hrecognize.recgz Hrecognize.myriam_element "new" 1;;
+let see4=Nonatomic_hrecognize.debug Hrecognize.myriam_element "new" 1;;
+
+
+let test (k,s)=
+  let n=String.length s in 
+  let (j,_)=Hrecognize.main_exhauster s 1 in
+  if j>n
+  then None
+  else let m=min(n)(j+500) in
+       let t=Cull_string.interval s j m in
+       Some(k,j,t);;
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Hpacify_namespaces.pn text1;;
+
+let u2=Option.filter_and_unpack (
+  fun ((x,y),(i,j))->if y=
+    Hrecognize.label_for_one_liner_with_variable
+    then Some(Cull_string.interval text1 i j)
+    else None
+) u1;;
+*)
+
+
+(*
+let u3=List.filter (
+  fun ((x,y),(i,j))->List.mem y
+  [
+    Hrecognize.label_for_assign_to_array;
+    Hrecognize.label_for_assign_to_new_fnctn_call ;
+    Hrecognize.label_for_assign_to_myriam ;
+    Hrecognize.label_for_assign_to_fnctn_call ; 
+  ]
+) u1;;
+
+let w1=itv text1 818 860;;
+let bad1=Hrecognize.semicoloned_assignment_recognizer w1 1;;
+let bad2=Nonatomic_hrecognize.recgz Hrecognize.semicoloned_assignment w1 1;;
+let see1=Nonatomic_hrecognize.extra_debug Hrecognize.semicoloned_assignment w1 1;;
+let w2=Nonatomic_hrecognize.recgz Hrecognize.assignable;;
+*)
+
+(*
+let test (k,s)=
+  let n=String.length s in 
+  let (j,_)=Hrecognize.main_exhauster s 1 in
+  if j>n
+  then None
+  else let m=min(n)(j+500) in
+       let t=Cull_string.interval s j m in
+       Some(k,j,t);;
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Hpacify_namespaces.pn text1;;
+
+let class_related_labels=
+  [
+    Hrecognize.label_for_abstract_glass;
+    Hrecognize.label_for_glass;
+    Hrecognize.label_for_final_glass;
+  ];;
+
+let u2=Option.filter_and_unpack (fun ((_,lbl),(i,j))->
+   if not (List.mem lbl class_related_labels) then None else
+   let k=Substring.leftmost_index_of_in_from "{" text1 i in
+   Some(Cull_string.interval text1 (k+1) (j-1))
+) u1;;
+let u3=Ennig.index_everything u2;;
+let u4=Option.filter_and_unpack test u3;;
+
+
+let (k1,j1,t1)=List.hd u4;;
+*)
+
+(*
+let test (k,s)=
+   let n=String.length s in 
+   let (j,_)=Hrecognize.main_exhauster s 1 in
+   if j>n
+   then None
+   else let m=min(n)(j+500) in
+        let t=Cull_string.interval s j m in
+        Some(k,j,t);;
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let (_,u1)=Hrecognize.main_exhauster text1 1;;
+let u2=Option.filter_and_unpack (fun (lbl,(i,j))->
+   if lbl<>"braced_nspc" then None else
+   let k=Substring.leftmost_index_of_in_from "{" text1 i in
+   Some(Cull_string.interval text1 (k+1) (j-1))
+) u1;;
+let u3=Ennig.index_everything u2;;
+let u4=Option.filter_and_unpack test u3;;
+let (k1,j1,t1)=List.hd u4;;
+
+*)
+
+(*
+
+"echo \"\\\">\n\\t\\t<div id=\\\"darken\\\" class=\\\"darken\\\">&nbsp;"
+
+let t2=List.nth u2 (k1-1);; 
+let li1=Substring.leftmost_linedex_of_in t1 text1;;
+
+let t3=Cull_string.interval t2 j1 (j1+1000);;
+let (_,l1)=Hrecognize.main_exhauster t2 1;;
+
+
+
+*)
+
+(*
+let s_ap="/Users/ewandelanoy/Documents/Portfolio/"^
+"Html_template/en/index.html";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+let tag1=Html_parse_text_with_tags.parse s1;;
+let tag2=Html_print_text_with_tags.print tag1;;
+
+let ap2=Absolute_path.create_file ("/Users/ewandelanoy/Documents/Portfolio/"^
+"Html_template/en/index2.html");;
+
+Io.overwrite_with ap2 tag2;;
+*)
+
+
+(*
+open Hrecognize;;
+
+let s1="$sql = 'SELECT p.post_id\n\tFROM ' . POSTS_TABLE . ' p' . "^
+"(($join_user_sql[$sort_key]) ? ', ' . USERS_TABLE . ' u': '') . "^
+"\"\n\tWHERE p.topic_id = $topic_id\n\t\tAND \" . $phpbb_content_visibility->get_visibility_sql('post', $forum_id, 'p.') . \"\n\t\t\" . (($join_user_sql[$sort_key]) ? 'AND u.user_id = p.poster_id': '') . \"\n\t\t$limit_posts_time\n\tORDER BY $sql_sort_order\";";;
+
+let bad1=assign_to_myriam_recognizer s1 1;;
+let bad2=Nonatomic_hrecognize.recgz assign_to_myriam s1 1;;
+let see1=Nonatomic_hrecognize.debug assign_to_myriam s1 1;;
+let see2=Nonatomic_hrecognize.extra_debug assign_to_myriam s1 1;;
+let see3=Nonatomic_hrecognize.extra_debug myriam s1 8;;
+
+let (stm,_,_)=List.nth see3 1;;
+let bad3=Nonatomic_hrecognize.recgz stm s1 33;;
+let bad4=Nonatomic_hrecognize.recgz myriam_snippet s1 33;;
+
+let see4=Nonatomic_hrecognize.extra_debug myriam_snippet s1 33;;
+
+let bad5=Nonatomic_hrecognize.recgz myriam_element "POSTS_TABLE" 1;;
+
+let see5=Nonatomic_hrecognize.extra_debug myriam_element s1 33;;
+
+
+let s_ap="/Users/ewandelanoy/Documents/Burev/Downloads/"^
+"webmic/Html_template/en/index.html";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+let tag1=Html_parse_text_with_tags.parse s1;;
+let tag2=Html_print_text_with_tags.print tag1;;
+
+*)
+
+(*
+let u1=ennig 1 10;;
+let u2=doyle (fun _->u1) 1 5;; 
+let u3=Cartesian.general_product u2;;
+
+let test l=
+  let tf=List.nth l in
+  (513*tf(0)-388*tf(1)+3942*tf(2)-1476*tf(3)+11*tf(4)=0);; 
+
+let u4=List.filter test u3;;
+
+let z1=abo "html_parse_text_with_tags";;
+let z2=image Half_dressed_module.naked_module z1;;
+*)
+
+
+(*
+
+let s_ap="/Users/ewandelanoy/Documents/Burev/Downloads/"^
+"webmic/Html_template/en/index.html";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+let tag1=Html_parse_text_with_tags.parse s1;;
+
+
+
+let s1="<!DOCTYPE html>\n<html>\n <head>\n <title>Home / HTML Template</title>\n            <link rel=\"stylesheet\" href=\"../style.css\">\n        </head> \n      </html> ";;
+
+let bad1=Html_parse_text_with_tags.parse s1;;
+
+let v0=Html_parse_text_with_tags.main_initializer s1;;
+let ff=Html_parse_text_with_tags.main_pusher  
+     (s1,String.length s1);;
+let gg=Memoized.small ff v0;;
+
+let v1=gg 12;;
+let (Html_hedgehog_pack.P w1)=fst(snd v1);;
+let u1=Html_hedgehog.finished_part (List.hd w1);;
+
+
+let (s,n)=(s1,String.length s1);;
+let (ndr,walker)=v1;;
+let (graet,idx)=walker;;
+let opt1=Option.seek (fun j->
+      (Strung.get s j)='<'
+)(Ennig.ennig idx n);;
+let i1=Option.unpack opt1;;
+let opt2=Option.seek (fun j->
+      (Strung.get s j)='>'
+)(Ennig.ennig (i1+1) n);;
+let i2=Option.unpack opt2;;
+let temp1=(
+    if i1>idx
+    then Html_hedgehog_pack.add_string_constant 
+          (idx,i1-1,Cull_string.interval s idx (i1-1)) graet
+    else graet      
+);;
+let bad0=Html_hedgehog_pack.add_tag 
+  (i1,i2,Cull_string.interval s i1 i2) temp1;;  
+
+let bad1=Html_hedgehog_pack.add_tag 
+  (17,22,"<html>") temp1;;
+
+let (i,j,tag_descr)=(17,22,"<html>") and hpack=temp1;;
+let t=Cull_string.interval tag_descr 2 (j-i);;
+let see1=Html_hedgehog_pack.is_not_a_closable_tag t;;
+         
+let bad2=Html_hedgehog_pack.add_closing_tag 
+         (i,j,Cull_string.interval tag_descr 2 (j-i)) hpack;;
+
+let bad3=Html_hedgehog_pack.add_closing_tag 
+         (i,j,"html") hpack;;
+
+let tag_name="html";;      
+let (Html_hedgehog_pack.P l_hedgehog)=hpack;;   
+let hedgehog1::peurrest=l_hedgehog;;
+
+
+         let add_closing_tag ((i:int),j,tag_name) (P l_hedgehog)=
+          match l_hedgehog with
+           []->raise(Unmatched_closing_tag(tag_name))
+          |hedgehog1::peurrest->
+          (
+            match Html_hedgehog.unfinished_part hedgehog1 with
+            []->raise(Cold_reception(tag_name))
+            |(i2,j2,tag_name2)::peurrest2->
+               if tag_name2<>tag_name 
+               then raise(Tag_mismatch(tag_name,tag_name2))
+               else 
+              let new_hedgehog1=
+                   Html_hedgehog.close_latest_tag (i,j) hedgehog1 in
+              if Html_hedgehog.unfinished_part new_hedgehog1=[]
+              then  add_finished_hedgehog new_hedgehog1 peurrest
+              else P(new_hedgehog1::peurrest)
+          );;        
+         
+
+  let add_tag (i,j,tag_descr) hpack=
+    if Substring.is_a_substring_located_at "/" tag_descr 2
+    then add_opening_tag 
+         (i,j,Cull_string.interval tag_descr 3 (j-i)) hpack
+    else let t=Cull_string.interval tag_descr 2 (j-i) in
+         if is_not_a_closable_tag t
+         then add_string_constant 
+             (i,j,tag_descr) hpack
+         else 
+         add_closing_tag 
+         (i,j,Cull_string.interval tag_descr 2 (j-i)) hpack ;;  
+
+*)
+
+(*
+
+let s_ap="/Users/ewandelanoy/Documents/Sites/Mikeal/special.sql";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+
+let u1=Substring.occurrences_of_in "miad" s1;;
+
+Replace_inside.replace_inside_file
+("tribunemicael.net","larchange.org") ap;;
+
+
+
+*)
+
+
+(*
+
+let s_ap="/Users/ewandelanoy/Documents/Burev/untitled_text2.txt";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+
+let s2=Replace_inside.replace_inside_string ("\r","") s1;;
+let n2=String.length s2;;
+
+let u1=doyle (fun j->(j,Strung.get s2 j)) 1 n2;;
+let u2=List.filter(
+   fun (j,c)->
+     if (c<>'\n')||(j=1)||(j=n2)
+     then true
+     else ((Strung.get s2 (j-1))='\n')
+          ||
+          ((Strung.get s2 (j+1))='\n')
+) u1;;
+let u3=image (fun (x,y)->String.make 1 y) u2;;
+let s3=String.concat "" u3;;
+
+let u4=Lines_in_string.core s3;;
+let u5=List.filter (
+   fun (j,t)->
+    (not (Substring.is_a_substring_of "THE WISH TO BELIEVE." t))
+) u4;;
+let s4=String.concat "" (image snd u5);;
+Io.overwrite_with ap1 s4;;
+
+
+
+
+
+
+let s_ap1="/Users/ewandelanoy/Documents/Burev/untitled_text.txt";;
+let ap1=Absolute_path.of_string s_ap1;;
+Io.overwrite_with ap1 s3;;
+
+
+
+*)
+
+
+
+(*
+
+let term1=Html_parse_text_with_tags.parse s1;;
+
+let term2=try (fun _->[])(Html_parse_text_with_tags.parse s1) with
+Html_hedgehog_pack.Cannot_simplify_multipack(l)->l;;
+let term3=List.rev term2;;
+let term4=List.hd(term3);;
+
+*)
+
+
+(*
+
+let s_ap="/Users/ewandelanoy/Documents/html_files/Translations/ws_translated.txt";;
+let ap=Absolute_path.of_string s_ap;;
+let s1=Io.read_whole_file ap;;
+let s2=Replace_inside.replace_inside_string ("\r","") s1;;
+
+let pass="fini. \nTout ";;
+let i1=Substring.leftmost_index_of_in pass s2;;
+let s3=Cull_string.beginning (i1-1) s2;; 
+let s4=Cull_string.cobeginning (i1-1) s2;; 
+let better_s4=Str.global_replace (Str.regexp_string"\n") "" s4;;
+let better_s2=s3^better_s4;;
+Io.overwrite_with ap better_s2;;
+
+*)
+
+
+(*
+
+let n1=10;;
+
+let part1=doyle (fun t->(t,0)) 1 n1;;
+
+let part2=Cartesian.product (ennig (-n1) n1) (ennig 1 n1);;
+
+let unordered_whole=part1@part2;;
+
+let pre_oord (x1,y1) (x2,y2)=
+    let m1=min(abs x1)(abs y1) and mm1=max(abs x1)(abs y1)
+    and m2=min(abs x2)(abs y2) and mm2=max(abs x2)(abs y2) in
+    let t1=Total_ordering.standard mm1 mm2 in
+    if t1<>Total_ordering.Equal then t1 else
+    let t2=Total_ordering.standard m1 m2 in
+    if t2<>Total_ordering.Equal then t2 else
+    let t3=Total_ordering.standard x1 x2 in
+    if t3<>Total_ordering.Equal then t3 else
+    Total_ordering.standard y1 y2;;
+
+let oord=(pre_oord: (int*int) Total_ordering.t);;
+
+let ordered_whole=Ordered.diforchan oord unordered_whole;;
+
+*)
+
+(*
 
 let s_ap="/Users/ewandelanoy/Documents/Burev/Downloads/webmic/Html_template/en/index.html";;
 let ap=Absolute_path.of_string s_ap;;
 let s1=Io.read_whole_file ap;;
 
-let tag1=Html_parse_text_with_tags.parse s1;;
+let term1=Html_parse_text_with_tags.parse s1;;
 
+let term2=try (fun _->[])(Html_parse_text_with_tags.parse s1) with
+Html_hedgehog_pack.Cannot_simplify_multipack(l)->l;;
+let term3=List.hd(List.rev term2);;
 let u1=am();;
 let u2=List.filter (
   fun t->Substring.begins_with t "html"
 ) u1;;
+
+*)
 
 
 (*
@@ -614,7 +1952,7 @@ let on_string s=on_decomposed_form(
 
 
 
-(*)
+(*
 let determine_exact_beginning s i_fnctn=
   let opt=Option.seek(
      fun t->not(List.mem 
@@ -1011,7 +2349,7 @@ None->None
 *)
 
 
-(*)
+(*
 let z1=am();;
 let z2=List.filter (
   Substring.is_a_substring_of "char"

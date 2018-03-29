@@ -85,7 +85,7 @@ let hi=List.length;;
 let ol=Ordered.length;;
 let rev=List.rev;;
 
-let oup=Option.unpack;;
+
 let ofo=Ordered.forget_order;;
 
 
@@ -97,15 +97,17 @@ let debug_image f l=
    ) in
    Option.find mf (Ennig.index_everything l);;
 
-let ea=Termite.eat;;
-   
-let scp t s=Termite.parse (Termite.of_string t)
-(Php_lexer.parse_string s);;   
+
 
 let itv=Cull_string.interval;;
 let nei=Cull_string.neighborhood_with_center_and_size;;
 
+let rn=Hregistrar.recognizer_with_name;;
+
+
 (* Module management code starts here *)
+
+let rwb=German_pervasives.reco_without_backup;;
 
 open German_pervasives;;
 
