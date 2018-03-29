@@ -215,7 +215,7 @@ let refresh ()=
        (Some(German_constant.main_toplevel_name))
        old_outsiders
    in 
-  let new_dirs=German_directories.from_data new_mdata in
+  let new_dirs=Alaskan_data.compute_subdirectories_list new_mdata in
   let new_diff=German_delchacre_from_scratch.dfs(new_mdata,new_outsiders) in
   
   (

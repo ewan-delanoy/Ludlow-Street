@@ -30,7 +30,7 @@ let on_monitored_modules mdata hm=
     
 let on_targets (old_mdata,old_tgts) hm=
  let (new_mdata,short_paths)=on_monitored_modules old_mdata hm in
- let new_dirs=German_directories.from_data new_mdata 
+ let new_dirs=Alaskan_data.compute_subdirectories_list new_mdata 
  and new_tgts=List.filter (fun tgt->
    match Ocaml_target.main_module tgt with
    None->false |Some(hm2)->hm2<>hm

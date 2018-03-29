@@ -99,7 +99,7 @@ let on_targets tolerate_cycles (old_mdata,old_tgts)=
     let ((new_mdata,hms_to_be_updated),short_paths)=
       on_monitored_modules tolerate_cycles old_mdata in
 	if hms_to_be_updated=[] then None else
-	let new_dirs=German_directories.from_data new_mdata 
+	let new_dirs=Alaskan_data.compute_subdirectories_list new_mdata 
  	and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts in
  	let dir=German_constant.root in
  	let checker=Ocaml_target.test_target_existence dir in
