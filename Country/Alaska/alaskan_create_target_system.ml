@@ -22,7 +22,7 @@ let select_good_files s_main_dir=
    let ap1=Absolute_path.of_string s_main_dir in
    let _=Image.image (fun s->
      Unix_command.uc ("touch "^s_main_dir^"/"^s)
-      ) [Debugged_name.debugger_name^".ml";
+      ) [Debugged_name.debugger_name^".ml";"neptu.ml";
          "my_loadings.ml";"my_printers.ml";"my_pervasives.ml";".ocamlinit"]   in
    let _=Io.overwrite_with 
         (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
