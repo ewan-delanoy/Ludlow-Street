@@ -41,7 +41,9 @@ let save_all ()=Alaskan_save_all.write_all
   );;
 
 let recompile ()=
-   match German_recompile.on_targets false (!data_ref,!up_to_date_targets_ref) with
+   match Alaskan_recompile.on_targets 
+          German_constant.root
+          false (!data_ref,!up_to_date_targets_ref) with
     None->false
    |Some((new_mdata,new_dirs,new_tgts),short_paths)->
        let changes=German_changed.update short_paths
