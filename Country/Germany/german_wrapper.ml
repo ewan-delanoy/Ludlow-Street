@@ -46,7 +46,7 @@ let recompile ()=
           false (!data_ref,!up_to_date_targets_ref) with
     None->false
    |Some((new_mdata,new_dirs,new_tgts),short_paths)->
-       let changes=German_changed.update short_paths
+       let changes=Alaskan_changed.update short_paths
              (!recently_changed_ref) in
        let _=(
          data_ref:=new_mdata;
