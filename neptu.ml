@@ -42,7 +42,28 @@ let uple=(mdata,dirs,tgts,
 
 Alaskan_save_all.write_all constants uple;;
 
+(* Code to create an assistance file. *)
 
+(*
+
+let h1=hmx "german_pervasives";;
+let data=German_wrapper.data();;
+
+let u0=(German_data.above data h1)@[h1];;
+let u1=List.filter (fun x->List.mem (Modulesystem_data.name x) u0) data;;
+let u2=List.filter Modulesystem_data.ml_present u1;;
+let u3=Image.image Modulesystem_data.ml_path u2;;
+let u4=Image.image (Modularize.modularize "") u3;;
+let u5=String.concat "\n\n\n" u4;;
+let u6="(*\n\n#use\"/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Assistance/usual_assistance.ml\";;\n\n*)\n\n#load \"nums.cma\";;\n#load \"str.cma\";;\n\n\n"
+^u5;;
+
+let big_file=Absolute_path.of_string 
+   ("/Users/ewandelanoy/Documents/OCaml/Ordinary/Remembered/Assistance/usual_assistance.ml");;
+
+Io.overwrite_with big_file u6;;
+
+*)
 
 (*
 let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;

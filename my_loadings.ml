@@ -79,9 +79,6 @@
 #load"unjoin_path.cmo";;
 #load"unix_compliant_filename.cmo";;
 #load"unix_compliant.cmo";;
-#load"tidel2.cmo";;
-#load"tiger2.cmo";;
-#load"tiger.cmo";;
 #load"prepared.cmo";;
 #load"cull_string.cmo";;
 #load"decimal_number.cmo";;
@@ -192,7 +189,6 @@
 #load"alaskan_create_target_system.cmo";;
 #load"german_wrapper.cmo";;
 #load"self_contained_module_copy.cmo";;
-#load"saver.cmo";;
 #load"retained_or_not.cmo";;
 #load"rat_frac.cmo";;
 #load"preprinter.cmo";;
@@ -210,16 +206,10 @@
 #load"html_parametrized_atom.cmo";;
 #load"html_parametrized_text.cmo";;
 #load"special_chars_for_hrecognizer_name.cmo";;
-#load"atomic_hrecognize.cmo";;
-#load"parametric_hrecognize.cmo";;
 #load"atomic_hrecognizer.cmo";;
 #load"nonatomic_hrecognizer.cmo";;
-#load"nonatomic_hrecognize.cmo";;
 #load"hskeleton.cmo";;
 #load"hregistrar.cmo";;
-#load"hrecognize.cmo";;
-#load"hpacify_namespaces.cmo";;
-#load"hpacify_classes.cmo";;
 #load"check_hrecognizers_disjointness.cmo";;
 #load"nspc_detect.cmo";;
 #load"nspc_decomposed_form.cmo";;
@@ -253,6 +243,7 @@
 #load"expand_fnctn_call.cmo";;
 #load"expand_classnames.cmo";;
 #load"overwrite_at_intervals.cmo";;
+#load"tidel2.cmo";;
 #load"ordered_integer.cmo";;
 #load"optimize_polynomial.cmo";;
 #load"ocaml_long_name.cmo";;
