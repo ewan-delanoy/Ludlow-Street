@@ -1,10 +1,6 @@
 
-(*
- #use"/Users/ewandelanoy/Documents/OCaml/Ordinary/my_printers.ml";;
-*)
 
-
-(*Registered printers start here *)
+ (*Registered printers start here *)
 
 
 
@@ -22,14 +18,5 @@
 
 
 
-(*Registered printers end here *)
+(*Registered printers end here *) 
 
-(* Below are printers needed only in utop's environment which is
-unfriendly to Ocaml printers. *)
-
-(*
-let phptoklist=
-	Gather_preprinter_result.printer_of_preprinter(Old_preprinter_example.positioned_php_token_list);;
-
-#install_printer phptoklist;;
-*)

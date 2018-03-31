@@ -77,7 +77,7 @@ let smaller=c "smaller" "<";;
 let tab=c "tab" "\t";;
 let tilda=c "tilda" "~";;
 let vline=c "vline" "|";;
-let windows_linebreak=c "windows_linebreak" "\n";;
+let windows_linebreak=c "windows_linebreak" "\r";;
 
 let list_of_keywords =ref [];;
 let kc x y=

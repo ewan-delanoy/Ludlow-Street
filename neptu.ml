@@ -4,10 +4,66 @@
 
 *)
 
+let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;
+
+
+let z1=(!(Hregistrar.Private.the_list));;
+
+let z2=Option.filter_and_unpack (
+   fun (name,r)->
+   let (sort,l,_,_)=Nonatomic_hrecognizer.unveil r in
+   if sort<>"ordered_disjunction"
+   then None
+   else Some(name,l)
+) z1;;
+
+let transformer (name,li)=
+  let temp1=Image.image 
+   (fun r->(r,Check_hrecognizers_disjointness.flatten_nonatomic_hrecognizer r)) li in
+  let temp2=Uple.list_of_pairs temp1 in
+  let temp3=Image.image (fun ((xn,xc),(yn,yc))->(name,xn,yn,xc,yc)) temp2 in
+  temp3;;
+
+let z3=List.flatten (Image.image transformer z2);;
+
+let z4=Option.filter_and_unpack
+Check_hrecognizers_disjointness.main_problem_finder
+z3;;
+
+let z5=List.hd z4;;
+
+let z6=Image.image (fun (a,_,_,_,_,_,_)->a) z4;;
+
+let z7=List.filter (
+  fun (a,_,_,_,_,_,_)->a="one_white"
+) z4;;
+
+
+
+
+(*
+
+let lt_for_three=((fun (i1,i2,i3) (j1,j2,j3)->
+    let t1=Total_ordering.standard (Max.list [i1;i2;i3]) (Max.list [j1;j2;j3]) in
+    if t1<>Total_ordering.Equal then t1 else
+    let t2=Total_ordering.standard (i1+i2+i3) (j1+j2+j3) in
+    if t2<>Total_ordering.Equal then t2 else
+    let t3=Total_ordering.standard i1 j1 in
+    if t3<>Total_ordering.Equal then t3 else
+    Total_ordering.standard i2 j2): (int*int*int) Total_ordering.t);;
+
+let u1=Int_uple.list_of_triples 10;;
+
+let u2=Image.image (fun (i,j,k)->(i-1,j-2,k-3)) u1;;
+
+let u3=Ordered.diforchan lt_for_three u2;;
+
+*)
+
+(*
 let s_idaho_ap="/Users/ewandelanoy/Documents/OCaml/Idaho";;
 let idaho_ap=Absolute_path.of_string s_idaho_ap;;
 let idaho_dir=Directory_name.of_string s_idaho_ap;;
-
 
 let act1=Sys.command ("rm -rf "^s_idaho_ap^"/*");;
 let act2=Sys.command ("mkdir -p "^s_idaho_ap^"/_build");;
@@ -23,7 +79,25 @@ let act4=Io.overwrite_with bb_file "let f=function A.U->1 |A.V->2;;";;
 let (mdata,tgts,outsiders,preqt)=
    Alaskan_create_target_system.from_main_directory idaho_dir None [];;
 
-let dirs=Alaskan_data.compute_subdirectories_list mdata;;
+let data_ref=ref(mdata);;
+let tgts_ref=ref(tgts);;
+let changed_ref=ref(Recently_changed.of_string_list []);;
+
+let recumpile ()=
+  let (old_data,old_tgts,old_changed)=(!data_ref,!tgts_ref,!changed_ref) in
+  match Alaskan_recompile.on_targets idaho_dir false (old_data,old_tgts) with
+  None->false
+  |Some((new_mdata,_,new_tgts),short_paths)->
+        let new_changed=Alaskan_changed.update short_paths
+        old_changed in
+        let _=(
+           data_ref:=new_mdata;
+           tgts_ref:=old_tgts;
+           changed_ref:=new_changed;
+        ) in
+        true;;
+
+
 
 let constants=(
     idaho_dir,German_constant.main_toplevel_name,
@@ -33,6 +107,8 @@ let constants=(
     German_constant.name_for_printersfile
     );;   
 
+let dirs=Alaskan_data.compute_subdirectories_list mdata;;
+
 let uple=(mdata,dirs,tgts,
       [],[],
       Recently_deleted.of_string_list [],
@@ -40,7 +116,28 @@ let uple=(mdata,dirs,tgts,
       Recently_created.of_string_list [],
       preqt);;
 
-Alaskan_save_all.write_all constants uple;;
+let act5=Alaskan_save_all.write_all constants uple;;
+
+let act6=Io.overwrite_with aa_file "type t=U |W;;";;
+
+let bad1=recumpile();;
+*)
+
+
+(*
+German_recompile.on_targets;;
+Alaskan_data.compute_subdirectories_list;;
+German_unregister_mlx_file.on_targets;;
+German_unregister_module.on_targets;;
+German_wrapper.data;;
+German_start_debugging.sd;;
+German_pervasives.reco;;
+*)
+
+
+
+
+
 
 (* Code to create an assistance file. *)
 
