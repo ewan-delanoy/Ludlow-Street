@@ -1,5 +1,7 @@
 (*
+
 #use"Php_analizer/HRecognizer/nonatomic_hrecognizer.ml";;
+
 *)
 
 type t=
@@ -43,6 +45,15 @@ let unveil =function
 let chained_version=function
 Chain(_,l)->l
 |x->[x];;
+
+let rec flatten x=match x with
+  Chain(_,l)->
+      List.flatten (Image.image flatten l)
+ |Ordered_disjunction(_,l)->
+      if List.length l =1
+      then flatten(List.hd l)
+      else [x]
+ |_->[x];;
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
