@@ -40,6 +40,9 @@ let unveil =function
  |Maybe(_,x)->(maybe_sconstructor,[x],None,None)
  |Keyword_avoider(_,(x,l))->(keyword_avoider_sconstructor,[x],None,Some(l));;
 
+let chained_version=function
+Chain(_,l)->l
+|x->[x];;
 
 let print (x:t)="rn \""^(name x)^"\"";;
 

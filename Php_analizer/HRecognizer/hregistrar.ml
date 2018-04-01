@@ -121,7 +121,15 @@ let recognizer_with_name name=
    try  List.assoc  name (!Private.the_list) with
    _->raise(Unused_name(name));; 
 
+let replace_content_at_name name x=
+    let new_list=Image.image (
+         fun pair->let (name1,_)= pair in
+         if name1=name then (name,x) else pair
+    ) (!Private.the_list) in
+    Private.the_list := new_list;;
+
 let possibly_already_created_chain name l=
     try  List.assoc  name (!Private.the_list) with
    _->chain name l;;
     
+
