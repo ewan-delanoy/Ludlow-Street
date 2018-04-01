@@ -121,4 +121,7 @@ let recognizer_with_name name=
    try  List.assoc  name (!Private.the_list) with
    _->raise(Unused_name(name));; 
 
-   
+let possibly_already_created_chain name l=
+    try  List.assoc  name (!Private.the_list) with
+   _->chain name l;;
+    
