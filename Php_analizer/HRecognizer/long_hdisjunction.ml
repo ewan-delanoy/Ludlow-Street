@@ -32,9 +32,14 @@ let to_usual (L(name_for_whole,ll))=
 let of_usual (name_for_whole,ll)=
   let w=String.length name_for_whole in
    let temp1=Image.image (
-      fun rcgzr->
-        let name=Nonatomic_hrecognizer.name rcgzr 
-        and l=Nonatomic_hrecognizer.chained_version(rcgzr) in
+       fun rcgzr->(
+        Nonatomic_hrecognizer.name rcgzr,Nonatomic_hrecognizer.chained_version rcgzr 
+       )
+   ) ll in
+   let temp2=Ordered.diforchan_plaen
+                 Order_for_hrecognizer_chains.order_for_pairs temp1 in
+   let temp3=Image.image (
+      fun (name,l)->
         if not(Substring.begins_with name name_for_whole)
         then (name,l)
         else let temp2=Cull_string.cobeginning w name in
@@ -42,8 +47,8 @@ let of_usual (name_for_whole,ll)=
              if is_special
              then ("",l)
              else (name,l)
-   ) ll in
-   L(name_for_whole,temp1);;
+   ) temp2 in
+   L(name_for_whole,temp3);;
    
 let print (L(name_for_whole,ll))=
   let m=Max.list(Image.image (fun (t,_)->String.length t) ll) in
