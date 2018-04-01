@@ -123,31 +123,31 @@ let naive_test_for_immediate_disjointness x y=
 let test_for_immediate_disjointness x y=
    try  naive_test_for_immediate_disjointness x y with _->false;;  
 
-let rec compute_leftmost_difference (l1,l2)=
+let rec compute_leftmost_difference (graet,l1,l2)=
    match l1 with []->None |a1::b1->
    (
     match l2 with []->None |a2::b2->
     if (Nonatomic_hrecognizer.name a1)=
        (Nonatomic_hrecognizer.name a2)
-    then compute_leftmost_difference  (b1,b2)
-    else Some(a1,a2) 
+    then compute_leftmost_difference  (a1::graet,b1,b2)
+    else Some(List.rev(graet),a1,a2,b1,b2) 
    );;
 
 end;;
 
 let check l1 l2=
-   match Private.compute_leftmost_difference (l1,l2) with
+   match Private.compute_leftmost_difference ([],l1,l2) with
     None->None
-   |Some(a1,a2)->if Private.test_for_immediate_disjointness a1 a2
+   |Some(graet,a1,a2,b1,b2)->if Private.test_for_immediate_disjointness a1 a2
                  then None
-                 else Some(a1,a2,l1,l2);;
+                 else Some(graet,a1,a2,b1,b2);;
 
-let find_fault_in_disjunction l=
+let find_fault (Long_hdisjunction.L(_,l))=
     let temp1=Uple.list_of_pairs l in
     Option.find_and_stop (fun ((x1,y1),(x2,y2))->
       match check y1 y2 with
       None->None
-      |Some(a1,a2,_,_)->Some(x1,x2,a1,a2,y1,y2)
+      |Some(graet,a1,a2,b1,b2)->Some(x1,x2,graet,a1,a2,b1,b2)
     )temp1;;                  
 
 
