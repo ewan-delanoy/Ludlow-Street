@@ -6,14 +6,6 @@
 
 module Private=struct
 
-let rec flatten_nonatomic_hrecognizer x=match x with
-  Nonatomic_hrecognizer.Chain(_,l)->
-      List.flatten (Image.image flatten_nonatomic_hrecognizer l)
- |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-      if List.length l =1
-      then flatten_nonatomic_hrecognizer(List.hd l)
-      else [x]
- |_->[x];;
 
 let constant_aspect_for_atomic_hrecognizer =function
    Atomic_hrecognizer.Constant(s)->Some(s)
@@ -72,17 +64,17 @@ let first_char_for_atomic_hrecognizer x=match x with
 
 exception First_char_for_nonatomic of Nonatomic_hrecognizer.t;;       
 
-let rec naive_first_char_for_atomic_hrecognizer x=match x with
+let rec naive_first_char_for_nonatomic_hrecognizer x=match x with
         Nonatomic_hrecognizer.Leaf(_,atm)->first_char_for_atomic_hrecognizer atm
-        |Nonatomic_hrecognizer.Chain(_,l)->naive_first_char_for_atomic_hrecognizer (List.hd l)
+        |Nonatomic_hrecognizer.Chain(_,l)->naive_first_char_for_nonatomic_hrecognizer (List.hd l)
         |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-                  Tidel.big_teuzin(Image.image naive_first_char_for_atomic_hrecognizer l)
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->naive_first_char_for_atomic_hrecognizer x          
+                  Tidel.big_teuzin(Image.image naive_first_char_for_nonatomic_hrecognizer l)
+        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->naive_first_char_for_nonatomic_hrecognizer x          
         |Nonatomic_hrecognizer.Star(_,_)->raise(First_char_for_nonatomic(x))
         |Nonatomic_hrecognizer.Maybe(_,_)->raise(First_char_for_nonatomic(x));;
 
-let first_char_for_atomic_hrecognizer x =
-  try naive_first_char_for_atomic_hrecognizer x with
+let first_char_for_nonatomic_hrecognizer x =
+  try naive_first_char_for_nonatomic_hrecognizer x with
   _->raise(First_char_for_nonatomic(x));;
 
 let keyword_avoider_aspect=function
@@ -116,20 +108,20 @@ let test_for_string_strict_disjointness s1 s2=
        (String.get s1 k)<>(String.get s2 k)
     )(Ennig.ennig 0 m);;
 
-let naive_test_for_disjointness x y=
+let naive_test_for_immediate_disjointness x y=
    if test_for_string_strict_disjointness (common_prefix x) (common_prefix y)
    then true
    else
    if Tidel.kengeij_goullo
-     (first_char_for_atomic_hrecognizer x)
-     (first_char_for_atomic_hrecognizer y)
+     (first_char_for_nonatomic_hrecognizer x)
+     (first_char_for_nonatomic_hrecognizer y)
    then true
    else  
    check_avoider_case x y
    ;;
 
-let test_for_disjointness x y=
-   try  naive_test_for_disjointness x y with _->false;;  
+let test_for_immediate_disjointness x y=
+   try  naive_test_for_immediate_disjointness x y with _->false;;  
 
 let rec compute_leftmost_difference (l1,l2)=
    match l1 with []->None |a1::b1->
@@ -143,12 +135,20 @@ let rec compute_leftmost_difference (l1,l2)=
 
 end;;
 
-let check (l1,l2)=
+let check l1 l2=
    match Private.compute_leftmost_difference (l1,l2) with
     None->None
-   |Some(a1,a2)->if Private.test_for_disjointness a1 a2
+   |Some(a1,a2)->if Private.test_for_immediate_disjointness a1 a2
                  then None
                  else Some(a1,a2,l1,l2);;
+
+let find_fault_in_disjunction l=
+    let temp1=Uple.list_of_pairs l in
+    Option.find_and_stop (fun ((x1,y1),(x2,y2))->
+      match check y1 y2 with
+      None->None
+      |Some(a1,a2,_,_)->Some(x1,x2,a1,a2,y1,y2)
+    )temp1;;                  
 
 
 
