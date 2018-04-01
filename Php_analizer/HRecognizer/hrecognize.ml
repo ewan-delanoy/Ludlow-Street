@@ -80,6 +80,7 @@ let slash=c "slash" "/";;
 let space=c "space" " ";;
 let smaller=c "smaller" "<";;
 let tab=c "tab" "\t";;
+let times=c "times" "*";;
 let tilda=c "tilda" "~";;
 let vline=c "vline" "|";;
 let windows_linebreak=c "windows_linebreak" "\r";;
@@ -196,10 +197,17 @@ let double_slash_comment=
     linebreak
   ];;
 
+let beginning_of_starred_comment=
+    ch "beginning_of_starred_comment"
+    [
+      slash;
+      times;
+    ];;  
+
 let starred_comment=
   ch "starred_comment"
   [
-    c "beginning_of_starred_comment" "/*";
+    beginning_of_starred_comment;
     lc "end_of_starred_comment" "*/"
   ];;
 
