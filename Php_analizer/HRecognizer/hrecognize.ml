@@ -40,6 +40,11 @@ let sq=Hregistrar.leaf "squote" Atomic_hrecognizer.simple_quoted;;
 let dq=Hregistrar.leaf "dquote" Atomic_hrecognizer.double_quoted;;           
 let ch x l=Hregistrar.chain x l;;   
 let dis x l=Hregistrar.ordered_disjunction x l;;   
+(*
+let usual_disjunction x l=
+    let n=List.length l in 
+    let temp1=Ennig.index_everything(l) 
+*)
 
 let star=Hregistrar.star;;
 let maybe=Hregistrar.maybe;;
