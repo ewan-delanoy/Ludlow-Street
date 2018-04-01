@@ -55,6 +55,6 @@ let print (L(name_for_whole,ll))=
    ) in
   let temp1=Image.image print_item ll in
   "L"^"ong_hdisjunction.L("^(Strung.enclose name_for_whole)^",["^
-  (String.concat "\n" temp1)
+  (String.concat "\n" temp1)^
   "])";;
 
