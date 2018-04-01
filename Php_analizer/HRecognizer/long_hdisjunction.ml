@@ -51,10 +51,10 @@ let print (L(name_for_whole,ll))=
     let tt=Strung.enclose(t) 
     and temp2=Image.image Nonatomic_hrecognizer.name l in
     let completed_tt=(String.make (m+8-(String.length tt)) ' ')^tt in
-    "   "^completed_tt^",["^(String.concat ";" temp2)^"]"
+    "   "^completed_tt^",["^(String.concat ";" temp2)^"];"
    ) in
   let temp1=Image.image print_item ll in
-  "L"^"ong_hdisjunction.L("^(Strung.enclose name_for_whole)^",["^
+  "L"^"ong_hdisjunction.L("^(Strung.enclose name_for_whole)^",[\n"^
   (String.concat "\n" temp1)^
   "])";;
 
