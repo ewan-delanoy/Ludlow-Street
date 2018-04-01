@@ -4,6 +4,8 @@
 
 *)
 
+module Private=struct
+
 let rec flatten_nonatomic_hrecognizer x=match x with
   Nonatomic_hrecognizer.Chain(_,l)->
       List.flatten (Image.image flatten_nonatomic_hrecognizer l)
@@ -139,12 +141,14 @@ let rec compute_leftmost_difference (l1,l2)=
     else Some(a1,a2) 
    );;
 
-let main_problem_finder (name,n1,n2,l1,l2)=
-   match compute_leftmost_difference (l1,l2) with
+end;;
+
+let check (l1,l2)=
+   match Private.compute_leftmost_difference (l1,l2) with
     None->None
-   |Some(a1,a2)->if test_for_disjointness a1 a2
+   |Some(a1,a2)->if Private.test_for_disjointness a1 a2
                  then None
-                 else Some(name,n1,n2,a1,a2,l1,l2);;
+                 else Some(a1,a2,l1,l2);;
 
 
 
