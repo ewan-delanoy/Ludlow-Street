@@ -237,6 +237,12 @@ let for_longest_match_pairs=
   else standard v1 v2
  ): (string*'b) t);;
  
- 
+let from_snd (f:'b t)=((fun (x1,y1) (x2,y2)->
+  let first_try=f y1 y2 in
+  if first_try<>Equal 
+  then first_try
+  else standard x1 x2
+): ('a*'b) t );;
+
  
  
