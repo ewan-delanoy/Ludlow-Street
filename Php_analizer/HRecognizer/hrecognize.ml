@@ -36,8 +36,8 @@ let sto x y=
   Hregistrar.leaf x (Atomic_hrecognizer.star_outside y);;
 let enc x y=
     Hregistrar.leaf x (Atomic_hrecognizer.enclosed y);;  
-let sq=Hregistrar.leaf "squote" Atomic_hrecognizer.simple_quoted;;
-let dq=Hregistrar.leaf "dquote" Atomic_hrecognizer.double_quoted;;           
+let sq=Hregistrar.leaf "sq" Atomic_hrecognizer.simple_quoted;;
+let dq=Hregistrar.leaf "dq" Atomic_hrecognizer.double_quoted;;           
 let ch x l=Hregistrar.chain x l;;   
 let dis x l=Hregistrar.ordered_disjunction x l;;   
 
@@ -142,6 +142,7 @@ let white_spot=ch "white_spot" [one_white;whites];;
 
 let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
 
+let zero=c "zero" "0";;
 
 let first_letter_in_php_name=
   dis "first_letter_in_php_name"
@@ -491,10 +492,12 @@ let hexadecimal_range=
      'A'; 'B'; 'C'; 'D'; 'E'; 'F';
      ];;
 
+
+
 let hexadecimal_number=
    ch "hexadecimal_number"
    [
-     c "zero" "0";
+     zero;
      caseless_x;
      hexadecimal_range;
    ];;
