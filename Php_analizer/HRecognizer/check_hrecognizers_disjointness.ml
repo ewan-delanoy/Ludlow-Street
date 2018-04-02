@@ -148,7 +148,7 @@ let find_fault (Long_hdisjunction.L(_,l))=
       match check y1 y2 with
       None->None
       |Some(graet,a1,a2,b1,b2)->Some(x1,x2,graet,a1,a2,b1,b2)
-    )temp1;;                  
+    ) temp1;;                  
 
 
 
