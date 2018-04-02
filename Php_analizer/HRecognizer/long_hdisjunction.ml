@@ -9,7 +9,7 @@ name with an index number added at the end.
 
 *)
 
-
+(*
 type t=L of string*((string*(Nonatomic_hrecognizer.t list)) list);;
 
 let to_usual (L(name_for_whole,ll))=
@@ -62,4 +62,4 @@ let print (L(name_for_whole,ll))=
   "L"^"ong_hdisjunction.L("^(Strung.enclose name_for_whole)^",[\n"^
   (String.concat "\n" temp1)^
   "])";;
-
+*)
