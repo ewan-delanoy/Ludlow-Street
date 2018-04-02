@@ -56,7 +56,7 @@ exception Debug_chain_exn;;
 
 
 let debug_chain  l s i=
-        let rec tempf=(fun (idx,graet,da_ober)->
+         let rec tempf=(fun (idx,graet,da_ober)->
          match da_ober with
          []->(List.rev graet,None,(String.length s)+1)
          |atm::peurrest->
