@@ -1,6 +1,6 @@
 (*
 
-#use"Php_analizer/HRecognizer/order_for_hrecognizer_chains.ml";;
+#use"Php_analizer/HRecognizer/order_for_jrecognizer_chains.ml";;
 
 If none of the two chains is an initial segment of the other, dictionary
 order is applied.
@@ -22,11 +22,11 @@ let order=
         if a1=a2 then tempf peurrest1 peurrest2 else   
        (* Different recognizers have different names *) 
        Total_ordering.lex_for_strings
-         (Nonatomic_hrecognizer.name a1)
-         (Nonatomic_hrecognizer.name a2) 
+         (Nonatomic_jrecognizer.name a1)
+         (Nonatomic_jrecognizer.name a2) 
    )
    in
-   (tempf: (Nonatomic_hrecognizer.t list) Total_ordering.t);;
+   (tempf: (Nonatomic_jrecognizer.t list) Total_ordering.t);;
 
 let order_for_pairs=((Total_ordering.from_snd order): 
-  (string * Nonatomic_hrecognizer.t list) Total_ordering.t);;  
+  (string * Nonatomic_jrecognizer.t list) Total_ordering.t);;  

@@ -4,6 +4,10 @@
 
 *)
 
+exception Repair_exn of 
+(Nonatomic_jrecognizer.t list * Nonatomic_jrecognizer.t * Nonatomic_jrecognizer.t * 
+                                Nonatomic_jrecognizer.t list * Nonatomic_jrecognizer.t list);;
+
 module Private=struct
 
 
@@ -129,14 +133,55 @@ let rec compute_leftmost_difference (graet,l1,l2)=
     else Some(List.rev(graet),a1,a2,b1,b2) 
    );;
 
+let check (l1,l2)=
+    match compute_leftmost_difference ([],l1,l2) with
+     None->None
+    |Some(graet,a1,a2,b1,b2)->if test_for_immediate_disjointness a1 a2
+                  then None
+                  else Some(graet,a1,a2,b1,b2);;   
+
+let check_several ll1 ll2=
+   Option.find_and_stop check
+    (Cartesian.product ll1 ll2);;                  
+
+let expand_because_of_disjointness ll (graet,a,b) =
+   let whole=graet@(a::b) in
+   match a with
+  Nonatomic_jrecognizer.Chain(_,_)->
+       let new_whole = graet@((Nonatomic_jrecognizer.flatten a)@b) in
+       (false,Image.image(fun x->if x=whole then new_whole else x) ll)
+  |Nonatomic_jrecognizer.Ordered_disjunction(_,l)->
+        let temp1=Image.image (fun component->graet@(component::b)) l in
+        let temp2=Image.image (fun x->if x=whole then temp1 else [x]) ll in
+        (false,List.flatten temp2)
+  |_->(true,ll);;
+
+  
+
+let pusher_for_repairing (_,(ll1,ll2))=
+    match  check_several ll1 ll2 with
+    None->(true,(ll1,ll2))
+    |Some(graet,a1,a2,b1,b2)->
+       let (expansion_failed1,new_ll1)=expand_because_of_disjointness ll1 (graet,a1,b1)
+       and (expansion_failed2,new_ll2)=expand_because_of_disjointness ll2 (graet,a2,b2) in
+       if expansion_failed1 && expansion_failed2
+       then raise(Repair_exn(graet,a1,a2,b1,b2))
+       else 
+       (false,(new_ll1,new_ll2));; 
+
+let rec iterator_for_repairing (end_reached,pair)=
+    if end_reached then pair else
+    iterator_for_repairing ( pusher_for_repairing (end_reached,pair));;
+   
 end;;
 
-let check l1 l2=
-   match Private.compute_leftmost_difference ([],l1,l2) with
-    None->None
-   |Some(graet,a1,a2,b1,b2)->if Private.test_for_immediate_disjointness a1 a2
-                 then None
-                 else Some(graet,a1,a2,b1,b2);;
+let check l1 l2=Private.check (l1,l2);;
+
+let repair ll1 ll2=Private.iterator_for_repairing (false,(ll1,ll2));; 
+
+
+
+
 
 
 
