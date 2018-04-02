@@ -5,7 +5,6 @@
 *)
 
 
-
 exception Name_already_used of string*
 (string * Nonatomic_jrecognizer.t list * Atomic_hrecognizer.t option* (string list) option);;
 exception Illegal_name of string;;
