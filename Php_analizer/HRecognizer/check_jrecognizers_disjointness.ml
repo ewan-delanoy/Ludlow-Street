@@ -1,6 +1,6 @@
 (*
 
-#use"Php_analizer/HRecognizer/check_hrecognizers_disjointness.ml";;
+#use"Php_analizer/HRecognizer/check_jrecognizers_disjointness.ml";;
 
 *)
 
@@ -12,10 +12,10 @@ let constant_aspect_for_atomic_hrecognizer =function
   |_->None;;
 
 let rec constant_aspect=function
- Nonatomic_hrecognizer.Leaf(_,atm)->constant_aspect_for_atomic_hrecognizer atm 
-|Nonatomic_hrecognizer.Chain(_,l)->
+ Nonatomic_jrecognizer.Leaf(_,atm)->constant_aspect_for_atomic_hrecognizer atm 
+|Nonatomic_jrecognizer.Chain(_,l)->
       if List.length(l)>1 then None else constant_aspect(List.hd l)    
-|Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
+|Nonatomic_jrecognizer.Ordered_disjunction(_,l)->
       if List.length(l)>1 then None else constant_aspect(List.hd l)  
 |_->None;;
 
@@ -38,18 +38,16 @@ let common_prefix_for_atomic_hrecognizer =function
 
 
 let rec common_prefix=function
-        Nonatomic_hrecognizer.Leaf(_,atm)->common_prefix_for_atomic_hrecognizer atm
-        |Nonatomic_hrecognizer.Chain(_,l)->
+        Nonatomic_jrecognizer.Leaf(_,atm)->common_prefix_for_atomic_hrecognizer atm
+        |Nonatomic_jrecognizer.Chain(_,l)->
             let (graet1,da_ober1)=extract_left_constants ("",l) in
             (match da_ober1 with
              []->graet1
              |a::peurrest->(graet1)^(common_prefix a)
             )
-        |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
+        |Nonatomic_jrecognizer.Ordered_disjunction(_,l)->
                   Strung.largest_common_prefix(Image.image common_prefix l)
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x          
-        |Nonatomic_hrecognizer.Star(_,_)->""
-        |Nonatomic_hrecognizer.Maybe(_,_)->"";;
+        |Nonatomic_jrecognizer.Keyword_avoider(_,(x,_))->common_prefix x;;
 
 exception First_char_for_atomic of Atomic_hrecognizer.t;;
 
@@ -62,23 +60,21 @@ let first_char_for_atomic_hrecognizer x=match x with
        |Atomic_hrecognizer.Simple_quoted->Tidel.singleton('\'')
        |Atomic_hrecognizer.Double_quoted->Tidel.singleton('"');;
 
-exception First_char_for_nonatomic of Nonatomic_hrecognizer.t;;       
+exception First_char_for_nonatomic of Nonatomic_jrecognizer.t;;       
 
 let rec naive_first_char_for_nonatomic_hrecognizer x=match x with
-        Nonatomic_hrecognizer.Leaf(_,atm)->first_char_for_atomic_hrecognizer atm
-        |Nonatomic_hrecognizer.Chain(_,l)->naive_first_char_for_nonatomic_hrecognizer (List.hd l)
-        |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
+        Nonatomic_jrecognizer.Leaf(_,atm)->first_char_for_atomic_hrecognizer atm
+        |Nonatomic_jrecognizer.Chain(_,l)->naive_first_char_for_nonatomic_hrecognizer (List.hd l)
+        |Nonatomic_jrecognizer.Ordered_disjunction(_,l)->
                   Tidel.big_teuzin(Image.image naive_first_char_for_nonatomic_hrecognizer l)
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->naive_first_char_for_nonatomic_hrecognizer x          
-        |Nonatomic_hrecognizer.Star(_,_)->raise(First_char_for_nonatomic(x))
-        |Nonatomic_hrecognizer.Maybe(_,_)->raise(First_char_for_nonatomic(x));;
+        |Nonatomic_jrecognizer.Keyword_avoider(_,(x,_))->naive_first_char_for_nonatomic_hrecognizer x ;;
 
 let first_char_for_nonatomic_hrecognizer x =
   try naive_first_char_for_nonatomic_hrecognizer x with
   _->raise(First_char_for_nonatomic(x));;
 
 let keyword_avoider_aspect=function
-  Nonatomic_hrecognizer.Keyword_avoider(_,data)->Some(data)
+  Nonatomic_jrecognizer.Keyword_avoider(_,data)->Some(data)
   |_->None;;
 
 let check_nonsymmetric_avoider_case x y=
@@ -127,8 +123,8 @@ let rec compute_leftmost_difference (graet,l1,l2)=
    match l1 with []->None |a1::b1->
    (
     match l2 with []->None |a2::b2->
-    if (Nonatomic_hrecognizer.name a1)=
-       (Nonatomic_hrecognizer.name a2)
+    if (Nonatomic_jrecognizer.name a1)=
+       (Nonatomic_jrecognizer.name a2)
     then compute_leftmost_difference  (a1::graet,b1,b2)
     else Some(List.rev(graet),a1,a2,b1,b2) 
    );;
@@ -141,14 +137,6 @@ let check l1 l2=
    |Some(graet,a1,a2,b1,b2)->if Private.test_for_immediate_disjointness a1 a2
                  then None
                  else Some(graet,a1,a2,b1,b2);;
-
-let find_fault (Long_hdisjunction.L(_,l))=
-    let temp1=Uple.list_of_pairs l in
-    Option.find_and_stop (fun ((x1,y1),(x2,y2))->
-      match check y1 y2 with
-      None->None
-      |Some(graet,a1,a2,b1,b2)->Some(x1,x2,graet,a1,a2,b1,b2)
-    ) temp1;;                  
 
 
 
