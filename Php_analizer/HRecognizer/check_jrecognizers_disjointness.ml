@@ -133,73 +133,53 @@ let rec compute_leftmost_difference (graet,l1,l2)=
     else Some(List.rev(graet),a1,a2,b1,b2) 
    );;
 
-let check (l1,l2)=
+let check_compare_two_chains (l1,l2)=
     match compute_leftmost_difference ([],l1,l2) with
      None->None
     |Some(graet,a1,a2,b1,b2)->if test_for_immediate_disjointness a1 a2
                   then None
                   else Some(graet,a1,a2,b1,b2);;   
 
-let check_several ll1 ll2=
-   Option.find_and_stop check
-    (Cartesian.product ll1 ll2);;                  
+let check_disjunction st_ll=
+  let ll=Standard_jdisjunction.unveil st_ll in
+  let temp1=Uple.list_of_pairs ll in
+  Option.find_and_stop  check_compare_two_chains temp1;;
+             
 
-let expand_because_of_disjointness ll (graet,a,b) =
+let expand_because_of_disjointness st_ll (graet,a,b) =
+  let ll=Standard_jdisjunction.unveil st_ll in
    let whole=graet@(a::b) in
    match a with
   Nonatomic_jrecognizer.Chain(_,_)->
        let new_whole = graet@((Nonatomic_jrecognizer.flatten a)@b) in
-       (false,Image.image(fun x->if x=whole then new_whole else x) ll)
+       (false,Standard_jdisjunction.veil(Image.image(fun x->if x=whole then new_whole else x) ll))
   |Nonatomic_jrecognizer.Ordered_disjunction(_,l)->
         let temp1=Image.image (fun component->graet@(component::b)) l in
         let temp2=Image.image (fun x->if x=whole then temp1 else [x]) ll in
-        (false,List.flatten temp2)
-  |_->(true,ll);;
+        (false,Standard_jdisjunction.veil(List.flatten temp2))
+  |_->(true,st_ll);;
 
   
 
-let pusher_for_repairing (_,(ll1,ll2))=
-    match  check_several ll1 ll2 with
-    None->(true,(ll1,ll2))
+let pusher_for_repairing (_,st_ll)=
+    match  check_disjunction st_ll with
+    None->(true,st_ll)
     |Some(graet,a1,a2,b1,b2)->
-       let (expansion_failed1,new_ll1)=expand_because_of_disjointness ll1 (graet,a1,b1)
-       and (expansion_failed2,new_ll2)=expand_because_of_disjointness ll2 (graet,a2,b2) in
+       let (expansion_failed1,st_ll1)=expand_because_of_disjointness st_ll (graet,a1,b1) in
+       let (expansion_failed2,st_ll2)=expand_because_of_disjointness st_ll1 (graet,a2,b2) in
        if expansion_failed1 && expansion_failed2
        then raise(Repair_exn(graet,a1,a2,b1,b2))
-       else 
-       (false,(new_ll1,new_ll2));; 
+       else (false,st_ll2);; 
 
 let rec iterator_for_repairing (end_reached,pair)=
     if end_reached then pair else
     iterator_for_repairing ( pusher_for_repairing (end_reached,pair));;
    
-let repair_a_pair (ll1,ll2)=
-  iterator_for_repairing (false,(ll1,ll2));;
-
-let repair_an_array arr=
-    let n=Array.length(arr)-1 in
-    let tempf=(fun  i j->
-       let (ll1,ll2)=repair_a_pair (Array.get arr i,Array.get arr j) in
-       (Array.set arr i ll1;Array.set arr j ll2)
-    )  in
-    for i=0 to n 
-    do
-        for j=0 to n 
-        do
-             tempf i j
-        done     
-    done;; 
-
-let repair_a_list l=
-   let arr=Array.of_list l in
-   let _=repair_an_array arr in
-   Array.to_list arr;;
-
 end;;
 
-let check l1 l2=Private.check (l1,l2);;
+let check l1 l2=Private.check_compare_two_chains (l1,l2);;
 
-let repair=Private.repair_a_list;; 
+let repair st_ll=Private.iterator_for_repairing(false,st_ll);; 
 
 
 
