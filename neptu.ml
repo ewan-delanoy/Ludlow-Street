@@ -4,7 +4,74 @@
 
 *)
 
+(*
+
+let p1=11;;
+let q1=p1-1;;
+let u1=ennig (-q1) q1;;
+let u2=ennig 1 q1;;
+let u3=Cartesian.product u1 u2;;
+let u4=List.filter (fun (x,y)->(Gcd.gcd x y)=1) u3;;
+let u5=Cartesian.square u4;;
+let u6=List.filter (fun ((x1,y1),(x2,y2))->
+   let d=x1*y2-x2*y1 in (d<>0)&&((d mod p1)=0)
+) u5;;
+let u7=Image.image (fun ((x1,y1),(x2,y2))->abs(x1*y2-x2*y1)/p1) u6;;
+let u8=Tidel.diforchan u7;;
+
+let u9=List.filter (fun ((x1,y1),(x2,y2))->
+   let d=x1*y2-x2*y1 in ((d mod 13)=0)
+) u6;;
+
+*)
+
+(*
+let rn=Hregistrar.recognizer_with_name;;
 let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;
+
+let z1=Option.filter_and_unpack (
+   function
+   (_,Nonatomic_hrecognizer.Ordered_disjunction(s,l))->Some(s,l)
+   |_->None
+) (!(Hregistrar.Private.the_list));;
+
+let z2=Image.image Long_hdisjunction.of_usual z1;;
+let z3=Option.filter_and_unpack  (fun x->
+    let (Long_hdisjunction.L(name,_))=x in
+    match Check_hrecognizers_disjointness.find_fault x with
+    None->None
+    |Some(data)->Some(name,data)
+) z2;;
+
+*)
+
+(*
+let z1=rn "assignable";;
+
+let (_,z2,_,_)=Nonatomic_hrecognizer.unveil z1;;
+
+let z3=("assignable",z2);;
+  
+let z4=Long_hdisjunction.of_usual z3;;
+
+let z5=Long_hdisjunction.to_usual z4;;
+
+let check1=(z5=z3);;
+
+let printed_z4=Long_hdisjunction.print z4;;
+
+let text_for_z4="open Hrecognize;;\n\nlet z6=\n     "^printed_z4^"\n;;\n\n\n\n";;
+
+let pasteboard_ap=Absolute_path.of_string "pasteboard.ml";;
+
+Io.overwrite_with pasteboard_ap text_for_z4;;
+
+*)
+
+(*
+#use"pasteboard.ml";;
+
+let check2=(z6=z4);;
 
 
 let z1=(!(Hregistrar.Private.the_list));;
@@ -19,25 +86,29 @@ let z2=Option.filter_and_unpack (
 
 let transformer (name,li)=
   let temp1=Image.image 
-   (fun r->(r,Check_hrecognizers_disjointness.flatten_nonatomic_hrecognizer r)) li in
+   (fun r->(r,Check_hrecognizers_disjointness.Private.flatten_nonatomic_hrecognizer r)) li in
   let temp2=Uple.list_of_pairs temp1 in
   let temp3=Image.image (fun ((xn,xc),(yn,yc))->(name,xn,yn,xc,yc)) temp2 in
   temp3;;
 
 let z3=List.flatten (Image.image transformer z2);;
 
-let z4=Option.filter_and_unpack
-Check_hrecognizers_disjointness.main_problem_finder
-z3;;
+let z4=Option.filter_and_unpack (fun (name,n1,n2,l1,l2)->
+   match Check_hrecognizers_disjointness.check (l1,l2) with
+    None->None
+   |Some(a1,a2,_,_)->Some(name,n1,n2,a1,a2,l1,l2)
+) z3;;
 
 let z5=List.hd z4;;
 
 let z6=Image.image (fun (a,_,_,_,_,_,_)->a) z4;;
 
 let z7=List.filter (
-  fun (a,_,_,_,_,_,_)->a="one_white"
+  fun (a,_,_,_,_,_,_)->a="ornament"
 ) z4;;
 
+
+*)
 
 
 
