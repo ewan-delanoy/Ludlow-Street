@@ -48,6 +48,30 @@ let rec flatten x=match x with
       else [x]
  |_->[x];;
 
+let simple_update already_updated x=
+  let name_for_x=name x in 
+   match Option.seek (fun (name1,_)->name1=name_for_x) already_updated with
+   None->(false,x)
+   |Some(_,new_x)->(true,new_x);;
+
+let update already_updated x=match x with
+ Leaf(s,atm)->(false,x)
+|Chain(name,l)->
+        let temp1=Image.image (simple_update already_updated) l in
+        let novelty_present=List.exists fst temp1 in
+        let temp2=Image.image snd temp1 in
+        (novelty_present,Chain(name,temp2))
+|Ordered_disjunction(name,l)->
+        let temp1=Image.image (simple_update already_updated) l in
+        let novelty_present=List.exists fst temp1 in
+        let temp2=Image.image snd temp1 in
+        (novelty_present,Ordered_disjunction(name,temp2))
+|Keyword_avoider(name,(y,l))->
+        let (novelty_present,new_y)=simple_update already_updated y in
+        (novelty_present,Keyword_avoider(name,(new_y,l)))
+        ;;
+
+
 let print (x:t)="rn \""^(name x)^"\"";;
 
 let print_out (fmt:Format.formatter) (x:t)=
