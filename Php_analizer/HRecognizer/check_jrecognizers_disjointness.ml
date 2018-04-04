@@ -173,11 +173,33 @@ let rec iterator_for_repairing (end_reached,pair)=
     if end_reached then pair else
     iterator_for_repairing ( pusher_for_repairing (end_reached,pair));;
    
+let repair_a_pair (ll1,ll2)=
+  iterator_for_repairing (false,(ll1,ll2));;
+
+let repair_an_array arr=
+    let n=Array.length(arr)-1 in
+    let tempf=(fun  i j->
+       let (ll1,ll2)=repair_a_pair (Array.get arr i,Array.get arr j) in
+       (Array.set arr i ll1;Array.set arr j ll2)
+    )  in
+    for i=0 to n 
+    do
+        for j=0 to n 
+        do
+             tempf i j
+        done     
+    done;; 
+
+let repair_a_list l=
+   let arr=Array.of_list l in
+   let _=repair_an_array arr in
+   Array.to_list arr;;
+
 end;;
 
 let check l1 l2=Private.check (l1,l2);;
 
-let repair ll1 ll2=Private.iterator_for_repairing (false,(ll1,ll2));; 
+let repair=Private.repair_a_list;; 
 
 
 
