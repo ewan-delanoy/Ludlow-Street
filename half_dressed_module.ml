@@ -57,7 +57,7 @@ let of_path_and_root ap dir=
     else 
     let s_dir=Directory_name.without_trailing_slash dir in
     let n_dir=(String.length s_dir)+1 in
-    let subpath=Cull_string.cobeginning n_dir (Absolute_path.uprooted_version ap) in
+    let subpath=Cull_string.cobeginning n_dir (Absolute_path.to_string ap) in
     let s=Father_and_son.invasive_father subpath '.' in
     {
 	      bundle_main_dir = s_dir;
