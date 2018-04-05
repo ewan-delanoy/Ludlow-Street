@@ -19,7 +19,7 @@ let on_targets triple ap=
   |Some(_)->
    let bel=German_data.below mdata (Mlx_ended_absolute_path.half_dressed_core mlx) in
     if bel=[]
-    then let s_hm=Half_dressed_module.to_string hm in
+    then let s_hm=Half_dressed_module.uprooted_version hm in
          let fn=(Directory_name.connectable_to_subpath(root))^s_hm in
          let _=Image.image
          (fun edg->Unix_command.uc("rm -f "^fn^edg^"*"))

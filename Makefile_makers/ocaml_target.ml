@@ -28,15 +28,15 @@ NO_DEPENDENCIES of Mlx_ended_absolute_path.t
 
 let to_string =function
 NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
-|ML_FROM_MLL(hm)->(Half_dressed_module.to_string hm)^".ml"
-|ML_FROM_MLY(hm)->(Half_dressed_module.to_string hm)^".ml" 
-|CMI(hm)->(Half_dressed_module.to_string hm)^".cmi"
-|CMO(hm)->(Half_dressed_module.to_string hm)^".cmo"
-|DCMO(hm)->(Half_dressed_module.to_string hm)^".d.cmo"
-|CMA(hm)->(Half_dressed_module.to_string hm)^".cma"
-|CMX(hm)->(Half_dressed_module.to_string hm)^".cmx"
-|EXECUTABLE(hm)->(Half_dressed_module.to_string hm)^".caml_executable"
-|DEBUGGABLE(hm)->(Half_dressed_module.to_string hm)^".caml_debuggable"
+|ML_FROM_MLL(hm)->(Half_dressed_module.uprooted_version hm)^".ml"
+|ML_FROM_MLY(hm)->(Half_dressed_module.uprooted_version hm)^".ml" 
+|CMI(hm)->(Half_dressed_module.uprooted_version hm)^".cmi"
+|CMO(hm)->(Half_dressed_module.uprooted_version hm)^".cmo"
+|DCMO(hm)->(Half_dressed_module.uprooted_version hm)^".d.cmo"
+|CMA(hm)->(Half_dressed_module.uprooted_version hm)^".cma"
+|CMX(hm)->(Half_dressed_module.uprooted_version hm)^".cmx"
+|EXECUTABLE(hm)->(Half_dressed_module.uprooted_version hm)^".caml_executable"
+|DEBUGGABLE(hm)->(Half_dressed_module.uprooted_version hm)^".caml_debuggable"
 |TOPLEVEL(name,l)->name;;
 
 let hm_to_na hm=Naked_module.to_string(Half_dressed_module.naked_module hm);;

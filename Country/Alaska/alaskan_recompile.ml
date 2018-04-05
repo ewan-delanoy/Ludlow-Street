@@ -30,7 +30,7 @@ module Private=struct
          else raise(Circular_dependencies(msg));; 
          
   let message_about_changed_modules changed_modules=
-    let temp1=Image.image Half_dressed_module.to_string changed_modules in
+    let temp1=Image.image Half_dressed_module.uprooted_version changed_modules in
     "\n\n\n"^
     "The following modules have been directly changed :\n"^
     (String.concat "\n" temp1)^
@@ -53,7 +53,7 @@ module Private=struct
     let (cycles,old_list)=Reconstruct_linear_poset.reconstruct_linear_poset 
        coat md_list in
     let _=treat_circular_dependencies tolerate_cycles
-         (fun md->Half_dressed_module.to_string(Modulesystem_data.name md)) 
+         (fun md->Half_dressed_module.uprooted_version(Modulesystem_data.name md)) 
          cycles in     
     let final_list=Update_ancs_libs_and_dirs_in_modulesystem.update old_list in 
     let active_descendants=Option.filter_and_unpack (

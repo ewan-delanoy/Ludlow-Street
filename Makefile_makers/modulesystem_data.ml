@@ -313,7 +313,7 @@ let rename (old_name,new_name) x=
        and renamed_ancestors=Image.image renamer x.all_ancestors in
        let renamed_directories=Option.filter_and_unpack(
          fun mlx->
-         let s=Half_dressed_module.to_string mlx in
+         let s=Half_dressed_module.uprooted_version mlx in
          if String.contains s '/' 
          then Some(Subdirectory.of_string(Father_and_son.father s '/') )
          else None
@@ -351,7 +351,7 @@ let update_anclibdir changer l_data x=
    ) Ocaml_library.all_libraries in
    let temp1=Option.filter_and_unpack(
      fun hm->
-       let s_hm=Half_dressed_module.to_string hm in
+       let s_hm=Half_dressed_module.uprooted_version hm in
        let s_dir=Father_and_son.father s_hm '/' in
        if s_dir="" then None else
        Some(Subdirectory.of_string s_dir)
@@ -622,8 +622,8 @@ let archive x=
      string_of_float x.mll_modification_time;
      string_of_float x.mly_modification_time;
      Nonblank.make(String.concat industrial_separator2 (Image.image Ocaml_library.to_string x.needed_libraries));
-     Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.direct_fathers));
-     Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.to_string x.all_ancestors));
+     Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.uprooted_version x.direct_fathers));
+     Nonblank.make(String.concat industrial_separator2 (Image.image Half_dressed_module.uprooted_version x.all_ancestors));
      Nonblank.make(String.concat industrial_separator2 (Image.image Subdirectory.without_trailing_slash x.needed_directories));
    ];;
 

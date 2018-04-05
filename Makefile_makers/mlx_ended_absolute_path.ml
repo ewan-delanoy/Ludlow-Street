@@ -62,7 +62,7 @@ let ending mlx=snd(decompose mlx);;
 let to_path mlx=
   let (hm,edg)=decompose mlx in
   let dir=root mlx in
-  let s_hm=Half_dressed_module.to_string hm 
+  let s_hm=Half_dressed_module.uprooted_version hm 
   and s_dir=Directory_name.connectable_to_subpath dir in
   Absolute_path.of_string( s_dir^s_hm^(Ocaml_ending.to_string edg) );;
 

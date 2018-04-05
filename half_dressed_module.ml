@@ -36,7 +36,7 @@ let of_string_and_root old_s dir=
           naked_module     =Father_and_son.son s '/';
 	    };;  
    
-let to_string x=
+let uprooted_version x=
    let sub=x.subdirectory in
    if sub=""
    then x.naked_module
@@ -46,7 +46,7 @@ let to_string x=
 
 let to_shortened_string x=x.naked_module;;   
 
-let unveil x=(to_string x,bundle_main_dir x);;
+let unveil x=(uprooted_version x,bundle_main_dir x);;
 
 exception FileOutsideDirectory of Absolute_path.t*Directory_name.t;;
 
@@ -57,7 +57,7 @@ let of_path_and_root ap dir=
     else 
     let s_dir=Directory_name.without_trailing_slash dir in
     let n_dir=(String.length s_dir)+1 in
-    let subpath=Cull_string.cobeginning n_dir (Absolute_path.to_string ap) in
+    let subpath=Cull_string.cobeginning n_dir (Absolute_path.uprooted_version ap) in
     let s=Father_and_son.invasive_father subpath '.' in
     {
 	      bundle_main_dir = s_dir;
@@ -66,25 +66,25 @@ let of_path_and_root ap dir=
     }  ;;    
 
 let is_optional x=
-  let s=to_string x in
+  let s=uprooted_version x in
   if String.length(s)<9 then false else
   String.sub s 0 9="Optional/";;
 
 let is_forgotten x=
-  let s=to_string x in
+  let s=uprooted_version x in
   if String.length(s)<10 then false else
   String.sub s 0 10="Forgotten/";;
 
 
 let is_remembered x=
-  let s=to_string x in
+  let s=uprooted_version x in
   if String.length(s)<11 then false else
   String.sub s 0 11="Remembered/";;
 
 let is_archived hm=(is_optional hm)||(is_forgotten hm)||(is_remembered hm);;
 
 let is_executable x=
-  let s=to_string x in 
+  let s=uprooted_version x in 
   let n=String.length s in
   if String.length(s)<10 then false else
   String.sub s (n-10) 10="executable";;

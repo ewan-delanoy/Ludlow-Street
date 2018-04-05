@@ -35,7 +35,7 @@ let on_monitored_modules mdata old_name new_subdir=
 				Half_dressed_module.is_optional new_name) in
    let s_root=Directory_name.connectable_to_subpath(German_constant.root) in     
    let _=Unix_command.uc
-       ("rm -f "^s_root^"_build/"^(Half_dressed_module.to_string old_name)^".cm* ") in
+       ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
    if bowls=(false,true)
    then 
         let mandatory_desc=List.filter Modulesystem_data.is_not_optional desc in

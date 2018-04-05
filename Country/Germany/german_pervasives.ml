@@ -114,7 +114,7 @@ let am ()=
     
 let tw x=
   let hm=hmx x in
-  let s_hm=Half_dressed_module.to_string hm in
+  let s_hm=Half_dressed_module.uprooted_version hm in
   let fn=(Directory_name.connectable_to_subpath(cdir))^s_hm in    
   Sys.command ("open -a /Applications/TextWrangler.app "^fn^".ml");;
 
