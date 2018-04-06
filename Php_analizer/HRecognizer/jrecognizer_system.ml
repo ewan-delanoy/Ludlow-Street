@@ -4,7 +4,7 @@
 
 *)
 
-(*
+
 type t={
    atoms : (string*Atomic_hrecognizer.t) list;
    nonatoms : (string*Nonatomic_jrecognizer.t*Standard_jdisjunction.t) list;
@@ -29,6 +29,6 @@ let pusher_for_update (_,(already_updated,treated,to_be_treated))=match to_be_tr
   
 
 end;;
-*)
+
 
 

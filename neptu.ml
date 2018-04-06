@@ -4,6 +4,84 @@
 
 *)
 
+let ap=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Rama/MotherTheresa-PartI.htm";;
+
+let text=Io.read_whole_file ap;;
+
+let haddock1="style='font-family:\"WP TypographicSymbols\"'>=</span>";;
+
+let test1_at_index s i=
+  if not(Substring.is_a_substring_located_at "<span" s i)
+  then None
+  else
+  let opt1=After.after_whites s (i+5) in
+  if opt1=None then None else
+  let i1=Option.unpack opt1 in
+  if not(Substring.is_a_substring_located_at haddock1 s i1)
+  then None
+  else 
+  let i2=i1+(String.length haddock1)-1 in
+  Some(i2);;
+
+let peggy1 s=
+    let n=String.length s in
+    let temp1=Ennig.doyle(fun j->(j, test1_at_index s j)) 1 n in
+    Option.filter_and_unpack (fun (j,opt)->
+      match opt with None->None |Some(k)->Some(j,k)
+    ) temp1;;  
+
+let u1=peggy1 text;;    
+
+Strung.get;;
+
+(*
+German_pervasives.fg;;
+
+German_pervasives.ureg;;
+
+German_pervasives.rsh;;
+
+let g1=vfm "half_dressed_module";;
+let (_,g2)=Option.find (fun (x,y)->x="to_string") g1;;
+
+rv "Half_dressed_module.to_string" "uprooted_version";;
+
+let z1=German_wrapper.data();;
+let z2=Image.image Modulesystem_data.name z1;;
+let z3=List.filter (fun t->German_data.below z1 t=[] ) z2;;
+
+Unix_command.remember_commands_mode:=true;;
+
+ren "code_namespace" "cude_namespace";;
+ren "cude_namespace" "code_namespace";;
+
+Unix_command.accu;;
+*)
+(*
+
+[
+  Makefile_makers/mlx_ended_absolute_path.ml;
+  Makefile_makers/modulesystem_data.ml;
+   Makefile_makers/ocaml_target.ml;
+   Country/Alaska/alaskan_data.ml;
+   Country/Germany/german_data.ml;
+   Makefile_makers/read_info_on_file_in_system.ml;
+   Country/Alaska/alaskan_command_for_ocaml_target.ml;
+   Country/Germany/german_rename_module.ml;
+   Country/Germany/german_relocate_module.ml;
+   Country/Germany/german_make_module_optional.ml;
+   Country/Germany/german_forget_file.ml;
+   Country/Alaska/alaskan_up_to_date_targets.ml;
+   Country/Alaska/alaskan_recompile.ml;
+   Country/Germany/german_pervasives.ml]
+
+*)
+
+
+"Half_dressed_module.to_string";;
+
+
 (*
 
 let p1=11;;
