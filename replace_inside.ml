@@ -104,5 +104,27 @@ overwrite_and_dump_markers_inside_string
 *)
 
 
+let at_intervals_inside_string s l=
+  let n=String.length s in
+  let temp1=Listennou.universal_delta_list l 
+  and ((i_first,_),_)=List.hd(l)
+  and ((i_last,j_last),rep_last)=List.hd(List.rev l) in
+  let temp2=Image.image (fun (((i1,j1),rep1),((i2,j2),rep2))->
+      rep1^(String.sub s j1 (i2-j1-1))
+  ) temp1 in
+  let first_part=(String.sub s 0 (i_first-1))
+  and last_part=rep_last^(String.sub s j_last (n-j_last)) in
+  first_part^(String.concat "" temp2)^last_part;;
 
+let at_intervals_inside_file 
+  fn l=
+   let s1=Io.read_whole_file fn in
+   let s2=at_intervals_inside_string s1 l in
+   Io.overwrite_with fn s2;;     
+
+(*    
+
+at_intervals_inside_string "12345678901234567890" [(3,5),"right";(12,17),"again"];;
+
+*)
 
