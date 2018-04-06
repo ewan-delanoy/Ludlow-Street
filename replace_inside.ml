@@ -105,6 +105,7 @@ overwrite_and_dump_markers_inside_string
 
 
 let at_intervals_inside_string s l=
+  if l=[] then s else
   let n=String.length s in
   let temp1=Listennou.universal_delta_list l 
   and ((i_first,_),_)=List.hd(l)
