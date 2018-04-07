@@ -45,13 +45,13 @@ let individual_command x (i,j)=
     );;
 
 let prepare_premises x=
-   ["mkdir -p "^x.root_directory^"Coherent_PDF/";
+   [
+    
+    "mkdir -p "^x.root_directory^"Coherent_PDF/";
+    "rm -rf "^x.root_directory^"Coherent_PDF/*";
     "cp "^x.root_directory^x.pdffile_name^" "^x.root_directory^"Coherent_PDF/"];;
 
-let finish_premises x=
-   [
-    "rm -rf "^x.root_directory^"Coherent_PDF/*";
-   ];;
+
 
 let list_of_commands x=
    let (i,j)=x.page_interval 
@@ -60,7 +60,6 @@ let list_of_commands x=
    let intervals=Ennig.doyle (fun k->(i+(k-1)*d,min(i+k*d-1)(j))) 1 (r+1) in
    List.flatten(
     (prepare_premises x)::(Image.image (individual_command x) intervals)
-    @[finish_premises x]
     );; 
 
 end;;
