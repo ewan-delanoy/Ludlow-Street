@@ -71,6 +71,10 @@ let update already_updated x=match x with
         (novelty_present,Keyword_avoider(name,(new_y,l)))
         ;;
 
+let standardize x=match x with
+        Ordered_disjunction(name,l)->
+               Image.image chained_version l
+       |_->[chained_version x];;        
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
