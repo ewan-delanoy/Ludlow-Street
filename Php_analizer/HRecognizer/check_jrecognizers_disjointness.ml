@@ -179,7 +179,8 @@ end;;
 
 let check l1 l2=Private.check_compare_two_chains (l1,l2);;
 
-let repair st_ll=Private.iterator_for_repairing(false,st_ll);; 
+let repair ll=Private.iterator_for_repairing(false,
+  Standard_jdisjunction.veil ll);; 
 
 
 
