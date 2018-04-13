@@ -80,7 +80,7 @@ let dependencies =function
  Leaf(s,atm)->Ordered_string.empty_set
 |Chain(_,l)->Ordered_string.diforchan(Image.image name l)
 |Ordered_disjunction(_,l)->Ordered_string.diforchan(Image.image name l)
-|Keyword_avoider(_,(y,_))->Ordered_string.singleton y;;     
+|Keyword_avoider(_,(y,_))->Ordered_string.singleton (name y);;     
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
