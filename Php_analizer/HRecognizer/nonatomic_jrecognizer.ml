@@ -56,25 +56,31 @@ let simple_update already_updated x=
 
 let update already_updated x=match x with
  Leaf(s,atm)->(false,x)
-|Chain(name,l)->
+|Chain(nahme,l)->
         let temp1=Image.image (simple_update already_updated) l in
         let novelty_present=List.exists fst temp1 in
         let temp2=Image.image snd temp1 in
-        (novelty_present,Chain(name,temp2))
-|Ordered_disjunction(name,l)->
+        (novelty_present,Chain(nahme,temp2))
+|Ordered_disjunction(nahme,l)->
         let temp1=Image.image (simple_update already_updated) l in
         let novelty_present=List.exists fst temp1 in
         let temp2=Image.image snd temp1 in
-        (novelty_present,Ordered_disjunction(name,temp2))
-|Keyword_avoider(name,(y,l))->
+        (novelty_present,Ordered_disjunction(nahme,temp2))
+|Keyword_avoider(nahme,(y,l))->
         let (novelty_present,new_y)=simple_update already_updated y in
-        (novelty_present,Keyword_avoider(name,(new_y,l)))
+        (novelty_present,Keyword_avoider(nahme,(new_y,l)))
         ;;
 
 let standardize x=match x with
         Ordered_disjunction(name,l)->
                Image.image chained_version l
-       |_->[chained_version x];;        
+       |_->[chained_version x];;   
+       
+let dependencies =function
+ Leaf(s,atm)->Ordered_string.empty_set
+|Chain(_,l)->Ordered_string.diforchan(Image.image name l)
+|Ordered_disjunction(_,l)->Ordered_string.diforchan(Image.image name l)
+|Keyword_avoider(_,(y,_))->Ordered_string.singleton y;;     
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
