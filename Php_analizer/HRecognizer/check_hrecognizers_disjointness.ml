@@ -95,7 +95,8 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->
                    first_char_for_nonatomic_hrecognizer x ;;
 
-
+let first_char_for_chain l=
+  first_char_in_chain_case first_char_for_nonatomic_hrecognizer l;;
 
 let keyword_avoider_aspect=function
   Nonatomic_hrecognizer.Keyword_avoider(_,data)->Some(data)
@@ -128,18 +129,19 @@ let test_for_string_strict_disjointness s1 s2=
        (String.get s1 k)<>(String.get s2 k)
     )(Ennig.ennig 0 m);;
 
-let test_for_disjointness_via_first_chars x y=
-  let opt1=first_char_for_nonatomic_hrecognizer x
-  and opt2=first_char_for_nonatomic_hrecognizer y in
+let test_for_disjointness_via_first_chars lx ly=
+  let opt1=first_char_for_chain lx
+  and opt2=first_char_for_chain ly in
   if (opt1=None)||(opt2=None)
   then false
   else Tidel.kengeij_goullo (Option.unpack opt1) (Option.unpack opt2);; 
 
-let main_test_for_disjointness x y=
+let main_test_for_disjointness lx ly=
+   let x=List.hd lx and y=List.hd ly in
    if test_for_string_strict_disjointness (common_prefix x) (common_prefix y)
    then true
    else
-   if test_for_disjointness_via_first_chars x y
+   if test_for_disjointness_via_first_chars lx ly
    then true
    else  
    check_avoider_case x y
@@ -193,7 +195,7 @@ let low_level_pusher ((x,y,graet,l1,l2):walker)=
    if Nonatomic_hrecognizer.name a1=Nonatomic_hrecognizer.name a2
    then Pushes_found [x,y,a1::graet,b1,b2]
    else 
-   if main_test_for_disjointness a1 a2
+   if main_test_for_disjointness l1 l2
    then Disjointness_confirmed
    else 
    match expand_pair (x,y,graet,a1,b1,a2,b2) with
