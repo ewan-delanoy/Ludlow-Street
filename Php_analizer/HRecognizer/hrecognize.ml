@@ -137,7 +137,7 @@ let naive_paren_block=enc  "naive_paren_block" ('(',')') ;;
 let brace_block=enc  "brace_block" ('{','}') ;;
 let bracket_block=enc  "bracket_block" ('[',']') ;;
 let one_white=dis "one_white" [space;linebreak;windows_linebreak;tab];;
-let whites=star "whites" one_white;;
+let whites=st "whites"    [' ';'\n';'\r';'\t'];;
 let white_spot=ch "white_spot" [one_white;whites];;
 
 let possible_bracket_block=maybe "possible_bracket_block" bracket_block;;
