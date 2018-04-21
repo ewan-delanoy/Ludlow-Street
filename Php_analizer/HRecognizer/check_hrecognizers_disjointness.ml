@@ -62,9 +62,30 @@ let first_char_for_atomic_hrecognizer x=match x with
 
 exception First_char_for_nonatomic_exn of Nonatomic_hrecognizer.t;;       
 
+let atomic_star_aspect x=match x with
+Nonatomic_hrecognizer.Leaf(_,atm)->(
+          match atm with
+          Atomic_hrecognizer.Star(l_chr)->Some(l_chr)
+          |_->None
+       )
+|_->None;;
+
+let first_char_in_chain_case old_f l=
+   let x=List.hd l in
+   let opt=atomic_star_aspect x in
+   if (opt=None)||((List.length l)<2)
+   then old_f x
+   else 
+   let opt2=old_f (List.nth l 1) in
+   if opt2=None
+   then old_f x
+   else
+   Some(Tidel.teuzin (Tidel.safe_set(Option.unpack opt)) (Option.unpack opt2) );;
+
 let rec first_char_for_nonatomic_hrecognizer x=match x with
         Nonatomic_hrecognizer.Leaf(_,atm)->first_char_for_atomic_hrecognizer atm
-        |Nonatomic_hrecognizer.Chain(_,l)->first_char_for_nonatomic_hrecognizer (List.hd l)
+        |Nonatomic_hrecognizer.Chain(_,l)->
+           first_char_in_chain_case first_char_for_nonatomic_hrecognizer l
         |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
                   let temp1=Image.image first_char_for_nonatomic_hrecognizer l in
                   if List.mem None temp1 then None else
