@@ -57,7 +57,6 @@ let rlabch lbl l=rlab lbl
 
 
 let ampersand=c "ampersand" "&";;
-let arrow=c "arrow" "->";;
 let backslash=c "backslash" "\\";;
 let colon=c "colon" ":";;
 let comma=c "comma" ",";;
@@ -80,6 +79,8 @@ let times=c "times" "*";;
 let tilda=c "tilda" "~";;
 let vline=c "vline" "|";;
 let windows_linebreak=c "windows_linebreak" "\r";;
+
+let arrow=ch "arrow" [minus;larger];;
 
 let list_of_keywords =ref [];;
 let kc x y=
