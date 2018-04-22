@@ -4,8 +4,6 @@
 
 *)
 
-
-
 let constant_aspect_for_atomic_hrecognizer =function
    Atomic_hrecognizer.Constant(s)->Some(s)
   |_->None;;

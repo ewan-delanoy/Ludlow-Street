@@ -10,7 +10,8 @@ type t=
  |Ordered_disjunction of string*(t list)
  |Star of string*t
  |Maybe of string*t
- |Keyword_avoider of string*(t*(string list));;
+ |Keyword_avoider of string*(t*(string list))
+ |Motionless of string*(t list);;
 
 let name=function
   Leaf(s,_)->s
@@ -18,7 +19,8 @@ let name=function
   |Ordered_disjunction(s,_)->s
   |Star(s,_)->s
   |Maybe(s,_)->s
-  |Keyword_avoider(s,_)->s;;
+  |Keyword_avoider(s,_)->s
+  |Motionless(s,_)->s;;
 
 let leaf s x=Leaf(s,x);;
 let chain s l=Chain(s,l);;
@@ -26,6 +28,7 @@ let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
 let maybe s l=Maybe(s,l);; 
 let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
+let motionless s l=Motionless(s,l);; 
 
 let leaf_sconstructor="leaf";;
 let chain_sconstructor="chain";;
@@ -33,6 +36,7 @@ let ordered_disjunction_sconstructor="ordered_disjunction";;
 let star_sconstructor="star";;
 let maybe_sconstructor="maybe";;
 let keyword_avoider_sconstructor="keyword_avoider";;
+let motionless_sconstructor="motionless";;
 
 let unveil =function
   Leaf(s,atm)->(leaf_sconstructor,[],Some atm,None)
@@ -40,7 +44,8 @@ let unveil =function
  |Ordered_disjunction(_,l)->(ordered_disjunction_sconstructor,l,None,None)
  |Star(_,x)->(star_sconstructor,[x],None,None)
  |Maybe(_,x)->(maybe_sconstructor,[x],None,None)
- |Keyword_avoider(_,(x,l))->(keyword_avoider_sconstructor,[x],None,Some(l));;
+ |Keyword_avoider(_,(x,l))->(keyword_avoider_sconstructor,[x],None,Some(l))
+ |Motionless(_,l)->(motionless_sconstructor,l,None,None);;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
