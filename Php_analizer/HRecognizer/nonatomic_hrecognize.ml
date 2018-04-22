@@ -46,6 +46,13 @@ let recgz_avoiding_keywords old_f (x,l) s i=
             then None 
             else Some(new_idx);;         
 
+let recgz_motionless old_f l s i=
+    match Option.find_and_stop (
+        fun atm->old_f atm s i
+    ) l with
+     None->None
+    |_->Some(i);;            
+
 let rec recgz natm s i=
   match natm with
   Nonatomic_hrecognizer.Leaf(_,atm)->Atomic_hrecognize.recgnz atm s i
@@ -58,7 +65,9 @@ let rec recgz natm s i=
   |Nonatomic_hrecognizer.Maybe(_,natm2)->
       recgz_maybee recgz natm2 s i  
   |Nonatomic_hrecognizer.Keyword_avoider(_,(x,l))->
-      recgz_avoiding_keywords recgz (x,l) s i        ;;
+      recgz_avoiding_keywords recgz (x,l) s i 
+  |Nonatomic_hrecognizer.Motionless(_,l)->
+      recgz_motionless recgz l s i             ;;
 
 
 

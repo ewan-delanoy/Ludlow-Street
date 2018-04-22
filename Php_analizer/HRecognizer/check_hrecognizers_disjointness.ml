@@ -46,7 +46,9 @@ let rec common_prefix=function
                   Strung.largest_common_prefix(Image.image common_prefix l)
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->""          
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x;;
+        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x
+        |Nonatomic_hrecognizer.Motionless(_,l)->
+                  Strung.largest_common_prefix(Image.image common_prefix l);;
 
 
 let first_char_for_atomic_hrecognizer x=match x with
@@ -56,7 +58,8 @@ let first_char_for_atomic_hrecognizer x=match x with
        |Atomic_hrecognizer.Star_outside(l_chr)->None
        |Atomic_hrecognizer.Enclosed(opener,closer)->Some(Tidel.singleton opener)
        |Atomic_hrecognizer.Simple_quoted->Some(Tidel.singleton('\''))
-       |Atomic_hrecognizer.Double_quoted->Some(Tidel.singleton('"'));;
+       |Atomic_hrecognizer.Double_quoted->Some(Tidel.singleton('"'))
+       ;;
 
 exception First_char_for_nonatomic_exn of Nonatomic_hrecognizer.t;;       
 
@@ -91,7 +94,11 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
         |Nonatomic_hrecognizer.Star(_,_)->None
         |Nonatomic_hrecognizer.Maybe(_,_)->None           
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->
-                   first_char_for_nonatomic_hrecognizer x ;;
+                   first_char_for_nonatomic_hrecognizer x
+        |Nonatomic_hrecognizer.Motionless(_,l)->
+                   let temp1=Image.image first_char_for_nonatomic_hrecognizer l in
+                   if List.mem None temp1 then None else
+                   Some(Tidel.big_teuzin(Image.image Option.unpack temp1));;
 
 let first_char_for_chain l=
   first_char_in_chain_case first_char_for_nonatomic_hrecognizer l;;
