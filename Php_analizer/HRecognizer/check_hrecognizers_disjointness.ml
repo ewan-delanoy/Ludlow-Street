@@ -266,6 +266,7 @@ end;;
 let find_faults_in_pair x y=Private.Find_Fault.iterator (x,y,[],[[],[x],[y]]);;
 let repair_disjunction x=Private.Repair.iterator (false,x);;
 
+(*
 
 let quick_check_on_disjunction ll1=
   let temp1=Uple.list_of_pairs ll1 in
@@ -283,3 +284,5 @@ let quick_check_on_disjunction ll1=
     else None
  ) temp2 in
  (opt1,opt2);;  
+
+ *)
