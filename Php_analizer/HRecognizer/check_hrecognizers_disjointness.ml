@@ -4,6 +4,21 @@
 
 *)
 
+type rcgzr = Nonatomic_hrecognizer.t;;
+
+type obstruction_data = rcgzr list * rcgzr * rcgzr list * rcgzr * rcgzr list;;
+
+exception Cannot_repair of obstruction_data;;
+
+type  low_level_analizer_result=
+      Disjointness_confirmed
+     |Obstruction_found of obstruction_data
+     |Expansion_found of rcgzr list * rcgzr list list * rcgzr list list;;
+
+module Private=struct
+
+
+
 let constant_aspect_for_atomic_hrecognizer =function
    Atomic_hrecognizer.Constant(s)->Some(s)
   |_->None;;
@@ -152,80 +167,121 @@ let main_test_for_disjointness lx ly=
    check_avoider_case x y
    ;;
 
-let expand_pair (x,y,graet,a1,b1,a2,b2)=
-   match a1 with
-   |Nonatomic_hrecognizer.Chain(_,l)->Some([x,y,graet,l@b1,a2::b2])
-   |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-      Some(
-        Image.image (fun elt->(x,y,graet,elt::b1,a2::b2)) l
-      )
-   |Nonatomic_hrecognizer.Maybe(_,sa1)->
-      Some(
-        [(x,y,graet,b1,a2::b2);(x,y,graet,sa1::b1,a2::b2)]
-      )   
-   |_->
-    (
-       match a2 with
-     |Nonatomic_hrecognizer.Chain(_,l)->Some([x,y,graet,a1::b1,l@b2])
-     |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-      Some(
-        Image.image (fun elt->(x,y,graet,a1::b1,elt::b2)) l
-      )
-      |Nonatomic_hrecognizer.Maybe(_,sa2)->
-      Some(
-        [(x,y,graet,a1::b1,b2);(x,y,graet,a1::b1,sa2::b2)]
-      )  
-      |_->None
-    )
-   ;;
+let expand_at_cut_point (a,b)=
+  match a with
+  |Nonatomic_hrecognizer.Chain(_,l)->Some [l@b]
+  |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
+     Some(
+       Image.image (fun elt->elt::b) l
+     )
+  |Nonatomic_hrecognizer.Maybe(_,sa)->
+     Some(
+       [b;sa::b]
+     )  
+  |_->None;;
 
-type walker =  
-  ( Nonatomic_hrecognizer.t * 
-    Nonatomic_hrecognizer.t * 
-    Nonatomic_hrecognizer.t list * 
-    Nonatomic_hrecognizer.t list *
-    Nonatomic_hrecognizer.t list) ;;
+let expand_pair (a1,b1,a2,b2)=
+    (expand_at_cut_point (a1,b1),expand_at_cut_point (a2,b2));;
 
-type  pusher_result=
-      Disjointness_confirmed
-     |Pushes_found of walker list
-     |No_push_found of walker;;
 
-let low_level_pusher ((x,y,graet,l1,l2):walker)=
+
+let rec compute_common_left_factor x=
+  let (graet,l1,l2)=x in
+  if (l1=[])||(l2=[]) then x else
+  let (a1,b1)=Listennou.ht l1
+  and (a2,b2)=Listennou.ht l2 in
+  if Nonatomic_hrecognizer.name a1=Nonatomic_hrecognizer.name a2
+  then compute_common_left_factor(a1::graet,b1,b2)
+  else x;;
+
+
+
+
+
+let low_level_analizer (old_graet,old_l1,old_l2)=
+   let (graet,l1,l2)=compute_common_left_factor (old_graet,old_l1,old_l2) in
    if (l1=[])||(l2=[])
    then Disjointness_confirmed
    else
    let (a1,b1)=Listennou.ht l1
    and (a2,b2)=Listennou.ht l2 in
-   if Nonatomic_hrecognizer.name a1=Nonatomic_hrecognizer.name a2
-   then Pushes_found [x,y,a1::graet,b1,b2]
-   else 
    if main_test_for_disjointness l1 l2
    then Disjointness_confirmed
    else 
-   match expand_pair (x,y,graet,a1,b1,a2,b2) with
-   None->No_push_found(x,y,graet,a1::b1,a2::b2)
-   |Some(l)->Pushes_found(l);;
+   let (opt1,opt2)=expand_pair (a1,b1,a2,b2) in
+   if (opt1,opt2)=(None,None) then Obstruction_found(graet,a1,b1,a2,b2) else
+   let new_l1=(match opt1 with None->[a1::b1] |Some(l)->l )
+   and new_l2=(match opt2 with None->[a2::b2] |Some(l)->l ) in
+   Expansion_found(graet,new_l1,new_l2);;
 
-let pusher_for_fault_finding (graet,da_ober)=
+module Find_Fault=struct    
+
+let pusher (x,y,graet,da_ober)=
   match da_ober with
-  []->(graet,[])
+  []->(x,y,graet,[])
   |wlkr::peurrest->
      (
-       match low_level_pusher wlkr with
-       Disjointness_confirmed->(graet,peurrest)
-      |Pushes_found(l)->(graet,l@peurrest)
-      |No_push_found(wlkr2)->(wlkr2::graet,peurrest)
+       match low_level_analizer wlkr with
+       Disjointness_confirmed->(x,y,graet,peurrest)
+      |Obstruction_found(obstr_data)->(x,y,obstr_data::graet,peurrest)
+      |Expansion_found(graet2,new_l1,new_l2)->
+        let temp1=Cartesian.product new_l1 new_l2 in
+        let temp2=Image.image (fun (nl1,nl2)->(graet2,nl1,nl2)) temp1 in
+        (x,y,graet,temp2@peurrest)
      ) ;;  
 
-let rec iterator_for_fault_finding p=
-    if snd(p)=[] then List.rev(fst p) else
-    iterator_for_fault_finding(pusher_for_fault_finding p);;
+let rec iterator walker=
+    let (x,y,graet,da_ober)=walker in
+    if da_ober=[] then List.rev_map(fun (graet,a1,b1,a2,b2)->(x,y,graet,a1,b1,a2,b2)) (graet) else
+    iterator(pusher walker);;
 
-let find_fault x y=
-   iterator_for_fault_finding ([],[x,y,[],[x],[y]]);;
+end;;    
+
+module Repair=struct
+
+let pusher ll1=
+   let indexed_ll1=Ennig.index_everything ll1 in
+   let temp1=Uple.list_of_pairs indexed_ll1 in
+   match Option.find_and_stop (
+      fun ((i1,l1),(i2,l2))->match low_level_analizer([],l1,l2) with
+      Disjointness_confirmed->None
+     |Obstruction_found(obstr_data)->raise(Cannot_repair(obstr_data))
+     |Expansion_found(graet,new_sl1,new_sl2)->
+        let full_new_sl1=Image.image (fun l->List.rev_append graet l) new_sl1
+        and full_new_sl2=Image.image (fun l->List.rev_append graet l) new_sl2 in
+        Some(List.flatten(Image.image (fun (i,l)->
+           if i=i1 then full_new_sl1 else 
+           if i=i2 then full_new_sl2 else [l]
+        ) indexed_ll1))
+   ) temp1 with
+   None->(true,ll1)
+   |Some(new_ll1)->(false,new_ll1);;  
+   
+let rec iterator  (end_reached,x)=
+   if end_reached then x else
+   iterator(pusher x);;
+
+end;;  
+
+end;;
+
+let find_faults_in_pair x y=Private.Find_Fault.iterator (x,y,[],[[],[x],[y]]);;
+let repair_disjunction x=Private.Repair.iterator (false,x);;
 
 
-
-
-
+let quick_check_on_disjunction ll1=
+  let temp1=Uple.list_of_pairs ll1 in
+  let opt1=Option.find_and_stop (
+     fun (l1,l2)->
+     let temp2=Private.low_level_analizer([],l1,l2) in
+     if temp2=Disjointness_confirmed then None else
+     Some(temp2)
+  ) temp1 in
+  let temp2=Listennou.universal_delta_list(ll1) in
+  let opt2=Option.find_and_stop (
+    fun (x,y)->
+    if Order_for_hrecognizer_chains.order x y=Total_ordering.Greater 
+    then Some(x,y)
+    else None
+ ) temp2 in
+ (opt1,opt2);;  
