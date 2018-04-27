@@ -71,7 +71,7 @@ module Private=struct
    
   end;; 
    
-  let on_monitored_modules tolerate_cycles mdata =
+let on_monitored_modules tolerate_cycles mdata =
     let ref_for_changed_modules=ref[] 
     and ref_for_changed_shortpaths=ref[] in
     let declare_changed=(fun md->
