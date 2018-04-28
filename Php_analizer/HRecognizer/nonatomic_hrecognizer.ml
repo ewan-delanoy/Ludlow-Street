@@ -30,22 +30,14 @@ let maybe s l=Maybe(s,l);;
 let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
 let motionless s l=Motionless(s,l);; 
 
-let leaf_sconstructor="leaf";;
-let chain_sconstructor="chain";;
-let ordered_disjunction_sconstructor="ordered_disjunction";;
-let star_sconstructor="star";;
-let maybe_sconstructor="maybe";;
-let keyword_avoider_sconstructor="keyword_avoider";;
-let motionless_sconstructor="motionless";;
-
 let unveil =function
-  Leaf(s,atm)->(leaf_sconstructor,[],Some atm,None)
- |Chain(_,l)->(chain_sconstructor,l,None,None)
- |Ordered_disjunction(_,l)->(ordered_disjunction_sconstructor,l,None,None)
- |Star(_,x)->(star_sconstructor,[x],None,None)
- |Maybe(_,x)->(maybe_sconstructor,[x],None,None)
- |Keyword_avoider(_,(x,l))->(keyword_avoider_sconstructor,[x],None,Some(l))
- |Motionless(_,l)->(motionless_sconstructor,l,None,None);;
+  Leaf(s,atm)->(Hrecognizer_casename.Leaf,[],Some atm,None)
+ |Chain(_,l)->(Hrecognizer_casename.Chain,l,None,None)
+ |Ordered_disjunction(_,l)->(Hrecognizer_casename.Ordered_disjunction,l,None,None)
+ |Star(_,x)->(Hrecognizer_casename.Star,[x],None,None)
+ |Maybe(_,x)->(Hrecognizer_casename.Maybe,[x],None,None)
+ |Keyword_avoider(_,(x,l))->(Hrecognizer_casename.Keyword_avoider,[x],None,Some(l))
+ |Motionless(_,l)->(Hrecognizer_casename.Motionless,l,None,None);;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
