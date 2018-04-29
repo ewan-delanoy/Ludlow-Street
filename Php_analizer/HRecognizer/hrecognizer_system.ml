@@ -43,8 +43,7 @@ let convention_for_keyword l=(String.concat "" l)^"_kwd";;
 
 let add_keyword x l=
     let nahme=convention_for_keyword l in
-    let _=(check_that_name_is_not_used x nahme;
-    List.iter (check_that_name_is_used x) l) in
+    let _=(check_that_name_is_not_used x nahme) in
     {
         keywords = x.keywords@[nahme,l];
         atoms = x.atoms;
