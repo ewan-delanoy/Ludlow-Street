@@ -43,11 +43,15 @@ let check_that_name_is_not_used x nahme=
 
 let add_avoidable_item x avdbl nahme parts=
     let _=(check_that_name_is_not_used x nahme) in
-    let new_avoidables=Image.image (
+    let new_avoidables=(
+      if List.for_all (fun (lbl,l)->lbl<>avdbl) x.avoidables 
+      then  x.avoidables@[avdbl,[nahme,parts]] 
+      else     
+    Image.image (
       fun (lbl,l)->
         let new_l=(if lbl=avdbl then l@[nahme,parts] else l) in
         (lbl,new_l)
-    ) x.avoidables in 
+    ) x.avoidables) in 
     {
         avoidables = new_avoidables;
         atoms = x.atoms;
