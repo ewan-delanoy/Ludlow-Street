@@ -60,8 +60,7 @@ let rec common_prefix=function
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->""          
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x
-        |Nonatomic_hrecognizer.Motionless(_,l)->
-                  Strung.largest_common_prefix(Image.image common_prefix l);;
+        |Nonatomic_hrecognizer.Motionless(_,x)->common_prefix x;;
 
 
 let first_char_for_atomic_hrecognizer x=match x with
@@ -109,9 +108,7 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->
                    first_char_for_nonatomic_hrecognizer x
         |Nonatomic_hrecognizer.Motionless(_,l)->
-                   let temp1=Image.image first_char_for_nonatomic_hrecognizer l in
-                   if List.mem None temp1 then None else
-                   Some(Tidel.big_teuzin(Image.image Option.unpack temp1));;
+                   first_char_for_nonatomic_hrecognizer x;;
 
 let first_char_for_chain l=
   first_char_in_chain_case first_char_for_nonatomic_hrecognizer l;;
@@ -283,3 +280,4 @@ let quick_check_on_disjunction ll1=
     else None
  ) temp2 in
  (opt1,opt2);;  
+

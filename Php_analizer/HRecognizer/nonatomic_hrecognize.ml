@@ -46,10 +46,8 @@ let recgz_avoiding_keywords old_f (x,l) s i=
             then None 
             else Some(new_idx);;         
 
-let recgz_motionless old_f l s i=
-    match Option.find_and_stop (
-        fun atm->old_f atm s i
-    ) l with
+let recgz_motionless old_f x s i=
+    match old_f x s i with
      None->None
     |_->Some(i);;            
 
