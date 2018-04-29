@@ -69,6 +69,9 @@ let add_unlabelled x ulab=
     };;
 
 let add_labelled x lab=
+    let nahme=Abstractified_nonatomic_hrecognizer.name lab 
+    and support=Abstractified_nonatomic_hrecognizer.support lab  in
+    let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
     {
         keywords = x.keywords;
         atoms = x.atoms;
