@@ -8,7 +8,7 @@ Manages a modifiable  set of inter-related recognizers.
 
 type t= {
     keywords : (string*(string list)) list;
-    atoms : Atomic_hrecognizer.t list;
+    atoms : (string*Atomic_hrecognizer.t) list;
     unlabelled : Abstractified_nonatomic_hrecognizer.t list;
     labelled : Abstractified_nonatomic_hrecognizer.t list;
 };;
@@ -19,6 +19,17 @@ let empty_one={
     unlabelled = [];
     labelled = [];
 };;
+
+let name_is_used x nahme=
+      (List.exists (fun (n,_)->n=nahme) x.keywords)
+      ||
+      (List.exists (fun (n,_)->n=nahme) x.atoms)
+      ;;
+      (*
+      ||
+      (List.exists (fun rcgzr->n=nahme) x.unlabelled)
+       *)
+
 
 let add_keyword x (s,l)={
    keywords = x.keywords@[s,l];
