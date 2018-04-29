@@ -39,10 +39,14 @@ exception Check_that_name_is_not_used_exn of string;;
 let check_that_name_is_not_used x nahme=
       if not(name_is_used x nahme) then () else raise(Check_that_name_is_not_used_exn(nahme));;
 
-let add_keyword x (s,l)=
-    let _=(check_that_name_is_not_used x s;List.iter (check_that_name_is_used x) l) in
+let convention_for_keyword l=(String.concat "" l)^"_kwd";;
+
+let add_keyword x l=
+    let nahme=convention_for_keyword l in
+    let _=(check_that_name_is_not_used x nahme;
+    List.iter (check_that_name_is_used x) l) in
     {
-        keywords = x.keywords@[s,l];
+        keywords = x.keywords@[nahme,l];
         atoms = x.atoms;
         unlabelled = x.unlabelled;
         labelled = x.labelled;
