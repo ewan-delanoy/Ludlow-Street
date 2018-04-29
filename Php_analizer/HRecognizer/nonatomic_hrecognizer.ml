@@ -11,7 +11,7 @@ type t=
  |Star of string*t
  |Maybe of string*t
  |Keyword_avoider of string*(t*(string list))
- |Motionless of string*(t list);;
+ |Motionless of string*t;;
 
 let name=function
   Leaf(s,_)->s
@@ -37,7 +37,7 @@ let unveil =function
  |Star(_,x)->(Hrecognizer_casename.Star,[x],None,None)
  |Maybe(_,x)->(Hrecognizer_casename.Maybe,[x],None,None)
  |Keyword_avoider(_,(x,l))->(Hrecognizer_casename.Keyword_avoider,[x],None,Some(l))
- |Motionless(_,l)->(Hrecognizer_casename.Motionless,l,None,None);;
+ |Motionless(_,x)->(Hrecognizer_casename.Motionless,[x],None,None);;
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
