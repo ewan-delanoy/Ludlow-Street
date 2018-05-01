@@ -51,6 +51,11 @@ let recgz_motionless old_f x s i=
      None->None
     |_->Some(i);;            
 
+let recgz_disjunction_of_chains old_f ll s i=
+        Option.find_and_stop (
+          fun chain->recgz_chain  old_f chain s i
+        ) ll;;    
+
 let rec recgz natm s i=
   match natm with
   Nonatomic_hrecognizer.Leaf(_,atm)->Atomic_hrecognize.recgnz atm s i
@@ -65,7 +70,9 @@ let rec recgz natm s i=
   |Nonatomic_hrecognizer.Keyword_avoider(_,(x,l))->
       recgz_avoiding_keywords recgz (x,l) s i 
   |Nonatomic_hrecognizer.Motionless(_,l)->
-      recgz_motionless recgz l s i             ;;
+      recgz_motionless recgz l s i
+  |Nonatomic_hrecognizer.Disjunction_of_chains(_,ll)->
+      recgz_disjunction_of_chains recgz ll s i              ;;
 
 
 
