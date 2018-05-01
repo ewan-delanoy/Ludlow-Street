@@ -14,7 +14,8 @@ type t=
  |Star of string*string
  |Maybe of string*string
  |Keyword_avoider of string*string*Avoider_label.t
- |Motionless of string*string;;
+ |Motionless of string*string
+ |Disjunction_of_chains of string*(string list list);;
 
  let name=function
   Leaf(s,_)->s
@@ -23,7 +24,8 @@ type t=
  |Star(s,_)->s
  |Maybe(s,_)->s
  |Keyword_avoider(s,_,_)->s
- |Motionless(s,_)->s;;
+ |Motionless(s,_)->s
+ |Disjunction_of_chains(s,_)->s;;
 
  let support=function
   Leaf(_,_)->[]
@@ -32,4 +34,6 @@ type t=
  |Star(_,s1)->[s1]
  |Maybe(_,s1)->[s1]
  |Keyword_avoider(_,s1,_)->[s1]
- |Motionless(_,s1)->[s1];;
+ |Motionless(_,s1)->[s1]
+ |Disjunction_of_chains(_,ll)->List.flatten ll;;
+
