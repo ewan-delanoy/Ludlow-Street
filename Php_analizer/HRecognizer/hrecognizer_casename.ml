@@ -11,5 +11,6 @@ type t=
  |Star 
  |Maybe 
  |Keyword_avoider 
- |Motionless;;
+ |Motionless
+ |Disjunction_of_chains;;
 

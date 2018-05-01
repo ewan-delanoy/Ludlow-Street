@@ -11,7 +11,8 @@ type t=
  |Star of string*t
  |Maybe of string*t
  |Keyword_avoider of string*(t*(string list))
- |Motionless of string*t;;
+ |Motionless of string*t
+ |Disjunction_of_chains of string*(t list list);;
 
 let name=function
   Leaf(s,_)->s
@@ -20,7 +21,8 @@ let name=function
   |Star(s,_)->s
   |Maybe(s,_)->s
   |Keyword_avoider(s,_)->s
-  |Motionless(s,_)->s;;
+  |Motionless(s,_)->s
+  |Disjunction_of_chains(s,_)->s;;
 
 let leaf s x=Leaf(s,x);;
 let chain s l=Chain(s,l);;
@@ -29,16 +31,23 @@ let star s l=Star(s,l);;
 let maybe s l=Maybe(s,l);; 
 let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
 let motionless s l=Motionless(s,l);; 
+let disjunction_of_chains s ll=Disjunction_of_chains(s,ll);;
 
-let unveil =function
-  Leaf(s,atm)->(Hrecognizer_casename.Leaf,[],Some atm,None)
- |Chain(_,l)->(Hrecognizer_casename.Chain,l,None,None)
- |Ordered_disjunction(_,l)->(Hrecognizer_casename.Ordered_disjunction,l,None,None)
- |Star(_,x)->(Hrecognizer_casename.Star,[x],None,None)
- |Maybe(_,x)->(Hrecognizer_casename.Maybe,[x],None,None)
- |Keyword_avoider(_,(x,l))->(Hrecognizer_casename.Keyword_avoider,[x],None,Some(l))
- |Motionless(_,x)->(Hrecognizer_casename.Motionless,[x],None,None);;
+type unveiled_data= Hrecognizer_casename.t * t list *
+Atomic_hrecognizer.t option * string list option * (t list list);;
 
+let unveil =((function
+  Leaf(s,atm)->(Hrecognizer_casename.Leaf,[],Some atm,None,[])
+ |Chain(_,l)->(Hrecognizer_casename.Chain,l,None,None,[])
+ |Ordered_disjunction(_,l)->(Hrecognizer_casename.Ordered_disjunction,l,None,None,[])
+ |Star(_,x)->(Hrecognizer_casename.Star,[x],None,None,[])
+ |Maybe(_,x)->(Hrecognizer_casename.Maybe,[x],None,None,[])
+ |Keyword_avoider(_,(x,l))->(Hrecognizer_casename.Keyword_avoider,[x],None,Some(l),[])
+ |Motionless(_,x)->(Hrecognizer_casename.Motionless,[x],None,None,[])
+ |Disjunction_of_chains(_,ll)->(Hrecognizer_casename.Ordered_disjunction,[],None,None,ll)):
+ 
+  t -> unveiled_data);;
+ 
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
