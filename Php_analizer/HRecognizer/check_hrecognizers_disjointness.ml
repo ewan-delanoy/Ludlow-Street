@@ -24,9 +24,12 @@ let constant_aspect_for_atomic_hrecognizer =function
 let rec constant_aspect=function
  Nonatomic_hrecognizer.Leaf(_,atm)->constant_aspect_for_atomic_hrecognizer atm 
 |Nonatomic_hrecognizer.Chain(_,l)->
-      if List.length(l)>1 then None else constant_aspect(List.hd l)    
+      if List.length(l)<>1 then None else constant_aspect(List.hd l)    
 |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
-      if List.length(l)>1 then None else constant_aspect(List.hd l)  
+      if List.length(l)<>1 then None else constant_aspect(List.hd l)
+|Nonatomic_hrecognizer.Disjunction_of_chains (_,ll)->
+     if List.length(ll)<>1 then None else let l=List.hd ll in   
+     if List.length(l)<>1 then None else constant_aspect(List.hd l)        
 |_->None;;
 
 let rec extract_left_constants (graet,da_ober)=
@@ -46,21 +49,26 @@ let common_prefix_for_atomic_hrecognizer =function
 |Atomic_hrecognizer.Simple_quoted->"'"
 |Atomic_hrecognizer.Double_quoted->"\"";;
 
+let common_prefix_for_chain old_f l=
+  let (graet1,da_ober1)=extract_left_constants ("",l) in
+  (match da_ober1 with
+   []->graet1
+   |a::peurrest->(graet1)^(old_f a)
+  );;
 
 let rec common_prefix=function
         Nonatomic_hrecognizer.Leaf(_,atm)->common_prefix_for_atomic_hrecognizer atm
-        |Nonatomic_hrecognizer.Chain(_,l)->
-            let (graet1,da_ober1)=extract_left_constants ("",l) in
-            (match da_ober1 with
-             []->graet1
-             |a::peurrest->(graet1)^(common_prefix a)
-            )
+        |Nonatomic_hrecognizer.Chain(_,l)->common_prefix_for_chain common_prefix l
         |Nonatomic_hrecognizer.Ordered_disjunction(_,l)->
                   Strung.largest_common_prefix(Image.image common_prefix l)
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->""          
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x
-        |Nonatomic_hrecognizer.Motionless(_,x)->common_prefix x;;
+        |Nonatomic_hrecognizer.Motionless(_,x)->common_prefix x
+        |Nonatomic_hrecognizer.Disjunction_of_chains(_,ll)->
+                  Strung.largest_common_prefix(Image.image 
+                  (common_prefix_for_chain common_prefix) ll)
+        ;;
 
 
 let first_char_for_atomic_hrecognizer x=match x with
@@ -108,8 +116,13 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
         |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->
                    first_char_for_nonatomic_hrecognizer x
         |Nonatomic_hrecognizer.Motionless(_,l)->
-                   first_char_for_nonatomic_hrecognizer x;;
-
+                   first_char_for_nonatomic_hrecognizer x
+        |Nonatomic_hrecognizer.Disjunction_of_chains(_,ll)->
+                   let temp1=Image.image 
+                    (first_char_in_chain_case first_char_for_nonatomic_hrecognizer) ll in
+                   if List.mem None temp1 then None else
+                   Some(Tidel.big_teuzin(Image.image Option.unpack temp1))           ;;
+ 
 let first_char_for_chain l=
   first_char_in_chain_case first_char_for_nonatomic_hrecognizer l;;
 

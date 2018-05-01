@@ -4,36 +4,853 @@
 
 *)
 
-let ap=Absolute_path.of_string
+
+let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;
+let ap1=Absolute_path.of_string s_ap1;;
+let text1=Io.read_whole_file ap1;;  
+let u1=Lines_in_string.interval text1 153 1304;;
+let u2=Lines_in_string.core u1;;
+let u3=Image.image (fun p->Cull_string.trim_spaces(snd p)) u2;;
+let u4=List.filter (fun s->s<>"") u3;;
+
+let rec cc_decomposition (graet,da_ober)=
+    if da_ober=[] then List.rev graet else
+    let (left_part,opt_center,right_part)=Three_parts.select_center_element 
+       (fun s->Substring.ends_with s ";;") da_ober in
+    let center=Option.unpack opt_center in
+    let new_result=String.concat "\n" (left_part@[center]) in 
+    cc_decomposition (new_result::graet,right_part);;
+      
+let u5=cc_decomposition ([],u4);;
+let u6=List.filter (
+   fun s->
+     (not(Substring.begins_with s "add_"))
+     &&
+     (not(Substring.begins_with s "let label_"))
+) u5;;
+
+exception Transform1_exn of string;;
+
+let transform1 s=
+   let i1=Substring.leftmost_index_of_in "=" s in
+   if i1<0 then s else
+   let i2=Option.unpack(After.after_whites s (i1+1)) in
+   let opt=Option.seek(fun t->Substring.is_a_substring_located_at t s i2)
+   ["c ";"ch";"dis";"maybe";"st ";"star"] in
+   if opt=None then raise(Transform1_exn(s)) else
+   Cull_string.cobeginning (i2-1) s;;
+
+let u7=Image.image transform1 u6;;
+
+let check1=List.filter (
+   fun s->List.length(Substring.occurrences_of_in "[" s)>1
+) u7;;
+
+(*   
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Chronometer.it (Krecognize.main_exhauster text1) 1;;
+*)   
+      
+Check_hrecognizers_disjointness.repair_disjunction;;
+
+(*
+let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;
+let ap1=Absolute_path.of_string s_ap1;;
+let text1=Io.read_whole_file ap1;;  
+let u1=Lines_in_string.interval text1 153 1304;;
+let u2=Lines_in_string.core u1;;
+
+let u3=Image.image (
+   fun (j,s)->let temp1=Substring.occurrences_of_in "\"" s in
+   let i1=(List.nth temp1 0)+1
+   and j1=(List.nth (List.rev temp1) 0)-1 in
+   let temp2=itv s i1 j1 in
+   let temp3=My_global_replace.my_global_replace ("\"","") temp2 in
+   let temp4=My_global_replace.my_global_replace (";","") temp3 in
+   "ak avoider_label_for_keywords \""^temp4^"_kwd\" [\""^temp2^"\"];;" 
+) u2;;
+let u4=String.concat "\n" u3;;
+print_string ("\n\n\n"^u4^"\n\n\n");;
+
+Replace_inside.replace_inside_file (u1,u4) ap1;;
+*)
+
+
+
+(*
+let ap1=Absolute_path.of_string "Remembered/Particulars/template1.ml";;
+let ap2=Absolute_path.of_string "Remembered/Particulars/template2.ml";;
+let ap3=Absolute_path.of_string "Php_analizer/HRecognizer/check_hrecognizers_disjointness.ml";;
+
+let version1=Io.read_whole_file ap1;;
+let version2=Io.read_whole_file ap2;;
+let act1=Io.overwrite_with ap3 version1;;
+let act2=German_pervasives.reco_without_backup();;
+*)
+
+
+(*
+let temp1=Outside_comments_and_strings.good_substrings version1;;
+
+let ff j=let (_,_,z)=List.nth temp1 (j-1) in print_string z;;
+*)
+
+
+
+(*
+let temp2=Image.image (fun (a,b,t)->
+     let ttemp3=My_str.find_all_occurrences My_str_example.moodle_cases t 1 in
+     Image.image (fun (case_index,(u,v))->
+        (case_index,(u+a-1,v+a-1))
+     ) ttemp3
+  ) temp1;;
+let tump1=List.flatten temp2;;
+let tump2=Image.image (fun (_,(a,b))->String.sub version1 (a-1) (b-a+1) ) tump1;;
+let tump3=Three_parts.generic tump2;;
+let tump4=List.filter (fun (x,y,z)->not(List.mem y x)) tump3;;
+let tump5=Image.image (fun (x,y,z)->Naked_module.of_string 
+      (String.uncapitalize_ascii  y)) tump4;;
+*)      
+
+(*      
+let bad1=Look_for_module_names.names_in_string version1;;
+*)
+
+(*
+let ap1=Absolute_path.of_string "Remembered/Particulars/template1.ml";;
+let ap2=Absolute_path.of_string "Remembered/Particulars/template2.ml";;
+let ap3=Absolute_path.of_string "Php_analizer/HRecognizer/check_hrecognizers_disjointness.ml";;
+
+let version1=Io.read_whole_file ap1;;
+let version2=Io.read_whole_file ap2;;
+
+let act1=Io.overwrite_with ap3 version1;;
+
+let (dir,main_top_name)=(German_constant.root,German_constant.main_toplevel_name);;
+let tolerate_cycles=false;;
+let old_mdata=(!(German_wrapper.Private.data_ref));;
+let old_tgts=(!(German_wrapper.Private.up_to_date_targets_ref));;
+
+
+let ref_for_changed_modules=ref[] 
+and ref_for_changed_shortpaths=ref[];;
+let declare_changed=(fun md->
+    let hm=Modulesystem_data.name md in
+    ref_for_changed_modules:=hm::(!ref_for_changed_modules);
+    ref_for_changed_shortpaths:=((!ref_for_changed_shortpaths)@
+                                (Modulesystem_data.short_paths md))
+);;
+let new_md_list=Image.image(
+     fun md->
+       match Read_info_on_file_in_system.quick_update old_mdata md with
+       None->md
+       |Some(new_md)->
+         let _=declare_changed(new_md) in
+         new_md
+  ) old_mdata;;
+let changed_modules=List.rev(!ref_for_changed_modules);;
+
+let g1=List.rev new_md_list;;
+
+let ((new_mdata,hms_to_be_updated),short_paths)=
+  if changed_modules=[] then ((old_mdata,[]),[]) else
+  let _=Alaskan_recompile.Private.announce_changed_modules changed_modules in
+  (Alaskan_recompile.Private.put_md_list_back_in_order tolerate_cycles 
+  new_md_list changed_modules,
+  (!(ref_for_changed_shortpaths)));;  
+
+(*  
+let ((new_mdata,hms_to_be_updated),short_paths)=
+  Alaskan_recompile.on_monitored_modules tolerate_cycles old_mdata;;
+*)
+
+let act2=(Io.overwrite_with ap3 version2;German_pervasives.reco_without_backup ());;
+*)
+
+(*
+
+let g1=Image.image Modulesystem_data.name new_mdata;;
+let g2=Image.image (fun hm->
+  Naked_module.to_string(Half_dressed_module.naked_module hm)
+) g1;;
+
+let new_dirs=Alaskan_data.compute_subdirectories_list new_mdata 
+ and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts;;
+let checker=Ocaml_target.test_target_existence dir;;
+let new_tgts=List.filter checker new_tgts1;;
+let default_top=(Alaskan_data.default_toplevel main_top_name new_mdata);;
+let opt2=Ocaml_target.toplevel_data default_top;;
+let (name_for_top,l_for_top)=Option.unpack opt2;;
+let ts=(new_mdata,new_tgts);;
+let temp1=Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel (fst ts) name_for_top l_for_top;;
+let (successful_ones,ts2)=Alaskan_make_ocaml_target.iterator_for_toplevel dir ([],temp1,ts);;
+let new_toplevel=Ocaml_target.toplevel name_for_top successful_ones;;
+
+let (mdata,tgts)=ts2;;
+let tgt=new_toplevel;;
+let cmds=Alaskan_command_for_ocaml_target.command_for_ocaml_target dir mdata tgt;;
+let cmd1=List.nth cmds 0;;
+let cmd2=List.nth cmds 1;;
+print_string("HIHIHAR");;
+let exec1=Unix_command.uc cmd1;;
+print_string("GLARGOGLU");;
+let exec2=Unix_command.uc cmd2;;
+let temp1=[exec1;exec2];;
+let bad_one=
+  (
+  if List.for_all (fun i->i=0) temp1
+  then let opt_tgt=(if Ocaml_target.is_a_debuggable tgt 
+                    then None 
+                    else (Some tgt)) in
+       let tgts2=Option.add_perhaps opt_tgt tgts in
+        match Ocaml_target.ml_from_lex_or_yacc_data tgt with
+       None->(true,(mdata,tgts2))
+       |Some(mlx)->
+                   let mdata2=Alaskan_force_modification_time.update dir mdata mlx in
+                   (true,(mdata2,tgts2))        
+  else (false,(mdata,tgts))
+  );;
+
+
+(*
+let bad_one=Alaskan_make_ocaml_target.unit_make dir (true,ts2) new_toplevel;;
+*)
+(*
+let bad_one=Alaskan_make_ocaml_target.make_toplevel dir
+ (new_mdata,new_tgts) name_for_top l_for_top;;
+*)
+ (*
+let bad_one=Alaskan_make_ocaml_target.make dir
+ (new_mdata,new_tgts) default_top;;
+*)
+
+let (new_mdata2,new_tgts2)=snd(bad_one);;
+let opt1=Some((new_mdata2,new_dirs,new_tgts2),short_paths);;   
+
+(*  
+let opt1=Alaskan_recompile.on_targets 
+          (German_constant.root,German_constant.main_toplevel_name)
+          false (old_mdata,old_tgts);;
+*)
+
+let ((new_mdata,new_dirs,new_tgts),short_paths)=Option.unpack opt1;;
+let changes=Alaskan_changed.update short_paths
+             (!(German_wrapper.Private.recently_changed_ref));;
+let act2=(
+        German_wrapper.Private.data_ref:=new_mdata;
+        German_wrapper.Private.directories_ref:=new_dirs;
+        German_wrapper.Private.up_to_date_targets_ref:=new_tgts;
+        German_wrapper.Private.recently_changed_ref:=changes;
+        German_wrapper.Private.save_all();
+       );;
+
+
+
+(* let act2=German_wrapper.recompile();; *)
+let act3=Io.overwrite_with ap3 version2;;
+let act4=German_wrapper.recompile();;
+*)
+
+
+(*
+let byte_list=Memoized.make(fun fn->
+let janet=open_in_bin fn in
+let n=in_channel_length janet in
+let accu=ref([]) in
+let _=(for k=1 to n do accu:=(input_byte janet)::(!accu) done;
+close_in janet) in
+List.rev(!accu)
+);;
+
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+
+let u1=More_unix.quick_beheaded_complete_ls syco;;
+let u2=List.filter (fun t->(Substring.ends_with t ".htm")
+ &&(not(Substring.ends_with t "som.htm"))
+) u1;;
+let u3=Image.image String.uncapitalize_ascii u2;;
+
+let bl s=byte_list(syco^s);;
+
+let g1=Image.image(fun s->
+   let temp1=bl s in
+   let temp2=List.filter (fun c->c>126) temp1 in
+   (s,Tidel.diforchan temp2)
+) u3;;
+type strange_char=SC of int;;
+let all_strange_chars=
+  Tidel.image (fun i->SC i) (Tidel.big_teuzin (image snd g1));;
+
+let snippet l a b=
+    let temp1=Ennig.doyle (fun k->List.nth l (k-1)) a b in
+    let temp2=image (fun i->String.make 1 (char_of_int i)) temp1 in
+    String.concat "" temp2;;
+    
+
+let find_context (SC j)=
+    let (s1,_)=Option.find (fun (_,z)->Tidel.elfenn j z) g1 in
+    let temp1=bl s1 in
+    let k1=Listennou.find_index j temp1 in
+    let a1=max(1)(k1-20) in
+    let b1=min(List.length temp1)(k1+20) in
+    (SC j,s1,snippet temp1 a1 b1,(snippet temp1 a1 (k1-1),snippet temp1 (k1+1) b1));;
+
+let g2=image find_context all_strange_chars;;
+
+let dh i=Printf.sprintf "%x" i;;
+
+let ff k=List.nth g2 (k-1);;
+
+let see s=
+    let temp1=Strung.explode s in
+    ( Utf_eight.unicode_point s,temp1,image 
+     (fun c->Printf.sprintf "%x" (int_of_char c) ) temp1);;
+
+let u4=image (
+      fun s->
+      let t=syco^s in
+      let t2=(Cull_string.coending 4 t)^"_bad.htm" in
+      "cp "^t2^"  "^t
+    ) u3;;
+let u5=Explicit.image Unix_command.hardcore_uc u4;;
+*)    
+         
+
+(*     
+let u4=image (
+  fun s->
+  let t=syco^s in
+  let t2=(Cull_string.coending 4 t)^"_bad.htm" in
+  "iconv -f WINDOWS-1252 -t UTF-8 "^t^" > "^t2
+) u3;;
+let u5=Explicit.image Unix_command.hardcore_uc u4;;
+
+
+
+let act1=Image.image (
+  fun s->
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+  (Absolute_path.of_string(syco^s))
+) u3;;
+*)
+
+
+(*
+let u3=
+  ["sernine/16.htm"; "sernine/15.htm"; "sernine/14.htm"; "sernine/13.htm";
+ "sernine/12.htm"; "sernine/11.htm"; "sernine/10.htm"; "sernine/09.htm";
+ "sernine/08.htm"; "sernine/07.htm"; "sernine/06.htm"; "sernine/05.htm";
+ "sernine/04.htm"; "sernine/03.htm"; "sernine/02.htm"; "sernine/01.htm";
+ "part09/0912.htm"; "part09/0911.htm"; "part09/0910.htm"; "part09/0909.htm";
+ "part09/0908.htm"; "part09/0907.htm"; "part09/0906.htm"; "part09/0905.htm";
+ "part09/0904.htm"; "part09/0903.htm"; "part09/0902.htm"; "part09/0901.htm";
+ "part09/0900.htm"; "part08/0803.htm"; "part08/0802.htm"; "part08/0801.htm";
+ "part08/0800.htm"; "part07/0711.htm"; "part07/0710.htm"; "part07/0709.htm";
+ "part07/0708.htm"; "part07/0707.htm"; "part07/0706.htm"; "part07/0705.htm";
+ "part07/0704.htm"; "part07/0703.htm"; "part07/0702.htm"; "part07/0701.htm";
+ "part07/0700.htm"; "part06/0617.htm"; "part06/0616.htm"; "part06/0615.htm";
+ "part06/0614.htm"; "part06/0613.htm"; "part06/0612.htm"; "part06/0611.htm";
+ "part06/0610.htm"; "part06/0609.htm"; "part06/0608.htm"; "part06/0607.htm";
+ "part06/0606.htm"; "part06/0605.htm"; "part06/0604.htm"; "part06/0603.htm";
+ "part06/0602.htm"; "part06/0601.htm"; "part06/0600.htm"; "part05/0513.htm";
+ "part05/0512.htm"; "part05/0511.htm"; "part05/0510.htm"; "part05/0509.htm";
+ "part05/0508.htm"; "part05/0507.htm"; "part05/0506.htm"; "part05/0505.htm";
+ "part05/0504.htm"; "part05/0503.htm"; "part05/0502.htm"; "part05/0501.htm";
+ "part05/0500.htm"; "part04/0414.htm"; "part04/0413.htm"; "part04/0412.htm";
+ "part04/0411.htm"; "part04/0410.htm"; "part04/0409.htm"; "part04/0408.htm";
+ "part04/0407.htm"; "part04/0406.htm"; "part04/0405.htm"; "part04/0404.htm";
+ "part04/0403.htm"; "part04/0402.htm"; "part04/0401.htm"; "part04/0400.htm";
+ "part03/0310.htm"; "part03/0309.htm"; "part03/0308.htm"; "part03/0307.htm";
+ "part03/0306.htm"; "part03/0305.htm"; "part03/0304.htm"; "part03/0303.htm";
+ "part03/0302.htm"; "part03/0301.htm"; "part03/0300.htm"; "part02/0204.htm";
+ "part02/0203.htm"; "part02/0202.htm"; "part02/0201.htm"; "part02/0200.htm";
+ "part01/verite.vous.rendra.libre.htm";
+ "part01/refuser.querelles.personnes.htm"; "part01/prologue1.htm";
+ "part01/point.precis.debat.htm"; "part01/permettre.le.debat.htm";
+ "part01/origine.debat.htm"; "part01/ne.pas.laisser.erreur.se.repandre.htm";
+ "part01/louis.veuillot.mgr.dupanloup.htm"; "part01/liberte.critique.htm";
+ "part01/justice.toute.chose.htm"; "part01/gnose.sources.htm";
+ "part01/eviter.polemiques.htm"; "part01/etonnante.infaillibilite.htm";
+ "part01/entamer.debat.idees.htm"; "part01/devoirs.envers.eglise.htm";
+ "part01/description.gnose.htm"; "part01/debats.gnose.htm";
+ "part01/cahiers.barruel.htm"; "part01/avertissement.htm";
+ "part01/avertissement.editeur.htm"];;
+
+
+
+*)
+
+
+(*
+
+let u4=image (
+  fun s->
+  let t=syco^s in
+  "iconv -f LATIN-9 -t UTF-8 "^t^" > "^t
+) u3;;
+
+let u4=image (
+  fun s->
+  let t=Father_and_son.son s '/' 
+  and f=Father_and_son.father s '/' in
+  "wget http://paille.sycomore.free.fr/"^s^" && mv "^t^" "^
+  syco^f^"/"
+) u3;;
+
+let fn="/Users/ewandelanoy/Documents/html_files/Sycomore/part01/cahiers.barruel.htm";;
+let janet=open_in_bin fn;;
+let n=in_channel_length janet;;
+let accu=ref([]);;
+for k=1 to n do accu:=(input_byte janet)::(!accu) done;;
+close_in janet;;
+let u1=List.rev(!accu);;
+let u2=image (fun i->(i,char_of_int i)) u1;;
+let u3=image (fun i->(char_of_int i,Printf.sprintf "%x"i )) u1;;
+
+let tf1 k=List.nth u3 (k-1);;
+let uu i j=
+   let temp1=doyle tf1 i j in
+   let temp2=image (fun (c,_)->String.make 1 c) temp1 in
+   String.concat "" temp2;;
+let whole=uu 1 9905;;   
+
+let v1=Substring.occurrences_of_in "viennent" whole;;
+*)
+
+(*
+let s_ap2="/Users/ewandelanoy/Documents/html_files/Sycomore/part03/gwel1.txt";;
+let ap2=Absolute_path.of_string s_ap2;;
+let text2=Io.read_whole_file ap2;;
+let text3="48 65 6c 6c 6f 20 ef bf bd 0a 57 6f 72 6c 64 20 ef bf bd 0a 47 6f 6f 64 62 79 65 20 ef bf bd 20 0a 45 6e 64";;
+let v1=Str.split (Str.regexp_string " ") text3;;
+
+let uv1=List.combine u3 v1;;
+let see1=List.filter (fun ((c,s1),s2)->s1<>s2) uv1;;
+*)
+
+
+(*
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Chronometer.it Hrecognize.parse_all text1;;
+*)
+
+
+(*
+
+let rn=Hregistrar.recognizer_with_name;;
+let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;
+
+let z1=Option.filter_and_unpack (
+   function
+   (_,Nonatomic_hrecognizer.Ordered_disjunction(s,l))->Some(l)
+   |_->None
+) (!(Hregistrar.Private.the_list));;
+
+let z2=Image.image Uple.list_of_pairs z1;;
+let z3=List.flatten z2;;
+let z4=Image.image (
+   fun (x,y)->Check_hrecognizers_disjointness.find_fault x y
+) z3;;
+let z5=List.flatten z4;;
+
+
+*)
+
+
+(*
+let g1=(!(German_wrapper.Private.printer_equipped_types_ref));;
+let tf1 k=List.nth g1 (k-1);;
+let g2=(doyle tf1 1 8)@(doyle tf1 10 12);;
+German_wrapper.Private.printer_equipped_types_ref:=g2;;
+German_wrapper.save_all();;
+*)
+
+
+(*
+let fn="/Users/ewandelanoy/Documents/html_files/Sycomore/sernine/03.htm";;
+let janet=open_in_bin fn;;
+let n=in_channel_length janet;;
+let accu=ref([]);;
+for k=1 to n do accu:=(input_byte janet)::(!accu) done;;
+close_in janet;;
+let u1=List.rev(!accu);;
+
+let u2=Listennou.constant_slices (fun x->List.mem x [189;191;239]) u1;;
+
+let ztr l=
+   let temp1=Image.image (fun i->String.make 1 (char_of_int i)) l in
+   String.concat "" temp1;;
+
+let u3=image ztr u2;;
+let u4=List.filter (fun x->List.mem (List.hd x) [189;191;239]) u2;;
+let u5=Tidel.diforchan u4;;
+
+let u2=Utf_eight.decode u1;;
+let u3=Image.image Utf_eight.encode_as_string u2;;
+let u4=String.concat "" u3;;
+
+let u5=Hrecognize.parse_all;;
+*)
+
+
+(*
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let ap1=Absolute_path.of_string (syco^"sernine/03.htm");;
+let text1=Io.read_whole_file ap1;;
+
+let ap2=Absolute_path.of_string (syco^"part06/06som.htm");;
+let text2=Io.read_whole_file ap2;;
+
+Utf_eight.encode;;
+
+Io.read_whole_file;;
+*)
+
+
+(*
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let soi i=
+  let s=string_of_int i in  
+  if i<10 then "0"^s else s;;
+
+let u4=Ennig.doyle (
+   fun i->"wget http://paille.sycomore.free.fr/sernine/"^(soi i)^".htm"
+ ) 1 16;;
+let act1=Image.image Unix_command.hardcore_verbose_uc u4;;
+let u5=Ennig.doyle (
+  fun i->"mv "^(soi i)^".htm "^syco^"sernine/"
+) 1 16;;
+let act2=Image.image Unix_command.hardcore_verbose_uc u5;;
+
+let the_files=Ennig.doyle (
+  fun i->Absolute_path.of_string(
+    syco^"sernine/"^(soi i)^".htm"
+  )
+) 1 16;;
+
+let act3=Image.image (
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+) the_files;;
+*)
+
+(*
+
+let intval="04";;
+let part_name="part"^intval;;
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let ap1=Absolute_path.of_string (syco^part_name^"/"^intval^"som.htm");;
+let text1=Io.read_whole_file ap1;;
+
+let u1=Ennig.doyle (Lines_in_string.line_at_index text1) 98 112;;
+let referer="href=\"";;
+let u2=Image.image (
+  fun s->
+   let j=Substring.leftmost_index_of_in referer s in 
+   Cull_string.cobeginning (j+(String.length referer)-1) s
+  ) u1;;
+let u3=Image.image (fun s->
+   let j=Substring.leftmost_index_of_in "\"" s in 
+   Cull_string.beginning (j-1) s
+ ) u2;;
+let u4=Image.image (
+   fun s->"wget http://paille.sycomore.free.fr/"^part_name^"/"^s 
+ ) u3;;
+let act1=Image.image Unix_command.hardcore_verbose_uc u4;;
+let u5=Image.image (
+  fun s->"mv "^s^" "^syco^part_name^"/"
+) u3;;
+let act2=Image.image Unix_command.hardcore_verbose_uc u5;;
+
+let the_files=Image.image (
+  fun s->Absolute_path.of_string(
+    syco^part_name^"/"^s
+  )
+) u3;;
+
+let act3=Image.image (
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+) the_files;;
+
+let u3=
+  ["0400.htm"; "0401.htm"; "0402.htm"; "0403.htm"; "0404.htm"; "0405.htm";
+  "0406.htm"; "0407.htm"; "0408.htm"; "0409.htm"; "0410.htm"; "0411.htm";
+  "0412.htm"; "0413.htm"; "0414.htm"]
+  ;;
+
+*)
+
+(*
+let intval="03";;
+let part_name="part"^intval;;
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let ap1=Absolute_path.of_string (syco^part_name^"/"^intval^"som.htm");;
+let text1=Io.read_whole_file ap1;;
+
+let u1=Ennig.doyle (Lines_in_string.line_at_index text1) 98 108;;
+let referer="href=\"";;
+let u2=Image.image (
+  fun s->
+   let j=Substring.leftmost_index_of_in referer s in 
+   Cull_string.cobeginning (j+(String.length referer)-1) s
+  ) u1;;
+let u3=Image.image (fun s->
+   let j=Substring.leftmost_index_of_in "\"" s in 
+   Cull_string.beginning (j-1) s
+ ) u2;;
+let u4=Image.image (
+   fun s->"wget http://paille.sycomore.free.fr/"^part_name^"/"^s 
+ ) u3;;
+let act1=Image.image Unix_command.hardcore_verbose_uc u4;;
+let u5=Image.image (
+  fun s->"mv "^s^" "^syco^part_name^"/"
+) u3;;
+let act2=Image.image Unix_command.hardcore_verbose_uc u5;;
+
+let the_files=Image.image (
+  fun s->Absolute_path.of_string(
+    syco^part_name^"/"^s
+  )
+) u3;;
+
+let act3=Image.image (
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+) the_files;;
+
+*)
+
+(*
+let intval="02";;
+let part_name="part"^intval;;
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let ap1=Absolute_path.of_string (syco^part_name^"/"^intval^"som.htm");;
+let text1=Io.read_whole_file ap1;;
+
+let u1=Ennig.doyle (Lines_in_string.line_at_index text1) 98 102;;
+let referer="href=\"";;
+let u2=Image.image (
+  fun s->
+   let j=Substring.leftmost_index_of_in referer s in 
+   Cull_string.cobeginning (j+(String.length referer)-1) s
+  ) u1;;
+let u3=Image.image (fun s->
+   let j=Substring.leftmost_index_of_in "\"" s in 
+   Cull_string.beginning (j-1) s
+ ) u2;;
+let u4=Image.image (
+   fun s->"wget http://paille.sycomore.free.fr/"^part_name^"/"^s 
+ ) u3;;
+let act1=Image.image Unix_command.hardcore_verbose_uc u4;;
+let u5=Image.image (
+  fun s->"mv "^s^" "^syco^part_name^"/"
+) u3;;
+let act2=Image.image Unix_command.hardcore_verbose_uc u5;;
+
+let the_files=Image.image (
+  fun s->Absolute_path.of_string(
+    syco^part_name^"/"^s
+  )
+) u3;;
+
+let act3=Image.image (
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+) the_files;;
+*)
+
+(*
+
+let part_name="part01";;
+let syco="/Users/ewandelanoy/Documents/html_files/Sycomore/";;
+let ap1=Absolute_path.of_string (syco^part_name^"/01som.htm");;
+let text1=Io.read_whole_file ap1;;
+
+let u1=Ennig.doyle (Lines_in_string.line_at_index text1) 98 116;;
+let u2=Image.image (Cull_string.cobeginning 172) u1;;
+let u3=Image.image (fun s->
+   let j=Substring.leftmost_index_of_in "\"" s in 
+   Cull_string.beginning (j-1) s
+ ) u2;;
+ let u4=Image.image (
+   fun s->"wget http://paille.sycomore.free.fr/"^part_name^"/"^s 
+ ) u3;;
+let act1=Image.image Unix_command.hardcore_verbose_uc u4;;
+let u5=Image.image (
+  fun s->"mv "^s^" "^syco^part_name^"/"
+) u3;;
+let act2=Image.image Unix_command.hardcore_verbose_uc u5;;
+
+let the_files=Image.image (
+  fun s->Absolute_path.of_string(
+    syco^part_name^"/"^s
+  )
+) u3;;
+
+let act3=Image.image (
+  Replace_inside.replace_inside_file ("windows-1252","utf-8")
+) the_files;;
+
+*)
+
+(*
+
+let rn=Hregistrar.recognizer_with_name;;
+let ur s=Nonatomic_hrecognizer.unveil (Hregistrar.recognizer_with_name s);;
+
+let z1=Option.filter_and_unpack (
+   function
+   (_,Nonatomic_hrecognizer.Ordered_disjunction(s,l))->Some(l)
+   |_->None
+) (!(Hregistrar.Private.the_list));;
+
+let z2=Image.image Uple.list_of_pairs z1;;
+let z3=List.flatten z2;;
+let z4=Image.image (
+   fun (x,y)->Check_hrecognizers_disjointness.find_fault x y
+) z3;;
+let z5=List.flatten z4;;
+
+let see=Nonatomic_hrecognizer.name;;
+
+*)
+
+(*
+let u1=German_wrapper.data();;
+let u2=Image.image Modulesystem_data.name u1;;
+let u3=Image.image Half_dressed_module.naked_module u2;;
+let u4=Image.image Naked_module.to_string u3;;
+
+let u5=List.filter (fun s->
+(Substring.is_a_substring_of "jreco" s)||
+(Substring.is_a_substring_of "jdisj" s)
+) u4;;
+*)
+
+
+(*
+let soon_dead=
+  ["nonatomic_jrecognizer"; "standard_jdisjunction";
+   "order_for_jrecognizer_chains"; "nonatomic_jrecognize";
+   "check_jrecognizers_disjointness"];;
+*)
+   
+
+(*
+let mk (i,j,k) (a,b,c)=
+      Tidel.length(Tidel.kengeij
+     (Tidel.safe_set [i;j;k])
+     (Tidel.safe_set [a;b;c]));;
+
+exception Strange of int*int*int;;
+
+let introduce (inside,perhaps_inside) tr=
+    let (a,b,c)=tr in
+    if not(List.mem (a,b,c) perhaps_inside)
+    then raise(Strange(a,b,c))
+    else 
+    (inside@[tr],List.filter (
+        fun x->mk(tr)(x)<=1
+    ) perhaps_inside);;
+
+
+let origin=([],Int_uple.list_of_triples 9);;
+
+let z1=introduce origin (1,2,3);;
+let z2=introduce z1 (4,5,6);;
+let z3=introduce z2 (7,8,9);;
+
+let case1=introduce z3 (1,4,7);;
+let case1_1=introduce case1 (2,5,7);;
+let case1_1_1=introduce case1_1 (3,6,7);;
+let case1_1_1_1=introduce case1_1_1 (2,4,8);;
+let case1_1_1_1_1=introduce case1_1_1_1 (1,5,8);;
+let case1_1_1_1_1_1=introduce case1_1_1_1_1 (3,4,9);;
+let case1_1_1_1_1_1_1=introduce case1_1_1_1_1_1 (1,6,9);;
+*)
+
+
+
+
+(*
+let example=More_coherent_pdf.chunk
+ ~rootdir:"/Users/ewandelanoy/Documents/html_files/Printable"
+ ~pdfname:"agreda"
+ ~interval:(361,380)
+ ~chunksize:None;;
+*)
+
+
+(*
+let ap1=Absolute_path.of_string
 "/Users/ewandelanoy/Documents/html_files/Rama/MotherTheresa-PartI.htm";;
 
-let text=Io.read_whole_file ap;;
+let ap2=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Rama/MotherTheresa-PartII.htm";;
 
-let haddock1="style='font-family:\"WP TypographicSymbols\"'>=</span>";;
+let ap3=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Rama/MotherTheresa-PartIII.htm";;
 
-let test1_at_index s i=
-  if not(Substring.is_a_substring_located_at "<span" s i)
+let ap4=Absolute_path.of_string
+"/Users/ewandelanoy/Documents/html_files/Rama/MotherTheresa-Appendix.htm";;
+
+let test_at_index (crab,haddock1,haddock2) s i=
+  if not(Substring.is_a_substring_located_at crab s i)
   then None
   else
-  let opt1=After.after_whites s (i+5) in
+  let opt1=After.after_whites s (i+(String.length crab)) in
   if opt1=None then None else
   let i1=Option.unpack opt1 in
   if not(Substring.is_a_substring_located_at haddock1 s i1)
   then None
   else 
-  let i2=i1+(String.length haddock1)-1 in
-  Some(i2);;
+  let i2=i1+(String.length haddock1) in
+  let opt3=After.after_whites s i2 in
+  if opt3=None then None else
+  let i3=Option.unpack opt3 in
+  if not(Substring.is_a_substring_located_at haddock2 s i3)
+  then None
+  else 
+  let i4=i3+(String.length haddock2)-1 in
+  Some(i4);;
 
-let peggy1 s=
+let peggy1 (crab,h1,h2) s=
     let n=String.length s in
-    let temp1=Ennig.doyle(fun j->(j, test1_at_index s j)) 1 n in
+    let temp1=Ennig.doyle(fun j->(j, test_at_index (crab,h1,h2) s j)) 1 n in
     Option.filter_and_unpack (fun (j,opt)->
       match opt with None->None |Some(k)->Some(j,k)
     ) temp1;;  
 
-let u1=peggy1 text;;    
+let peggy2 (crab,h1,h2,rep) ap=
+    let text=Io.read_whole_file ap in
+    let temp1=peggy1 (crab,h1,h2) text in
+    let temp2=Image.image (fun pair->(pair,rep)) temp1 in
+    Replace_inside.at_intervals_inside_file ap temp2;;
 
-Strung.get;;
+let triple1=("<span","style='font-family:","\"WP TypographicSymbols\"'>=</span>","'");;
+let triple2=("<span","style='font-family:","\"WP TypographicSymbols\"'>A</span>","\"");;
+let triple3=("<span","style='font-family:","\"WP TypographicSymbols\"'>@</span>","\"");;
+
+let triples=[triple1;triple2;triple3];;
+let files=[ap1;ap2;ap3;ap4];;
+
+let doables=Cartesian.product triples files;;
+*)
+
+(*
+let act=Image.image (fun (tr,file)->peggy2 tr file) doables;;
+*)
+
+(*
+let text1=Io.read_whole_file ap1;;
+
+let (a2,b2,c2,_)=triple2;;
+
+peggy1 (a2,b2,c2) text1;;
+
+let j1=Substring.leftmost_index_of_in "concelebrrated" text1;;
+*)
 
 (*
 German_pervasives.fg;;
@@ -77,9 +894,6 @@ Unix_command.accu;;
    Country/Germany/german_pervasives.ml]
 
 *)
-
-
-"Half_dressed_module.to_string";;
 
 
 (*

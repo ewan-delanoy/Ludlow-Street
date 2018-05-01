@@ -6,8 +6,7 @@
 
 
 
-exception Name_already_used of string*
-(Hrecognizer_casename.t * Nonatomic_hrecognizer.t list * Atomic_hrecognizer.t option* (string list) option);;
+exception Name_already_used of string*Nonatomic_hrecognizer.unveiled_data;;
 exception Illegal_name of string;;
 
 module Private=struct
