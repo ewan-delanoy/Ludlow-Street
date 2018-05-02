@@ -13,6 +13,7 @@ type t= {
     atoms : (string*Atomic_hrecognizer.t) list;
     unlabelled : Abstractified_nonatomic_hrecognizer.t list;
     labelled : Abstractified_nonatomic_hrecognizer.t list;
+    recognizers : Nonatomic_hrecognizer.t list;
 };;
 
 let empty_one={
@@ -20,6 +21,7 @@ let empty_one={
     atoms = [];
     unlabelled = [];
     labelled = [];
+    recognizers = [];
 };;
 
 let name_is_used x nahme=
@@ -57,6 +59,7 @@ let add_avoidable_item x avdbl nahme parts=
         atoms = x.atoms;
         unlabelled = x.unlabelled;
         labelled = x.labelled;
+        recognizers = [];
    };;
 
 let add_atom x (nahme,atm)=
@@ -66,6 +69,7 @@ let add_atom x (nahme,atm)=
         atoms = (x.atoms)@[nahme,atm];
         unlabelled = x.unlabelled;
         labelled = x.labelled;
+        recognizers = [];
     };;
 
 let add_unlabelled x ulab=
@@ -77,6 +81,7 @@ let add_unlabelled x ulab=
         atoms = x.atoms;
         unlabelled = x.unlabelled@[ulab];
         labelled = x.labelled;
+        recognizers = [];
     };;
 
 let add_labelled x lab=
@@ -88,6 +93,7 @@ let add_labelled x lab=
         atoms = x.atoms;
         unlabelled = x.unlabelled;
         labelled = x.labelled@[lab];
+        recognizers = [];
     };;
 
 
