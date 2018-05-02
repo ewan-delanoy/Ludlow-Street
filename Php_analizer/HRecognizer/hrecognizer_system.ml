@@ -54,22 +54,29 @@ let add_avoidable_item x avdbl nahme parts=
         let new_l=(if lbl=avdbl then l@[nahme,parts] else l) in
         (lbl,new_l)
     ) x.avoidables) in 
+    let new_recgzr=Nonatomic_hrecognizer.chain nahme (
+        Image.image (fun s->
+        Nonatomic_hrecognizer.leaf s (Atomic_hrecognizer.constant s)
+        ) parts
+    ) in
     {
         avoidables = new_avoidables;
         atoms = x.atoms;
         unlabelled = x.unlabelled;
         labelled = x.labelled;
-        recognizers = [];
+        recognizers = x.recognizers@[new_recgzr];
    };;
 
 let add_atom x (nahme,atm)=
     let _=(check_that_name_is_not_used x nahme) in
+    let new_recgzr=
+        Nonatomic_hrecognizer.leaf nahme atm in
     {
         avoidables = x.avoidables;
         atoms = (x.atoms)@[nahme,atm];
         unlabelled = x.unlabelled;
         labelled = x.labelled;
-        recognizers = [];
+        recognizers = x.recognizers@[new_recgzr];
     };;
 
 let add_unlabelled x ulab=
