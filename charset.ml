@@ -55,3 +55,9 @@ let list_of_whites=[' ';'\n';'\r';'\t'];;
   
 let classlike_declaration_chars=
     list_of_whites@Characters_in_namespace_name.chars;;  
+
+let enclosers=[
+      '(',')';
+      '[',']';
+      '{','}';
+];;
