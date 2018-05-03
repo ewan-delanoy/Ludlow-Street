@@ -187,11 +187,22 @@ let modify_locally (f:'a t) l=
   ) in
   (tempf:>( 'a t));;
 
+let list_for_dictionary_order=
+  [97; 65; 98; 66; 99; 67; 100; 68; 101; 69; 102; 70; 103; 71; 104; 72; 105;
+  73; 106; 74; 107; 75; 108; 76; 109; 77; 110; 78; 111; 79; 112; 80; 113; 81;
+  114; 82; 115; 83; 116; 84; 117; 85; 118; 86; 119; 87; 120; 88; 121; 89;
+  122; 90; 91; 92; 93; 94; 95; 96];;  
+
+let reindexer_for_dictionary_order i=
+    if (i<65)||(i>122) 
+    then i 
+    else 64+(Listennou.find_index i list_for_dictionary_order);;
+
 
 let for_characters=let tempf=(fun x y->
-  if x<y then Lower else
-  if y<x then Greater else
-  Equal
+  standard 
+        (reindexer_for_dictionary_order(int_of_char x))
+        (reindexer_for_dictionary_order(int_of_char y))
   ) in (tempf:>char t);;
 
 
@@ -203,7 +214,7 @@ let lex_for_strings=
       let m=Pervasives.min(m1)(m2) in
       match Option.seek (fun j->(String.get s1 j)<>(String.get s2 j)) (Ennig.ennig 0 (m-1)) with
       None->standard m1 m2
-      |Some(j)->standard (String.get s1 j) (String.get s2 j) 
+      |Some(j)->for_characters (String.get s1 j) (String.get s2 j) 
     ) : string t);;
 
 let silex_for_strings=
@@ -236,11 +247,11 @@ let for_longest_match=
       if (
           if m1>m2 then false else
           (String.sub s2 0 m1)=s1
-      ) then Lower else
+      ) then Greater else
       if (
           if m2>m1 then false else
           (String.sub s1 0 m2)=s2
-      ) then Greater else
+      ) then Lower else
       lex_for_strings s1 s2
      ): string t);;
 
