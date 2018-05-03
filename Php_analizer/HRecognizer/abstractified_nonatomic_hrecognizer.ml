@@ -11,7 +11,7 @@ type t=
   Chain of string*(string list)
  |Star of string*string
  |Maybe of string*string
- |Keyword_avoider of string*string*Avoider_label.t
+ |Avoider of string*string*Avoider_label.t
  |Motionless of string*string
  |Disjunction_of_chains of string*(string list list);;
 
@@ -19,7 +19,7 @@ type t=
   Chain(s,_)->s
  |Star(s,_)->s
  |Maybe(s,_)->s
- |Keyword_avoider(s,_,_)->s
+ |Avoider(s,_,_)->s
  |Motionless(s,_)->s
  |Disjunction_of_chains(s,_)->s;;
 
@@ -27,7 +27,7 @@ type t=
   Chain(_,l)->l
  |Star(_,s1)->[s1]
  |Maybe(_,s1)->[s1]
- |Keyword_avoider(_,s1,_)->[s1]
+ |Avoider(_,s1,_)->[s1]
  |Motionless(_,s1)->[s1]
  |Disjunction_of_chains(_,ll)->List.flatten ll;;
 
