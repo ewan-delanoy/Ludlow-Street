@@ -51,5 +51,7 @@ let unix_filename_admissible_characters =
    '.';'/';'!';'~';
   ];;        
     
- 
+let list_of_whites=[' ';'\n';'\r';'\t'];; 
   
+let classlike_declaration_chars=
+    list_of_whites@Characters_in_namespace_name.chars;;  
