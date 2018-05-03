@@ -63,7 +63,7 @@ let rec common_prefix=function
                   Strung.largest_common_prefix(Image.image common_prefix l)
         |Nonatomic_hrecognizer.Star(_,_)->""
         |Nonatomic_hrecognizer.Maybe(_,_)->""          
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->common_prefix x
+        |Nonatomic_hrecognizer.Avoider(_,(x,_))->common_prefix x
         |Nonatomic_hrecognizer.Motionless(_,x)->common_prefix x
         |Nonatomic_hrecognizer.Disjunction_of_chains(_,ll)->
                   Strung.largest_common_prefix(Image.image 
@@ -113,7 +113,7 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
                   Some(Tidel.big_teuzin(Image.image Option.unpack temp1))
         |Nonatomic_hrecognizer.Star(_,_)->None
         |Nonatomic_hrecognizer.Maybe(_,_)->None           
-        |Nonatomic_hrecognizer.Keyword_avoider(_,(x,_))->
+        |Nonatomic_hrecognizer.Avoider(_,(x,_))->
                    first_char_for_nonatomic_hrecognizer x
         |Nonatomic_hrecognizer.Motionless(_,l)->
                    first_char_for_nonatomic_hrecognizer x
@@ -126,13 +126,13 @@ let rec first_char_for_nonatomic_hrecognizer x=match x with
 let first_char_for_chain l=
   first_char_in_chain_case first_char_for_nonatomic_hrecognizer l;;
 
-let keyword_avoider_aspect=function
-  Nonatomic_hrecognizer.Keyword_avoider(_,data)->Some(data)
+let avoider_aspect=function
+  Nonatomic_hrecognizer.Avoider(_,data)->Some(data)
   |_->None;;
 
 let check_nonsymmetric_avoider_case x y=
    let opt1=constant_aspect x
-   and opt2=keyword_avoider_aspect y in
+   and opt2=avoider_aspect y in
    if (opt1=None)||(opt2=None)
    then false
    else 
