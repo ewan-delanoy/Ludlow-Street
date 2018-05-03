@@ -229,6 +229,22 @@ let lex_for_string_lists=
            else lex_for_strings (List.hd left_part) (List.hd right_part)  
   ) : (string list) t);;
 
+let for_longest_match=  
+    ((fun s1 s2->
+      let m1=String.length s1
+      and m2=String.length s2 in
+      if (
+          if m1>m2 then false else
+          (String.sub s2 0 m1)=s1
+      ) then Lower else
+      if (
+          if m2>m1 then false else
+          (String.sub s2 0 m1)=s1
+      ) then Greater else
+      lex_for_strings s1 s2
+     ): string t);;
+
+
 let for_longest_match_pairs=  
 ((fun (s1,v1) (s2,v2)->
   let first_try=silex_for_strings(s2)(s1) in

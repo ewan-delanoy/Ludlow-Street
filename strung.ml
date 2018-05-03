@@ -67,30 +67,6 @@ let split c s=
 split '.' "abc.de.back.in.the.days";;  
    
 *)   
-     
-exception No_match_found of string;;     
-     
-let longest_match_parsing lexemes s=
-    let n=String.length(s) in
-    let rec tempf=(fun
-        (graet,j)->
-          if j>n
-          then List.rev(graet)
-          else            
-          let c=get s j in
-          if List.mem c [' ';'\n';'\r';'\t']
-          then tempf(graet,j+1)
-          else
-          match Option.seek(fun t->
-            let l=String.length(t) in
-            if j+l>n+1
-            then false
-            else (String.sub s (j-1) l)=t
-          ) lexemes with
-          None->raise(No_match_found(String.sub s (j-1) (n-j+1)))
-          |Some(t0)->tempf(t0::graet,j+String.length(t0))
-    ) in
-    tempf([],1);;
 
 exception Integer_too_big_for_string_of_int;; 
 
