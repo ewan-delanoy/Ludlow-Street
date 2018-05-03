@@ -44,7 +44,7 @@ let dis x l=Hregistrar.ordered_disjunction x l;;
 
 let star=Hregistrar.star;;
 let maybe=Hregistrar.maybe;;
-let keyword_avoider=Hregistrar.keyword_avoider;;
+let keyword_avoider=Hregistrar.avoider;;
 
 
 let rlab=Nonatomic_hrecognize.recgz_and_add_label ;;
