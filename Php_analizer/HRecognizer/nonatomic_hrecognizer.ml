@@ -10,7 +10,7 @@ type t=
  |Ordered_disjunction of string*(t list)
  |Star of string*t
  |Maybe of string*t
- |Keyword_avoider of string*(t*(string list))
+ |Avoider of string*(t*(string list))
  |Motionless of string*t
  |Disjunction_of_chains of string*(t list list);;
 
