@@ -15,16 +15,15 @@ let after_star l s =
   ) in
   tempf;;
 
-let list_of_whites=[' ';'\n';'\r';'\t'];;
 
-let after_whites s =after_star list_of_whites s;;
+let after_whites s =after_star Charset.list_of_whites s;;
 
   let after_whites_and_comments s=
     let n=String.length s in
     let rec tempf=(
       fun j->
         if j>n then None else
-        if List.mem (String.get s (j-1)) list_of_whites
+        if List.mem (String.get s (j-1)) Charset.list_of_whites
         then tempf(j+1)
         else 
         if Substring.is_a_substring_located_at "/*" s j
@@ -177,12 +176,10 @@ let next_in_list l s=
   tempf;;
 
 
-let classlike_declaration_chars=list_of_whites@Characters_in_namespace_name.chars;;
-
 let after_classlike_declaration s i=
     Option.seek(
      fun j->not(List.mem 
-         (String.get s (j-1)) classlike_declaration_chars
+         (String.get s (j-1)) Charset.classlike_declaration_chars
      )
     )(Ennig.ennig i (String.length s));;
 
