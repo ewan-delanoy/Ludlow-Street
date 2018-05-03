@@ -60,7 +60,7 @@ let default_name_for_star x=
 let default_name_for_maybee x=
     ma^op^(Nonatomic_hrecognizer.name x)^cl;;    
 
-let default_name_for_keyword_avoider (x,l)=
+let default_name_for_avoider (x,l)=
         ma^op^(Nonatomic_hrecognizer.name x)^
         (String.concat "#" l)^cl;;        
 
@@ -106,13 +106,13 @@ let maybe s_opt x=
       ) in
       Private.register name (Nonatomic_hrecognizer.maybe name x);;   
 
-let keyword_avoider s_opt x=
+let avoider s_opt x=
         let name=(
           if s_opt="" 
-          then Private.default_name_for_keyword_avoider x
+          then Private.default_name_for_avoider x
           else s_opt    
         ) in
-        Private.register name (Nonatomic_hrecognizer.keyword_avoider name x);;         
+        Private.register name (Nonatomic_hrecognizer.avoider name x);;         
 
 exception Unused_name of string;;
 
