@@ -20,7 +20,7 @@ let name=function
   |Ordered_disjunction(s,_)->s
   |Star(s,_)->s
   |Maybe(s,_)->s
-  |Keyword_avoider(s,_)->s
+  |Avoider(s,_)->s
   |Motionless(s,_)->s
   |Disjunction_of_chains(s,_)->s;;
 
@@ -29,7 +29,7 @@ let chain s l=Chain(s,l);;
 let ordered_disjunction s l= Ordered_disjunction(s,l);;
 let star s l=Star(s,l);; 
 let maybe s l=Maybe(s,l);; 
-let keyword_avoider s (atm,l)=Keyword_avoider(s,(atm,l));; 
+let avoider s (atm,l)=Avoider(s,(atm,l));; 
 let motionless s l=Motionless(s,l);; 
 let disjunction_of_chains s ll=Disjunction_of_chains(s,ll);;
 
@@ -42,7 +42,7 @@ let unveil =((function
  |Ordered_disjunction(_,l)->(Hrecognizer_casename.Ordered_disjunction,l,None,None,[])
  |Star(_,x)->(Hrecognizer_casename.Star,[x],None,None,[])
  |Maybe(_,x)->(Hrecognizer_casename.Maybe,[x],None,None,[])
- |Keyword_avoider(_,(x,l))->(Hrecognizer_casename.Keyword_avoider,[x],None,Some(l),[])
+ |Avoider(_,(x,l))->(Hrecognizer_casename.Avoider,[x],None,Some(l),[])
  |Motionless(_,x)->(Hrecognizer_casename.Motionless,[x],None,None,[])
  |Disjunction_of_chains(_,ll)->(Hrecognizer_casename.Ordered_disjunction,[],None,None,ll)):
  

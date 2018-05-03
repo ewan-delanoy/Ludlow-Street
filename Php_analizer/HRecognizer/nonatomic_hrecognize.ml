@@ -36,7 +36,7 @@ let recgz_maybee old_f atm s i=
         None->Some(i)
         |Some(new_idx)->Some(new_idx);;        
 
-let recgz_avoiding_keywords old_f (x,l) s i=
+let recgz_avoider old_f (x,l) s i=
           match old_f x s i with
           None->None
           |Some(new_idx)->
@@ -67,8 +67,8 @@ let rec recgz natm s i=
       recgz_star recgz natm2 s i
   |Nonatomic_hrecognizer.Maybe(_,natm2)->
       recgz_maybee recgz natm2 s i  
-  |Nonatomic_hrecognizer.Keyword_avoider(_,(x,l))->
-      recgz_avoiding_keywords recgz (x,l) s i 
+  |Nonatomic_hrecognizer.Avoider(_,(x,l))->
+      recgz_avoider recgz (x,l) s i 
   |Nonatomic_hrecognizer.Motionless(_,l)->
       recgz_motionless recgz l s i
   |Nonatomic_hrecognizer.Disjunction_of_chains(_,ll)->

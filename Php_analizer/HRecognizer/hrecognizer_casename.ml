@@ -10,7 +10,7 @@ type t=
  |Ordered_disjunction 
  |Star 
  |Maybe 
- |Keyword_avoider 
+ |Avoider 
  |Motionless
  |Disjunction_of_chains;;
 
