@@ -239,7 +239,7 @@ let for_longest_match=
       ) then Lower else
       if (
           if m2>m1 then false else
-          (String.sub s2 0 m1)=s1
+          (String.sub s1 0 m2)=s2
       ) then Greater else
       lex_for_strings s1 s2
      ): string t);;
