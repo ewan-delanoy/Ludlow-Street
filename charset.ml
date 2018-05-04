@@ -32,7 +32,7 @@ let php_label_first_letters =
     '_';
     ];;  
 
- let strictly_alphanumeric_characters =
+ let php_label_nonfirst_letters =
   php_label_first_letters
   @
   [
@@ -40,13 +40,13 @@ let php_label_first_letters =
   ];;   
 
 let alphanumeric_characters =
-  strictly_alphanumeric_characters @
+  php_label_nonfirst_letters @
   [
    '.';'\''
   ];;    
 
 let unix_filename_admissible_characters =
-  strictly_alphanumeric_characters @
+  php_label_nonfirst_letters @
   [
    '.';'/';'!';'~';
   ];;        
