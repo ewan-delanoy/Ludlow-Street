@@ -147,7 +147,7 @@ let decompose_fnctn_call unreversed_s=
     if opt3=None then None else 
     let i3=Option.unpack opt3 in
     let opt4=After.after_star 
-    Charset.strictly_alphanumeric_characters s i3 in
+    Charset.php_label_nonfirst_letters s i3 in
     let (recipient,long_caller,meth,i4)=(
         match opt4 with
          Some(i)->(match analyse_terms_before_method s i with

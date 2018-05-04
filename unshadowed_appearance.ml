@@ -11,7 +11,7 @@ let test_for_perfect_match s k kwd=
    let constraint1=(
        if k<2 then true else
        not(List.mem (Strung.get s (k-1)) 
-       ('$'::Charset.strictly_alphanumeric_characters ))
+       ('$'::Charset.php_label_nonfirst_letters ))
    )   in
    if not(constraint1)
    then false
@@ -20,7 +20,7 @@ let test_for_perfect_match s k kwd=
    if m>n
    then true
    else not(List.mem (Strung.get s m) 
-        Charset.strictly_alphanumeric_characters );;
+        Charset.php_label_nonfirst_letters );;
 
 let next s l_kwds=
   let n=String.length s in
