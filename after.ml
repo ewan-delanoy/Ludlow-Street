@@ -60,6 +60,12 @@ let after_simple_quoted_string s k0=
     ) in
     tempf (k0+1);;
 
+(*
+
+after_simple_quoted_string "'abc'67" 1;; 
+
+*)    
+
 exception Unfinished_double_quoted_string of int;;  
     
 let after_double_quoted_string s k0=
