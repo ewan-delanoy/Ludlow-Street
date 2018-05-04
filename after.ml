@@ -350,7 +350,7 @@ let  after_php_label s idx=
    then None
    else
    after_star 
-     Charset.strictly_alphanumeric_characters s (idx+1);;
+     Charset.php_label_nonfirst_letters s (idx+1);;
      
 
 
