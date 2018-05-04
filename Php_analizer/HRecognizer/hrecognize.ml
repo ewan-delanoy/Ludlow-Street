@@ -155,7 +155,7 @@ let first_letter_in_php_name=
 let naive_php_name=ch "naive_php_name"
     [
       first_letter_in_php_name;
-      st "alphanumeric_word" Charset.strictly_alphanumeric_characters;
+      st "alphanumeric_word" Charset.php_label_nonfirst_letters;
     ];;
 let php_name=keyword_avoider 
     "php_name" (naive_php_name,!list_of_keywords);;
