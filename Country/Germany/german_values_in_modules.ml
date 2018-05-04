@@ -45,7 +45,7 @@ let list_values_from_module_in_file module_name file=
    ) temp1 in
    let temp3=Image.image(fun (t,(i,j))->
     let opt=After.after_star 
-     Charset.php_label_nonfirst_letters
+     Charset.ocaml_modulename_nonfirst_letters
      s (j+2) in
     let end_idx=(match opt with Some(k)->k-1 |None->String.length s) in
      Cull_string.interval s (j+2) end_idx
