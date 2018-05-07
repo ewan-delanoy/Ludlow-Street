@@ -76,27 +76,28 @@ let add_unlabelled x ulab=
     let nahme=Abstractified_nonatomic_hrecognizer.name ulab 
     and support=Abstractified_nonatomic_hrecognizer.support ulab  in
     let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
-    (*
-    let new_recgzr = Concretize_hrecognizer.concretize x.avoidables x.recognizers ulab in
-    *)
+    let new_recgzr = Concretize_hrecognizer.concretize 
+       (x.avoidables,x.recognizers)  ulab in
     {
         avoidables = x.avoidables;
         atoms = x.atoms;
         unlabelled = x.unlabelled@[ulab];
         labelled = x.labelled;
-        recognizers = [];
+        recognizers = x.recognizers@[new_recgzr];
     };;
 
 let add_labelled x lab=
     let nahme=Abstractified_nonatomic_hrecognizer.name lab 
     and support=Abstractified_nonatomic_hrecognizer.support lab  in
     let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
+    let new_recgzr = Concretize_hrecognizer.concretize 
+       (x.avoidables,x.recognizers)  lab in
     {
         avoidables = x.avoidables;
         atoms = x.atoms;
         unlabelled = x.unlabelled;
         labelled = x.labelled@[lab];
-        recognizers = [];
+        recognizers = x.recognizers@[new_recgzr];
     };;
 
 
