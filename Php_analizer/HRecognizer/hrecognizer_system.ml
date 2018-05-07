@@ -4,12 +4,13 @@
 
 Manages a modifiable  set of inter-related recognizers.
 
-Rules : avoidables are always constant Atomic_hrecognizer.t objects, or concatenation of such.
+Rules : avoidables are always constant Atomic_hrecognizer.t objects, 
+or concatenation of such.
 
 *)
 
 type t= {
-    avoidables : (Avoider_label.t * ((string*(string list)) list)) list;
+    avoidables : List_of_avoidables.t;
     atoms : (string*Atomic_hrecognizer.t) list;
     unlabelled : Abstractified_nonatomic_hrecognizer.t list;
     labelled : Abstractified_nonatomic_hrecognizer.t list;
@@ -17,7 +18,7 @@ type t= {
 };;
 
 let empty_one={
-    avoidables = [];
+    avoidables = List_of_avoidables.empty_one;
     atoms = [];
     unlabelled = [];
     labelled = [];
@@ -25,7 +26,7 @@ let empty_one={
 };;
 
 let name_is_used x nahme=
-      (List.exists (fun (_,l)->List.exists (fun (n,_)->n=nahme) l) x.avoidables)
+      (List_of_avoidables.name_already_used x.avoidables nahme)
       ||
       (List.exists (fun (n,_)->n=nahme) x.atoms)
       ||
@@ -45,15 +46,7 @@ let check_that_name_is_not_used x nahme=
 
 let add_avoidable_item x avdbl nahme parts=
     let _=(check_that_name_is_not_used x nahme) in
-    let new_avoidables=(
-      if List.for_all (fun (lbl,l)->lbl<>avdbl) x.avoidables 
-      then  x.avoidables@[avdbl,[nahme,parts]] 
-      else     
-    Image.image (
-      fun (lbl,l)->
-        let new_l=(if lbl=avdbl then l@[nahme,parts] else l) in
-        (lbl,new_l)
-    ) x.avoidables) in 
+    let new_avoidables=List_of_avoidables.add_new_element x.avoidables avdbl nahme parts in 
     let new_recgzr=Nonatomic_hrecognizer.chain nahme (
         Image.image (fun s->
         Nonatomic_hrecognizer.leaf s (Atomic_hrecognizer.constant s)
