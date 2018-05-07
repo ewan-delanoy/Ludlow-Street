@@ -26,8 +26,7 @@ let get_recognizer_with_name previous_recgzrs name=
  |Maybe(name_for_whole,x)->
       Nonatomic_hrecognizer.maybe name_for_whole  (get_recognizer_with_name previous_recgzrs x)
  |Avoider(name_for_whole,x,avdbl)->
-      let temp1=List.assoc avdbl avoidables in
-      let avoided_ones=Image.image (fun (y,ls)->String.concat "" ls) temp1 in
+      let avoided_ones=List_of_avoidables.avoided_words avoidables avdbl in
       Nonatomic_hrecognizer.avoider name_for_whole 
         (get_recognizer_with_name previous_recgzrs x,avoided_ones)
  |Motionless(name_for_whole,x)->
