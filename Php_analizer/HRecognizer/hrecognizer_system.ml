@@ -83,6 +83,9 @@ let add_unlabelled x ulab=
     let nahme=Abstractified_nonatomic_hrecognizer.name ulab 
     and support=Abstractified_nonatomic_hrecognizer.support ulab  in
     let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
+    (*
+    let new_recgzr = Concretize_hrecognizer.concretize x.avoidables x.recognizers ulab in
+    *)
     {
         avoidables = x.avoidables;
         atoms = x.atoms;
