@@ -15,6 +15,7 @@ type t= {
     unlabelled : Abstractified_nonatomic_hrecognizer.t list;
     labelled : Abstractified_nonatomic_hrecognizer.t list;
     recognizers : Nonatomic_hrecognizer.t list;
+    outermost_disjunction : Nonatomic_hrecognizer.t list;
 };;
 
 let empty_one={
@@ -23,6 +24,7 @@ let empty_one={
     unlabelled = [];
     labelled = [];
     recognizers = [];
+    outermost_disjunction = [];
 };;
 
 let name_is_used x nahme=
@@ -58,6 +60,7 @@ let add_avoidable_item x avdbl nahme parts=
         unlabelled = x.unlabelled;
         labelled = x.labelled;
         recognizers = x.recognizers@[new_recgzr];
+        outermost_disjunction = [];
    };;
 
 let add_atom x (nahme,atm)=
@@ -70,6 +73,7 @@ let add_atom x (nahme,atm)=
         unlabelled = x.unlabelled;
         labelled = x.labelled;
         recognizers = x.recognizers@[new_recgzr];
+        outermost_disjunction = [];
     };;
 
 let add_unlabelled x ulab=
@@ -84,6 +88,7 @@ let add_unlabelled x ulab=
         unlabelled = x.unlabelled@[ulab];
         labelled = x.labelled;
         recognizers = x.recognizers@[new_recgzr];
+        outermost_disjunction = [];
     };;
 
 let add_labelled x lab=
@@ -98,6 +103,7 @@ let add_labelled x lab=
         unlabelled = x.unlabelled;
         labelled = x.labelled@[lab];
         recognizers = x.recognizers@[new_recgzr];
+        outermost_disjunction = [];
     };;
 
 
