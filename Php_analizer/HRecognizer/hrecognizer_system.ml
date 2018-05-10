@@ -9,22 +9,24 @@ or concatenation of such.
 
 *)
 
+(*
+
 type t= {
     avoidables : List_of_avoidables.t;
     atoms : (string*Atomic_hrecognizer.t) list;
-    unlabelled : Abstractified_nonatomic_hrecognizer.t list;
-    labelled : Abstractified_nonatomic_hrecognizer.t list;
+    definitions : Abstractified_nonatomic_hrecognizer.t list;
     recognizers : Nonatomic_hrecognizer.t list;
-    outermost_disjunction : Nonatomic_hrecognizer.t list;
+    outermost_definition : string list;
+    outermost_recognizer : Nonatomic_hrecognizer.t list;
 };;
 
 let empty_one={
     avoidables = List_of_avoidables.empty_one;
     atoms = [];
-    unlabelled = [];
-    labelled = [];
+    definitions = [];
     recognizers = [];
-    outermost_disjunction = [];
+    outermost_definition = [];
+    outermost_recognizer = [];
 };;
 
 let name_is_used x nahme=
@@ -106,7 +108,7 @@ let add_labelled x lab=
         outermost_disjunction = [];
     };;
 
-
+*)
 
 
 
