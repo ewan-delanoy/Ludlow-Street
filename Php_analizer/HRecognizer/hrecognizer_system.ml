@@ -9,11 +9,10 @@ or concatenation of such.
 
 *)
 
-(*
+
 
 type t= {
     avoidables : List_of_avoidables.t;
-    atoms : (string*Atomic_hrecognizer.t) list;
     definitions : Abstractified_nonatomic_hrecognizer.t list;
     recognizers : Nonatomic_hrecognizer.t list;
     outermost_definition : string list;
@@ -22,7 +21,6 @@ type t= {
 
 let empty_one={
     avoidables = List_of_avoidables.empty_one;
-    atoms = [];
     definitions = [];
     recognizers = [];
     outermost_definition = [];
@@ -32,11 +30,9 @@ let empty_one={
 let name_is_used x nahme=
       (List_of_avoidables.name_already_used x.avoidables nahme)
       ||
-      (List.exists (fun (n,_)->n=nahme) x.atoms)
-      ||
-      (List.exists (fun rcgzr->Abstractified_nonatomic_hrecognizer.name rcgzr=nahme) x.unlabelled)
-      ||
-      (List.exists (fun rcgzr->Abstractified_nonatomic_hrecognizer.name rcgzr=nahme) x.labelled);; 
+      (List.exists 
+       (fun rcgzr->Abstractified_nonatomic_hrecognizer.name rcgzr=nahme) 
+       x.definitions);; 
 
 exception Check_that_name_is_used_exn of string;;      
 
@@ -51,6 +47,7 @@ let check_that_name_is_not_used x nahme=
 let add_avoidable_item x avdbl nahme parts=
     let _=(check_that_name_is_not_used x nahme) in
     let new_avoidables=List_of_avoidables.add_new_element x.avoidables avdbl nahme parts in 
+    let new_definition=Abstractified_nonatomic_hrecognizer.Chain(nahme,parts) in
     let new_recgzr=Nonatomic_hrecognizer.chain nahme (
         Image.image (fun s->
         Nonatomic_hrecognizer.leaf s (Atomic_hrecognizer.constant s)
@@ -58,59 +55,32 @@ let add_avoidable_item x avdbl nahme parts=
     ) in
     {
         avoidables = new_avoidables;
-        atoms = x.atoms;
-        unlabelled = x.unlabelled;
-        labelled = x.labelled;
+        definitions = x.definitions@[new_definition];
         recognizers = x.recognizers@[new_recgzr];
-        outermost_disjunction = [];
+        outermost_definition = x.outermost_definition;
+        outermost_recognizer = x.outermost_recognizer;
    };;
 
-let add_atom x (nahme,atm)=
-    let _=(check_that_name_is_not_used x nahme) in
-    let new_recgzr=
-        Nonatomic_hrecognizer.leaf nahme atm in
-    {
-        avoidables = x.avoidables;
-        atoms = (x.atoms)@[nahme,atm];
-        unlabelled = x.unlabelled;
-        labelled = x.labelled;
-        recognizers = x.recognizers@[new_recgzr];
-        outermost_disjunction = [];
-    };;
 
-let add_unlabelled x ulab=
-    let nahme=Abstractified_nonatomic_hrecognizer.name ulab 
-    and support=Abstractified_nonatomic_hrecognizer.support ulab  in
-    let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
+
+let add_definition x defn=
+    let nahme=Abstractified_nonatomic_hrecognizer.name defn 
+    and support=Abstractified_nonatomic_hrecognizer.support defn  in
+    let _=(check_that_name_is_not_used x nahme;
+           List.iter (check_that_name_is_used x) support) in
     let new_recgzr = Concretize_hrecognizer.concretize 
-       (x.avoidables,x.recognizers)  ulab in
+       (x.avoidables,x.recognizers)  defn in
     {
         avoidables = x.avoidables;
-        atoms = x.atoms;
-        unlabelled = x.unlabelled@[ulab];
-        labelled = x.labelled;
+        definitions = x.definitions@[defn];
         recognizers = x.recognizers@[new_recgzr];
-        outermost_disjunction = [];
+        outermost_definition = x.outermost_definition;
+        outermost_recognizer = x.outermost_recognizer;
     };;
 
-let add_labelled x lab=
-    let nahme=Abstractified_nonatomic_hrecognizer.name lab 
-    and support=Abstractified_nonatomic_hrecognizer.support lab  in
-    let _=(check_that_name_is_not_used x nahme;List.iter (check_that_name_is_used x) support) in
-    let new_recgzr = Concretize_hrecognizer.concretize 
-       (x.avoidables,x.recognizers)  lab in
-    {
-        avoidables = x.avoidables;
-        atoms = x.atoms;
-        unlabelled = x.unlabelled;
-        labelled = x.labelled@[lab];
-        recognizers = x.recognizers@[new_recgzr];
-        outermost_disjunction = [];
-    };;
-
-*)
-
-
+(*
+let add_in_outermost x name=
+*)     
 
 
 

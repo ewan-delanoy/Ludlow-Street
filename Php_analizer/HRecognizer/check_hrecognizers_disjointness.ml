@@ -202,10 +202,6 @@ let rec compute_common_left_factor x=
   then compute_common_left_factor(a1::graet,b1,b2)
   else x;;
 
-
-
-
-
 let low_level_analizer (old_graet,old_l1,old_l2)=
    let (graet,l1,l2)=compute_common_left_factor (old_graet,old_l1,old_l2) in
    if (l1=[])||(l2=[])
@@ -273,9 +269,9 @@ end;;
 
 end;;
 
+(*
 let find_faults_in_pair x y=Private.Find_Fault.iterator (x,y,[],[[],[x],[y]]);;
-let repair_disjunction x=Private.Repair.iterator (false,x);;
-
+*)
 
 let quick_check_on_disjunction ll1=
   let temp1=Uple.list_of_pairs ll1 in
@@ -293,4 +289,21 @@ let quick_check_on_disjunction ll1=
     else None
  ) temp2 in
  (opt1,opt2);;  
+
+
+let repair_disjunction ll=
+    if quick_check_on_disjunction ll =(None,None) then ll else
+    let temp1=Private.Repair.iterator (false,ll) in
+    Ordered.diforchan_plaen Order_for_hrecognizer_chains.order temp1;;
+
+let repair_recognizer x=match x with
+ Nonatomic_hrecognizer.Disjunction_of_chains(name,ll)->
+   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
+|Ordered_disjunction(name,l)->
+   let ll=Image.image (fun z->[z]) l in
+   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
+|_->x;;
+  
+
+
 

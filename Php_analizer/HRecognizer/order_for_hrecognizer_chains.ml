@@ -25,5 +25,4 @@ let order=
   in
   (tempf: (Nonatomic_hrecognizer.t list) Total_ordering.t);;
 
-let order_for_pairs=((Total_ordering.from_snd order): 
-(string * Nonatomic_hrecognizer.t list) Total_ordering.t);; 
+ 
