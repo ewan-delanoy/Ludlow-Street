@@ -23,6 +23,9 @@ let get_recognizer_with_name previous_recgzrs name=
  |Chain(name_for_whole,l)->
       let temp1=Image.image (get_recognizer_with_name previous_recgzrs) l in
       Nonatomic_hrecognizer.chain name_for_whole temp1
+ |Ordered_disjunction(name_for_whole,l)->
+      let temp1=Image.image (get_recognizer_with_name previous_recgzrs) l in
+      Nonatomic_hrecognizer.chain name_for_whole temp1     
  |Star(name_for_whole,x)->
       Nonatomic_hrecognizer.star name_for_whole  (get_recognizer_with_name previous_recgzrs x)
  |Maybe(name_for_whole,x)->
@@ -39,4 +42,4 @@ let get_recognizer_with_name previous_recgzrs name=
    Nonatomic_hrecognizer.disjunction_of_chains name_for_whole  
          temp1;;
 
- 
+  
