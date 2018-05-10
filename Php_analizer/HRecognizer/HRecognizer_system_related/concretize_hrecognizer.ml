@@ -18,7 +18,9 @@ let get_recognizer_with_name previous_recgzrs name=
 
  let concretize (avoidables,previous_recgzrs) abstract_summary=
     match abstract_summary with 
-    Abstractified_nonatomic_hrecognizer.Chain(name_for_whole,l)->
+    Abstractified_nonatomic_hrecognizer.Leaf(name_for_whole,atm)->
+    Nonatomic_hrecognizer.leaf name_for_whole atm
+ |Chain(name_for_whole,l)->
       let temp1=Image.image (get_recognizer_with_name previous_recgzrs) l in
       Nonatomic_hrecognizer.chain name_for_whole temp1
  |Star(name_for_whole,x)->
