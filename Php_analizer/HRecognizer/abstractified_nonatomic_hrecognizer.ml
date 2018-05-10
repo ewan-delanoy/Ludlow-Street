@@ -10,6 +10,7 @@ but I couldn't find anything better so far.
 type t=
   Leaf of string*Atomic_hrecognizer.t
  |Chain of string*(string list)
+ |Ordered_disjunction of string*(string list)
  |Star of string*string
  |Maybe of string*string
  |Avoider of string*string*Avoider_label.t
@@ -19,6 +20,7 @@ type t=
  let name=function
  Leaf(s,_)->s
  |Chain(s,_)->s
+ |Ordered_disjunction(s,_)->s
  |Star(s,_)->s
  |Maybe(s,_)->s
  |Avoider(s,_,_)->s
@@ -28,6 +30,7 @@ type t=
  let support=function
   Leaf(_,_)->[]
  |Chain(_,l)->l
+ |Ordered_disjunction(_,l)->l
  |Star(_,s1)->[s1]
  |Maybe(_,s1)->[s1]
  |Avoider(_,s1,_)->[s1]
