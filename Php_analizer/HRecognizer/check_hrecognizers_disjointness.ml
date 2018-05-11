@@ -293,7 +293,6 @@ let quick_check_on_disjunction ll1=
  ) temp2 in
  (opt1,opt2);;  
 
-
 let repair_disjunction ll=
     if quick_check_on_disjunction ll =(None,None) then ll else
     let temp1=Private.Repair.iterator (false,ll) in
