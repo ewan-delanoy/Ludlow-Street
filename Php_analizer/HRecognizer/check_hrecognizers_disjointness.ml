@@ -239,6 +239,8 @@ let rec iterator walker=
     if da_ober=[] then List.rev_map(fun (graet,a1,b1,a2,b2)->(x,y,graet,a1,b1,a2,b2)) (graet) else
     iterator(pusher walker);;
 
+let in_pair x y=iterator (x,y,[],[[],[x],[y]]);;
+
 end;;    
 
 module Repair=struct
@@ -267,11 +269,12 @@ let rec iterator  (end_reached,x)=
 
 end;;  
 
+module Labelled=struct
+
+end;;  
+
 end;;
 
-(*
-let find_faults_in_pair x y=Private.Find_Fault.iterator (x,y,[],[[],[x],[y]]);;
-*)
 
 let quick_check_on_disjunction ll1=
   let temp1=Uple.list_of_pairs ll1 in
@@ -296,6 +299,14 @@ let repair_disjunction ll=
     let temp1=Private.Repair.iterator (false,ll) in
     Ordered.diforchan_plaen Order_for_hrecognizer_chains.order temp1;;
 
+let quick_check_on_recognizer x=match x with
+    Nonatomic_hrecognizer.Disjunction_of_chains(name,ll)->
+    quick_check_on_disjunction ll
+   |Ordered_disjunction(name,l)->
+      let ll=Image.image (fun z->[z]) l in
+      quick_check_on_disjunction ll
+   |_->(None,None);;    
+
 let repair_recognizer x=match x with
  Nonatomic_hrecognizer.Disjunction_of_chains(name,ll)->
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
@@ -304,6 +315,23 @@ let repair_recognizer x=match x with
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
 |_->x;;
   
+let quick_check_on_list_of_labelled_recognizers  ll1=
+  let temp1=Uple.list_of_pairs ll1 in
+  let opt1=Option.find_and_stop (
+     fun ((x1,rcgzr1),(x2,rcgzr2))->
+     let temp2=Private.low_level_analizer([],[rcgzr1],[rcgzr2]) in
+     if temp2=Disjointness_confirmed then None else
+     Some(temp2)
+  ) temp1 in
+  let temp2=Listennou.universal_delta_list(ll1) in
+  let opt2=Option.find_and_stop (
+    fun ((x1,rcgzr1),(x2,rcgzr2))->
+    if Order_for_hrecognizer_chains.order [rcgzr1] [rcgzr2]=Total_ordering.Greater 
+    then Some(x1,x2)
+    else None
+ ) temp2 in
+ (opt1,opt2);;  
+
 
 
 

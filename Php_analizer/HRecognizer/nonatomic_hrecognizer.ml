@@ -48,6 +48,9 @@ let unveil =((function
  
   t -> unveiled_data);;
  
+let write_as_list x=match x with
+   Chain(_,l)->l
+   |_->[x];;  
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
