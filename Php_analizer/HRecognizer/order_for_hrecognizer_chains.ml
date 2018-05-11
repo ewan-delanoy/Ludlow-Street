@@ -8,8 +8,15 @@ first (so as not to be made redundant by the other one).
 
 *)
 
+let for_unlabelled_ones =
+  ((fun x y->
+  Total_ordering.lex_for_strings
+  (Nonatomic_hrecognizer.name x)
+  (Nonatomic_hrecognizer.name y) 
+  ):
+   Nonatomic_hrecognizer.t Total_ordering.t);; 
 
-let order=
+let for_lists=
   let rec tempf=(fun l1 l2->
      if l1=[]
      then if l2=[] then Total_ordering.Equal else Total_ordering.Greater
@@ -20,13 +27,11 @@ let order=
      |a2::peurrest2->
        if a1=a2 then tempf peurrest1 peurrest2 else   
       (* Different recognizers have different names *) 
-      Total_ordering.lex_for_strings
-        (Nonatomic_hrecognizer.name a1)
-        (Nonatomic_hrecognizer.name a2) 
+      for_unlabelled_ones a1 a2
   )
   in
   (tempf: (Nonatomic_hrecognizer.t list) Total_ordering.t);;
 
-let order_for_pairs=
-  ((fun x y->Total_ordering.from_snd order x y):
-   ('a * Nonatomic_hrecognizer.t list) Total_ordering.t);; 
+let for_labelled_ones=
+  ((fun x y->Total_ordering.from_snd for_unlabelled_ones x y):
+   ('a * Nonatomic_hrecognizer.t) Total_ordering.t);; 
