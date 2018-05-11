@@ -315,15 +315,15 @@ let repair_recognizer x=match x with
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
 |_->x;;
   
-let quick_check_on_list_of_labelled_recognizers  ll1=
-  let temp1=Uple.list_of_pairs ll1 in
+let quick_check_on_list_of_labelled_recognizers  l=
+  let temp1=Uple.list_of_pairs l in
   let opt1=Option.find_and_stop (
      fun ((x1,rcgzr1),(x2,rcgzr2))->
      let temp2=Private.low_level_analizer([],[rcgzr1],[rcgzr2]) in
      if temp2=Disjointness_confirmed then None else
      Some(temp2)
   ) temp1 in
-  let temp2=Listennou.universal_delta_list(ll1) in
+  let temp2=Listennou.universal_delta_list(l) in
   let opt2=Option.find_and_stop (
     fun ((x1,rcgzr1),(x2,rcgzr2))->
     if Order_for_hrecognizer_chains.order [rcgzr1] [rcgzr2]=Total_ordering.Greater 
@@ -332,6 +332,9 @@ let quick_check_on_list_of_labelled_recognizers  ll1=
  ) temp2 in
  (opt1,opt2);;  
 
-
+let repair_list_of_labelled_recognizers iteratore l=
+  if quick_check_on_list_of_labelled_recognizers l =(None,None) then l else
+  let temp1=iteratore (false,l) in
+  Ordered.diforchan_plaen Order_for_hrecognizer_chains.order_for_pairs temp1;;
 
 

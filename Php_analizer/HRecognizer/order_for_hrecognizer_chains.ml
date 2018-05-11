@@ -1,9 +1,11 @@
 (*
 #use"Php_analizer/HRecognizer/order_for_hrecognizer_chains.ml";;
+
 If none of the two chains is an initial segment of the other, dictionary
 order is applied.
 If one of the two chains is an initial segment of the other, the longest comes
-first (so as not to be overriden by the other one).
+first (so as not to be made redundant by the other one).
+
 *)
 
 
@@ -25,4 +27,6 @@ let order=
   in
   (tempf: (Nonatomic_hrecognizer.t list) Total_ordering.t);;
 
- 
+let order_for_pairs=
+  ((fun x y->Total_ordering.from_snd order x y):
+   ('a * Nonatomic_hrecognizer.t list) Total_ordering.t);; 
