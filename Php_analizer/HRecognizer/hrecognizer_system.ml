@@ -86,6 +86,15 @@ let add_definition x defn=
 let add_in_outermost x name=
 *)     
 
-
+(*
+let temp2=Ennig.index_everything temp1 in
+  let temp3=Image.image (fun (j,(x,l))->(x,
+     Nonatomic_hrecognizer.chain ("anon_"^(string_of_int j)) l)) temp2 in
+  let temp4=Prepared.partition_according_to_fst temp3 in
+  let temp5=Image.image (fun (name,l)->
+       (name,Nonatomic_hrecognizer.ordered_disjunction name l)) temp4 in
+    Ordered.diforchan_plaen Hrecognizer_related_order.for_labelled_ones temp5
+  ;;
+*)
 
 
