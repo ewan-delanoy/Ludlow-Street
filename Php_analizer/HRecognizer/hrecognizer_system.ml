@@ -17,6 +17,7 @@ type t= {
     recognizers : Nonatomic_hrecognizer.t list;
     outermost_definition : string list;
     outermost_recognizer : Nonatomic_hrecognizer.t list;
+    counter_for_anonymous_recognizers : int;
 };;
 
 let empty_one={
@@ -25,6 +26,7 @@ let empty_one={
     recognizers = [];
     outermost_definition = [];
     outermost_recognizer = [];
+    counter_for_anonymous_recognizers =0;
 };;
 
 let name_is_used x nahme=
@@ -59,6 +61,7 @@ let add_avoidable_item x avdbl nahme parts=
         recognizers = x.recognizers@[new_recgzr];
         outermost_definition = x.outermost_definition;
         outermost_recognizer = x.outermost_recognizer;
+        counter_for_anonymous_recognizers = x.counter_for_anonymous_recognizers;
    };;
 
 
@@ -76,6 +79,7 @@ let add_definition x defn=
         recognizers = x.recognizers@[new_recgzr];
         outermost_definition = x.outermost_definition;
         outermost_recognizer = x.outermost_recognizer;
+        counter_for_anonymous_recognizers = x.counter_for_anonymous_recognizers;
     };;
 
 (*

@@ -331,9 +331,45 @@ let quick_check_on_list_of_labelled_recognizers  l=
  ) temp2 in
  (opt1,opt2);;  
 
-let repair_list_of_labelled_recognizers iteratore l=
+ let pushore ll1=
+  let indexed_ll1=Ennig.index_everything ll1 in
+  let temp1=Uple.list_of_pairs indexed_ll1 in
+  match Option.find_and_stop (
+     fun ((i1,(x1,l1)),(i2,(x2,l2)))->match Private.low_level_analizer([],l1,l2) with
+     Disjointness_confirmed->None
+    |Obstruction_found(obstr_data)->raise(Cannot_repair(obstr_data))
+    |Expansion_found(graet,new_sl1,new_sl2)->
+       let full_new_sl1=Image.image (fun l->List.rev_append graet l) new_sl1
+       and full_new_sl2=Image.image (fun l->List.rev_append graet l) new_sl2 in
+       let temp2=List.flatten(Image.image (fun (i,(x,l))->
+          if i=i1 then Image.image (fun l2->(x,l2)) full_new_sl1 else 
+          if i=i2 then Image.image (fun l2->(x,l2)) full_new_sl2 else [x,l]
+        ) indexed_ll1) in
+       Some(temp2)
+  ) temp1 with
+  None->(true,ll1)
+  |Some(new_ll1)->(false,new_ll1);; 
+
+let rec iteratore  (end_reached,x)=
+  if end_reached then x else
+  iteratore (pushore x);;
+
+(* TO DO : finish the repair_list function below, by returning a list 
+of all the anonymous recognizers to be created *)    
+
+let repair_list_of_labelled_recognizers  l=
   if quick_check_on_list_of_labelled_recognizers l =(None,None) then l else
-  let temp1=iteratore (false,l) in
-  Ordered.diforchan_plaen Hrecognizer_related_order.for_labelled_ones temp1;;
+  let ll=Image.image (fun (lbl,rcgzr)->(lbl,Nonatomic_hrecognizer.write_as_list rcgzr)  ) l in
+  let temp1=iteratore  (false,ll) in
+  (* Special take must be taken to create adhoc names for the chains appearing
+  in the disjunction. *)
+  let temp2=Ennig.index_everything temp1 in
+  let temp3=Image.image (fun (j,(x,l))->(x,
+     Nonatomic_hrecognizer.chain ("anon_"^(string_of_int j)) l)) temp2 in
+  let temp4=Prepared.partition_according_to_fst temp3 in
+  let temp5=Image.image (fun (name,l)->
+       (name,Nonatomic_hrecognizer.ordered_disjunction name l)) temp4 in
+    Ordered.diforchan_plaen Hrecognizer_related_order.for_labelled_ones temp5
+  ;;
 
 
