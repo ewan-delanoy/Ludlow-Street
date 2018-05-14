@@ -369,7 +369,7 @@ let repair_list_of_labelled_recognizers
   if quick_check_on_list_of_recognizers main_l =(None,None) then None else
   let ll=Image.image (fun rcgzr->
      ( Nonatomic_hrecognizer.name rcgzr,
-     Nonatomic_hrecognizer.write_as_list rcgzr)  
+     Nonatomic_hrecognizer.write_as_chain_list rcgzr)  
   ) main_l in
   let temp1=Private.Repair_Labelled.iterator  (false,ll) in
   let local_counter=ref(old_counter_value) in 

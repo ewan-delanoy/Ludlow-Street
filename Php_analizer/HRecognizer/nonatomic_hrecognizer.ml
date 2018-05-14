@@ -48,7 +48,7 @@ let unveil =((function
  
   t -> unveiled_data);;
  
-let write_as_list x=match x with
+let write_as_chain_list x=match x with
    Chain(_,l)->l
    |_->[x];;  
 

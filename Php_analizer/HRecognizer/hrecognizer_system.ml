@@ -86,11 +86,22 @@ let add_definition x defn=
 exception Unused_name_in_outermost_addition of string;;
 
 (*
-let add_in_outermost x name=
+let insert_in_outermost x name=
     let _=check_that_name_is_used x name in
-    let new_disjunctees_list=
+    let list1_of_names=
         Ordered.insert_plaen Total_ordering.lex_for_strings name x.outermost_definition in
-*)    
+    let list1_of_recognizers=
+        Image.image (
+           fun nahme->
+           Option.find (fun rcgzr->
+             (Nonatomic_hrecognizer.name rcgzr)=nahme
+           ) x.recognizers
+        ) list1_of_names in
+    let outermost_name=Nonatomic_hrecognizer.name(x.outermost_recognizer) in
+    let temporary_outermost=
+        Nonatomic_hrecognizer.name       
+*)              
+   
     
 
 (*
