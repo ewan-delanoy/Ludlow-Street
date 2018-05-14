@@ -9,6 +9,7 @@ first (so as not to be made redundant by the other one).
 *)
 
 let for_unlabelled_ones =
+   (* Different recognizers have different names, so we just need to look at the names *) 
   ((fun x y->
   Total_ordering.lex_for_strings
   (Nonatomic_hrecognizer.name x)
@@ -26,7 +27,6 @@ let for_lists=
      []->Total_ordering.Lower
      |a2::peurrest2->
        if a1=a2 then tempf peurrest1 peurrest2 else   
-      (* Different recognizers have different names *) 
       for_unlabelled_ones a1 a2
   )
   in

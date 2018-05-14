@@ -343,7 +343,9 @@ let repair_recognizer x=match x with
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
 |_->x;;
   
-let quick_check_on_list_of_labelled_recognizers  l=
+let quick_check_on_list_of_recognizers  old_l=
+  let l=Image.image (fun rcgzr->
+  ( Nonatomic_hrecognizer.name rcgzr,rcgzr)) old_l in
   let temp1=Uple.list_of_pairs l in
   let opt1=Option.find_and_stop (
      fun ((x1,rcgzr1),(x2,rcgzr2))->
@@ -364,11 +366,13 @@ let quick_check_on_list_of_labelled_recognizers  l=
 
 let repair_list_of_labelled_recognizers 
   old_counter_value main_l=
-  if quick_check_on_list_of_labelled_recognizers main_l =(None,None) then None else
-  let ll=Image.image (fun (lbl,rcgzr)->(lbl,Nonatomic_hrecognizer.write_as_list rcgzr)  
+  if quick_check_on_list_of_recognizers main_l =(None,None) then None else
+  let ll=Image.image (fun rcgzr->
+     ( Nonatomic_hrecognizer.name rcgzr,
+     Nonatomic_hrecognizer.write_as_list rcgzr)  
   ) main_l in
   let temp1=Private.Repair_Labelled.iterator  (false,ll) in
-  let local_counter=ref(old_counter_value) in
+  let local_counter=ref(old_counter_value) in 
   let temp2=Prepared.partition_according_to_fst temp1 in
   let temp3=Image.image (fun (x,l)->
      if List.length(l)=1
