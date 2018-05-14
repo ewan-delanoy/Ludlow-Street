@@ -83,10 +83,15 @@ let add_definition x defn=
     };;
 
 
-exception Unused_name_in_outermost_addition of string;;
+exception Unused_name_in_outermost_insertion of string;;
 
-(*
+
 let insert_in_outermost x name=
+    let opt=Option.seek x.recognizers in
+    if opt=None
+    then raise(Unused_name_in_outermost_insertion(name))
+    else 
+    let inserted_one=Option.unpack opt in
     let _=check_that_name_is_used x name in
     let list1_of_names=
         Ordered.insert_plaen Total_ordering.lex_for_strings name x.outermost_definition in
@@ -100,7 +105,7 @@ let insert_in_outermost x name=
     let outermost_name=Nonatomic_hrecognizer.name(x.outermost_recognizer) in
     let temporary_outermost=
         Nonatomic_hrecognizer.name       
-*)              
+              
    
     
 
