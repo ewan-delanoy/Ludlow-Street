@@ -290,6 +290,12 @@ let pusher ll1=
     None->(true,ll1)
     |Some(new_ll1)->(false,new_ll1);; 
   
+(*
+takes as argument a list where each name corresponds to a unique chain,
+and returns  a list where one name may correspond to several chains.
+
+*)
+
 let rec iterator  (end_reached,x)=
     if end_reached then x else
     iterator (pusher x);;   
@@ -354,13 +360,32 @@ let quick_check_on_list_of_labelled_recognizers  l=
  ) temp2 in
  (opt1,opt2);;  
 
- 
 
-let repair_list_of_labelled_recognizers  l=
-  if quick_check_on_list_of_labelled_recognizers l =(None,None) then None else
-  let ll=Image.image (fun (lbl,rcgzr)->(lbl,Nonatomic_hrecognizer.write_as_list rcgzr)  ) l in
-  Some(Private.Repair_Labelled.iterator  (false,ll));;
-(* Note that a fully constructed recognizer is not returned. Special take must be taken to create adhoc names for the chains appearing
-  in the disjunction. *)
-  
+
+let repair_list_of_labelled_recognizers 
+  (old_counter_value,old_recognizers_list)
+  main_l=
+  if quick_check_on_list_of_labelled_recognizers main_l =(None,None) then None else
+  let ll=Image.image (fun (lbl,rcgzr)->(lbl,Nonatomic_hrecognizer.write_as_list rcgzr)  
+  ) main_l in
+  let temp1=Private.Repair_Labelled.iterator  (false,ll) in
+  let local_counter=ref(old_counter_value) in
+  let temp2=Prepared.partition_according_to_fst temp1 in
+  let temp3=Image.image (fun (x,l)->
+     if List.length(l)=1
+     then [Nonatomic_hrecognizer.chain x (List.hd l)]
+     else  
+     (* if we get here, new prelminary definitions will be necessary *)
+     let ttemp4=Ennig.index_everything l in
+     let j0=(!local_counter) in
+     let ttemp5=Image.image(
+         fun (t,chain_for_t)->
+           let name="anon_"^(string_of_int (j0+t) ) in
+           Nonatomic_hrecognizer.chain name chain_for_t
+     ) ttemp4 in
+     let _=(local_counter:=j0+(List.length l)) in
+     ttemp5@[Nonatomic_hrecognizer.ordered_disjunction x ttemp5]
+    )  temp2 in
+  Some(!local_counter,temp3);;
+
 

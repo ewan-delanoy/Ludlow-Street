@@ -52,6 +52,7 @@ let write_as_list x=match x with
    Chain(_,l)->l
    |_->[x];;  
 
+
 let print (x:t)="rn \""^(name x)^"\"";;
 
 let print_out (fmt:Format.formatter) (x:t)=
