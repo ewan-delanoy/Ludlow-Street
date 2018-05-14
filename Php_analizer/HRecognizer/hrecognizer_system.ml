@@ -85,11 +85,12 @@ let add_definition x defn=
 
 exception Unused_name_in_outermost_addition of string;;
 
+(*
 let add_in_outermost x name=
     let _=check_that_name_is_used x name in
     let new_disjunctees_list=
         Ordered.insert_plaen Total_ordering.lex_for_strings name x.outermost_definition in
-    
+*)    
     
 
 (*

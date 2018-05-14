@@ -389,6 +389,7 @@ let repair_list_of_labelled_recognizers
      let _=(local_counter:=j0+(List.length l)) in
      ttemp5@[Nonatomic_hrecognizer.ordered_disjunction x ttemp5]
     )  temp2 in
-  Some(!local_counter,temp3);;
+  let temp4=List.flatten temp3 in  
+  Some(!local_counter,temp4);;
 
 
