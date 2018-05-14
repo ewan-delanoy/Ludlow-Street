@@ -363,8 +363,7 @@ let quick_check_on_list_of_labelled_recognizers  l=
 
 
 let repair_list_of_labelled_recognizers 
-  (old_counter_value,old_recognizers_list)
-  main_l=
+  old_counter_value main_l=
   if quick_check_on_list_of_labelled_recognizers main_l =(None,None) then None else
   let ll=Image.image (fun (lbl,rcgzr)->(lbl,Nonatomic_hrecognizer.write_as_list rcgzr)  
   ) main_l in
