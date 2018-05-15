@@ -85,33 +85,38 @@ let add_definition x defn=
 
 exception Unused_name_in_outermost_insertion of string;;
 
-(*
+
 
 let insert_in_outermost x name=
-    let opt=Option.seek x.recognizers in
+    let opt=Option.seek (
+        fun rcgzr->Nonatomic_hrecognizer.name rcgzr=name
+    ) x.recognizers in
     if opt=None
     then raise(Unused_name_in_outermost_insertion(name))
     else 
     let inserted_one=Option.unpack opt in
-    let outermost_name=Nonatomic_hrecognizer.name x.outermost_recognizer in
-    let (new_counter_value,repaired_list)=
+    let opt2=
         Check_hrecognizers_disjointness.repair_list_of_recognizers
-      (!(x.counter_for_anonymous_recognizers)) (inserted_one::x.outermost_recognizer) in
-
-*)    
-              
+      (x.counter_for_anonymous_recognizers) (inserted_one::x.outermost_recognizer) in
+    if opt2=None then x else
+    let (new_counter_value,outers_with_their_suites,outers_without_their_suites)=Option.unpack opt2 in
+    let new_rcgzr_list=Image.image (
+         fun rcgzr->
+           let name2=Nonatomic_hrecognizer.name  rcgzr in
+           match Option.seek (
+            fun rcgzr2->Nonatomic_hrecognizer.name rcgzr2=name2
+           ) outers_with_their_suites with
+           None->rcgzr
+           |Some(rcgzr3)->rcgzr3
+    ) x.recognizers in
+    {
+        avoidables = x.avoidables;
+        definitions = x.definitions;
+        recognizers = new_rcgzr_list;
+        outermost_definition = Image.image Nonatomic_hrecognizer.name outers_without_their_suites ;
+        outermost_recognizer = outers_without_their_suites;
+        counter_for_anonymous_recognizers = new_counter_value;
+    };;   
    
-    
-
-(*
-let temp2=Ennig.index_everything temp1 in
-  let temp3=Image.image (fun (j,(x,l))->(x,
-     Nonatomic_hrecognizer.chain ("anon_"^(string_of_int j)) l)) temp2 in
-  let temp4=Prepared.partition_according_to_fst temp3 in
-  let temp5=Image.image (fun (name,l)->
-       (name,Nonatomic_hrecognizer.ordered_disjunction name l)) temp4 in
-    Ordered.diforchan_plaen Hrecognizer_related_order.for_labelled_ones temp5
-  ;;
-*)
-
+              
 

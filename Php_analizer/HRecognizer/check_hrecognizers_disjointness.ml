@@ -378,7 +378,7 @@ let repair_list_of_recognizers
      if List.length(l)=1
      then [Nonatomic_hrecognizer.chain x (List.hd l)]
      else  
-     (* if we get here, new prelminary definitions will be necessary *)
+     (* if we get here, new preliminary definitions will be necessary *)
      let ttemp4=Ennig.index_everything l in
      let j0=(!local_counter) in
      let ttemp5=Image.image(
@@ -393,7 +393,8 @@ let repair_list_of_recognizers
       ) in
      ttemp5@[new_recgzr]
     )  temp2 in
-  let temp4=List.flatten temp3 in  
-  Some(!local_counter,temp4,List.rev(!local_accu));;
+  let outers_with_their_suites=List.flatten temp3
+  and outers_without_their_suites=List.rev(!local_accu) in  
+  Some(!local_counter,outers_with_their_suites,outers_without_their_suites);;
 
 
