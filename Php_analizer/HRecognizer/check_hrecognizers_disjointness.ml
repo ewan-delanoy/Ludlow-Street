@@ -374,9 +374,9 @@ let repair_list_of_recognizers
   let local_counter=ref(old_counter_value) 
   and local_accu=ref[] in 
   let temp2=Prepared.partition_according_to_fst temp1 in
-  let temp3=Image.image (fun (x,l)->
+  let outers_with_their_suites=Image.image (fun (x,l)->
      if List.length(l)=1
-     then [Nonatomic_hrecognizer.chain x (List.hd l)]
+     then (Nonatomic_hrecognizer.chain x (List.hd l),[])
      else  
      (* if we get here, new preliminary definitions will be necessary *)
      let ttemp4=Ennig.index_everything l in
@@ -384,17 +384,21 @@ let repair_list_of_recognizers
      let ttemp5=Image.image(
          fun (t,chain_for_t)->
            let name="anon_"^(string_of_int (j0+t) ) in
-           Nonatomic_hrecognizer.chain name chain_for_t
+           let abstract_version=
+           Abstractified_nonatomic_hrecognizer.Chain(name,
+           Image.image Nonatomic_hrecognizer.name chain_for_t) in
+           let concrete_version=Nonatomic_hrecognizer.chain name chain_for_t in
+           (abstract_version,concrete_version)
      ) ttemp4 in
-     let new_recgzr=Nonatomic_hrecognizer.ordered_disjunction x ttemp5 in
+     let new_recgzr=Nonatomic_hrecognizer.ordered_disjunction x 
+        (Image.image snd ttemp5) in
      let _=(
        local_accu := new_recgzr::(!local_accu);
        local_counter:=j0+(List.length l)
       ) in
-     ttemp5@[new_recgzr]
+     (new_recgzr,ttemp5)
     )  temp2 in
-  let outers_with_their_suites=List.flatten temp3
-  and outers_without_their_suites=List.rev(!local_accu) in  
+  let outers_without_their_suites=List.rev(!local_accu) in  
   Some(!local_counter,outers_with_their_suites,outers_without_their_suites);;
 
 
