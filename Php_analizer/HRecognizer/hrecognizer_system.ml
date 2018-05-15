@@ -100,18 +100,22 @@ let insert_in_outermost x name=
       (x.counter_for_anonymous_recognizers) (inserted_one::x.outermost_recognizer) in
     if opt2=None then x else
     let (new_counter_value,outers_with_their_suites,outers_without_their_suites)=Option.unpack opt2 in
-    let new_rcgzr_list=Image.image (
-         fun rcgzr->
+    let temp1=List.combine x.definitions x.recognizers in
+    let temp2=Image.image (
+         fun (defn,rcgzr)->
            let name2=Nonatomic_hrecognizer.name  rcgzr in
            match Option.seek (
-            fun rcgzr2->Nonatomic_hrecognizer.name rcgzr2=name2
+            fun (rcgzr2,suite2)->Nonatomic_hrecognizer.name rcgzr2=name2
            ) outers_with_their_suites with
-           None->rcgzr
-           |Some(rcgzr3)->rcgzr3
-    ) x.recognizers in
+           None->[defn,rcgzr]
+           |Some(rcgzr3,suite3)->suite3@[defn,rcgzr]
+    ) temp1 in
+    let temp3=List.flatten temp2 in
+    let new_defn_list=Image.image fst temp3 
+    and new_rcgzr_list=Image.image snd temp3 in
     {
         avoidables = x.avoidables;
-        definitions = x.definitions;
+        definitions = new_defn_list;
         recognizers = new_rcgzr_list;
         outermost_definition = Image.image Nonatomic_hrecognizer.name outers_without_their_suites ;
         outermost_recognizer = outers_without_their_suites;
