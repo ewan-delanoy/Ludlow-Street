@@ -363,7 +363,7 @@ let quick_check_on_list_of_recognizers  old_l=
  (opt1,opt2);;  
 
 
-let repair_list_of_labelled_recognizers 
+let repair_list_of_recognizers 
   old_counter_value main_l=
   if quick_check_on_list_of_recognizers main_l =(None,None) then None else
   let ll=Image.image (fun rcgzr->
@@ -371,7 +371,8 @@ let repair_list_of_labelled_recognizers
      Nonatomic_hrecognizer.write_as_chain_list rcgzr)  
   ) main_l in
   let temp1=Private.Repair_Labelled.iterator  (false,ll) in
-  let local_counter=ref(old_counter_value) in 
+  let local_counter=ref(old_counter_value) 
+  and local_accu=ref[] in 
   let temp2=Prepared.partition_according_to_fst temp1 in
   let temp3=Image.image (fun (x,l)->
      if List.length(l)=1
@@ -385,10 +386,14 @@ let repair_list_of_labelled_recognizers
            let name="anon_"^(string_of_int (j0+t) ) in
            Nonatomic_hrecognizer.chain name chain_for_t
      ) ttemp4 in
-     let _=(local_counter:=j0+(List.length l)) in
-     ttemp5@[Nonatomic_hrecognizer.ordered_disjunction x ttemp5]
+     let new_recgzr=Nonatomic_hrecognizer.ordered_disjunction x ttemp5 in
+     let _=(
+       local_accu := new_recgzr::(!local_accu);
+       local_counter:=j0+(List.length l)
+      ) in
+     ttemp5@[new_recgzr]
     )  temp2 in
   let temp4=List.flatten temp3 in  
-  Some(!local_counter,temp4);;
+  Some(!local_counter,temp4,List.rev(!local_accu));;
 
 

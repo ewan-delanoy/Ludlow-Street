@@ -85,6 +85,7 @@ let add_definition x defn=
 
 exception Unused_name_in_outermost_insertion of string;;
 
+(*
 
 let insert_in_outermost x name=
     let opt=Option.seek x.recognizers in
@@ -92,19 +93,12 @@ let insert_in_outermost x name=
     then raise(Unused_name_in_outermost_insertion(name))
     else 
     let inserted_one=Option.unpack opt in
-    let _=check_that_name_is_used x name in
-    let list1_of_names=
-        Ordered.insert_plaen Total_ordering.lex_for_strings name x.outermost_definition in
-    let list1_of_recognizers=
-        Image.image (
-           fun nahme->
-           Option.find (fun rcgzr->
-             (Nonatomic_hrecognizer.name rcgzr)=nahme
-           ) x.recognizers
-        ) list1_of_names in
-    let outermost_name=Nonatomic_hrecognizer.name(x.outermost_recognizer) in
-    let temporary_outermost=
-        Nonatomic_hrecognizer.name       
+    let outermost_name=Nonatomic_hrecognizer.name x.outermost_recognizer in
+    let (new_counter_value,repaired_list)=
+        Check_hrecognizers_disjointness.repair_list_of_recognizers
+      (!(x.counter_for_anonymous_recognizers)) (inserted_one::x.outermost_recognizer) in
+
+*)    
               
    
     
