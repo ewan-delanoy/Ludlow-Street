@@ -343,7 +343,7 @@ let repair_recognizer x=match x with
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
 |_->x;;
   
-let quick_check_on_list_of_recognizers  old_l=
+let quick_check_on_disjunction_list_of_recognizers  old_l=
   let l=Image.image (fun rcgzr->
   ( Nonatomic_hrecognizer.name rcgzr,rcgzr)) old_l in
   let temp1=Uple.list_of_pairs l in
@@ -363,9 +363,9 @@ let quick_check_on_list_of_recognizers  old_l=
  (opt1,opt2);;  
 
 
-let repair_list_of_recognizers 
+let repair_disjunction_list_of_recognizers 
   old_counter_value main_l=
-  if quick_check_on_list_of_recognizers main_l =(None,None) then None else
+  if quick_check_on_disjunction_list_of_recognizers main_l =(None,None) then None else
   let ll=Image.image (fun rcgzr->
      ( Nonatomic_hrecognizer.name rcgzr,
      Nonatomic_hrecognizer.write_as_chain_list rcgzr)  

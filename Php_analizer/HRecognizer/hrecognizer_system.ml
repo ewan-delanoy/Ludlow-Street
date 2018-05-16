@@ -96,7 +96,7 @@ let insert_in_outermost x name=
     else 
     let inserted_one=Option.unpack opt in
     let opt2=
-        Check_hrecognizers_disjointness.repair_list_of_recognizers
+        Check_hrecognizers_disjointness.repair_disjunction_list_of_recognizers
       (x.counter_for_anonymous_recognizers) (inserted_one::x.outermost_recognizer) in
     if opt2=None then x else
     let (new_counter_value,outers_with_their_suites,outers_without_their_suites)=Option.unpack opt2 in
