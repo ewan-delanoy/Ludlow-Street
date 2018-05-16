@@ -343,6 +343,17 @@ let repair_recognizer x=match x with
    Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
 |_->x;;
   
+let rec repair_system (completed,changed_ones,to_be_completed)=
+   match to_be_completed with
+   []->List.rev completed
+   |a::other_ones->
+     let temp_a=Nonatomic_hrecognizer.replace_inside changed_ones a in
+     let repaired_a=repair_recognizer temp_a in
+     if repaired_a=a
+     then repair_system (repaired_a::completed,changed_ones,other_ones)
+     else repair_system (repaired_a::completed,repaired_a::changed_ones,other_ones);;
+
+
 let quick_check_on_disjunction_list_of_recognizers  old_l=
   let l=Image.image (fun rcgzr->
   ( Nonatomic_hrecognizer.name rcgzr,rcgzr)) old_l in
