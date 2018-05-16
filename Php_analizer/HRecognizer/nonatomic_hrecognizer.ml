@@ -56,8 +56,11 @@ let write_as_disjunction_list x=match x with
    Ordered_disjunction(_,l)->l
    |_->[x];;     
 
-let basic_replace (nahme,new_content) x=
-   if name x=nahme then new_content else x;;
+let basic_replace l x=
+  let name_for_x=name x in
+   match Option.seek(fun y->name y=name_for_x) l with
+    None->x
+   |Some(y0)->y0;;
 
 let replace_inside rep_data=
   let rep=basic_replace rep_data in 
@@ -71,9 +74,6 @@ let replace_inside rep_data=
   |Motionless(nahme,x)->Motionless(nahme,rep x)
   |Disjunction_of_chains(nahme,ll)->Disjunction_of_chains(nahme,
          Image.image (Image.image rep) ll);;
-
-
-
 
 
 let print (x:t)="rn \""^(name x)^"\"";;
