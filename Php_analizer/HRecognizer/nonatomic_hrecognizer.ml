@@ -56,6 +56,26 @@ let write_as_disjunction_list x=match x with
    Ordered_disjunction(_,l)->l
    |_->[x];;     
 
+let basic_replace (nahme,new_content) x=
+   if name x=nahme then new_content else x;;
+
+let replace_inside rep_data=
+  let rep=basic_replace rep_data in 
+  function
+   Leaf(nahme,atm)->Leaf(nahme,atm)
+  |Chain(nahme,l)->Chain(nahme,Image.image rep l)
+  |Ordered_disjunction(nahme,l)->Ordered_disjunction(nahme,Image.image rep l)
+  |Star(nahme,x)->Star(nahme,rep x)
+  |Maybe(nahme,x)->Maybe(nahme,rep x)
+  |Avoider(nahme,(x,l))->Avoider(nahme,(rep x,l))
+  |Motionless(nahme,x)->Motionless(nahme,rep x)
+  |Disjunction_of_chains(nahme,ll)->Disjunction_of_chains(nahme,
+         Image.image (Image.image rep) ll);;
+
+
+
+
+
 let print (x:t)="rn \""^(name x)^"\"";;
 
 let print_out (fmt:Format.formatter) (x:t)=
