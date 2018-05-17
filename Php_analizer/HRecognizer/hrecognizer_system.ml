@@ -99,9 +99,24 @@ let replace_content x nahme new_content =
     };;
 
 exception Unused_name_in_disjunction_increase of string;;
-(*
-let insert_inside_disjunction x nahme 
-*)
+
+
+let insert_inside_disjunction x inserted_one nahme=
+     let opt=Option.seek (fun rcgzr->
+        Nonatomic_hrecognizer.name rcgzr=nahme
+     ) (x.recognizers) in
+     if opt=None
+     then raise(Unused_name_in_disjunction_increase(nahme))
+     else
+     let old_version = Option.unpack opt in
+     let ll=Nonatomic_hrecognizer.insert_into_disjunction_of_chains 
+       inserted_one old_version in
+     let repaired_ll=Check_hrecognizers_disjointness.repair_disjunction_of_chains ll in
+     let new_version=Nonatomic_hrecognizer.disjunction_of_chains nahme repaired_ll in
+     replace_content x nahme new_version;;
+
+
+
 
 exception Unused_name_in_outermost_insertion of string;;
 

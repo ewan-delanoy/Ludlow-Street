@@ -305,7 +305,7 @@ end;;
 end;;
 
 
-let quick_check_on_disjunction ll1=
+let quick_check_on_disjunction_of_chains ll1=
   let temp1=Uple.list_of_pairs ll1 in
   let opt1=Option.find_and_stop (
      fun (l1,l2)->
@@ -322,8 +322,8 @@ let quick_check_on_disjunction ll1=
  ) temp2 in
  (opt1,opt2);;  
 
-let repair_disjunction ll=
-    if quick_check_on_disjunction ll =(None,None) then ll else
+let repair_disjunction_of_chains ll=
+    if quick_check_on_disjunction_of_chains ll =(None,None) then ll else
     let temp1=Private.Repair.iterator (false,ll) in
     Ordered.diforchan_plaen Hrecognizer_related_order.for_lists temp1;;
 
