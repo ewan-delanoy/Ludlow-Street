@@ -329,18 +329,18 @@ let repair_disjunction_of_chains ll=
 
 let quick_check_on_recognizer x=match x with
     Nonatomic_hrecognizer.Disjunction_of_chains(name,ll)->
-    quick_check_on_disjunction ll
+    quick_check_on_disjunction_of_chains ll
    |Ordered_disjunction(name,l)->
       let ll=Image.image (fun z->[z]) l in
-      quick_check_on_disjunction ll
+      quick_check_on_disjunction_of_chains ll
    |_->(None,None);;    
 
 let repair_recognizer x=match x with
  Nonatomic_hrecognizer.Disjunction_of_chains(name,ll)->
-   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
+   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction_of_chains ll)
 |Ordered_disjunction(name,l)->
    let ll=Image.image (fun z->[z]) l in
-   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction ll)
+   Nonatomic_hrecognizer.Disjunction_of_chains(name,repair_disjunction_of_chains ll)
 |_->x;;
   
 let rec repair_system (completed,changed_ones,to_be_completed)=
