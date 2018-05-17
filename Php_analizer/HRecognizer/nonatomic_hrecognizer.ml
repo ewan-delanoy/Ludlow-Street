@@ -56,6 +56,15 @@ let write_as_disjunction_list x=match x with
    Ordered_disjunction(_,l)->l
    |_->[x];;     
 
+let write_as_disjunction_of_chains_list x=match x with
+   Disjunction_of_chains(_,ll)->ll
+   |Ordered_disjunction(_,l)->Image.image write_as_chain_list l
+   |Chain(_,l)->[l]
+   |_->[[x]];;     
+
+let insert_into_disjunction_of_chains x y=
+    (write_as_chain_list x)::(write_as_disjunction_of_chains_list y);;
+
 let basic_replace l x=
   let name_for_x=name x in
    match Option.seek(fun y->name y=name_for_x) l with

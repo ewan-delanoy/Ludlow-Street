@@ -83,6 +83,7 @@ let add_definition x defn=
     };;
 
 let replace_content x nahme new_content =
+    (* new_content is assumed to be already checked *)
     let (before,opt,after)=
         Three_parts.select_center_element_and_reverse_left 
         (fun recgzr->Nonatomic_hrecognizer.name recgzr=nahme) x.recognizers in
@@ -97,7 +98,10 @@ let replace_content x nahme new_content =
         counter_for_anonymous_recognizers = x.counter_for_anonymous_recognizers;
     };;
 
-
+exception Unused_name_in_disjunction_increase of string;;
+(*
+let insert_inside_disjunction x nahme 
+*)
 
 exception Unused_name_in_outermost_insertion of string;;
 
