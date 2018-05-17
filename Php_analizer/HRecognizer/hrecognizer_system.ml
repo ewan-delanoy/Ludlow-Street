@@ -82,6 +82,22 @@ let add_definition x defn=
         counter_for_anonymous_recognizers = x.counter_for_anonymous_recognizers;
     };;
 
+let replace_content x nahme new_content =
+    let (before,opt,after)=
+        Three_parts.select_center_element_and_reverse_left 
+        (fun recgzr->Nonatomic_hrecognizer.name recgzr=nahme) x.recognizers in
+   let new_rcgzr_list = 
+      Check_hrecognizers_disjointness.repair_system (new_content::before,[new_content],after) in      
+    {
+        avoidables = x.avoidables;
+        definitions = x.definitions;
+        recognizers = new_rcgzr_list;
+        outermost_definition = x.outermost_definition;
+        outermost_recognizer = x.outermost_recognizer;
+        counter_for_anonymous_recognizers = x.counter_for_anonymous_recognizers;
+    };;
+
+
 
 exception Unused_name_in_outermost_insertion of string;;
 
