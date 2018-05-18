@@ -26,3 +26,26 @@ let add_new_element (L ll) avdbl nahme parts=
 let avoided_words (L lll) avdbl=
     let ll=List.assoc avdbl lll in
     Image.image (fun (_,l)->String.concat "" l) ll;;    
+
+module Private=struct
+
+module Name_For=struct
+let str_list l=
+   "["^(String.concat ";" (Image.image (fun t->"\""^t^"\"") l))^"]";;  
+
+let str_times_str_list (a,b)=
+   "(\""^a^"\","^(str_list b)^")";;
+
+let str_times_str_list_list l=
+  "["^(String.concat ";" (Image.image str_times_str_list l))^"]";;    
+
+let elt (a,b)=
+  "(\""^(Avoider_label.ocaml_name a)^"\","^(str_times_str_list_list b)^")";;
+end;;
+
+end;;  
+       
+let ocaml_name (L ll)=
+  "L"^"ist_of_avoidables."^
+  "(["^(String.concat ";" (Image.image Private.Name_For.elt l))^"])";;  
+

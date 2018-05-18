@@ -160,7 +160,7 @@ let insert_in_outermost x name=
 let check x=
     let opt1=Option.find_and_stop(fun t->
       let (opt2,opt3)=Check_hrecognizers_disjointness.quick_check_on_recognizer t in
-      if (opt2,opt3)=None then None else Some(opt2,opt3)
+      if (opt2,opt3)=(None,None) then None else Some(opt2,opt3)
       ) x.recognizers            in
      let temp1=Listennou.universal_delta_list x.outermost_definition in
      let temp2=List.filter (fun (a,b)->
@@ -168,5 +168,5 @@ let check x=
      ) temp1  in
      (opt1,temp2);;
 
-     
+
 
