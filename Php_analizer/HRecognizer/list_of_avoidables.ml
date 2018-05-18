@@ -47,5 +47,5 @@ end;;
        
 let ocaml_name (L ll)=
   "L"^"ist_of_avoidables."^
-  "(["^(String.concat ";" (Image.image Private.Name_For.elt l))^"])";;  
+  "(["^(String.concat ";" (Image.image Private.Name_For.elt ll))^"])";;  
 
