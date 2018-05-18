@@ -4,7 +4,7 @@
 
 *)
 
-type t=L of (Avoider_label.t* ((string*(string list)) list)) list;;
+type t=L of ( Avoider_label.t * ((string*(string list)) list)) list;;
 
 let empty_one=L [];;
 

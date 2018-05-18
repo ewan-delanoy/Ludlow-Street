@@ -9,3 +9,4 @@ type t=AL of string;;
 let of_string s=AL s;;
 let to_string (AL s)=s;;
 
+let ocaml_name (AL s)="A"^"voider_label.AL(\""^s^"\")";;
