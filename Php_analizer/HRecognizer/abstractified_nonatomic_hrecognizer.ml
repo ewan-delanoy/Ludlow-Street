@@ -18,7 +18,7 @@ type t=
  |Disjunction_of_chains of string*(string list list);;
 
  let name=function
- Leaf(s,_)->s
+  Leaf(s,_)->s
  |Chain(s,_)->s
  |Ordered_disjunction(s,_)->s
  |Star(s,_)->s
@@ -37,3 +37,14 @@ type t=
  |Motionless(_,s1)->[s1]
  |Disjunction_of_chains(_,ll)->List.flatten ll;;
 
+(* 
+let ocaml_name=function
+ Leaf(s,atm)->[]
+|Chain(_,l)->l
+|Ordered_disjunction(_,l)->l
+|Star(_,s1)->[s1]
+|Maybe(_,s1)->[s1]
+|Avoider(_,s1,_)->[s1]
+|Motionless(_,s1)->[s1]
+|Disjunction_of_chains(_,ll)->List.flatten ll;; 
+*)
