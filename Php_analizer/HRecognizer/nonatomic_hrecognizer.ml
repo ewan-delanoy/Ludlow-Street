@@ -84,6 +84,36 @@ let replace_inside rep_data=
   |Disjunction_of_chains(nahme,ll)->Disjunction_of_chains(nahme,
          Image.image (Image.image rep) ll);;
 
+let present=function
+     Leaf(nahme,atm)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.L"^"eaf("
+                      ^(Atomic_hrecognizer.ocaml_name atm)^");;"
+    |Chain(nahme,l)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.C"^"hain(["
+                      ^(String.concat ";" (Image.image (fun r->
+                       (name r)^"_rcgzr") l ))^"]);;"
+    |Ordered_disjunction(nahme,l)->
+                    "let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.O"^"rdered_disjunction(["
+                    ^(String.concat ";" (Image.image (fun r->
+                     (name r)^"_rcgzr") l ))^"]);;"  
+    |Star(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.S"^"tar("
+                    ^nahme^","^(name x)^"_rcgzr);;"
+    |Maybe(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.M"^"aybe("
+                    ^nahme^","^(name x)^"_rcgzr);;"
+    |Avoider(nahme,(x,l))->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.A"^"voider("
+                    ^nahme^",("^(name x)^"_rcgzr,["
+                    ^(String.concat ";" (Image.image (fun s->"\""^s^"\"") l))
+                    ^"]));;"
+    |Motionless(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.M"^"otionless("
+                    ^(name x)^"_rcgzr);;"
+    |Disjunction_of_chains(nahme,ll)->
+                  let tempf=(fun l->
+                  "["^(String.concat ";" (Image.image (fun r->
+                   (name r)^"_rcgzr") l ))^"]"
+                  ) in
+                  "let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.D"^"isjunction_of_chains(["
+                  ^(String.concat ";" (Image.image tempf ll ))^"]);;"
+                 ;;
+        
+
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
