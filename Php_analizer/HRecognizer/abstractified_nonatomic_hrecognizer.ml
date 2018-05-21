@@ -37,14 +37,44 @@ type t=
  |Motionless(_,s1)->[s1]
  |Disjunction_of_chains(_,ll)->List.flatten ll;;
 
-(* 
-let ocaml_name=function
- Leaf(s,atm)->[]
-|Chain(_,l)->l
+(*
+let ocaml_name x=
+  let mod_name="A"^"bstractified_nonatomic_hrecognizer." in
+  match x with
+ Leaf(s,atm)->mod_name^"Leaf(\""^s^"\","^(Atomic_hrecognizer.ocaml_name atm)^")"
+|Chain(s,l)->mod_name^"Chain(\""^s^"\",["^(String.concat ";")^")"
 |Ordered_disjunction(_,l)->l
 |Star(_,s1)->[s1]
 |Maybe(_,s1)->[s1]
 |Avoider(_,s1,_)->[s1]
 |Motionless(_,s1)->[s1]
 |Disjunction_of_chains(_,ll)->List.flatten ll;; 
-*)
+
+
+let present=function
+    |Ordered_disjunction(nahme,l)->
+                    "let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.O"^"rdered_disjunction(["
+                    ^(String.concat ";" (Image.image (fun r->
+                     (name r)^"_rcgzr") l ))^"]);;"  
+    |Star(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.S"^"tar("
+                    ^nahme^","^(name x)^"_rcgzr);;"
+    |Maybe(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.M"^"aybe("
+                    ^nahme^","^(name x)^"_rcgzr);;"
+    |Avoider(nahme,(x,l))->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.A"^"voider("
+                    ^nahme^",("^(name x)^"_rcgzr,["
+                    ^(String.concat ";" (Image.image (fun s->"\""^s^"\"") l))
+                    ^"]));;"
+    |Motionless(nahme,x)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.M"^"otionless("
+                    ^(name x)^"_rcgzr);;"
+    |Disjunction_of_chains(nahme,ll)->
+                  let tempf=(fun l->
+                  "["^(String.concat ";" (Image.image (fun r->
+                   (name r)^"_rcgzr") l ))^"]"
+                  ) in
+                  "let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.D"^"isjunction_of_chains(["
+                  ^(String.concat ";" (Image.image tempf ll ))^"]);;"
+                 ;;
+*)        
+
+
+

@@ -168,5 +168,28 @@ let check x=
      ) temp1  in
      (opt1,temp2);;
 
+(*     
+let present name_for_x x=
+let av=List_of_avoidables.ocaml_name x.avoidables in    
+"let "^name_for_x^"=\n"^
+"{\n"^ 
+"    H"^"recognizer_system.avoidables = "^av^";\n"^
+"    H"^"recognizer_system.definitions = [];\n"^
+"    H"^"recognizer_system.recognizers = [];\n"^
+"    H"^"recognizer_system.outermost_definition = [];\n"^
+"    H"^"recognizer_system.outermost_recognizer = [];\n"^
+"    H"^"recognizer_system.counter_for_anonymous_recognizers =0;\n"^
+"};;\n";;
+*)
 
+
+(*
+type t= {
+    definitions : Abstractified_nonatomic_hrecognizer.t list;
+    recognizers : Nonatomic_hrecognizer.t list;
+    outermost_definition : string list;
+    outermost_recognizer : Nonatomic_hrecognizer.t list;
+    counter_for_anonymous_recognizers : int;
+};;
+*)
 
