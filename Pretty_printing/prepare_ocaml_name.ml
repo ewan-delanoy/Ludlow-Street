@@ -19,6 +19,10 @@ let for_pair (fa,fb) (a,b)=
     and sb=Disaggregated_ocaml_name.unveil(fb b) in
     Disaggregated_ocaml_name.D("("::sa@(sb@[")"]));;
 
+let for_labelled_elt f lab x=
+  let sx=Disaggregated_ocaml_name.unveil(f x) in    
+  Disaggregated_ocaml_name.D(lab::"("::sx@[")"]);;
+
 let for_string s=Disaggregated_ocaml_name.D(["\""^s^"\""]);;
 let for_string_list l=for_list (for_string) l;;
 

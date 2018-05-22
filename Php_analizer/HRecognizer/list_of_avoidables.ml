@@ -31,12 +31,17 @@ module Private=struct
 
 
 let prepare_elt_name  (a,b)=
-  "(\""^(Avoider_label.ocaml_name a)^"\","^(str_times_str_list_list b)^")";;
+  Prepare_ocaml_name.for_pair
+    (Avoider_label.prepare_ocaml_name,Prepare_ocaml_name.for_p_str_times_str_list_p_list ) 
+    (a,b);;
+
+let prepare_elt_list_name l=
+  Prepare_ocaml_name.for_list    prepare_elt_name l;;
+
 end;;
 
-end;;  
        
 let ocaml_name (L ll)=
   "L"^"ist_of_avoidables."^
-  "(["^(String.concat ";" (Image.image Private.Name_For.elt ll))^"])";;  
+  "(["^(String.concat ";" (Private.prepare_elt_list_name ll))^"])";;  
 
