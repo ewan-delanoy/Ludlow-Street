@@ -40,8 +40,7 @@ let prepare_elt_list_name l=
 
 end;;
 
-       
-let ocaml_name (L ll)=
-  "L"^"ist_of_avoidables."^
-  "(["^(String.concat ";" (Private.prepare_elt_list_name ll))^"])";;  
-
+let prepare_ocaml_name (L ll)=
+  Prepare_ocaml_name.for_labelled_elt
+  Private.prepare_elt_list_name
+  ("L"^"ist_of_avoidables.L")  ll;;
