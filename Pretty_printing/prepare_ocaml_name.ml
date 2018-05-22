@@ -44,3 +44,5 @@ let for_str_times_strlist (a,b)=
 let for_p_str_times_str_list_p_list l=
   for_list for_str_times_strlist l;;    
 
+let for_char c=Disaggregated_ocaml_name.D(["'"^(String.make 1 c)^"'"]);;
+let for_char_list l=for_list (for_char) l;;
