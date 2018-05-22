@@ -6,4 +6,6 @@
 
 type t=D of string list;;
 
+let unveil (D l)=l;;
+
    
