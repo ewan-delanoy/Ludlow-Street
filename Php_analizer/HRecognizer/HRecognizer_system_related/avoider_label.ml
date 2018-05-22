@@ -10,4 +10,7 @@ let of_string s=AL s;;
 let to_string (AL s)=s;;
 
 let prepare_ocaml_name (AL s)=
-    Disaggregated_ocaml_name.D(["A"^"voider_label.AL";"(";"\""^s^"\"";")"]);;
+    Prepare_ocaml_name.for_labelled_elt
+    Prepare_ocaml_name.for_string
+    ("A"^"voider_label.AL")  s;;
+    
