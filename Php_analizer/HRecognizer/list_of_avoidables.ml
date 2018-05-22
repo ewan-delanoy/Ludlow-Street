@@ -29,17 +29,8 @@ let avoided_words (L lll) avdbl=
 
 module Private=struct
 
-module Name_For=struct
-let str_list l=
-   "["^(String.concat ";" (Image.image (fun t->"\""^t^"\"") l))^"]";;  
 
-let str_times_str_list (a,b)=
-   "(\""^a^"\","^(str_list b)^")";;
-
-let str_times_str_list_list l=
-  "["^(String.concat ";" (Image.image str_times_str_list l))^"]";;    
-
-let elt (a,b)=
+let prepare_elt_name  (a,b)=
   "(\""^(Avoider_label.ocaml_name a)^"\","^(str_times_str_list_list b)^")";;
 end;;
 
