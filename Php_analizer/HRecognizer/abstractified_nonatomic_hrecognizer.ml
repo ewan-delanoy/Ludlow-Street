@@ -38,10 +38,10 @@ type t=
  |Disjunction_of_chains(_,ll)->List.flatten ll;;
 
 (*
-let ocaml_name x=
+let prepare_ocaml_name x=
   let mod_name="A"^"bstractified_nonatomic_hrecognizer." in
   match x with
- Leaf(s,atm)->mod_name^"Leaf(\""^s^"\","^(Atomic_hrecognizer.ocaml_name atm)^")"
+ Leaf(s,atm)->[mod_name^"Leaf";"(\""^s^"\","^(Atomic_hrecognizer.ocaml_name atm)^")"
 |Chain(s,l)->mod_name^"Chain(\""^s^"\",["^(String.concat ";")^")"
 |Ordered_disjunction(_,l)->l
 |Star(_,s1)->[s1]

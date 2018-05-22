@@ -23,6 +23,18 @@ let for_labelled_elt f lab x=
   let sx=Disaggregated_ocaml_name.unveil(f x) in    
   Disaggregated_ocaml_name.D(lab::"("::sx@[")"]);;
 
+let for_labelled_pair (fx,fy) lab (x,y)=
+    let sx=Disaggregated_ocaml_name.unveil(fx x) 
+    and sy=Disaggregated_ocaml_name.unveil(fy y) in    
+    Disaggregated_ocaml_name.D(lab::"("::sx@(","::sy@[")"]));;  
+
+let for_labelled_triple (fx,fy,fz) lab (x,y,z)=
+      let sx=Disaggregated_ocaml_name.unveil(fx x) 
+      and sy=Disaggregated_ocaml_name.unveil(fy y) 
+      and sz=Disaggregated_ocaml_name.unveil(fy y) in    
+      Disaggregated_ocaml_name.D(lab::"("::sx@(","::sy@(","::sz@[")"])));;  
+  
+    
 let for_string s=Disaggregated_ocaml_name.D(["\""^s^"\""]);;
 let for_string_list l=for_list (for_string) l;;
 
