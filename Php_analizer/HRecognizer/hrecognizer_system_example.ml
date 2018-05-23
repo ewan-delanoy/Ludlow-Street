@@ -7,6 +7,7 @@ Temporary copy of hrecognize module.
 
 *)
 
+(*
 let walker=ref(Hrecognizer_system.empty_one );;
 
 let ak avdbl name l=(walker:=Hrecognizer_system.add_avoidable_item (!walker) avdbl name l);;
@@ -1584,3 +1585,4 @@ let parse_all s=
         let t=Cull_string.interval s j m in
         raise(Parse_failure(t))
    else l;; 
+*)
