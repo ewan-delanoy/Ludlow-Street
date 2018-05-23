@@ -84,9 +84,13 @@ let replace_inside rep_data=
   |Disjunction_of_chains(nahme,ll)->Disjunction_of_chains(nahme,
          Image.image (Image.image rep) ll);;
 
-let present=function
-     Leaf(nahme,atm)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.L"^"eaf("
-                      ^(Atomic_hrecognizer.ocaml_name atm)^");;"
+(*         
+let present x=
+    match x with
+     Leaf(nahme,atm)->let atm_pname = Atomic_hrecognizer.prepare_ocaml_name atm in
+                      let atm_name =  
+                      "let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.L"^"eaf("
+                      ^(Atomic_hrecognizer.prepare_ocaml_name atm)^");;"
     |Chain(nahme,l)->"let "^nahme^"_rcgzr=N"^"onatomic_hrecognizer.C"^"hain(["
                       ^(String.concat ";" (Image.image (fun r->
                        (name r)^"_rcgzr") l ))^"]);;"
@@ -113,7 +117,7 @@ let present=function
                   ^(String.concat ";" (Image.image tempf ll ))^"]);;"
                  ;;
         
-
+*)
 
 let print (x:t)="rn \""^(name x)^"\"";;
 
