@@ -4,11 +4,247 @@
 
 *)
 
+let idaho_dir=Directory_name.of_string
+"/Users/ewandelanoy/Documents/OCaml/Idaho";;
+
+
+let g1=
+  German_update_copied_compiler.ucc idaho_dir;;
+
+let (initial_data,initial_tgts,_,_)=g1;;
+
+let idaho_data=ref(initial_data);;
+let idaho_tgts=ref(initial_tgts);;
+
+
+let ruco ()=
+  match Alaskan_recompile.on_targets 
+  (German_constant.root,German_constant.main_toplevel_name)
+  false (!idaho_data,!idaho_tgts) with
+  None->false
+  |Some((new_mdata2,new_dirs,new_tgts2),short_paths)->
+    let _=(
+      idaho_data:=new_mdata2;
+      idaho_tgts:=new_tgts2;
+    ) in
+    true;;
+
+
+(*
+let s_ap="~/Documents/Sites/Rachel/public_html/";;
+let ap=Absolute_path.of_string s_ap;;
+
+let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
+let ap=Absolute_path.of_string s_ap;;
+let text1=Io.read_whole_file ap;;    
+let u1=Chronometer.it Mini_php_lexer.lex  text1;;
+
+German_pervasives.sd;;
+Concretize_hrecognizer.concretize;;
+Hrecognizer_related_order.for_lists;;
+
+Three_parts.select_center_element (fun x->List.mem x [5;17]) 
+(Ennig.ennig 1 20);;
+
+let u1=More_unix.quick_beheaded_complete_ls "~/Documents/Sites/Mikeal/public_html/";;
+let u2=List.filter (fun x->Substring.ends_with x ".jpeg") u1;;
+
+let u1=More_unix.quick_beheaded_complete_ls "~/Documents/Web_Projects/Falchun_debug/Symfony";;
+let u2=List.filter (fun x->Substring.ends_with x "AppKernel.php") u1;;
+
+let g1=am();;
+let g2=List.filter (Substring.is_a_substring_of "print") g1;;
+
+rwc "added <<for_char>> and <<for_char_list>> in Prepare_ocaml_name";;
+
+rwc "added <<prepare_ocaml_name>> in Atomic_hrecognizer";;
+*)
+
+
+(*
+
+#use"directory_summary.ml";;
+
+List of all files present, with their modification dates.
+
+*)
+
+(*
+type t={
+    root : Directory_name.t ;
+    subdirectories : string list;
+    files : (string*float) list;
+};;
+
+let make dir l1 l2={
+    root = dir; 
+    subdirectories=Ordered.forget_order(Ordered_string.diforchan l1);
+    files=Ordered.forget_order(
+    Ordered.diforchan Total_ordering.for_longest_match_pairs  
+    l2
+    );
+};;
+
+let empty_instance dir =make dir [] [];;
+
+let compute dir=
+    let temp1=More_unix.complete_ls dir in
+    let (temp2,temp3)=List.partition (
+         More_unix.is_a_directory
+    ) temp1 in
+    let tempf=(fun ap->
+       let s_ap=Absolute_path.to_string ap in
+       Directory_name.cut_beginning dir s_ap
+    ) in
+    let temp4=Image.image tempf temp2
+    and temp5=Image.image (fun ap->
+      let st=Unix.stat(Absolute_path.to_string ap) in
+    (tempf(ap),st.Unix.st_mtime)) temp3 
+    in
+    {
+      root=dir;
+      subdirectories=temp4;
+      files=temp5;
+    }
+    ;;
+
+
+let ocaml_description x=
+   "D"^"irectory_summary"^"."^"make\n\n"^
+   ("("^Directory_name.ocaml_name x.root)^")\n\n"^
+   (Copyable_printing.print_stringlist 3 x.subdirectories)^"\n\n"^
+   (Copyable_printing.print_sbf_list 3 x.files);;
+  
+module Private=struct   
+
+let compute_differences old_x new_x=
+    let (_,o_removed_dirs,o_new_dirs)=Ordered_string.cooperation_for_two 
+    (Ordered_string.safe_set old_x.subdirectories)
+    (Ordered_string.safe_set new_x.subdirectories) in
+    let removed_dirs=Ordered.forget_order o_removed_dirs
+    and new_dirs=Ordered.forget_order o_new_dirs in
+    let temp1=Image.image fst old_x.files
+    and temp2=Image.image fst new_x.files in
+    let (o_common_files,o_removed_files,o_new_files)=Ordered_string.cooperation_for_two 
+    (Ordered_string.diforchan temp1)
+    (Ordered_string.diforchan temp2) in
+    let common_files=Ordered.forget_order o_common_files
+    and removed_files=Ordered.forget_order o_removed_files
+    and new_files=Ordered.forget_order o_new_files in
+    let changed_files=List.filter (
+       fun fn->
+       (List.assoc fn old_x.files)
+       <>
+       (List.assoc fn new_x.files)
+    ) common_files in 
+    ((removed_dirs,new_dirs),(changed_files,removed_files,new_files));;
+  
+let commands_for_removed_dirs 
+ (remote_port,remote_host,remote_dir)  
+ removed_dirs=Image.image(fun dir->
+    "ssh -p "^(string_of_int remote_port)^
+    " "^remote_host^" "^
+    (Strung.enclose ("rm -rf "^remote_dir^"/"^dir))
+ ) removed_dirs;;    
+
+let commands_for_new_dirs 
+ (remote_port,remote_host,remote_dir)  
+ new_dirs=Image.image(fun dir->
+    "ssh -p "^(string_of_int remote_port)^
+    " "^remote_host^" "^
+    (Strung.enclose ("mkdir -p "^remote_dir^"/"^dir))
+ ) new_dirs;;    
+
+let commands_for_changed_or_new_files 
+ (remote_port,remote_host,remote_dir)  
+ root files=Image.image(fun fn->
+    let above_fn=Father_and_son.father fn '/'  in
+    "scp -P "^(string_of_int remote_port)^
+    " "^(Directory_name.connectable_to_subpath root)^fn^
+    " "^remote_host^":"^remote_dir^"/"^above_fn
+ ) files;;  
+
+let commands_for_removed_files
+  (remote_port,remote_host,remote_dir)  
+    removed_files=Image.image(fun fn->
+   "ssh -p "^(string_of_int remote_port)^
+   " "^remote_host^
+   (Strung.enclose "rm -f "^remote_dir^"/"^fn)
+) removed_files;;  
+
+let commands_for_remote_update 
+  data (old_x,new_x)=
+    let ((removed_dirs,new_dirs),(changed_files,removed_files,new_files))=
+        compute_differences  old_x new_x in
+    List.flatten [
+       commands_for_removed_dirs data removed_dirs;
+       commands_for_new_dirs data new_dirs;
+       commands_for_removed_files data removed_files;
+       commands_for_changed_or_new_files data old_x.root (changed_files@new_files)
+    ];;
+
+end;;    
+
+let do_remote_update
+   data (old_x,new_x)=
+   let temp1=Private.commands_for_remote_update data (old_x,new_x) in
+   Image.image    Unix_command.hardcore_verbose_uc temp1;;
+
+*)
+
+(*   
+
+let dir1=Directory_name.of_string "Remembered/Tests";;   
+let g1=compute dir1;;
+let g2=ocaml_description g1;;
+print_string ("\n\n\n let g3="^g2^";;\n\n\n");;
+
+*)
+
+
+
+
+
+
+(*
+let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;
+let ap1=Absolute_path.of_string s_ap1;;
+let text1=Io.read_whole_file ap1;;  
+let u0=Lines_in_string.interval text1 65 101;;
+let u1=image snd (Lines_in_string.core u0);;
+let u2=image (Cull_string.cobeginning 31) u1;;
+let u3=image (fun s->
+  let k=Substring.leftmost_index_of_in "_kwd" s in
+  Cull_string.beginning (k-1) s
+) u2;;
+let u4=image (fun s->"     "^(Strung.enclose s)^";") u3;;
+let u5=String.concat "\n" u4;;
+let u6="\n\n\n"^u5^"\n\n\n";;
+print_string u6;;
+*)
+
+
+(*
+let z1=image int_of_char Charset.lowercase_letters;;
+let z2=image int_of_char Charset.uppercase_letters;;
+let z3=List.combine z1 z2;;
+let z4=List.flatten (image (fun (x,y)->[x;y]) z3);;
+let z5=z4@(ennig 91 96);;
+
+let check=Tidel.diforchan(z5)=Ordered.S(ennig 65 122);;
+*)
+
+
+(*
 
 let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;
 let ap1=Absolute_path.of_string s_ap1;;
 let text1=Io.read_whole_file ap1;;  
-let u1=Lines_in_string.interval text1 153 1304;;
+let u0=Lines_in_string.interval text1 160 1335;;
+
+let s_ap2="debugged.ml";;
+let ap2=Absolute_path.of_string s_ap2;;
+let u1=Io.read_whole_file ap2;; 
 let u2=Lines_in_string.core u1;;
 let u3=Image.image (fun p->Cull_string.trim_spaces(snd p)) u2;;
 let u4=List.filter (fun s->s<>"") u3;;
@@ -22,29 +258,247 @@ let rec cc_decomposition (graet,da_ober)=
     cc_decomposition (new_result::graet,right_part);;
       
 let u5=cc_decomposition ([],u4);;
-let u6=List.filter (
-   fun s->
-     (not(Substring.begins_with s "add_"))
-     &&
-     (not(Substring.begins_with s "let label_"))
-) u5;;
+let is_outdated s=
+  (Substring.begins_with s "add_")
+  ||
+  (Substring.begins_with s "let label_");;
+
+let haddock_list=
+    ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'; 'i'; 'j'; 'k'; 'l'; 'm'; 'n'; 'o';
+  'p'; 'q'; 'r'; 's'; 't'; 'u'; 'v'; 'w'; 'x'; 'y'; 'z'; 
+  '_'; ' '; '\n'; '\t'; ';';
+  '0'; '1'; '2'; '3'; '4'; '5'; '6';'7'; '8'; '9';];;
+  
+let haddock_test s=
+     List.for_all (fun c->List.mem c haddock_list) (Strung.explode s);;
+  
+let haddock_transform s=
+     let temp1=Str.split (Str.regexp_string ";") s in
+     let temp2=Image.image Cull_string.trim_spaces temp1 in
+     let temp3=List.filter (fun s->s<>"") temp2 in
+     let temp4=Image.image (fun s->"     \""^s^"\";\n") temp3 in
+     "[\n\n"^(String.concat "" temp4)^"\n];;";;
+  
+  
+  
+exception Transform1_exn of string;;
+  
+type hard_result=string*string*string;;
+
+type transform1_result=
+  Finished of string
+  |Unfinished of hard_result;;
+
+let transform1 s=
+    if is_outdated s then Finished(s) else 
+    let i1=Substring.leftmost_index_of_in "=" s in
+    if i1<0 then Finished("u"^s) else
+    let i2=Option.unpack(After.after_whites s (i1+1)) in
+    let opt1=Option.seek(fun t->Substring.is_a_substring_located_at t s i2)
+    ["c ";"ch";"dis";"lc";"maybe";"st ";"star";"sto "] in
+    if opt1=None then raise(Transform1_exn(s)) else
+    let part1=Option.unpack opt1 in
+    let i3=Option.unpack(After.after_whites s (i2+String.length part1)) in
+    let i4=Strung.finder (fun c->List.mem c After.list_of_whites) s (i3+1) in
+    let i5=Option.unpack(After.after_whites s (i4+1)) in
+    let part2=(
+       fun x->if (String.get x 0)='"' then x else
+       "\""^(Cull_string.cobeginning (String.length "label_for_") x)^"\""
+    )(Cull_string.interval s i3 (i4-1)) in
+    let temp=Cull_string.cobeginning (i5-1) s in
+    if List.mem part1 ["c ";"lc";"st ";"sto "] then Finished(part1^" "^part2^" "^temp)  else
+    if List.mem part1 ["maybe";"star"] 
+    then let temp2=Cull_string.coending 2 temp in
+         Finished(part1^" "^part2^" \""^temp2^"\";;")
+    else 
+    (* at this point, temp always starts with [ *)
+    let temp2=Cull_string.cobeginning 1 temp in
+    let temp3=Strung.reverse temp2 in
+    (* at this point, temp3 always starts with ;; *)
+    let temp4=Cull_string.cobeginning 2 temp3 in
+    let i6=Option.unpack(After.after_whites temp4 1) in
+    let temp6=Cull_string.cobeginning (i6-1) temp4 in
+    (* at this point, temp6 always starts with [ *)
+    let temp7=Cull_string.cobeginning 1 temp6 in
+    let temp8=Strung.reverse temp7 in
+    if haddock_test temp8 
+    then Finished("u"^part1^" "^part2^" "^(haddock_transform temp2))
+    else Unfinished(part1,part2,temp8);;
+
+let u6=Image.image transform1 u5;;
+let u7=Option.filter_and_unpack (function 
+  Finished(_)->None |Unfinished(x)->Some(x)
+) u6;;
+
+let u8=Image.image (function Finished(x)->x |_->"") u6;;
+let u9=String.concat "\n\n" u8;;
+let u10="\n\n\n"^u9^"\n\n\n";;
+
+Replace_inside.replace_inside_file (u0,u10) ap1 ;;
+*)
+
+(*
+Replace_inside.replace_inside_file (u10,u0) ap1 ;;
+*)
+
+
+(*
+let g1=Uple.arrangements 6 (Ordered.S(ennig 1 6));;
+
+let first_bag=[(1, 2); (1, 3); (1, 4); (2, 3); (2, 4); (3, 4)];;
+
+let s_ap1="/Users/ewandelanoy/Documents/Web_Projects/Falchun_debug/Symfony/";;
+let ap1=Absolute_path.of_string s_ap1;;
+
+let u1=More_unix.quick_beheaded_complete_ls s_ap1;;
+let u2=List.filter 
+(fun s->Substring.ends_with s "BaseEngine.php" )u1;;
+*)
+
+
+(*
+let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;
+let ap1=Absolute_path.of_string s_ap1;;
+let text1=Io.read_whole_file ap1;;  
+
+let s_ap2="debugged.ml";;
+let ap2=Absolute_path.of_string s_ap2;;
+let u1=Io.read_whole_file ap2;; 
+let u2=Lines_in_string.core u1;;
+let u3=Image.image (fun p->Cull_string.trim_spaces(snd p)) u2;;
+let u4=List.filter (fun s->s<>"") u3;;
+
+let rec cc_decomposition (graet,da_ober)=
+    if da_ober=[] then List.rev graet else
+    let (left_part,opt_center,right_part)=Three_parts.select_center_element 
+       (fun s->Substring.ends_with s ";;") da_ober in
+    let center=Option.unpack opt_center in
+    let new_result=String.concat "\n" (left_part@[center]) in 
+    cc_decomposition (new_result::graet,right_part);;
+      
+let u5=cc_decomposition ([],u4);;
+let is_outdated s=
+  (Substring.begins_with s "add_")
+  ||
+  (Substring.begins_with s "let label_");;
+
+let haddock_list=
+  ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'; 'i'; 'j'; 'k'; 'l'; 'm'; 'n'; 'o';
+'p'; 'q'; 'r'; 's'; 't'; 'u'; 'v'; 'w'; 'x'; 'y'; 'z'; 
+'_'; ' '; '\n'; '\t'; ';';
+'0'; '1'; '2'; '3'; '4'; '5'; '6';'7'; '8'; '9';];;
+
+let haddock_test s=
+   List.for_all (fun c->List.mem c haddock_list) (Strung.explode s);;
+
+let haddock_transform s=
+   let temp1=Str.split (Str.regexp_string ";") s in
+   let temp2=Image.image Cull_string.trim_spaces temp1 in
+   let temp3=List.filter (fun s->s<>"") temp2 in
+   let temp4=Image.image (fun s->"     \""^s^"\";\n") temp3 in
+   "[\n\n"^(String.concat "" temp4)^"\n];;";;
+
+
 
 exception Transform1_exn of string;;
 
+type hard_result=string*string*string;;
+
+type transform1_result=
+   Finished of string
+   |Unfinished of hard_result;;
+
 let transform1 s=
-   let i1=Substring.leftmost_index_of_in "=" s in
-   if i1<0 then s else
-   let i2=Option.unpack(After.after_whites s (i1+1)) in
-   let opt=Option.seek(fun t->Substring.is_a_substring_located_at t s i2)
-   ["c ";"ch";"dis";"maybe";"st ";"star"] in
-   if opt=None then raise(Transform1_exn(s)) else
-   Cull_string.cobeginning (i2-1) s;;
+  if is_outdated s then Finished(s) else 
+  let i1=Substring.leftmost_index_of_in "=" s in
+  if i1<0 then Finished(s) else
+  let i2=Option.unpack(After.after_whites s (i1+1)) in
+  let opt1=Option.seek(fun t->Substring.is_a_substring_located_at t s i2)
+  ["c ";"ch";"dis";"lc";"maybe";"st ";"star";"sto "] in
+  if opt1=None then raise(Transform1_exn(s)) else
+  let part1=Option.unpack opt1 in
+  let i3=Option.unpack(After.after_whites s (i2+String.length part1)) in
+  let i4=Strung.finder (fun c->List.mem c After.list_of_whites) s (i3+1) in
+  let i5=Option.unpack(After.after_whites s (i4+1)) in
+  let part2=(
+     fun x->if (String.get x 0)='"' then x else
+     Cull_string.cobeginning (String.length "label_for_") x
+  )(Cull_string.interval s i3 (i4-1)) in
+  let temp=Cull_string.cobeginning (i5-1) s in
+  if List.mem part1 ["c ";"lc";"st ";"sto "] then Finished(part1^" "^part2^" "^temp)  else
+  if List.mem part1 ["maybe";"star"] 
+  then let temp2=Cull_string.coending 2 temp in
+       Finished(part1^" "^part2^" \""^temp2^"\";;")
+  else 
+  (* at this point, temp always starts with [ *)
+  let temp2=Cull_string.cobeginning 1 temp in
+  let temp3=Strung.reverse temp2 in
+  (* at this point, temp3 always starts with ;; *)
+  let temp4=Cull_string.cobeginning 2 temp3 in
+  let i6=Option.unpack(After.after_whites temp4 1) in
+  let temp6=Cull_string.cobeginning (i6-1) temp4 in
+  (* at this point, temp6 always starts with [ *)
+  let temp7=Cull_string.cobeginning 1 temp6 in
+  let temp8=Strung.reverse temp7 in
+  if haddock_test temp8 
+  then Finished(part1^" "^part2^" "^(haddock_transform temp2))
+  else 
+  Unfinished(part1,part2,temp8);;
 
-let u7=Image.image transform1 u6;;
+let u6=Image.image transform1 u5;;
+let u7=Option.filter_and_unpack (function 
+  Finished(_)->None |Unfinished(x)->Some(x)
+) u6;;
+*)
 
-let check1=List.filter (
-   fun s->List.length(Substring.occurrences_of_in "[" s)>1
+
+(*
+let v1=List.filter (
+  fun (_,_,part3)->
+   haddock_test part3
 ) u7;;
+
+let v2=image (fun (_,_,part3)->haddock_transform part3) v1;;
+
+let v1=List.filter (
+  fun (part1,_,part3)->
+   part1= "st "
+) u7;;
+
+let v1=List.filter (
+  fun (_,_,part3)->
+   not(Substring.begins_with part3 "[")
+) u7;;
+
+let v2=List.filter (
+  fun (_,_,part3)->
+   not(Substring.ends_with part3 ";;")
+) u7;;
+
+let v1=List.filter (
+  fun (part1,part2,_)->List.mem part1 ["maybe";"star"]
+) u7;;
+
+
+
+let v1=List.filter (
+  fun (part1,part2,_)->Substring.begins_with part2 "multi_declaration"
+) u7;;
+
+
+let v1=List.filter (
+  fun (part1,part2,_)->(String.get part2 0)<>'"'
+) u7;;
+let v2=List.filter (
+  fun (part1,part2,_)->not(Substring.begins_with part2 "label_for_")
+) v1;;
+*)
+
+(*
+let s_ap2="debugged.ml";;
+let ap2=Absolute_path.of_string s_ap2;;
+Io.overwrite_with ap2 u1;;
+*)
 
 (*   
 let s_ap="~/Documents/Sites/Rachel/public_html/iewtopic.php";;
@@ -52,8 +506,6 @@ let ap=Absolute_path.of_string s_ap;;
 let text1=Io.read_whole_file ap;;    
 let u1=Chronometer.it (Krecognize.main_exhauster text1) 1;;
 *)   
-      
-Check_hrecognizers_disjointness.repair_disjunction;;
 
 (*
 let s_ap1="Php_analizer/HRecognizer/hrecognizer_system_example.ml";;

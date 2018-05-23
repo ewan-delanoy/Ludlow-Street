@@ -102,7 +102,7 @@ let debug_image f l=
 let itv=Cull_string.interval;;
 let nei=Cull_string.neighborhood_with_center_and_size;;
 
-let rn=Hregistrar.recognizer_with_name;;
+(* let rn=Hregistrar.recognizer_with_name;; *)
 
 
 (* Module management code starts here *)
