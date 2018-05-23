@@ -213,6 +213,7 @@
 #load"hregistrar.cmo";;
 #load"abstractified_nonatomic_hrecognizer.cmo";;
 #load"concretize_hrecognizer.cmo";;
+#load"hrecognizer_system_example.cmo";;
 #load"hrecognizer_related_order.cmo";;
 #load"check_hrecognizers_disjointness.cmo";;
 #load"hrecognizer_system.cmo";;

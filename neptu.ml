@@ -19,7 +19,7 @@ let idaho_tgts=ref(initial_tgts);;
 
 let ruco ()=
   match Alaskan_recompile.on_targets 
-  (German_constant.root,German_constant.main_toplevel_name)
+  (idaho_dir,"ecaml")
   false (!idaho_data,!idaho_tgts) with
   None->false
   |Some((new_mdata2,new_dirs,new_tgts2),short_paths)->
