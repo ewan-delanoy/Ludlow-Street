@@ -36,7 +36,6 @@ module Private=struct
   let industrial_separator1=Industrial_separator.alaskan_save_all1;;  
   let industrial_separator2=Industrial_separator.alaskan_save_all2;;    
 
-  
   let archive 
     (mdata,directories,up_to_date_targets,
       outside_files,outside_directories,
@@ -50,7 +49,7 @@ module Private=struct
      and temp6=Image.image (fun w->Nonblank.make w) (Recently_deleted.to_string_list recently_deleted) 
      and temp7=Image.image (fun w->Nonblank.make w) (Recently_changed.to_string_list recently_changed) 
      and temp8=Image.image (fun w->Nonblank.make w) (Recently_created.to_string_list recently_created) 
-     and temp9=Image.image Half_dressed_module.archive printer_equipped_types in
+     and temp9=Image.image Half_dressed_module.archive_pair printer_equipped_types in
      String.concat industrial_separator1
      [
        Alaskan_data.archive mdata;
@@ -91,7 +90,7 @@ module Private=struct
      let new_dfiles=Recently_deleted.of_string_list(Image.image Nonblank.decode v6) in
      let new_chfiles=Recently_changed.of_string_list(Image.image Nonblank.decode v7) in
      let new_crfiles=Recently_created.of_string_list(Image.image Nonblank.decode v8) in
-     let new_pe_types=Image.image Half_dressed_module.unarchive v9 in
+     let new_pe_types=Image.image Half_dressed_module.unarchive_pair v9 in
      
   (
       new_mdata,

@@ -23,8 +23,15 @@ let on_mlx_ended_absolute_path=
 
 let on_ocaml_target=Ocaml_target.rename_endsubdirectory;;
 
+let on_printer_equipped_type pair (hm,is_compiled_correctly)=
+    (Half_dressed_module.rename_endsubdirectory pair hm,is_compiled_correctly);;
+
+
 let on_half_dressed_modules (old_subdir,new_subdirname) l=
     Image.image (on_half_dressed_module (old_subdir,new_subdirname)) l ;; 
+
+let on_printer_equipped_types (old_subdir,new_subdirname) l=
+        Image.image (on_printer_equipped_type (old_subdir,new_subdirname)) l ;; 
 
 let on_data (old_subdir,new_subdirname) ldata=
    Image.image (on_ms_data (old_subdir,new_subdirname)) ldata;;
@@ -61,7 +68,5 @@ let on_delchacre_files (old_subdir,new_subdirname) l=
     Image.image (on_short_path (old_subdir,new_subdirname)) l ;; 
    
 
-
- 
  
  

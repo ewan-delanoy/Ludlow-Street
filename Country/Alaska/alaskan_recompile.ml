@@ -103,14 +103,14 @@ let on_monitored_modules tolerate_cycles mdata =
      let checker=Ocaml_target.test_target_existence dir in
      let new_tgts=List.filter checker new_tgts1 in
      let default_top=(Alaskan_data.default_toplevel main_top_name new_mdata) in
-     let (new_mdata2,new_tgts2)=
+     let (new_mdata2,new_tgts2,rejected_ones2)=
        snd(Alaskan_make_ocaml_target.make 
         dir
-       (new_mdata,new_tgts) default_top) in
-      Some((new_mdata2,new_dirs,new_tgts2),short_paths);;   
+       (new_mdata,new_tgts,[]) default_top) in
+      Some((new_mdata2,new_dirs,new_tgts2,rejected_ones2),short_paths);;   
   
   
-     
+  
   
   
   

@@ -63,10 +63,10 @@ let on_targets (old_mdata,old_tgts) old_name new_name=
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
   let (new_mdata,(old_files,new_files))=on_monitored_modules old_mdata old_name new_name in
   let default_top=(German_data.default_toplevel new_mdata) in
-  let (new_mdata2,new_tgts2)=
+  let (new_mdata2,new_tgts2,_)=
     snd(Alaskan_make_ocaml_target.make 
  	   German_constant.root
- 	    (new_mdata,untouched_tgts) default_top) in
+ 	    (new_mdata,untouched_tgts,[]) default_top) in
   ((new_mdata2,new_tgts2),(old_files,new_files));;   
  
  

@@ -17,7 +17,7 @@ let sd (mdata,tgts)=
 	let mdata2=German_modify_modulesystem.recompute_module_info mdata hm in
 	let tgt=Ocaml_target.debuggable hm in
 	let answer=Alaskan_make_ocaml_target.make_nontoplevel German_constant.root
-	(mdata2,tgts) tgt in
+	(mdata2,tgts,[]) tgt in
 	let msg=(
 	  if (fst answer)
 	  then "\n\n Now, start \n\nocamldebug _build/"^dbg^".ocaml_debuggable\n\nin another terminal\n\n"

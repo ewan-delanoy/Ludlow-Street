@@ -15,7 +15,7 @@ let outside_directories_ref=ref([]:Subdirectory.t list);;
 let recently_deleted_ref=ref(Recently_deleted.of_string_list []);;
 let recently_changed_ref=ref(Recently_changed.of_string_list []);;
 let recently_created_ref=ref(Recently_created.of_string_list []);;
-let printer_equipped_types_ref=ref([]:Half_dressed_module.t list);;
+let printer_equipped_types_ref=ref([]:(Half_dressed_module.t*bool) list);;
 
 let whole ()=(
 	(!data_ref),
@@ -45,14 +45,18 @@ let recompile ()=
           (German_constant.root,German_constant.main_toplevel_name)
           false (!data_ref,!up_to_date_targets_ref) with
     None->false
-   |Some((new_mdata,new_dirs,new_tgts),short_paths)->
+   |Some((new_mdata,new_dirs,new_tgts,rejected_ones),short_paths)->
        let changes=Alaskan_changed.update short_paths
              (!recently_changed_ref) in
+       let new_preqt=Image.image(
+         fun (hm,_)->(hm,not(List.mem hm rejected_ones))
+       )  (!printer_equipped_types_ref) in     
        let _=(
          data_ref:=new_mdata;
          directories_ref:=new_dirs;
          up_to_date_targets_ref:=new_tgts;
          recently_changed_ref:=changes;
+         printer_equipped_types_ref:=new_preqt;
          save_all();
        ) in
        true;;
@@ -244,10 +248,10 @@ let register_mlx_file mlx=
         ([],[Mlx_ended_absolute_path.short_path mlx])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
    let default_top=(German_data.default_toplevel new_mdata) in     
-   let (_,(new_mdata2,new_tgts2))=
+   let (_,(new_mdata2,new_tgts2,_))=
  	  Alaskan_make_ocaml_target.make 
  	   German_constant.root
- 	  (new_mdata,new_tgts) default_top in
+ 	  (new_mdata,new_tgts,[]) default_top in
  	      
       (
          Private.data_ref:=new_mdata2;
@@ -304,7 +308,7 @@ let register_mlx_file mlx=
     and new_rdel=German_rename_directory.on_deleted_files pair (!Private.recently_deleted_ref)
     and new_rchan=German_rename_directory.on_changed_files pair (!Private.recently_changed_ref)
     and new_rcre=German_rename_directory.on_created_files pair (!Private.recently_created_ref)
-    and new_peqt=German_rename_directory.on_half_dressed_modules pair (!Private.printer_equipped_types_ref)
+    and new_peqt=German_rename_directory.on_printer_equipped_types pair (!Private.printer_equipped_types_ref)
     in
        (
          Private.data_ref:=new_data;
@@ -345,9 +349,9 @@ let reposition_module hm (l_before,l_after)=
   
  let start_debugging ()=
     let _=Private.recompile() in
-    let (bowl,(new_mdata,new_tgts))=
+    let (bowl,(new_mdata,new_tgts,_))=
       German_start_debugging.sd (data(),(!Private.up_to_date_targets_ref))  in
-    if (not(bowl))
+    if (not(bowl)) 
     then ()
     else  
        (

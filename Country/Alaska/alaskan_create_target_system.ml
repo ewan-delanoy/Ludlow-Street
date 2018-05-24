@@ -149,11 +149,12 @@ let from_main_directory dir opt_topl_name special_outsiders=
     let temp2=clean_list_of_files dir temp1 in
     let temp3=compute_dependencies temp2 in
     let (failures,mdata1)=from_prepared_list dir temp3 in
-    let preqt=Alaskan_printer_equipped_types.from_data mdata1 in
+    let pre_preqt=Alaskan_printer_equipped_types.from_data mdata1 in
     let topl_name=(if opt_topl_name=None then "ecaml" else Option.unpack opt_topl_name) in
     let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
- 	let (mdata2,new_tgts2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[]) topl) in
-  let temp2=List.filter (fun x->not(List.mem x special_outsiders)) usual_outsiders in 
+ 	let (mdata2,new_tgts2,rejected_ones2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[],[]) topl) in
+   let preqt=Image.image (fun hm->(hm,not(List.mem hm rejected_ones2))) pre_preqt in
+   let temp2=List.filter (fun x->not(List.mem x special_outsiders)) usual_outsiders in 
  	let old_outsiders=temp2@special_outsiders in
  	let new_outsiders=Option.filter_and_unpack (fun t->
  	   let s_ap=Directory_name.join dir t in
