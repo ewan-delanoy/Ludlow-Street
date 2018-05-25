@@ -21,8 +21,8 @@ let replacement_for_special_file destdir filename=
   if filename=file_for_backup
   then ("let github_after_backup=ref(true);;",
         "let github_after_backup=ref(false);;")
-  else (Directory_name.connectable_to_subpath German_constant.root,
-        Directory_name.connectable_to_subpath destdir);;
+  else (Directory_name.without_trailing_slash German_constant.root,
+        Directory_name.without_trailing_slash destdir);;
 
 let prepare_special_file destdir filename=
   let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
