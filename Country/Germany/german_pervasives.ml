@@ -120,7 +120,7 @@ let tw x=
 
 let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
 let df () =German_data.deletable_files (German_wrapper.data());;
-let ucc ()=German_update_copied_compiler.ucc 
+let ucc ()=German_create_or_update_copied_compiler.ucc 
  (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco ()=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup None);;
