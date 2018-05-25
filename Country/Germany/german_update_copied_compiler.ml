@@ -15,11 +15,19 @@ let prepare destdir=
         (German_constant.root,l1@l2) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
 
+let file_for_backup="Country/Germany/german_backup_target_system.ml";;
+
+let replacement_for_special_file destdir filename=
+  if filename=file_for_backup
+  then ("let github_after_backup=ref(true);;",
+        "let github_after_backup=ref(false);;")
+  else (Directory_name.connectable_to_subpath German_constant.root,
+        Directory_name.connectable_to_subpath destdir);;
+
 let prepare_special_file destdir filename=
   let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
   Replace_inside.replace_inside_file
-  (Directory_name.connectable_to_subpath German_constant.root,
-   Directory_name.connectable_to_subpath destdir)
+  (replacement_for_special_file destdir filename)
   the_file;;
 
 
@@ -29,7 +37,8 @@ let ucc destdir=
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
-    ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml"]
+    ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml";
+     "Country/Germany/german_constant.ml";file_for_backup]
    in 
   Alaskan_create_target_system.from_main_directory destdir None [];;
        

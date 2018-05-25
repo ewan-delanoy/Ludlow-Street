@@ -284,11 +284,11 @@
 #load"small_int_based_rational.cmo";;
 #load"big_int_based_rational.cmo";;
 #load"german_values_in_modules.cmo";;
-#load"german_update_copied_compiler.cmo";;
-#load"german_pervasives.cmo";;
 #load"german_make_self_contained_copy.cmo";;
 #load"code_namespace.cmo";;
 #load"check_ocaml_dircopy.cmo";;
+#load"german_update_copied_compiler.cmo";;
+#load"german_pervasives.cmo";;
 
 
 

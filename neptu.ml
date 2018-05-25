@@ -4,6 +4,65 @@
 
 *)
 
+let z1=(!(German_wrapper.Private.data_ref));;
+let z2=List.filter Modulesystem_data.ml_present z1;;
+let z3=image Modulesystem_data.name z2;;
+
+let z4=image (fun x->
+(x.Half_dressed_module.subdirectory,
+x.Half_dressed_module.naked_module)
+) z3;;
+
+let z5=List.filter (fun (a,b)->
+  Substring.begins_with a "Ocaml_analysis"
+) z4;;
+
+let z6=Compute_all_ocaml_items.caoi z1;;
+
+(*
+let z1=(!(German_wrapper.Private.data_ref));;
+let z2=List.filter Modulesystem_data.ml_present z1;;
+let z3=image Modulesystem_data.name z2;;
+let z4=image (fun hm->Mlx_ended_absolute_path.join hm 
+ Ocaml_ending.ml) z3;;
+let z5=image (function
+   Mlx_ended_absolute_path.MLX(a,b,c)->b^".ml"
+) z4;;
+let z6=Explicit.filter(
+   fun b->
+    let path1="/Users/ewandelanoy/Documents/OCaml/Ordinary/"^b in
+    let ap1=Absolute_path.of_string path1 in
+    let text1=Io.read_whole_file ap1 in
+    let path2="/Users/ewandelanoy/Documents/OCaml/Idaho/"^b in
+    let ap2=Absolute_path.of_string path2 in
+    let text2=Io.read_whole_file ap2 in
+    text1<>text2
+) z5;;
+
+let z7=
+  ["industrial_separator.ml"; 
+   "half_dressed_module.ml"; "Country/Alaska/alaskan_make_ocaml_target.ml";
+   "Country/Germany/german_unregister_module.ml";
+   "Country/Germany/german_unregister_mlx_file.ml";
+   "Country/Germany/german_start_debugging.ml";
+   "Country/Germany/german_rename_module.ml";
+   "Country/Germany/german_rename_directory.ml";
+   "Country/Germany/german_relocate_module.ml";
+   "Country/Alaska/alaskan_printer_equipped_types.ml";
+   "Country/Alaska/alaskan_save_all.ml";
+   "Country/Alaska/alaskan_recompile.ml";
+   "Country/Alaska/alaskan_create_target_system.ml";
+   "Country/Germany/german_wrapper.ml"];;
+
+let z8=image (
+   fun b->
+     "cp /Users/ewandelanoy/Documents/OCaml/Idaho/"^b^
+     "  /Users/ewandelanoy/Documents/OCaml/Ordinary/"^b
+) z7;;
+
+let z9=image Unix_command.hardcore_uc z8;;
+
+
 let idaho_dir=Directory_name.of_string
 "/Users/ewandelanoy/Documents/OCaml/Idaho";;
 
@@ -28,6 +87,9 @@ let ruco ()=
       idaho_tgts:=new_tgts2;
     ) in
     true;;
+
+German_pervasives.reco_without_backup;;
+*)
 
 
 (*
