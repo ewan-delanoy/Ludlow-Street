@@ -4,7 +4,7 @@
 
 *)
 
-let double_semicolon=";"^";";;
+let double_semicolon=Double_semicolon.ds;;
 
 let prsr_for_comment=
   Gparser.Comment ("(*","*)","\"","\"");;
@@ -193,6 +193,7 @@ let prsr_for_special_names=
      [
        Gparser.Constant "add_to_vvv ";
        Gparser.Constant "add_data ";
+       Gparser.Constant "add_label ";
        Gparser.Constant "add_data\n";
        Gparser.Constant "add_shortcut ";
        Gparser.Constant "define_precedence_set ";
