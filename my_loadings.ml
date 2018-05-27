@@ -113,8 +113,8 @@
 #load"half_dressed_module.cmo";;
 #load"mlx_ended_absolute_path.cmo";;
 #load"outside_comments_and_strings.cmo";;
-#load"my_str.cmo";;
-#load"my_str_example.cmo";;
+#load"alternative_str.cmo";;
+#load"alternative_str_example.cmo";;
 #load"look_for_module_names.cmo";;
 #load"recently_deleted.cmo";;
 #load"recently_created.cmo";;
@@ -129,10 +129,8 @@
 #load"gparser_ocaml_comment.cmo";;
 #load"gparser_house_with_doors.cmo";;
 #load"gparser_apply.cmo";;
-#load"read_ocaml_files.cmo";;
 #load"ocaml_library.cmo";;
 #load"modulesystem_data.cmo";;
-#load"find_value_definition.cmo";;
 #load"ocaml_target.cmo";;
 #load"ordered_string.cmo";;
 #load"dircopy_diff.cmo";;
@@ -161,7 +159,7 @@
 #load"german_relocate_module.cmo";;
 #load"german_register_outside_file.cmo";;
 #load"german_make_module_optional.cmo";;
-#load"my_global_replace.cmo";;
+#load"alternative_global_replace.cmo";;
 #load"replace_inside.cmo";;
 #load"current_date.cmo";;
 #load"german_forget_unregistered_file.cmo";;
@@ -184,8 +182,6 @@
 #load"alaskan_try_to_register.cmo";;
 #load"alaskan_create_target_system.cmo";;
 #load"alaskan_changed.cmo";;
-#load"german_wrapper.cmo";;
-#load"self_contained_module_copy.cmo";;
 #load"retained_or_not.cmo";;
 #load"rat_frac.cmo";;
 #load"disaggregated_ocaml_name.cmo";;
@@ -258,12 +254,8 @@
 #load"optimize_polynomial.cmo";;
 #load"ocaml_long_name.cmo";;
 #load"isolated_occurrences.cmo";;
-#load"german_vague_string.cmo";;
-#load"rename_value_inside_module.cmo";;
-#load"read_needed_ocaml_files.cmo";;
 #load"longest_shared_module.cmo";;
 #load"find_value_descendants.cmo";;
-#load"compute_all_ocaml_items.cmo";;
 #load"multiset.cmo";;
 #load"more_uchar.cmo";;
 #load"martian_partial_ordering.cmo";;
@@ -283,12 +275,20 @@
 #load"debugger.cmo";;
 #load"small_int_based_rational.cmo";;
 #load"big_int_based_rational.cmo";;
-#load"german_values_in_modules.cmo";;
-#load"german_make_self_contained_copy.cmo";;
 #load"code_namespace.cmo";;
 #load"check_ocaml_dircopy.cmo";;
-#load"german_update_copied_compiler.cmo";;
+#load"read_ocaml_files.cmo";;
+#load"find_value_definition.cmo";;
+#load"german_wrapper.cmo";;
+#load"self_contained_module_copy.cmo";;
+#load"german_vague_string.cmo";;
+#load"rename_value_inside_module.cmo";;
+#load"read_needed_ocaml_files.cmo";;
+#load"compute_all_ocaml_items.cmo";;
+#load"german_values_in_modules.cmo";;
+#load"german_create_or_update_copied_compiler.cmo";;
 #load"german_pervasives.cmo";;
+#load"german_make_self_contained_copy.cmo";;
 
 
 

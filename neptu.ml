@@ -4,6 +4,21 @@
 
 *)
 
+let z1=German_wrapper.data();;
+let z2=Compute_all_ocaml_items.caoi z1;;
+
+Read_ocaml_files.read_ocaml_files;;
+
+(*
+
+let idaho_dir=Directory_name.of_string
+"/Users/ewandelanoy/Documents/OCaml/Idaho";;
+
+let g1=
+  German_create_or_update_copied_compiler.ucc 
+  idaho_dir;;
+
+
 let z1=(!(German_wrapper.Private.data_ref));;
 let z2=List.filter Modulesystem_data.ml_present z1;;
 let z3=image Modulesystem_data.name z2;;
@@ -14,10 +29,14 @@ x.Half_dressed_module.naked_module)
 ) z3;;
 
 let z5=List.filter (fun (a,b)->
-  Substring.begins_with a "Ocaml_analysis"
+  Substring.begins_with b "nep"
 ) z4;;
 
 let z6=Compute_all_ocaml_items.caoi z1;;
+
+German_pervasives.hmx
+
+*)
 
 (*
 let z1=(!(German_wrapper.Private.data_ref));;

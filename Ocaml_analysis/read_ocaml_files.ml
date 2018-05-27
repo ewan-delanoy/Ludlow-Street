@@ -11,7 +11,7 @@ let accuse_final_excerpt s i=
   let j=min(String.length s)(i+100) in
   raise(Unreadable(Cull_string.interval s i j));;
 
-let read1 s=
+let uncatched_read1 s=
   let opt=Gparser_apply.apply Gparser_for_ocaml_language.main_prsr s 1 in
   if opt=None then accuse_final_excerpt s 1 else
   let res=Option.unpack opt in 
@@ -25,6 +25,10 @@ let read1 s=
     let res=Option.unpack opt in
     ((i,j),Option.unpack(Gparser_result.disjunction_index res))
   ) temp1;;
+
+exception Read1_exn of string;;
+
+let read1 s= try uncatched_read1 s with Unreadable(t)->raise(Read1_exn(t));;
   
 let describe_value_item s (i,j)=
      let opt=Gparser_apply.apply Gparser_for_ocaml_language.prsr_for_value_making s i in
