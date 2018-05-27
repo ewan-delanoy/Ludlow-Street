@@ -6,6 +6,8 @@
 
 *)
 
+let double_semicolon=String.make 2 (char_of_int 59);;
+
 let display_circular_dependencies printer l cycles= 
   if cycles=[]
   then ()
@@ -26,7 +28,11 @@ let select_good_files s_main_dir=
          "my_loadings.ml";"my_printers.ml";"my_pervasives.ml";".ocamlinit"]   in
    let _=Io.overwrite_with 
         (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
-        "\n#use\"my_loadings.ml\";;\n#use\"my_printers.ml\";;\n#use\"my_pervasives.ml\";;\n" in   
+        (
+        "\n#use\"my_loadings.ml\""^double_semicolon^
+        "\n#use\"my_printers.ml\""^double_semicolon^
+        "\n#use\"my_pervasives.ml\""^double_semicolon^"\n"
+         ) in   
    let _=Io.overwrite_with 
         (Absolute_path.of_string (s_main_dir^"/my_printers.ml"))
         "\n\n (*Registered printers start here *) \n\n (*Registered printers end here *) \n\n" in        
