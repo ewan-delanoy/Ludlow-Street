@@ -19,8 +19,8 @@ let file_for_backup="Country/Germany/german_backup_target_system.ml";;
 
 let replacement_for_special_file destdir filename=
   if filename=file_for_backup
-  then ("let github_after_backup=ref(true);;",
-        "let github_after_backup=ref(false);;")
+  then ("let github_after_backup=ref(true)"^Double_semicolon.ds,
+        "let github_after_backup=ref(false)"^Double_semicolon.ds)
   else (Directory_name.without_trailing_slash German_constant.root,
         Directory_name.without_trailing_slash destdir);;
 
