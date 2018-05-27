@@ -38,15 +38,17 @@ let fg_without_backup x=
    else German_wrapper.forget_module (hmx x);;
 
 let regi_without_backup x= 
-  let mlx=Mlx_ended_absolute_path.of_path_and_root (fl x) cdir in
+  let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+  let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
   German_wrapper.register_mlx_file mlx;;
 
 let rego_without_backup x=
    German_wrapper.register_outside_file (Absolute_path.of_string x);;
 
 let ureg_without_backup x=
-  if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mll";".mly"] 
-  then let mlx=Mlx_ended_absolute_path.of_path_and_root (fl x) cdir in
+  if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mli";".mll";".mly"] 
+  then let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+       let mlx=Mlx_ended_absolute_path.of_path_and_root path cdir in
        German_wrapper.unregister_mlx_file mlx 
   else German_wrapper.unregister_module (hmx x);;
 
