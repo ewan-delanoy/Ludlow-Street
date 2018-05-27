@@ -6,7 +6,7 @@
 
 
 let replace_inside_string (a,b) s=
-  My_global_replace.my_global_replace (a,b) s;;
+  Alternative_global_replace.my_global_replace (a,b) s;;
  
 let replace_several_inside_string l t=List.fold_left 
 (fun s (a,b)->replace_inside_string (a,b) s) t l;;  
@@ -102,7 +102,6 @@ overwrite_and_dump_markers_inside_string
    
      
 *)
-
 
 let at_intervals_inside_string s l=
   if l=[] then s else

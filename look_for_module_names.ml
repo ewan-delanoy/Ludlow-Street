@@ -8,12 +8,13 @@
 let indices_in_string s=
   let temp1=Outside_comments_and_strings.good_substrings s in
   let temp2=Image.image (fun (a,b,t)->
-     let ttemp3=My_str.find_all_occurrences My_str_example.moodle_cases t 1 in
+     let ttemp3=Alternative_str.find_all_occurrences Alternative_str_example.moodle_cases t 1 in
      Image.image (fun (case_index,(u,v))->
         (case_index,(u+a-1,v+a-1))
      ) ttemp3
   ) temp1 in
   List.flatten temp2;;
+  
 
 let names_in_string z=
   let temp1=indices_in_string z in

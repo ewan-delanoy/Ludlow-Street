@@ -5,7 +5,6 @@
 
 *)
 
-
 let replace_string mdata old_string new_string=
   let temp1=German_data.files_containing_string mdata old_string in
   let m=String.length(Directory_name.connectable_to_subpath(German_constant.root)) in
@@ -40,7 +39,7 @@ let list_values_from_module_in_file module_name file=
    let s=Io.read_whole_file file in
    let temp1=Look_for_module_names.indices_in_file file in
    let temp2=List.filter (fun (t,(i,j))->
-     (t=My_str_example.index_for_pointed_case)&&
+     (t=Alternative_str_example.index_for_pointed_case)&&
      (Cull_string.interval s i j=(String.capitalize_ascii module_name))
    ) temp1 in
    let temp3=Image.image(fun (t,(i,j))->
