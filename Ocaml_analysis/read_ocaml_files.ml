@@ -140,9 +140,14 @@ let describe_module_inclusion_item s (i,j)=
    then Some(describe_module_inclusion_item s (i,j))
    else None;;
    
-let read2 s=
+let uncatched_read2 s=
    Option.filter_and_unpack (describe_item s) (read1 s);;   
    
+exception Read2_exn of string;;
+
+let read2 s= try uncatched_read2 s with Read1_exn(t)->raise(Read2_exn(t));;
+     
+
 let module_inclusion_in_pusher    
    (graet,current_full_namespace,current_names) x=
     let included_module=x.Ocaml_gsyntax_item.name in
