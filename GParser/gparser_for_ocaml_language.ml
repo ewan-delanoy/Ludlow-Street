@@ -193,8 +193,9 @@ let prsr_for_special_names=
      [
        Gparser.Constant "add_to_vvv ";
        Gparser.Constant "add_data ";
-       Gparser.Constant "add_label ";
        Gparser.Constant "add_data\n";
+       Gparser.Constant "add_label ";
+       Gparser.Constant "add_recognizer ";
        Gparser.Constant "add_shortcut ";
        Gparser.Constant "define_precedence_set ";
        Gparser.Constant "get_name_for_set ";
