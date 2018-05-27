@@ -36,9 +36,15 @@ let hmx x=
    Some(md)->Modulesystem_data.name md
    |None->raise(No_module_with_name(x));;  
 
-let abo x=German_data.above (German_wrapper.data()) (hmx x);;
-let bel x=German_data.below (German_wrapper.data()) (hmx x);;
-let dbel x=German_data.directly_below (German_wrapper.data()) (hmx x);;
+let abo x=
+  Image.image Half_dressed_module.uprooted_version
+  (German_data.above (German_wrapper.data()) (hmx x));;
+let bel x=
+  Image.image Half_dressed_module.uprooted_version
+  (German_data.below (German_wrapper.data()) (hmx x));;
+let dbel x=
+  Image.image Half_dressed_module.uprooted_version
+  (German_data.directly_below (German_wrapper.data()) (hmx x));;
 
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
