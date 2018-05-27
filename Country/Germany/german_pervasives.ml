@@ -18,9 +18,24 @@ let current_directories()=
   [Subdirectory.SD "Remembered";Subdirectory.SD "Forgotten"]);;
 
 let fl=German_vague_string.to_path;; 
-let hmx=German_vague_string.to_module;;
 
-let fmr x=Alaskan_data.find_module_registration (German_wrapper.data()) (hmx x);;
+let fmr x=
+  let uncapitalized_x=
+    Naked_module.of_string(String.uncapitalize_ascii x) in
+  Option.seek (fun md->
+    let hm=Modulesystem_data.name md in
+    (Half_dressed_module.naked_module hm)=uncapitalized_x
+  )
+  (German_wrapper.data());;
+
+exception No_module_with_name of string;;
+
+let hmx x=
+   match fmr x
+   with 
+   Some(md)->Modulesystem_data.name md
+   |None->raise(No_module_with_name(x));;  
+
 let abo x=German_data.above (German_wrapper.data()) (hmx x);;
 let bel x=German_data.below (German_wrapper.data()) (hmx x);;
 let dbel x=German_data.directly_below (German_wrapper.data()) (hmx x);;
