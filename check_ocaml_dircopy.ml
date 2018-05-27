@@ -15,7 +15,7 @@ let is_admissible s=
   &&
    (List.for_all (
      fun beg->not(Substring.begins_with s beg)
-  ) ["Remembered/";"Forgotten/";"_build/"])
+  ) ["Remembered/";"Forgotten/";"_build/";".vscode/"])
   &&
   (
     not(
