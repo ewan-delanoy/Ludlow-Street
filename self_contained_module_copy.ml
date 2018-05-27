@@ -43,7 +43,7 @@ let self_contained_module_copy prefix hm=
    let temp3=Image.image (
      fun ((_,new_mname),txt)->
       let name=String.capitalize_ascii(Naked_module.to_string new_mname) in
-      "module "^name^"=struct "^txt^" end;;"
+      "module "^name^"=struct "^txt^" end"^Double_semicolon.ds
    ) temp2 in    
    String.concat "\n\n\n" temp3;;
 
