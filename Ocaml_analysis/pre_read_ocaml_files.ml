@@ -7,6 +7,8 @@ read_ocaml_files and read_ocaml_files_without_expanding_inclusions.
 
 *)
 
+exception Pre_read_exn of string;;
+
 module Private=struct
   exception Unreadable of string;;
   
@@ -146,7 +148,7 @@ module Private=struct
   let uncatched_read2 s=
      Option.filter_and_unpack (describe_item s) (read1 s);;   
      
-  exception Pre_read_exn of string;;
+  
   
   let pre_read s= try uncatched_read2 s with Read1_exn(t)->raise(Pre_read_exn(t));;
   end;;
