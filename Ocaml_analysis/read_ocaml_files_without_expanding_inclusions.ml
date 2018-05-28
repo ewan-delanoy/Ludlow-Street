@@ -13,9 +13,12 @@ module Private=struct
     match x.Ocaml_gsyntax_item.category with
       Ocaml_gsyntax_category.Value                                                                          
     | Ocaml_gsyntax_category.Type
-    | Ocaml_gsyntax_category.Exception
-    | Ocaml_gsyntax_category.Module_inclusion->
+    | Ocaml_gsyntax_category.Exception->
             let new_x=Ocaml_gsyntax_item.prepend_prefix current_full_scope x in
+            (new_x::graet,current_full_scope,current_names)
+    | Ocaml_gsyntax_category.Module_inclusion->
+            let temp=Ocaml_gsyntax_item.prepend_prefix current_full_scope x in
+            let new_x=Ocaml_gsyntax_item.make_name_coincide_with_content temp in
             (new_x::graet,current_full_scope,current_names)
     | Ocaml_gsyntax_category.Module_opener->
             let new_name=x.Ocaml_gsyntax_item.name in
