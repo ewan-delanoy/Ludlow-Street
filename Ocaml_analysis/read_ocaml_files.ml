@@ -170,7 +170,7 @@ let module_inclusion_in_pusher
          	fun y->y.Ocaml_gsyntax_item.name=chosen_namespace
          ) maybe_included_items in
          let renamed_included_items=Image.image 
-         (Ocaml_gsyntax_item.include_in_new_namespace full_namespace )
+         (Ocaml_gsyntax_item.include_in_new_scope full_namespace )
          included_items in
          (List.rev_append renamed_included_items graet,current_full_namespace,current_names);;
    

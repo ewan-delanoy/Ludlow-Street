@@ -40,7 +40,7 @@ let prepend_prefix prefix x=
         is_an_included_item =x.is_an_included_item;
     };;
     
-let include_in_new_namespace new_nmspc x=
+let include_in_new_scope new_nmspc x=
     {
   		category =x.category;
         name =new_nmspc^(Father_and_son.invasive_father x.name '.');
