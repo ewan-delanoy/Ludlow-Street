@@ -40,10 +40,10 @@ let prepend_prefix prefix x=
         is_an_included_item =x.is_an_included_item;
     };;
     
-let include_in_new_scope new_nmspc x=
+let include_in_new_scope new_scope x=
     {
   		category =x.category;
-        name =new_nmspc^(Father_and_son.invasive_father x.name '.');
+        name =new_scope^(Father_and_son.invasive_father x.name '.');
         interval_for_name =x.interval_for_name;
         whole =x.whole;
         content =x.content;
@@ -51,6 +51,16 @@ let include_in_new_scope new_nmspc x=
         is_an_included_item =true;
     };;    
     
+let make_name_coincide_with_content x=
+        {
+            category =x.category;
+            name =x.content;
+            interval_for_name =x.interval_for_name;
+            whole =x.whole;
+            content =x.content;
+            interval_for_content =x.interval_for_content;  
+            is_an_included_item =x.is_an_included_item;
+        };;    
     
     
     
