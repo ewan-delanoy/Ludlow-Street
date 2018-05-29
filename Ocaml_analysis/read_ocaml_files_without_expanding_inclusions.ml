@@ -2,6 +2,9 @@
 
 #use"Ocaml_analysis/read_ocaml_files_without_expanding_inclusions.ml";;
 
+Same as read_ocaml_files except that :
+Module inclusions are not expanded.
+
 *)
 
 module Private=struct
@@ -54,15 +57,17 @@ module Private=struct
   
   exception Reading_error of Absolute_path.t * string;;
   
-  let rofwei l_ap=
-     let temp1=Image.image( fun ap->
+  let rofwei l_hm=
+     let temp1=Image.image( fun hm->
+     let mlx=Mlx_ended_absolute_path.join hm Ocaml_ending.ml in
+     let ap=Mlx_ended_absolute_path.to_path mlx in
      let s_ap=Absolute_path.to_string ap
      and text=Io.read_whole_file ap in
      let unpointed=Father_and_son.father s_ap '.' in
      let module_name=String.capitalize_ascii (Father_and_son.son unpointed '/') in
      try (module_name,Pre_read_ocaml_files.pre_read text)  with
      Pre_read_ocaml_files.Pre_read_exn(t)->raise(Reading_error(ap,t)) 
-     ) l_ap in 
+     ) l_hm in 
      List.fold_left Private.prepend_modulenames [] temp1;;
      
      
