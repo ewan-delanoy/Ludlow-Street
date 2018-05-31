@@ -220,26 +220,24 @@ let teuzin_kalz_plaen kenver l=
         forget_order(big_teuzin kenver  (Image.image unsafe_set l) );;
 let insert_plaen kenver x l=
         forget_order(insert kenver x (unsafe_set l));;     
-let diff_plaen kenver =
+let diff_plaen (kenver: 'a Total_ordering.t) =
           let rec tempf=(fun
-            (graet,da_ober1,da_ober2)->
+            (graet_bc,graet_b,graet_c,da_ober1,da_ober2)->
               match da_ober1 with
-              []->let temp1=Image.image (fun (x,y)->(x,None,Some(y))) da_ober2 in
-                  List.rev_append graet temp1
+              []->(graet_bc,graet_b,List.rev_append graet_c da_ober2)
               |(a1,b1)::peurrest1->
               (
                 match da_ober2 with
-              []->let temp2=Image.image (fun (x,y)->(x,Some(y),None)) da_ober1 in
-                  List.rev_append graet temp2
-              |(a2,b2)::peurrest2->
+              []->(graet_bc,List.rev_append graet_b da_ober1,graet_c)     
+              |(a2,c2)::peurrest2->
                 (
                   match kenver a1 a2 with
                   Total_ordering.Lower->
-                    tempf((a1,Some(b1),None)::graet,peurrest1,da_ober2)
+                    tempf(graet_bc,(a1,b1)::graet_b,graet_c,peurrest1,da_ober2)
                   |Total_ordering.Greater->
-                  tempf((a2,None,Some(b2))::graet,da_ober1,peurrest2)
+                  tempf(graet_bc,graet_b,(a2,c2)::graet_c,da_ober1,peurrest2)
                   |Total_ordering.Equal->
-                  tempf((a1,Some(b1),Some(b2))::graet,peurrest1,peurrest2)  
+                  tempf((a1,b1,c2)::graet_bc,graet_b,graet_c,peurrest1,peurrest2)  
                 )
               )      
           ) in
