@@ -72,5 +72,6 @@ indices_in_string "123 Haag.012 open Garfield;8";;
 
 indices_in_string "(* Haag. *)234 Dog.\"open Garfield;\"67 Corn.4";;
 
+
    
 *)   
