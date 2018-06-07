@@ -49,9 +49,6 @@ let dbel x=
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
 let relo_without_backup x y=German_wrapper.relocate_module (hmx x) y;;
-let mmo_without_backup x=German_wrapper.make_module_optional (hmx x) ;;
-
-
 
 let fg_without_backup x=
    if String.contains x '.'
@@ -151,7 +148,7 @@ let reco_with_comment s=let bowl=reco_without_backup () in (if bowl then German_
 
 
 let fg x=(fg_without_backup x;German_wrapper.backup None);;
-let mmo x=(mmo_without_backup x;reco());;
+
 
 let regi x=(regi_without_backup x;German_wrapper.backup None);;
 let rndir p=(German_wrapper.rename_directory p;reco());;
