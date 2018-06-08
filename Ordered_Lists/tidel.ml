@@ -10,6 +10,7 @@ let forget_order=(Ordered.forget_order:>('a set->'a list));;
 let kreskus_strizh x=Ordered.kreskus_strizh cmp x;;
 let kreskus x=Ordered.kreskus cmp x;;
 
+
 let elfenn=((fun a ox->Ordered.elfenn cmp a ox):>('a->'a set->bool));;
 let teuzin=((fun ox oy->Ordered.teuzin cmp ox oy):>( 'a set->'a set->'a set));;
 let diforchan=((fun x->Ordered.diforchan cmp x):>('a list->'a set));;
