@@ -1,3 +1,9 @@
+(*
+
+#use"modularize.ml";;
+
+*)
+
 
 let module_name_from_path ap=
       let s_ap=Absolute_path.to_string ap in
@@ -25,6 +31,15 @@ let modularize_several prefix l_ap=
     ) temp1 in
     let temp2=Explicit.image (modularize prefix) l_ap in
     let unreplaced_text=String.concat "\n\n\n" temp2 in
-    Look_for_module_names.change_several_module_names_in_string
-      replacements unreplaced_text;;  
+    let walker=ref(unreplaced_text) 
+    and m=List.length(replacements) in
+    let _=(for k=1 to m do
+      let (a,b)=List.nth replacements (k-1) in
+      let message=(string_of_int k)^" of "^(string_of_int m)^" done \n" in
+      walker:=Look_for_module_names.change_module_name_in_string
+       a b (!walker);
+      print_string(message);
+      flush stdout 
+    done) in
+    (!walker);;  
  
