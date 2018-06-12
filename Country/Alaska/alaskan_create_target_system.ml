@@ -136,7 +136,7 @@ let from_prepared_list dir l=
    let temp1=Option.filter_and_unpack (fun (ap,s)->
       Mlx_ended_absolute_path.try_from_path_and_root ap dir
    ) l in
-   Alaskan_try_to_register.mlx_files [] temp1;;
+   Alaskan_try_to_register.mlx_files Md_list.empty_one temp1;;
 
 
 let usual_outsiders=
@@ -154,9 +154,9 @@ let from_main_directory dir opt_topl_name special_outsiders=
     let temp2=clean_list_of_files dir temp1 in
     let temp3=compute_dependencies temp2 in
     let (failures,mdata1)=from_prepared_list dir temp3 in
-    let pre_preqt=Alaskan_printer_equipped_types.from_data mdata1 in
+    let pre_preqt=Md_list.printer_equipped_types_from_data mdata1 in
     let topl_name=(if opt_topl_name=None then "ecaml" else Option.unpack opt_topl_name) in
-    let topl=(Alaskan_data.default_toplevel topl_name mdata1) in
+    let topl=(Md_list.default_toplevel topl_name mdata1) in
  	let (mdata2,new_tgts2,rejected_ones2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[],[]) topl) in
    let preqt=Image.image (fun hm->(hm,not(List.mem hm rejected_ones2))) pre_preqt in
    let temp2=List.filter (fun x->not(List.mem x special_outsiders)) usual_outsiders in 

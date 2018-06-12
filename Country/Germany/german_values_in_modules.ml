@@ -6,7 +6,7 @@
 *)
 
 let replace_string mdata old_string new_string=
-  let temp1=German_data.files_containing_string mdata old_string in
+  let temp1=Md_list.files_containing_string mdata old_string in
   let m=String.length(Directory_name.connectable_to_subpath(German_constant.root)) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
@@ -52,7 +52,7 @@ let list_values_from_module_in_file module_name file=
    Ordered_string.diforchan temp3;;
 
 let list_values_from_module_in_modulesystem module_name mdata=
-   let temp1=Alaskan_data.all_mlx_paths mdata in
+   let temp1=Md_list.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_values_from_module_in_file module_name ap in
     Ordered_string.image (fun x->(x,ap) ) ttemp1
@@ -68,26 +68,20 @@ let list_values_from_module_in_modulesystem module_name mdata=
    ) temp6 in
    temp7;;
  
- let list_value_occurrences_in_file t file=
+let list_value_occurrences_in_file t file=
    let s=Io.read_whole_file file in
    let temp1=Substring.occurrences_of_in t s in
    Image.image (fun j->Cull_string.closeup_around_index 
       s j
    ) temp1;; 
  
- let modules_using_value mdata value_name =
-   Option.filter_and_unpack (fun md->
-    let ap=Modulesystem_data.principal_path md in
-    if (list_value_occurrences_in_file value_name ap)<>[] 
-    then Some(Modulesystem_data.name md)
-    else None ) mdata;;
  
  
 
 
 let show_value_occurrences_in_modulesystem t mdata=
    let m=String.length(Directory_name.connectable_to_subpath(German_constant.root)) in
-   let temp1=Alaskan_data.all_mlx_paths mdata in
+   let temp1=Md_list.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_value_occurrences_in_file t ap in
     let mname=Cull_string.cobeginning(m)(Absolute_path.to_string ap) in

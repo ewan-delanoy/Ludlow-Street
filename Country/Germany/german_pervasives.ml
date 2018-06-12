@@ -22,11 +22,8 @@ let fl=German_vague_string.to_path;;
 let fmr x=
   let uncapitalized_x=
     Naked_module.of_string(String.uncapitalize_ascii x) in
-  Option.seek (fun md->
-    let hm=Modulesystem_data.name md in
-    (Half_dressed_module.naked_module hm)=uncapitalized_x
-  )
-  (German_wrapper.data());;
+  Md_list.find_naked_module_registration
+  (German_wrapper.data()) uncapitalized_x;;
 
 exception No_module_with_name of string;;
 
@@ -38,13 +35,13 @@ let hmx x=
 
 let abo x=
   Image.image Half_dressed_module.uprooted_version
-  (German_data.above (German_wrapper.data()) (hmx x));;
+  (Md_list.above (German_wrapper.data()) (hmx x));;
 let bel x=
   Image.image Half_dressed_module.uprooted_version
-  (German_data.below (German_wrapper.data()) (hmx x));;
+  (Md_list.below (German_wrapper.data()) (hmx x));;
 let dbel x=
   Image.image Half_dressed_module.uprooted_version
-  (German_data.directly_below (German_wrapper.data()) (hmx x));;
+  (Md_list.directly_below (German_wrapper.data()) (hmx x));;
 
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
@@ -92,7 +89,7 @@ let vo s=
   Unix_command.uc ("open -a \"/Applications/Visual Studio Code.app\" "^s1);;
 
 
-let syz()=German_data.system_size (German_wrapper.data());;
+let syz()=Md_list.system_size (German_wrapper.data());;
 
 let init=German_wrapper.initialize;;
 
@@ -113,7 +110,7 @@ let srv_without_backup x y=German_values_in_modules.replace_string (German_wrapp
 
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
-let muv x=German_values_in_modules.modules_using_value (German_wrapper.data()) x;;
+let muv x=Md_list.modules_using_value (German_wrapper.data()) x;;
 
 let ed =German_wrapper.end_debugging;;
 
@@ -124,13 +121,9 @@ let fvd=Find_value_descendants.fvd
 
 let rsh_without_backup=German_wrapper.refresh;;
 
-let am ()=
-    let temp1=German_wrapper.data() in
-    let temp2=Image.image (fun md->
-     Naked_module.to_string(
-       Half_dressed_module.naked_module(Modulesystem_data.name md))
-    ) temp1 in
-    temp2;;
+
+let am ()=Md_list.all_naked_modules (German_wrapper.data());;
+    
     
 let tw x=
   let hm=hmx x in
@@ -138,8 +131,8 @@ let tw x=
   let fn=(Directory_name.connectable_to_subpath(cdir))^s_hm in    
   Sys.command ("open -a /Applications/TextWrangler.app "^fn^".ml");;
 
-let oim ()=German_data.outdated_interesting_modules (German_wrapper.data());;
-let df () =German_data.deletable_files (German_wrapper.data());;
+let oim ()=Md_list.outdated_interesting_modules (German_wrapper.data());;
+let df () =Md_list.deletable_files (German_wrapper.data());;
 let ucc ()=German_create_or_update_copied_compiler.ucc 
  (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 

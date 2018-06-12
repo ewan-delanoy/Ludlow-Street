@@ -26,7 +26,7 @@ let rename_value_inside_module s new_name=
    let hm=German_vague_string.to_module module_name 
    and path=German_vague_string.to_path module_name in 
    let temp1=German_wrapper.data() in
-   let md1=Option.find (fun md->Modulesystem_data.name md=hm) temp1 in
+   let md1=Option.unpack (Md_list.find_module_registration temp1 hm) in
    let temp2=(Modulesystem_data.all_ancestors md1)@[hm] in
    let all_files=Image.image  (fun hm2->
    	 Mlx_ended_absolute_path.to_path(Mlx_ended_absolute_path.join hm2 Ocaml_ending.Ml)

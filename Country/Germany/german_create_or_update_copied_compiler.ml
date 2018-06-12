@@ -5,7 +5,7 @@
 *)
 
 let prepare destdir=
-  let l1=Alaskan_data.all_short_paths (German_wrapper.data()) in
+  let l1=Md_list.all_short_paths (German_wrapper.data()) in
   let l2=Image.image (
     fun ap->
       let s_ap=Absolute_path.to_string ap in

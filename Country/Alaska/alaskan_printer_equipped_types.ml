@@ -6,18 +6,6 @@
 
 *)
 
-let from_data mdata=
-   Option.filter_and_unpack (
-  	fun md->
-   	let hm=Modulesystem_data.name md
-   	and ap=Modulesystem_data.principal_path md in
-   	let text=Io.read_whole_file ap in
-   	if (Substring.is_a_substring_of
-     ("let "^"print_out ") text)&&
-    	(not(Half_dressed_module.is_optional hm))
-   	then Some(hm)
-  	else None
-   ) mdata;;
 
 let instructions printer_equipped_types=
   let temp2=List.rev_map (

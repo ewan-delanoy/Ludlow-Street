@@ -374,8 +374,6 @@ let update_anclibdir changer l_data x=
 
    };;       
        
-let is_optional x=Half_dressed_module.is_optional(x.name);;
-let is_not_optional x=not(is_optional x);;
 
 let is_executable x=Half_dressed_module.is_executable(x.name);;
 let is_not_executable x=not(is_executable x);;

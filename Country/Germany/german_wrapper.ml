@@ -7,7 +7,7 @@
 
 module Private=struct
 
-let data_ref=ref([]:Modulesystem_data.t list);;
+let data_ref=ref(Md_list.empty_one);;
 let directories_ref=ref([]:Subdirectory.t list);;
 let up_to_date_targets_ref=ref([]:Ocaml_target.t list);;
 let outside_files_ref=ref([]:Absolute_path.t list);;
@@ -184,23 +184,6 @@ let forget_module ap=
 	Private.printer_equipped_types_ref:= pe_types;
   );;
 
-   
-    
- let make_module_optional old_name=
-    let _=Private.recompile() in
-    let ((new_mdata,new_tgts),(old_files,new_files))=
-      German_make_module_optional.on_targets (data(),(!Private.up_to_date_targets_ref)) 
-     old_name in
-     let (ndel,ncre)=German_created_or_deleted.update 
-        (old_files,new_files)
-        ((!Private.recently_deleted_ref,!Private.recently_created_ref)) in   
-       (
-         Private.data_ref:=new_mdata;
-         Private.up_to_date_targets_ref:=new_tgts;
-         Private.recently_deleted_ref:=ndel;
-         Private.recently_created_ref:=ncre;
-         Private.save_all();
-       );;          
 
 let outside_files ()=(!Private.outside_files_ref);;
 let outside_directories ()=(!Private.outside_directories_ref);;
@@ -221,7 +204,7 @@ let refresh ()=
        (Some(German_constant.main_toplevel_name))
        old_outsiders
    in 
-  let new_dirs=Alaskan_data.compute_subdirectories_list new_mdata in
+  let new_dirs=Md_list.compute_subdirectories_list new_mdata in
   let new_diff=German_delchacre_from_scratch.dfs(new_mdata,new_outsiders) in
   
   (
@@ -247,7 +230,7 @@ let register_mlx_file mlx=
    let (ndel,ncre)=German_created_or_deleted.update 
         ([],[Mlx_ended_absolute_path.short_path mlx])
         ((!Private.recently_deleted_ref,!Private.recently_created_ref))    in
-   let default_top=(German_data.default_toplevel new_mdata) in     
+   let default_top=(Md_list.default_toplevel German_constant.main_toplevel_name  new_mdata) in     
    let (_,(new_mdata2,new_tgts2,_))=
  	  Alaskan_make_ocaml_target.make 
  	   German_constant.root
@@ -300,7 +283,7 @@ let register_mlx_file mlx=
     let _=Private.recompile() in
     let _=Rename_endsubdirectory.in_unix_world (old_subdir,new_subdirname) in
     let pair=(old_subdir,new_subdirname) in
-    let new_data=German_rename_directory.on_data pair (!Private.data_ref)
+    let new_data=Md_list.rename_directory_on_data pair (!Private.data_ref)
     and new_dirs=German_rename_directory.on_subdirectories pair (!Private.directories_ref)
     and new_tgts=German_rename_directory.on_up_to_date_targets pair (!Private.up_to_date_targets_ref)
     and new_ofiles=German_rename_directory.on_outside_files pair (!Private.outside_files_ref)
@@ -341,7 +324,7 @@ let register_mlx_file mlx=
 let reposition_module hm (l_before,l_after)=
     let _=Private.recompile() in
     let new_mdata=
-      Alaskan_reposition_module.rpm (data()) hm (l_before,l_after) in
+      Md_list.reposition_module (data()) hm (l_before,l_after) in
        (
          Private.data_ref:=new_mdata;
          Private.save_all();
@@ -422,7 +405,7 @@ let up_to_date_targets ()=(!Private.up_to_date_targets_ref);;
    
 
 let view_definition s=
-  let opt=Find_value_definition.fvd (!(Private.data_ref)) s in
+  let opt=Md_list.find_value_definition (!(Private.data_ref)) s in
   if opt=None then () else
   let itm=Option.unpack opt in
   let text="\n\n"^(Ocaml_gsyntax_item.whole itm)^"\n\n" in

@@ -37,7 +37,7 @@ let unit_make dir (bowl,(mdata,tgts,rejected_ones)) tgt=
         match Ocaml_target.ml_from_lex_or_yacc_data tgt with
        None->(true,(mdata,tgts2,rejected_ones))
        |Some(mlx)->
-                   let mdata2=Alaskan_force_modification_time.update dir mdata mlx in
+                   let mdata2=Md_list.force_modification_time dir mdata mlx in
                    (true,(mdata2,tgts2,rejected_ones))        
   else let rejected_ones2=(
         match Ocaml_target.main_module tgt with
