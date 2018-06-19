@@ -179,29 +179,6 @@ let command_for_debuggable dir mdata hm=
             "mv "^s_fhm^".ocaml_debuggable "^s_root^"_build/"
           ];;          
   
-let command_for_toplevel dir mdata name l=
-          let temp1=Image.image (fun hm->(hm,Md_list.find_module_registration mdata hm)) l  in
-          let temp2=List.filter (fun x->snd(x)=None) temp1 in
-          if temp2<>[]
-          then let temp3=Image.image fst temp2 in
-               raise(Unregistered_modules_in_toplevel(name,temp3))
-          else
-          let l_dt=Image.image (fun (_,y)->Option.unpack y) temp1 in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
-          let long_temp4=Image.image (fun fd->
-             let hm=Modulesystem_data.name fd in
-             let s_hm=(Half_dressed_module.uprooted_version hm) in
-             let short_s_hm=Father_and_son.son s_hm '/' in
-             if Modulesystem_data.ml_present fd 
-             then s_root^"_build/"^short_s_hm^".cmo"
-             else " "
-          ) l_dt in 
-          let long_s_lhm=String.concat " " long_temp4 in
-          let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs_for_several false l_dt in
-          [
-          "ocamlmktop "^dirs_and_libs^" -o "^s_root^name^" "^long_s_lhm^" ";
-          "mv "^s_root^name^" "^s_root^"_build/";
-          ];;   
  
 let command_for_ocaml_target dir mdata tgt=
    match tgt with
@@ -214,8 +191,7 @@ let command_for_ocaml_target dir mdata tgt=
  |Ocaml_target.CMA(hm)->command_for_cma dir mdata hm
  |Ocaml_target.CMX(hm)->command_for_cmx dir mdata hm
  |Ocaml_target.EXECUTABLE(hm)->command_for_executable dir mdata hm
- |Ocaml_target.DEBUGGABLE(hm)->command_for_debuggable dir mdata hm
- |Ocaml_target.TOPLEVEL(name,l)->command_for_toplevel dir mdata name l;;
+ |Ocaml_target.DEBUGGABLE(hm)->command_for_debuggable dir mdata hm;;
    
 
  

@@ -15,7 +15,11 @@ let current_directories()=
     fun x->x<>Subdirectory.SD ""
   ) (current_registered_directories()) in
   (Subdirectory.SD "")::(temp1@
-  [Subdirectory.SD "Remembered";Subdirectory.SD "Forgotten"]);;
+  [
+    German_constant.kept_up_to_date_but_not_registered;
+    German_constant.not_registered_any_more;
+    German_constant.old_and_hardly_reusable
+  ]);;
 
 let fl=German_vague_string.to_path;; 
 
@@ -57,8 +61,7 @@ let regi_without_backup x=
   let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
   German_wrapper.register_mlx_file mlx;;
 
-let rego_without_backup x=
-   German_wrapper.register_outside_file (Absolute_path.of_string x);;
+
 
 let ureg_without_backup x=
   if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mli";".mll";".mly"] 
@@ -123,7 +126,7 @@ let rsh_without_backup=German_wrapper.refresh;;
 
 
 let am ()=Md_list.all_naked_modules (German_wrapper.data());;
-    
+  
     
 let tw x=
   let hm=hmx x in
@@ -131,8 +134,8 @@ let tw x=
   let fn=(Directory_name.connectable_to_subpath(cdir))^s_hm in    
   Sys.command ("open -a /Applications/TextWrangler.app "^fn^".ml");;
 
-let oim ()=Md_list.outdated_interesting_modules (German_wrapper.data());;
-let df () =Md_list.deletable_files (German_wrapper.data());;
+
+
 let ucc ()=German_create_or_update_copied_compiler.ucc 
  (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
@@ -146,7 +149,6 @@ let fg x=(fg_without_backup x;German_wrapper.backup None);;
 let regi x=(regi_without_backup x;German_wrapper.backup None);;
 let rndir p=(German_wrapper.rename_directory p;reco());;
 
-let rego x=(rego_without_backup x;reco());;
 let relo x y=(relo_without_backup x y;reco());;
 let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=(rsh_without_backup ();German_wrapper.backup None);;

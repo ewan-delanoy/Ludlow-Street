@@ -29,13 +29,12 @@ let compute_subdirectories_list (Md_list_t.L mdata)=
     let temp3=Ordered_string.forget_order temp2 in
     Image.image Subdirectory.of_string temp3;;
 
-let default_toplevel main_toplevel_name (Md_list_t.L mdata)=
+let everyone_except_the_debugger (Md_list_t.L mdata)=
       let temp3=Image.image Modulesystem_data.name mdata in
       let temp4=List.filter (fun hm->
          Half_dressed_module.uprooted_version(hm)<>Debugged_name.debugger_name
-      ) temp3
-      in
-      Ocaml_target.toplevel main_toplevel_name temp4;; 
+      ) temp3 in
+      temp4;;     
 
 let find_module_registration (Md_list_t.L mdata) hm=
     Option.seek(fun a->Modulesystem_data.name a=hm) mdata;;   
@@ -279,12 +278,12 @@ let force_modification_time dir (Md_list_t.L mdata) mlx=
        else let new_dt=Modulesystem_data.force_modification_time dt edg new_val in
        Md_list_t.L(before@(new_dt::after));;
 
-let default_targets main_toplevel_name (Md_list_t.L mdata)=
-        let temp1=Image.image Ocaml_target.from_modulesystem_data mdata 
-        and temp2=Image.image Modulesystem_data.name mdata in
-        let temp3=List.flatten temp1  in
-        temp3@[Ocaml_target.toplevel main_toplevel_name temp2]
-        ;;
+let all_modules (Md_list_t.L mdata)=   
+  Image.image Modulesystem_data.name mdata;;    
+
+let usual_targets (Md_list_t.L mdata)=
+    let temp1=Image.image Ocaml_target.from_modulesystem_data mdata in
+    List.flatten temp1;;
     
       
 exception Already_registered_file of Mlx_ended_absolute_path.t;;  
@@ -537,7 +536,6 @@ let rename_module_on_monitored_modules wmdata old_name new_name=
          let temp4=Option.filter_and_unpack (
            fun s->try Some(Absolute_path.of_string s) with _->None
          ) [
-             German_constant.name_for_pervasivesfile;
              German_constant.name_for_printersfile;
            ] in
          
@@ -605,32 +603,6 @@ let files_containing_string mdata some_string=
   List.filter (fun ap->Substring.is_a_substring_of 
     some_string (Io.read_whole_file ap)) temp1;;
 
-let deletable_files wmdata=
-      let  (Md_list_t.L mdata)=wmdata in
-      let temp2=Image.image Modulesystem_data.name mdata in
-      let is_interesting=(fun hm->List.mem 
-         (Half_dressed_module.uprooted_version hm) 
-         Interesting_modules.list
-      ) in
-      let temp3=List.filter (
-        fun hm->
-        (not(is_interesting hm))
-        &&
-        (List.for_all(fun hm2->not(is_interesting hm2)) (below wmdata  hm))
-      ) temp2 in
-      temp3;;    
-
-let outdated_interesting_modules wmdata=
-    let  (Md_list_t.L mdata)=wmdata in
-        List.filter (
-             fun s->match Option.seek(
-               fun md->Half_dressed_module.uprooted_version(Modulesystem_data.name md)=s
-             ) mdata with
-             None->true
-             |Some(md0)->
-               let hm0=Modulesystem_data.name md0 in
-              (below wmdata hm0)<>[]
-) Interesting_modules.list;;
 
 let system_size (Md_list_t.L mdata)=List.length(mdata);;
 

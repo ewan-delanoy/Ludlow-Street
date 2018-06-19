@@ -16,7 +16,7 @@ let sd (mdata,tgts)=
 	let hm=Half_dressed_module.of_path_and_root ap dir in
 	let mdata2=Md_list.recompute_module_info mdata hm in
 	let tgt=Ocaml_target.debuggable hm in
-	let answer=Alaskan_make_ocaml_target.make_nontoplevel German_constant.root
+	let answer=Alaskan_make_ocaml_target.make German_constant.root
 	(mdata2,tgts,[]) tgt in
 	let msg=(
 	  if (fst answer)

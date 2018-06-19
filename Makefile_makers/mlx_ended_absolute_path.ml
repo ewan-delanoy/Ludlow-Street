@@ -99,16 +99,6 @@ let do_file_displacing mlx new_subdir=
 let rename_endsubdirectory (subdir,newdirname) (MLX(edg,s,dir))=
   MLX(edg,Rename_endsubdirectory.re (subdir,newdirname) s,dir);;
   
-let is_optional x=Half_dressed_module.is_optional(half_dressed_core x);;  
-let is_archived x=Half_dressed_module.is_archived(half_dressed_core x);;  
-
-let complete_ls dir=
-  let temp1=Directory_name.connectable_to_subpath dir in
-  let temp2=More_unix.quick_beheaded_complete_ls temp1 in
-  let temp3=Option.filter_and_unpack(
-     fun s->try_from_string_and_root s dir
-  ) temp2 in
-  List.filter (fun mlx->not(is_archived mlx)) temp3;;
 
 let to_absolute_path mlx=
   let s=short_path mlx

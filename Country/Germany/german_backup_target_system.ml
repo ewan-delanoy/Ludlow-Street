@@ -6,7 +6,7 @@
 
 
 
-let github_after_backup=ref(false);;
+let github_after_backup=ref(true);;
 
 let commands_for_backup diff=
    if Dircopy_diff.is_empty diff

@@ -6,6 +6,7 @@
 
 *)
 
+module Private=struct
 
 let display_circular_dependencies printer l cycles= 
   if cycles=[]
@@ -18,23 +19,45 @@ let display_circular_dependencies printer l cycles=
   let temp2="\n\n The following cycles have been detected : "^(String.concat "\n\n" temp1) in
   (print_string temp2;flush stdout);;
  
+let init_dir=
+  Subdirectory.connectable_to_subpath 
+  (German_constant.kept_up_to_date_but_not_registered);;
+
+let copy_special_files s_main_dir=
+  let dname=Debugged_name.debugger_name in
+  let _=Image.image(
+   fun s->
+    Unix_command.uc 
+      ("mkdir -p "^s_main_dir^"/"^(Subdirectory.without_trailing_slash s))
+  ) [
+       German_constant.kept_up_to_date_but_not_registered;
+       German_constant.temporary;
+    ]
+  in
+  let _=Image.image (fun s->
+    Unix_command.uc ("touch "^s_main_dir^"/"^s)
+     ) ([dname^".ml";
+       ".ocamlinit"]
+       @
+       German_constant.up_to_date_but_not_registered_files
+    ) in ();;
+
+let put_default_content_in_special_files s_main_dir=
+  (Io.overwrite_with 
+  (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
+  (
+  "\n#use\""^German_constant.path_for_loadingsfile^"\""^Double_semicolon.ds^
+  "\n#use\""^German_constant.path_for_printersfile^"\""^Double_semicolon.ds^
+  "\nopen Needed_values;"^
+  "\ninitialize_toplevel();;"
+   );
+  Io.overwrite_with 
+  (Absolute_path.of_string (s_main_dir^"/"^init_dir^"/my_printers.ml"))
+  "\n\n (*Registered printers start here *) \n\n (*Registered printers end here *) \n\n");; 
+  
 
 let select_good_files s_main_dir=
-   let ap1=Absolute_path.of_string s_main_dir in
-   let _=Image.image (fun s->
-     Unix_command.uc ("touch "^s_main_dir^"/"^s)
-      ) [Debugged_name.debugger_name^".ml";"neptu.ml";
-         "my_loadings.ml";"my_printers.ml";"my_pervasives.ml";".ocamlinit"]   in
-   let _=Io.overwrite_with 
-        (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
-        (
-        "\n#use\"my_loadings.ml\""^Double_semicolon.ds^
-        "\n#use\"my_printers.ml\""^Double_semicolon.ds^
-        "\n#use\"my_pervasives.ml\""^Double_semicolon.ds^"\n"
-         ) in   
-   let _=Io.overwrite_with 
-        (Absolute_path.of_string (s_main_dir^"/my_printers.ml"))
-        "\n\n (*Registered printers start here *) \n\n (*Registered printers end here *) \n\n" in        
+   let ap1=Absolute_path.of_string s_main_dir in        
    let temp1=More_unix.complete_ls (Directory_name.of_string s_main_dir) in
    let s_ap1=Absolute_path.to_string ap1 in
    let n1=String.length(s_ap1) in
@@ -44,7 +67,15 @@ let select_good_files s_main_dir=
      let t=Cull_string.cobeginning n1 s in
      (List.exists (fun edg->Substring.ends_with s edg) [".ml";".mli";".mll";".mly"])
      &&
-     (List.for_all (fun beg->not(Substring.begins_with t beg)) ["Remembered/";"Forgotten/"])
+     (List.for_all (fun beg->not(Substring.begins_with t beg)) 
+     (Image.image Subdirectory.connectable_to_subpath 
+      [
+        German_constant.kept_up_to_date_but_not_registered;
+        German_constant.not_registered_any_more;
+        German_constant.old_and_hardly_reusable;
+        German_constant.temporary;
+      ]
+     ))
      &&
      (* When a mll or mly is present, the ml will automatically be registered also,
         see the alaskan_register_mlx_file module. *)
@@ -55,11 +86,8 @@ let select_good_files s_main_dir=
      ))
      &&
      (List.for_all (fun edg->not(Substring.ends_with s edg) ) 
-     ["neptu.ml";
-     "my_loadings.ml";
-     "my_printers.ml";
-     (*"debugger.ml";*)"my_pervasives.ml";
-     ".ocamlinit"])
+     [".ocamlinit"]
+     )
    ) in
    List.filter selector temp1;;
    
@@ -138,34 +166,22 @@ let from_prepared_list dir l=
    ) l in
    Alaskan_try_to_register.mlx_files Md_list.empty_one temp1;;
 
+end;;   
 
-let usual_outsiders=
-    [
-      "neptu.ml";
-      "my_loadings.ml";
-      "my_pervasives.ml";
-      "my_printers.ml";
-    ];;
-
-let from_main_directory dir opt_topl_name special_outsiders=
+let from_main_directory dir =
 	let old_s=Directory_name.connectable_to_subpath(dir) in
-	let s1=Cull_string.coending 1 old_s in (* mind the trailing slash *)
-	let temp1=select_good_files s1 in
-    let temp2=clean_list_of_files dir temp1 in
-    let temp3=compute_dependencies temp2 in
-    let (failures,mdata1)=from_prepared_list dir temp3 in
+  let s_main_dir=Cull_string.coending 1 old_s in (* mind the trailing slash *)
+  let _=
+    (Private.copy_special_files s_main_dir;
+     Private.put_default_content_in_special_files s_main_dir 
+    ) in
+	let temp1=Private.select_good_files s_main_dir in
+    let temp2=Private.clean_list_of_files dir temp1 in
+    let temp3=Private.compute_dependencies temp2 in
+    let (failures,mdata1)=Private.from_prepared_list dir temp3 in
     let pre_preqt=Md_list.printer_equipped_types_from_data mdata1 in
-    let topl_name=(if opt_topl_name=None then "ecaml" else Option.unpack opt_topl_name) in
-    let topl=(Md_list.default_toplevel topl_name mdata1) in
- 	let (mdata2,new_tgts2,rejected_ones2)=snd(Alaskan_make_ocaml_target.make dir (mdata1,[],[]) topl) in
-   let preqt=Image.image (fun hm->(hm,not(List.mem hm rejected_ones2))) pre_preqt in
-   let temp2=List.filter (fun x->not(List.mem x special_outsiders)) usual_outsiders in 
- 	let old_outsiders=temp2@special_outsiders in
- 	let new_outsiders=Option.filter_and_unpack (fun t->
- 	   let s_ap=Directory_name.join dir t in
- 	   if Sys.file_exists s_ap
- 	   then Some(Absolute_path.of_string s_ap)
- 	   else None
- 	) old_outsiders in
- 	(mdata2,new_tgts2,new_outsiders,preqt);;
+    let (mdata2,new_tgts2,rejected_ones2)=Alaskan_make_ocaml_target.feydeau
+       dir mdata1 []  in
+   let preqt=Image.image (fun hm->(hm,not(List.mem hm rejected_ones2))) pre_preqt in 
+ 	(mdata2,new_tgts2,preqt);;
 

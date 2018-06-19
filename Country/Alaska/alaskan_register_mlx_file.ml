@@ -16,21 +16,18 @@ let on_targets (old_mdata,old_dirs,old_tgts) mlx=
  let new_dirs=
  (if List.mem new_dir old_dirs then old_dirs else old_dirs@[new_dir] )
  and new_tgts=
- ((*
-       The only outdated targets are the main toplevel, 
-       and targets corresponding to an identical module
+ (*
+       The only outdated targets are the targets 
+       corresponding to an identical module
        (for example when a mll or mly is added to
        an already registered ml) 
         *)
        List.filter (
-        fun tgt->match Ocaml_target.toplevel_name tgt with
-          None->(match Ocaml_target.main_module tgt with
+        fun tgt->match Ocaml_target.main_module tgt with
                  None->true
                  |Some(hm2)->hm2<>hm
-                )
-          |Some(name)->false
        ) old_tgts
-  ) in
+  in
   (new_mdata,new_dirs,new_tgts);; 
  
 

@@ -22,8 +22,7 @@ NO_DEPENDENCIES of Mlx_ended_absolute_path.t
 |CMA of Half_dressed_module.t
 |CMX of Half_dressed_module.t
 |EXECUTABLE of Half_dressed_module.t
-|DEBUGGABLE of Half_dressed_module.t
-|TOPLEVEL of target_name*(Half_dressed_module.t list);;
+|DEBUGGABLE of Half_dressed_module.t;;
 
 
 let to_string =function
@@ -36,8 +35,7 @@ NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
 |CMA(hm)->(Half_dressed_module.uprooted_version hm)^".cma"
 |CMX(hm)->(Half_dressed_module.uprooted_version hm)^".cmx"
 |EXECUTABLE(hm)->(Half_dressed_module.uprooted_version hm)^".caml_executable"
-|DEBUGGABLE(hm)->(Half_dressed_module.uprooted_version hm)^".caml_debuggable"
-|TOPLEVEL(name,l)->name;;
+|DEBUGGABLE(hm)->(Half_dressed_module.uprooted_version hm)^".caml_debuggable";;
 
 let hm_to_na hm=Naked_module.to_string(Half_dressed_module.naked_module hm);;
 
@@ -52,8 +50,7 @@ let uprooted_filename_for_realized_target tgt=
  |CMA(hm)->"_build/"^(hm_to_na hm)^".cma"
  |CMX(hm)->"_build/"^(hm_to_na hm)^".cmx"
  |EXECUTABLE(hm)->"_build/"^(hm_to_na hm)^".caml_executable"
- |DEBUGGABLE(hm)->"_build/"^(hm_to_na hm)^".caml_debuggable"
- |TOPLEVEL(name,l)->name;;
+ |DEBUGGABLE(hm)->"_build/"^(hm_to_na hm)^".caml_debuggable";;
 
 let test_target_existence dir tgt=
 let d=Directory_name.connectable_to_subpath dir in
@@ -70,24 +67,7 @@ DEBUGGABLE(_)->true
 let is_not_a_debuggable x=not(is_a_debuggable x);; 
 
 
-let toplevel_data=function
-NO_DEPENDENCIES(mlx)->None
-|ML_FROM_MLL(hm)-> None
-|ML_FROM_MLY(hm)-> None 
-|CMI(hm)-> None
-|CMO(hm)-> None
-|DCMO(hm)-> None
-|CMA(hm)-> None
-|CMX(hm)-> None
-|EXECUTABLE(hm)-> None
-|DEBUGGABLE(hm)-> None
-|TOPLEVEL(name,l)->Some(name,l);;
 
-let toplevel_name tgt=match toplevel_data tgt with
-None->None |Some(name,_)->Some(name);;
-
-let is_a_toplevel tgt=match toplevel_data tgt with
-None->false |Some(_,_)->true;;
 
 let has_dependencies=function
 NO_DEPENDENCIES(_)->false
@@ -107,8 +87,7 @@ NO_DEPENDENCIES(mlx)->Some(Mlx_ended_absolute_path.half_dressed_core mlx)
 |CMA(hm)-> Some(hm)
 |CMX(hm)-> Some(hm)
 |EXECUTABLE(hm)-> Some(hm)
-|DEBUGGABLE(hm)-> Some(hm)
-|TOPLEVEL(name,l)->None;;
+|DEBUGGABLE(hm)-> Some(hm);;
 
 
 let to_shortened_string =function
@@ -128,8 +107,7 @@ NO_DEPENDENCIES(mlx)->
 |CMA(hm)->(Half_dressed_module.to_shortened_string hm)^".cma"
 |CMX(hm)->(Half_dressed_module.to_shortened_string hm)^".cmx"
 |EXECUTABLE(hm)->(Half_dressed_module.to_shortened_string hm)^".caml_executable"
-|DEBUGGABLE(hm)->(Half_dressed_module.to_shortened_string hm)^".caml_debuggable"
-|TOPLEVEL(name,l)->name;;
+|DEBUGGABLE(hm)->(Half_dressed_module.to_shortened_string hm)^".caml_debuggable";;
 
 
 let no_dependencies mlx=NO_DEPENDENCIES(mlx);;
@@ -142,7 +120,6 @@ let cma hm=CMA(hm);;
 let cmx hm=CMX(hm);;
 let executable hm=EXECUTABLE(hm);; 
 let debuggable hm=DEBUGGABLE(hm);; 
-let toplevel name l=TOPLEVEL(name,l);;
 
 let direct_connection hm0=function
 NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)=hm0
@@ -154,9 +131,7 @@ NO_DEPENDENCIES(mlx)->(Mlx_ended_absolute_path.half_dressed_core mlx)=hm0
 |CMA(hm)-> hm=hm0
 |CMX(hm)-> hm=hm0
 |EXECUTABLE(hm)-> hm=hm0
-|DEBUGGABLE(hm)-> hm=hm0
-|TOPLEVEL(name,l)->List.mem hm0 l;;
-
+|DEBUGGABLE(hm)-> hm=hm0;;
 
 
 let ml_from_lex_or_yacc_data=function 
@@ -174,16 +149,10 @@ NO_DEPENDENCIES(_)->0
 |CMA(_)
 |CMX(_)->2
 |EXECUTABLE(_)
-|DEBUGGABLE(_)
-|TOPLEVEL(_,_)->3;;
+|DEBUGGABLE(_)->3;;
 
-let still_up_to_date_test hms_to_be_updated=function
-TOPLEVEL(name,l_hm)->List.for_all
-                (
-                  fun hm2->
-                  not(List.mem hm2 hms_to_be_updated)
-                ) l_hm
-|tgt2->not(List.mem (Option.unpack(main_module tgt2)) hms_to_be_updated);;
+let still_up_to_date_test hms_to_be_updated tgt2=
+   not(List.mem (Option.unpack(main_module tgt2)) hms_to_be_updated);;
 
 let  still_up_to_date_targets hms_to_be_updated l=
 List.filter (
@@ -219,10 +188,7 @@ no_dependencies(Mlx_ended_absolute_path.rename_endsubdirectory (old_subdir,new_s
 |CMA(hm)->cma(on_half_dressed_module (old_subdir,new_subdirname) hm)
 |CMX(hm)->cmx(on_half_dressed_module (old_subdir,new_subdirname) hm)
 |EXECUTABLE(hm)->executable(on_half_dressed_module (old_subdir,new_subdirname) hm)
-|DEBUGGABLE(hm)->debuggable(on_half_dressed_module (old_subdir,new_subdirname) hm)
-|TOPLEVEL(name,l)->
-      let new_l=Image.image (on_half_dressed_module (old_subdir,new_subdirname)) l in
-      TOPLEVEL(name,new_l);;
+|DEBUGGABLE(hm)->debuggable(on_half_dressed_module (old_subdir,new_subdirname) hm);;
 
 
 
@@ -240,9 +206,7 @@ NO_DEPENDENCIES(mlx)->["nodep";Mlx_ended_absolute_path.archive mlx]
 |CMA(hm)->  ["cma";Half_dressed_module.archive hm]
 |CMX(hm)->  ["cmx";Half_dressed_module.archive hm]
 |EXECUTABLE(hm)-> ["exe";Half_dressed_module.archive hm]
-|DEBUGGABLE(hm)-> ["dbg";Half_dressed_module.archive hm]
-|TOPLEVEL(name,l)->["top";name;
-Nonblank.make(String.concat industrial_separator1 (Image.image Half_dressed_module.archive l))];;
+|DEBUGGABLE(hm)-> ["dbg";Half_dressed_module.archive hm];;
 
 
 
@@ -264,9 +228,5 @@ if c="cma"  then          CMA(Half_dressed_module.unarchive ms) else
 if c="cmx"  then          CMX(Half_dressed_module.unarchive ms) else
 if c="exe"  then   EXECUTABLE(Half_dressed_module.unarchive ms) else
 if c="dbg"  then   DEBUGGABLE(Half_dressed_module.unarchive ms) else
-if c="top" 
-then let v1=Str.split (Str.regexp_string industrial_separator1) (Nonblank.decode(List.nth l1  2)) in 
-    TOPLEVEL(ms,Image.image Half_dressed_module.unarchive v1) 
-else
 raise(Unrecognized_constructor(c));;
 

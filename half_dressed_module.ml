@@ -65,23 +65,6 @@ let of_path_and_root ap dir=
           naked_module     =Father_and_son.son s '/';
     }  ;;    
 
-let is_optional x=
-  let s=uprooted_version x in
-  if String.length(s)<9 then false else
-  String.sub s 0 9="Optional/";;
-
-let is_forgotten x=
-  let s=uprooted_version x in
-  if String.length(s)<10 then false else
-  String.sub s 0 10="Forgotten/";;
-
-
-let is_remembered x=
-  let s=uprooted_version x in
-  if String.length(s)<11 then false else
-  String.sub s 0 11="Remembered/";;
-
-let is_archived hm=(is_optional hm)||(is_forgotten hm)||(is_remembered hm);;
 
 let is_executable x=
   let s=uprooted_version x in 

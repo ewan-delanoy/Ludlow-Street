@@ -6,13 +6,8 @@
 
 let prepare destdir=
   let l1=Md_list.all_short_paths (German_wrapper.data()) in
-  let l2=Image.image (
-    fun ap->
-      let s_ap=Absolute_path.to_string ap in
-      Directory_name.cut_beginning German_constant.root s_ap
-  ) (German_wrapper.outside_files()) in
   let main_diff=Prepare_dircopy_update.compute_diff 
-        (German_constant.root,l1@l2) destdir in
+        (German_constant.root,l1) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
 
 let file_for_backup="Country/Germany/german_backup_target_system.ml";;
@@ -30,17 +25,27 @@ let prepare_special_file destdir filename=
   (replacement_for_special_file destdir filename)
   the_file;;
 
+let init_dir=
+    Subdirectory.connectable_to_subpath 
+    (German_constant.kept_up_to_date_but_not_registered);;
 
-    
+let up_to_date_but_not_registered_files=
+   [
+      German_constant.path_for_loadingsfile;
+      German_constant.path_for_printersfile;
+   ];;
+
 let ucc destdir=
   let s_dir=Directory_name.connectable_to_subpath destdir in 
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
-    ["my_pervasives.ml";"my_printers.ml";"my_loadings.ml";
-     "Country/Germany/german_constant.ml";file_for_backup]
+    (
+      up_to_date_but_not_registered_files@
+    ["Country/Germany/german_constant.ml";file_for_backup]
+    ) 
    in 
-  Alaskan_create_target_system.from_main_directory destdir None [];;
+  Alaskan_create_target_system.from_main_directory destdir;;
        
        
 

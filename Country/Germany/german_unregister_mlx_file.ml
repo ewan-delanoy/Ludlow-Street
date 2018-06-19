@@ -18,10 +18,7 @@
    	match Ocaml_target.main_module tgt with
    	None->false |Some(hm2)->hm2<>hm
   ) old_tgts in
-  let default_top=(Md_list.default_toplevel German_constant.main_toplevel_name  new_mdata) in
-  let (new_mdata2,new_tgts2,_)=
-    snd(Alaskan_make_ocaml_target.make
-      German_constant.root
-     (new_mdata,new_tgts,[]) default_top) in
+  let (new_mdata2,new_tgts2,_)=Alaskan_make_ocaml_target.feydeau
+  German_constant.root new_mdata new_tgts  in
   (new_mdata2,new_dirs,new_tgts2);;   
   

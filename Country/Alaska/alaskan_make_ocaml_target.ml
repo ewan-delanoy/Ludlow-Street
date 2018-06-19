@@ -9,7 +9,7 @@
 let cmd_for_tgt=Alaskan_command_for_ocaml_target.command_for_ocaml_target;;
 
 let ingr_for_tgt =Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target;;
-let ingr_for_top =Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_unprepared_toplevel;;
+let ingr_for_top =Alaskan_ingredients_for_ocaml_target.marked_ingredients_for_full_compilation;;
 
 
 let is_up_to_date dir tgts tgt=
@@ -46,17 +46,15 @@ let unit_make dir (bowl,(mdata,tgts,rejected_ones)) tgt=
         )  in
        (false,(mdata,tgts,rejected_ones2));;
 
-let make_nontoplevel dir (mdata,tgts,rejected_ones) tgt=
+let make dir (mdata,tgts,rejected_ones) tgt=
   let l=ingr_for_tgt mdata tgt in
   List.fold_left (unit_make dir)  (true,(mdata,tgts,rejected_ones)) l;;
   
-exception Ending_for_toplevel_pusher;;  
+exception Ending_for_full_compilation_pusher;;  
 
-
-
-let pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
+let pusher_for_full_compilation dir (successful_ones,to_be_treated,ts)=
   match to_be_treated with
-  []->raise(Ending_for_toplevel_pusher)
+  []->raise(Ending_for_full_compilation_pusher)
   |(tgt,is_an_ending_or_not)::others->
   let (bowl2,ts2)=unit_make dir (true,ts) tgt in
   if bowl2
@@ -97,21 +95,19 @@ let pusher_for_toplevel dir (successful_ones,to_be_treated,ts)=
        ) in
        (successful_ones,remains,(mdata2,tgts2,rejected_ones2));; 
 
-let rec  iterator_for_toplevel dir (successful_ones,to_be_treated,ts)=
+let rec  iterator_for_full_compilation dir (successful_ones,to_be_treated,ts)=
   match to_be_treated with
   []->(List.rev successful_ones,ts)
-  |_->iterator_for_toplevel dir (pusher_for_toplevel dir (successful_ones,to_be_treated,ts));;
+  |_->iterator_for_full_compilation dir (pusher_for_full_compilation dir (successful_ones,to_be_treated,ts));;
 
   
-let make_toplevel dir ts name l=
-    let (mdata,_,_)=ts in
-    let temp1=ingr_for_top mdata name l in
-    let (successful_ones,ts2)=iterator_for_toplevel dir ([],temp1,ts) in
-    let new_toplevel=Ocaml_target.toplevel name successful_ones  in
-    unit_make dir (true,ts2) new_toplevel;;
+
  
-let make dir ts tgt=
-  match Ocaml_target.toplevel_data tgt with
-  None->make_nontoplevel dir ts tgt
-  |Some(name,l)->make_toplevel dir ts name l;; 
- 
+let feydeau dir old_mdata old_tgts=
+  let l=Md_list.everyone_except_the_debugger old_mdata in
+  let ts=(old_mdata,old_tgts,[]) in
+  let temp1=ingr_for_top old_mdata "ecaml" l in
+  let (successful_ones,ts2)=iterator_for_full_compilation dir ([],temp1,ts) in
+  ts2;;
+
+  

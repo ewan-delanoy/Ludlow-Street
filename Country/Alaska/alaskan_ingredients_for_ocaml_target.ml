@@ -19,7 +19,7 @@ exception Unregistered_ml_from_mll of Half_dressed_module.t;;
 exception Unregistered_ml_from_mly of Half_dressed_module.t;;
 exception Unregistered_executable of Half_dressed_module.t;;
 exception Unregistered_debuggable of Half_dressed_module.t;;
-exception Unregistered_module_in_toplevel of string*(Half_dressed_module.t);;
+exception Unregistered_module of (Half_dressed_module.t);;
 exception NonMarkedIngredientsForToplevel of string;;
 
 
@@ -196,18 +196,15 @@ let ingredients_for_executable mdata hm=
 
 
   
-let ingredients_for_toplevel_element mdata name hm=
+let ingredients_for_usual_element mdata hm=
    let opt=Md_list.find_module_registration mdata hm in
-  if opt=None then raise(Unregistered_module_in_toplevel(name,hm)) else 
+  if opt=None then raise(Unregistered_module(hm)) else 
   let dt=Option.unpack opt in
   if (Modulesystem_data.mli_present dt)&&(not(Modulesystem_data.ml_present dt))
   then (ingredients_for_cmi mdata hm)@[Ocaml_target.cmi hm]
   else (ingredients_for_cmo mdata hm)@[Ocaml_target.cmo hm];;  
   
-let ingredients_for_toplevel mdata name l=
-  let temp1=Image.image (ingredients_for_toplevel_element mdata name) l in
-  Preserve_initial_ordering.preserve_initial_ordering temp1;;
-      
+  
 let ingredients_for_ocaml_target mdata=function
   Ocaml_target.NO_DEPENDENCIES(mlx)->[]
  |Ocaml_target.ML_FROM_MLL(hm)->ingredients_for_ml_from_mll mdata hm
@@ -218,13 +215,12 @@ let ingredients_for_ocaml_target mdata=function
  |Ocaml_target.CMA(hm)->ingredients_for_cma mdata hm
  |Ocaml_target.CMX(hm)->ingredients_for_cmx mdata hm
  |Ocaml_target.EXECUTABLE(hm)->ingredients_for_executable mdata hm
- |Ocaml_target.DEBUGGABLE(hm)->Md_list.ingredients_for_debuggable mdata hm
- |Ocaml_target.TOPLEVEL(name,l)->ingredients_for_toplevel mdata name l;;      
+ |Ocaml_target.DEBUGGABLE(hm)->Md_list.ingredients_for_debuggable mdata hm;;      
  
 
 
-let marked_ingredients_for_unprepared_toplevel mdata name l=
-  let temp1=Image.image (ingredients_for_toplevel_element mdata name) l in
+let marked_ingredients_for_full_compilation mdata name l=
+  let temp1=Image.image (ingredients_for_usual_element mdata) l in
   Preserve_initial_ordering.and_mark_endings temp1;;
 
 let module_dependency_for_nodep mlx=false;;
@@ -259,8 +255,7 @@ let module_dependency_for_ocaml_target mdata l_hm =function
  |Ocaml_target.CMA(hm)->module_dependency_for_cma mdata l_hm hm
  |Ocaml_target.CMX(hm)->module_dependency_for_cmx mdata l_hm hm
  |Ocaml_target.EXECUTABLE(hm)->module_dependency_for_executable mdata l_hm hm
- |Ocaml_target.DEBUGGABLE(hm)->module_dependency_for_debuggable mdata l_hm hm
- |Ocaml_target.TOPLEVEL(name,l)->module_dependency_for_toplevel mdata l_hm name l;;
+ |Ocaml_target.DEBUGGABLE(hm)->module_dependency_for_debuggable mdata l_hm hm;;
 
        
 
