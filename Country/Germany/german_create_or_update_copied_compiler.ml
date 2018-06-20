@@ -40,6 +40,9 @@ let ucc destdir=
   let s_dir=Directory_name.connectable_to_subpath destdir in 
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Unix_command.uc ("mkdir -p "^s_dir^knr) in
+  let _=Image.image (
+      fun s->"touch "^s_dir^s
+  ) up_to_date_but_not_registered_files in
   let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
     (
