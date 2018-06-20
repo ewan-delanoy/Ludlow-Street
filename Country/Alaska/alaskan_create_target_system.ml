@@ -48,7 +48,7 @@ let put_default_content_in_special_files s_main_dir=
   (
   "\n#use\""^German_constant.path_for_loadingsfile^"\""^Double_semicolon.ds^
   "\n#use\""^German_constant.path_for_printersfile^"\""^Double_semicolon.ds^
-  "\nopen Needed_values;"^
+  "\nopen Needed_values;;"^
   "\ninitialize_toplevel();;"
    );
   Io.overwrite_with 
