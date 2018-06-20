@@ -36,8 +36,10 @@ let up_to_date_but_not_registered_files=
    ];;
 
 let ucc destdir=
+  let knr=Subdirectory.without_trailing_slash(German_constant.kept_up_to_date_but_not_registered) in
   let s_dir=Directory_name.connectable_to_subpath destdir in 
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
+  let _=Unix_command.uc ("mkdir -p "^s_dir^knr) in
   let _=Image.image Unix_command.uc (prepare destdir) in
   let _=Image.image (prepare_special_file destdir)
     (

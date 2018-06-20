@@ -111,8 +111,10 @@ let rv_without_backup x y=German_values_in_modules.rename_string_or_value (Germa
 let srv_without_backup x y=German_values_in_modules.replace_string (German_wrapper.data()) x y;;
 
 
-let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem wal (German_wrapper.data()) ;;
-let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem modname (German_wrapper.data()) ;;
+let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem 
+  wal (German_wrapper.data()) ;;
+let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem 
+    modname (German_wrapper.data()) ;;
 let muv x=Md_list.modules_using_value (German_wrapper.data()) x;;
 
 let ed =German_wrapper.end_debugging;;
