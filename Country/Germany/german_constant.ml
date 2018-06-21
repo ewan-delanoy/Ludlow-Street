@@ -7,7 +7,7 @@
 *)
 
 
-let root=Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Ordinary";;
+let root=Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Idaho";;
 let dir_for_backup=Directory_name.of_string 
 "/Users/ewandelanoy/Documents/OCaml/Githubbed_ocaml";;
 

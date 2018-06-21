@@ -54,7 +54,7 @@ let relo_without_backup x y=German_wrapper.relocate_module (hmx x) y;;
 let fg_without_backup x=
    if String.contains x '.'
    then German_wrapper.forget_file (fl x)
-   else German_wrapper.forget_module (hmx x);;
+   else let _=German_wrapper.forget_module (hmx x) in ();;
 
 let regi_without_backup x= 
   let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
@@ -97,14 +97,12 @@ let syz()=Md_list.system_size (German_wrapper.data());;
 let init=German_wrapper.initialize;;
 
 let reco_without_backup ()=
-  German_wrapper.recompile();;
+  fst(German_wrapper.recompile());;
 
-
-let pbk ()=Dircopy_diff.display(German_wrapper.diff());;
-let bk=German_backup_target_system.backup_with_message (German_wrapper.diff());;
 
 let rd ()=Alaskan_remove_debuggables.rd German_constant.root (German_wrapper.data());;
 let sd=German_wrapper.start_debugging;;
+
 
 
 let rv_without_backup x y=German_values_in_modules.rename_string_or_value (German_wrapper.data()) x y;;
@@ -124,7 +122,7 @@ let vd=German_wrapper.view_definition;;
 let fvd=Find_value_descendants.fvd 
   (Compute_all_ocaml_items.caoi(German_wrapper.data())) ;;
 
-let rsh_without_backup=German_wrapper.refresh;;
+let rsh_without_backup ()=let _=German_wrapper.refresh() in ();;
 
 
 let am ()=Md_list.all_naked_modules (German_wrapper.data());;
@@ -141,19 +139,90 @@ let tw x=
 let ucc ()=German_create_or_update_copied_compiler.ucc 
  (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
-let reco ()=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup None);;
-let reco_with_comment s=let bowl=reco_without_backup () in (if bowl then German_wrapper.backup (Some s));;
+let reco_with_optional_comment opt=
+  let (bowl,short_paths)=German_wrapper.recompile () in
+   (if bowl 
+   then 
+   let ordered_paths=Ordered_string.forget_order(Ordered_string.safe_set(short_paths)) in
+   let diff=
+    Dircopy_diff.veil
+    (Recently_deleted.of_string_list [])
+    (Recently_changed.of_string_list ordered_paths)
+    (Recently_created.of_string_list []) in
+   (
+    German_backup_target_system.backup diff opt;
+    German_wrapper.save_all() 
+   ));;
 
 
-let fg x=(fg_without_backup x;German_wrapper.backup None);;
+let reco ()=reco_with_optional_comment None;;
+let reco_with_comment s=reco_with_optional_comment (Some s);;  
 
 
-let regi x=(regi_without_backup x;German_wrapper.backup None);;
+
+let forget_file_with_backup x=
+   let ap=fl x in
+   let s_ap=Absolute_path.to_string ap in  
+   let cut_ap=Directory_name.cut_beginning German_constant.root s_ap in
+   let diff=
+    Dircopy_diff.veil
+    (Recently_deleted.of_string_list [cut_ap])
+    (Recently_changed.of_string_list [])
+    (Recently_created.of_string_list []) in
+   (
+    German_wrapper.forget_file ap;
+    German_backup_target_system.backup diff None;
+    German_wrapper.save_all() 
+   ) ;; 
+
+let forget_module_with_backup x=
+    let short_paths=German_wrapper.forget_module (hmx x) in
+    let ordered_paths=Ordered_string.forget_order(Ordered_string.safe_set(short_paths)) in
+    let diff=
+      Dircopy_diff.veil
+      (Recently_deleted.of_string_list ordered_paths)
+      (Recently_changed.of_string_list [])
+      (Recently_created.of_string_list []) in
+     (
+      German_backup_target_system.backup diff None;
+      German_wrapper.save_all() 
+     );; 
+ 
+let fg x=
+      if String.contains x '.'
+      then forget_file_with_backup x
+      else forget_module_with_backup x;;
+
+
+let regi x=
+  let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+  let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
+  let short_path=Mlx_ended_absolute_path.short_path mlx in
+  let diff=
+    Dircopy_diff.veil
+    (Recently_deleted.of_string_list [])
+    (Recently_changed.of_string_list [])
+    (Recently_created.of_string_list [short_path]) in
+  (
+    German_wrapper.register_mlx_file mlx;
+    German_backup_target_system.backup diff None;
+    German_wrapper.save_all() 
+   );;
+
 let rndir p=(German_wrapper.rename_directory p;reco());;
 
 let relo x y=(relo_without_backup x y;reco());;
 let ren  x y=(ren_without_backup  x y;reco());;
-let rsh ()=(rsh_without_backup ();German_wrapper.backup None);;
+let rsh ()=
+  let diff=German_wrapper.refresh () in
+  (
+    German_backup_target_system.backup diff None;
+    German_wrapper.save_all() 
+   );;
+
+
+
+
 let rwc =reco_with_comment;;
 let rv x y=(rv_without_backup x y;reco());;
 let srv x y=(srv_without_backup x y;reco());;
