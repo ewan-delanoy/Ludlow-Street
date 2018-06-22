@@ -21,7 +21,7 @@ let display_circular_dependencies printer l cycles=
  
 let init_dir=
   Subdirectory.connectable_to_subpath 
-  (German_constant.kept_up_to_date_but_not_registered);;
+  (Coma_constant.kept_up_to_date_but_not_registered);;
 
 let copy_special_files s_main_dir=
   let dname=Debugged_name.debugger_name in
@@ -30,8 +30,8 @@ let copy_special_files s_main_dir=
     Unix_command.uc 
       ("mkdir -p "^s_main_dir^"/"^(Subdirectory.without_trailing_slash s))
   ) [
-       German_constant.kept_up_to_date_but_not_registered;
-       German_constant.temporary;
+       Coma_constant.kept_up_to_date_but_not_registered;
+       Coma_constant.temporary;
     ]
   in
   let _=Image.image (fun s->
@@ -39,15 +39,15 @@ let copy_special_files s_main_dir=
      ) ([dname^".ml";
        ".ocamlinit"]
        @
-       German_constant.up_to_date_but_not_registered_files
+       Coma_constant.up_to_date_but_not_registered_files
     ) in ();;
 
 let put_default_content_in_special_files s_main_dir=
   (Io.overwrite_with 
   (Absolute_path.of_string (s_main_dir^"/.ocamlinit"))
   (
-  "\n#use\""^German_constant.path_for_loadingsfile^"\""^Double_semicolon.ds^
-  "\n#use\""^German_constant.path_for_printersfile^"\""^Double_semicolon.ds^
+  "\n#use\""^Coma_constant.path_for_loadingsfile^"\""^Double_semicolon.ds^
+  "\n#use\""^Coma_constant.path_for_printersfile^"\""^Double_semicolon.ds^
   "\nopen Needed_values;;"^
   "\ninitialize_toplevel();;"
    );
@@ -70,10 +70,10 @@ let select_good_files s_main_dir=
      (List.for_all (fun beg->not(Substring.begins_with t beg)) 
      (Image.image Subdirectory.connectable_to_subpath 
       [
-        German_constant.kept_up_to_date_but_not_registered;
-        German_constant.not_registered_any_more;
-        German_constant.old_and_hardly_reusable;
-        German_constant.temporary;
+        Coma_constant.kept_up_to_date_but_not_registered;
+        Coma_constant.not_registered_any_more;
+        Coma_constant.old_and_hardly_reusable;
+        Coma_constant.temporary;
       ]
      ))
      &&

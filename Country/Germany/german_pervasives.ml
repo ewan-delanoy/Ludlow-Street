@@ -16,9 +16,9 @@ let current_directories()=
   ) (current_registered_directories()) in
   (Subdirectory.SD "")::(temp1@
   [
-    German_constant.kept_up_to_date_but_not_registered;
-    German_constant.not_registered_any_more;
-    German_constant.old_and_hardly_reusable
+    Coma_constant.kept_up_to_date_but_not_registered;
+    Coma_constant.not_registered_any_more;
+    Coma_constant.old_and_hardly_reusable
   ]);;
 
 let fl=German_vague_string.to_path;; 

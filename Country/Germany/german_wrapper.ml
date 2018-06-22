@@ -21,10 +21,10 @@ let whole ()=(
 
 let save_all ()=Alaskan_save_all.write_all 
   (German_constant.root, 
-    German_constant.name_for_makefile,
-    German_constant.name_for_targetfile,
-    German_constant.name_for_loadingsfile,
-    German_constant.name_for_printersfile
+    Coma_constant.name_for_makefile,
+    Coma_constant.name_for_targetfile,
+    Coma_constant.name_for_loadingsfile,
+    Coma_constant.name_for_printersfile
   )
   (
 	  whole()
@@ -114,7 +114,7 @@ let forget_module hm=
         short_paths;;     
 
  let initialize ()=
-   let s_ap=Directory_name.join German_constant.root  German_constant.name_for_targetfile in
+   let s_ap=Directory_name.join German_constant.root  Coma_constant.name_for_targetfile in
    let ap=Absolute_path.of_string s_ap in
    let the_archive=Io.read_whole_file ap in
    let 

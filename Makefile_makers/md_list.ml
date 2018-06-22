@@ -536,7 +536,7 @@ let rename_module_on_monitored_modules wmdata old_name new_name=
          let temp4=Option.filter_and_unpack (
            fun s->try Some(Absolute_path.of_string s) with _->None
          ) [
-             German_constant.name_for_printersfile;
+             Coma_constant.name_for_printersfile;
            ] in
          
          let _=Image.image changer (temp3@temp4) in

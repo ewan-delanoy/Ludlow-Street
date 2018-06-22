@@ -18,9 +18,9 @@ let is_admissible s=
   ) (
     (Image.image Subdirectory.connectable_to_subpath
      [
-       German_constant.not_registered_any_more;
-       German_constant.old_and_hardly_reusable;
-       German_constant.temporary;
+       Coma_constant.not_registered_any_more;
+       Coma_constant.old_and_hardly_reusable;
+       Coma_constant.temporary;
      ])
     @
     ["_build/";".vscode/"]

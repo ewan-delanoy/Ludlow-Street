@@ -19,7 +19,7 @@ module Private=struct
   
   let save_loadingsfile (root,location_for_loadingsfile) (dirs,tgts)=
      let path_for_loadingsfile=
-         (Subdirectory.connectable_to_subpath German_constant.kept_up_to_date_but_not_registered)^
+         (Subdirectory.connectable_to_subpath Coma_constant.kept_up_to_date_but_not_registered)^
          location_for_loadingsfile in
      let s=Alaskan_up_to_date_targets.loadings (root,location_for_loadingsfile)
       (dirs,tgts)
@@ -34,7 +34,7 @@ module Private=struct
   let save_printersfile (root,location_for_printersfile) printer_equipped_types=
      let init_dir=
       Subdirectory.connectable_to_subpath 
-      (German_constant.kept_up_to_date_but_not_registered) in
+      (Coma_constant.kept_up_to_date_but_not_registered) in
      let s=Alaskan_printer_equipped_types.instructions printer_equipped_types
      and lm=Directory_name.force_join root  (init_dir^location_for_printersfile) in
      let beg_mark="(*Registered printers start here *)"
@@ -98,7 +98,7 @@ module Private=struct
     let (mdata,directories,up_to_date_targets,printer_equipped_types)=uple in
      (
       Private.save_makefile (root,location_for_makefile) mdata;
-      Private.save_merlinfile (root,German_constant.name_for_merlinfile) directories;
+      Private.save_merlinfile (root,Coma_constant.name_for_merlinfile) directories;
       Private.save_loadingsfile (root,location_for_loadingsfile) (directories,up_to_date_targets);
       Private.save_targetfile (root,location_for_targetfile) uple;
       Private.save_printersfile (root,location_for_printersfile) printer_equipped_types;

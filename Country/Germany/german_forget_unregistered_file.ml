@@ -11,7 +11,7 @@ let forget ap=
    let s_ap=Absolute_path.to_string ap in
    let subpath=Cull_string.cobeginning n_dir s_ap in
    let trash_dir=Subdirectory.without_trailing_slash
-               (German_constant.old_and_hardly_reusable) in
+               (Coma_constant.old_and_hardly_reusable) in
    let new_subpath=(Current_date.current_date())^"_"^
          (Replace_inside.replace_inside_string ("/","_dir_") subpath) in
    let _=Unix_command.uc ("mkdir -p "^s_dir^trash_dir) in
