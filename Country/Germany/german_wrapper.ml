@@ -8,7 +8,7 @@
 module Private=struct
 
 let data_ref=ref(Md_list.empty_one);;
-let directories_ref=ref([]:Subdirectory.t list);;
+let directories_ref=ref([]:Subdirectory_t.t list);;
 let up_to_date_targets_ref=ref([]:Ocaml_target.t list);;
 let printer_equipped_types_ref=ref([]:(Half_dressed_module.t*bool) list);;
 

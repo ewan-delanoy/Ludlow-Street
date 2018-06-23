@@ -26,7 +26,7 @@ type data={
   needed_libraries : Ocaml_library.t list;
   direct_fathers : (Half_dressed_module.t option) list;
   all_ancestors : (Half_dressed_module.t option) list;
-  needed_directories : Subdirectory.t list;
+  needed_directories : Subdirectory_t.t list;
    
 };;
 

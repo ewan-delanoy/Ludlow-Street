@@ -24,10 +24,8 @@ let modularize prefix ap=
 let modularize_several prefix l_ap=     
     let temp1=Image.image module_name_from_path l_ap in
     let replacements = Image.image (
-        fun x->match x with
-        (Naked_module.N(name))->
-        let new_name=String.capitalize_ascii(prefix^name) in
-        (x,Naked_module.N(new_name))
+        fun x->
+        (x,Naked_module.add_prefix_and_capitalize prefix x)
     ) temp1 in
     let temp2=Explicit.image (modularize prefix) l_ap in
     let unreplaced_text=String.concat "\n\n\n" temp2 in

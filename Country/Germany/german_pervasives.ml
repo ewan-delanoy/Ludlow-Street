@@ -12,9 +12,9 @@ let current_registered_directories ()=German_wrapper.directories();;
 
 let current_directories()=
   let temp1=List.filter (
-    fun x->x<>Subdirectory.SD ""
+    fun x->x<>Subdirectory_t.SD ""
   ) (current_registered_directories()) in
-  (Subdirectory.SD "")::(temp1@
+  (Subdirectory_t.SD "")::(temp1@
   [
     Coma_constant.kept_up_to_date_but_not_registered;
     Coma_constant.not_registered_any_more;

@@ -48,7 +48,7 @@ let to_shortened_string x=x.naked_module;;
 
 let unveil x=(uprooted_version x,bundle_main_dir x);;
 
-exception FileOutsideDirectory of Absolute_path.t*Directory_name.t;;
+exception FileOutsideDirectory of Absolute_path.t*Directory_name_t.t;;
 
 
 let of_path_and_root ap dir=

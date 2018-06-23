@@ -4,7 +4,7 @@
 
 *)
 
-type t=MLX of Ocaml_ending.t*string*Directory_name.t;;
+type t=MLX of Ocaml_ending.t*string*Directory_name_t.t;;
 
 exception Unknown_ending of string;;
 exception Unpointed_filename of string;;
@@ -38,7 +38,7 @@ let try_from_string_and_root s dir=
 
 let root (MLX(_,_,dir))=dir;;
 
-exception FileOutsideDirectory of Absolute_path.t*Directory_name.t;;
+exception FileOutsideDirectory of Absolute_path.t*Directory_name_t.t;;
 
 
 let of_path_and_root ap dir=

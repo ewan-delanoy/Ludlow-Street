@@ -12,7 +12,7 @@ same directory.
 
 *)
 
-exception Failed of Absolute_path.t*Directory_name.t;;
+exception Failed of Absolute_path.t*Directory_name_t.t;;
 
 let relocate ap new_dir=
   let old_path=Absolute_path.to_string ap
