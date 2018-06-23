@@ -52,12 +52,12 @@ let uprooted_filename_for_realized_target tgt=
  |EXECUTABLE(hm)->"_build/"^(hm_to_na hm)^".caml_executable"
  |DEBUGGABLE(hm)->"_build/"^(hm_to_na hm)^".caml_debuggable";;
 
-let test_target_existence dir tgt=
-let d=Directory_name.connectable_to_subpath dir in
+let test_target_existence root_dir tgt=
+let d=Root_directory.connectable_to_subpath root_dir in
 Sys.file_exists(d^(uprooted_filename_for_realized_target tgt));; 
 
 let path dir tgt=
-let d=Directory_name.connectable_to_subpath dir in
+let d=Root_directory.connectable_to_subpath dir in
 Absolute_path.of_string(d^(to_string tgt));;
 
 let is_a_debuggable=function

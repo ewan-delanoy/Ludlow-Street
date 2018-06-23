@@ -108,7 +108,7 @@ let select_good_files s_main_dir=
      identical names.
      Removes the files outside main_dir.
   *)
-  let s_dir=Directory_name.connectable_to_subpath main_dir in
+  let s_dir=Root_directory.connectable_to_subpath main_dir in
   let temp1=List.filter (fun ap->
     Substring.begins_with (Absolute_path.to_string ap) s_dir
   ) l in
@@ -169,7 +169,7 @@ let from_prepared_list dir l=
 end;;   
 
 let from_main_directory dir =
-	let old_s=Directory_name.connectable_to_subpath(dir) in
+	let old_s=Root_directory.connectable_to_subpath(dir) in
   let s_main_dir=Cull_string.coending 1 old_s in (* mind the trailing slash *)
   let _=
     (Private.copy_special_files s_main_dir;

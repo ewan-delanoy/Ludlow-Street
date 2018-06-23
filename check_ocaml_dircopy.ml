@@ -53,7 +53,7 @@ let check ()=
   then raise(Failure_in_clone_directory_creation)
   else 
   let _=Unix_command.uc("mkdir -p "^name_of_clone_directory) in
-  let remotedir=Directory_name.of_string name_of_clone_directory in
+  let remotedir=Root_directory.of_string name_of_clone_directory in
   let j=Unix_command.uc github_clone_command in
   if j<>0
   then raise(Failure_during_github_cloning)

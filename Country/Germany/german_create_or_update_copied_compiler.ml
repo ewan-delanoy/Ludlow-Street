@@ -16,11 +16,11 @@ let replacement_for_special_file destdir filename=
   if filename=file_for_backup
   then ("let github_after_backup=ref(true)"^Double_semicolon.ds,
         "let github_after_backup=ref(false)"^Double_semicolon.ds)
-  else (Directory_name.without_trailing_slash German_constant.root,
-        Directory_name.without_trailing_slash destdir);;
+  else (Root_directory.without_trailing_slash German_constant.root,
+        Root_directory.without_trailing_slash destdir);;
 
 let prepare_special_file destdir filename=
-  let the_file=Absolute_path.create_file(Directory_name.join destdir filename) in
+  let the_file=Absolute_path.create_file(Root_directory.join destdir filename) in
   Replace_inside.replace_inside_file
   (replacement_for_special_file destdir filename)
   the_file;;
@@ -37,7 +37,7 @@ let up_to_date_but_not_registered_files=
 
 let ucc destdir=
   let knr=Subdirectory.without_trailing_slash(Coma_constant.kept_up_to_date_but_not_registered) in
-  let s_dir=Directory_name.connectable_to_subpath destdir in 
+  let s_dir=Root_directory.connectable_to_subpath destdir in 
   let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
   let _=Unix_command.uc ("mkdir -p "^s_dir^knr) in
   let _=Image.image (

@@ -72,7 +72,7 @@ let pusher_for_full_compilation dir (successful_ones,to_be_treated,ts)=
        (new_successful_ones,others,ts2)
   else let hm=Option.unpack(Ocaml_target.main_module tgt) in
        let root=Half_dressed_module.bundle_main_dir hm in
-       let s_root=Directory_name.connectable_to_subpath root in
+       let s_root=Root_directory.connectable_to_subpath root in
        let (mdata,_,_)=ts 
        and (mdata2,tgts2,rejected_ones2)=ts2 in
   	   let (rejects,remains)=List.partition

@@ -16,7 +16,7 @@ let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory;;
 
 let on_ms_data=Modulesystem_data.rename_endsubdirectory;; 
 
-let on_absolute_path=Rename_endsubdirectory.on_absolute_path;;
+let on_absolute_path=Rename_endsubdirectory.on_absolute_path German_constant.root;;
 
 let on_mlx_ended_absolute_path=
   Mlx_ended_absolute_path.rename_endsubdirectory;;

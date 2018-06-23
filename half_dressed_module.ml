@@ -17,7 +17,7 @@ type t={
    naked_module     : string;
 };;
 
-let bundle_main_dir x=Directory_name.of_string(x.bundle_main_dir);;
+let bundle_main_dir x=Root_directory.of_string(x.bundle_main_dir);;
 let subdirectory x=Subdirectory.of_string(x.subdirectory);;
 let naked_module  x=Naked_module.of_string(x.naked_module);;
 
@@ -26,7 +26,7 @@ exception Inexistent_module of string;;
  
 let of_string_and_root old_s dir=
         let s=Father_and_son.invasive_father old_s '.' in
-        let s_dir=Directory_name.without_trailing_slash dir in
+        let s_dir=Root_directory.without_trailing_slash dir in
 	    if List.for_all (fun edg->not(Sys.file_exists(s_dir^"/"^s^edg)) ) Ocaml_ending.all_string_endings
 	    then raise(Inexistent_module(s_dir^s))
 	    else
@@ -48,14 +48,15 @@ let to_shortened_string x=x.naked_module;;
 
 let unveil x=(uprooted_version x,bundle_main_dir x);;
 
-exception FileOutsideDirectory of Absolute_path.t*Directory_name_t.t;;
+exception FileOutsideDirectory of Absolute_path.t*Root_directory_t.t;;
 
 
 let of_path_and_root ap dir=
-    if (not(Path_is_in_directory.path_is_in_directory ap dir))
+   if (not(Substring.begins_with (Absolute_path.to_string ap)
+         (Root_directory.connectable_to_subpath dir)))
     then raise(FileOutsideDirectory(ap,dir))
     else 
-    let s_dir=Directory_name.without_trailing_slash dir in
+    let s_dir=Root_directory.without_trailing_slash dir in
     let n_dir=(String.length s_dir)+1 in
     let subpath=Cull_string.cobeginning n_dir (Absolute_path.to_string ap) in
     let s=Father_and_son.invasive_father subpath '.' in

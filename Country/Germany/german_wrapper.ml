@@ -114,7 +114,7 @@ let forget_module hm=
         short_paths;;     
 
  let initialize ()=
-   let s_ap=Directory_name.join German_constant.root  Coma_constant.name_for_targetfile in
+   let s_ap=Root_directory.join German_constant.root  Coma_constant.name_for_targetfile in
    let ap=Absolute_path.of_string s_ap in
    let the_archive=Io.read_whole_file ap in
    let 
@@ -191,7 +191,7 @@ let register_mlx_file mlx=
  
  let rename_directory (old_subdir,new_subdirname)=
     let _=Private.recompile() in
-    let _=Rename_endsubdirectory.in_unix_world (old_subdir,new_subdirname) in
+    let _=Rename_endsubdirectory.in_unix_world German_constant.root (old_subdir,new_subdirname) in
     let pair=(old_subdir,new_subdirname) in
     let new_data=Md_list.rename_directory_on_data pair (!Private.data_ref)
     and new_dirs=German_rename_directory.on_subdirectories pair (!Private.directories_ref)

@@ -6,14 +6,14 @@
 
 
 
-let github_after_backup=ref(false);;
+let github_after_backup=ref(true);;
 
 let commands_for_backup diff=
    if Dircopy_diff.is_empty diff
    then ([],[])
    else 
    let destination_dir=German_constant.dir_for_backup in
-   let s_destination=Directory_name.connectable_to_subpath destination_dir in
+   let s_destination=Root_directory.connectable_to_subpath destination_dir in
    let created_ones=Dircopy_diff.recently_created diff in
    let temp2=Option.filter_and_unpack
    (fun fn->
@@ -24,7 +24,7 @@ let commands_for_backup diff=
     )
    created_ones in
    let temp3=Ordered.forget_order(Ordered_string.diforchan temp2) in
-   let s_source=Directory_name.connectable_to_subpath German_constant.root in
+   let s_source=Root_directory.connectable_to_subpath German_constant.root in
    let temp4=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')
@@ -47,7 +47,7 @@ let commands_for_backup diff=
 let backup_with_message diff msg=
   let destination_dir=German_constant.dir_for_backup  
   and (nongit_cmds,git_cmds)=commands_for_backup diff in
-  let s_destination=Directory_name.connectable_to_subpath destination_dir in
+  let s_destination=Root_directory.connectable_to_subpath destination_dir in
   let _=Image.image Unix_command.uc nongit_cmds in
   let _=(
   if (!github_after_backup)

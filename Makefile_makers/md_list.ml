@@ -261,7 +261,7 @@ let ingredients_for_debuggable wmdata hm=
 
 exception Non_existent_mtime of Mlx_ended_absolute_path.t;;
 
-let force_modification_time dir (Md_list_t.L mdata) mlx=
+let force_modification_time root_dir (Md_list_t.L mdata) mlx=
        let hm=Mlx_ended_absolute_path.half_dressed_core mlx
        and edg=Mlx_ended_absolute_path.ending mlx in
        let (before,opt,after)=Three_parts.select_center_element  (fun dt->
@@ -270,7 +270,7 @@ let force_modification_time dir (Md_list_t.L mdata) mlx=
        then raise(Non_existent_mtime(mlx))
        else 
        let dt=Option.unpack opt in
-       let file=(Directory_name.connectable_to_subpath dir)^(Mlx_ended_absolute_path.to_string mlx) in
+       let file=(Root_directory.connectable_to_subpath root_dir)^(Mlx_ended_absolute_path.to_string mlx) in
        let old_val=Modulesystem_data.modification_time dt edg 
        and new_val=(Unix.stat file).Unix.st_mtime  in
        if old_val=new_val
@@ -540,7 +540,7 @@ let rename_module_on_monitored_modules wmdata old_name new_name=
            ] in
          
          let _=Image.image changer (temp3@temp4) in
-         let s_root=Directory_name.connectable_to_subpath(German_constant.root) in     
+         let s_root=Root_directory.connectable_to_subpath(German_constant.root) in     
          let _=Unix_command.uc
              ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
          let new_list=Image.image
@@ -564,7 +564,7 @@ let relocate_module_on_monitored_modules wmdata old_name new_subdir=
             let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
             let new_name=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
             let data_renamer=Modulesystem_data.rename (old_name,new_name) in
-            let s_root=Directory_name.connectable_to_subpath(German_constant.root) in     
+            let s_root=Root_directory.connectable_to_subpath(German_constant.root) in     
             let _=Unix_command.uc
                 ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
             let part2=Image.image data_renamer (old_dt::after) in

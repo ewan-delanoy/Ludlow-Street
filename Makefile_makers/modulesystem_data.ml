@@ -277,7 +277,7 @@ let compute_modification_times hm=
   let dir=Half_dressed_module.bundle_main_dir hm in
   Ocaml_ending.exhaustive_uple (fun edg->
     let mlx=Mlx_ended_absolute_path.join hm edg in
-    let file=(Directory_name.connectable_to_subpath dir)^(Mlx_ended_absolute_path.to_string mlx) in
+    let file=(Root_directory.connectable_to_subpath dir)^(Mlx_ended_absolute_path.to_string mlx) in
     if not(Sys.file_exists file) then 0. else
     let st=Unix.stat file in
     st.Unix.st_mtime 
@@ -532,7 +532,7 @@ let fix_ancestors x anc=
 
 let needed_dirs_and_libs is_optimized dt=
    let extension=(if is_optimized then ".cmxa" else ".cma") in
-   let s_root=Directory_name.connectable_to_subpath(
+   let s_root=Root_directory.connectable_to_subpath(
         Half_dressed_module.bundle_main_dir(name dt)
    ) in
    let dirs=

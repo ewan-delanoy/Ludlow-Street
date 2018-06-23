@@ -7,7 +7,7 @@
 
 let cdir=German_constant.root;;
 
-let s_cdir=Directory_name.connectable_to_subpath cdir;;
+let s_cdir=Root_directory.connectable_to_subpath cdir;;
 let current_registered_directories ()=German_wrapper.directories();;
 
 let current_directories()=
@@ -57,7 +57,7 @@ let fg_without_backup x=
    else let _=German_wrapper.forget_module (hmx x) in ();;
 
 let regi_without_backup x= 
-  let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+  let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
   let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
   German_wrapper.register_mlx_file mlx;;
 
@@ -65,7 +65,7 @@ let regi_without_backup x=
 
 let ureg_without_backup x=
   if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mli";".mll";".mly"] 
-  then let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+  then let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
        let mlx=Mlx_ended_absolute_path.of_path_and_root path cdir in
        German_wrapper.unregister_mlx_file mlx 
   else German_wrapper.unregister_module (hmx x);;
@@ -131,13 +131,13 @@ let am ()=Md_list.all_naked_modules (German_wrapper.data());;
 let tw x=
   let hm=hmx x in
   let s_hm=Half_dressed_module.uprooted_version hm in
-  let fn=(Directory_name.connectable_to_subpath(cdir))^s_hm in    
+  let fn=(Root_directory.connectable_to_subpath(cdir))^s_hm in    
   Sys.command ("open -a /Applications/TextWrangler.app "^fn^".ml");;
 
 
 
 let ucc ()=German_create_or_update_copied_compiler.ucc 
- (Directory_name.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
+ (Root_directory.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco_with_optional_comment opt=
   let (bowl,short_paths)=German_wrapper.recompile () in
@@ -163,7 +163,7 @@ let reco_with_comment s=reco_with_optional_comment (Some s);;
 let forget_file_with_backup x=
    let ap=fl x in
    let s_ap=Absolute_path.to_string ap in  
-   let cut_ap=Directory_name.cut_beginning German_constant.root s_ap in
+   let cut_ap=Root_directory.cut_beginning German_constant.root s_ap in
    let diff=
     Dircopy_diff.veil
     (Recently_deleted.of_string_list [cut_ap])
@@ -195,7 +195,7 @@ let fg x=
 
 
 let regi x=
-  let path=Absolute_path.of_string(Directory_name.join German_constant.root x) in
+  let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
   let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
   let short_path=Mlx_ended_absolute_path.short_path mlx in
   let diff=

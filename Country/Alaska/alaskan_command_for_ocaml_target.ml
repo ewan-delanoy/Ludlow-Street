@@ -39,7 +39,7 @@ let command_for_nodep mlx=[];;
 
 let command_for_ml_from_mll dir hm=
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath dir in
+          let s_root=Root_directory.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           [
             "ocamllex  -o "^s_fhm^".ml "^s_fhm^".mll";
@@ -47,7 +47,7 @@ let command_for_ml_from_mll dir hm=
  
 let command_for_ml_from_mly dir hm=
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath dir in
+          let s_root=Root_directory.connectable_to_subpath dir in
           let s_fhm=s_root^s_hm in
           [
             "ocamlyacc "^s_fhm^".mly"
@@ -57,7 +57,7 @@ let command_for_cmi dir mdata hm=
           let opt=Md_list.find_module_registration mdata hm in
           if opt=None then raise(Unregistered_cmi(hm)) else 
           let dt=Option.unpack opt in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_hm=Half_dressed_module.uprooted_version hm in
           let s_fhm=s_root^s_hm in
           let ending=(
@@ -94,7 +94,7 @@ let command_for_cmo dir mdata hm=
           if opt=None then raise(Unregistered_cmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
           [ 
@@ -107,7 +107,7 @@ let command_for_dcmo dir mdata hm=
           if opt=None then raise(Unregistered_dcmo(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
           [ 
@@ -120,7 +120,7 @@ let command_for_cma dir mdata hm=
           if opt=None then raise(Unregistered_cma(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs false dt in
           [ 
@@ -133,7 +133,7 @@ let command_for_cmx dir mdata hm=
           if opt=None then raise(Unregistered_cmx(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let dirs_and_libs=Modulesystem_data.needed_dirs_and_libs true dt in
           [ 
@@ -148,7 +148,7 @@ let command_for_executable dir mdata hm=
           if opt=None then raise(Unregistered_executable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.EXECUTABLE(hm)) in
           let temp2=Option.filter_and_unpack cmx_manager temp1 in
@@ -166,7 +166,7 @@ let command_for_debuggable dir mdata hm=
           if opt=None then raise(Unregistered_debuggable(hm)) else 
           let dt=Option.unpack opt in
           let s_hm=Half_dressed_module.uprooted_version hm in
-          let s_root=Directory_name.connectable_to_subpath(dir) in
+          let s_root=Root_directory.connectable_to_subpath(dir) in
           let s_fhm=s_root^s_hm in
           let temp1=ingr mdata (Ocaml_target.DEBUGGABLE(hm)) in
           let temp2=Option.filter_and_unpack dcmo_manager temp1 in

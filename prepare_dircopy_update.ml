@@ -6,8 +6,8 @@
 
 
 let compute_deleted_in_diff sourcedir destdir=
-   let s_sourcedir=Directory_name.connectable_to_subpath sourcedir
-   and s_destdir=Directory_name.connectable_to_subpath destdir in
+   let s_sourcedir=Root_directory.connectable_to_subpath sourcedir
+   and s_destdir=Root_directory.connectable_to_subpath destdir in
    let temp1=More_unix.quick_beheaded_complete_ls s_destdir in
    List.filter(
        fun s->(s<>"README")
@@ -16,8 +16,8 @@ let compute_deleted_in_diff sourcedir destdir=
    ) temp1;;
    
 let compute_nondeleted_in_diff (sourcedir,l) destdir=
-   let s_sourcedir=Directory_name.connectable_to_subpath sourcedir
-   and s_destdir=Directory_name.connectable_to_subpath destdir in
+   let s_sourcedir=Root_directory.connectable_to_subpath sourcedir
+   and s_destdir=Root_directory.connectable_to_subpath destdir in
    let created_accu=ref[]
    and changed_accu=ref[] in
    let _=Image.image(
@@ -47,10 +47,14 @@ let compute_diff (sourcedir,l) destdir=
    	created
    ;;
    
+   
 let greedy_list sourcedir=
-   let source_paths=More_unix.complete_ls_with_nondirectories_only sourcedir in
+   let converted_to_dir=Directory_name.of_string
+      (Root_directory.without_trailing_slash sourcedir) in
+   let source_paths=More_unix.complete_ls_with_nondirectories_only converted_to_dir in
    Image.image (fun ap->
-   Directory_name.cut_beginning sourcedir (Absolute_path.to_string ap) ) source_paths;;
+   Root_directory.cut_beginning sourcedir (Absolute_path.to_string ap) ) 
+   source_paths;;
       
    
 let compute_greedy_diff sourcedir destdir=
@@ -60,7 +64,7 @@ let commands_for_update destination_dir diff=
    if Dircopy_diff.is_empty diff
    then []
    else 
-   let s_destination=Directory_name.connectable_to_subpath destination_dir in
+   let s_destination=Root_directory.connectable_to_subpath destination_dir in
    let created_ones=Dircopy_diff.recently_created diff  in
    let temp2=Option.filter_and_unpack
    (fun fn->
@@ -71,7 +75,7 @@ let commands_for_update destination_dir diff=
     )
    created_ones in
    let temp3=Ordered.forget_order(Ordered_string.diforchan temp2) in
-   let s_source=Directory_name.connectable_to_subpath German_constant.root in
+   let s_source=Root_directory.connectable_to_subpath German_constant.root in
    let temp4=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')

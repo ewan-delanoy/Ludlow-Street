@@ -7,7 +7,7 @@
 
 let replace_string mdata old_string new_string=
   let temp1=Md_list.files_containing_string mdata old_string in
-  let m=String.length(Directory_name.connectable_to_subpath(German_constant.root)) in
+  let m=String.length(Root_directory.connectable_to_subpath(German_constant.root)) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
   let message="\n\n The following files will be rewritten : \n\n"^
@@ -80,7 +80,7 @@ let list_value_occurrences_in_file t file=
 
 
 let show_value_occurrences_in_modulesystem t mdata=
-   let m=String.length(Directory_name.connectable_to_subpath(German_constant.root)) in
+   let m=String.length(Root_directory.connectable_to_subpath(German_constant.root)) in
    let temp1=Md_list.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_value_occurrences_in_file t ap in

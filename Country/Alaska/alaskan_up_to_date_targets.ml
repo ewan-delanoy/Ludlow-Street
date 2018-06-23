@@ -7,7 +7,7 @@
 *)
 
 let loadings (main_root,name_for_loadingsfile) (dirs,tgts)=
-  let s_root=Directory_name.connectable_to_subpath main_root in
+  let s_root=Root_directory.connectable_to_subpath main_root in
   let part1="\n(*\n #use\""^s_root^(name_for_loadingsfile)^"\";"^";\n*)\n\n" in
   let temp5=Image.image(
      fun sd->

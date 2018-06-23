@@ -10,11 +10,11 @@ Note that the order in Ocaml_ending.correspondances is important
 
 *)
 
-exception No_suitable_location of Directory_name_t.t*(Subdirectory_t.t list)*string;;
+exception No_suitable_location of Root_directory_t.t*(Subdirectory_t.t list)*string;;
 
 let find_file_location dir l_subdir old_x=
   let x=String.uncapitalize_ascii old_x in
-  let s_dir=Directory_name.connectable_to_subpath(dir) in
+  let s_dir=Root_directory.connectable_to_subpath(dir) in
   let original_endings=Ocaml_ending.all_string_endings in
   let endings=(
      if List.exists (fun edg->Substring.ends_with x edg) original_endings

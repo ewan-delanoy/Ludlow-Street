@@ -14,21 +14,22 @@ module Private=struct
     (Alaskan_write_makefile.write_makefile 
       root
     mdata) in
-    let lm=Directory_name.force_join root location_for_makefile in
+    let lm=Root_directory.force_join root location_for_makefile in
     Io.overwrite_with (Absolute_path.of_string lm) s1;;
   
+
   let save_loadingsfile (root,location_for_loadingsfile) (dirs,tgts)=
      let path_for_loadingsfile=
          (Subdirectory.connectable_to_subpath Coma_constant.kept_up_to_date_but_not_registered)^
          location_for_loadingsfile in
      let s=Alaskan_up_to_date_targets.loadings (root,location_for_loadingsfile)
       (dirs,tgts)
-     and lm=Directory_name.force_join root  path_for_loadingsfile in
+     and lm=Root_directory.force_join root  path_for_loadingsfile in
      Io.overwrite_with (Absolute_path.of_string lm) s;;
   
   let save_merlinfile (root,location_for_merlinfile) dirs=
       let s=Alaskan_write_merlinfile.instructions root dirs 
-      and lm=Directory_name.force_join root  location_for_merlinfile in
+      and lm=Root_directory.force_join root  location_for_merlinfile in
       Io.overwrite_with (Absolute_path.of_string lm) s;;
 
   let save_printersfile (root,location_for_printersfile) printer_equipped_types=
@@ -36,7 +37,7 @@ module Private=struct
       Subdirectory.connectable_to_subpath 
       (Coma_constant.kept_up_to_date_but_not_registered) in
      let s=Alaskan_printer_equipped_types.instructions printer_equipped_types
-     and lm=Directory_name.force_join root  (init_dir^location_for_printersfile) in
+     and lm=Root_directory.force_join root  (init_dir^location_for_printersfile) in
      let beg_mark="(*Registered printers start here *)"
      and end_mark="(*Registered printers end here *)" in
      Replace_inside.overwrite_between_markers_inside_file
@@ -63,7 +64,7 @@ module Private=struct
   
   let save_targetfile (root,location_for_targetfile) uple=
     let s1=archive uple in
-    let lt=Directory_name.force_join root location_for_targetfile in
+    let lt=Root_directory.force_join root location_for_targetfile in
     Io.overwrite_with (Absolute_path.of_string lt) s1;;
   
   end;;

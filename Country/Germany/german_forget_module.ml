@@ -24,7 +24,7 @@ let on_targets (mdata,dirs,tgts) hm=
           Unix_command.uc(cmd))
          [".cm*";".d.cm*";".caml_debuggable"] in
          let temp1=Image.image (fun t->
-            Absolute_path.of_string(Directory_name.join (German_constant.root) t)
+            Absolute_path.of_string(Root_directory.join (German_constant.root) t)
          ) short_paths in
          let _=Image.image German_forget_unregistered_file.forget temp1 in
          (answer,short_paths)

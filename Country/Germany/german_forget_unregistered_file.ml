@@ -6,7 +6,7 @@
 
 
 let forget ap=
-   let s_dir=Directory_name.connectable_to_subpath(German_constant.root) in
+   let s_dir=Root_directory.connectable_to_subpath(German_constant.root) in
    let n_dir=String.length s_dir in
    let s_ap=Absolute_path.to_string ap in
    let subpath=Cull_string.cobeginning n_dir s_ap in

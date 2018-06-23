@@ -7,7 +7,7 @@
 *)
 
 let instructions main_root dirs=
-  let s_root=Directory_name.connectable_to_subpath main_root in
+  let s_root=Root_directory.connectable_to_subpath main_root in
   let temp1=Image.image 
    (fun sdir->"S "^s_root^(Subdirectory.connectable_to_subpath sdir) )
   (Coma_constant.kept_up_to_date_but_not_registered::dirs) in

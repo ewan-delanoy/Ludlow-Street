@@ -4,7 +4,7 @@
 
 *)
 
-type t=MLX of Ocaml_ending.t*string*Directory_name_t.t;;
+type t=MLX of Ocaml_ending.t*string*Root_directory_t.t;;
 
 exception Unknown_ending of string;;
 exception Unpointed_filename of string;;
@@ -22,7 +22,7 @@ let to_string=short_path;;
 let of_string_and_root s dir= 
   if not(String.contains s '.') then raise(Unpointed_filename(s)) else
   let (core,ending)=Father_and_son.father_and_son s '.' in
-  let s_dir=Directory_name.connectable_to_subpath dir in
+  let s_dir=Root_directory.connectable_to_subpath dir in
   if (not(Sys.file_exists(s_dir^s)))
   then raise(Inexistent_filename(s_dir^s))
   else
@@ -38,14 +38,15 @@ let try_from_string_and_root s dir=
 
 let root (MLX(_,_,dir))=dir;;
 
-exception FileOutsideDirectory of Absolute_path.t*Directory_name_t.t;;
+exception FileOutsideDirectory of Absolute_path.t*Root_directory_t.t;;
 
 
 let of_path_and_root ap dir=
-    if (not(Path_is_in_directory.path_is_in_directory ap dir))
+   if (not(Substring.begins_with (Absolute_path.to_string ap)
+         (Root_directory.connectable_to_subpath dir)))
     then raise(FileOutsideDirectory(ap,dir))
     else 
-    let s_dir=Directory_name.connectable_to_subpath dir in
+    let s_dir=Root_directory.connectable_to_subpath dir in
     let n_dir=String.length s_dir in
     let subpath=Cull_string.cobeginning n_dir (Absolute_path.to_string ap) in
     of_string_and_root subpath dir;;    
@@ -63,7 +64,7 @@ let to_path mlx=
   let (hm,edg)=decompose mlx in
   let dir=root mlx in
   let s_hm=Half_dressed_module.uprooted_version hm 
-  and s_dir=Directory_name.connectable_to_subpath dir in
+  and s_dir=Root_directory.connectable_to_subpath dir in
   Absolute_path.of_string( s_dir^s_hm^(Ocaml_ending.to_string edg) );;
 
 let join hs ending=
@@ -90,10 +91,10 @@ let do_file_renaming mlx new_name=
 let do_file_displacing mlx new_subdir=
   let s_new_subdir=Subdirectory.connectable_to_subpath new_subdir
   and dir=root mlx in
-  let s_dir=Directory_name.connectable_to_subpath dir in
-  let new_dir=Directory_name.of_string(s_dir^s_new_subdir) in
+  let s_dir=Root_directory.connectable_to_subpath dir in
+  let new_dir=Root_directory.of_string(s_dir^s_new_subdir) in
   let ap=to_path mlx in
-  let new_ap=Relocate_file.relocate ap new_dir in
+  let new_ap=Root_directory.relocate ap new_dir in
   of_path_and_root new_ap (root mlx);;  
   
 let rename_endsubdirectory (subdir,newdirname) (MLX(edg,s,dir))=
@@ -103,7 +104,7 @@ let rename_endsubdirectory (subdir,newdirname) (MLX(edg,s,dir))=
 let to_absolute_path mlx=
   let s=short_path mlx
   and dir=root mlx in
- let s_dir=Directory_name.connectable_to_subpath dir in
+ let s_dir=Root_directory.connectable_to_subpath dir in
  Absolute_path.of_string(s_dir^s);;   
 
 
@@ -112,7 +113,7 @@ let ocaml_name w=
   and dir=root w in
   "Mlx_file"^"name"^".of_string_and_index("^
   (Strung.enclose s)^
-  ")("^(Directory_name.connectable_to_subpath dir)^")";;    
+  ")("^(Root_directory.connectable_to_subpath dir)^")";;    
 
 let industrial_separator=Industrial_separator.mlx_ended_absolute_path;;  
  
@@ -121,7 +122,7 @@ let industrial_separator=Industrial_separator.mlx_ended_absolute_path;;
 let prepare_archive (MLX(edg,s,dir))=
   let s_edg=Ocaml_ending.to_string(edg) in
   let shortened_s_edg=String.sub s_edg 1 (String.length(s_edg)-1) in
-  [shortened_s_edg;s;Directory_name.connectable_to_subpath dir];;
+  [shortened_s_edg;s;Root_directory.connectable_to_subpath dir];;
 
   
 let archive x=String.concat industrial_separator (prepare_archive x);;
@@ -131,5 +132,5 @@ let unarchive s=
    let l1=Str.split (Str.regexp_string industrial_separator) s in
    let edg=List.hd l1 
    and s=List.nth l1 1 
-   and dir=Directory_name.of_string(List.nth l1 2) in
+   and dir=Root_directory.of_string(List.nth l1 2) in
    MLX(Ocaml_ending.of_string("."^edg),s,dir);;
