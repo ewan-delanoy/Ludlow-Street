@@ -1,7 +1,7 @@
 (*
 
 
-#use"my_global_replace.ml";;
+#use"alternative_global_replace.ml";;
 
 The my_global_replace is a replacement for Ocaml's Str.global_replace which has
 the disadvantage of applying certain transforms to the replacement string.
@@ -12,14 +12,24 @@ the disadvantage of applying certain transforms to the replacement string.
 
 exception Ambiguity of string;;
 
+let single_char_special_case (single_c,b) s=
+    let n=String.length(s) in
+    let temp1=Ennig.doyle (
+       fun j->let c=String.get s j in
+              if c=single_c
+              then b
+              else String.make 1 c 
+    ) 0 (n-1) in
+    String.concat "" temp1;;
+
 let my_global_replace (a,b) s=
   let n=String.length(s) and na=String.length(a) in
+  if na=1 then single_char_special_case (String.get a 0,b) s else
   let indices=Substring.occurrences_of_in a s in
   if indices=[] then s else
   let m=List.length(indices)+1 in
   let pattern_appears_left=((List.nth indices 0)=1)
   and pattern_appears_right=((List.nth indices (m-2))=n+1-na) in
-  if m=1 then s else
   let fst_coord=(fun j->if j=1 then 1 else (List.nth indices (j-2))+na)
   and snd_coord=(fun j->if j=m then n else (List.nth indices (j-1))-1) in
   let coords=(fun j->
@@ -44,5 +54,7 @@ my_global_replace ("ab","cd") "ab12345ab6ab78cd91234ab679";;
 my_global_replace ("ab","cd") "12345ab6ab78cd91234ab679ab";;
 my_global_replace ("1111","") "abc1111111111def";;
 my_global_replace ("ab","cd") "xyz";;
+my_global_replace ("a","b") "1aa2";; 
+
 *)  
   
