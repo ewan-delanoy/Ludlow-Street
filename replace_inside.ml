@@ -42,7 +42,7 @@ let overwrite_between_markers_inside_string ovw_b (bm,em)
      if i1=(-1) then raise(Absent_beginning_marker(bm)) else
      let j1=i1+(String.length bm)-1 in
      let i2=substring_leftmost_index_from em s1 (j1+1) in
-     if i2=(-1) then raise(Absent_ending_marker(bm)) else
+     if i2=(-1) then raise(Absent_ending_marker(em)) else
      let before=String.sub s1 0 (j1+1)
      and after=String.sub s1 i2 (String.length(s1)-i2) 
      in
