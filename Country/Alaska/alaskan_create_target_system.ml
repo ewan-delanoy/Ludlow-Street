@@ -34,6 +34,7 @@ let copy_special_files s_main_dir=
        Coma_constant.temporary;
     ]
   in
+  let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_build/") in
   let _=Image.image (fun s->
     Unix_command.uc ("touch "^s_main_dir^"/"^s)
      ) ([dname^".ml";
