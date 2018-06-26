@@ -17,7 +17,7 @@ let current_directories()=
   (Subdirectory_t.SD "")::(temp1@
   [
     Coma_constant.kept_up_to_date_but_not_registered;
-    Coma_constant.not_registered_any_more;
+    Coma_constant.left_out_of_updating;
     Coma_constant.old_and_hardly_reusable
   ]);;
 

@@ -8,7 +8,7 @@
 let kept_up_to_date_but_not_registered=
   Subdirectory.of_string "Kept_up_to_date_but_not_registered";;
 
-let not_registered_any_more=
+let left_out_of_updating=
     Subdirectory.of_string "Left_out_of_updating";;  
 
 let old_and_hardly_reusable=

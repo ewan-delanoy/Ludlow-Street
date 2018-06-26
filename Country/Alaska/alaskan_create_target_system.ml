@@ -72,7 +72,7 @@ let select_good_files s_main_dir=
      (Image.image Subdirectory.connectable_to_subpath 
       [
         Coma_constant.kept_up_to_date_but_not_registered;
-        Coma_constant.not_registered_any_more;
+        Coma_constant.left_out_of_updating;
         Coma_constant.old_and_hardly_reusable;
         Coma_constant.temporary;
       ]
