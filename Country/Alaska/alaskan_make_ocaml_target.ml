@@ -37,7 +37,7 @@ let unit_make dir (bowl,(mdata,tgts,rejected_ones)) tgt=
         match Ocaml_target.ml_from_lex_or_yacc_data tgt with
        None->(true,(mdata,tgts2,rejected_ones))
        |Some(mlx)->
-                   let mdata2=Md_list.force_modification_time dir mdata mlx in
+                   let mdata2=Modify_md_list.force_modification_time dir mdata mlx in
                    (true,(mdata2,tgts2,rejected_ones))        
   else let rejected_ones2=(
         match Ocaml_target.main_module tgt with
@@ -104,7 +104,7 @@ let rec  iterator_for_full_compilation dir (successful_ones,to_be_treated,ts)=
 
  
 let feydeau dir old_mdata old_tgts=
-  let l=Md_list.everyone_except_the_debugger old_mdata in
+  let l=Modify_md_list.everyone_except_the_debugger old_mdata in
   let ts=(old_mdata,old_tgts,[]) in
   let temp1=ingr_for_top old_mdata "ecaml" l in
   let (successful_ones,ts2)=iterator_for_full_compilation dir ([],temp1,ts) in

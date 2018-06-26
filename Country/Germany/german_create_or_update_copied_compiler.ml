@@ -5,7 +5,7 @@
 *)
 
 let prepare destdir=
-  let l1=Md_list.all_short_paths (German_wrapper.data()) in
+  let l1=Modify_md_list.all_short_paths (German_wrapper.data()) in
   let main_diff=Prepare_dircopy_update.compute_diff 
         (German_constant.root,l1) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;

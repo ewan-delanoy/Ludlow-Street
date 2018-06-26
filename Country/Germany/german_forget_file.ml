@@ -14,10 +14,10 @@ let on_targets triple ap=
   let root=German_constant.root in
   let hm=Half_dressed_module.of_path_and_root ap root 
   and mlx=Mlx_ended_absolute_path.of_path_and_root ap root  in
-  match Md_list.find_module_registration mdata hm with
+  match Modify_md_list.find_module_registration mdata hm with
    None->triple
   |Some(_)->
-   let bel=Md_list.below mdata (Mlx_ended_absolute_path.half_dressed_core mlx) in
+   let bel=Modify_md_list.below mdata (Mlx_ended_absolute_path.half_dressed_core mlx) in
     if bel=[]
     then let s_hm=Half_dressed_module.uprooted_version hm in
          let fn=(Root_directory.connectable_to_subpath(root))^s_hm in

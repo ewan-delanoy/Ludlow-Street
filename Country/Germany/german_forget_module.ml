@@ -9,12 +9,11 @@ exception ModuleWithDependencies of
 	Half_dressed_module.t*(Half_dressed_module.t list);;
 exception Non_registered_module of Half_dressed_module.t;;
 
-
 let on_targets (mdata,dirs,tgts) hm=
-  match Md_list.find_module_registration mdata hm with
+  match Modify_md_list.find_module_registration mdata hm with
    None->raise(Non_registered_module(hm))
   |Some(dt)->
-   let bel=Md_list.below mdata hm in
+   let bel=Modify_md_list.below mdata hm in
     if bel=[]
     then let (answer,short_paths)=German_unregister_module.on_targets (mdata,tgts) hm in
          let sfn=Half_dressed_module.to_shortened_string hm in

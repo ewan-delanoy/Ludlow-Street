@@ -26,7 +26,7 @@ let fl=German_vague_string.to_path;;
 let fmr x=
   let uncapitalized_x=
     Naked_module.of_string(String.uncapitalize_ascii x) in
-  Md_list.find_naked_module_registration
+  Modify_md_list.find_naked_module_registration
   (German_wrapper.data()) uncapitalized_x;;
 
 exception No_module_with_name of string;;
@@ -39,13 +39,13 @@ let hmx x=
 
 let abo x=
   Image.image Half_dressed_module.uprooted_version
-  (Md_list.above (German_wrapper.data()) (hmx x));;
+  (Modify_md_list.above (German_wrapper.data()) (hmx x));;
 let bel x=
   Image.image Half_dressed_module.uprooted_version
-  (Md_list.below (German_wrapper.data()) (hmx x));;
+  (Modify_md_list.below (German_wrapper.data()) (hmx x));;
 let dbel x=
   Image.image Half_dressed_module.uprooted_version
-  (Md_list.directly_below (German_wrapper.data()) (hmx x));;
+  (Modify_md_list.directly_below (German_wrapper.data()) (hmx x));;
 
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
@@ -92,7 +92,7 @@ let vo s=
   Unix_command.uc ("open -a \"/Applications/Visual Studio Code.app\" "^s1);;
 
 
-let syz()=Md_list.system_size (German_wrapper.data());;
+let syz()=Modify_md_list.system_size (German_wrapper.data());;
 
 let init=German_wrapper.initialize;;
 
@@ -113,7 +113,7 @@ let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem
   wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem 
     modname (German_wrapper.data()) ;;
-let muv x=Md_list.modules_using_value (German_wrapper.data()) x;;
+let muv x=Modify_md_list.modules_using_value (German_wrapper.data()) x;;
 
 let ed =German_wrapper.end_debugging;;
 
@@ -125,7 +125,7 @@ let fvd=Find_value_descendants.fvd
 let rsh_without_backup ()=let _=German_wrapper.refresh() in ();;
 
 
-let am ()=Md_list.all_naked_modules (German_wrapper.data());;
+let am ()=Modify_md_list.all_naked_modules (German_wrapper.data());;
   
     
 let tw x=

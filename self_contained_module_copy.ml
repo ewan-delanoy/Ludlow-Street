@@ -20,7 +20,7 @@ let unsharped_content hm=
     else naive_content;;
 
 let self_contained_module_copy prefix hm=
-   let those_above=(Md_list.above (German_wrapper.data()) hm)@[hm] in
+   let those_above=(Modify_md_list.above (German_wrapper.data()) hm)@[hm] in
    let temp1=Image.image (
        fun hm2->
          let mlx=Mlx_ended_absolute_path.join hm2 Ocaml_ending.ml in

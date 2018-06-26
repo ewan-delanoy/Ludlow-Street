@@ -56,7 +56,7 @@ module Private=struct
      and temp9=Image.image Half_dressed_module.archive_pair printer_equipped_types in
      String.concat industrial_separator1
      [
-       Md_list.archive mdata;
+       Modify_md_list.archive mdata;
        Nonblank.make(String.concat industrial_separator2 temp2);
        Nonblank.make(String.concat industrial_separator2 temp3);
        Nonblank.make(String.concat industrial_separator2 temp9);
@@ -76,7 +76,7 @@ module Private=struct
      and v3=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  2)) 
      and v9=Str.split (Str.regexp_string Private.industrial_separator2) (Nonblank.decode(List.nth l1  3))
      in
-     let new_mdata=Md_list.unarchive v1 in
+     let new_mdata=Modify_md_list.unarchive v1 in
      let new_directories=Image.image (fun v->Subdirectory.of_string(Nonblank.decode v)) v2 in
      let new_targets=Image.image Ocaml_target.unarchive v3 in
      let new_pe_types=Image.image Half_dressed_module.unarchive_pair v9 in

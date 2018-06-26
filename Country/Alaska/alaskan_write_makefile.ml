@@ -19,7 +19,8 @@ let slice_shortened_targets tgts=
   Sliced_string.to_string_list temp1;;
 
 let write_usual_makefile_element main_root mdata tgt=
- let ingrs=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target mdata tgt in
+ let ingrs=Alaskan_ingredients_for_ocaml_target.ingredients_for_ocaml_target 
+    mdata tgt in
  let sliced_ingrs=slice_shortened_targets ingrs in
  let cmds=Alaskan_command_for_ocaml_target.command_for_ocaml_target 
                        main_root mdata tgt in
@@ -30,11 +31,11 @@ let write_usual_makefile_element main_root mdata tgt=
  String.concat "" [s1;s2;s3;s4];;
  
 let write_full_compilation_makefile_element main_root mdata=
-  let l=Md_list.all_modules mdata in
+  let l=Modify_md_list.all_modules mdata in
   let temp1=Image.image (Alaskan_ingredients_for_ocaml_target.ingredients_for_usual_element mdata) l in
   let ingrs=Preserve_initial_ordering.preserve_initial_ordering temp1 in
   let sliced_ingrs=slice_shortened_targets ingrs in
-  let l_dt=Image.image (fun hm->Option.unpack(Md_list.find_module_registration mdata hm)) l  in
+  let l_dt=Image.image (fun hm->Option.unpack(Modify_md_list.find_module_registration mdata hm)) l  in
   let s_root=Root_directory.connectable_to_subpath(main_root) in
   let long_temp4=Image.image (fun fd->
              let hm=Modulesystem_data.name fd in
@@ -55,7 +56,7 @@ let write_full_compilation_makefile_element main_root mdata=
   String.concat "" [s1;s2;s3;s4];; 
  
 let write_makefile main_root mdata=
- let temp1=Md_list.usual_targets mdata in
+ let temp1=Modify_md_list.usual_targets mdata in
  let temp2=Image.image (write_usual_makefile_element main_root mdata) temp1 in
  let temp3=temp2@[write_full_compilation_makefile_element main_root mdata] in
  let temp5=slice_targets  temp1 in

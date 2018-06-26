@@ -12,7 +12,7 @@
 let on_targets (old_mdata,old_dirs,old_tgts) mlx=
   let hm=Mlx_ended_absolute_path.half_dressed_core mlx in
   let new_dir=Half_dressed_module.subdirectory hm in
- let new_mdata=Md_list.register_mlx_file_on_monitored_modules old_mdata mlx in
+ let new_mdata=Modify_md_list.register_mlx_file_on_monitored_modules old_mdata mlx in
  let new_dirs=
  (if List.mem new_dir old_dirs then old_dirs else old_dirs@[new_dir] )
  and new_tgts=
