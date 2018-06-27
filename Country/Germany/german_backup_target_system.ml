@@ -8,11 +8,10 @@
 
 let github_after_backup=ref(true);;
 
-let commands_for_backup diff=
+let commands_for_backup destination_dir diff=
    if Dircopy_diff.is_empty diff
    then ([],[])
    else 
-   let destination_dir=German_constant.dir_for_backup in
    let s_destination=Root_directory.connectable_to_subpath destination_dir in
    let created_ones=Dircopy_diff.recently_created diff in
    let temp2=Option.filter_and_unpack
@@ -44,9 +43,8 @@ let commands_for_backup diff=
    ) (Dircopy_diff.recently_deleted diff) in
    (temp3@temp4@temp5,temp6@temp7);;
 
-let backup_with_message diff msg=
-  let destination_dir=German_constant.dir_for_backup  
-  and (nongit_cmds,git_cmds)=commands_for_backup diff in
+let backup_with_message destination_dir diff msg=
+  let (nongit_cmds,git_cmds)=commands_for_backup destination_dir  diff in
   let s_destination=Root_directory.connectable_to_subpath destination_dir in
   let _=Image.image Unix_command.uc nongit_cmds in
   let _=(
@@ -64,12 +62,12 @@ let backup_with_message diff msg=
   ) in
   ();;
 
-let backup diff opt=
+let backup destination_dir diff opt=
   let msg=(
    match opt with
     None->Dircopy_diff.explain diff
    |Some(msg0)->msg0) in
-  backup_with_message diff msg;;
+  backup_with_message destination_dir diff msg;;
   
 
 

@@ -6,7 +6,8 @@
 *)
 
 
-
+let get_root x=x.Coma_state_t.root;;
+let get_backup_dir x=x.Coma_state_t.dir_for_backup;;
    
 let get_data x=x.Coma_state_t.data;;
 let get_directories x=x.Coma_state_t.directories;;
@@ -18,8 +19,10 @@ let set_directories x y=x.Coma_state_t.directories<- y;;
 let set_targets x y=x.Coma_state_t.targets<- y;;
 let set_preq_types x y=x.Coma_state_t.printer_equipped_types<- y;;
 
-let empty_one={
-     Coma_state_t.data        =[];
+let empty_one x y={
+     Coma_state_t.root =x;
+     dir_for_backup =y;
+     data        =[];
      directories =[];
      targets     =[];
      printer_equipped_types =[];
@@ -112,7 +115,7 @@ let refresh x=
              German_constant.root
          in 
         let new_dirs=Modify_md_list.compute_subdirectories_list new_mdata in
-        let new_diff=German_delchacre_from_scratch.dfs new_mdata in
+        let new_diff=German_delchacre_from_scratch.dfs (get_backup_dir x) new_mdata in
         let _=
         (
           set_data x new_mdata;
@@ -121,6 +124,7 @@ let refresh x=
           set_preq_types x new_ptypes;
          ) in
          new_diff;; 
+
 
 let register_mlx_file x mlx=
           let (new_mdata,new_dirs,new_tgts)= 
@@ -218,3 +222,6 @@ let unregister_module x hm=
               set_directories x new_dirs;
               set_targets x new_tgts;
             );;        
+
+
+               

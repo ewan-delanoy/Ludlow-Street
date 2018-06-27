@@ -5,9 +5,20 @@
 
 *)
 
+let usual_root=Root_directory.of_string 
+"/Users/ewandelanoy/Documents/OCaml/Idaho";;
+let usual_dir_for_backup=Root_directory.of_string 
+"/Users/ewandelanoy/Documents/OCaml/Githubbed_ocaml";;
+
+
 module Private=struct
 
-let main_ref=Coma_state.empty_one;;
+
+
+
+let main_ref=Coma_state.empty_one
+  usual_root
+  usual_dir_for_backup;;
 
 let whole ()=Coma_state.uple_form main_ref;;
 
