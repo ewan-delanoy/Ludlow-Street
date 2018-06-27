@@ -36,6 +36,7 @@ let up_to_date_but_not_registered_files=
        path_for_printersfile;
     ];;
 
+let name_for_debugged_module="debugged";;    
 
    
 
