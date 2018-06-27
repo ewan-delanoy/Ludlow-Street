@@ -24,7 +24,7 @@ let init_dir=
   (Coma_constant.kept_up_to_date_but_not_registered);;
 
 let copy_special_files s_main_dir=
-  let dname=Debugged_name.debugger_name in
+  let dname=Coma_constant.name_for_debugged_module in
   let _=Image.image(
    fun s->
     Unix_command.uc 

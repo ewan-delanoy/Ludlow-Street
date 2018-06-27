@@ -111,7 +111,7 @@ let force_modification_time root_dir mdata mlx=
 let everyone_except_the_debugger mdata=
         let temp3=Image.image Modulesystem_data.name mdata in
         let temp4=List.filter (fun hm->
-           Half_dressed_module.uprooted_version(hm)<>Debugged_name.debugger_name
+           Half_dressed_module.uprooted_version(hm)<>Coma_constant.name_for_debugged_module
         ) temp3 in
         temp4;;      
         
@@ -515,7 +515,7 @@ let update_ancs_libs_and_dirs l=Private_for_ancs_libs_and_dirs.computer_for_upda
     
 let quick_update mdata x=
   let hm=Modulesystem_data.name (x) in
-  if (Half_dressed_module.uprooted_version hm)=Debugged_name.debugger_name
+  if (Half_dressed_module.uprooted_version hm)=Coma_constant.name_for_debugged_module
   then None
   else
   let new_values=Modulesystem_data.compute_modification_times hm 
