@@ -70,6 +70,10 @@ let remove_debuggables x=
          (get_targets x)  in 
   set_targets x new_tgts;;
     
+let backup x diff opt=
+  Alaskan_backup_target_system.backup 
+  (get_root x) diff opt;;
+
 let forget_file x ap=
     let (new_mdata,new_dirs,new_tgts)= 
      German_forget_file.on_targets 
