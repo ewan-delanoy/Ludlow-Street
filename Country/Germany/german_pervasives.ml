@@ -150,8 +150,7 @@ let reco_with_optional_comment opt=
     (Recently_changed.of_string_list ordered_paths)
     (Recently_created.of_string_list []) in
    (
-    Alaskan_backup_target_system.backup 
-      German_wrapper.usual_dir_for_backup diff opt;
+      German_wrapper.backup diff opt;
     German_wrapper.save_all() 
    ));;
 
@@ -173,7 +172,7 @@ let forget_file_with_backup x=
     (Recently_created.of_string_list []) in
    (
     German_wrapper.forget_file ap;
-    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    German_wrapper.backup diff None;
     German_wrapper.save_all() 
    ) ;; 
 
@@ -186,7 +185,7 @@ let forget_module_with_backup x=
       (Recently_changed.of_string_list [])
       (Recently_created.of_string_list []) in
      (
-      Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+      German_wrapper.backup diff None; 
       German_wrapper.save_all() 
      );; 
  
@@ -207,7 +206,7 @@ let regi x=
     (Recently_created.of_string_list [short_path]) in
   (
     German_wrapper.register_mlx_file mlx;
-    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    German_wrapper.backup diff None;
     German_wrapper.save_all() 
    );;
 
@@ -218,8 +217,7 @@ let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=
   let diff=German_wrapper.refresh () in
   (
-    Alaskan_backup_target_system.backup 
-     German_wrapper.usual_dir_for_backup diff None;
+    German_wrapper.backup diff None;
     German_wrapper.save_all() 
    );;
 
