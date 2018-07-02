@@ -564,13 +564,17 @@ let needed_dirs_and_libs_for_several is_optimized l_dt=
     pre_libs2) in
     String.concat " " ["";dirs;libs;""];;
 
+let principal_ending x=
+      if x.mll_present then Ocaml_ending.mll else
+      if x.mly_present then Ocaml_ending.mly else
+      if x.ml_present then Ocaml_ending.ml else
+      Ocaml_ending.mli;;
+
 let principal_mlx x=
-   if x.mll_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.mll else
-   if x.mly_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.mly else
-   if x.ml_present then Mlx_ended_absolute_path.join x.name Ocaml_ending.ml else
-   Mlx_ended_absolute_path.join x.name Ocaml_ending.mli;;
+  Mlx_ended_absolute_path.join x.name (principal_ending x);;
    
 let principal_path x=Mlx_ended_absolute_path.to_path (principal_mlx x);;  
+
 
 let ml_path x=Mlx_ended_absolute_path.to_path (Mlx_ended_absolute_path.join x.name Ocaml_ending.ml);;   
 
