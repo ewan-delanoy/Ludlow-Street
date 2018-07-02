@@ -150,7 +150,8 @@ let reco_with_optional_comment opt=
     (Recently_changed.of_string_list ordered_paths)
     (Recently_created.of_string_list []) in
    (
-    German_backup_target_system.backup German_wrapper.usual_dir_for_backup diff opt;
+    Alaskan_backup_target_system.backup 
+      German_wrapper.usual_dir_for_backup diff opt;
     German_wrapper.save_all() 
    ));;
 
@@ -172,7 +173,7 @@ let forget_file_with_backup x=
     (Recently_created.of_string_list []) in
    (
     German_wrapper.forget_file ap;
-    German_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
     German_wrapper.save_all() 
    ) ;; 
 
@@ -185,7 +186,7 @@ let forget_module_with_backup x=
       (Recently_changed.of_string_list [])
       (Recently_created.of_string_list []) in
      (
-      German_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+      Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
       German_wrapper.save_all() 
      );; 
  
