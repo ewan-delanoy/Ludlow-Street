@@ -218,7 +218,8 @@ let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=
   let diff=German_wrapper.refresh () in
   (
-    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    Alaskan_backup_target_system.backup 
+     German_wrapper.usual_dir_for_backup diff None;
     German_wrapper.save_all() 
    );;
 

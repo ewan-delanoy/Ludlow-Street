@@ -37,11 +37,13 @@ let save_all ()=Alaskan_save_all.write_all
 
 let recompile ()=Coma_state.recompile main_ref;;   
 
+let recompile_softly ()= let _=recompile() in ();;
 
 end;;
 
 
-let recompile_softly ()= let _=Private.recompile() in ();;
+let backup diff opt=
+     Coma_state.backup (Private.main_ref) diff opt;;
 let data ()=Coma_state.get_data (Private.main_ref);;
 let directories ()=Coma_state.get_directories (Private.main_ref);;
 
@@ -68,7 +70,7 @@ let forget_unregistered_file ap=
        
 let forget_file ap=
   (
-    recompile_softly();
+    Private.recompile_softly();
     Coma_state.forget_file Private.main_ref ap;
     Private.save_all();
   );;   
@@ -99,13 +101,13 @@ let refresh ()=
    new_diff;;
 
 let register_mlx_file mlx=
-    (recompile_softly();
+    (Private.recompile_softly();
      Coma_state.register_mlx_file Private.main_ref mlx;
      Private.save_all();
     );;  
  
 let relocate_module old_name new_subdir=
-      (recompile_softly();
+      (Private.recompile_softly();
        Coma_state.relocate_module Private.main_ref old_name new_subdir;
        Private.save_all();
       );;          
@@ -114,7 +116,7 @@ let relocate_module old_name new_subdir=
 
 let rename_directory (old_subdir,new_subdirname)=
   (
-          recompile_softly();
+          Private.recompile_softly();
           Coma_state.rename_directory Private.main_ref (old_subdir,new_subdirname);
           Private.save_all();
   );;   
@@ -122,7 +124,7 @@ let rename_directory (old_subdir,new_subdirname)=
 
 let rename_module old_name new_name=
     (
-            recompile_softly();
+            Private.recompile_softly();
             Coma_state.rename_module Private.main_ref old_name new_name;
             Private.save_all();
     );;   
@@ -131,14 +133,14 @@ let rename_module old_name new_name=
 
 let reposition_module hm (l_before,l_after)=
   (
-    recompile_softly();
+    Private.recompile_softly();
     Coma_state.reposition_module Private.main_ref hm (l_before,l_after);
     Private.save_all();
  );;   
   
 let start_debugging ()=
   (
-    recompile_softly();
+    Private.recompile_softly();
     Coma_state.start_debugging Private.main_ref;
     Private.save_all();
  );;   
@@ -156,14 +158,14 @@ let undeclare_printer_equipped_type hm=
    
 
 let unregister_module hm=
-    (recompile_softly();
+    (Private.recompile_softly();
      Coma_state.unregister_module Private.main_ref hm;
      Private.save_all();
     );;    
 
 
 let unregister_mlx_file mlx=
-   (recompile_softly();
+   (Private.recompile_softly();
     Coma_state.unregister_mlx_file Private.main_ref mlx;
     Private.save_all();
    );;        
