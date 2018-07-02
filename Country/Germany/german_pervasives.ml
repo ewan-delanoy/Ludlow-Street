@@ -207,7 +207,7 @@ let regi x=
     (Recently_created.of_string_list [short_path]) in
   (
     German_wrapper.register_mlx_file mlx;
-    German_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
     German_wrapper.save_all() 
    );;
 
@@ -218,7 +218,7 @@ let ren  x y=(ren_without_backup  x y;reco());;
 let rsh ()=
   let diff=German_wrapper.refresh () in
   (
-    German_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
+    Alaskan_backup_target_system.backup German_wrapper.usual_dir_for_backup diff None;
     German_wrapper.save_all() 
    );;
 
