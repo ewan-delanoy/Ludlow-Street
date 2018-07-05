@@ -71,6 +71,17 @@ let reposition_just_after_fst_idx
     Array.set x.container (k-1) (Array.get temp_copy (new_k-1))
     done;;
    
+ exception Element_not_found;;
+ 
+ let leftmost_index x y=
+    let c=x.current_size in
+    let rec tempf=(
+      fun k->if k>c then raise(Element_not_found) else
+             if Array.get x.container (k-1)=Some(y)
+             then k
+             else tempf(k+1)
+    ) in
+    tempf 1;;
 
 
 
