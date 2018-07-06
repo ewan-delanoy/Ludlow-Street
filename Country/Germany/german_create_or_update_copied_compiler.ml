@@ -10,7 +10,7 @@ let prepare destdir=
         (German_constant.root,l1) destdir in
   Prepare_dircopy_update.commands_for_update destdir main_diff;;
 
-let file_for_backup="Country/Germany/german_backup_target_system.ml";;
+let file_for_backup="Country/Alaska/alaskan_backup_target_system.ml";;
 
 let replacement_for_special_file destdir filename=
   if filename=file_for_backup
