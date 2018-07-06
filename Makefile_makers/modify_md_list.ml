@@ -174,7 +174,7 @@ let compute_subdirectories_list mdata=
                 let temp3=Ordered_string.forget_order temp2 in
                 Image.image Subdirectory.of_string temp3;;
 
-let check_presences mdata hm=
+let  check_presences mdata hm=
     match Option.seek (fun a->Modulesystem_data.name a=hm) mdata with
       None->Ocaml_ending.exhaustive_uple (fun _->false)
     |Some(dt)->Ocaml_ending.exhaustive_uple 
@@ -218,11 +218,13 @@ module PrivateTwo=struct
                     
 end;;  
 
+
 let complete_info mdata  mlx=
   let (hm,edg)=Mlx_ended_absolute_path.decompose mlx in
   let genealogy=find_needed_data mdata mlx in
   let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
   and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
+  let prend=Modulesystem_data.compute_principal_ending (mlp,mlip,mllp,mlyp) in
   let dirfath=Image.image (Modulesystem_data.name) genealogy in
   let temp1=Image.image 
         (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
@@ -237,10 +239,41 @@ let complete_info mdata  mlx=
   let libned=PrivateTwo.find_needed_libraries mlx genealogy
   and dirned=PrivateTwo.find_needed_directories mlx genealogy in
   Modulesystem_data.make
-  (hm,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+  (hm,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
 
+  let check_unix_presence hm edg=
+    let (_,dir)=Half_dressed_module.unveil hm in
+    let s_hm=Half_dressed_module.uprooted_version hm 
+    and s_dir=Root_directory.connectable_to_subpath dir in
+    Sys.file_exists(s_dir^s_hm^(Ocaml_ending.to_string edg));;
 
+let  check_unix_presences hm=
+    Ocaml_ending.exhaustive_uple (fun edg->check_unix_presence hm edg);;  
 
+let complete_info_during_registration mdata  mlx=
+    let (hm,edg)=Mlx_ended_absolute_path.decompose mlx in
+    let genealogy=find_needed_data mdata mlx in
+    let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
+    and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
+    let prend=Modulesystem_data.compute_principal_ending (mlp,mlip,mllp,mlyp) in
+    let dirfath=Image.image (Modulesystem_data.name) genealogy in
+    let temp1=Image.image 
+          (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
+          genealogy in
+    let temp2=Tidel.big_teuzin ((Tidel.diforchan(dirfath) )::temp1) in
+    let tempf=(fun t->
+              let nam_t=Modulesystem_data.name t in
+              if Tidel.elfenn nam_t temp2
+              then Some(nam_t)
+              else None) in
+    let allanc=Option.filter_and_unpack tempf mdata in
+    let libned=PrivateTwo.find_needed_libraries mlx genealogy
+    and dirned=PrivateTwo.find_needed_directories mlx genealogy in
+    Modulesystem_data.make
+    (hm,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+  
+  
+  
 
 exception Nonregistered_module of Half_dressed_module.t;;
 
@@ -489,6 +522,7 @@ let modules_using_value mdata value_name =
          let new_md=
          {
           Modulesystem_data.name=md.Modulesystem_data.name;
+            principal_ending=md.Modulesystem_data.principal_ending;
             ml_present=md.Modulesystem_data.ml_present;
             mli_present=md.Modulesystem_data.mli_present;
             mll_present=md.Modulesystem_data.mll_present;
@@ -530,6 +564,7 @@ let quick_update mdata x=
   Some(
   {
     Modulesystem_data.name=x.Modulesystem_data.name;
+    principal_ending=x.Modulesystem_data.principal_ending;
     ml_present=x.Modulesystem_data.ml_present;
     mli_present=x.Modulesystem_data.mli_present;
     mll_present=x.Modulesystem_data.mll_present;
@@ -662,15 +697,16 @@ let register_mlx_file_on_monitored_modules mdata mlx_file =
              Half_dressed_module.naked_module(Modulesystem_data.name dt)=nm) 
              mdata in
           if opt=None
-          then  let old_info=complete_info mdata mlx_file in
+          then  let old_info=complete_info_during_registration mdata mlx_file in
                 let info1=Modulesystem_data.make_presence ending old_info in
                 (*
                 if a mll or mly file is being registered, the ml will automatically be created,
                 so let us anticipate by already adding a ml presence
                 *)
-                let info=(if List.mem ending [Ocaml_ending.mll;Ocaml_ending.mly]
+                let pre_info=(if List.mem ending [Ocaml_ending.mll;Ocaml_ending.mly]
                           then Modulesystem_data.make_ml_present info1 
                           else info1) in
+                let info=Modulesystem_data.recompute_principal_ending pre_info in          
                           before@[info]
           else
           let old_dt=Option.unpack(opt) in
@@ -689,7 +725,8 @@ let register_mlx_file_on_monitored_modules mdata mlx_file =
           then raise(Bad_pair(mlx_file,List.hd edgs))
           else 
           let dt1=complete_info mdata mlx_file in
-          let new_dt=Modulesystem_data.make_presence ending dt1 in
+          let pre_new_dt=Modulesystem_data.make_presence ending dt1 in
+          let new_dt=Modulesystem_data.recompute_principal_ending pre_new_dt in
           if ending<>Ocaml_ending.ml
           then (before@(new_dt::after)) 
           else 

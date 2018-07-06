@@ -12,6 +12,7 @@ Gathers all (ml/mli/mll/mly) corresponding to the same module.
 
 type t={
     name : Half_dressed_module.t;
+    principal_ending : Ocaml_ending.t;
     ml_present  : bool;
     mli_present : bool;
     mll_present : bool;
@@ -29,6 +30,7 @@ type t={
    
 
 let name x=x.name;;
+let principal_ending x=x.principal_ending;;
 let ml_present x=x.ml_present;;
 let mli_present x=x.mli_present;;
 let mll_present x=x.mll_present;;
@@ -57,9 +59,10 @@ let modification_times x=
    x.mly_modification_time
   );;
 
-let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
+let make (nam,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
   {
     name=nam;
+    principal_ending=prend;
     ml_present=mlp;
     mli_present=mlip;
     mll_present=mllp;
@@ -75,9 +78,10 @@ let make (nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,di
 
 };;
 
-let compact_make (dir,nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
-  make (Half_dressed_module.of_string_and_root nam dir,
-  		mlp,mlip,mllp,mlyp,
+let compact_make (dir,namp,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
+  make (Half_dressed_module.of_string_and_root namp dir,
+      Ocaml_ending.of_string prend,
+      mlp,mlip,mllp,mlyp,
   		mlmt,mlimt,mllmt,mlymt,
   		Image.image Ocaml_library.of_string libned,
   		Image.image (fun s->Half_dressed_module.of_string_and_root s dir) dirfath,
@@ -87,6 +91,7 @@ let compact_make (dir,nam,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfa
 let make_ml_present x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=true;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -105,6 +110,7 @@ let make_ml_present x=
 let make_mli_present x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=true;
     mll_present=x.mll_present;
@@ -124,6 +130,7 @@ let make_mli_present x=
 let make_mll_present x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=true;
@@ -144,6 +151,7 @@ let make_mll_present x=
 let make_mly_present x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -166,6 +174,7 @@ let make_mly_present x=
 let make_ml_absent x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=false;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -184,6 +193,7 @@ let make_ml_absent x=
 let make_mli_absent x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=false;
     mll_present=x.mll_present;
@@ -202,6 +212,7 @@ let make_mli_absent x=
 let make_mll_absent x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=false;
@@ -221,6 +232,7 @@ let make_mll_absent x=
 let make_mly_absent x=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -287,6 +299,7 @@ let rename1 new_name x=
    let (ml_mt,mli_mt,mly_mt,mll_mt)=compute_modification_times new_name in
    {
     name=new_name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -319,7 +332,8 @@ let rename (old_name,new_name) x=
          else None
        ) renamed_ancestors in
        {
-    		name=x.name;
+        name=x.name;
+        principal_ending=x.principal_ending;
     		ml_present=x.ml_present;
    			mli_present=x.mli_present;
     		mll_present=x.mll_present;
@@ -359,6 +373,7 @@ let update_anclibdir changer l_data x=
   let new_dir=Ordered.forget_order(Tidel.diforchan temp1) in
    {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -416,6 +431,7 @@ let is_outdated  dt=((outdated_acolytes  dt)<>[]);;
 let force_ml_modification_time x new_val=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -435,6 +451,7 @@ let force_ml_modification_time x new_val=
 let force_mli_modification_time x new_val=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -453,6 +470,7 @@ let force_mli_modification_time x new_val=
 let force_mll_modification_time x new_val=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -471,6 +489,7 @@ let force_mll_modification_time x new_val=
 let force_mly_modification_time x new_val=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -496,6 +515,7 @@ let force_modification_time x edg new_val=match edg with
 let fix_ancestors_and_libs_and_dirs x anc=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -513,6 +533,7 @@ let fix_ancestors_and_libs_and_dirs x anc=
 let fix_ancestors x anc=
  {
     name=x.name;
+    principal_ending=x.principal_ending;
     ml_present=x.ml_present;
     mli_present=x.mli_present;
     mll_present=x.mll_present;
@@ -564,16 +585,35 @@ let needed_dirs_and_libs_for_several is_optimized l_dt=
     pre_libs2) in
     String.concat " " ["";dirs;libs;""];;
 
-let principal_ending x=
-      if x.mll_present then Ocaml_ending.mll else
-      if x.mly_present then Ocaml_ending.mly else
-      if x.ml_present then Ocaml_ending.ml else
-      Ocaml_ending.mli;;
 
 let principal_mlx x=
   Mlx_ended_absolute_path.join x.name (principal_ending x);;
    
 let principal_path x=Mlx_ended_absolute_path.to_path (principal_mlx x);;  
+
+let compute_principal_ending (mlp,mlip,mllp,mlyp)=
+  if mllp then Ocaml_ending.mll else
+  if mlyp then Ocaml_ending.mly else
+  if mlp then Ocaml_ending.ml else
+  Ocaml_ending.mli;;
+
+let recompute_principal_ending x=
+  {                                                                 
+    name = x.name;
+    principal_ending=compute_principal_ending(x.ml_present,x.mli_present,x.mll_present,x.mly_present);
+    ml_present = x.ml_present;
+    mli_present = x.mli_present;
+    mll_present = x.mll_present;
+    mly_present = x.mly_present;
+    ml_modification_time =  x.ml_modification_time;
+    mli_modification_time = x.mli_modification_time;
+    mll_modification_time = x.mll_modification_time;
+    mly_modification_time = x.mly_modification_time;
+    needed_libraries = x.needed_libraries;
+    direct_fathers = x.direct_fathers;
+    all_ancestors = x.all_ancestors;
+    needed_directories = x.needed_directories;
+  };;
 
 
 let ml_path x=Mlx_ended_absolute_path.to_path (Mlx_ended_absolute_path.join x.name Ocaml_ending.ml);;   
@@ -583,6 +623,7 @@ let rename_endsubdirectory (old_subdir,new_subdirname) x=
     and ren_sub=Subdirectory.rename_endsubdirectory (old_subdir,new_subdirname) in
 {                                                                 
       name = ren (x.name);
+      principal_ending=x.principal_ending;
       ml_present = x.ml_present;
       mli_present = x.mli_present;
       mll_present = x.mll_present;
@@ -615,6 +656,7 @@ let archive x=
    String.concat industrial_separator1
    [
      Half_dressed_module.archive x.name;
+     Ocaml_ending.to_string x.principal_ending;
      string_of_bool x.ml_present;
      string_of_bool x.mli_present;
      string_of_bool x.mll_present;
@@ -631,22 +673,23 @@ let archive x=
 
 let unarchive s=
    let l1=Str.split (Str.regexp_string industrial_separator1) s in
-   let v1=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1  9))
-   and v2=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 10))
-   and v3=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 11))
-   and v4=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 12)) in
+   let v1=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 10))
+   and v2=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 11))
+   and v3=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 12))
+   and v4=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 13)) in
    let hm=Half_dressed_module.unarchive(List.hd l1) in
    let dir=Half_dressed_module.bundle_main_dir hm in
 {
     name = hm;
-    ml_present  = bool_of_string(List.nth l1 1);
-    mli_present = bool_of_string(List.nth l1 2);
-    mll_present = bool_of_string(List.nth l1 3);
-    mly_present = bool_of_string(List.nth l1 4);
-    ml_modification_time = float_of_string(List.nth l1 5);
-    mli_modification_time = float_of_string(List.nth l1 6);
-    mll_modification_time = float_of_string(List.nth l1 7);
-    mly_modification_time = float_of_string(List.nth l1 8);
+    principal_ending = Ocaml_ending.of_string(List.nth l1 1);
+    ml_present  = bool_of_string(List.nth l1 2);
+    mli_present = bool_of_string(List.nth l1 3);
+    mll_present = bool_of_string(List.nth l1 4);
+    mly_present = bool_of_string(List.nth l1 5);
+    ml_modification_time = float_of_string(List.nth l1 6);
+    mli_modification_time = float_of_string(List.nth l1 7);
+    mll_modification_time = float_of_string(List.nth l1 8);
+    mly_modification_time = float_of_string(List.nth l1 9);
     needed_libraries =Image.image Ocaml_library.of_string v1;
     direct_fathers = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v2;
     all_ancestors = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v3;

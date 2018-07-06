@@ -15,6 +15,7 @@ and unconverted just after.
 
 type data={
   name : Half_dressed_module.t option;
+  principal_ending : Ocaml_ending.t;
   ml_present : bool;
   mli_present : bool;
   mll_present : bool;
@@ -37,6 +38,7 @@ let abstractify hm x=
   
   {
   name = abstracter(Modulesystem_data.name x);
+  principal_ending = Modulesystem_data.principal_ending x;
   ml_present = Modulesystem_data.ml_present x;
   mli_present = Modulesystem_data.mli_present x;
   mll_present = Modulesystem_data.mll_present x;
@@ -59,6 +61,7 @@ let unabstractify hm x=
   
   Modulesystem_data.make(
   unabstracter(x.name),
+  x.principal_ending,
   x.ml_present,
   x.mli_present, 
   x.mll_present, 
