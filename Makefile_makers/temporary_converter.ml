@@ -6,7 +6,7 @@
 
 type t=(
 Root_directory_t.t * Naked_module_t.t Small_array.t *
-Subdirectory_t.t Small_array.t * Ocaml_ending.t Small_array.t *
+Subdirectory_t.t Small_array.t * Acolyte_repartition_t.t Small_array.t *
 bool Small_array.t *
 float Small_array.t * float Small_array.t * 
 Ocaml_library.t list Small_array.t *
@@ -21,7 +21,7 @@ let hm_recomputation (u:t) nm=
     main_root,  
     all_modules,
     to_subdirectory,
-    to_ending,
+    to_repartition,
     to_interface_is_adjusted,
     to_modification_time,
     to_mli_modification_time,
@@ -43,7 +43,7 @@ let list_of_modules (u:t)=
           main_root,  
           all_modules,
           to_subdirectory,
-          to_ending,
+          to_repartition,
           to_interface_is_adjusted,
           to_modification_time,
           to_mli_modification_time,
@@ -59,7 +59,7 @@ let individual_recomputation (u:t) nm=
         main_root,  
         all_modules,
         to_subdirectory,
-        to_ending,
+        to_repartition,
         to_interface_is_adjusted,
         to_modification_time,
         to_mli_modification_time,
@@ -70,8 +70,7 @@ let individual_recomputation (u:t) nm=
     ) =u in
     let idx=Small_array.leftmost_index all_modules nm in
     let 
-    n_ending=Small_array.get to_ending idx and
-    n_interface_is_adjusted=Small_array.get to_interface_is_adjusted idx and
+    n_ending=Small_array.get to_repartition idx and
     n_modification_time=Small_array.get to_modification_time idx and
     n_mli_modification_time=Small_array.get to_mli_modification_time idx and
     n_needed_libraries=Small_array.get to_needed_libraries idx and
@@ -85,11 +84,11 @@ let individual_recomputation (u:t) nm=
 
     {                                                                 
       Modulesystem_data.name = hm;
-      principal_ending = n_ending;
-      ml_present = (n_ending<>Ocaml_ending.mli);
-      mli_present = n_interface_is_adjusted;
-      mll_present = (n_ending=Ocaml_ending.mll);
-      mly_present = (n_ending=Ocaml_ending.mly);
+      acolyte_repartition = n_ending;
+      ml_present = Acolyte_repartition.test_ml_presence n_ending;
+      mli_present = Acolyte_repartition.test_mli_presence n_ending;
+      mll_present = Acolyte_repartition.test_mll_presence n_ending;
+      mly_present = Acolyte_repartition.test_mly_presence n_ending;
       ml_modification_time =  n_modification_time;
       mli_modification_time = n_mli_modification_time;
       mll_modification_time = n_modification_time;
@@ -115,8 +114,8 @@ let of_md_list l=
       Image.image Half_dressed_module.naked_module temp1 
     and l_to_subdirectory=
       Image.image Half_dressed_module.subdirectory  temp1 
-    and l_to_ending=
-      Image.image Modulesystem_data.principal_ending l
+    and l_to_repartition=
+      Image.image Modulesystem_data.acolyte_repartition l
     and l_to_interface_is_adjusted=
       Image.image Modulesystem_data.mli_present l  
     and l_to_modification_time=
@@ -144,7 +143,7 @@ let of_md_list l=
       Image.image Modulesystem_data.needed_directories l  in
     let all_modules=Small_array.of_list l_all_modules 
     and to_subdirectory=Small_array.of_list l_to_subdirectory
-    and to_ending=Small_array.of_list l_to_ending
+    and to_repartition=Small_array.of_list l_to_repartition
     and to_interface_is_adjusted=Small_array.of_list l_to_interface_is_adjusted
     and to_modification_time=Small_array.of_list l_to_modification_time
     and to_mli_modification_time=Small_array.of_list l_to_mli_modification_time
@@ -157,7 +156,7 @@ let of_md_list l=
     main_root,  
     all_modules,
     to_subdirectory,
-    to_ending,
+    to_repartition,
     to_interface_is_adjusted,
     to_modification_time,
     to_mli_modification_time,

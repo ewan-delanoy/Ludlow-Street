@@ -224,7 +224,7 @@ let complete_info mdata  mlx=
   let genealogy=find_needed_data mdata mlx in
   let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
   and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
-  let prend=Modulesystem_data.compute_principal_ending (mlp,mlip,mllp,mlyp) in
+  let acrep=Acolyte_repartition.from_presences (mlp,mlip,mllp,mlyp) in
   let dirfath=Image.image (Modulesystem_data.name) genealogy in
   let temp1=Image.image 
         (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
@@ -239,7 +239,7 @@ let complete_info mdata  mlx=
   let libned=PrivateTwo.find_needed_libraries mlx genealogy
   and dirned=PrivateTwo.find_needed_directories mlx genealogy in
   Modulesystem_data.make
-  (hm,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+  (hm,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
 
   let check_unix_presence hm edg=
     let (_,dir)=Half_dressed_module.unveil hm in
@@ -255,7 +255,7 @@ let complete_info_during_registration mdata  mlx=
     let genealogy=find_needed_data mdata mlx in
     let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
     and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
-    let prend=Modulesystem_data.compute_principal_ending (mlp,mlip,mllp,mlyp) in
+    let acrep=Acolyte_repartition.from_presences (mlp,mlip,mllp,mlyp) in
     let dirfath=Image.image (Modulesystem_data.name) genealogy in
     let temp1=Image.image 
           (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
@@ -270,7 +270,7 @@ let complete_info_during_registration mdata  mlx=
     let libned=PrivateTwo.find_needed_libraries mlx genealogy
     and dirned=PrivateTwo.find_needed_directories mlx genealogy in
     Modulesystem_data.make
-    (hm,prend,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+    (hm,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
   
   
   
@@ -522,7 +522,7 @@ let modules_using_value mdata value_name =
          let new_md=
          {
           Modulesystem_data.name=md.Modulesystem_data.name;
-            principal_ending=md.Modulesystem_data.principal_ending;
+            acolyte_repartition=md.Modulesystem_data.acolyte_repartition;
             ml_present=md.Modulesystem_data.ml_present;
             mli_present=md.Modulesystem_data.mli_present;
             mll_present=md.Modulesystem_data.mll_present;
@@ -564,7 +564,7 @@ let quick_update mdata x=
   Some(
   {
     Modulesystem_data.name=x.Modulesystem_data.name;
-    principal_ending=x.Modulesystem_data.principal_ending;
+    acolyte_repartition =x.Modulesystem_data.acolyte_repartition;
     ml_present=x.Modulesystem_data.ml_present;
     mli_present=x.Modulesystem_data.mli_present;
     mll_present=x.Modulesystem_data.mll_present;
@@ -703,10 +703,9 @@ let register_mlx_file_on_monitored_modules mdata mlx_file =
                 if a mll or mly file is being registered, the ml will automatically be created,
                 so let us anticipate by already adding a ml presence
                 *)
-                let pre_info=(if List.mem ending [Ocaml_ending.mll;Ocaml_ending.mly]
+                let info=(if List.mem ending [Ocaml_ending.mll;Ocaml_ending.mly]
                           then Modulesystem_data.make_ml_present info1 
                           else info1) in
-                let info=Modulesystem_data.recompute_principal_ending pre_info in          
                           before@[info]
           else
           let old_dt=Option.unpack(opt) in
@@ -725,8 +724,7 @@ let register_mlx_file_on_monitored_modules mdata mlx_file =
           then raise(Bad_pair(mlx_file,List.hd edgs))
           else 
           let dt1=complete_info mdata mlx_file in
-          let pre_new_dt=Modulesystem_data.make_presence ending dt1 in
-          let new_dt=Modulesystem_data.recompute_principal_ending pre_new_dt in
+          let new_dt=Modulesystem_data.make_presence ending dt1 in
           if ending<>Ocaml_ending.ml
           then (before@(new_dt::after)) 
           else 
