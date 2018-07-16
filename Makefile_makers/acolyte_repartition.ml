@@ -86,7 +86,12 @@ let from_presences (mlp,mlip,mllp,mlyp)=
      if mlip     then Acolyte_repartition_t.Ml_with_mli
                  else Acolyte_repartition_t.Ml_without_mli;;
 
-
+let presences=function
+    Acolyte_repartition_t.Mll->(false,true,false)
+   |Mly->(false,false,true)
+   |Ml_without_mli
+   |Ml_with_mli->(true,false,false)
+   |Lonely_mli->(false,false,false);;
 
                  
 

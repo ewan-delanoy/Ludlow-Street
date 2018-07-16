@@ -1,6 +1,6 @@
 (*
 
-#use"Makefile_makers/acolyte_repartition.ml";;
+#use"Makefile_makers/acolyte_repartition_t.ml";;
 
 *)
 
@@ -11,4 +11,3 @@ type t=
     |Ml_with_mli
     |Lonely_mli;;
 
-    

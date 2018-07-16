@@ -85,10 +85,7 @@ let individual_recomputation (u:t) nm=
     {                                                                 
       Modulesystem_data.name = hm;
       acolyte_repartition = n_ending;
-      ml_present = Acolyte_repartition.test_ml_presence n_ending;
       mli_present = Acolyte_repartition.test_mli_presence n_ending;
-      mll_present = Acolyte_repartition.test_mll_presence n_ending;
-      mly_present = Acolyte_repartition.test_mly_presence n_ending;
       ml_modification_time =  n_modification_time;
       mli_modification_time = n_mli_modification_time;
       mll_modification_time = n_modification_time;

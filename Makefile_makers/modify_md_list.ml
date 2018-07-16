@@ -239,7 +239,7 @@ let complete_info mdata  mlx=
   let libned=PrivateTwo.find_needed_libraries mlx genealogy
   and dirned=PrivateTwo.find_needed_directories mlx genealogy in
   Modulesystem_data.make
-  (hm,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+  (hm,acrep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
 
   let check_unix_presence hm edg=
     let (_,dir)=Half_dressed_module.unveil hm in
@@ -270,7 +270,7 @@ let complete_info_during_registration mdata  mlx=
     let libned=PrivateTwo.find_needed_libraries mlx genealogy
     and dirned=PrivateTwo.find_needed_directories mlx genealogy in
     Modulesystem_data.make
-    (hm,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+    (hm,acrep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
   
   
   
@@ -523,10 +523,7 @@ let modules_using_value mdata value_name =
          {
           Modulesystem_data.name=md.Modulesystem_data.name;
             acolyte_repartition=md.Modulesystem_data.acolyte_repartition;
-            ml_present=md.Modulesystem_data.ml_present;
             mli_present=md.Modulesystem_data.mli_present;
-            mll_present=md.Modulesystem_data.mll_present;
-            mly_present=md.Modulesystem_data.mly_present;
             ml_modification_time=md.Modulesystem_data.ml_modification_time;
             mli_modification_time=md.Modulesystem_data.mli_modification_time;
             mll_modification_time=md.Modulesystem_data.mll_modification_time;
@@ -565,10 +562,7 @@ let quick_update mdata x=
   {
     Modulesystem_data.name=x.Modulesystem_data.name;
     acolyte_repartition =x.Modulesystem_data.acolyte_repartition;
-    ml_present=x.Modulesystem_data.ml_present;
     mli_present=x.Modulesystem_data.mli_present;
-    mll_present=x.Modulesystem_data.mll_present;
-    mly_present=x.Modulesystem_data.mly_present;
     ml_modification_time=n_ml;
     mli_modification_time=n_mli;
     mll_modification_time=n_mll;

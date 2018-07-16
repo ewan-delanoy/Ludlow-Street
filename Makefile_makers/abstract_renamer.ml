@@ -16,10 +16,7 @@ and unconverted just after.
 type data={
   name : Half_dressed_module.t option;
   acolyte_repartition : Acolyte_repartition_t.t;
-  ml_present : bool;
   mli_present : bool;
-  mll_present : bool;
-  mly_present : bool;
   ml_modification_time : float;
   mli_modification_time : float;
   mll_modification_time : float;
@@ -39,10 +36,7 @@ let abstractify hm x=
   {
   name = abstracter(Modulesystem_data.name x);
   acolyte_repartition = Modulesystem_data.acolyte_repartition x;
-  ml_present = Modulesystem_data.ml_present x;
   mli_present = Modulesystem_data.mli_present x;
-  mll_present = Modulesystem_data.mll_present x;
-  mly_present = Modulesystem_data.mly_present x;
   ml_modification_time = Modulesystem_data.ml_modification_time x;
   mli_modification_time = Modulesystem_data.mli_modification_time x;
   mll_modification_time = Modulesystem_data.mll_modification_time x;
@@ -62,10 +56,7 @@ let unabstractify hm x=
   Modulesystem_data.make(
   unabstracter(x.name),
   x.acolyte_repartition,
-  x.ml_present,
-  x.mli_present, 
-  x.mll_present, 
-  x.mly_present, 
+  x.mli_present,
   x.ml_modification_time, 
   x.mli_modification_time, 
   x.mll_modification_time, 

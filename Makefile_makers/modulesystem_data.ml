@@ -13,10 +13,7 @@ Gathers all (ml/mli/mll/mly) corresponding to the same module.
 type t={
     name : Half_dressed_module.t;
     acolyte_repartition : Acolyte_repartition_t.t;
-    ml_present  : bool;
     mli_present : bool;
-    mll_present : bool;
-    mly_present : bool;
     ml_modification_time : float;
     mli_modification_time : float;
     mll_modification_time : float;
@@ -31,11 +28,7 @@ type t={
 
 let name x=x.name;;
 let acolyte_repartition x=x.acolyte_repartition;;
-let ml_present x=x.ml_present;;
 let mli_present x=x.mli_present;;
-let mll_present x=x.mll_present;;
-let mly_present x=x.mly_present;;
-let presences x=(x.ml_present,x.mli_present,x.mll_present,x.mly_present);;
 let ml_modification_time x=x.ml_modification_time;;
 let mli_modification_time x=x.mli_modification_time;;
 let mll_modification_time x=x.mll_modification_time;;
@@ -44,6 +37,15 @@ let needed_libraries x=x.needed_libraries;;
 let direct_fathers x=x.direct_fathers;;
 let all_ancestors x=x.all_ancestors;;
 let needed_directories x=x.needed_directories;;
+
+
+let ml_present x=Acolyte_repartition.test_ml_presence x.acolyte_repartition;;
+let mll_present x=Acolyte_repartition.test_mll_presence x.acolyte_repartition;;
+let mly_present x=Acolyte_repartition.test_mly_presence x.acolyte_repartition;;
+
+let presences x=
+  (ml_present x,x.mli_present,mll_present x,mly_present x);;
+
 
 let modification_time x edg=match edg with
    Ocaml_ending.Ml->ml_modification_time x
@@ -59,14 +61,11 @@ let modification_times x=
    x.mly_modification_time
   );;
 
-let make (nam,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
+let make (nam,acrep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
   {
     name=nam;
     acolyte_repartition=acrep;
-    ml_present=mlp;
     mli_present=mlip;
-    mll_present=mllp;
-    mly_present=mlyp;
     ml_modification_time=mlmt;
     mli_modification_time=mlimt;
     mll_modification_time=mllmt;
@@ -78,10 +77,10 @@ let make (nam,acrep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,all
 
 };;
 
-let compact_make (dir,namp,acorep,mlp,mlip,mllp,mlyp,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
+let compact_make (dir,namp,acorep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned)=
   make (Half_dressed_module.of_string_and_root namp dir,
       Acolyte_repartition.of_string acorep,
-      mlp,mlip,mllp,mlyp,
+      mlip,
   		mlmt,mlimt,mllmt,mlymt,
   		Image.image Ocaml_library.of_string libned,
   		Image.image (fun s->Half_dressed_module.of_string_and_root s dir) dirfath,
@@ -92,10 +91,7 @@ let make_ml_present x=
  {
     name=x.name;
     acolyte_repartition=Acolyte_repartition.add_ml x.acolyte_repartition;
-    ml_present=true;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -111,10 +107,7 @@ let make_mli_present x=
  {
     name=x.name;
     acolyte_repartition=Acolyte_repartition.add_mli x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=true;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -134,10 +127,7 @@ let make_ml_absent x=
  {
     name=x.name;
     acolyte_repartition=Acolyte_repartition.remove_ml x.acolyte_repartition;
-    ml_present=false;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -153,10 +143,7 @@ let make_mli_absent x=
  {
     name=x.name;
     acolyte_repartition=Acolyte_repartition.remove_mli x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=false;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -170,10 +157,10 @@ let make_mli_absent x=
 
   
 let check_presence ending dt=match ending with
-   Ocaml_ending.Ml->dt.ml_present
+   Ocaml_ending.Ml->ml_present dt
   |Ocaml_ending.Mli->dt.mli_present
-  |Ocaml_ending.Mll->dt.mll_present
-  |Ocaml_ending.Mly->dt.mly_present;;  
+  |Ocaml_ending.Mll->mll_present dt
+  |Ocaml_ending.Mly->mly_present dt;;  
   
 exception Make_presence_exn of Ocaml_ending.t;;
 
@@ -223,10 +210,7 @@ let rename1 new_name x=
    {
     name=new_name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=ml_mt;
     mli_modification_time=mli_mt;
     mll_modification_time=mll_mt;
@@ -257,10 +241,7 @@ let rename (old_name,new_name) x=
        {
         name=x.name;
         acolyte_repartition=x.acolyte_repartition;
-    		ml_present=x.ml_present;
    			mli_present=x.mli_present;
-    		mll_present=x.mll_present;
-    		mly_present=x.mly_present;
     		ml_modification_time=x.ml_modification_time;
     		mli_modification_time=x.mli_modification_time;
     		mll_modification_time=x.mll_modification_time;
@@ -297,10 +278,7 @@ let update_anclibdir changer l_data x=
    {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -355,10 +333,7 @@ let force_ml_modification_time x new_val=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=new_val;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -375,10 +350,7 @@ let force_mli_modification_time x new_val=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=new_val;
     mll_modification_time=x.mll_modification_time;
@@ -394,10 +366,7 @@ let force_mll_modification_time x new_val=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=new_val;
@@ -413,10 +382,7 @@ let force_mly_modification_time x new_val=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -439,10 +405,7 @@ let fix_ancestors_and_libs_and_dirs x anc=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -457,10 +420,7 @@ let fix_ancestors x anc=
  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
-    ml_present=x.ml_present;
     mli_present=x.mli_present;
-    mll_present=x.mll_present;
-    mly_present=x.mly_present;
     ml_modification_time=x.ml_modification_time;
     mli_modification_time=x.mli_modification_time;
     mll_modification_time=x.mll_modification_time;
@@ -526,10 +486,7 @@ let rename_endsubdirectory (old_subdir,new_subdirname) x=
 {                                                                 
       name = ren (x.name);
       acolyte_repartition=x.acolyte_repartition;
-      ml_present = x.ml_present;
       mli_present = x.mli_present;
-      mll_present = x.mll_present;
-      mly_present = x.mly_present;
       ml_modification_time =  x.ml_modification_time;
       mli_modification_time = x.mli_modification_time;
       mll_modification_time = x.mll_modification_time;
@@ -559,10 +516,7 @@ let archive x=
    [
      Half_dressed_module.archive x.name;
      Acolyte_repartition.to_string x.acolyte_repartition;
-     string_of_bool x.ml_present;
      string_of_bool x.mli_present;
-     string_of_bool x.mll_present;
-     string_of_bool x.mly_present;
      string_of_float x.ml_modification_time;
      string_of_float x.mli_modification_time;
      string_of_float x.mll_modification_time;
@@ -575,23 +529,21 @@ let archive x=
 
 let unarchive s=
    let l1=Str.split (Str.regexp_string industrial_separator1) s in
-   let v1=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 10))
-   and v2=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 11))
-   and v3=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 12))
-   and v4=Str.split (Str.regexp_string industrial_separator2) (Nonblank.decode(List.nth l1 13)) in
+   let nd=(function k->Nonblank.decode(List.nth l1 k)) in
+   let v1=Str.split (Str.regexp_string industrial_separator2) (nd 7)
+   and v2=Str.split (Str.regexp_string industrial_separator2) (nd 8)
+   and v3=Str.split (Str.regexp_string industrial_separator2) (nd 9)
+   and v4=Str.split (Str.regexp_string industrial_separator2) (nd 10) in
    let hm=Half_dressed_module.unarchive(List.hd l1) in
    let dir=Half_dressed_module.bundle_main_dir hm in
 {
     name = hm;
     acolyte_repartition = Acolyte_repartition.of_string(List.nth l1 1);
-    ml_present  = bool_of_string(List.nth l1 2);
-    mli_present = bool_of_string(List.nth l1 3);
-    mll_present = bool_of_string(List.nth l1 4);
-    mly_present = bool_of_string(List.nth l1 5);
-    ml_modification_time = float_of_string(List.nth l1 6);
-    mli_modification_time = float_of_string(List.nth l1 7);
-    mll_modification_time = float_of_string(List.nth l1 8);
-    mly_modification_time = float_of_string(List.nth l1 9);
+    mli_present  = bool_of_string(List.nth l1 2);
+    ml_modification_time = float_of_string(List.nth l1 3);
+    mli_modification_time = float_of_string(List.nth l1 4);
+    mll_modification_time = float_of_string(List.nth l1 5);
+    mly_modification_time = float_of_string(List.nth l1 6);
     needed_libraries =Image.image Ocaml_library.of_string v1;
     direct_fathers = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v2;
     all_ancestors = Image.image (fun s->Half_dressed_module.of_string_and_root s dir) v3;

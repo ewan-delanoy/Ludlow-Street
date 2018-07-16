@@ -72,7 +72,7 @@ let remove_debuggables x=
     
 let backup x diff opt=
   Alaskan_backup_target_system.backup 
-  (get_root x) diff opt;;
+  (get_backup_dir x) diff opt;;
 
 let forget_file x ap=
     let (new_mdata,new_dirs,new_tgts)= 
