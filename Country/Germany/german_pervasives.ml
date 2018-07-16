@@ -5,7 +5,7 @@
 *)
 
 
-let cdir=German_constant.root;;
+let cdir=German_wrapper.usual_root;;
 
 let s_cdir=Root_directory.connectable_to_subpath cdir;;
 let current_registered_directories ()=German_wrapper.directories();;
@@ -21,7 +21,7 @@ let current_directories()=
     Coma_constant.old_and_hardly_reusable
   ]);;
 
-let fl=German_vague_string.to_path;; 
+let fl=German_vague_string.to_path cdir;; 
 
 let fmr x=
   let uncapitalized_x=
@@ -57,15 +57,15 @@ let fg_without_backup x=
    else let _=German_wrapper.forget_module (hmx x) in ();;
 
 let regi_without_backup x= 
-  let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
-  let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
+  let path=Absolute_path.of_string(Root_directory.join cdir x) in
+  let mlx=Mlx_ended_absolute_path.of_path_and_root path cdir in
   German_wrapper.register_mlx_file mlx;;
 
 
 
 let ureg_without_backup x=
   if List.exists (fun edg->Substring.ends_with x edg) [".ml";".mli";".mll";".mly"] 
-  then let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
+  then let path=Absolute_path.of_string(Root_directory.join cdir x) in
        let mlx=Mlx_ended_absolute_path.of_path_and_root path cdir in
        German_wrapper.unregister_mlx_file mlx 
   else German_wrapper.unregister_module (hmx x);;
@@ -100,17 +100,17 @@ let reco_without_backup ()=
   fst(German_wrapper.recompile());;
 
 
-let rd ()=Alaskan_remove_debuggables.rd German_constant.root (German_wrapper.data());;
+let rd ()=Alaskan_remove_debuggables.rd cdir (German_wrapper.data());;
 let sd=German_wrapper.start_debugging;;
 
 
 
-let rv_without_backup x y=German_values_in_modules.rename_string_or_value (German_wrapper.data()) x y;;
-let srv_without_backup x y=German_values_in_modules.replace_string (German_wrapper.data()) x y;;
+let rv_without_backup x y=German_values_in_modules.rename_string_or_value cdir (German_wrapper.data()) x y;;
+let srv_without_backup x y=German_values_in_modules.replace_string cdir (German_wrapper.data()) x y;;
 
 
 let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem 
-  wal (German_wrapper.data()) ;;
+  cdir wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem 
     modname (German_wrapper.data()) ;;
 let muv x=Modify_md_list.modules_using_value (German_wrapper.data()) x;;
@@ -137,7 +137,8 @@ let tw x=
 
 
 let ucc ()=German_create_or_update_copied_compiler.ucc 
- (Root_directory.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
+ (cdir,
+  Root_directory.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
 let reco_with_optional_comment opt=
   let (bowl,short_paths)=German_wrapper.recompile () in
@@ -164,7 +165,7 @@ let reco_with_comment s=reco_with_optional_comment (Some s);;
 let forget_file_with_backup x=
    let ap=fl x in
    let s_ap=Absolute_path.to_string ap in  
-   let cut_ap=Root_directory.cut_beginning German_constant.root s_ap in
+   let cut_ap=Root_directory.cut_beginning cdir s_ap in
    let diff=
     Dircopy_diff.veil
     (Recently_deleted.of_string_list [cut_ap])
@@ -196,8 +197,8 @@ let fg x=
 
 
 let regi x=
-  let path=Absolute_path.of_string(Root_directory.join German_constant.root x) in
-  let mlx=Mlx_ended_absolute_path.of_path_and_root path German_constant.root in
+  let path=Absolute_path.of_string(Root_directory.join cdir x) in
+  let mlx=Mlx_ended_absolute_path.of_path_and_root path cdir in
   let short_path=Mlx_ended_absolute_path.short_path mlx in
   let diff=
     Dircopy_diff.veil
@@ -222,7 +223,7 @@ let rsh ()=
    );;
 
 
-
+let  cod ()=Check_ocaml_dircopy.check cdir;;
 
 let rwc =reco_with_comment;;
 let rv x y=(rv_without_backup x y;reco());;

@@ -60,7 +60,7 @@ let greedy_list sourcedir=
 let compute_greedy_diff sourcedir destdir=
    compute_diff (sourcedir,greedy_list sourcedir) destdir;;
    
-let commands_for_update destination_dir diff=
+let commands_for_update (source_dir,destination_dir) diff=
    if Dircopy_diff.is_empty diff
    then []
    else 
@@ -75,7 +75,7 @@ let commands_for_update destination_dir diff=
     )
    created_ones in
    let temp3=Ordered.forget_order(Ordered_string.diforchan temp2) in
-   let s_source=Root_directory.connectable_to_subpath German_constant.root in
+   let s_source=Root_directory.connectable_to_subpath source_dir in
    let temp4=Image.image(
       fun fn->
       "cp "^s_source^fn^" "^s_destination^(Father_and_son.father fn '/')

@@ -5,9 +5,9 @@
 
 *)
 
-let replace_string mdata old_string new_string=
+let replace_string root_dir mdata old_string new_string=
   let temp1=Modify_md_list.files_containing_string mdata old_string in
-  let m=String.length(Root_directory.connectable_to_subpath(German_constant.root)) in
+  let m=String.length(Root_directory.connectable_to_subpath root_dir) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
   let message="\n\n The following files will be rewritten : \n\n"^
@@ -24,14 +24,14 @@ Otherwise we interpret it as a mere string.
 *)
 
 
-let rename_string_or_value mdata old_name new_name=
+let rename_string_or_value root_dir mdata old_name new_name=
   if not(String.contains old_name '.')
-  then replace_string mdata old_name new_name
+  then replace_string root_dir mdata old_name new_name
   else 
     let new_full_name=(Father_and_son.father old_name '.')^"."^new_name in
     (Rename_value_inside_module.rename_value_inside_module 
-            old_name (Overwriter.of_string new_name); 
-     replace_string mdata old_name new_full_name
+            root_dir old_name (Overwriter.of_string new_name); 
+     replace_string root_dir mdata old_name new_full_name
     );;
 
 
@@ -79,8 +79,8 @@ let list_value_occurrences_in_file t file=
  
 
 
-let show_value_occurrences_in_modulesystem t mdata=
-   let m=String.length(Root_directory.connectable_to_subpath(German_constant.root)) in
+let show_value_occurrences_in_modulesystem root_dir t mdata=
+   let m=String.length(Root_directory.connectable_to_subpath root_dir) in
    let temp1=Modify_md_list.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_value_occurrences_in_file t ap in

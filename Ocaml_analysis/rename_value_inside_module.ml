@@ -17,14 +17,14 @@ let get_module_inside_name s=
    then raise(No_module_given(s))
    else f;;
    
-let rename_value_inside_module s new_name=
+let rename_value_inside_module root_dir s new_name=
    let j=Substring.leftmost_index_of_in "." s in
    if j<0 
    then raise(No_module_given(s))
    else 
    let module_name=Cull_string.beginning (j-1) s in
-   let hm=German_vague_string.to_module module_name 
-   and path=German_vague_string.to_path module_name in 
+   let hm=German_vague_string.to_module root_dir  module_name 
+   and path=German_vague_string.to_path root_dir  module_name in 
    let temp1=German_wrapper.data() in
    let md1=Option.unpack (Modify_md_list.find_module_registration temp1 hm) in
    let temp2=(Modulesystem_data.all_ancestors md1)@[hm] in

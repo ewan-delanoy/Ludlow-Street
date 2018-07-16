@@ -16,8 +16,6 @@ let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory;;
 
 let on_ms_data=Modulesystem_data.rename_endsubdirectory;; 
 
-let on_absolute_path=Rename_endsubdirectory.on_absolute_path German_constant.root;;
-
 let on_mlx_ended_absolute_path=
   Mlx_ended_absolute_path.rename_endsubdirectory;;
 
@@ -42,8 +40,6 @@ let on_subdirectories (old_subdir,new_subdirname) l_subdir=
 let on_up_to_date_targets (old_subdir,new_subdirname) l_tgts=
    Image.image (on_ocaml_target (old_subdir,new_subdirname)) l_tgts;;    
 
-let on_outside_files (old_subdir,new_subdirname) l=
-    Image.image (on_absolute_path (old_subdir,new_subdirname)) l ;; 
 
 let on_deleted_files (old_subdir,new_subdirname) rl=
     let l=Recently_deleted.to_string_list rl in

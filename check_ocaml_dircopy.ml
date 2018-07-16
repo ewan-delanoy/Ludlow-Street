@@ -43,7 +43,7 @@ name_of_clone_directory;;
 exception Failure_in_clone_directory_creation;;
 exception Failure_during_github_cloning;;
 
-let check ()=
+let check root_dir=
   let i=(
     if Sys.file_exists(name_of_clone_directory)
     then Unix_command.uc("rm -rf "^name_of_clone_directory) 
@@ -59,7 +59,7 @@ let check ()=
   then raise(Failure_during_github_cloning)
   else 
   let diff=Prepare_dircopy_update.compute_greedy_diff
-     German_constant.root remotedir in
+     root_dir remotedir in
   let rc1=List.filter is_admissible (Dircopy_diff.recently_deleted diff)
   and rc2=List.filter is_admissible (Dircopy_diff.recently_changed diff)
   and rc3=List.filter is_admissible (Dircopy_diff.recently_created diff) in

@@ -284,7 +284,7 @@ let descendants mdata names=
   ) mdata in
   temp1;;
 
-let rename_module_on_monitored_modules mdata old_name new_name=
+let rename_module_on_monitored_modules root_dir mdata old_name new_name=
   let interm_list=Image.image
   (Abstract_renamer.abstractify old_name) mdata in
   let opt=find_module_registration mdata old_name in
@@ -313,7 +313,7 @@ let rename_module_on_monitored_modules mdata old_name new_name=
     ] in
   
   let _=Image.image changer (temp3@temp4) in
-  let s_root=Root_directory.connectable_to_subpath(German_constant.root) in     
+  let s_root=Root_directory.connectable_to_subpath root_dir in     
   let _=Unix_command.uc
       ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
   let new_list=Image.image
@@ -340,7 +340,7 @@ let recompute_module_info mdata hm=
 
 exception Nonregistered_module_during_relocation of Half_dressed_module.t;;  
           
-let relocate_module_on_monitored_modules mdata old_name new_subdir=
+let relocate_module_on_monitored_modules root_dir mdata old_name new_subdir=
             let (before,opt,after)=Three_parts.select_center_element  (fun dt->
                Modulesystem_data.name dt=old_name) mdata in
             if opt=None
@@ -353,7 +353,7 @@ let relocate_module_on_monitored_modules mdata old_name new_subdir=
             let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
             let new_name=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
             let data_renamer=Modulesystem_data.rename (old_name,new_name) in
-            let s_root=Root_directory.connectable_to_subpath(German_constant.root) in     
+            let s_root=Root_directory.connectable_to_subpath root_dir in     
             let _=Unix_command.uc
                 ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
             let part2=Image.image data_renamer (old_dt::after) in

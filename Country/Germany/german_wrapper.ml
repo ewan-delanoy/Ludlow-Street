@@ -6,7 +6,7 @@
 *)
 
 let usual_root=Root_directory.of_string 
-"/Users/ewandelanoy/Documents/OCaml/Idaho";;
+"/Users/ewandelanoy/Documents/OCaml/Ordinary";;
 let usual_dir_for_backup=Root_directory.of_string 
 "/Users/ewandelanoy/Documents/OCaml/Githubbed_ocaml";;
 
@@ -23,7 +23,7 @@ let main_ref=Coma_state.empty_one
 let whole ()=Coma_state.uple_form main_ref;;
 
 let save_all ()=Alaskan_save_all.write_all 
-  (German_constant.root, 
+  (usual_root, 
     Coma_constant.name_for_makefile,
     Coma_constant.name_for_targetfile,
     Coma_constant.name_for_loadingsfile,
@@ -55,7 +55,7 @@ let declare_printer_equipped_type hm=
  
  
 let end_debugging ()=
-  let sbuild=(Root_directory.connectable_to_subpath German_constant.root)
+  let sbuild=(Root_directory.connectable_to_subpath usual_root)
      ^"_build/" in
   let _=Unix_command.uc("rm -f "^sbuild^"*.d.cm*"^" "^
      sbuild^"*.ocaml_debuggable")  in
