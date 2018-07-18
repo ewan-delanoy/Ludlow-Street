@@ -47,7 +47,7 @@ let ucc (sourcedir,destdir)=
   let _=Image.image (prepare_special_file (sourcedir,destdir))
     (
       up_to_date_but_not_registered_files@
-    ["Country/Germany/german_constant.ml";file_for_backup]
+    ["Country/Germany/german_wrapper.ml";file_for_backup]
     ) 
    in 
   Alaskan_create_target_system.from_main_directory destdir;;
