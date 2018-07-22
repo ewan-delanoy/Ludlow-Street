@@ -93,8 +93,6 @@ let printer_equipped_types ()=
 let recompile=Private.recompile;;  
 
 
-
-
 let refresh ()=
    let new_diff=Coma_state.refresh Private.main_ref in
    let _=Private.save_all() in

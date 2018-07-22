@@ -16,6 +16,7 @@ Subdirectory_t.t list Small_array.t);;
 
 module Private=struct
 
+  
 let hm_recomputation (u:t) nm=
   let (
     main_root,  
