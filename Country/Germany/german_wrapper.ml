@@ -6,7 +6,7 @@
 *)
 
 let usual_root=Root_directory.of_string 
-"/Users/ewandelanoy/Documents/OCaml/Ordinary";;
+"/Users/ewandelanoy/Documents/OCaml/Idaho";;
 let usual_dir_for_backup=Root_directory.of_string 
 "/Users/ewandelanoy/Documents/OCaml/Githubbed_ocaml";;
 
