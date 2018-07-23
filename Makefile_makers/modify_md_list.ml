@@ -226,6 +226,8 @@ let complete_info mdata  mlx=
   let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
   and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
   let acrep=Acolyte_repartition.from_presences (mlp,mlip,mllp,mlyp) in
+  let pr_end=Acolyte_repartition.principal_ending acrep in
+  let prmt=Modulesystem_data.associated_modification_time (mlmt,mlimt,mllmt,mlymt) pr_end in
   let dirfath=Image.image (Modulesystem_data.name) genealogy in
   let temp1=Image.image 
         (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
@@ -240,7 +242,7 @@ let complete_info mdata  mlx=
   let libned=PrivateTwo.find_needed_libraries mlx genealogy
   and dirned=PrivateTwo.find_needed_directories mlx genealogy in
   Modulesystem_data.make
-  (hm,acrep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+  (hm,acrep,mlip,prmt,mlimt,libned,dirfath,allanc,dirned);;
 
   let check_unix_presence hm edg=
     let (_,dir)=Half_dressed_module.unveil hm in
@@ -257,6 +259,8 @@ let complete_info_during_registration mdata  mlx=
     let (mlp,mlip,mllp,mlyp)=check_presences mdata hm
     and (mlmt,mlimt,mllmt,mlymt)=Modulesystem_data.compute_modification_times hm in
     let acrep=Acolyte_repartition.from_presences (mlp,mlip,mllp,mlyp) in
+    let pr_end=Acolyte_repartition.principal_ending acrep in
+    let prmt=Modulesystem_data.associated_modification_time (mlmt,mlimt,mllmt,mlymt) pr_end in
     let dirfath=Image.image (Modulesystem_data.name) genealogy in
     let temp1=Image.image 
           (fun t->Tidel.diforchan(Modulesystem_data.all_ancestors t)) 
@@ -271,7 +275,7 @@ let complete_info_during_registration mdata  mlx=
     let libned=PrivateTwo.find_needed_libraries mlx genealogy
     and dirned=PrivateTwo.find_needed_directories mlx genealogy in
     Modulesystem_data.make
-    (hm,acrep,mlip,mlmt,mlimt,mllmt,mlymt,libned,dirfath,allanc,dirned);;
+    (hm,acrep,mlip,prmt,mlimt,libned,dirfath,allanc,dirned);;
   
   
   
@@ -525,10 +529,8 @@ let modules_using_value mdata value_name =
           Modulesystem_data.name=md.Modulesystem_data.name;
             acolyte_repartition=md.Modulesystem_data.acolyte_repartition;
             mli_present=md.Modulesystem_data.mli_present;
-            ml_modification_time=md.Modulesystem_data.ml_modification_time;
+            principal_modification_time=md.Modulesystem_data.principal_modification_time;
             mli_modification_time=md.Modulesystem_data.mli_modification_time;
-            mll_modification_time=md.Modulesystem_data.mll_modification_time;
-            mly_modification_time=md.Modulesystem_data.mly_modification_time;
             needed_libraries=new_libs;
             direct_fathers=md.Modulesystem_data.direct_fathers;
             all_ancestors=new_ancestor_names;
@@ -559,15 +561,17 @@ let quick_update mdata x=
   let edg=List.hd(Modulesystem_data.registered_endings x) in
   let mlx=Mlx_ended_absolute_path.join hm edg in
   let fathers=PrivateTwo.find_needed_names mdata mlx in
+  let acrep=x.Modulesystem_data.acolyte_repartition in
+  let pr_end=Acolyte_repartition.principal_ending acrep in
+  let n_pr=Modulesystem_data.associated_modification_time (n_ml,n_mli,n_mll,n_mly) pr_end in
+
   Some(
   {
     Modulesystem_data.name=x.Modulesystem_data.name;
-    acolyte_repartition =x.Modulesystem_data.acolyte_repartition;
+    acolyte_repartition =acrep;
     mli_present=x.Modulesystem_data.mli_present;
-    ml_modification_time=n_ml;
+    principal_modification_time=n_pr;
     mli_modification_time=n_mli;
-    mll_modification_time=n_mll;
-    mly_modification_time=n_mly;
     needed_libraries=x.Modulesystem_data.needed_libraries;
     direct_fathers=fathers;
     all_ancestors=x.Modulesystem_data.all_ancestors;

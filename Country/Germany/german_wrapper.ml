@@ -6,7 +6,7 @@
 *)
 
 let usual_root=Root_directory.of_string 
-"/Users/ewandelanoy/Documents/OCaml/Idaho";;
+"/Users/ewandelanoy/Documents/OCaml/Ordinary";;
 let usual_dir_for_backup=Root_directory.of_string 
 "/Users/ewandelanoy/Documents/OCaml/Githubbed_ocaml";;
 
@@ -90,7 +90,10 @@ let initialize ()=
 let printer_equipped_types ()=
     Coma_state.get_preq_types Private.main_ref;;
 
-let recompile=Private.recompile;;  
+let recompile ()=
+   let data=Private.recompile () in
+   let _=Private.save_all() in
+   data;;  
 
 
 let refresh ()=

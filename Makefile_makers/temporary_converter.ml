@@ -87,10 +87,10 @@ let individual_recomputation (u:t) nm=
       Modulesystem_data.name = hm;
       acolyte_repartition = n_ending;
       mli_present = Acolyte_repartition.test_mli_presence n_ending;
-      ml_modification_time =  n_modification_time;
+      principal_modification_time =  n_modification_time;
       mli_modification_time = n_mli_modification_time;
-      mll_modification_time = n_modification_time;
-      mly_modification_time = n_modification_time;
+
+
       needed_libraries = n_needed_libraries;
       direct_fathers = c_direct_fathers;
       all_ancestors = c_all_ancestors;
