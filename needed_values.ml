@@ -104,7 +104,7 @@ let rwb=German_pervasives.reco_without_backup;;
 include German_pervasives;;
 
 let initialize_toplevel ()=
-  if (German_wrapper.data()=[]) 
+  if (German_wrapper.data()=Modify_md_list.empty_one) 
   then German_wrapper.initialize();;
 
    
