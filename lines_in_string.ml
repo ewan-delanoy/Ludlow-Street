@@ -42,3 +42,8 @@ let remove_interval s i j=
   let temp2=List.filter (fun (k,_)->(i>k)||(k>j)) temp1  in
   let temp3=Image.image snd temp2 in
   String.concat "\n" temp3;; 
+
+let remove_interval_in_file fn i j=
+    let s1=Io.read_whole_file fn in
+    let s2=remove_interval s1 i j  in
+    Io.overwrite_with fn s2;;   
