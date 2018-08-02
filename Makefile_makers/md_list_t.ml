@@ -6,4 +6,4 @@
 *)
 
 
-type t=M of Modulesystem_data.t list;;
+type t=M of Modulesystem_data.t Small_array.t;;

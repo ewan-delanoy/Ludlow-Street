@@ -90,10 +90,10 @@ let describe_fibers_as_intervals f a b=
   ) in
   tempf([],a,a,f(a));;
 
-let reposition_just_after_fst_idx i j t=
+let reposition_by_putting_snd_immediately_after_fst i j t=
      if t<=i then t else
-     if t=i  then j else
-     if t<j  then t-1 else t;;
+     if t=i+1  then j else
+     if t<=j  then t-1 else t;;
 
 
 

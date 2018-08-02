@@ -246,30 +246,8 @@ let rename (old_name,new_name) x=
     		needed_directories=renamed_directories;
 	   };;
        
-let update_anclibdir changer l_data x=
-   if not(List.mem changer.name (x.all_ancestors))
-   then x
-   else 
-   let (anc,llib,dir)=(changer.all_ancestors,changer.needed_libraries,changer.needed_directories) in
-   let new_ancestors=Option.filter_and_unpack(
-     fun fd->
-       let hm=name fd in
-       if (List.mem hm x.all_ancestors)||(List.mem hm anc)
-       then Some(hm)
-       else None
-   ) l_data in
-   let new_lib=List.filter (
-      fun lib->(List.mem lib llib)||(List.mem lib x.needed_libraries)
-   ) Ocaml_library.all_libraries in
-   let temp1=Option.filter_and_unpack(
-     fun hm->
-       let s_hm=Half_dressed_module.uprooted_version hm in
-       let s_dir=Father_and_son.father s_hm '/' in
-       if s_dir="" then None else
-       Some(Subdirectory.of_string s_dir)
-   )  new_ancestors in
-  let new_dir=Ordered.forget_order(Tidel.diforchan temp1) in
-   {
+let tool_in_update_anclibdir (new_anc,new_lib,new_dir) x=
+  {
     name=x.name;
     acolyte_repartition=x.acolyte_repartition;
     mli_present=x.mli_present;
@@ -277,11 +255,10 @@ let update_anclibdir changer l_data x=
     mli_modification_time=x.mli_modification_time;
     needed_libraries=new_lib;
     direct_fathers=x.direct_fathers;
-    all_ancestors=new_ancestors;
+    all_ancestors=new_anc;
     needed_directories=new_dir;
-
    };;       
-       
+
 
 let is_executable x=Half_dressed_module.is_executable(x.name);;
 let is_not_executable x=not(is_executable x);;

@@ -6,10 +6,10 @@
 
 *)
 
-let empty_one=Md_list_t.M [];;
+let empty_one=Md_list_t.M(Small_array.of_list []);;
 
 let find_module_registration (Md_list_t.M mdata) hm=
-  Option.seek(fun a->Modulesystem_data.name a=hm) mdata;;   
+  Small_array.seek(fun a->Modulesystem_data.name a=hm) mdata;;   
 
 module Private=struct
 
@@ -52,7 +52,7 @@ let find_needed_data_for_file (Md_list_t.M mdata) fn=
         then Some(info)
         else None
       ) in
-      Option.filter_and_unpack selecter mdata;; 
+      Small_array.filter_and_unpack selecter mdata;; 
 
 let find_needed_data wmdata mlx=
       let fn=Mlx_ended_absolute_path.to_path mlx in
@@ -72,26 +72,29 @@ let ingredients_for_debuggable wmdata hm=
                  if Tidel.elfenn nam_t temp2
                  then Some(nam_t)
                  else None) in
-       let allanc=Option.filter_and_unpack tempf mdata in
+       let allanc=Small_array.filter_and_unpack tempf mdata in
       (debuggable_targets_from_ancestors wmdata allanc)
       @(Private.immediate_ingredients_for_debuggable hm);; 
 
-let all_modules (Md_list_t.M mdata)=Image.image Modulesystem_data.name mdata;; 
+let all_modules (Md_list_t.M mdata)=
+  Small_array.image Modulesystem_data.name mdata;; 
 
 
 let usual_targets (Md_list_t.M mdata)=
-  let temp1=Image.image Ocaml_target.from_modulesystem_data mdata in
+  let temp1=Small_array.image Ocaml_target.from_modulesystem_data mdata in
   List.flatten temp1;;
 
 let industrial_separator=Industrial_separator.alaskan_data;; 
 
 let archive (Md_list_t.M mdata)=
     Nonblank.make(String.concat industrial_separator 
-    (Image.image Modulesystem_data.archive mdata));;
+    (Small_array.image Modulesystem_data.archive mdata));;
      
 let unarchive s=
     let v1=Str.split (Str.regexp_string industrial_separator) (Nonblank.decode(s)) in
-    Md_list_t.M(Image.image Modulesystem_data.unarchive v1);;
+    Md_list_t.M(
+      Small_array.of_list(  
+    Image.image Modulesystem_data.unarchive v1));;
 
 exception Non_existent_mtime of Mlx_ended_absolute_path.t;;
 
@@ -99,25 +102,28 @@ let force_modification_time root_dir wmdata mlx=
       let (Md_list_t.M mdata)=wmdata in
       let hm=Mlx_ended_absolute_path.half_dressed_core mlx
       and edg=Mlx_ended_absolute_path.ending mlx in
-      let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-         Modulesystem_data.name dt=hm) mdata in
-      if opt=None
-      then raise(Non_existent_mtime(mlx))
-      else 
-      let dt=Option.unpack opt in
-      let file=(Root_directory.connectable_to_subpath root_dir)^(Mlx_ended_absolute_path.to_string mlx) in
+      let idx=
+        (try Small_array.leftmost_index_of_property_in
+          (fun dt->
+         Modulesystem_data.name dt=hm) mdata with 
+        _->raise(Non_existent_mtime(mlx)) )in
+      let dt=Small_array.get mdata idx   in
+      let file=(Root_directory.connectable_to_subpath root_dir)^
+               (Mlx_ended_absolute_path.to_string mlx) in
       let old_val=Modulesystem_data.modification_time dt edg 
       and new_val=(Unix.stat file).Unix.st_mtime  in
-      if old_val=new_val
+      if old_val!=new_val
       then wmdata
       else let new_dt=Modulesystem_data.force_modification_time dt edg new_val in
-      Md_list_t.M(before@(new_dt::after));;
+            let _=(Small_array.set mdata idx new_dt) in 
+            Md_list_t.M mdata;;
 
 let everyone_except_the_debugger wmdata=
         let (Md_list_t.M mdata)=wmdata in
-        let temp3=Image.image Modulesystem_data.name mdata in
+        let temp3=Small_array.image Modulesystem_data.name mdata in
         let temp4=List.filter (fun hm->
-           Half_dressed_module.uprooted_version(hm)<>Coma_constant.name_for_debugged_module
+           Half_dressed_module.uprooted_version(hm)<>
+            Coma_constant.name_for_debugged_module
         ) temp3 in
         temp4;;      
         
@@ -126,22 +132,25 @@ exception Derelict_children of Half_dressed_module.t*(Half_dressed_module.t list
            
             
 let unregister_module_on_monitored_modules wmdata hm=
-              let (Md_list_t.M mdata)=wmdata in
-              let desc=List.filter(
-                  fun dt->List.mem hm (Modulesystem_data.all_ancestors dt)
-              ) mdata in
-               if desc<>[]
-               then let temp1=Image.image Modulesystem_data.name desc in
-                    raise(Derelict_children(hm,temp1))
-               else
-               let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-                 Modulesystem_data.name dt=hm) mdata in
-               if opt=None 
-               then raise(Non_registered_module(hm))  
-               else 
-               let acolytes=Modulesystem_data.acolytes(Option.unpack opt) in
-               let short_paths=Image.image Mlx_ended_absolute_path.short_path acolytes in
-               (Md_list_t.M(before@after),short_paths);;           
+  let (Md_list_t.M mdata)=wmdata in
+  let desc=List.filter(
+      fun dt->List.mem hm (Modulesystem_data.all_ancestors dt)
+  ) (Small_array.to_list mdata) in
+   if desc<>[]
+   then let temp1=Image.image Modulesystem_data.name desc in
+        raise(Derelict_children(hm,temp1))
+   else
+   let idx=
+    (try Small_array.leftmost_index_of_property_in
+      (fun dt->
+     Modulesystem_data.name dt=hm) mdata with 
+    _->raise(Non_registered_module(hm)) )in
+   let dt=Small_array.get mdata idx in 
+   let _=Small_array.remove_item_at_index mdata idx in
+   let acolytes=Modulesystem_data.acolytes dt  in
+   let short_paths=Image.image Mlx_ended_absolute_path.short_path acolytes in
+   (Md_list_t.M(mdata),short_paths);;     
+                    
 
 exception Non_registered_file of Mlx_ended_absolute_path.t;;  
 exception Abandoned_children of Mlx_ended_absolute_path.t*(Half_dressed_module.t list);;
@@ -152,29 +161,33 @@ let unregister_mlx_file_on_monitored_modules wmdata mlxfile=
     let hm=Mlx_ended_absolute_path.half_dressed_core mlxfile in
     let desc=List.filter(
           fun dt->List.mem hm (Modulesystem_data.all_ancestors dt)
-    ) mdata in
+  ) (Small_array.to_list mdata) in
     if desc<>[]
     then let temp1=Image.image Modulesystem_data.name desc in
           raise(Abandoned_children(mlxfile,temp1))
     else
-        let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-            Modulesystem_data.name dt=hm) mdata in
-        match opt with
-          None->raise(Non_registered_file(mlxfile))
-          |Some(dt)->
-            let edg=Mlx_ended_absolute_path.ending mlxfile in
-            if (not(Modulesystem_data.check_presence edg dt))
-            then raise(Non_registered_file(mlxfile))
-            else 
-            let new_dt=Modulesystem_data.make_absence edg dt in
-            if (Modulesystem_data.registered_endings new_dt)=[]
-            then Md_list_t.M(before@after)
-            else Md_list_t.M(before@(new_dt::after));;
+        let idx=
+        (try Small_array.leftmost_index_of_property_in
+          (fun dt->
+        Modulesystem_data.name dt=hm) mdata with 
+        _->raise(Non_registered_file(mlxfile)) ) in
+        let dt=Small_array.get mdata idx in 
+        let edg=Mlx_ended_absolute_path.ending mlxfile in
+        if (not(Modulesystem_data.check_presence edg dt))
+        then raise(Non_registered_file(mlxfile))
+        else 
+        let new_dt=Modulesystem_data.make_absence edg dt in
+        if (Modulesystem_data.registered_endings new_dt)=[]
+        then let _=Small_array.remove_item_at_index mdata idx in
+             Md_list_t.M mdata
+        else let _=Small_array.set mdata idx new_dt in
+             Md_list_t.M mdata;;
+            
 
 
 let compute_subdirectories_list wmdata=
   let (Md_list_t.M mdata)=wmdata in
-  let temp1=Image.image (
+  let temp1=Small_array.image (
       fun md->
       let hm=Modulesystem_data.name md in
         Subdirectory.without_trailing_slash(Half_dressed_module.subdirectory hm)
@@ -185,7 +198,7 @@ let compute_subdirectories_list wmdata=
 
 let  check_presences wmdata hm=
     let (Md_list_t.M mdata)=wmdata in
-    match Option.seek (fun a->Modulesystem_data.name a=hm) mdata with
+    match Small_array.seek (fun a->Modulesystem_data.name a=hm) mdata with
       None->Ocaml_ending.exhaustive_uple (fun _->false)
     |Some(dt)->Ocaml_ending.exhaustive_uple 
       (fun edg->Modulesystem_data.check_presence edg dt);;
@@ -252,7 +265,7 @@ let complete_info wmdata  mlx=
             if Tidel.elfenn nam_t temp2
             then Some(nam_t)
             else None) in
-  let allanc=Option.filter_and_unpack tempf mdata in
+  let allanc=Small_array.filter_and_unpack tempf mdata in
   let libned=PrivateTwo.find_needed_libraries mlx genealogy
   and dirned=PrivateTwo.find_needed_directories mlx genealogy in
   Modulesystem_data.make
@@ -286,7 +299,7 @@ let complete_info_during_registration wmdata  mlx=
               if Tidel.elfenn nam_t temp2
               then Some(nam_t)
               else None) in
-    let allanc=Option.filter_and_unpack tempf mdata in
+    let allanc=Small_array.filter_and_unpack tempf mdata in
     let libned=PrivateTwo.find_needed_libraries mlx genealogy
     and dirned=PrivateTwo.find_needed_directories mlx genealogy in
     Modulesystem_data.make
@@ -297,17 +310,11 @@ let complete_info_during_registration wmdata  mlx=
 
 exception Nonregistered_module of Half_dressed_module.t;;
 
-let descendants wmdata names=
-  let (Md_list_t.M mdata)=wmdata in 
-  let temp1=List.filter(
-    fun dt->List.exists (fun t->List.mem t names) 
-      (Modulesystem_data.all_ancestors dt)
-  ) mdata in
-  temp1;;
+
 
 let rename_module_on_monitored_modules root_dir wmdata old_name new_name=
   let (Md_list_t.M mdata)=wmdata in
-  let interm_list=Image.image
+  let interm_list=Small_array.image
   (Abstract_renamer.abstractify old_name) mdata in
   let opt=find_module_registration wmdata old_name in
   if opt=None
@@ -324,8 +331,13 @@ let rename_module_on_monitored_modules root_dir wmdata old_name new_name=
   in
   let changer=Look_for_module_names.change_module_name_in_file
   old_mname new_mname in
-  let desc=descendants wmdata [old_name] in
-  let temp1=Image.image Modulesystem_data.acolytes desc in
+  let temp1=Small_array.filter_and_unpack(
+    fun dt->
+     if List.mem old_name
+    (Modulesystem_data.all_ancestors dt)
+    then Some(Modulesystem_data.acolytes dt)
+    else None
+  ) mdata in
   let temp2=List.flatten temp1 in
   let temp3=Image.image Mlx_ended_absolute_path.to_path temp2 in
   let temp4=Option.filter_and_unpack (
@@ -338,8 +350,8 @@ let rename_module_on_monitored_modules root_dir wmdata old_name new_name=
   let s_root=Root_directory.connectable_to_subpath root_dir in     
   let _=Unix_command.uc
       ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
-  let new_list=Image.image
-  (Abstract_renamer.unabstractify new_hm) interm_list in
+  let new_list=Small_array.of_list(Image.image
+  (Abstract_renamer.unabstractify new_hm) interm_list) in
   (Md_list_t.M(new_list),(old_files,new_files));;
 
 
@@ -352,11 +364,12 @@ let recompute_complete_info_for_module wmdata hm=
 
 let recompute_module_info wmdata hm=
   let (Md_list_t.M mdata)=wmdata in
-    let (before,_,after)=Three_parts.select_center_element(
-                         fun md->Modulesystem_data.name md=hm
-    ) mdata in
-    let new_md=recompute_complete_info_for_module wmdata hm in 
-    Md_list_t.M(before@(new_md::after));;  
+  let idx=Small_array.leftmost_index_of_property_in
+      (fun dt->
+    Modulesystem_data.name dt=hm) mdata   in
+    let new_dt=recompute_complete_info_for_module wmdata hm in 
+    let _=Small_array.set mdata idx new_dt in
+    Md_list_t.M mdata;;  
 
 
 
@@ -365,42 +378,43 @@ exception Nonregistered_module_during_relocation of Half_dressed_module.t;;
           
 let relocate_module_on_monitored_modules root_dir wmdata old_name new_subdir=
   let (Md_list_t.M mdata)=wmdata in
-  let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-  Modulesystem_data.name dt=old_name) mdata in
-if opt=None
-then raise(Nonregistered_module_during_relocation(old_name))
-else 
-let old_dt=Option.unpack opt in
-let old_acolytes=Modulesystem_data.acolytes old_dt in
-let old_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) old_acolytes in 
-let new_acolytes=Image.image (fun mlx->Mlx_ended_absolute_path.do_file_displacing mlx new_subdir) old_acolytes in
-let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
-let new_name=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
-let data_renamer=Modulesystem_data.rename (old_name,new_name) in
-let s_root=Root_directory.connectable_to_subpath root_dir in     
-let _=Unix_command.uc
-   ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
-let part2=Image.image data_renamer (old_dt::after) in
-    (Md_list_t.M(before@part2),(old_files,new_files));;
+  let idx=
+    (try Small_array.leftmost_index_of_property_in
+      (fun dt->
+    Modulesystem_data.name dt=old_name) mdata with 
+    _->raise(Nonregistered_module_during_relocation(old_name)) ) in
+    let old_dt=Small_array.get mdata idx in   
+    let old_acolytes=Modulesystem_data.acolytes old_dt in
+    let old_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) old_acolytes in 
+    let new_acolytes=Image.image (fun mlx->Mlx_ended_absolute_path.do_file_displacing mlx new_subdir) old_acolytes in
+    let new_files=Image.image (fun mlx->Mlx_ended_absolute_path.short_path mlx) new_acolytes in 
+    let new_name=Mlx_ended_absolute_path.half_dressed_core(List.hd new_acolytes) in
+    let data_renamer=Modulesystem_data.rename (old_name,new_name) in
+    let s_root=Root_directory.connectable_to_subpath root_dir in     
+    let _=Unix_command.uc
+     ("rm -f "^s_root^"_build/"^(Half_dressed_module.uprooted_version old_name)^".cm* ") in
+    let _=Small_array.apply_transformation_on_interval
+       mdata data_renamer idx (Small_array.size mdata) in
+    (Md_list_t.M mdata,(old_files,new_files));;
 
 
 
 let above wmdata hm=
   let (Md_list_t.M mdata)=wmdata in
-  match Option.seek(fun dt->Modulesystem_data.name dt=hm) mdata with
+  match Small_array.seek(fun dt->Modulesystem_data.name dt=hm) mdata with
   None->raise(Non_registered_module(hm))
   |Some(dt)->Modulesystem_data.all_ancestors dt;;
 
 let below wmdata hm=
   let (Md_list_t.M mdata)=wmdata in
-  Option.filter_and_unpack(fun dt->
+  Small_array.filter_and_unpack(fun dt->
       if List.mem hm (Modulesystem_data.all_ancestors dt)
       then Some(Modulesystem_data.name dt)
       else None) mdata;;  
 
 let directly_below wmdata hm=
   let (Md_list_t.M mdata)=wmdata in
-  Option.filter_and_unpack(fun dt->
+  Small_array.filter_and_unpack(fun dt->
         if List.mem hm (Modulesystem_data.direct_fathers dt)
         then Some(Modulesystem_data.name dt)
         else None) mdata;;
@@ -409,7 +423,7 @@ let directly_below wmdata hm=
 let all_mlx_files wmdata=
   let (Md_list_t.M mdata)=wmdata in
         List.flatten
-        (Image.image Modulesystem_data.acolytes mdata);; 
+        (Small_array.image Modulesystem_data.acolytes mdata);; 
       
 let all_mlx_paths wmdata=Image.image Mlx_ended_absolute_path.to_absolute_path 
         (all_mlx_files wmdata);;  
@@ -417,7 +431,7 @@ let all_mlx_paths wmdata=Image.image Mlx_ended_absolute_path.to_absolute_path
 let all_short_paths wmdata=
   let (Md_list_t.M mdata)=wmdata in
   List.flatten(
-    Image.image Modulesystem_data.short_paths mdata
+    Small_array.image Modulesystem_data.short_paths mdata
   );;
 
 let files_containing_string wmdata some_string=
@@ -426,71 +440,45 @@ List.filter (fun ap->Substring.is_a_substring_of
   some_string (Io.read_whole_file ap)) temp1;;
 
 
-let system_size (Md_list_t.M mdata)=List.length(mdata);;
+let system_size (Md_list_t.M mdata)=Small_array.size(mdata);;
 
 exception Inconsistent_constraints of Half_dressed_module.t*Half_dressed_module.t;;
 exception Bad_upper_constraint of Half_dressed_module.t;;  
 
-let insertion_index wmdata lower_bound upper_bound=
-  let (Md_list_t.M mdata)=wmdata in
-  if upper_bound=None
-  then List.length(mdata)
-  else let (j_up,data_up)=Option.unpack(upper_bound) in
-       if lower_bound=None
-       then (* this can be zero if j_up is 1 *)
-            j_up-1
-       else let (j_down,data_down)=Option.unpack(lower_bound) in
-            if (j_down>j_up)
-            then raise(Inconsistent_constraints(data_down,data_up))
-            else j_up-1;;
-
-let insert_data wmdata x (l_hm_before,l_hm_after)=
-  let (Md_list_t.M mdata)=wmdata in  
-  let indexed_mdata=Ennig.index_everything mdata in
-  let idx=(fun hm->match Option.seek  
-    (fun (j,dt)->Modulesystem_data.name dt=hm)
-    indexed_mdata with
-    None->None
-    |Some(j0,dt0)->Some(j0,Modulesystem_data.name dt0)
-)  in
-let l_idx_before=Option.filter_and_unpack idx l_hm_before
-and l_idx_after=Option.filter_and_unpack idx l_hm_after in
-let lower_bound=(if l_idx_before=[] then None else 
-   Some(fst(Max.maximize_it fst l_idx_before)))
-and upper_bound= (if l_idx_after=[]  then None else 
-   Some(fst(Min.minimize_it fst l_idx_after ))) in  
- let i=insertion_index wmdata lower_bound upper_bound in
- let youngest_ancestor=List.hd(List.rev(Modulesystem_data.all_ancestors x)) in
- let youngest_ancestor_idx=fst(Option.unpack(idx(youngest_ancestor))) in
- if youngest_ancestor_idx>i
- then raise(Bad_upper_constraint(youngest_ancestor))
- else 
- let (temp1,temp2)=List.partition (fun (j,t)->j<=i) indexed_mdata in
- let temp3=Image.image snd temp1
- and temp4=Image.image snd temp2 in
- Md_list_t.M(temp3@(x::temp4));;
 
 exception Nonregistered_module_during_reposition of Half_dressed_module.t;;  
 
  
 let reposition_module wmdata hm (l_before,l_after)=
     let (Md_list_t.M mdata)=wmdata in  
-    let (before,opt,after)=Three_parts.select_center_element
-    (fun dt->
-       Modulesystem_data.name dt=hm) mdata in
-    if opt=None
-    then raise(Nonregistered_module_during_reposition(hm))
+    let find_idx=(fun h->Small_array.leftmost_index_of_property_in (
+       fun dt->Modulesystem_data.name dt=h
+    ) mdata) in
+    let main_idx=find_idx hm
+    and indices_before=Image.image find_idx l_before
+    and indices_after=Image.image find_idx l_after in
+    let max_before=(if indices_before=[] then 1 else Max.list indices_before)
+    and min_after=(if indices_after=[] then Small_array.size mdata else Min.list indices_after)
+    in
+    if max_before>min_after
+    then let hm_before=Modulesystem_data.name(Small_array.get mdata max_before)
+         and hm_after=Modulesystem_data.name(Small_array.get mdata min_after) in
+         raise(Inconsistent_constraints(hm_before,hm_after))
     else 
-    let info=Option.unpack opt 
-    and amputated_data=Md_list_t.M(before@after) in
-    insert_data amputated_data info (l_before,l_after);;  
+    if max_before>main_idx
+    then let hm_before=Modulesystem_data.name(Small_array.get mdata max_before) in
+         raise(Bad_upper_constraint(hm_before))
+    else 
+    let _=Small_array.reposition_by_putting_snd_immediately_after_fst
+       mdata max_before main_idx in 
+    Md_list_t.M mdata;;  
 
 let rename_directory_on_data (old_subdir,new_subdirname) wmdata=
   let (Md_list_t.M mdata)=wmdata in  
-  Md_list_t.M(
-   Image.image 
+  let _=Small_array.apply_transformation_on_all mdata
   (Modulesystem_data.rename_endsubdirectory (old_subdir,new_subdirname)) 
-   mdata);;
+  in 
+  Md_list_t.M mdata;;
 
 let find_value_definition wmdata s=
   let (Md_list_t.M mdata)=wmdata in 
@@ -499,11 +487,11 @@ let find_value_definition wmdata s=
   else
   let j1=String.index(s)('.')+1 in
   let module_name=Cull_string.beginning (j1-1) s in
-  let opt=Option.seek (fun md->
+  let opt=Small_array.seek (fun md->
   Half_dressed_module.naked_module(Modulesystem_data.name md)=
   Naked_module.of_string(String.uncapitalize_ascii(module_name)) ) mdata in
   if opt=None
-  then None
+  then None 
   else
   let md1=Option.unpack opt in
   let hm1=Modulesystem_data.name md1 in
@@ -516,7 +504,7 @@ let find_value_definition wmdata s=
   
 let find_naked_module_registration wmdata nm=
     let (Md_list_t.M mdata)=wmdata in 
-    Option.seek (fun md->
+    Small_array.seek (fun md->
       let hm=Modulesystem_data.name md in
       (Half_dressed_module.naked_module hm)=nm
     )
@@ -524,30 +512,32 @@ let find_naked_module_registration wmdata nm=
 
 let all_naked_modules wmdata=
   let (Md_list_t.M mdata)=wmdata in   
-  Image.image (fun md->
+  Small_array.image (fun md->
     Naked_module.to_string(
     Half_dressed_module.naked_module(Modulesystem_data.name md))
   ) mdata;;     
 
 let all_ml_absolute_paths wmdata=
   let (Md_list_t.M mdata)=wmdata in   
-let temp1=List.filter Modulesystem_data.ml_present mdata in
-Image.image (fun md->
+Small_array.filter_and_unpack (fun md->
+  if not(Modulesystem_data.ml_present md)
+  then None
+  else 
   let hm=Modulesystem_data.name md in
   let mlx=Mlx_ended_absolute_path.join hm Ocaml_ending.ml in
-  Mlx_ended_absolute_path.to_absolute_path mlx
-) temp1;;
+  Some(Mlx_ended_absolute_path.to_absolute_path mlx)
+) mdata;;
 
 let modules_using_value wmdata value_name =
   let (Md_list_t.M mdata)=wmdata in  
-  Option.filter_and_unpack (fun md->
+  Small_array.filter_and_unpack (fun md->
    let ap=Modulesystem_data.principal_path md in
    if Substring.is_a_substring_of 
        value_name (Io.read_whole_file ap)
    then Some(Modulesystem_data.name md)
    else None ) mdata;;
 
-   module Private_for_ancs_libs_and_dirs=struct      
+module Private_for_ancs_libs_and_dirs=struct      
 
     let moduledata_hshtbl=Hashtbl.create 500;;
 
@@ -660,7 +650,8 @@ module PrivateThree=struct
     
     let put_md_list_back_in_order tolerate_cycles 
       wmd_list initially_active_hms=
-      let (Md_list_t.M md_list)=wmd_list in  
+      let (Md_list_t.M smd_list)=wmd_list in  
+      let md_list=Small_array.to_list smd_list in
       let coat=Memoized.make (fun md->
         let anc_md=Modulesystem_data.direct_fathers(md) in
         List.filter (
@@ -684,7 +675,7 @@ module PrivateThree=struct
             then Some(hm)
             else None
       ) final_list in  
-      (Md_list_t.M final_list,active_descendants);;
+      (Md_list_t.M (Small_array.of_list final_list),active_descendants);;
      
 end;; 
      
@@ -698,22 +689,22 @@ let recompile_on_monitored_modules tolerate_cycles wmdata =
     ref_for_changed_shortpaths:=((!ref_for_changed_shortpaths)@
                         (Modulesystem_data.short_paths md))
     ) in
-  let new_md_list=Image.image(fun md->
+  let _=Small_array.apply_transformation_on_all mdata (fun md->
     match quick_update wmdata md with
     None->md
     |Some(new_md)->let _=declare_changed(new_md) in
                   new_md
-) mdata in
+) in
 let changed_modules=List.rev(!ref_for_changed_modules) in
 if changed_modules=[] then ((wmdata,[]),[]) else
 let _=PrivateThree.announce_changed_modules changed_modules in
 (PrivateThree.put_md_list_back_in_order tolerate_cycles 
-  (Md_list_t.M new_md_list) changed_modules,
+  wmdata changed_modules,
 (!ref_for_changed_shortpaths));;  
 
 let printer_equipped_types_from_data wmdata=
   let (Md_list_t.M mdata)=wmdata in 
-  Option.filter_and_unpack (
+  Small_array.filter_and_unpack (
     fun md->
     let hm=Modulesystem_data.name md
     and ap=Modulesystem_data.principal_path md in
@@ -723,21 +714,53 @@ let printer_equipped_types_from_data wmdata=
     else None
   ) mdata;;
 
+let update_anclibdir changer mdata x=
+    if not(List.mem (Modulesystem_data.name changer)
+       (Modulesystem_data.all_ancestors x))
+    then x
+    else 
+    let anc=Modulesystem_data.all_ancestors changer
+    and llib=Modulesystem_data.needed_libraries changer in
+    let anc_x=Modulesystem_data.all_ancestors x
+    and llib_x=Modulesystem_data.needed_libraries x in
+    let new_ancestors=Small_array.filter_and_unpack(
+      fun fd->
+        let hm=Modulesystem_data.name fd in
+        if (List.mem hm anc_x)||(List.mem hm anc)
+        then Some(hm)
+        else None
+    ) mdata in
+    let new_lib=List.filter (
+       fun lib->(List.mem lib llib)||(List.mem lib llib_x)
+    ) Ocaml_library.all_libraries in
+    let temp1=Option.filter_and_unpack(
+      fun hm->
+        let s_hm=Half_dressed_module.uprooted_version hm in
+        let s_dir=Father_and_son.father s_hm '/' in
+        if s_dir="" then None else
+        Some(Subdirectory.of_string s_dir)
+    )  new_ancestors in
+   let new_dir=Ordered.forget_order(Tidel.diforchan temp1) in
+   Modulesystem_data.tool_in_update_anclibdir 
+     (new_ancestors,new_lib,new_dir) x;;      
+
+
 
 exception Already_registered_file of Mlx_ended_absolute_path.t;;  
 exception Overcrowding of Mlx_ended_absolute_path.t*(Ocaml_ending.t list);;
 exception Bad_pair of Mlx_ended_absolute_path.t*Ocaml_ending.t;; 
-exception Name_conflict of Half_dressed_module.t * Half_dressed_module.t;; 
+
 
 let register_mlx_file_on_monitored_modules wmdata mlx_file =
           let (Md_list_t.M mdata)=wmdata in 
           let hm=Mlx_ended_absolute_path.half_dressed_core mlx_file
           and ending=Mlx_ended_absolute_path.ending mlx_file in 
-          let nm=Half_dressed_module.naked_module hm in
-          let (before,opt,after)=Three_parts.select_center_element  (fun dt->
-             Half_dressed_module.naked_module(Modulesystem_data.name dt)=nm) 
-             mdata in
-          if opt=None
+          let opt_idx=(try 
+           Some(Small_array.leftmost_index_of_property_in
+              (fun dt->
+             Modulesystem_data.name dt=hm) mdata) with 
+            _->None ) in
+          if opt_idx=None
           then  let old_info=complete_info_during_registration wmdata mlx_file in
                 let info1=Modulesystem_data.make_presence ending old_info in
                 (*
@@ -747,13 +770,11 @@ let register_mlx_file_on_monitored_modules wmdata mlx_file =
                 let info=(if List.mem ending [Ocaml_ending.mll;Ocaml_ending.mly]
                           then Modulesystem_data.make_ml_present info1 
                           else info1) in
-                          Md_list_t.M(before@[info])
+                let _=Small_array.push_right mdata info in         
+                Md_list_t.M(mdata)
           else
-          let old_dt=Option.unpack(opt) in
-          let old_name=Modulesystem_data.name old_dt in
-          if (old_name<>hm)
-          then raise(Name_conflict(old_name,hm))
-          else 
+          let idx=Option.unpack(opt_idx) in
+          let old_dt=Small_array.get mdata idx in
           let edgs=Modulesystem_data.registered_endings old_dt in
           if List.length(edgs)>1
           then  raise(Overcrowding(mlx_file,edgs))
@@ -767,18 +788,26 @@ let register_mlx_file_on_monitored_modules wmdata mlx_file =
           let dt1=complete_info wmdata mlx_file in
           let new_dt=Modulesystem_data.make_presence ending dt1 in
           if ending<>Ocaml_ending.ml
-          then Md_list_t.M(before@(new_dt::after)) 
+          then let _=Small_array.set mdata idx new_dt in         
+               Md_list_t.M(mdata)
           else 
           let temp3=List.rev(Modulesystem_data.direct_fathers new_dt) in
           if temp3=[]
-          then Md_list_t.M(before@(new_dt::after))
+          then let _=Small_array.set mdata idx new_dt in         
+               Md_list_t.M(mdata)
           else  
-          let last_father=List.hd(List.rev(Modulesystem_data.direct_fathers new_dt)) in
-          let (before1,opt1,after1)=Three_parts.select_center_element  (fun dt->
-                  (Modulesystem_data.name dt)=last_father) before in
-          let lf1=Option.unpack opt1  in    
-          let temp2=Image.image (Modulesystem_data.update_anclibdir new_dt mdata) (after1@after) in
-          let final_list=before1@(lf1::new_dt::temp2) in
-          Md_list_t.M(final_list);;
+          let last_father=List.hd(temp3) in
+          let last_father_idx=Small_array.leftmost_index_of_property_in (
+            fun dt->
+            (Modulesystem_data.name dt)=last_father
+          ) mdata in
+          let _=
+            (
+              Small_array.apply_transformation_on_rightmost_interval
+                   mdata (update_anclibdir new_dt mdata) (last_father_idx+1);
+              Small_array.push_immediately_after_idx mdata new_dt last_father_idx;  
+            )
+          in
+          Md_list_t.M mdata;;
 
 

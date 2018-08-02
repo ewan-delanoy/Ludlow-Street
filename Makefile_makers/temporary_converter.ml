@@ -31,7 +31,7 @@ let hm_recomputation (u:t) nm=
     to_all_ancestors,
     to_needed_directories
   ) =u in
-  let idx=Small_array.leftmost_index all_modules nm in
+  let idx=Small_array.leftmost_index_of_in nm all_modules in
   let n_subdirectory=Small_array.get to_subdirectory idx in
   {
       Half_dressed_module.bundle_main_dir = Root_directory.without_trailing_slash main_root;
@@ -69,7 +69,7 @@ let individual_recomputation (u:t) nm=
         to_all_ancestors,
         to_needed_directories
     ) =u in
-    let idx=Small_array.leftmost_index all_modules nm in
+    let idx=Small_array.leftmost_index_of_in nm all_modules in
     let 
     n_ending=Small_array.get to_repartition idx and
     n_modification_time=Small_array.get to_modification_time idx and
