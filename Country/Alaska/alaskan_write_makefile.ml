@@ -41,7 +41,7 @@ let write_full_compilation_makefile_element main_root mdata=
              let hm=Modulesystem_data.name fd in
              let s_hm=(Half_dressed_module.uprooted_version hm) in
              let short_s_hm=Father_and_son.son s_hm '/' in
-             if Modulesystem_data.ml_present fd 
+             if Modulesystem_data.ml_registered fd 
              then s_root^"_build/"^short_s_hm^".cmo"
              else " "
   ) l_dt in   

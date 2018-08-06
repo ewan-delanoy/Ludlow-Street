@@ -2,7 +2,7 @@
 (* 
 
 
-#use"Makefile_makers/isidore_abstract_renamer.ml";;
+#use"Makefile_makers/abstract_renamer.ml";;
 
 Abstract type to handle renaming of an individual
 file in a file system.
@@ -16,8 +16,8 @@ and unconverted just after.
 
 type data={
   name : Half_dressed_module.t option;
-  acolyte_repartition : Acolyte_repartition_t.t;
-  mli_present : bool;
+  principal_ending : Ocaml_ending.t;
+  mli_registered : bool;
   principal_modification_time : float;
   mli_modification_time : float;
   needed_libraries : Ocaml_library.t list;
@@ -34,8 +34,8 @@ let abstractify hm x=
   
   {
   name = abstracter(Modulesystem_data.name x);
-  acolyte_repartition = Modulesystem_data.acolyte_repartition x;
-  mli_present = Modulesystem_data.mli_present x;
+  principal_ending = Modulesystem_data.principal_ending x;
+  mli_registered = Modulesystem_data.mli_registered x;
   principal_modification_time = Modulesystem_data.principal_modification_time x;
   mli_modification_time = Modulesystem_data.mli_modification_time x;
   needed_libraries = Modulesystem_data.needed_libraries x;
@@ -52,8 +52,8 @@ let unabstractify hm x=
   
   Modulesystem_data.make(
   unabstracter(x.name),
-  x.acolyte_repartition,
-  x.mli_present,
+  x.principal_ending,
+  x.mli_registered,
   x.principal_modification_time, 
   x.mli_modification_time, 
   x.needed_libraries, 

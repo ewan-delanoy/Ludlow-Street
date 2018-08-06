@@ -61,7 +61,7 @@ let command_for_cmi dir mdata hm=
           let s_hm=Half_dressed_module.uprooted_version hm in
           let s_fhm=s_root^s_hm in
           let ending=(
-          if Modulesystem_data.mli_present dt
+          if Modulesystem_data.mli_registered dt
           then ".mli"
           else ".ml"
           ) in
@@ -70,7 +70,7 @@ let command_for_cmi dir mdata hm=
             (Modulesystem_data.needed_dirs_and_libs false dt)^
           " -c "^s_fhm^ending in
           let full_mli=s_root^s_hm^".mli" in
-          if (not(Modulesystem_data.mli_present dt))
+          if (not(Modulesystem_data.mli_registered dt))
              &&(Sys.file_exists(full_mli))
           then (* 
                  in this situation the mli file exists but is not registered.

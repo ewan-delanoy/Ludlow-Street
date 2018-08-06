@@ -6,7 +6,7 @@
 
 type t=(
 Root_directory_t.t * Naked_module_t.t Small_array.t *
-Subdirectory_t.t Small_array.t * Acolyte_repartition_t.t Small_array.t *
+Subdirectory_t.t Small_array.t * Ocaml_ending.t Small_array.t *
 bool Small_array.t *
 float Small_array.t * float Small_array.t * 
 Ocaml_library.t list Small_array.t *
@@ -16,7 +16,6 @@ Subdirectory_t.t list Small_array.t);;
 
 module Private=struct
 
-  
 let hm_recomputation (u:t) nm=
   let (
     main_root,  
@@ -72,6 +71,7 @@ let individual_recomputation (u:t) nm=
     let idx=Small_array.leftmost_index_of_in nm all_modules in
     let 
     n_ending=Small_array.get to_repartition idx and
+    n_mli_present=Small_array.get to_interface_is_adjusted idx and
     n_modification_time=Small_array.get to_modification_time idx and
     n_mli_modification_time=Small_array.get to_mli_modification_time idx and
     n_needed_libraries=Small_array.get to_needed_libraries idx and
@@ -85,8 +85,8 @@ let individual_recomputation (u:t) nm=
 
     {                                                                 
       Modulesystem_data.name = hm;
-      acolyte_repartition = n_ending;
-      mli_present = Acolyte_repartition.test_mli_presence n_ending;
+      principal_ending = n_ending;
+      mli_registered = n_mli_present;
       principal_modification_time =  n_modification_time;
       mli_modification_time = n_mli_modification_time;
 
@@ -113,9 +113,9 @@ let of_md_list l=
     and l_to_subdirectory=
       Image.image Half_dressed_module.subdirectory  temp1 
     and l_to_repartition=
-      Image.image Modulesystem_data.acolyte_repartition l
+      Image.image Modulesystem_data.principal_ending l
     and l_to_interface_is_adjusted=
-      Image.image Modulesystem_data.mli_present l  
+      Image.image Modulesystem_data.mli_registered l  
     and l_to_modification_time=
       Image.image (fun md->
       Modulesystem_data.modification_time md 
