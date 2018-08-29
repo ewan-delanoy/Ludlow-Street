@@ -14,7 +14,6 @@ let on_subdirectory=Subdirectory.rename_endsubdirectory;;
 
 let on_half_dressed_module=Half_dressed_module.rename_endsubdirectory;;
 
-let on_ms_data=Modulesystem_data.rename_endsubdirectory;; 
 
 let on_mlx_ended_absolute_path=
   Mlx_ended_absolute_path.rename_endsubdirectory;;
@@ -31,8 +30,6 @@ let on_half_dressed_modules (old_subdir,new_subdirname) l=
 let on_printer_equipped_types (old_subdir,new_subdirname) l=
         Image.image (on_printer_equipped_type (old_subdir,new_subdirname)) l ;; 
 
-let on_data (old_subdir,new_subdirname) ldata=
-   Image.image (on_ms_data (old_subdir,new_subdirname)) ldata;;
  
 let on_subdirectories (old_subdir,new_subdirname) l_subdir=
    Image.image (on_subdirectory (old_subdir,new_subdirname)) l_subdir;; 
