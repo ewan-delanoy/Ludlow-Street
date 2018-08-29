@@ -26,7 +26,7 @@ let fl=German_vague_string.to_path cdir;;
 let fmr x=
   let uncapitalized_x=
     Naked_module.of_string(String.uncapitalize_ascii x) in
-  Modify_md_list.find_naked_module_registration
+  Modify_md_list.seek_module_index
   (German_wrapper.data()) uncapitalized_x;;
 
 exception No_module_with_name of string;;
@@ -34,18 +34,32 @@ exception No_module_with_name of string;;
 let hmx x=
    match fmr x
    with 
-   Some(md)->Modulesystem_data.name md
+   Some(idx)->Modify_md_list.hm_at_idx (German_wrapper.data()) idx
    |None->raise(No_module_with_name(x));;  
 
 let abo x=
-  Image.image Half_dressed_module.uprooted_version
-  (Modify_md_list.above (German_wrapper.data()) (hmx x));;
+  let wmdata=German_wrapper.data() in
+  Image.image (fun nm->
+   Half_dressed_module.uprooted_version(
+    Modify_md_list.hm_from_nm wmdata nm
+   )) 
+  (Modify_md_list.above wmdata (hmx x));;
+
 let bel x=
-  Image.image Half_dressed_module.uprooted_version
-  (Modify_md_list.below (German_wrapper.data()) (hmx x));;
+  let wmdata=German_wrapper.data() in
+  Image.image (fun nm->
+   Half_dressed_module.uprooted_version(
+    Modify_md_list.hm_from_nm wmdata nm
+   )) 
+  (Modify_md_list.below wmdata (hmx x));;
+  
 let dbel x=
-  Image.image Half_dressed_module.uprooted_version
-  (Modify_md_list.directly_below (German_wrapper.data()) (hmx x));;
+  let wmdata=German_wrapper.data() in
+  Image.image (fun nm->
+   Half_dressed_module.uprooted_version(
+    Modify_md_list.hm_from_nm wmdata nm
+   )) 
+  (Modify_md_list.directly_below wmdata (hmx x));;
 
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;

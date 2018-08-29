@@ -27,7 +27,8 @@ exception Inexistent_module of string;;
 let of_string_and_root old_s dir=
         let s=Father_and_son.invasive_father old_s '.' in
         let s_dir=Root_directory.without_trailing_slash dir in
-	    if List.for_all (fun edg->not(Sys.file_exists(s_dir^"/"^s^edg)) ) Ocaml_ending.all_string_endings
+      if List.for_all (fun edg->not(Sys.file_exists(s_dir^"/"^s^edg)) ) 
+           Ocaml_ending.all_string_endings
 	    then raise(Inexistent_module(s_dir^s))
 	    else
 	    {

@@ -28,7 +28,7 @@ let mild_uc s=
    let i=Sys.command s in
    let _=(
    if i<>0
-   then (print_string ("Failed during "^s);flush stdout)
+   then (print_string ("Failed during "^s^"\n");flush stdout)
    else (if (!remember_commands_mode) then accu:=s::(!accu))
    ) in
    i;;

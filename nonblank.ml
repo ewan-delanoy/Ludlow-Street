@@ -2,11 +2,9 @@
 (* 
 
 Useful to avoid empty strings between two successive separators in
-an archive string. To see example of how it is used, look at the
-archive/unarchive function in the new_modulesystem_data module for
-example.
+an archive string, or to avoid empty strings to be forgotten during unarchiving. 
 
-#use"swoon.ml";;
+#use"nonblank.ml";;
 
 *)
 

@@ -96,6 +96,18 @@ let leftmost_index_of_in y x=
     ) in
     tempf 1;;
 
+let indices_of_property_of_in f x=
+    let c=x.current_size in
+    let accu=ref[] in 
+    for k=1 to c 
+    do
+    let item =  Option.unpack (Array.get x.container (k-1)) in
+       if f item
+       then accu:=k::(!accu)
+    done;
+    List.rev(!accu);;
+
+
 exception Property_not_found;;
 
 let leftmost_index_of_property_in f x=
@@ -172,6 +184,26 @@ let apply_transformation_on_all x f=
 let apply_transformation_on_rightmost_interval x f i=
   apply_transformation_on_interval x f i (x.current_size);;
 
+ 
+let industrial_separator=Industrial_separator.small_array;;
+
+(*
+
+Do not use those archiving functions on nested small arrays !
+
+*)
+
+let archive old_archiver x=
+   let temp1=Ennig.doyle (
+       fun k->Nonblank.make(old_archiver(get x k))
+   ) 1 x.current_size in
+   String.concat industrial_separator temp1;;
+   
+let unarchive old_unarchiver s=
+    let temp1=Str.split (Str.regexp_string industrial_separator) s in
+    let temp2=Image.image (fun x->old_unarchiver (Nonblank.decode x)) temp1 in 
+    of_list temp2;;   
+   
 
 
 

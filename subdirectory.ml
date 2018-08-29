@@ -7,7 +7,6 @@ Subdirectories name, with the trailing slash removed.
 *)
 
 
-
 let without_trailing_slash (Subdirectory_t.SD s)=s;;
 
 
@@ -17,7 +16,10 @@ let depth (Subdirectory_t.SD s)=
  if s="" then 0 else
  (List.length(Substring.occurrences_of_in "/" s))+1;;
 
-let connectable_to_subpath (Subdirectory_t.SD s)=if s="" then "" else s^"/";;
+let connectable_to_subpath (Subdirectory_t.SD s)=
+  if s="" 
+  then "" 
+  else s^"/";;
 
 let rename_endsubdirectory (Subdirectory_t.SD(old_subdir),new_esdname) 
    (Subdirectory_t.SD s)=

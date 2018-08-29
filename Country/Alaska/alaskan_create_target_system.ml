@@ -16,7 +16,8 @@ let display_circular_dependencies printer l cycles=
     let ttemp1=Image.image (fun j->printer (List.nth l (j-1))) cycle in
      String.concat " -> " ttemp1 
   ) cycles in
-  let temp2="\n\n The following cycles have been detected : "^(String.concat "\n\n" temp1) in
+  let temp2="\n\n The following cycles have been detected : "^
+    (String.concat "\n\n" temp1) in
   (print_string temp2;flush stdout);;
  
 let init_dir=
@@ -165,7 +166,7 @@ let from_prepared_list dir l=
    let temp1=Option.filter_and_unpack (fun (ap,s)->
       Mlx_ended_absolute_path.try_from_path_and_root ap dir
    ) l in
-   Alaskan_try_to_register.mlx_files Modify_md_list.empty_one temp1;;
+   Alaskan_try_to_register.mlx_files (Modify_md_list.empty_one dir) temp1;;
 
 end;;   
 

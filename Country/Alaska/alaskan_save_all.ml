@@ -11,9 +11,7 @@ module Private=struct
   let save_makefile (root,location_for_makefile) mdata=
     let s1="# This makefile was automatocally written by\n"^
     "# the write_makefile function in the ml_manager module. \n\n"^
-    (Alaskan_write_makefile.write_makefile 
-      root
-    mdata) in
+    (Alaskan_write_makefile.write_makefile mdata) in
     let lm=Root_directory.force_join root location_for_makefile in
     Io.overwrite_with (Absolute_path.of_string lm) s1;;
   

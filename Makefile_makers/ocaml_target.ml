@@ -151,12 +151,14 @@ NO_DEPENDENCIES(_)->0
 |EXECUTABLE(_)
 |DEBUGGABLE(_)->3;;
 
-let still_up_to_date_test hms_to_be_updated tgt2=
-   not(List.mem (Option.unpack(main_module tgt2)) hms_to_be_updated);;
+let still_up_to_date_test nms_to_be_updated tgt2=
+   not(List.mem (
+     Half_dressed_module.naked_module(Option.unpack(main_module tgt2))) 
+     nms_to_be_updated);;
 
-let  still_up_to_date_targets hms_to_be_updated l=
+let  still_up_to_date_targets nms_to_be_updated l=
 List.filter (
- still_up_to_date_test hms_to_be_updated
+ still_up_to_date_test nms_to_be_updated
 ) l;; 
 
 let from_modulesystem_data dt=

@@ -22,7 +22,7 @@ let set_preq_types x y=x.Coma_state_t.printer_equipped_types<- y;;
 let empty_one x y={
      Coma_state_t.root =x;
      dir_for_backup =y;
-     data        =Modify_md_list.empty_one;
+     data        =Modify_md_list.empty_one x;
      directories =[];
      targets     =[];
      printer_equipped_types =[];
@@ -38,11 +38,11 @@ let uple_form x=
 let recompile x=
      let (old_mdata,old_tgts)=
        (x.Coma_state_t.data,x.Coma_state_t.targets) in
-     let ((new_mdata,hms_to_be_updated),short_paths)=
+     let ((new_mdata,nms_to_be_updated),short_paths)=
         Modify_md_list.recompile_on_monitored_modules false old_mdata in
-     if hms_to_be_updated=[] then (false,[]) else
+     if nms_to_be_updated=[] then (false,[]) else
      let new_dirs=Modify_md_list.compute_subdirectories_list new_mdata 
-     and new_tgts1=Ocaml_target.still_up_to_date_targets hms_to_be_updated old_tgts in
+     and new_tgts1=Ocaml_target.still_up_to_date_targets nms_to_be_updated old_tgts in
      let checker=Ocaml_target.test_target_existence (get_root x) in
      let new_tgts=List.filter checker new_tgts1 in
      let (new_mdata2,new_tgts2,rejected_ones2)=
