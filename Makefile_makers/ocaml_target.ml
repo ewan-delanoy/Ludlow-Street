@@ -161,20 +161,6 @@ List.filter (
  still_up_to_date_test nms_to_be_updated
 ) l;; 
 
-let from_modulesystem_data dt=
-let hm=Modulesystem_data.name dt 
-and (mlp,mlip,mllp,mlyp)=Modulesystem_data.presences dt in
-let temp1=[
-            mllp,ml_from_mll hm;
-            mlyp,ml_from_mly hm;
-       mlp||mlip,cmi hm;
-      mlp||mlip,cmo hm;
-       mlp||mlip,cma hm;
-       mlp||mlip,cmx hm;
-             mlp,executable hm;
-] in
-Option.filter_and_unpack (fun x->if fst x then Some(snd x) else None) temp1;;  
-
 
 
 let rename_endsubdirectory (old_subdir,new_subdirname) x=
