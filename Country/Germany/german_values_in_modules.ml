@@ -6,7 +6,7 @@
 *)
 
 let replace_string root_dir mdata old_string new_string=
-  let temp1=Modify_md_list.files_containing_string mdata old_string in
+  let temp1=Coma_state.files_containing_string mdata old_string in
   let m=String.length(Root_directory.connectable_to_subpath root_dir) in
   let temp2=Image.image (fun ap->
     Cull_string.cobeginning m (Absolute_path.to_string ap)) temp1 in
@@ -52,7 +52,7 @@ let list_values_from_module_in_file module_name file=
    Ordered_string.diforchan temp3;;
 
 let list_values_from_module_in_modulesystem module_name mdata=
-   let temp1=Modify_md_list.all_mlx_paths mdata in
+   let temp1=Coma_state.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_values_from_module_in_file module_name ap in
     Ordered_string.image (fun x->(x,ap) ) ttemp1
@@ -81,7 +81,7 @@ let list_value_occurrences_in_file t file=
 
 let show_value_occurrences_in_modulesystem root_dir t mdata=
    let m=String.length(Root_directory.connectable_to_subpath root_dir) in
-   let temp1=Modify_md_list.all_mlx_paths mdata in
+   let temp1=Coma_state.all_mlx_paths mdata in
    let temp2=Image.image (fun ap->
     let ttemp1=list_value_occurrences_in_file t ap in
     let mname=Cull_string.cobeginning(m)(Absolute_path.to_string ap) in

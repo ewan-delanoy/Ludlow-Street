@@ -15,13 +15,13 @@ module Private=struct
 
 
 
-let main_ref=Modify_md_list.empty_one
+let main_ref=Coma_state.empty_one
   usual_root
   usual_dir_for_backup;;
 
 let whole ()=Coma_state.uple_form main_ref;;
 
-let save_all ()=Alaskan_save_all.write_all 
+let save_all ()=Coma_state.Save_all.write_all 
   (usual_root, 
     Coma_constant.name_for_makefile,
     Coma_constant.name_for_targetfile,
@@ -33,6 +33,7 @@ let save_all ()=Alaskan_save_all.write_all
   );;
 
 
+  
 
 let recompile ()=Coma_state.recompile main_ref;;   
 
@@ -44,7 +45,7 @@ end;;
 let backup diff opt=
      Coma_state.backup (Private.main_ref) diff opt;;
 let data ()= (Private.main_ref);;
-let directories ()=Modify_md_list.directories (Private.main_ref);;
+let directories ()=Coma_state.directories (Private.main_ref);;
 
 let declare_printer_equipped_type hm=
   (
@@ -87,7 +88,7 @@ let initialize ()=
 
 
 let printer_equipped_types ()=
-    Modify_md_list.preq_types Private.main_ref;;
+    Coma_state.preq_types Private.main_ref;;
 
 let recompile ()=
    let data=Private.recompile () in
@@ -133,7 +134,7 @@ let rename_module old_name new_name=
 
 let reposition_module hm (l_before,l_after)=
   let _=Private.recompile_softly() in
-  let _=Modify_md_list.reposition_module Private.main_ref hm (l_before,l_after) in
+  let _=Coma_state.reposition_module Private.main_ref hm (l_before,l_after) in
   
     Private.save_all();
  ;;   
@@ -171,11 +172,11 @@ let unregister_mlx_file mlx=
    );;        
    
    
-let up_to_date_targets ()=Modify_md_list.targets Private.main_ref;;   
+let up_to_date_targets ()=Coma_state.targets Private.main_ref;;   
    
 
 let view_definition s=
-  let opt=Modify_md_list.find_value_definition (Private.main_ref) s in
+  let opt=Coma_state.find_value_definition (Private.main_ref) s in
   if opt=None then () else
   let itm=Option.unpack opt in
   let text="\n\n"^(Ocaml_gsyntax_item.whole itm)^"\n\n" in

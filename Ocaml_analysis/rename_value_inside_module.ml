@@ -27,9 +27,9 @@ let rename_value_inside_module root_dir s new_name=
    and path=German_vague_string.to_path root_dir  module_name in 
    let wmdata=German_wrapper.data() in
    let nm=Half_dressed_module.naked_module hm in
-   let idx1=Modify_md_list.find_module_index wmdata nm in
-   let pre_temp2=(Modify_md_list.ancestors_at_idx wmdata idx1)@[nm] in
-   let temp2=Image.image (Modify_md_list.hm_from_nm wmdata) pre_temp2 in
+   let idx1=Coma_state.find_module_index wmdata nm in
+   let pre_temp2=(Coma_state.ancestors_at_idx wmdata idx1)@[nm] in
+   let temp2=Image.image (Coma_state.hm_from_nm wmdata) pre_temp2 in
    let all_files=Image.image  (fun hm2->
    	 Mlx_ended_absolute_path.to_path(Mlx_ended_absolute_path.join hm2 Ocaml_ending.Ml)
    ) temp2 in

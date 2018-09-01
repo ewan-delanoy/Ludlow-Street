@@ -11,7 +11,7 @@ Otherwise we interpret it as a mere string.
 
 let caoi mdata=
    Read_ocaml_files.read_ocaml_files 
-   (Modify_md_list.all_ml_absolute_paths mdata)
+   (Coma_state.all_ml_absolute_paths mdata)
   ;;
    
   

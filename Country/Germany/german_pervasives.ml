@@ -26,7 +26,7 @@ let fl=German_vague_string.to_path cdir;;
 let fmr x=
   let uncapitalized_x=
     Naked_module.of_string(String.uncapitalize_ascii x) in
-  Modify_md_list.seek_module_index
+  Coma_state.seek_module_index
   (German_wrapper.data()) uncapitalized_x;;
 
 exception No_module_with_name of string;;
@@ -34,32 +34,32 @@ exception No_module_with_name of string;;
 let hmx x=
    match fmr x
    with 
-   Some(idx)->Modify_md_list.hm_at_idx (German_wrapper.data()) idx
+   Some(idx)->Coma_state.hm_at_idx (German_wrapper.data()) idx
    |None->raise(No_module_with_name(x));;  
 
 let abo x=
   let wmdata=German_wrapper.data() in
   Image.image (fun nm->
    Half_dressed_module.uprooted_version(
-    Modify_md_list.hm_from_nm wmdata nm
+    Coma_state.hm_from_nm wmdata nm
    )) 
-  (Modify_md_list.above wmdata (hmx x));;
+  (Coma_state.above wmdata (hmx x));;
 
 let bel x=
   let wmdata=German_wrapper.data() in
   Image.image (fun nm->
    Half_dressed_module.uprooted_version(
-    Modify_md_list.hm_from_nm wmdata nm
+    Coma_state.hm_from_nm wmdata nm
    )) 
-  (Modify_md_list.below wmdata (hmx x));;
+  (Coma_state.below wmdata (hmx x));;
   
 let dbel x=
   let wmdata=German_wrapper.data() in
   Image.image (fun nm->
    Half_dressed_module.uprooted_version(
-    Modify_md_list.hm_from_nm wmdata nm
+    Coma_state.hm_from_nm wmdata nm
    )) 
-  (Modify_md_list.directly_below wmdata (hmx x));;
+  (Coma_state.directly_below wmdata (hmx x));;
 
 
 let ren_without_backup x y=German_wrapper.rename_module (hmx x) (No_slashes.of_string y);;
@@ -106,7 +106,7 @@ let vo s=
   Unix_command.uc ("open -a \"/Applications/Visual Studio Code.app\" "^s1);;
 
 
-let syz()=Modify_md_list.system_size (German_wrapper.data());;
+let syz()=Coma_state.system_size (German_wrapper.data());;
 
 let init=German_wrapper.initialize;;
 
@@ -127,7 +127,7 @@ let sv wal=German_values_in_modules.show_value_occurrences_in_modulesystem
   cdir wal (German_wrapper.data()) ;;
 let vfm modname =German_values_in_modules.list_values_from_module_in_modulesystem 
     modname (German_wrapper.data()) ;;
-let muv x=Modify_md_list.modules_using_value (German_wrapper.data()) x;;
+let muv x=Coma_state.modules_using_value (German_wrapper.data()) x;;
 
 let ed =German_wrapper.end_debugging;;
 
@@ -139,7 +139,7 @@ let fvd=Find_value_descendants.fvd
 let rsh_without_backup ()=let _=German_wrapper.refresh() in ();;
 
 
-let am ()=Modify_md_list.all_naked_modules (German_wrapper.data());;
+let am ()=Coma_state.all_naked_modules (German_wrapper.data());;
   
     
 let tw x=
@@ -150,7 +150,8 @@ let tw x=
 
 
 
-let ucc ()=German_create_or_update_copied_compiler.ucc 
+let ucc ()=Coma_state.Create_or_update_copied_compiler.ucc 
+  (German_wrapper.data())
  (cdir,
   Root_directory.of_string "/Users/ewandelanoy/Documents/OCaml/Cherokee");;
 
