@@ -162,15 +162,15 @@ let compute_dependencies l=
   (fun (j1,(ap1,s1))->s1) temp1 cycles in
   Image.image (fun (j,_)->snd(List.nth temp1 (j-1)) ) good_list;;
   
-let from_prepared_list dir l=
+let from_prepared_list dir backup_dir l=
    let temp1=Option.filter_and_unpack (fun (ap,s)->
       Mlx_ended_absolute_path.try_from_path_and_root ap dir
    ) l in
-   Alaskan_try_to_register.mlx_files (Modify_md_list.empty_one dir) temp1;;
+   Alaskan_try_to_register.mlx_files (Modify_md_list.empty_one dir backup_dir) temp1;;
 
 end;;   
 
-let from_main_directory dir =
+let from_main_directory dir backup_dir =
 	let old_s=Root_directory.connectable_to_subpath(dir) in
   let s_main_dir=Cull_string.coending 1 old_s in (* mind the trailing slash *)
   let _=
@@ -180,7 +180,7 @@ let from_main_directory dir =
 	let temp1=Private.select_good_files s_main_dir in
     let temp2=Private.clean_list_of_files dir temp1 in
     let temp3=Private.compute_dependencies temp2 in
-    let (failures,mdata1)=Private.from_prepared_list dir temp3 in
+    let (failures,mdata1)=Private.from_prepared_list dir backup_dir temp3 in
     let pre_preqt=Modify_md_list.printer_equipped_types_from_data mdata1 in
     let (mdata2,new_tgts2,rejected_ones2)=Alaskan_make_ocaml_target.feydeau
        dir mdata1 []  in

@@ -84,6 +84,18 @@ let push_immediately_after_idx x u i=
     reposition_by_putting_snd_immediately_after_fst x i (c+1)  
   );;
 
+let copy x=of_array(to_array x);;
+
+let copy_from x y=
+  (
+    x.current_size <- y.current_size;
+    for j=0 to (max_size-1) 
+    do
+      Array.set x.container j (Array.get y.container j)
+    done  
+  );;
+
+
 exception Element_not_found;;
  
 let leftmost_index_of_in y x=
@@ -154,7 +166,7 @@ let image f x=
       done;
       List.rev(!accu);;
   
-let copy x=of_array(to_array x);;
+
 
 exception Remove_item_exn of int*int;;
 

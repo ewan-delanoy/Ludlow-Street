@@ -31,7 +31,7 @@ let write_usual_makefile_element main_root mdata tgt=
  String.concat "" [s1;s2;s3;s4];;
  
 let write_full_compilation_makefile_element  wmdata=
-  let main_root=Modify_md_list.main_root wmdata in
+  let main_root=Modify_md_list.root wmdata in
   let l=Modify_md_list.all_modules wmdata in
   let temp1=Image.image 
   (Alaskan_ingredients_for_ocaml_target.ingredients_for_usual_element wmdata) l in
@@ -61,7 +61,7 @@ let write_full_compilation_makefile_element  wmdata=
   String.concat "" [s1;s2;s3;s4];; 
  
 let write_makefile wmdata=
- let main_root=Modify_md_list.main_root wmdata in 
+ let main_root=Modify_md_list.root wmdata in 
  let temp1=Modify_md_list.usual_targets wmdata in
  let temp2=Image.image (write_usual_makefile_element main_root wmdata) temp1 in
  let temp3=temp2@[write_full_compilation_makefile_element wmdata] in
