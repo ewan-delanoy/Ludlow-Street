@@ -1917,7 +1917,8 @@ let forget_module_on_targets root_dir (wmdata,dirs,tgts) hm=
                let temp1=Image.image (fun t->
                   Absolute_path.of_string(Root_directory.join root_dir t)
                ) short_paths in
-               let _=Image.image (German_forget_unregistered_file.forget root_dir) temp1 in
+               let _=Image.image 
+               (German_forget_unregistered_file.forget root_dir) temp1 in
                (answer,short_paths)
           else raise(ModuleWithDependenciesDuringForgetting(hm,bel));;
       
