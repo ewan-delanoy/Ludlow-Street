@@ -1880,13 +1880,21 @@ let forget_file x ap=
 
 module Unregister_module=struct
 
+let test_for_non_obsolescence (hm,short_paths) tgt=
+  match tgt with
+  Ocaml_target.NO_DEPENDENCIES(mlx)->
+      not(List.mem (Mlx_ended_absolute_path.short_path mlx) short_paths)
+  |_->(
+    match Ocaml_target.main_module tgt with
+    None->false |Some(hm2)->hm2<>hm
+      );;    
+
+
 let on_targets root_dir (old_mdata,old_tgts) hm=
     let (new_mdata,short_paths)=unregister_module_on_monitored_modules  old_mdata hm in
     let new_dirs=compute_subdirectories_list new_mdata 
-    and new_tgts=List.filter (fun tgt->
-      match Ocaml_target.main_module tgt with
-      None->false |Some(hm2)->hm2<>hm
-    ) old_tgts in
+    and new_tgts=List.filter 
+     (test_for_non_obsolescence (hm,short_paths) ) old_tgts in
     let (new_mdata2,new_tgts2,_)=Ocaml_target_making.feydeau
     root_dir new_mdata new_tgts  in
      ((new_mdata2,new_dirs,new_tgts2),short_paths);;   
