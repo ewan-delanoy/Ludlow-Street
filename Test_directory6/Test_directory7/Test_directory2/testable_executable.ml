@@ -12,6 +12,8 @@ let unique_argument = (
     else Array.get arr 1
 ) (Sys.argv);;
 
+let filler = Total_ordering.standard;;
+
 let message = "Hello World ! \n You just wrote : "^unique_argument^"\n\n";;
 
 print_string message;;
