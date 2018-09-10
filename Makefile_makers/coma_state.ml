@@ -2342,11 +2342,8 @@ let pre_start_debugging mdata=
 	let ap=Find_suitable_ending.find_file_location root_dir rdir 
 	     (dbg^".ml") in
 	let hm=Half_dressed_module.of_path_and_root ap root_dir in
-  let mdata2=recompute_module_info mdata hm in
-  let old_tgts=mdata.Coma_state_t.targets in
-	let tgt=Ocaml_target.debuggable hm in
-	let answer=Ocaml_target_making.make root_dir
-	(mdata2,old_tgts,[]) tgt in
+  let answer=Ocaml_target_making.make_final_target
+     Compilation_mode_t.Debug (Some hm) mdata in
 	let msg=(
 	  if (fst answer)
 	  then "\n\n Now, start \n\nocamldebug _build/"^dbg^".ocaml_debuggable\n\nin another terminal\n\n"
