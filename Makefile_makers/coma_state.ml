@@ -1790,7 +1790,15 @@ let feydeau old_mdata=
 let make_final_target mode opt_argument mdata=
     match   mode with
      Compilation_mode_t.Usual->feydeau mdata
-    |Compilation_mode_t.Debug->failwith("aaa")
+    |Compilation_mode_t.Debug->
+       failwith("aaa") 
+       (*
+        let hm=Option.unpack opt_argument in
+        let mdata2=recompute_module_info mdata hm in
+        let old_tgts=mdata.Coma_state_t.targets in
+        let tgt=Ocaml_target.debuggable hm in
+        make (root mdata) (mdata2,old_tgts,[]) tgt
+        *)
     |Compilation_mode_t.Executable->failwith("bbb");; 
   
 end;;  
