@@ -1772,18 +1772,26 @@ module Ocaml_target_making=struct
   let rec  iterator_for_full_compilation dir (successful_ones,to_be_treated,ts)=
     match to_be_treated with
     []->(List.rev successful_ones,ts)
-    |_->iterator_for_full_compilation dir (pusher_for_full_compilation dir (successful_ones,to_be_treated,ts));;
+    |_->iterator_for_full_compilation dir 
+     (pusher_for_full_compilation dir (successful_ones,to_be_treated,ts));;
   
     
   
    
-  let feydeau dir old_mdata old_tgts=
+let feydeau old_mdata=
+    let dir=root old_mdata 
+    and old_tgts=targets old_mdata in
     let l=everyone_except_the_debugger old_mdata in
     let ts=(old_mdata,old_tgts,[]) in
     let temp1=ingr_for_top old_mdata "ecaml" l in
     let (successful_ones,ts2)=iterator_for_full_compilation dir ([],temp1,ts) in
     ts2;;
   
+let make_final_target mode opt_argument mdata=
+    match   mode with
+     Compilation_mode_t.Usual->feydeau mdata
+    |Compilation_mode_t.Debug->failwith("aaa")
+    |Compilation_mode_t.Executable->failwith("bbb");; 
   
 end;;  
 
@@ -1797,9 +1805,10 @@ let recompile x=
      and new_tgts1=Ocaml_target.still_up_to_date_targets nms_to_be_updated old_tgts in
      let checker=Ocaml_target.test_target_existence (root x) in
      let new_tgts=List.filter checker new_tgts1 in
+     let _=(x.Coma_state_t.targets <- new_tgts) in
      let (_,new_tgts2,rejected_ones2)=
-       Ocaml_target_making.feydeau
-       (root x) x new_tgts  in
+       Ocaml_target_making.make_final_target
+       Compilation_mode_t.Usual None x  in
       let new_preqt=Image.image(
         fun (hm,_)->(hm,not(List.mem hm rejected_ones2))
       )  (x.Coma_state_t.printer_equipped_types) in   
@@ -1840,8 +1849,10 @@ let unregister_mlx_file_on_targets root_dir (old_mdata,old_tgts) mlx=
        match Ocaml_target.main_module tgt with
        None->false |Some(hm2)->hm2<>hm
     ) old_tgts in
-    let (new_mdata2,new_tgts2,_)=Ocaml_target_making.feydeau
-    root_dir new_mdata new_tgts  in
+    let _=(new_mdata.Coma_state_t.targets <- new_tgts) in
+    let (new_mdata2,new_tgts2,_)=
+       Ocaml_target_making.make_final_target
+       Compilation_mode_t.Usual None new_mdata  in
     (new_mdata2,new_dirs,new_tgts2);;   
 
 exception FileWithDependencies of 
@@ -1895,8 +1906,10 @@ let on_targets root_dir (old_mdata,old_tgts) hm=
     let new_dirs=compute_subdirectories_list new_mdata 
     and new_tgts=List.filter 
      (test_for_non_obsolescence (hm,short_paths) ) old_tgts in
-    let (new_mdata2,new_tgts2,_)=Ocaml_target_making.feydeau
-    root_dir new_mdata new_tgts  in
+    let _=(new_mdata.Coma_state_t.targets <- new_tgts) in
+    let (new_mdata2,new_tgts2,_)=
+        Ocaml_target_making.make_final_target
+        Compilation_mode_t.Usual None new_mdata  in 
      ((new_mdata2,new_dirs,new_tgts2),short_paths);;   
      
    
@@ -2157,7 +2170,7 @@ module Target_system_creation=struct
     
     end;;   
     
-    let from_main_directory dir backup_dir =
+let from_main_directory dir backup_dir =
       let old_s=Root_directory.connectable_to_subpath(dir) in
       let s_main_dir=Cull_string.coending 1 old_s in (* mind the trailing slash *)
       let _=
@@ -2169,10 +2182,11 @@ module Target_system_creation=struct
         let temp3=Private.compute_dependencies temp2 in
         let (failures,mdata1)=Private.from_prepared_list dir backup_dir temp3 in
         let pre_preqt=printer_equipped_types_from_data mdata1 in
-        let (mdata2,new_tgts2,rejected_ones2)=Ocaml_target_making.feydeau
-           dir mdata1 []  in
+        let (new_mdata2,new_tgts2,rejected_ones2)=
+           Ocaml_target_making.make_final_target
+           Compilation_mode_t.Usual None mdata1  in
        let preqt=Image.image (fun hm->(hm,not(List.mem hm rejected_ones2))) pre_preqt in 
-       (mdata2,new_tgts2,preqt);;
+       (new_mdata2,new_tgts2,preqt);;
     
     
 
@@ -2240,8 +2254,10 @@ let register_mlx_file x mlx=
           let (new_mdata,new_dirs,new_tgts)= 
           Register_mlx_file.on_targets 
            (x,directories x,targets x) mlx in
-         let (_,new_tgts2,_)=Ocaml_target_making.feydeau
-               (root x) new_mdata new_tgts  in     
+         let _=(new_mdata.Coma_state_t.targets <- new_tgts) in
+         let (_,new_tgts2,_)=
+             Ocaml_target_making.make_final_target
+             Compilation_mode_t.Usual None new_mdata  in     
                 
              (
               set_directories x new_dirs;
@@ -2254,8 +2270,10 @@ let relocate_module_on_targets root_dir (old_mdata,old_tgts) old_name new_subdir
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
   let (new_mdata,(old_files,new_files))=
     relocate_module_on_monitored_modules root_dir old_mdata old_name new_subdir in
-  let (new_mdata2,new_tgts2,_)=Ocaml_target_making.feydeau
-    root_dir new_mdata untouched_tgts  in
+  let _=(new_mdata.Coma_state_t.targets <- untouched_tgts) in
+  let (new_mdata2,new_tgts2,_)=
+        Ocaml_target_making.make_final_target
+        Compilation_mode_t.Usual None new_mdata  in     
   ((new_mdata2,new_tgts2),(old_files,new_files));;   
  
 
@@ -2296,8 +2314,10 @@ let rename_module_on_targets root_dir (old_mdata,old_tgts) old_name new_name=
    old_mdata [old_name] tgt)&&(Ocaml_target.main_module(tgt)<>Some(old_name)) ) old_tgts in
   let (new_mdata,(old_files,new_files))=
      rename_module_on_monitored_modules root_dir old_mdata old_name new_name in
-  let (new_mdata2,new_tgts2,_)=Ocaml_target_making.feydeau
- root_dir new_mdata untouched_tgts  in
+  let _=(new_mdata.Coma_state_t.targets <- untouched_tgts) in
+  let (new_mdata2,new_tgts2,_)=
+       Ocaml_target_making.make_final_target
+       Compilation_mode_t.Usual None new_mdata  in
   ((new_mdata2,new_tgts2),(old_files,new_files));;   
  
 
