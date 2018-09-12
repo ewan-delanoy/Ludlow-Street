@@ -1589,7 +1589,7 @@ module Command_for_ocaml_target=struct
     let s_fhm=s_root^s_hm in
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
     [ 
-      "ocamlc -bin-annot -g "^dirs_and_libs^" -o "^s_fhm^".d.cmo -c "^s_fhm^".ml";
+      "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".d.cmo -c "^s_fhm^".ml";
       "mv "^s_fhm^".d.cm* "^s_root^"_build/"
     ];;
   
@@ -1617,8 +1617,9 @@ module Command_for_ocaml_target=struct
       let s_fhm=s_root^s_hm in
       let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx in
       [ 
-        "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
-        "mv "^s_fhm^".cm* "^s_root^"_build/"
+        "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
+        "mv "^s_fhm^".cm* "^s_root^"_build/";
+        "mv "^s_fhm^".o "^s_root^"_build/"
       ];;      
             
   let command_for_executable dir wmdata hm=
@@ -1634,7 +1635,7 @@ module Command_for_ocaml_target=struct
     let long_temp2=Image.image (fun t->s_root^t) temp2 in
     let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx  in
     [ 
-      "ocamlopt -bin-annot "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
+      "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
         (String.concat " " long_temp2);
       "mv "^s_fhm^".cm* "^s_root^"_build/";
       "mv "^s_fhm^".ocaml_executable "^s_root^"_build/"
@@ -1653,7 +1654,7 @@ module Command_for_ocaml_target=struct
     let long_temp2=Image.image (fun t->s_root^t) temp2 in
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
     [ 
-      "ocamlc -bin-annot -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
+      "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
         (String.concat " " long_temp2);
       "mv "^s_fhm^".ocaml_debuggable "^s_root^"_build/"
     ];;          
