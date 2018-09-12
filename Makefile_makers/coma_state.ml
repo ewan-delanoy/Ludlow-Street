@@ -1637,7 +1637,6 @@ module Command_for_ocaml_target=struct
     [ 
       "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
         (String.concat " " long_temp2);
-      "mv "^s_fhm^".cm* "^s_root^"_build/";
       "mv "^s_fhm^".ocaml_executable "^s_root^"_build/"
     ];;
             
