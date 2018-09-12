@@ -1791,12 +1791,23 @@ let make_final_target mode opt_argument mdata=
     match   mode with
      Compilation_mode_t.Usual->(false,feydeau mdata)
     |Compilation_mode_t.Debug->
-        let hm=Option.unpack opt_argument in
+        let dbg=Coma_constant.name_for_debugged_module in
+        let rdir=compute_subdirectories_list mdata in
+        let ap=Find_suitable_ending.find_file_location (root mdata) rdir 
+         (dbg^".ml") in
+        let hm=Half_dressed_module.of_path_and_root ap (root mdata) in
         let mdata2=recompute_module_info mdata hm in
         let old_tgts=mdata.Coma_state_t.targets in
         let tgt=Ocaml_target.debuggable hm in
         make (root mdata) (mdata2,old_tgts,[]) tgt
-    |Compilation_mode_t.Executable->failwith("bbb");; 
+    |Compilation_mode_t.Executable->
+        let hm=Option.unpack opt_argument in
+        let tgt=Ocaml_target.EXECUTABLE hm in 
+        let _=make (root mdata) (mdata,targets mdata,[]) tgt in
+        let l_cmd=Command_for_ocaml_target.command_for_ocaml_target
+         (root mdata) mdata tgt in
+        let _=Image.image Unix_command.hardcore_uc l_cmd in
+        (false,(mdata,[],[]));; 
   
 end;;  
 
