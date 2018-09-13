@@ -20,6 +20,10 @@ let needed_libs_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.needed_lib
 let direct_fathers_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.direct_fathers_for_module k;;
 let ancestors_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.ancestors_for_module k ;; 
 let needed_dirs_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.needed_dirs_for_module k ;;
+let executability_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.executability_for_module k ;; 
+let product_up_to_date_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.product_up_to_date_for_module k ;;
+
+
 
 let directories x=x.Coma_state_t.directories;;
 let targets x=x.Coma_state_t.targets;;
@@ -37,6 +41,10 @@ let set_needed_libs_at_idx wmdata k v = Small_array.set wmdata.Coma_state_t.need
 let set_direct_fathers_at_idx wmdata k v = Small_array.set wmdata.Coma_state_t.direct_fathers_for_module k v ;;
 let set_ancestors_at_idx wmdata k v = Small_array.set wmdata.Coma_state_t.ancestors_for_module k v ;; 
 let set_needed_dirs_at_idx wmdata k v = Small_array.set wmdata.Coma_state_t.needed_dirs_for_module k v ;;
+let set_executability_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.executability_for_module k ;; 
+let set_product_up_to_date_at_idx wmdata k = Small_array.get wmdata.Coma_state_t.product_up_to_date_for_module k ;;
+
+
 
 let set_directories x y=x.Coma_state_t.directories<- y;;
 let set_targets x y=x.Coma_state_t.targets<- y;;
@@ -59,6 +67,8 @@ let empty_one x y={
      direct_fathers_for_module = Small_array.of_list [];
      ancestors_for_module = Small_array.of_list [] ; 
      needed_dirs_for_module = Small_array.of_list [];
+     executability_for_module = Small_array.of_list [] ; 
+     product_up_to_date_for_module = Small_array.of_list [];
      directories =[];
      targets     =[];
      printer_equipped_types =[];
@@ -77,6 +87,8 @@ let copy_mutables_from x y=(
      Small_array.copy_from x.Coma_state_t.ancestors_for_module y.Coma_state_t.ancestors_for_module;
      Small_array.copy_from x.Coma_state_t.subdir_for_module y.Coma_state_t.subdir_for_module;
      Small_array.copy_from x.Coma_state_t.needed_dirs_for_module y.Coma_state_t.needed_dirs_for_module;
+     Small_array.copy_from x.Coma_state_t.executability_for_module y.Coma_state_t.executability_for_module;
+     Small_array.copy_from x.Coma_state_t.product_up_to_date_for_module y.Coma_state_t.product_up_to_date_for_module;
      x.directories <- y.directories ;
      x.targets  <- y.targets ;
      x.printer_equipped_types <- y.printer_equipped_types ;
@@ -149,9 +161,11 @@ let remove_in_each_at_index wmdata idx=
       Small_array.remove_item_at_index wmdata.Coma_state_t.direct_fathers_for_module idx; 
       Small_array.remove_item_at_index wmdata.Coma_state_t.ancestors_for_module idx; 
       Small_array.remove_item_at_index wmdata.Coma_state_t.needed_dirs_for_module idx;
+      Small_array.remove_item_at_index wmdata.Coma_state_t.executability_for_module idx; 
+      Small_array.remove_item_at_index wmdata.Coma_state_t.product_up_to_date_for_module idx;
     );;
   
-let push_right_in_each wmdata (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned)=
+let push_right_in_each wmdata (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,execy,upy)=
   let nm=Half_dressed_module.naked_module hm
   and subdir=Half_dressed_module.subdirectory hm in
   (
@@ -165,9 +179,12 @@ let push_right_in_each wmdata (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,d
     Small_array.push_right wmdata.Coma_state_t.direct_fathers_for_module dirfath; 
     Small_array.push_right wmdata.Coma_state_t.ancestors_for_module allanc; 
     Small_array.push_right wmdata.Coma_state_t.needed_dirs_for_module dirned;
+    Small_array.push_right wmdata.Coma_state_t.executability_for_module execy; 
+    Small_array.push_right wmdata.Coma_state_t.product_up_to_date_for_module upy;
   );;
    
-let set_in_each wmdata idx (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned)=
+let set_in_each wmdata idx 
+   (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,execy,upy)=
     let nm=Half_dressed_module.naked_module hm
     and subdir=Half_dressed_module.subdirectory hm in
     (
@@ -181,9 +198,12 @@ let set_in_each wmdata idx (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirn
       Small_array.set wmdata.Coma_state_t.direct_fathers_for_module idx dirfath; 
       Small_array.set wmdata.Coma_state_t.ancestors_for_module idx allanc; 
       Small_array.set wmdata.Coma_state_t.needed_dirs_for_module idx dirned;
+      Small_array.set wmdata.Coma_state_t.executability_for_module idx execy; 
+      Small_array.set wmdata.Coma_state_t.product_up_to_date_for_module idx upy;
     );;  
     
-let push_after_in_each wmdata idx (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned)=
+let push_after_in_each wmdata idx 
+    (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,execy,upy)=
     let nm=Half_dressed_module.naked_module hm
     and subdir=Half_dressed_module.subdirectory hm in
     (
@@ -197,6 +217,8 @@ let push_after_in_each wmdata idx (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,alla
       Small_array.push_immediately_after_idx wmdata.Coma_state_t.direct_fathers_for_module dirfath idx; 
       Small_array.push_immediately_after_idx wmdata.Coma_state_t.ancestors_for_module allanc idx; 
       Small_array.push_immediately_after_idx wmdata.Coma_state_t.needed_dirs_for_module dirned idx;
+      Small_array.push_immediately_after_idx wmdata.Coma_state_t.executability_for_module  execy idx; 
+      Small_array.push_immediately_after_idx wmdata.Coma_state_t.product_up_to_date_for_module upy idx;
     );;      
 
 let reposition_in_each wmdata idx1 idx2=
@@ -214,6 +236,8 @@ let reposition_in_each wmdata idx1 idx2=
       rep wmdata.Coma_state_t.direct_fathers_for_module; 
       rep wmdata.Coma_state_t.ancestors_for_module; 
       rep wmdata.Coma_state_t.needed_dirs_for_module;
+      rep wmdata.Coma_state_t.executability_for_module; 
+      rep wmdata.Coma_state_t.product_up_to_date_for_module;
     );;    
 
 let reorder wmdata ordered_list_of_modules =
@@ -226,7 +250,9 @@ let reorder wmdata ordered_list_of_modules =
      and old_libs=Small_array.copy wmdata.Coma_state_t.needed_libs_for_module 
      and old_fathers=Small_array.copy wmdata.Coma_state_t.direct_fathers_for_module 
      and old_ancestors=Small_array.copy wmdata.Coma_state_t.ancestors_for_module 
-     and old_dirs=Small_array.copy wmdata.Coma_state_t.needed_dirs_for_module in
+     and old_dirs=Small_array.copy wmdata.Coma_state_t.needed_dirs_for_module 
+     and old_execies=Small_array.copy wmdata.Coma_state_t.executability_for_module 
+     and old_uppies=Small_array.copy wmdata.Coma_state_t.product_up_to_date_for_module in
      let arr=Array.of_list ordered_list_of_modules in
       ( for k=1 to Array.length arr do
         let current_module=Array.get arr (k-1) in
@@ -241,6 +267,8 @@ let reorder wmdata ordered_list_of_modules =
         Small_array.set wmdata.Coma_state_t.direct_fathers_for_module k (Small_array.get old_fathers idx)  ; 
         Small_array.set wmdata.Coma_state_t.ancestors_for_module k (Small_array.get old_ancestors idx)  ; 
         Small_array.set wmdata.Coma_state_t.needed_dirs_for_module k (Small_array.get old_dirs idx)  ;
+        Small_array.set wmdata.Coma_state_t.executability_for_module k (Small_array.get old_execies idx); 
+        Small_array.set wmdata.Coma_state_t.product_up_to_date_for_module k (Small_array.get old_uppies idx);
       done;
       );;    
 
@@ -377,9 +405,11 @@ let archive wmdata=
   and t10=wmdata.Coma_state_t.direct_fathers_for_module 
   and t11=wmdata.Coma_state_t.ancestors_for_module 
   and t12=wmdata.Coma_state_t.needed_dirs_for_module
-  and t13=wmdata.Coma_state_t.directories 
-  and t14=wmdata.Coma_state_t.targets 
-  and t15=wmdata.Coma_state_t.printer_equipped_types in
+  and t13=wmdata.Coma_state_t.executability_for_module
+  and t14=wmdata.Coma_state_t.product_up_to_date_for_module
+  and t15=wmdata.Coma_state_t.directories 
+  and t16=wmdata.Coma_state_t.targets 
+  and t17=wmdata.Coma_state_t.printer_equipped_types in
   let list_arch=(fun old_arch a_list->
   Nonblank.make(String.concat inner_separator 
      (Image.image old_arch a_list)
@@ -402,9 +432,11 @@ let archive wmdata=
    arrlist_arch (fun (Naked_module_t.N s)->s) t10;
    arrlist_arch (fun (Naked_module_t.N s)->s) t11;
    arrlist_arch (fun (Subdirectory_t.SD s)->s) t12;
-   list_arch (fun w->Nonblank.make(Subdirectory.without_trailing_slash w)) t13;
-   list_arch Ocaml_target.archive t14;
-   list_arch Half_dressed_module.archive_pair t15;
+   Small_array.archive string_of_bool t13;
+   Small_array.archive string_of_bool t14;
+   list_arch (fun w->Nonblank.make(Subdirectory.without_trailing_slash w)) t15;
+   list_arch Ocaml_target.archive t16;
+   list_arch Half_dressed_module.archive_pair t17;
   ];;
 
   
@@ -434,9 +466,11 @@ let unarchive s=
     direct_fathers_for_module = arrlist_unarch (fun s->Naked_module_t.N s) (part 10);
     ancestors_for_module = arrlist_unarch (fun s->Naked_module_t.N s) (part 11) ; 
     needed_dirs_for_module = arrlist_unarch (fun s->Subdirectory_t.SD s) (part 12);
-    directories = list_unarch (fun v->Subdirectory.of_string(Nonblank.decode v)) (part 13);
-    targets = list_unarch Ocaml_target.unarchive (part 14) ; 
-    printer_equipped_types = list_unarch Half_dressed_module.unarchive_pair (part 15);
+    executability_for_module = Small_array.unarchive bool_of_string (part 13) ;
+    product_up_to_date_for_module = Small_array.unarchive bool_of_string (part 14) ;
+    directories = list_unarch (fun v->Subdirectory.of_string(Nonblank.decode v)) (part 15);
+    targets = list_unarch Ocaml_target.unarchive (part 16) ; 
+    printer_equipped_types = list_unarch Half_dressed_module.unarchive_pair (part 17);
 
  };; 
 
@@ -469,16 +503,11 @@ let force_modification_time root_dir wmdata mlx=
       wmdata;;
 
 let everyone_except_the_debugger wmdata=
+   (* used to be a more complicated function, when the debug module
+     was registered.
+    *)  
         let n=Small_array.size wmdata.Coma_state_t.modules in
-        let debugged_nm=Naked_module.of_string 
-            Coma_constant.name_for_debugged_module in
-        let debugged_idx=Small_array.leftmost_index_of_in 
-           debugged_nm wmdata.Coma_state_t.modules in
-        Option.filter_and_unpack (fun idx->
-           if idx=debugged_idx
-           then None
-           else Some(hm_at_idx wmdata idx)
-        ) (Ennig.ennig 1 n);;      
+        Image.image (hm_at_idx wmdata) (Ennig.ennig 1 n);;      
         
 
 
@@ -649,7 +678,8 @@ let complete_info wmdata  mlx=
   let allanc=Option.filter_and_unpack tempf (Ennig.ennig 1 n) in
   let libned=PrivateTwo.find_needed_libraries wmdata mlx genealogy
   and dirned=PrivateTwo.find_needed_directories wmdata mlx genealogy in
-  (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned);;
+  let is_exec=Half_dressed_module.is_executable hm in
+  (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,is_exec,false);;
 
   let check_unix_presence hm edg=
     let (_,dir)=Half_dressed_module.unveil hm in
@@ -668,8 +698,8 @@ let registrations_for_lonely_ending =function
 
 
 
-let complete_info_during_new_module_registration wmdata  mlx=
-  let n=Small_array.size(wmdata.Coma_state_t.modules) in
+let complete_id_during_new_module_registration wmdata  mlx=
+    let n=Small_array.size(wmdata.Coma_state_t.modules) in
     let (hm,edg)=Mlx_ended_absolute_path.decompose mlx in
     let genealogy=find_needed_data wmdata mlx in
     let (mlp,mlir,mllr,mlyr)=registrations_for_lonely_ending edg
@@ -689,7 +719,8 @@ let complete_info_during_new_module_registration wmdata  mlx=
     let allanc=Option.filter_and_unpack tempf (Ennig.ennig 1 n) in
     let libned=PrivateTwo.find_needed_libraries wmdata mlx genealogy
     and dirned=PrivateTwo.find_needed_directories wmdata mlx genealogy in
-    (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned);;
+    let is_exec=Half_dressed_module.is_executable hm in
+    (hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,is_exec,false);;
   
   
   
@@ -745,6 +776,7 @@ let rename_module_on_monitored_modules root_dir wmdata old_name new_name=
     Small_array.set wmdata.Coma_state_t.modules idx new_mname;
     Small_array.set wmdata.Coma_state_t.principal_mt_for_module idx principal_mt;
     Small_array.set wmdata.Coma_state_t.mli_mt_for_module idx mli_mt; 
+    Small_array.set wmdata.Coma_state_t.product_up_to_date_for_module idx false; 
   ) in
   let replacer=Image.image(function x->if x=old_mname then new_mname else x) in
   let _=(
@@ -758,7 +790,7 @@ let rename_module_on_monitored_modules root_dir wmdata old_name new_name=
   (wmdata,(old_files,new_files));;
 
 
-let recompute_complete_info_for_module wmdata hm=
+let recompute_complete_card_for_module wmdata hm=
       let nm=Half_dressed_module.naked_module hm in
       let idx=find_module_index wmdata nm in
       let edg=List.hd(registered_endings_at_idx wmdata idx) in
@@ -768,7 +800,7 @@ let recompute_complete_info_for_module wmdata hm=
 let recompute_module_info wmdata hm=
   let nm=Half_dressed_module.naked_module hm in
   let idx=find_module_index wmdata nm in
-  let new_dt=recompute_complete_info_for_module wmdata hm in 
+  let new_dt=recompute_complete_card_for_module wmdata hm in 
   let _=set_in_each wmdata idx new_dt in
   wmdata;;  
 
@@ -798,6 +830,8 @@ let relocate_module_on_monitored_modules root_dir wmdata old_name new_subdir=
        Small_array.set wmdata.Coma_state_t.subdir_for_module idx new_subdir;
        Small_array.set wmdata.Coma_state_t.principal_mt_for_module idx principal_mt;
        Small_array.set wmdata.Coma_state_t.mli_mt_for_module idx mli_mt; 
+       Small_array.set wmdata.Coma_state_t.product_up_to_date_for_module idx false; 
+       
   ) in   
   (wmdata,(old_files,new_files));;
 
@@ -1134,7 +1168,7 @@ let register_mlx_file_on_monitored_modules wmdata mlx_file =
           let nm=Half_dressed_module.naked_module hm in
           let opt_idx=seek_module_index wmdata nm in
           if opt_idx=None
-          then  let info=complete_info_during_new_module_registration wmdata mlx_file in
+          then  let info=complete_id_during_new_module_registration wmdata mlx_file in
                 let _=push_right_in_each wmdata info in         
                 wmdata
           else
@@ -1149,14 +1183,14 @@ let register_mlx_file_on_monitored_modules wmdata mlx_file =
           if (not(List.mem Ocaml_ending.mli (ending::edgs)))
           then raise(Bad_pair(mlx_file,List.hd edgs))
           else 
-          let (hm,old_pr_end,old_mlir,prmt,mlimt,libned,dirfath,allanc,dirned)=complete_info wmdata mlx_file in
+          let (hm,old_pr_end,old_mlir,prmt,mlimt,libned,dirfath,allanc,dirned,is_exec,is_updated)=complete_info wmdata mlx_file in
           let nm=Half_dressed_module.naked_module hm in
           let (pr_end,mlir)=(
             if ending=Ocaml_ending.mli
             then (old_pr_end,true)
             else (ending,old_mlir) 
           ) in
-          let new_dt=(hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned) in
+          let new_dt=(hm,pr_end,mlir,prmt,mlimt,libned,dirfath,allanc,dirned,is_exec,false) in
           if ending<>Ocaml_ending.ml
           then let _=set_in_each wmdata idx new_dt in         
                wmdata
@@ -1504,13 +1538,13 @@ module Command_for_ocaml_target=struct
   let cmx_manager=function
    Ocaml_target.CMX(hm2)->
       let s_hm2=Half_dressed_module.to_shortened_string hm2 in
-      Some("_build/"^s_hm2^".cmx")
+      Some("_exec_build/"^s_hm2^".cmx")
    |_->None;;
   
   let dcmo_manager=function
    Ocaml_target.DCMO(hm2)->
       let s_hm2=Half_dressed_module.to_shortened_string hm2 in
-      Some("_build/"^s_hm2^".d.cmo")
+      Some("_debug_build/"^s_hm2^".d.cmo")
    |_->None;;
   
   let command_for_nodep mlx=[];;
@@ -1590,7 +1624,7 @@ module Command_for_ocaml_target=struct
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
     [ 
       "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".d.cmo -c "^s_fhm^".ml";
-      "mv "^s_fhm^".d.cm* "^s_root^"_build/"
+      "mv "^s_fhm^".d.cm* "^s_root^"_debug_build/"
     ];;
   
   let command_for_cma dir wmdata hm=
@@ -1618,8 +1652,8 @@ module Command_for_ocaml_target=struct
       let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx in
       [ 
         "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
-        "mv "^s_fhm^".cm* "^s_root^"_build/";
-        "mv "^s_fhm^".o "^s_root^"_build/"
+        "mv "^s_fhm^".cm* "^s_root^"_exec_build/";
+        "mv "^s_fhm^".o "^s_root^"_exec_build/"
       ];;      
             
   let command_for_executable dir wmdata hm=
@@ -1637,7 +1671,7 @@ module Command_for_ocaml_target=struct
     [ 
       "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
         (String.concat " " long_temp2);
-      "mv "^s_fhm^".ocaml_executable "^s_root^"_build/"
+      "mv "^s_fhm^".ocaml_executable "^s_root^"_exec_build/"
     ];;
             
   let command_for_debuggable dir wmdata hm=
@@ -1655,7 +1689,7 @@ module Command_for_ocaml_target=struct
     [ 
       "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
         (String.concat " " long_temp2);
-      "mv "^s_fhm^".ocaml_debuggable "^s_root^"_build/"
+      "mv "^s_fhm^".ocaml_debuggable "^s_root^"_debug_build/"
     ];;          
     
    
@@ -2052,6 +2086,8 @@ module Target_system_creation=struct
         ]
       in
       let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_build/") in
+      let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_debug_build/") in
+      let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_exec_build/") in
       let _=Image.image (fun s->
         Unix_command.uc ("touch "^s_main_dir^"/"^s)
          ) ([dname^".ml";
@@ -2074,11 +2110,12 @@ module Target_system_creation=struct
       "\n\n (*Registered printers start here *) \n\n (*Registered printers end here *) \n\n");; 
       
     
-    let select_good_files s_main_dir=
+let select_good_files s_main_dir=
        let ap1=Absolute_path.of_string s_main_dir in        
        let temp1=More_unix.complete_ls (Directory_name.of_string s_main_dir) in
        let s_ap1=Absolute_path.to_string ap1 in
        let n1=String.length(s_ap1) in
+       let dname=Coma_constant.name_for_debugged_module in
        let selector=(
        fun ap->
          let s=Absolute_path.to_string ap in
@@ -2086,6 +2123,7 @@ module Target_system_creation=struct
          (List.exists (fun edg->Substring.ends_with s edg) [".ml";".mli";".mll";".mly"])
          &&
          (List.for_all (fun beg->not(Substring.begins_with t beg)) 
+         ("_build"::
          (Image.image Subdirectory.connectable_to_subpath 
           [
             Coma_constant.kept_up_to_date_but_not_registered;
@@ -2093,10 +2131,9 @@ module Target_system_creation=struct
             Coma_constant.old_and_hardly_reusable;
             Coma_constant.temporary;
           ]
-         ))
+         )))
          &&
-         (* When a mll or mly is present, the ml will automatically be registered also,
-            see the alaskan_register_mlx_file module. *)
+         (* When a mll or mly is present, do not register the ml *)
          (not(
                (Substring.ends_with s ".ml")
                &&
@@ -2104,8 +2141,10 @@ module Target_system_creation=struct
          ))
          &&
          (List.for_all (fun edg->not(Substring.ends_with s edg) ) 
-         [".ocamlinit"]
+         [".ocamlinit";"executable.ml"]
          )
+         &&
+         (t<>(dname^".ml"))
        ) in
        List.filter selector temp1;;
        
@@ -2582,6 +2621,8 @@ module Create_or_update_copied_compiler=struct
     let knr=Subdirectory.without_trailing_slash(Coma_constant.kept_up_to_date_but_not_registered) in
     let s_dir=Root_directory.connectable_to_subpath destdir in 
     let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
+    let _=Unix_command.uc ("mkdir -p "^s_dir^"_debug_build") in
+    let _=Unix_command.uc ("mkdir -p "^s_dir^"_exec_build") in
     let _=Unix_command.uc ("mkdir -p "^s_dir^knr) in
     let _=Image.image (
         fun s->Unix_command.uc("touch "^s_dir^s)
