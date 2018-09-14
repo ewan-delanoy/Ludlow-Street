@@ -86,6 +86,9 @@ let forget_module hm=
 let initialize ()=
     Coma_state.initialize Private.main_ref ;; 
 
+let initialize_if_empty ()=
+      if (Coma_state.size(data())=0) 
+      then initialize();;    
 
 let printer_equipped_types ()=
     Coma_state.preq_types Private.main_ref;;
