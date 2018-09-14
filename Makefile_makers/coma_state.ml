@@ -863,14 +863,14 @@ let ordered_as_in_coma_state wmdata l=
    let temp1=Small_array.to_list wmdata.Coma_state_t.modules in
    List.filter (fun x->List.mem x l) temp1;;
 
-let above_one_in_several wmdata l=
+let above_one_in_several_or_inside wmdata l=
   let temp1=Image.image (
       fun nm->let idx=find_module_index wmdata nm in
       Small_array.get wmdata.Coma_state_t.ancestors_for_module idx
   ) l in
-  let temp2=List.flatten temp1 in
+  let temp2=List.flatten (l::temp1) in
   ordered_as_in_coma_state wmdata  temp2;;
-  
+
 
 
 let all_mlx_files wmdata=
