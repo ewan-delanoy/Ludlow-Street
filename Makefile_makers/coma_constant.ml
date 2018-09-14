@@ -40,10 +40,10 @@ let up_to_date_but_not_registered_files=
        path_for_printersfile;
     ];;
 
-let name_for_debugged_file="debugged.ml";;
-let path_for_debugged_file=name_for_debugged_file;; 
+let name_for_debugged_module="debugged";;  
+let path_for_debugged_file=name_for_debugged_module^".ml";; 
 
-let name_for_debugged_module="debugged";;    
+  
 
    
 
