@@ -319,7 +319,7 @@ let needed_dirs_and_libs_in_command is_optimized wmdata idx=
    let extension=(if is_optimized then ".cmxa" else ".cma") in
    let s_root=Root_directory.connectable_to_subpath(root wmdata) in
    let dirs=
-   "-I "^s_root^"_build"
+   "-I "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)
   and libs=String.concat(" ")
     (Image.image(fun z->Ocaml_library.file_for_library(z)^extension)
     (needed_libs_at_idx wmdata idx)) in
@@ -1552,13 +1552,13 @@ module Command_for_ocaml_target=struct
   let cmx_manager=function
    Ocaml_target.CMX(hm2)->
       let s_hm2=Half_dressed_module.to_shortened_string hm2 in
-      Some("_exec_build/"^s_hm2^".cmx")
+      Some((Subdirectory.connectable_to_subpath Coma_constant.exec_build_subdir)^s_hm2^".cmx")
    |_->None;;
   
   let dcmo_manager=function
    Ocaml_target.DCMO(hm2)->
       let s_hm2=Half_dressed_module.to_shortened_string hm2 in
-      Some("_debug_build/"^s_hm2^".d.cmo")
+      Some((Subdirectory.connectable_to_subpath Coma_constant.debug_build_subdir)^s_hm2^".d.cmo")
    |_->None;;
   
   let command_for_nodep mlx=[];;
@@ -1605,12 +1605,12 @@ module Command_for_ocaml_target=struct
                   [
                    "mv "^full_mli^" "^dummy_mli;
                    central_cmd;
-                   "mv "^s_fhm^".cm* "^s_root^"_build/";
+                   "mv "^s_fhm^".cm* "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir);
                    "mv "^dummy_mli^" "^full_mli
                   ] 
             else  [
                      central_cmd;
-                     "mv "^s_fhm^".cm* "^s_root^"_build/"
+                     "mv "^s_fhm^".cm* "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)
                    ];;
   
   let command_for_cmo dir wmdata hm=
@@ -1624,7 +1624,7 @@ module Command_for_ocaml_target=struct
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
     [ 
       "ocamlc -bin-annot "^dirs_and_libs^" -o "^s_fhm^".cmo -c "^s_fhm^".ml";
-      "mv "^s_fhm^".cm* "^s_root^"_build/"
+      "mv "^s_fhm^".cm* "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)
     ];;
   
   let command_for_dcmo dir wmdata hm=
@@ -1638,7 +1638,7 @@ module Command_for_ocaml_target=struct
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
     [ 
       "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".d.cmo -c "^s_fhm^".ml";
-      "mv "^s_fhm^".d.cm* "^s_root^"_debug_build/"
+      "mv "^s_fhm^".d.cm* "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.debug_build_subdir)
     ];;
   
   let command_for_cma dir wmdata hm=
@@ -1652,7 +1652,7 @@ module Command_for_ocaml_target=struct
       let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx in
       [ 
         "ocamlopt -bin-annot -a "^dirs_and_libs^" -o "^s_fhm^".cma -c "^s_fhm^".ml";
-        "mv "^s_fhm^".cm* "^s_root^"_build/"
+        "mv "^s_fhm^".cm* "^s_root^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)
       ];;  
   
   let command_for_cmx dir wmdata hm=
@@ -1664,10 +1664,12 @@ module Command_for_ocaml_target=struct
       let s_root=Root_directory.connectable_to_subpath(dir) in
       let s_fhm=s_root^s_hm in
       let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx in
+      let dir_for_building=
+        (Subdirectory.connectable_to_subpath Coma_constant.exec_build_subdir) in
       [ 
         "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".cmx -c "^s_fhm^".ml";
-        "mv "^s_fhm^".cm* "^s_root^"_exec_build/";
-        "mv "^s_fhm^".o "^s_root^"_exec_build/"
+        "mv "^s_fhm^".cm* "^s_root^dir_for_building;
+        "mv "^s_fhm^".o "^s_root^dir_for_building
       ];;      
             
   let command_for_executable dir wmdata hm=
@@ -1682,10 +1684,12 @@ module Command_for_ocaml_target=struct
     let temp2=Option.filter_and_unpack cmx_manager temp1 in
     let long_temp2=Image.image (fun t->s_root^t) temp2 in
     let dirs_and_libs=needed_dirs_and_libs_in_command true wmdata idx  in
+    let dir_for_building=
+        (Subdirectory.connectable_to_subpath Coma_constant.exec_build_subdir) in
     [ 
       "ocamlopt "^dirs_and_libs^" -o "^s_fhm^".ocaml_executable "^
         (String.concat " " long_temp2);
-      "mv "^s_fhm^".ocaml_executable "^s_root^"_exec_build/"
+      "mv "^s_fhm^".ocaml_executable "^s_root^dir_for_building
     ];;
             
   let command_for_debuggable dir wmdata hm=
@@ -1700,10 +1704,12 @@ module Command_for_ocaml_target=struct
     let temp2=Option.filter_and_unpack dcmo_manager temp1 in
     let long_temp2=Image.image (fun t->s_root^t) temp2 in
     let dirs_and_libs=needed_dirs_and_libs_in_command false wmdata idx in
+    let dir_for_building=
+      (Subdirectory.connectable_to_subpath Coma_constant.debug_build_subdir) in
     [ 
       "ocamlc -g "^dirs_and_libs^" -o "^s_fhm^".ocaml_debuggable "^
         (String.concat " " long_temp2);
-      "mv "^s_fhm^".ocaml_debuggable "^s_root^"_debug_build/"
+      "mv "^s_fhm^".ocaml_debuggable "^s_root^dir_for_building
     ];;          
     
    
@@ -2099,9 +2105,9 @@ module Target_system_creation=struct
            Coma_constant.temporary;
         ]
       in
-      let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_build/") in
-      let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_debug_build/") in
-      let _=Unix_command.uc ("mkdir -p "^s_main_dir^"/_exec_build/") in
+      let _=Unix_command.uc ("mkdir -p "^s_main_dir^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)) in
+      let _=Unix_command.uc ("mkdir -p "^s_main_dir^(Subdirectory.connectable_to_subpath Coma_constant.debug_build_subdir)) in
+      let _=Unix_command.uc ("mkdir -p "^s_main_dir^(Subdirectory.connectable_to_subpath Coma_constant.exec_build_subdir)) in
       let _=Image.image (fun s->
         Unix_command.uc ("touch "^s_main_dir^"/"^s)
          ) ([dname^".ml";
@@ -2137,15 +2143,17 @@ let select_good_files s_main_dir=
          (List.exists (fun edg->Substring.ends_with s edg) [".ml";".mli";".mll";".mly"])
          &&
          (List.for_all (fun beg->not(Substring.begins_with t beg)) 
-         ("_build"::
          (Image.image Subdirectory.connectable_to_subpath 
           [
             Coma_constant.kept_up_to_date_but_not_registered;
             Coma_constant.left_out_of_updating;
             Coma_constant.old_and_hardly_reusable;
             Coma_constant.temporary;
+            Coma_constant.build_subdir;
+            Coma_constant.debug_build_subdir;
+            Coma_constant.exec_build_subdir; 
           ]
-         )))
+         ))
          &&
          (* When a mll or mly is present, do not register the ml *)
          (not(
@@ -2634,9 +2642,9 @@ module Create_or_update_copied_compiler=struct
   let ucc mdata (sourcedir,destdir,backup_dir)=
     let knr=Subdirectory.without_trailing_slash(Coma_constant.kept_up_to_date_but_not_registered) in
     let s_dir=Root_directory.connectable_to_subpath destdir in 
-    let _=Unix_command.uc ("mkdir -p "^s_dir^"_build") in
-    let _=Unix_command.uc ("mkdir -p "^s_dir^"_debug_build") in
-    let _=Unix_command.uc ("mkdir -p "^s_dir^"_exec_build") in
+    let _=Unix_command.uc ("mkdir -p "^s_dir^(Subdirectory.connectable_to_subpath Coma_constant.build_subdir)) in
+    let _=Unix_command.uc ("mkdir -p "^s_dir^(Subdirectory.connectable_to_subpath Coma_constant.exec_build_subdir)) in
+    let _=Unix_command.uc ("mkdir -p "^s_dir^(Subdirectory.connectable_to_subpath Coma_constant.debug_build_subdir)) in
     let _=Unix_command.uc ("mkdir -p "^s_dir^knr) in
     let _=Image.image (
         fun s->Unix_command.uc("touch "^s_dir^s)

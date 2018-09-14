@@ -39,18 +39,20 @@ NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
 
 let hm_to_na hm=Naked_module.to_string(Half_dressed_module.naked_module hm);;
 
+let place_to_live=Subdirectory.connectable_to_subpath Coma_constant.build_subdir;;
+
 let uprooted_filename_for_realized_target tgt=
   match tgt with
   NO_DEPENDENCIES(mlx)->Mlx_ended_absolute_path.to_string mlx
  |ML_FROM_MLL(hm)->(hm_to_na hm)^".ml"
  |ML_FROM_MLY(hm)->(hm_to_na hm)^".ml" 
- |CMI(hm)->"_build/"^(hm_to_na hm)^".cmi"
- |CMO(hm)->"_build/"^(hm_to_na hm)^".cmo"
- |DCMO(hm)->"_build/"^(hm_to_na hm)^".d.cmo"
- |CMA(hm)->"_build/"^(hm_to_na hm)^".cma"
- |CMX(hm)->"_build/"^(hm_to_na hm)^".cmx"
- |EXECUTABLE(hm)->"_build/"^(hm_to_na hm)^".caml_executable"
- |DEBUGGABLE(hm)->"_build/"^(hm_to_na hm)^".caml_debuggable";;
+ |CMI(hm)->place_to_live^(hm_to_na hm)^".cmi"
+ |CMO(hm)->place_to_live^(hm_to_na hm)^".cmo"
+ |DCMO(hm)->place_to_live^(hm_to_na hm)^".d.cmo"
+ |CMA(hm)->place_to_live^(hm_to_na hm)^".cma"
+ |CMX(hm)->place_to_live^(hm_to_na hm)^".cmx"
+ |EXECUTABLE(hm)->place_to_live^(hm_to_na hm)^".caml_executable"
+ |DEBUGGABLE(hm)->place_to_live^(hm_to_na hm)^".caml_debuggable";;
 
 let test_target_existence root_dir tgt=
 let d=Root_directory.connectable_to_subpath root_dir in
