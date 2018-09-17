@@ -20,7 +20,6 @@ type t={
      direct_fathers_for_module : Naked_module_t.t list Small_array.t;
      ancestors_for_module : Naked_module_t.t list Small_array.t ; 
      needed_dirs_for_module : Subdirectory_t.t list Small_array.t;
-     executability_for_module : bool Small_array.t ;
      product_up_to_date_for_module : bool Small_array.t;
      mutable directories : Subdirectory_t.t list;
      mutable targets     : Ocaml_target.t list;
