@@ -12,6 +12,8 @@ let backup_root=
                 Root_directory.of_string 
                 "/Users/ewandelanoy/Documents/OCaml/Backup_for_Idaho";;
 
-let main_ref=Coma_state.empty_one
+let main_ref=Coma_state_field.empty_one
                 usual_root
                 backup_root;;
+
+                
